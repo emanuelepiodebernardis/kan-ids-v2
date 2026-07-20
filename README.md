@@ -96,16 +96,35 @@ the network itself** (the smooth primitives act as a regulariser). See
 `results/kan14_symbolic_real.txt`.
 
 ### 7. Rigour
-The main results carry **5-fold × 3-seed cross-validation** (mean ± std).
-Six ablations close the obvious reviewer questions: feature count (k = 10
-optimal), model capacity (32 hidden units gain nothing), basis choice
-(justified twice: accuracy *and* quantisation fidelity), layer-2 degree,
-focal loss (neutral) and SMOTENC oversampling (neutral) — the last two
-establishing that the residual MITM weakness is information-limited, not
-methodological. The accelerated training used for large runs is verified
-identical to the reference implementation to machine precision (2·10⁻¹⁶).
+The main results carry **5-fold × 3-seed cross-validation** (mean ± std),
+and every design choice is backed by a measured alternative — see
+[Negative results and design justifications](#negative-results-and-design-justifications)
+below for the full list with numbers.
 
 ---
+
+## Negative results and design justifications
+
+Not everything we tried helped — and each null result settles a design
+question that a careful reader (or reviewer) would otherwise raise. All are
+measured on the full dataset, with artifacts in `results/`:
+
+| Experiment | Result | What it settles |
+|---|---|---|
+| **B-spline as *training* basis** (`basis_comparison_unified_real.csv`) | F1 0.9383 vs 0.9672 for Chebyshev at equal parameter count (0.9279 with class-weighted loss — the gap is structural, not a loss artifact) | Why training uses Chebyshev, even though B-splines quantise 10× more faithfully — motivating the hybrid train/deploy split |
+| **Re-fit → sampled LUT** (`hybrid_compile_real.csv`) | Statistically identical to direct LUT at every resolution L (e.g. 94.54% vs 94.58% agreement at L=8) | Why the hybrid gain lives in *coefficient storage*, not in smoothing the LUT: uniform-grid sampling is the bottleneck, and re-fitting cannot remove it |
+| **Doubling capacity (32 hidden units)** (`ml_binary_real.csv`) | Plateau at F1 0.9778, below the 16-hidden result (0.9784), at 2× the parameters | Why the deployed multi-layer uses 16 hidden units; the bottleneck is input information, not model capacity |
+| **More numeric features (k = 12–16)** (`feature_curve_real.csv`) | F1 flat or slightly worse beyond k = 10, on both tasks | Why the feature space stops at 10 numeric features: additional ones add noise, not signal |
+| **Lower layer-2 degree (4 vs 8)** (`kan_ml_cat_deg4_real.csv`) | macro-F1 0.9374 vs 0.9409; LUT/coefficient memory does not depend on degree | Why degree 8 is kept: the cheaper variant saves nothing where it matters |
+| **Focal loss (γ = 2) for the rare MITM class** (`kan_ml_cat_focal_real.csv`) | macro-F1 0.9401 vs 0.9409; MITM F1 0.572 vs 0.571 | The MITM weakness is not a loss-design problem |
+| **SMOTENC oversampling (10× MITM)** (`kan_ml_cat_smote_real.csv`) | macro-F1 0.9377; MITM F1 0.541 (worse than baseline) | Synthetic interpolation adds no real information. Together with focal loss and class weighting, three independent remedies fail: the MITM ceiling is **information-limited**, not methodological |
+| **Analytical replication of sklearn's quantile-normal transform in integer arithmetic** | Two attempts (single-sided and two-sided quantile interpolation) left errors up to 0.8σ on discrete-mass features and broke the multiclass pipeline | Why the integer preprocessing uses **empirical per-feature threshold tables sampled offline from the fitted transformer** — exact on discrete masses by construction, 3 KB total |
+
+Two further checks worth knowing about: the accelerated training path used
+for large experiments is proven identical to the reference implementation to
+machine precision (max coefficient difference 2·10⁻¹⁶ after 60 epochs), and
+the focal-loss gradient was verified against numerical differentiation
+(max error < 10⁻⁹) before use.
 
 ## Repository structure
 
