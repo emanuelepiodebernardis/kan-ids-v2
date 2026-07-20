@@ -1,0 +1,5 @@
+task,quant,mem_bytes,f1_or_macro_float,f1_or_macro_quant,delta,agreement_pct
+binario,coeff-int16,420,0.9672,0.9672,0.0,100.0
+binario,coeff-int8,230,0.9672,0.9676,0.0004,99.946
+multiclass,coeff-int16,14864,0.9409,0.941,0.0002,99.981
+multiclass,coeff-int8,8336,0.9409,0.9406,-0.0003,99.927

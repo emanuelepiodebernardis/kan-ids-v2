@@ -1,0 +1,7 @@
+modello,alpha,copertura,pct_singleton,cov_attacco_mondrian
+float,0.01,0.9907,93.0,0.9903
+float,0.05,0.9509,96.5,0.9508
+float,0.1,0.8993,90.6,0.8985
+full-int int8,0.01,0.9908,93.0,0.9904
+full-int int8,0.05,0.9511,96.6,0.9509
+full-int int8,0.1,0.8993,90.6,0.8979

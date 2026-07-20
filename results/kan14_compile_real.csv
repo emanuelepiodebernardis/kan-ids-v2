@@ -1,0 +1,4 @@
+compilazione,mem_bytes,f1,delta_f1,agreement_pct
+coeff int16 (float eval),492,0.9828,0.0,100.0
+coeff int8 (float eval),274,0.9826,-0.0002,99.948
+FULL-INTEGER int8,246,0.9826,-0.0002,99.948

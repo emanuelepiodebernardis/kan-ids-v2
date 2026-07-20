@@ -1,0 +1,4 @@
+.pio/
+host_check/run_host_check
+*.o
+*.out

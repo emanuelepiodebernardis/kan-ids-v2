@@ -1,0 +1,7 @@
+board,variant,latency_us,speedup_vs_float,accuracy
+Arduino Mega 2560,float,2851,1.0,0.975
+Arduino Mega 2560,integer,680,4.2,0.975
+Arduino Mega 2560,fully-integer,357,8.0,0.975
+ESP32-C3,float,1665,1.0,0.975
+ESP32-C3,integer,207,8.0,0.975
+ESP32-C3,fully-integer,38,44,0.975
