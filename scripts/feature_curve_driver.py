@@ -3,6 +3,13 @@
 multiclass) su dati reali COMPLETI, riprendibile a checkpoint.
 Riusa il metodo di feature_curve.py (MI ranking, log1p+quantile) con
 training a basi precalcolate (identita' matematica coi moduli src/)."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 from pathlib import Path
@@ -12,12 +19,12 @@ for p in [_REPO, _REPO/"src", _REPO/"preprocessing", _REPO/"scripts"]:
 import feature_curve as fc
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 from kan_chebyshev import ChebyshevKANBinary, chebyshev_basis
 from kan_chebyshev_multiclass import ChebyshevKANMulticlass
+from kanids.preprocessing import rank_by_mi
 
-CK = "/tmp/fc_state.pkl"
+CK = _ART("fc_state.pkl")
 KS = [5, 8, 10, 12, 14, 16]
 
 def fast_fit_binary(kan, Xtr, ytr, epochs=250, lr=0.3, l2=1e-4):
@@ -59,7 +66,7 @@ def main():
     t0 = time.time()
     st = pickle.load(open(CK, "rb")) if os.path.exists(CK) else {"done": {}}
 
-    D = "/tmp/fc_data.npz"
+    D = _ART("fc_data.npz")
     if os.path.exists(D):
         d = np.load(D, allow_pickle=True)
         Xtr_raw, Xte_raw = d["Xtr"], d["Xte"]
@@ -71,15 +78,13 @@ def main():
         X = df[feats].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy(np.float64)
         yb = df["label"].astype(int).to_numpy()
         le = LabelEncoder().fit(df["type"]); ym = le.transform(df["type"])
-        # MI su sottocampione per velocita' (solo il RANKING, come feature_curve)
-        rs = np.random.RandomState(fc.RANDOM_STATE)
-        idx = rs.choice(len(X), 40000, replace=False)
-        mi = mutual_info_classif(X[idx], ym[idx], random_state=fc.RANDOM_STATE)
+        Xtr_all, Xte_all, ybtr, ybte, ymtr, ymte = train_test_split(
+            X, yb, ym, test_size=0.2, random_state=fc.RANDOM_STATE, stratify=ym)
+        # MI su sottocampione per velocita' (solo il RANKING, come feature_curve) - solo training
+        mi = rank_by_mi(Xtr_all, ymtr, seed=fc.RANDOM_STATE, sample=40000)
         order = np.argsort(mi)[::-1]
         feats_ord = [feats[i] for i in order]
-        Xo = X[:, order]
-        Xtr_raw, Xte_raw, ybtr, ybte, ymtr, ymte = train_test_split(
-            Xo, yb, ym, test_size=0.2, random_state=fc.RANDOM_STATE, stratify=ym)
+        Xtr_raw, Xte_raw = Xtr_all[:, order], Xte_all[:, order]
         np.savez(D, Xtr=Xtr_raw, Xte=Xte_raw, ybtr=ybtr, ybte=ybte,
                  ymtr=ymtr, ymte=ymte, feats=np.array(feats_ord))
         print("ranking MI:", feats_ord)

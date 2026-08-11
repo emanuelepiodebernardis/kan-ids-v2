@@ -1,0 +1,16 @@
+seed,fold,overlap_con_v1,diverse_da_v1,unseen_proto,unseen_service,unseen_conn_state,unseen_dns_rejected,r1,r2,r3,r4,r5,r6,r7,r8,r9,r10
+42,1,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+42,2,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+42,3,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+42,4,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+42,5,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+43,1,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+43,2,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+43,3,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+43,4,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+43,5,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+44,1,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+44,2,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,dst_bytes,src_pkts,dns_qtype
+44,3,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,src_pkts,dst_bytes,dns_qtype
+44,4,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_pkts,src_pkts,dst_bytes,dns_qtype
+44,5,10,-,0.0,0.0,0.0,0.0,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_bytes,dst_pkts,src_pkts,dns_qtype

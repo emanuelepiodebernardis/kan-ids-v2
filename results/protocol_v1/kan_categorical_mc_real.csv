@@ -1,0 +1,5 @@
+modello,spazio,macro_f1,weighted_f1,lut_kb
+KAN single num10 (baseline),num10,0.8579,,100.0
+KAN mista num10+cat4,num10+cat4,0.8753,0.9414,100.5
+LightGBM (riferimento),num10+cat4,0.9675,0.99,
+XGBoost 95 feat (paper #1),95 feat,0.9694,0.9896,

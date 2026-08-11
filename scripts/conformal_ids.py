@@ -10,6 +10,10 @@ la garanzia vale per cio' che gira sull'MCU. Costo on-device: 1-2 soglie float.
 """
 import sys, time
 import numpy as np, pandas as pd
+import sys as _s
+from pathlib import Path as _P
+_s.path.insert(0, str(_P(__file__).resolve().parents[1]))
+from kanids.datasets import ton_iot_path
 sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
@@ -22,7 +26,7 @@ CLIP = 3.5; N_INT, DEG_S = 16, 3
 
 def main():
     t0 = time.time()
-    df = pd.read_csv("train_test_network.csv")
+    df = pd.read_csv(ton_iot_path(None))
     X = fe.build_unified_features_ton(df)[fe.UNIFIED_NUMERIC_FEATURES].to_numpy(np.float64)
     y = df["label"].astype(int).to_numpy()
     Xtr0, Xte, ytr0, yte = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)

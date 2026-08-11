@@ -1,0 +1,27 @@
+{
+  "protocol": "StratifiedKFold(n_splits=5, shuffle=True) ripetuta su seeds=[42] -> 5 fit per modello; stratificazione sull'etichetta a 10 classi; media +/- std sui fold. Feature selection, encoding e normalizzazione sono rifittati dentro ogni fold sul solo training.",
+  "seeds": [
+    42
+  ],
+  "n_splits": 5,
+  "k_numeric": 10,
+  "task": "binary",
+  "dataset": "TON_IoT",
+  "n_rows": 211043,
+  "classes": [
+    "normal",
+    "backdoor",
+    "ddos",
+    "dos",
+    "injection",
+    "mitm",
+    "password",
+    "ransomware",
+    "scanning",
+    "xss"
+  ],
+  "clip": 3.5,
+  "preprocessing": "log1p (feature asimmetriche) -> QuantileTransformer(normal) -> clip; fittato su ogni training fold",
+  "categorical_encoding": "vocabolario dal training fold, indice 0 = UNK",
+  "feature_selection": "mutual_info_classif sul target a 10 classi, calcolata dentro il fold"
+}

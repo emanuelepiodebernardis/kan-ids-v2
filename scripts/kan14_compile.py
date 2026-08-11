@@ -4,6 +4,14 @@
      + tabelle categoriche int16/int8
   2. kernel FULL-INTEGER (basi Q15, coeff int8, tabelle int, segno)
 Verifica agreement/F1 su test reale."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, time
 import numpy as np, pandas as pd
 sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
@@ -15,10 +23,10 @@ CLIP = 3.5; N_INT = 16; Q15 = 1 << 15
 
 def main():
     t0 = time.time()
-    d = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+    d = prepare14_dict()
     Xtr, Xte = d["Xtr"], d["Xte"]; yte = d["ybte"]
     CTtr, CTte = d["CTtr"], d["CTte"]; cards = list(d["cards"])
-    m = np.load("/tmp/kan14_bin_model.npz")
+    m = np.load(_ART("kan14_bin_model.npz"))
     coeffs = m["coeffs"]; J = len(cards)
     tabs = [m[f"tab{j}"] for j in range(J)]
 

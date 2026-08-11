@@ -5,6 +5,13 @@ Esegue unita' (model, seed, fold) pendenti finche' resta budget di tempo,
 checkpointando dopo ogni unita' su results/cv_real_progress.csv.
 Rilanciare finche' non stampa DONE.
 """
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import argparse, os, sys, time, json
 import numpy as np
 import pandas as pd
@@ -15,7 +22,7 @@ import cv_multiseed as cvm
 from sklearn.model_selection import StratifiedKFold
 
 PROG = "results/cv_real_progress.csv"
-CACHE = "/tmp/cv_cache.npz"
+CACHE = _ART("cv_cache.npz")
 
 def main():
     ap = argparse.ArgumentParser()
@@ -91,7 +98,7 @@ def kan_chunked(Xtr, ytr, Xva, yva, seed, fold, t0, budget, chunk=50):
     (= budget esaurito, riprendere alla prossima invocazione)."""
     import pickle
     from sklearn.preprocessing import StandardScaler
-    ck = f"/tmp/kan_ckpt_{seed}_{fold}.pkl"
+    ck = _ART(f"kan_ckpt_{seed}_{fold}.pkl")
     scaler = StandardScaler().fit(Xtr)
     Xtr_k = np.clip(scaler.transform(Xtr), -cvm.KAN_CLIP, cvm.KAN_CLIP)
     if os.path.exists(ck):

@@ -3,6 +3,14 @@
 mcu_pio: coefficienti int8, moltiplicatori Q15, tabelle categoriche, e
 200 test vector (input Q12 + categorie) con predizioni attese dalla
 simulazione integer bit-fedele."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, numpy as np
 sys.path.insert(0, "src"); sys.path.insert(0, "preprocessing")
 from kan_bspline import bspline_basis
@@ -11,10 +19,10 @@ from sklearn.metrics import f1_score
 
 CLIP = 3.5; N_INT = 16; Q15 = 1 << 15
 
-d = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+d = prepare14_dict()
 Xtr, Xte = d["Xtr"], d["Xte"]; yte = d["ybte"]
 CTtr, CTte = d["CTtr"], d["CTte"]; cards = list(d["cards"]); feats = list(d["feats"])
-m = np.load("/tmp/kan14_bin_model.npz")
+m = np.load(_ART("kan14_bin_model.npz"))
 coeffs = m["coeffs"]; J = len(cards)
 tabs = [m[f"tab{j}"] for j in range(J)]
 

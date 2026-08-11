@@ -6,6 +6,13 @@ Idea chiave: in una KAN-LUT un edge categorico E' una LUT indicizzata
 dall'ID di categoria: phi_j(c) = Tab_j[c] (vettore di C logit).
 Training congiunto con CE pesata, stesso protocollo di feature_curve.
 Riprendibile a checkpoint."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 from pathlib import Path
@@ -19,7 +26,7 @@ from sklearn.metrics import f1_score
 from kan_chebyshev import chebyshev_basis
 from kan_chebyshev_multiclass import ChebyshevKANMulticlass
 
-CK = "/tmp/kcat_state.pkl"
+CK = _ART("kcat_state.pkl")
 CATS = ["proto", "service", "conn_state", "dns_rejected"]
 EPOCHS, LR, L2, DEG = 300, 0.3, 1e-4, 8
 
@@ -27,32 +34,13 @@ def main():
     budget = float(sys.argv[1]) if len(sys.argv) > 1 else 34.0
     t0 = time.time()
 
-    D = "/tmp/kcat_data.npz"
-    if os.path.exists(D):
-        d = np.load(D, allow_pickle=True)
-        Xtr, Xte, ymtr, ymte = d["Xtr"], d["Xte"], d["ymtr"], d["ymte"]
-        CTtr, CTte, cards = d["CTtr"], d["CTte"], list(d["cards"])
-    else:
-        df = pd.read_csv("train_test_network.csv")
-        feats = [c for c in fc.NUMERIC_RAW if c in df.columns]
-        # stesso ranking MI della feature curve (ricalcolo stesso protocollo)
-        from sklearn.feature_selection import mutual_info_classif
-        X = df[feats].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy(np.float64)
-        le = LabelEncoder().fit(df["type"]); ym = le.transform(df["type"])
-        rs = np.random.RandomState(fc.RANDOM_STATE)
-        idx = rs.choice(len(X), 40000, replace=False)
-        mi = mutual_info_classif(X[idx], ym[idx], random_state=fc.RANDOM_STATE)
-        order = np.argsort(mi)[::-1][:10]
-        feats10 = [feats[i] for i in order]
-        Xn = X[:, order]
-        CT = np.stack([LabelEncoder().fit_transform(df[c].astype(str)) for c in CATS], axis=1)
-        cards = [int(CT[:, j].max()) + 1 for j in range(len(CATS))]
-        Xtr_raw, Xte_raw, ymtr, ymte, CTtr, CTte = train_test_split(
-            Xn, ym, CT, test_size=0.2, random_state=fc.RANDOM_STATE, stratify=ym)
-        Xtr, Xte = fc.preprocess_kan(Xtr_raw, Xte_raw, feats10)
-        np.savez(D, Xtr=Xtr, Xte=Xte, ymtr=ymtr, ymte=ymte,
-                 CTtr=CTtr, CTte=CTte, cards=np.array(cards))
-        print(f"numeriche: {feats10}\ncategoriche: {dict(zip(CATS, cards))}")
+    # Preparazione leakage-free condivisa (prima: MI sull'intero dataset
+    # e LabelEncoder categorici su train+test, entrambi dentro questo file).
+    from kanids.legacy import prepare14
+    Xtr, Xte, _, _, ymtr, ymte, CTtr, CTte, cards, feats10 = prepare14(
+        seed=fc.RANDOM_STATE)
+    print(f"numeriche: {feats10}\ncategoriche: {dict(zip(CATS, cards))}")
+
     C = int(ymtr.max()) + 1
     K = Xtr.shape[1]; J = CTtr.shape[1]
 

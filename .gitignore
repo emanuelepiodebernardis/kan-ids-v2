@@ -1,5 +1,31 @@
-__pycache__/
-*.pyc
+# artefatti intermedi: sempre ricostruibili con reproduce.py
+artifacts/
+*.meta.json
+
+# models/ e' versionata (vedi models/MANIFEST.json), ma non i checkpoint
+# grossi degli ottimizzatori: sono rigenerabili dallo script indicato nel
+# manifest e non hanno valore di deployment
+models/*multiclass*.pkl
+
+# dati: non ridistribuiti (vedi data/README.md)
+data/*.csv
 train_test_network.csv
-*.npz
-.pio/
+*.parquet
+
+# python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# sistema
+.DS_Store
+Thumbs.db
+
+# build firmware
+mcu_pio/.pio/
+
+# artefatto accidentale della redirezione di shell su "--exp bot->bot"
+/bot

@@ -27,7 +27,6 @@ for p in [_REPO, _REPO/"src", _REPO/"preprocessing"]:
 
 from sklearn.preprocessing import StandardScaler, QuantileTransformer, LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 import utils
 from compare_models import FeatureNameSanitizer
@@ -35,6 +34,7 @@ from sklearn.pipeline import Pipeline
 from kan_chebyshev import ChebyshevKANBinary
 from kan_chebyshev_multiclass import ChebyshevKANMulticlass
 from kan_torch import train_kan_torch, predict_kan_torch
+from kanids.preprocessing import rank_by_mi
 
 RS=42; CLIP=3.5; K=10
 NUMERIC=["src_port","dst_port","duration","src_bytes","dst_bytes","missed_bytes",
@@ -74,11 +74,11 @@ def main():
     else:
         le=LabelEncoder().fit(df["type"]); y=le.transform(df["type"]); C=len(le.classes_); avg="macro"
 
-    # MI su sottocampione per ordinare le feature
-    idx=np.random.RandomState(RS).choice(len(Xall),min(60000,len(Xall)),replace=False)
-    mi=mutual_info_classif(Xall[idx],y[idx],random_state=RS)
-    order=np.argsort(mi)[::-1][:K]; feats_k=[feats[i] for i in order]; Xk=Xall[:,order]
-    Xtr_raw,Xte_raw,ytr,yte=train_test_split(Xk,y,test_size=0.2,random_state=RS,stratify=y)
+    # split prima, MI sul solo training (sottocampione per velocita' per ordinare le feature)
+    Xtr_all,Xte_all,ytr,yte=train_test_split(Xall,y,test_size=0.2,random_state=RS,stratify=y)
+    mi=rank_by_mi(Xtr_all,ytr,seed=RS,sample=60000)
+    order=np.argsort(mi)[::-1][:K]; feats_k=[feats[i] for i in order]
+    Xtr_raw,Xte_raw=Xtr_all[:,order],Xte_all[:,order]
 
     print("="*64)
     print(f"CONFRONTO UNIFICATO — task={args.task}, top-{K} feature grezze")

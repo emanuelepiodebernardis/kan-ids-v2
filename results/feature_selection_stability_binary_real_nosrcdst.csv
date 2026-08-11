@@ -1,0 +1,11 @@
+feature,frazione_di_fold
+src_ip_bytes,1.0
+dst_ip_bytes,1.0
+duration,1.0
+src_bytes,1.0
+dst_pkts,1.0
+dst_bytes,1.0
+src_pkts,1.0
+dns_qtype,1.0
+dns_qclass,1.0
+dns_rcode,1.0

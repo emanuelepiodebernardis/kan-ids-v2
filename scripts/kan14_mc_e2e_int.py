@@ -6,6 +6,14 @@ probit + clip: 129 soglie a griglia z uniforme, ricerca binaria + interp)
 -> z in Q12 -> layer1 spline int8 (160 edge) + tabelle cat int8 -> tanh LUT
 -> layer2 spline int8 (160 edge) -> argmax su accumulatori interi.
 Verifica vs pipeline float (preprocess_kan + modello mlcat float)."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, time, pickle
 import numpy as np, pandas as pd
 from pathlib import Path
@@ -44,7 +52,7 @@ def spline_int_kernel(xq15_or_q12, C_q, seg_shift, n_int=N_INT):
 
 def main():
     t0 = time.time()
-    d14 = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+    d14 = prepare14_dict()
     feats10 = list(d14["feats"]); cards = list(d14["cards"])
     ymte = d14["ymte"]; CTte = d14["CTte"]; CTtr = d14["CTtr"]
     Xtr_p, Xte_p = d14["Xtr"], d14["Xte"]          # preprocessati (riferimento float)
@@ -54,7 +62,7 @@ def main():
     ym_all = LabelEncoder().fit_transform(df["type"])
     Rtr, Rte = train_test_split(Xraw_all, test_size=0.2, random_state=fc.RANDOM_STATE,
                                 stratify=ym_all)
-    st = pickle.load(open("/tmp/mlcat_state.pkl", "rb"))
+    st = pickle.load(open(_ART("mlcat_state.pkl"), "rb"))
     C1, C2 = st["p"][0].astype(np.float64), st["p"][1].astype(np.float64)
     tabs = [t.astype(np.float64) for t in st["p"][2:]]
     K, HID = C1.shape[0], C1.shape[1]; C = C2.shape[1]; J = len(tabs)

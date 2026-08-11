@@ -1,0 +1,229 @@
+{
+  "pipeline_version": "2.0.0",
+  "protocollo": "leakage-free: selezione feature, vocabolari categorici e quantili fittati sul solo training",
+  "seed_split": 42,
+  "seed_cross_validation": [
+    42,
+    43,
+    44
+  ],
+  "data_export": "2026-08-10",
+  "spazio_feature": {
+    "feature_numeriche": [
+      "src_ip_bytes",
+      "dst_port",
+      "dst_ip_bytes",
+      "src_port",
+      "duration",
+      "src_bytes",
+      "dst_pkts",
+      "dst_bytes",
+      "src_pkts",
+      "dns_qtype"
+    ],
+    "feature_categoriche": [
+      "proto",
+      "service",
+      "conn_state",
+      "dns_rejected"
+    ],
+    "cardinalita": [
+      4,
+      10,
+      14,
+      4
+    ],
+    "indice_0": "UNK — categoria mai vista in training",
+    "classi": [
+      "normal",
+      "backdoor",
+      "ddos",
+      "dos",
+      "injection",
+      "mitm",
+      "password",
+      "ransomware",
+      "scanning",
+      "xss"
+    ],
+    "clip": 3.5,
+    "preprocessing": "log1p sulle feature asimmetriche -> QuantileTransformer(normal) -> clip ±3.5"
+  },
+  "modelli_addestrati": [
+    {
+      "file": "kan14_binary_singlelayer.npz",
+      "descrizione": "KAN single-layer 14 feature (10 Chebyshev + 4 edge categorici)",
+      "prodotto_da": "scripts/kan14_binary.py",
+      "byte": 2202
+    },
+    {
+      "file": "kan14_binary_multilayer.pkl",
+      "descrizione": "KAN multi-layer binaria [14 -> 16 hidden -> 1]",
+      "prodotto_da": "scripts/kan14_ml_binary.py",
+      "byte": 25989
+    }
+  ],
+  "header_c_deployabili": [
+    {
+      "file": "mcu_pio/include/kan14_coeff_infer.h",
+      "byte": 2180
+    },
+    {
+      "file": "mcu_pio/include/kan14_coeff_int8.h",
+      "byte": 1961
+    },
+    {
+      "file": "mcu_pio/include/kan14_mc_coeff_infer.h",
+      "byte": 2728
+    },
+    {
+      "file": "mcu_pio/include/kan14_mc_coeff_int8.h",
+      "byte": 34805
+    },
+    {
+      "file": "mcu_pio/include/kan14_mc_test_vectors.h",
+      "byte": 17651
+    },
+    {
+      "file": "mcu_pio/include/kan14_ml_coeff_infer.h",
+      "byte": 3036
+    },
+    {
+      "file": "mcu_pio/include/kan14_ml_coeff_int8.h",
+      "byte": 22321
+    },
+    {
+      "file": "mcu_pio/include/kan14_ml_test_vectors.h",
+      "byte": 17992
+    },
+    {
+      "file": "mcu_pio/include/kan14_test_vectors.h",
+      "byte": 17995
+    },
+    {
+      "file": "mcu_pio/include/kan_e2e_int.h",
+      "byte": 11649
+    },
+    {
+      "file": "mcu_pio/include/kan_ids_layer.h",
+      "byte": 21200
+    },
+    {
+      "file": "mcu_pio/include/kan_ids_layer_int.h",
+      "byte": 23234
+    },
+    {
+      "file": "mcu_pio/include/kan_infer.h",
+      "byte": 3725
+    },
+    {
+      "file": "mcu_pio/include/kan_mc_e2e_int.h",
+      "byte": 97401
+    }
+  ],
+  "harness_di_verifica": [
+    "mcu_pio/host_check/run_coeff_check.cpp",
+    "mcu_pio/host_check/run_e2e_check.cpp",
+    "mcu_pio/host_check/run_host_check.cpp",
+    "mcu_pio/host_check/run_mc_coeff_check.cpp",
+    "mcu_pio/host_check/run_mc_e2e_check.cpp",
+    "mcu_pio/host_check/run_ml_coeff_check.cpp"
+  ],
+  "metriche": {
+    "F1 binario single-layer": [
+      {
+        "modello": "num10",
+        "f1": 0.9708,
+        "roc_auc": 0.9921,
+        "parametri": 90
+      },
+      {
+        "modello": "num10+cat4",
+        "f1": 0.9832,
+        "roc_auc": 0.9956,
+        "parametri": 122
+      }
+    ],
+    "compilazione single-layer": [
+      {
+        "compilazione": "coeff int16 (float eval)",
+        "mem_bytes": 500,
+        "f1": 0.9832,
+        "delta_f1": -0.0,
+        "agreement_pct": 99.995
+      },
+      {
+        "compilazione": "coeff int8 (float eval)",
+        "mem_bytes": 278,
+        "f1": 0.9826,
+        "delta_f1": -0.0006,
+        "agreement_pct": 99.905
+      },
+      {
+        "compilazione": "FULL-INTEGER int8",
+        "mem_bytes": 250,
+        "f1": 0.9826,
+        "delta_f1": -0.0006,
+        "agreement_pct": 99.905
+      }
+    ],
+    "F1 binario multi-layer": [
+      {
+        "arch": "14feat 10num+4cat-16h-1",
+        "f1": 0.9975,
+        "roc_auc": 0.9999,
+        "parametri": 2096
+      }
+    ],
+    "compilazione multi-layer": [
+      {
+        "quant": "int16 full-integer",
+        "mem_bytes": 9088,
+        "mem_kb": 8.88,
+        "f1": 0.9975,
+        "delta_f1": 0.0,
+        "agreement_pct": 99.986
+      },
+      {
+        "quant": "int8 full-integer",
+        "mem_bytes": 5232,
+        "mem_kb": 5.11,
+        "f1": 0.9974,
+        "delta_f1": -0.0,
+        "agreement_pct": 99.969
+      }
+    ],
+    "F1 multiclass multi-layer": [
+      {
+        "modello": "KAN ml num10+cat4 (16h)",
+        "macro_f1": 0.9378,
+        "weighted_f1": 0.9803,
+        "parametri": 3392,
+        "riferimento_lgbm": 0.9675
+      }
+    ],
+    "catena integer end-to-end binaria": [
+      {
+        "f1_float_pipeline": 0.9672,
+        "f1_e2e_int": 0.9646,
+        "delta_f1": -0.0026,
+        "agreement_pct": 99.33,
+        "mem_bytes": 822,
+        "n_golden": 200
+      }
+    ],
+    "catena integer end-to-end 10 classi": [
+      {
+        "macro_f1_float": 0.9378,
+        "macro_f1_e2e_int": 0.9352,
+        "delta": -0.0026,
+        "weighted_f1": 0.9785,
+        "agreement_pct": 99.42,
+        "mem_bytes": 13922,
+        "mem_kb": 13.6,
+        "n_golden": 200
+      }
+    ]
+  },
+  "nota": "artifacts/ e' cache rigenerabile; models/ e' versionata. I pesi qui dentro corrispondono agli header C in mcu_pio/include/, quindi firmware e host_check si possono compilare e verificare senza dataset."
+}

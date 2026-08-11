@@ -20,11 +20,13 @@ for p in [_REPO, _REPO/"src", _REPO/"preprocessing"]:
 
 from sklearn.preprocessing import StandardScaler, QuantileTransformer, LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 
 from kan_chebyshev_multiclass import ChebyshevKANMulticlass
 from kan_torch import train_kan_torch, predict_kan_torch
+from kanids.preprocessing import rank_by_mi
+from kanids.datasets import ton_iot_path
+from kanids.config import RESULTS_DIR
 
 RS=42; CLIP=3.5
 NUMERIC=["src_port","dst_port","duration","src_bytes","dst_bytes","missed_bytes",
@@ -52,7 +54,7 @@ def make_preproc(kind, Xtr, Xte, names):
 def main():
     import argparse
     ap=argparse.ArgumentParser()
-    ap.add_argument("--csv",default="train_test_network.csv")
+    ap.add_argument("--csv",default=None)
     ap.add_argument("--sample",type=int,default=80000)
     ap.add_argument("--epochs",type=int,default=300)
     ap.add_argument("--hidden",type=int,default=16)
@@ -63,7 +65,7 @@ def main():
     print(f"PREPROCESSING x MODELLO — multiclass, top-{args.k} feature")
     print("="*68)
 
-    df=pd.read_csv(args.csv)
+    df=pd.read_csv(ton_iot_path(args.csv))
     if args.sample and args.sample<len(df):
         df=df.sample(args.sample,random_state=RS).reset_index(drop=True)
     feats=[c for c in NUMERIC if c in df.columns]
@@ -71,10 +73,12 @@ def main():
     le=LabelEncoder().fit(df["type"]); ym=le.transform(df["type"]); C=len(le.classes_)
     mitm=list(le.classes_).index("mitm")
 
-    mi=mutual_info_classif(X,ym,random_state=RS); order=np.argsort(mi)[::-1][:args.k]
-    feats_k=[feats[i] for i in order]; Xk=X[:,order]
-    print(f"top-{args.k} feature: {feats_k}\n")
-    Xtr,Xte,ytr,yte=train_test_split(Xk,ym,test_size=0.2,random_state=RS,stratify=ym)
+    # split prima, ranking dopo: la MI vede solo il training
+    Xtr_all,Xte_all,ytr,yte=train_test_split(X,ym,test_size=0.2,random_state=RS,stratify=ym)
+    mi=rank_by_mi(Xtr_all,ytr,seed=RS,sample=None); order=np.argsort(mi)[::-1][:args.k]
+    feats_k=[feats[i] for i in order]
+    Xtr,Xte=Xtr_all[:,order],Xte_all[:,order]
+    print(f"top-{args.k} feature (MI sul solo training): {feats_k}\n")
     counts=np.bincount(ytr,minlength=C); cw=(len(ytr)/(C*np.maximum(counts,1)))
 
     print(f"{'preprocessing':<12}{'single-layer':>14}{'multi-layer':>14}{'MITM(multi)':>13}")
@@ -102,7 +106,7 @@ def main():
     print("   basta, o se serve 'quantile' (difficile su MCU)")
     print("="*68)
     pd.DataFrame(rows,columns=["preproc","single_macrof1","multi_macrof1","mitm_multi"]
-                 ).to_csv("preproc_x_model_results.csv",index=False)
+                 ).to_csv(str(RESULTS_DIR / "preproc_x_model_results.csv"),index=False)
     print("\nSalvato preproc_x_model_results.csv")
 
 

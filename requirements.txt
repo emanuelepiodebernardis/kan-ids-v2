@@ -1,6 +1,22 @@
-numpy>=1.24
-pandas>=2.0
-scikit-learn>=1.3
-xgboost>=2.0
-lightgbm>=4.0
-joblib>=1.2
+# Versioni minime verificate. Per una riproduzione bit-identica dei numeri
+# pubblicati usare requirements-lock.txt (versioni esatte).
+numpy>=1.24,<3
+pandas>=2.0,<3
+scikit-learn>=1.3,<2
+scipy>=1.10,<2
+joblib>=1.2,<2
+matplotlib>=3.7,<4
+seaborn>=0.12,<1
+
+# gradient boosting (baseline richieste dal protocollo di confronto)
+lightgbm>=4.0,<5
+xgboost>=2.0,<4
+
+# KAN multi-layer
+torch>=2.0,<3
+
+# export dei modelli ad albero in C per MCU
+m2cgen>=0.10,<1
+
+# test
+pytest>=7.4,<9

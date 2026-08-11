@@ -37,9 +37,9 @@ import torch.nn as nn
 import torch.nn.functional as Fnn
 from sklearn.preprocessing import QuantileTransformer, LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 import lightgbm as lgb
+from kanids.preprocessing import rank_by_mi
 from kan_torch import KANTorch
 
 RS = 42
@@ -108,12 +108,11 @@ def main():
     le = LabelEncoder().fit(df["type"]); y = le.transform(df["type"]); C = len(le.classes_)
     mitm = list(le.classes_).index("mitm")
 
-    sub = np.random.RandomState(RS).choice(len(X), min(60000, len(X)), replace=False)
-    mi = mutual_info_classif(X[sub], y[sub], random_state=RS)
+    Xtr_all, Xte_all, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=RS, stratify=y)
+    mi = rank_by_mi(Xtr_all, ytr, seed=RS, sample=60000)
     order = np.argsort(mi)[::-1][:K]
     feats_k = [feats[i] for i in order]
-    Xk = X[:, order]
-    Xtr, Xte, ytr, yte = train_test_split(Xk, y, test_size=0.2, random_state=RS, stratify=y)
+    Xtr, Xte = Xtr_all[:, order], Xte_all[:, order]
     Xtr_s, Xte_s = prep(Xtr, Xte, feats_k)
     counts = np.bincount(ytr, minlength=C)
     cw = (len(ytr) / (C * np.maximum(counts, 1)))

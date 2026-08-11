@@ -1,0 +1,2 @@
+seed,fold,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10
+44,5,src_ip_bytes,dst_port,dst_ip_bytes,src_port,duration,src_bytes,dst_bytes,dst_pkts,src_pkts,dns_qtype

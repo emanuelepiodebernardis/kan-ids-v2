@@ -4,6 +4,13 @@
   modo 'multiclass' -> modello misto multi-layer (320 edge + tabelle cat)
 Ri-fit LSQ pesato dai dati delle funzioni edge apprese, poi quantizzazione
 dei coefficienti. Confronto con il float e con le LUT campionate."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, time, pickle
 import numpy as np, pandas as pd
 sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
@@ -72,10 +79,10 @@ def binary():
     return rows
 
 def multiclass():
-    st = pickle.load(open("/tmp/mlcat_state.pkl", "rb"))
+    st = pickle.load(open(_ART("mlcat_state.pkl"), "rb"))
     C1, C2 = st["p"][0].astype(np.float64), st["p"][1].astype(np.float64)
     tabs = [t.astype(np.float64) for t in st["p"][2:]]
-    d = np.load("/tmp/kcat_data.npz", allow_pickle=True)
+    d = np.load(_ART("kcat_data.npz"), allow_pickle=True)
     Xtr1 = (d["Xtr"]/3.5).astype(np.float64); Xte1 = (d["Xte"]/3.5).astype(np.float64)
     ymte = d["ymte"]; CTtr, CTte = d["CTtr"], d["CTte"]
     K, HID = C1.shape[0], C1.shape[1]; C = C2.shape[1]; J = len(tabs)

@@ -25,9 +25,9 @@ for p in [_REPO, _REPO/"src", _REPO/"preprocessing"]:
 
 from sklearn.preprocessing import QuantileTransformer, LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 import section_310_unified_feature_engineering as fe
+from kanids.preprocessing import rank_by_mi
 from kan_chebyshev import ChebyshevKANBinary
 from kan_chebyshev_multiclass import ChebyshevKANMulticlass
 from kan_bspline import BSplineKANBinary, BSplineKANMulticlass, bspline_basis
@@ -102,9 +102,10 @@ def main():
         y=df["label"].astype(int).to_numpy(); C=2; avg="binary"
     else:
         le=LabelEncoder().fit(df["type"]); y=le.transform(df["type"]); C=len(le.classes_); avg="macro"
-    mi=mutual_info_classif(X,y if args.task=="binary" else y,random_state=RS)
-    order=np.argsort(mi)[::-1][:K]; feats_k=[feats[i] for i in order]; Xk=X[:,order]
-    Xtr,Xte,ytr,yte=train_test_split(Xk,y,test_size=0.2,random_state=RS,stratify=y)
+    Xtr_all,Xte_all,ytr,yte=train_test_split(X,y,test_size=0.2,random_state=RS,stratify=y)
+    mi=rank_by_mi(Xtr_all,ytr,seed=RS,sample=None)
+    order=np.argsort(mi)[::-1][:K]; feats_k=[feats[i] for i in order]
+    Xtr,Xte=Xtr_all[:,order],Xte_all[:,order]
     Xtr_s,Xte_s=prep(Xtr,Xte,feats_k)
 
     print("="*64)

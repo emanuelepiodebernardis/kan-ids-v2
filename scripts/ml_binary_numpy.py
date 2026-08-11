@@ -2,11 +2,18 @@
 """KAN multi-layer BINARIA [10 -> hidden -> 1] in NumPy puro, con Adam,
 riprendibile a checkpoint. Architettura speculare a kan_torch.py
 (Chebyshev layer -> tanh -> Chebyshev layer)."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np
 sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
 
-CK = os.environ.get("ML_CK", "/tmp/ml_ckpt.pkl")
+CK = os.environ.get("ML_CK", _ART("ml_ckpt.pkl"))
 OUT = os.environ.get("ML_OUT", "results/ml_binary_real.csv")
 
 def cheb_T(x, deg):
@@ -28,7 +35,7 @@ def main():
     DEG, EPOCHS, LR, CLIP = 8, 300, 0.01, 3.5
     t0 = time.time()
 
-    CACHE = "/tmp/ml_data.npz"
+    CACHE = _ART("ml_data.npz")
     if os.path.exists(CACHE):
         d = np.load(CACHE)
         Xtr, Xte, ytr, yte = d["Xtr"], d["Xte"], d["ytr"], d["yte"]

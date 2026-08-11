@@ -1,0 +1,11 @@
+feature,frazione_di_fold,in_top10_v1
+src_ip_bytes,1.0,True
+dst_port,1.0,True
+dst_ip_bytes,1.0,True
+src_port,1.0,True
+duration,1.0,True
+src_bytes,1.0,True
+dst_pkts,1.0,True
+dst_bytes,1.0,True
+src_pkts,1.0,True
+dns_qtype,1.0,True

@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 """CV 5-fold x 3 seed sullo spazio a 14 feature: KAN num10 e num10+cat4.
 Checkpointato per unita' (variante, seed, fold)."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 from pathlib import Path
@@ -13,18 +21,18 @@ from sklearn.metrics import f1_score, roc_auc_score
 from sklearn.preprocessing import LabelEncoder
 from kan_chebyshev import ChebyshevKANBinary, chebyshev_basis
 
-CK = "/tmp/kan14_cv.pkl"
+CK = _ART("kan14_cv.pkl")
 CATS = ["proto", "service", "conn_state", "dns_rejected"]
 
 def main():
     budget = float(sys.argv[1]) if len(sys.argv) > 1 else 34.0
     t0 = time.time()
-    D = "/tmp/kan14_cv_data.npz"
+    D = _ART("kan14_cv_data.npz")
     if os.path.exists(D):
         d = np.load(D, allow_pickle=True)
         Xraw, yb, CT = d["Xraw"], d["yb"], d["CT"]; cards = list(d["cards"]); feats = list(d["feats"])
     else:
-        d14 = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+        d14 = prepare14_dict()
         feats = list(d14["feats"]); cards = list(d14["cards"])
         df = pd.read_csv("train_test_network.csv")
         Xraw = df[feats].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy(np.float64)

@@ -1,0 +1,4 @@
+preprocessing,single_layer_macrof1,multi_layer_macrof1
+z-score standard,0.45,0.82
+log1p,0.77,0.90
+log1p+quantile,0.86,0.92

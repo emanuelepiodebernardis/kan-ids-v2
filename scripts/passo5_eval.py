@@ -18,11 +18,12 @@ import numpy as np
 import pandas as pd
 from sklearn.preprocessing import QuantileTransformer, LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 
 REPO = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "src"))
+from kanids.preprocessing import rank_by_mi
 
 # ── costanti identiche a export_ml_int.py ──────────────────────────────────
 CLIP   = 3.5
@@ -54,19 +55,19 @@ y  = le.transform(df['type'])
 C_OUT = len(le.classes_)
 print(f"  Classi ({C_OUT}): {list(le.classes_)}")
 
-# ── 2. MI feature selection ─────────────────────────────────────────────────
-print("MI feature selection (seed 42)...")
-mi    = mutual_info_classif(X, y, random_state=42)
+# ── 2. Split 80/20 (prima del ranking, per non vedere le label di test) ─────
+Xtr_all, Xte_all, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+print(f"  Train: {len(Xtr_all)}  Test: {len(Xte_all)}")
+
+# ── 3. MI feature selection (solo training) ─────────────────────────────────
+print("MI feature selection (seed 42, solo training)...")
+mi    = rank_by_mi(Xtr_all, ytr, seed=42, sample=None)
 order = np.argsort(mi)[::-1][:K]
 feats_k = [feats[i] for i in order]
-Xk    = X[:, order]
+Xtr, Xte = Xtr_all[:, order], Xte_all[:, order]
 skew_mask = np.array([feats_k[j] in SKEW_SET for j in range(K)])
 print(f"  Top-10: {feats_k}")
 print(f"  SKEW mask: {skew_mask.tolist()}")
-
-# ── 3. Split 80/20 ──────────────────────────────────────────────────────────
-Xtr, Xte, ytr, yte = train_test_split(Xk, y, test_size=0.2, random_state=42, stratify=y)
-print(f"  Train: {len(Xtr)}  Test: {len(Xte)}")
 
 # ── 4. Preprocessing ────────────────────────────────────────────────────────
 def apply_log1p(a, mask):

@@ -3,6 +3,9 @@
 Basi precalcolate (identita' col fit dei rispettivi moduli), stesso split
 del resto della pipeline (80/20, seed 42)."""
 import sys, os, time
+from pathlib import Path as _P
+sys.path.insert(0, str(_P(__file__).resolve().parents[1]))
+from kanids.datasets import ton_iot_path
 import numpy as np
 sys.path.insert(0, "scripts"); sys.path.insert(0, "."); sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
 
@@ -16,7 +19,7 @@ def main():
     from kan_bspline import BSplineKANBinary, bspline_basis
 
     CLIP = 3.5; t0 = time.time()
-    df = pd.read_csv("train_test_network.csv")
+    df = pd.read_csv(ton_iot_path(None))
     X = fe.build_unified_features_ton(df)[fe.UNIFIED_NUMERIC_FEATURES].to_numpy(np.float64)
     y = df["label"].astype(int).to_numpy()
     Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)

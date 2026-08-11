@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 """Driver riprendibile per il BLOCCO B (10 feature) + C (KAN) del multiclass
 su dati reali completi, un modello per invocazione con checkpoint."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 sys.path.insert(0, "scripts"); sys.path.insert(0, "."); sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
@@ -12,7 +19,7 @@ from sklearn.metrics import f1_score
 from utils import get_models
 
 OUT = "results/multiclass_full_real.csv"
-CK = "/tmp/mc_state.pkl"
+CK = _ART("mc_state.pkl")
 
 def main():
     t0 = time.time()

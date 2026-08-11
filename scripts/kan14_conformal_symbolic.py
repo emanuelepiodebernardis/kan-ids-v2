@@ -3,6 +3,14 @@
 Conformal: train 72% / cal 8% / test 20%, marginale e Mondrian, su float e
 sul kernel full-integer int8. Simbolico: primitive per i 10 edge numerici +
 tabelle categoriche stampate come costanti leggibili."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, time, warnings
 import numpy as np, pandas as pd
 warnings.filterwarnings("ignore")
@@ -18,7 +26,7 @@ CATS = ["proto", "service", "conn_state", "dns_rejected"]
 
 def main():
     t0 = time.time()
-    d = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+    d = prepare14_dict()
     Xtr0, Xte = d["Xtr"], d["Xte"]; ytr0, yte = d["ybtr"], d["ybte"]
     CTtr0, CTte = d["CTtr"], d["CTte"]; cards = list(d["cards"])
     feats = list(d["feats"]); J = len(cards)

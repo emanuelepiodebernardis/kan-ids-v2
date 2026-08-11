@@ -2,6 +2,14 @@
 """Compilazione del multi-layer binario a 14 feature (F1 0.9974):
 coefficienti B-spline int16/int8 per 160+16 edge + tabelle cat + tanh LUT,
 poi kernel FULL-INTEGER. Verifica agreement/F1 su test reale."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, time, pickle
 import numpy as np, pandas as pd
 sys.path.insert(0, "src")
@@ -28,10 +36,10 @@ def spline_int(u, Cq, shift):
 
 def main():
     t0 = time.time()
-    d = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+    d = prepare14_dict()
     Xtr = (d["Xtr"]/3.5).astype(np.float64); Xte = (d["Xte"]/3.5).astype(np.float64)
     yte = d["ybte"]; CTtr, CTte = d["CTtr"], d["CTte"]
-    st = pickle.load(open("/tmp/kan14_mlbin.pkl", "rb"))
+    st = pickle.load(open(_ART("kan14_mlbin.pkl"), "rb"))
     C1, C2 = st["p"][0].astype(np.float64), st["p"][1].astype(np.float64)
     tabs = [t.astype(np.float64) for t in st["p"][2:]]
     K, HID = C1.shape[0], C1.shape[1]; J = len(tabs)

@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 """Esporta il multiclass ml+cat 14-feature (macro-F1 0.9409) in header C
 full-integer: L1 10x16 + cat + tanh LUT + L2 16x10 -> argmax. + 200 vettori."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, pickle
 import numpy as np
 sys.path.insert(0, "src"); sys.path.insert(0, "preprocessing")
@@ -15,10 +23,10 @@ def cheb_T(x, deg=8):
     for n in range(2, deg+1): T.append(2.0*x*T[-1] - T[-2])
     return np.stack(T, axis=-1)
 
-d = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+d = prepare14_dict()
 Xtr = (d["Xtr"]/3.5).astype(np.float64); Xte = (d["Xte"]/3.5).astype(np.float64)
 ymte = d["ymte"]; CTtr, CTte = d["CTtr"], d["CTte"]; cards = list(d["cards"])
-st = pickle.load(open("/tmp/mlcat_state.pkl", "rb"))
+st = pickle.load(open(_ART("mlcat_state.pkl"), "rb"))
 C1, C2 = st["p"][0].astype(np.float64), st["p"][1].astype(np.float64)
 tabs = [t.astype(np.float64) for t in st["p"][2:]]
 K, HID = C1.shape[0], C1.shape[1]; C = C2.shape[1]; J = len(tabs)

@@ -2,11 +2,18 @@
 """KAN multi-layer MISTA multiclass: [10 num (Chebyshev) + 4 cat (tabelle)]
 -> 16 hidden -> tanh -> Chebyshev -> 10 classi. Adam + CE pesata.
 Riprendibile a checkpoint; eval intermedia a ogni checkpoint."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 from sklearn.metrics import f1_score
 
-CK = "/tmp/mlcat_smote_state.pkl"
+CK = _ART("mlcat_smote_state.pkl")
 HID, DEG, EPOCHS, LR = 16, 8, 300, 0.01
 
 def cheb_T(x, deg):
@@ -29,8 +36,9 @@ def cheb_dT(x, deg):
 def main():
     budget = float(sys.argv[1]) if len(sys.argv) > 1 else 34.0
     t0 = time.time()
-    d = np.load("/tmp/kcat_data.npz", allow_pickle=True)
-    SC = "/tmp/kcat_smote.npz"
+    from kanids.legacy import prepare14_dict
+    d = prepare14_dict()
+    SC = _ART("kcat_smote.npz")
     if os.path.exists(SC):
         ds = np.load(SC, allow_pickle=True)
         Xtr, ymtr, CTtr = ds["Xtr"], ds["ymtr"], ds["CTtr"]

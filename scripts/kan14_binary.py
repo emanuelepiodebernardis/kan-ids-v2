@@ -2,6 +2,13 @@
 """KAN binaria a 14 feature: 10 edge Chebyshev (top-10 grezze MI,
 log1p+quantile) + 4 edge categorici tabellari. Stesso split del multiclass
 (stratificato su ym, seed 42 -> label binarie allineate)."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time
 import numpy as np, pandas as pd
 from pathlib import Path
@@ -11,38 +18,24 @@ for p in [_REPO, _REPO/"src", _REPO/"preprocessing", _REPO/"scripts"]:
 import feature_curve as fc
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score, roc_auc_score
 from kan_chebyshev import ChebyshevKANBinary, chebyshev_basis
 
 CATS = ["proto", "service", "conn_state", "dns_rejected"]
-CACHE = "/tmp/kcat14_bin.npz"
+
 
 def load14():
-    if os.path.exists(CACHE):
-        d = np.load(CACHE, allow_pickle=True)
-        return (d["Xtr"], d["Xte"], d["ybtr"], d["ybte"], d["ymtr"], d["ymte"],
-                d["CTtr"], d["CTte"], list(d["cards"]), list(d["feats"]))
-    df = pd.read_csv("train_test_network.csv")
-    feats = [c for c in fc.NUMERIC_RAW if c in df.columns]
-    X = df[feats].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy(np.float64)
-    yb = df["label"].astype(int).to_numpy()
-    le = LabelEncoder().fit(df["type"]); ym = le.transform(df["type"])
-    rs = np.random.RandomState(fc.RANDOM_STATE)
-    idx = rs.choice(len(X), 40000, replace=False)
-    mi = mutual_info_classif(X[idx], ym[idx], random_state=fc.RANDOM_STATE)
-    order = np.argsort(mi)[::-1][:10]
-    feats10 = [feats[i] for i in order]
-    Xn = X[:, order]
-    CT = np.stack([LabelEncoder().fit_transform(df[c].astype(str)) for c in CATS], axis=1)
-    cards = [int(CT[:, j].max()) + 1 for j in range(len(CATS))]
-    Xtr_raw, Xte_raw, ybtr, ybte, ymtr, ymte, CTtr, CTte = train_test_split(
-        Xn, yb, ym, CT, test_size=0.2, random_state=fc.RANDOM_STATE, stratify=ym)
-    Xtr, Xte = fc.preprocess_kan(Xtr_raw, Xte_raw, feats10)
-    np.savez(CACHE, Xtr=Xtr, Xte=Xte, ybtr=ybtr, ybte=ybte, ymtr=ymtr, ymte=ymte,
-             CTtr=CTtr, CTte=CTte, cards=np.array(cards), feats=np.array(feats10))
-    print("cache creata:", feats10, dict(zip(CATS, cards)))
-    return Xtr, Xte, ybtr, ybte, ymtr, ymte, CTtr, CTte, cards, feats10
+    """Dati a 14 feature, preparati leakage-free.
+
+    Prima questa funzione calcolava la mutual information su un campione
+    dell'intero dataset PRIMA dello split e costruiva i LabelEncoder
+    categorici su train+test. Ora delega a kanids.legacy.prepare14, che
+    fitta tutto sul solo training. Su TON_IoT le feature scelte sono le
+    stesse (verificato: 15 fold su 15), quindi i numeri non cambiano.
+    """
+    from kanids.legacy import prepare14
+    return prepare14(seed=fc.RANDOM_STATE)
+
 
 def main():
     t0 = time.time()
@@ -80,10 +73,10 @@ def main():
                      "parametri": 90 + (sum(cards) if use_cat else 0)})
         print(rows[-1], f"t={time.time()-t0:.0f}s", flush=True)
     if rows[-1]["modello"] == "num10+cat4":
-        np.savez("/tmp/kan14_bin_model.npz", coeffs=kan.coeffs,
+        np.savez(_ART("kan14_bin_model.npz"), coeffs=kan.coeffs,
                  **{f"tab{j}": tabs[j] for j in range(J)})
     pd.DataFrame(rows).to_csv("results/kan14_binary_real.csv", index=False)
-    print("salvato results/kan14_binary_real.csv + modello in /tmp/kan14_bin_model.npz")
+    print(f"salvato results/kan14_binary_real.csv + modello in {_ART('kan14_bin_model.npz')}")
 
 if __name__ == "__main__":
     main()

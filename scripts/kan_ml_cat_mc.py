@@ -2,11 +2,18 @@
 """KAN multi-layer MISTA multiclass: [10 num (Chebyshev) + 4 cat (tabelle)]
 -> 16 hidden -> tanh -> Chebyshev -> 10 classi. Adam + CE pesata.
 Riprendibile a checkpoint; eval intermedia a ogni checkpoint."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 from sklearn.metrics import f1_score
 
-CK = "/tmp/mlcat_state.pkl"
+CK = _ART("mlcat_state.pkl")
 HID, DEG, EPOCHS, LR = 16, 8, 300, 0.01
 
 def cheb_T(x, deg):
@@ -29,7 +36,10 @@ def cheb_dT(x, deg):
 def main():
     budget = float(sys.argv[1]) if len(sys.argv) > 1 else 34.0
     t0 = time.time()
-    d = np.load("/tmp/kcat_data.npz", allow_pickle=True)
+    # Preparazione leakage-free condivisa (prima: cache prodotta come effetto
+    # collaterale di un altro script, con MI sull'intero dataset).
+    from kanids.legacy import prepare14_dict
+    d = prepare14_dict()
     Xtr = (d["Xtr"] / 3.5).astype(np.float32)   # [-1,1]
     Xte = (d["Xte"] / 3.5).astype(np.float32)
     ymtr, ymte = d["ymtr"], d["ymte"]

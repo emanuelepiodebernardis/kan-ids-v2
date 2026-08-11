@@ -28,10 +28,12 @@ for p in [_REPO, _REPO / "src", _REPO / "preprocessing"]:
 
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
-from sklearn.feature_selection import mutual_info_classif
 from sklearn.metrics import f1_score
 
 import section_310_unified_feature_engineering as fe
+from kanids.preprocessing import rank_by_mi
+from kanids.datasets import ton_iot_path
+from kanids.config import RESULTS_DIR
 from kan_chebyshev import ChebyshevKANBinary
 from kan_chebyshev_multiclass import ChebyshevKANMulticlass
 from sklearn.preprocessing import QuantileTransformer
@@ -81,7 +83,7 @@ def lut_kb(n_edges):
 def main():
     import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--csv", default="train_test_network.csv")
+    ap.add_argument("--csv", default=None, help="default: risolto da kanids.datasets")
     ap.add_argument("--sample", type=int, default=60000)
     ap.add_argument("--epochs", type=int, default=250)
     ap.add_argument("--ks", default="5,8,10,12,16")
@@ -92,7 +94,7 @@ def main():
     print("STUDIO: accuratezza KAN single-layer vs numero di feature")
     print("=" * 70)
 
-    df = pd.read_csv(args.csv)
+    df = pd.read_csv(ton_iot_path(args.csv))
     if args.sample and args.sample < len(df):
         df = df.sample(args.sample, random_state=RANDOM_STATE).reset_index(drop=True)
 
@@ -106,19 +108,22 @@ def main():
     print(f"feature numeriche candidate: {len(feats)}")
     print(f"classi multiclass: {C}")
 
-    # ordina per mutual information (sul task multiclass, piu' informativo)
-    mi = mutual_info_classif(X, ym, random_state=RANDOM_STATE)
+    # SPLIT PRIMA, ranking dopo: la mutual information si calcola sul solo
+    # training. Nella versione precedente il ranking era calcolato su tutto
+    # il dataset e poi si splittava, quindi l'ordinamento delle feature
+    # vedeva le etichette di test.
+    Xtr_all, Xte_all, ybtr, ybte, ymtr, ymte = train_test_split(
+        X, yb, ym, test_size=0.2, random_state=RANDOM_STATE, stratify=ym)
+
+    mi = rank_by_mi(Xtr_all, ymtr, seed=RANDOM_STATE, sample=None)
     order = np.argsort(mi)[::-1]
     feats_ranked = [feats[i] for i in order]
-    print(f"\nfeature ordinate per importanza (MI):")
+    print(f"\nfeature ordinate per importanza (MI, solo training):")
     for r, (f, m) in enumerate(zip(feats_ranked, mi[order])):
         print(f"  {r+1:2d}. {f:<28} MI={m:.3f}")
 
-    # split una volta sola, su feature GREZZE ordinate (preprocessing dopo)
-    Xo = X[:, order]
+    Xtr_raw, Xte_raw = Xtr_all[:, order], Xte_all[:, order]
     feats_ord = feats_ranked
-    Xtr_raw, Xte_raw, ybtr, ybte, ymtr, ymte = train_test_split(
-        Xo, yb, ym, test_size=0.2, random_state=RANDOM_STATE, stratify=ym)
 
     print(f"\n{'k':>3} {'bin-F1':>8} {'mc-macroF1':>11} {'edge-bin':>9} "
           f"{'edge-mc':>8} {'LUT-bin':>9} {'LUT-mc':>9}")
@@ -151,7 +156,7 @@ def main():
 
     pd.DataFrame(rows, columns=["k", "bin_f1", "mc_macrof1", "edge_bin",
                                 "edge_mc", "lut_bin_kb", "lut_mc_kb"]
-                 ).to_csv("feature_curve_results.csv", index=False)
+                 ).to_csv(str(RESULTS_DIR / "feature_curve_results.csv"), index=False)
     print("\nSalvato feature_curve_results.csv")
 
 

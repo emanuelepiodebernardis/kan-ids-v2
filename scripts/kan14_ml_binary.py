@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 """KAN multi-layer binaria a 14 feature: [10 num Chebyshev + 4 cat tabellari]
 -> 16 hidden -> tanh -> Chebyshev -> 1. Adam, BCE pesata, checkpoint."""
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+from kanids.legacy import prepare14_dict
+# ---------------------------------------------------------------------------
 import sys, os, time, pickle
 import numpy as np, pandas as pd
 from sklearn.metrics import f1_score, roc_auc_score
 
-CK = "/tmp/kan14_mlbin.pkl"
+CK = _ART("kan14_mlbin.pkl")
 HID, DEG, EPOCHS, LR = 16, 8, 300, 0.01
 
 def cheb_T(x, deg):
@@ -25,7 +33,7 @@ def cheb_dT(x, deg):
 def main():
     budget = float(sys.argv[1]) if len(sys.argv) > 1 else 34.0
     t0 = time.time()
-    d = np.load("/tmp/kcat14_bin.npz", allow_pickle=True)
+    d = prepare14_dict()
     Xtr = (d["Xtr"]/3.5).astype(np.float32); Xte = (d["Xte"]/3.5).astype(np.float32)
     ytr, yte = d["ybtr"], d["ybte"]; CTtr, CTte = d["CTtr"], d["CTte"]
     cards = list(d["cards"]); J = len(cards); N = Xtr.shape[0]

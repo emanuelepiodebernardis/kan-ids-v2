@@ -91,9 +91,9 @@ def main():
     import pandas as pd
     from sklearn.preprocessing import QuantileTransformer, LabelEncoder
     from sklearn.model_selection import train_test_split
-    from sklearn.feature_selection import mutual_info_classif
     from kan_torch import train_kan_torch
     from kan_multilayer_numpy import from_torch
+    from kanids.preprocessing import rank_by_mi
 
     NUM=['src_port','dst_port','duration','src_bytes','dst_bytes','missed_bytes','src_pkts','src_ip_bytes','dst_pkts','dst_ip_bytes','dns_qclass','dns_qtype','dns_rcode','http_request_body_len','http_response_body_len','http_status_code']
     SKEW={'duration','src_bytes','dst_bytes','missed_bytes','src_pkts','src_ip_bytes','dst_pkts','dst_ip_bytes','http_request_body_len','http_response_body_len'}
@@ -104,8 +104,9 @@ def main():
     feats=[c for c in NUM if c in df.columns]
     X=df[feats].apply(pd.to_numeric,errors='coerce').fillna(0).to_numpy(np.float64)
     le=LabelEncoder().fit(df['type']);y=le.transform(df['type']);C=len(le.classes_)
-    mi=mutual_info_classif(X,y,random_state=42);order=np.argsort(mi)[::-1][:K];feats_k=[feats[i] for i in order];Xk=X[:,order]
-    Xtr,Xte,ytr,yte=train_test_split(Xk,y,test_size=0.2,random_state=42,stratify=y)
+    Xtr_all,Xte_all,ytr,yte=train_test_split(X,y,test_size=0.2,random_state=42,stratify=y)
+    mi=rank_by_mi(Xtr_all,ytr,seed=42,sample=None);order=np.argsort(mi)[::-1][:K];feats_k=[feats[i] for i in order]
+    Xtr,Xte=Xtr_all[:,order],Xte_all[:,order]
     def prep(a,b):
         a=a.copy();b=b.copy()
         for j,n in enumerate(feats_k):

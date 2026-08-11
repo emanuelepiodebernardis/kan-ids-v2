@@ -1,18 +1,18 @@
-src_ip_bytes: cubic R2=0.830
-dst_port: sin R2=0.869
+src_ip_bytes: cubic R2=0.826
+dst_port: sin R2=0.855
 dst_ip_bytes: cubic R2=0.990
-src_port: sin R2=0.820
-duration: abs R2=0.997
-src_bytes: gauss R2=0.946
+src_port: sin R2=0.842
+duration: abs R2=0.996
+src_bytes: gauss R2=0.960
 dst_pkts: gauss R2=0.995
-dst_bytes: gauss R2=0.992
-src_pkts: gauss R2=0.983
+dst_bytes: gauss R2=0.993
+src_pkts: gauss R2=0.986
 dns_qtype: gauss R2=0.996
 
 Tabelle categoriche (contributo al logit):
-proto: [0.043, 0.919, -0.901]
-service: [0.348, -0.027, -0.422, 0.031, 0.05, -0.047, 0.088, -0.037, -0.113]
-conn_state: [0.209, 0.149, -0.145, 0.068, -0.054, -0.021, -0.47, -0.026, -0.051, 0.011, 0.092, 0.226, -0.253]
-dns_rejected: [0.194, -0.78, 0.608]
+proto: [0.088, -0.02, 0.94, -0.832]
+service: [0.081, 0.257, -0.023, -0.447, 0.126, -0.107, 0.129, -0.036, 0.016, -0.136]
+conn_state: [-0.021, 0.217, 0.052, 0.043, -0.098, -0.005, 0.045, -0.554, -0.02, -0.042, 0.08, 0.171, 0.124, -0.309]
+dns_rejected: [0.089, 0.13, -0.809, 0.521]
 
-F1_sym=0.9835 agreement=98.55%
+F1_sym=0.9830 agreement=98.47%

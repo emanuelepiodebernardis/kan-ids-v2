@@ -9,6 +9,13 @@ Schema (tutto integer-friendly, stile LUT-KAN esteso):
   - tanh: LUT 256 campioni int16 su [-8,8].
 Verifica: agreement decisioni e macro-F1 quantizzato vs float sul test set.
 """
+
+# --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).resolve().parents[1]))
+from kanids.config import artifact_path as _ART
+# ---------------------------------------------------------------------------
 import sys, pickle
 import numpy as np, pandas as pd
 from sklearn.metrics import f1_score
@@ -43,9 +50,9 @@ def lut_eval(q, scale, ymin, x, L):
 
 def main():
     L = int(sys.argv[1]) if len(sys.argv) > 1 else 32
-    st = pickle.load(open("/tmp/mlcat_state.pkl", "rb"))
+    st = pickle.load(open(_ART("mlcat_state.pkl"), "rb"))
     C1, C2 = st["p"][0], st["p"][1]; tabs = st["p"][2:]
-    d = np.load("/tmp/kcat_data.npz", allow_pickle=True)
+    d = np.load(_ART("kcat_data.npz"), allow_pickle=True)
     Xte = (d["Xte"] / 3.5).astype(np.float32)
     ymte = d["ymte"]; CTte = d["CTte"]
     K, HID = C1.shape[0], C1.shape[1]; C = C2.shape[1]

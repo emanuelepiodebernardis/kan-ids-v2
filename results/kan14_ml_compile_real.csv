@@ -1,3 +1,3 @@
 quant,mem_bytes,mem_kb,f1,delta_f1,agreement_pct
-int16 full-integer,8960,8.75,0.9973,-0.0001,99.981
-int8 full-integer,5168,5.05,0.9974,0.0,99.979
+int16 full-integer,9088,8.88,0.9975,0.0,99.986
+int8 full-integer,5232,5.11,0.9974,-0.0,99.969

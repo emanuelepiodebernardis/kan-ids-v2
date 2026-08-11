@@ -3,6 +3,9 @@
 Spazio unificato 10 feature (stesso del modello deployato). Output:
 results/ablation_L_real.csv con f1_quant, agreement, memoria."""
 import sys, os, time
+from pathlib import Path as _P
+sys.path.insert(0, str(_P(__file__).resolve().parents[1]))
+from kanids.datasets import ton_iot_path
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
@@ -18,7 +21,7 @@ def main():
     from kan_chebyshev import ChebyshevKANBinary, chebyshev_basis
 
     CLIP = 3.5; EPOCHS = 250; t0 = time.time()
-    df = pd.read_csv("train_test_network.csv")
+    df = pd.read_csv(ton_iot_path(None))
     X = fe.build_unified_features_ton(df)[fe.UNIFIED_NUMERIC_FEATURES].to_numpy(np.float64)
     y = df["label"].astype(int).to_numpy()
     Xtr, Xte, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)

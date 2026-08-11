@@ -139,9 +139,9 @@ def main():
     import pandas as pd
     from sklearn.preprocessing import QuantileTransformer, LabelEncoder
     from sklearn.model_selection import train_test_split
-    from sklearn.feature_selection import mutual_info_classif
     from sklearn.metrics import f1_score
     from kan_chebyshev_multiclass import ChebyshevKANMulticlass
+    from kanids.preprocessing import rank_by_mi
 
     ap = argparse.ArgumentParser()
     ap.add_argument("--csv", default="train_test_network.csv")
@@ -170,9 +170,10 @@ def main():
     X = df[feats].apply(pd.to_numeric, errors="coerce").fillna(0).to_numpy(np.float64)
     le = LabelEncoder().fit(df["type"]); y = le.transform(df["type"]); C = len(le.classes_)
     mitm = list(le.classes_).index("mitm")
-    mi = mutual_info_classif(X, y, random_state=42)
-    order = np.argsort(mi)[::-1][:K]; feats_k = [feats[i] for i in order]; Xk = X[:, order]
-    Xtr, Xte, ytr, yte = train_test_split(Xk, y, test_size=0.2, random_state=42, stratify=y)
+    Xtr_all, Xte_all, ytr, yte = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+    mi = rank_by_mi(Xtr_all, ytr, seed=42, sample=None)
+    order = np.argsort(mi)[::-1][:K]; feats_k = [feats[i] for i in order]
+    Xtr, Xte = Xtr_all[:, order], Xte_all[:, order]
 
     # preprocessing log1p + quantile (fit su train)
     def prep(a, b):

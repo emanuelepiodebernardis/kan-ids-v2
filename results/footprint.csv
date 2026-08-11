@@ -1,0 +1,9 @@
+modello,byte_parametri,dettaglio,f1_cv,f1_std,kb
+DecisionTree(d=5),141,28 nodi interni + 29 foglie,0.9944,0.0004,0.14
+"KAN(cat,1L)",250,FULL-INTEGER int8 (results/kan14_compile_real.csv),0.9835,0.0007,0.24
+MLP(16),705,705 parametri int8,0.9964,0.0009,0.69
+KAN e2e integer (binario),822,"coeff int8 + LUT ln + affini, contatori grezzi -> decisione",,,0.8
+"KAN(cat,ML)",5232,int8 full-integer (results/kan14_ml_compile_real.csv),0.9976,0.0002,5.11
+KAN e2e integer (10 classi),13922,"soglie + coeff int8 due layer + cat + tanh LUT, grezzi -> argmax",,,13.6
+XGBoost,49905,"300 alberi, 9921 nodi interni + 10221 foglie",0.9989,0.0001,48.74
+LightGBM,60400,"400 alberi, 12000 nodi interni + 12400 foglie",0.9991,0.0001,58.98

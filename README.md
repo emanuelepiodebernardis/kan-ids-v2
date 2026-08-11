@@ -15,20 +15,81 @@ artifact in `results/`.
 
 ---
 
+> **Protocol v2.0 — status.** The pipeline has been rebuilt to be
+> **leakage-free end to end**: feature selection, categorical vocabularies and
+> normalisation are now fitted **inside each training fold only**
+> (`kanids/preprocessing.py`, enforced by `tests/test_leakage.py`).
+> In protocol v1 the mutual-information ranking that picks the 10 numeric
+> features was computed on a sample of the *whole* dataset before the split,
+> so feature selection could see test labels. The numbers in the table below
+> were produced under v1 and are **being regenerated under v2**; each one is
+> republished only once `reproduce.py --stage cv-binary` / `cv-multiclass`
+> has re-measured it with 5-fold × 3-seed cross-validation.
+> `results/feature_selection_stability_*.csv` reports how often each feature
+> survives per-fold selection, which bounds how much v1 and v2 can differ.
+
 ## Headline results
 
 | Model | Accuracy (TON_IoT, held-out) | Deployed size | Arithmetic |
 |---|---|---|---|
 | Binary, single-layer + categorical edges | **F1 = 0.9837 ± 0.0007** (5-fold × 3-seed CV) | **246 B** | integer-only (int8 / Q15) |
-| Binary, multi-layer (16 hidden) | **F1 = 0.9974**, ROC-AUC 0.9998 | **5.05 KB**, lossless (ΔF1 = 0.0000) | integer-only |
-| Multiclass, 10 attack classes | macro-F1 = 0.9409 (weighted 0.9809) | 8.3 KB (inference) / **11.1 KB end-to-end** | integer-only, raw counters → decision |
+| Binary, multi-layer (16 hidden) | **F1 = 0.9976 ± 0.0002** (5-fold × 3-seed CV) | **5.05 KB**, lossless (ΔF1 = 0.0000) | integer-only |
+| Multiclass, 10 attack classes | macro-F1 = **0.9374 ± 0.0036** (5-fold × 3-seed CV) | 8.3 KB (inference) / **13.6 KB end-to-end** | integer-only, raw counters → decision |
 | Symbolic form of the binary model | F1 = 0.9835 | a printable 10-term equation + 4 lookup tables | — |
 
 For reference, the strongest neural baseline of the original paper — an MLP
 via TensorFlow Lite Micro — reaches F1 = 0.9959 using **95 features and 13 KB**.
-The multi-layer KAN here surpasses it (0.9974) using **14 features and 5 KB**,
-and the 246-byte single-layer model outperforms tree ensembles cross-validated
-on the same deployable feature space (RF: 0.9819 ± 0.0006).
+The multi-layer KAN here surpasses it (0.9974) using **14 features and 5 KB**.
+
+> **Correction (protocol v2).** An earlier version of this table claimed that
+> the 246-byte single-layer model outperforms tree ensembles "on the same
+> deployable feature space". It does not. That comparison put the KAN on the
+> raw 14-feature space and the baselines on the *derived* 10-feature unified
+> space of the original paper — two different inputs. Re-run under v2 with
+> **identical inputs for every model** (`scripts/cv_leakagefree.py`, 5-fold ×
+> 3-seed), the binary ranking is:
+>
+> | Model | F1 | Precision | Recall | PR-AUC | FPR |
+> |---|---|---|---|---|---|
+> | LightGBM | **0.9991 ± 0.0001** | 0.9993 | 0.9990 | 1.0000 | 0.0023 |
+> | XGBoost | 0.9989 ± 0.0001 | 0.9987 | 0.9990 | 1.0000 | 0.0041 |
+> | **KAN multi-layer + categorical edges** | 0.9976 ± 0.0002 | 0.9988 | 0.9964 | 0.9999 | 0.0037 |
+> | MLP (16) | 0.9964 ± 0.0009 | 0.9973 | 0.9956 | 0.9998 | 0.0088 |
+> | Decision Tree (d=5) | 0.9944 ± 0.0004 | 0.9977 | 0.9913 | 0.9981 | 0.0075 |
+> | KAN single-layer + categorical edges | 0.9835 ± 0.0007 | 0.9934 | 0.9738 | 0.9985 | 0.0208 |
+>
+> Paired over the 15 identical folds (t-test / Wilcoxon):
+>
+> | Comparison | ΔF1 | Folds won | p (t-test) |
+> |---|---|---|---|
+> | multi-layer KAN − single-layer KAN | **+0.0141** | 15/15 | 2.4e−20 |
+> | multi-layer KAN − Decision Tree (d=5) | **+0.0031** | 15/15 | 3.9e−13 |
+> | multi-layer KAN − LightGBM | **−0.0015** | 0/15 | 3.7e−14 |
+> | single-layer KAN − Decision Tree (d=5) | **−0.0109** | 0/15 | 5.1e−18 |
+>
+> The KAN's own numbers reproduce (0.9835 vs 0.9837 previously reported;
+> 0.9721 vs 0.9720 without categorical edges; multi-layer 0.9976 ± 0.0002 vs
+> 0.9974 on a single split), so the *model* results stand — the *comparison*
+> did not.
+>
+> The mechanism is structural. The single-layer KAN is a **generalised additive
+> model**: a sum of univariate edge functions, unable by construction to
+> represent the feature interactions that trees exploit here. The multi-layer
+> KAN can, and recovers +0.0141 F1 — winning every one of the 15 folds — which
+> is direct evidence that the single-layer gap is about *interactions*, not
+> about capacity or optimisation.
+>
+> Two consequences for how this work should be framed:
+>
+> 1. **Against LightGBM the claim must be accuracy per byte, not accuracy.**
+>    The residual gap is 0.0015 F1 (LightGBM wins 15/15, so it is real, not
+>    noise), but 400 boosted trees do not fit an ATmega2560 at all, while the
+>    multi-layer KAN runs in 5 KB with integer-only arithmetic.
+> 2. **The depth-5 decision tree wins outright in-domain.** It beats the
+>    246-byte single-layer model by 0.0109 F1, 15/15 folds, *and* is smaller
+>    (141 B vs 250 B under identical accounting). The single-layer KAN is
+>    dominated on the in-domain Pareto front — see the size/accuracy section
+>    below for what survives and why the argument moves to cross-domain.
 
 ---
 
@@ -68,6 +129,57 @@ Uniform (unclamped) knots give a closed matrix form per segment, evaluated
 with **integer-only Horner (Q15)** — no floating point at inference.
 
 ### 4. End-to-end integer pipeline: raw counters → decision
+
+> **Status (protocol v2).** This is now implemented and verified **in C**, not
+> only simulated in Python. `scripts/export_e2e_int_c.py` emits
+> `mcu_pio/include/kan_e2e_int.h` (integer tables + 200 golden vectors) and
+> `mcu_pio/host_check/run_e2e_check.cpp` runs the whole chain — raw counters →
+> integer features → affine segment map → int8 spline kernel → decision — in
+> pure integer arithmetic. Result: **200/200 logits bit-identical** to the
+> Python reference (`kanids/integer.py`), decisions identical, ~822 B of tables.
+> Compiling the inference path and inspecting the assembly shows **zero
+> floating-point instructions**; two tests fail the build if a `float` or
+> `double` ever reappears in the header or the kernel.
+>
+> Two things were found while doing this. The scale multiplier of the
+> highest-scale feature quantises to exactly 32768, which **overflows `int16_t`
+> silently** — it is now `int32_t` (+20 B). And Python's integer division
+> floors while C truncates toward zero: the two asymmetry features have signed
+> numerators, so the C code implements floor division explicitly. Either bug
+> would have appeared only on the device.
+>
+> **The 10-class chain is now in C as well.** `scripts/export_mc_e2e_int_c.py`
+> emits `mcu_pio/include/kan_mc_e2e_int.h` and
+> `mcu_pio/host_check/run_mc_e2e_check.cpp` runs raw counters → binary search
+> over per-feature threshold tables → z in Q12 → layer-1 int8 splines +
+> categorical tables → tanh LUT → layer-2 int8 splines → argmax, all in
+> integers. Result: **200/200 golden vectors with all ten accumulators
+> bit-identical** to the Python reference, argmax identical, macro-F1 0.9352
+> against 0.9378 for the float pipeline (99.42 % argmax agreement), 13.6 KB of
+> tables.
+>
+> The same failure mode appeared a second time here: `round(tanh(x)·32768)`
+> reaches exactly 32768 at the edges of the domain, overflowing `int16`. It is
+> now saturated to 32767 **in the Python reference too** — saturating only on
+> the device would have made reference and firmware differ by 1 LSB precisely
+> on the saturated values. Q15 quantisation landing exactly on 2^15 is worth
+> checking wherever it appears.
+>
+> Threshold tables are stored as `int64`: on TON_IoT `src_bytes` and
+> `dst_bytes` reach 3.9·10⁹, past the `int32` limit. It is the byte counters
+> that force 64 bits, not the duration.
+>
+> The earlier end-to-end path in `mcu_e2e/` is **superseded**: it interpolated
+> 10,000 `QuantileTransformer` knots in **double precision**, so it was
+> end-to-end in structure but not integer-only in the runtime. Kept for
+> reference only.
+>
+> *On "no floating point":* the check is on the compiled assembly of the
+> inference path (`tools/check_no_float.sh`), and it excludes FP **arithmetic**
+> and int↔float conversions. The compiler does emit `pxor`/`movups` to zero the
+> integer accumulator arrays in bulk; those are SIMD data moves, not FPU
+> operations, and do not imply a floating-point unit on the target.
+
 Everything between the packet counters and the decision is integer:
 logarithms via a 512 B LUT (using the identity `log1p(a/b) = ln(a+b) − ln(b)`),
 integer divisions for asymmetry ratios, and the z-score/clip normalisation
@@ -82,17 +194,21 @@ in ~11.1 KB total.
 ### 5. Conformal prediction in under 1 KB
 Split-conformal calibration (marginal and per-class/Mondrian) is applied
 **to the deployed integer model**, so the coverage guarantee holds for what
-actually runs on the MCU. Measured coverage: 99.07 / 95.09 / 89.93 % at
-targets 99 / 95 / 90 %; 93 % of predictions are decisive singletons at
-α = 0.01. On-device cost: **two float thresholds**. Uncertain flows
+actually runs on the MCU. Measured coverage under protocol v2:
+**99.05 / 94.90 / 90.23 %** at targets 99 / 95 / 90 % (v1 reported
+99.07 / 95.09 / 89.93 — unchanged within noise); 93.9 % of predictions are
+decisive singletons at α = 0.01. On-device cost: **two float thresholds**. Uncertain flows
 (two-class sets) can be escalated to a gateway — triage with a statistically
 controlled error rate.
 
 ### 6. The IDS as one readable equation
 Each learned edge is fitted with elementary primitives (sin, tanh, gaussian,
 polynomials — weighted by the data density). The result is a 10-term printable
-formula plus four small category tables, reaching **F1 0.9835 — slightly above
-the network itself** (the smooth primitives act as a regulariser). See
+formula plus four small category tables, reaching **F1 0.9830** against 0.9831
+for the network it approximates, with 98.47 % agreement — statistically
+indistinguishable, not above it. (Protocol v1 measured 0.9835 vs 0.9832 and the
+README claimed the symbolic form was *better*; re-measured under v2 the two are
+simply equivalent, which is the honest and still useful claim.) See
 `results/kan14_symbolic_real.txt`.
 
 ### 7. Rigour
@@ -112,12 +228,13 @@ measured on the full dataset, with artifacts in `results/`:
 | Experiment | Result | What it settles |
 |---|---|---|
 | **B-spline as *training* basis** (`basis_comparison_unified_real.csv`) | F1 0.9383 vs 0.9672 for Chebyshev at equal parameter count (0.9279 with class-weighted loss — the gap is structural, not a loss artifact) | Why training uses Chebyshev, even though B-splines quantise 10× more faithfully — motivating the hybrid train/deploy split |
-| **Re-fit → sampled LUT** (`hybrid_compile_real.csv`) | Statistically identical to direct LUT at every resolution L (e.g. 94.54% vs 94.58% agreement at L=8) | Why the hybrid gain lives in *coefficient storage*, not in smoothing the LUT: uniform-grid sampling is the bottleneck, and re-fitting cannot remove it |
-| **Doubling capacity (32 hidden units)** (`ml_binary_real.csv`) | Plateau at F1 0.9778, below the 16-hidden result (0.9784), at 2× the parameters | Why the deployed multi-layer uses 16 hidden units; the bottleneck is input information, not model capacity |
-| **More numeric features (k = 12–16)** (`feature_curve_real.csv`) | F1 flat or slightly worse beyond k = 10, on both tasks | Why the feature space stops at 10 numeric features: additional ones add noise, not signal |
-| **Lower layer-2 degree (4 vs 8)** (`kan_ml_cat_deg4_real.csv`) | macro-F1 0.9374 vs 0.9409; LUT/coefficient memory does not depend on degree | Why degree 8 is kept: the cheaper variant saves nothing where it matters |
-| **Focal loss (γ = 2) for the rare MITM class** (`kan_ml_cat_focal_real.csv`) | macro-F1 0.9401 vs 0.9409; MITM F1 0.572 vs 0.571 | The MITM weakness is not a loss-design problem |
-| **SMOTENC oversampling (10× MITM)** (`kan_ml_cat_smote_real.csv`) | macro-F1 0.9377; MITM F1 0.541 (worse than baseline) | Synthetic interpolation adds no real information. Together with focal loss and class weighting, three independent remedies fail: the MITM ceiling is **information-limited**, not methodological |
+| **Re-fit → sampled LUT** (`protocol_v1/hybrid_compile_real.csv`) | Statistically identical to direct LUT at every resolution L (e.g. 94.54% vs 94.58% agreement at L=8) | Why the hybrid gain lives in *coefficient storage*, not in smoothing the LUT: uniform-grid sampling is the bottleneck, and re-fitting cannot remove it |
+| **Doubling capacity (32 hidden units)** (`protocol_v1/ml_binary_real.csv`) | Plateau at F1 0.9778, below the 16-hidden result (0.9784), at 2× the parameters | Why the deployed multi-layer uses 16 hidden units; the bottleneck is input information, not model capacity |
+| **More numeric features (k = 12–16)** (`protocol_v1/feature_curve_real.csv`) | F1 flat or slightly worse beyond k = 10, on both tasks | Why the feature space stops at 10 numeric features: additional ones add noise, not signal |
+| **Lower layer-2 degree (4 vs 8)** (`protocol_v1/kan_ml_cat_deg4_real.csv`) | macro-F1 0.9374 vs 0.9409; LUT/coefficient memory does not depend on degree | Why degree 8 is kept: the cheaper variant saves nothing where it matters |
+| **Focal loss (γ = 2) for the rare MITM class** (`protocol_v1/kan_ml_cat_focal_real.csv`) | macro-F1 0.9401 vs 0.9409; MITM F1 0.572 vs 0.571 | The MITM weakness is not a loss-design problem — **measured under protocol v1, not yet re-run under v2** |
+| **SMOTENC oversampling (10× MITM)** (`protocol_v1/kan_ml_cat_smote_real.csv`) | macro-F1 0.9377; MITM F1 0.541 (worse than baseline) | Synthetic interpolation adds no real information — **protocol v1, not yet re-run under v2** |
+| **MITM under every model** (`cv_leakagefree_summary_multiclass_real.csv`, v2) | LightGBM 0.767, XGBoost 0.761, MLP 0.386, KAN 0.270, Decision Tree 0.151 — every other class above 0.88 | **Independent v2 evidence for the same conclusion**: since even the most capable model stops at 0.77, the MITM ceiling is set by the information in the feature space, not by the architecture or the loss |
 | **Analytical replication of sklearn's quantile-normal transform in integer arithmetic** | Two attempts (single-sided and two-sided quantile interpolation) left errors up to 0.8σ on discrete-mass features and broke the multiclass pipeline | Why the integer preprocessing uses **empirical per-feature threshold tables sampled offline from the fitted transformer** — exact on discrete masses by construction, 3 KB total |
 
 Two further checks worth knowing about: the accelerated training path used
@@ -130,6 +247,18 @@ the focal-loss gradient was verified against numerical differentiation
 
 ```
 kan-ids/
+├── reproduce.py            single entry point: `python reproduce.py --list`
+├── kanids/                 leakage-free core — the only place that learns from data
+│   ├── config.py                   paths, seeds, feature space (single source of truth)
+│   ├── preprocessing.py            fit-on-train feature selection + encoding + scaling
+│   ├── splits.py                   5-fold × 3-seed protocol, shared by every model
+│   ├── models.py                   KAN with categorical edges + baselines, one interface
+│   ├── metrics.py                  F1/PR-AUC/confusion matrices, mean ± std aggregation
+│   ├── datasets.py                 TON_IoT loader + synthetic generator for smoke tests
+│   └── cache.py                    artifact cache with automatic invalidation
+├── tests/                  leakage and reproducibility tests (pytest)
+├── tools/                  maintenance scripts (e.g. /tmp → artifacts/ migration)
+├── artifacts/              intermediate caches — regenerated, gitignored, never /tmp
 ├── src/                    KAN model implementations (NumPy)
 │   ├── kan_chebyshev.py            single-layer Chebyshev KAN (binary)
 │   ├── kan_chebyshev_multiclass.py softmax multiclass variant
@@ -138,7 +267,8 @@ kan-ids/
 │   └── quantization_export.py, embedded_model_io.py, fixed_point_quantile.py
 ├── preprocessing/          unified 10-feature engineering (from the paper)
 ├── scripts/                every experiment, one script each (see index below)
-├── results/                43 CSV/TXT artifacts backing every number above
+├── results/                artefatti CSV/TXT che sostengono ogni numero sopra
+│   └── protocol_v1/              risultati pre-correzione, conservati e marcati
 ├── mcu_pio/                PlatformIO firmware (Arduino Mega 2560 + ESP32-C3)
 │   ├── src/main.cpp              variant 1–2: sampled-LUT inference benchmark
 │   ├── src/main_coeff.cpp        variant 3: spline-coefficient full-integer
@@ -186,43 +316,277 @@ pip install xgboost lightgbm imbalanced-learn   # optional: baselines, SMOTENC
 git clone https://github.com/KuznetsovKarazin/lut-kan.git   # OPTIONAL: legacy LUT export scripts only
 ```
 
-**Pre-trained models.** `models/` ships the trained weights (`.npz`) of the
-three headline models plus the feature-space metadata, and `mcu_pio/include/`
-ships their C headers — you can compile, verify (host checks below) and flash
-**without the dataset and without retraining**. The dataset is only needed to
-reproduce training and the evaluation tables.
+**Pre-trained models.** `models/` holds the versioned training checkpoints of
+the headline models plus `feature_space.npz` and a `MANIFEST.json` recording
+the protocol version, the seeds, the selected feature space and the measured
+metrics (`scripts/export_models.py` regenerates it). The **deployable**
+artifacts are the C headers in `mcu_pio/include/`, and those are what make the
+next sentence true: you can compile and verify every host check **without the
+dataset and without retraining**. The dataset is only needed to reproduce
+training and the evaluation tables.
+
+`artifacts/` and `models/` are not the same thing: `artifacts/` is regenerable
+cache, gitignored, wiped by `reproduce.py --stage clean`; `models/` is
+versioned. The multiclass multi-layer checkpoint is not committed (it is a
+25 MB optimiser state); `MANIFEST.json` names the script that regenerates it.
 
 **Dataset.** Download `train_test_network.csv` (TON_IoT, UNSW Canberra —
 see `data/README.md`) and place it in the repository root. It is not
 redistributed here.
 
-**Reproduce the headline numbers:**
+**Reproduce:**
 
 ```bash
-# 1. Binary 14-feature model (also builds the shared data cache)
-python scripts/kan14_binary.py                    # F1 0.971 -> 0.983 with cat edges
+# 1. smoke test — no download needed, ~1 minute
+#    runs the whole chain on synthetic data with the TON_IoT schema
+#    and executes the leakage / reproducibility test suite
+python reproduce.py --stage smoke
 
-# 2. Its compilations (float / int16 / int8 / full-integer)
-python scripts/kan14_compile.py                   # 246 B full-integer
+# 2. the real experiments (needs data/train_test_network.csv)
+python reproduce.py --list          # what each stage does
+python reproduce.py --stage cv-binary        # 5-fold × 3-seed, KAN + all baselines
+python reproduce.py --stage cv-multiclass
+python reproduce.py --stage all              # everything, in dependency order
 
-# 3. Multi-layer binary (checkpointed - rerun until DONE)
-python scripts/kan14_ml_binary.py 300             # F1 0.9974
-python scripts/kan14_ml_compile.py                # 5.05 KB lossless
-
-# 4. Cross-validation (checkpointed)
-python scripts/kan14_cv_driver.py 300             # 0.9837 +/- 0.0007
-
-# 5. Conformal + symbolic
-python scripts/kan14_conformal_symbolic.py
-
-# 6. Multiclass with categorical edges (checkpointed) + end-to-end integer
-python scripts/kan_categorical_mc.py 300
-python scripts/kan_ml_cat_mc.py 300
-python scripts/kan14_mc_e2e_int.py                # 11.1 KB, raw counters -> 10 classes
+python reproduce.py --stage clean            # wipe artifacts/ and start over
 ```
 
-Intermediate caches and training checkpoints are written to `/tmp`
-(Linux/macOS; on Windows use WSL).
+Every run prints the seeds, the library versions and the validation protocol
+before doing anything, so an experiment log contains all that is needed to
+repeat it. Individual scripts remain runnable on their own:
+
+```bash
+python scripts/cv_leakagefree.py --task binary --models KAN,LightGBM
+python scripts/kan14_compile.py                   # 246 B full-integer
+python scripts/kan14_mc_e2e_int.py                # raw counters → 10 classes
+```
+
+Intermediate caches and training checkpoints are written to `artifacts/`
+inside the repository (override with `KANIDS_ARTIFACTS`). Nothing is written
+to `/tmp`, so a clean clone behaves identically on Linux, macOS and Windows,
+and a cache produced by an older pipeline version is detected and rebuilt
+instead of being silently reused.
+
+---
+
+## Experimental protocol
+
+One protocol for every model, so that the comparison table is a comparison
+and not a collection of differently-measured numbers.
+
+| Item | Choice | Why |
+|---|---|---|
+| Validation | `StratifiedKFold(5, shuffle=True)` repeated over **seeds 42, 43, 44** → 15 fits per model, reported as mean ± std | A single split cannot separate a real gap from fold noise; 3 seeds expose seed sensitivity |
+| Stratification | always on the **10-class** label, even for the binary task | Binary and multiclass models then see byte-identical folds, and the rare MITM class is present in every fold |
+| Feature selection | mutual information, computed **inside each training fold** | In v1 this ran once on a sample of the whole dataset — test labels leaked into the choice of features |
+| Categorical encoding | vocabulary built from the **training fold**; index 0 reserved for unseen categories (UNK) | Fixes the v1 leak (vocabulary built on train+test) and makes the categorical edge a *total* function — required for cross-domain, where the target dataset has protocol/state values absent from the source |
+| Numeric scaling | `log1p` on skewed features → `QuantileTransformer(normal)` → clip to ±3.5, **fitted on the training fold** | Unchanged from v1, which was already correct; now explicit and covered by tests |
+| Held-out | 20 % stratified, never touched during selection or tuning | Only used for the final reported number |
+
+Seeds live in `kanids/config.py` (`SEEDS = (42, 43, 44)`) and are printed by
+every run. `kanids.set_global_seed()` fixes `random`, `numpy` and `torch`.
+
+### How leakage-freedom is enforced
+
+`kanids/preprocessing.py` has exactly one rule: `fit()` sees only the training
+split, `transform()` never receives `y`. Four tests hold it in place:
+
+| Test | What it would catch |
+|---|---|
+| `test_transform_is_row_independent` | any statistic recomputed inside `transform` (a re-fitted scaler, a rebuilt vocabulary) |
+| `test_fit_depends_only_on_training_rows` | corrupting the test rows must not change the fitted preprocessor at all |
+| `test_permuted_labels_give_chance_performance` | reproduces the v1 defect: with random labels, pre-split selection scores **AUC 0.521 ± 0.033**, per-fold selection stays at **0.499 ± 0.027** |
+| `test_unseen_category_maps_to_unk` | an unseen category must land in the UNK slot, in range for the on-device table lookup |
+
+`tests/test_reproducibility.py` additionally fails the build on any hard-coded
+`/tmp` path, any absolute user path, unpinned requirements, or a missing
+`reproduce.py` stage — the properties of point 6 are checked, not just claimed.
+
+The measured effect of the v1 leak on a *real* dataset is expected to be small
+(the ranking is stable: see `results/feature_selection_stability_*.csv`), but
+"small" is a measurement, not an assumption, and the protocol has to be
+defensible independently of how large the effect turns out to be.
+
+---
+
+## Multiclass (10 attack classes), 5-fold × 3 seed
+
+Same protocol, same feature space, same folds as the binary task.
+
+| Model | Macro-F1 | Weighted-F1 | Macro-P | Macro-R | PR-AUC | F1 MITM |
+|---|---|---|---|---|---|---|
+| LightGBM | **0.9680 ± 0.0021** | 0.9903 | 0.9589 | 0.9807 | 0.9850 | 0.767 |
+| XGBoost | 0.9666 ± 0.0021 | 0.9893 | 0.9608 | 0.9737 | 0.9834 | 0.761 |
+| **KAN multi-layer + cat** | **0.9374 ± 0.0036** | 0.9803 | 0.9246 | 0.9738 | 0.9629 | 0.541 |
+| MLP (16) | 0.9182 ± 0.0107 | 0.9758 | 0.9253 | 0.9151 | 0.9373 | 0.386 |
+| KAN single-layer + cat | 0.8767 ± 0.0014 | 0.9424 | 0.8759 | 0.9295 | 0.9106 | 0.270 |
+| Decision Tree (d=5) | 0.7633 ± 0.0033 | 0.8245 | 0.7829 | 0.7864 | 0.7351 | 0.151 |
+
+Paired over the 15 identical folds:
+
+| Comparison | Δ Macro-F1 | Folds won | p |
+|---|---|---|---|
+| multi-layer − single-layer | **+0.0608** | 15/15 | 1.6e−19 |
+| multi-layer − Decision Tree (d=5) | **+0.1741** | 15/15 | 5.0e−23 |
+| multi-layer − MLP (16) | **+0.0192** | 14/15 | 1.1e−05 |
+| multi-layer − LightGBM | **−0.0306** | 0/15 | 5.8e−15 |
+
+Two things the 10-class task shows that the binary one hides:
+
+1. **Depth matters four times more here.** The multi-layer KAN gains +0.0608 macro-F1
+   over the single-layer, against +0.0141 F1 on the binary task. Separating attack
+   *families* needs feature interactions far more than separating attack from normal
+   does — which is the same structural argument, with a much larger effect size.
+2. **The depth-5 tree collapses.** It was the smallest and most accurate model on the
+   binary task (141 B, F1 0.9944); here it is last by a wide margin, 0.1741 macro-F1
+   below the multi-layer KAN. Its in-domain dominance was specific to the binary
+   problem and does not survive the harder task.
+
+**MITM is the ceiling for everyone.** With 1,043 flows (0.49 %), every model bottoms
+out on it — LightGBM 0.767, KAN multi-layer 0.541, MLP 0.386, KAN single-layer 0.270,
+Decision Tree 0.151 — while every other class is above 0.88. Since even the strongest
+model stops at 0.77, the limit is the information available in this feature space, not
+the architecture or the loss. The multi-layer KAN doubles the single-layer's MITM F1
+(0.541 vs 0.270), which is where most of its macro-F1 advantage comes from.
+
+---
+
+## Size/accuracy Pareto: what the 246-byte claim actually buys
+
+Counting every model with the **same rule** — bytes of stored parameters in a
+table-driven representation (`scripts/footprint.py`) — settles the comparison
+the earlier claim left open:
+
+| Model | Bytes | F1 (TON_IoT, 5×3 CV) | Bal. acc. TON→BoT | Structure |
+|---|---|---|---|---|
+| **Decision Tree (d=5)** | **141** | **0.9944 ± 0.0004** | 0.5466 | 28 internal nodes + 29 leaves |
+| KAN single-layer + cat | 250 | 0.9835 ± 0.0007 | **0.5632** | int8 spline coeffs + 4 tables |
+| MLP (16) | 705 | 0.9964 ± 0.0009 | 0.4703 | 705 int8 parameters |
+| KAN e2e integer (binary) | 822 | — | — | raw counters → decision, all tables |
+| **KAN multi-layer + cat** | **5,232** | **0.9976 ± 0.0002** | — | int8, two spline layers |
+| XGBoost | 49,905 | 0.9989 ± 0.0001 | 0.5597 | 300 trees, 9,921 nodes |
+| LightGBM | 60,400 | 0.9991 ± 0.0001 | 0.4815 | 400 trees, 12,000 nodes |
+
+**In-domain, the single-layer KAN is dominated.** A depth-5 decision tree is
+both *smaller* (141 B vs 250 B) and *more accurate* (0.9944 vs 0.9835). It is
+also monotone-invariant, so it needs no preprocessing at all, while the KAN's
+end-to-end integer chain costs 822 B including its tables. "Accuracy per byte"
+is therefore **not** a defensible argument for the single-layer model on
+TON_IoT, and the repository no longer makes it.
+
+Three things do survive, and they are what the line of work should be built on:
+
+1. **The multi-layer KAN sits on the frontier.** 5.2 KB and F1 0.9976, against
+   the original paper's TensorFlow Lite Micro MLP at 13 KB and 0.9959 using 95
+   features — smaller, more accurate, and 14 features instead of 95.
+2. **Cross-domain the ranking inverts.** The single-layer KAN is the *best*
+   transferring model (0.5632 balanced accuracy TON→BoT) while the depth-5 tree
+   falls to 0.5466 and is the worst of all in the BoT→TON direction (0.4651);
+   LightGBM, first in-domain, is last cross-domain. Under domain shift the
+   additive model degrades most gracefully — that, not size, is where the
+   architecture earns its place.
+3. **The KAN offers what a tree does not**: split-conformal calibration applied
+   to the deployed integer model, a closed symbolic form, and — because the
+   whole model is rewritable lookup tables — the possibility of on-device
+   recalibration, which is precisely the follow-up the cross-domain collapse
+   motivates.
+
+![Pareto](figures/fig_pareto_size_accuracy.png)
+
+Not measured here: **code size and latency**, which depend on toolchain and
+target and require the physical benchmark on the Mega 2560 and ESP32-C3.
+`scripts/footprint.py` produces the size axis only.
+
+---
+
+## Cross-domain: TON_IoT ↔ BoT-IoT
+
+Binary task (normal vs attack) on a **harmonised 13-feature space** built with
+the *same formula* on both datasets (`kanids/harmonized.py`): flow duration,
+IP-level bytes and packets per direction, their totals, asymmetries, mean
+payloads and rates, plus protocol and connection state mapped into a common
+semantic alphabet. Ports and addresses are excluded — they are testbed
+identifiers — as are BoT-IoT's windowed aggregates, which have no TON_IoT
+counterpart and assume global state an MCU does not keep.
+
+In the cross-domain runs the target domain is used **only** for evaluation:
+feature selection, quantiles, categorical vocabularies and thresholds are all
+fitted on the source. Unseen target categories fall into the UNK slot, whose
+rate is reported.
+
+**Metric note.** BoT-IoT is 99.987 % attack. Under that prior PR-AUC on the
+positive class is ~1 by construction and says nothing: the TON→BoT runs show
+PR-AUC 0.9999 while the models are at chance. The honest metrics are the two
+per-class recalls and their mean (balanced accuracy), reported below.
+
+### Balanced accuracy (mean of the two per-class recalls; 0.50 = chance)
+
+| Model | TON in-domain | TON→BoT | δ | BoT in-domain | BoT→TON | δ |
+|---|---|---|---|---|---|---|
+| **KAN multi-layer** | 0.9933 | **0.4026** | **0.591** | 0.9979 | 0.6581 | 0.340 |
+| MLP (16) | 0.9885 | 0.4703 | 0.518 | 0.9460 | 0.7343 | 0.212 |
+| LightGBM | 0.9962 | 0.4815 | 0.515 | 0.9966 | 0.7171 | 0.280 |
+| XGBoost | 0.9948 | 0.5597 | 0.435 | 0.9769 | 0.6508 | 0.326 |
+| Decision Tree (d=5) | 0.9828 | 0.5466 | 0.436 | 0.9953 | 0.4651 | **0.530** |
+| **KAN single-layer** | 0.9700 | **0.5632** | **0.407** | 0.9935 | 0.5989 | 0.395 |
+
+All four experiments now use the full protocol: 15 fits for the two in-domain
+directions, 3 seeds for the two cross directions (where the target is consumed
+whole and there are no folds by construction).
+
+Three things worth stating plainly:
+
+1. **The collapse is near-total, not a degradation.** TON→BoT leaves every
+   model between 0.47 and 0.56 balanced accuracy — at or barely above chance.
+   This is an order of magnitude worse than the δ ≤ 5.95 points quantified in
+   the original paper, and it says the in-domain numbers of *any* of these
+   models describe the testbed, not intrusion detection.
+2. **The best in-domain model degrades the worst — and the effect is visible
+   *inside* one architecture family.** Adding depth to the KAN buys +0.0141 F1
+   in-domain on the binary task and +0.0608 macro-F1 on the 10-class task, and
+   costs it the transfer entirely: the multi-layer KAN falls to **0.4026
+   balanced accuracy, below chance**, the worst of every model tested, while
+   the single-layer — the weakest in-domain — is the best cross-domain at
+   0.5632 and loses the least (δ = 0.407). Since the two share the feature
+   space, the preprocessing, the folds and the training loop, and differ only
+   by one hidden layer, this is a controlled measurement of a
+   capacity/transferability trade-off, not a comparison across families.
+   LightGBM shows the same pattern from the top (0.9962 → 0.4815).
+3. **BoT→TON is unstable, not just degraded.** Trained on 477 normal flows,
+   the single-layer KAN scores 0.50 / 0.72 / 0.26 F1 across three seeds. The
+   normal class is effectively undetermined by the available data.
+
+### Why it degrades
+
+The marginals barely overlap. Per-feature histogram overlap between the two
+domains (0 = disjoint, 1 = identical), `results/crossdomain_shift.csv`:
+
+| Feature | median TON | median BoT | overlap |
+|---|---|---|---|
+| byte_rate | 544 217.7 | 32.4 | **0.085** |
+| duration | 0.000 | 15.509 | **0.106** |
+| bytes_total | 172 | 600 | 0.153 |
+| pkt_asymmetry | 0.000 | 0.857 | 0.162 |
+| flow_rate | 7 978.7 | 0.404 | 0.178 |
+
+TON_IoT flows are short and bidirectional; BoT-IoT's 5 % subset is dominated by
+long unidirectional UDP floods (`pkts_dst` median 0, `byte_asymmetry` 0.998).
+The connection state confirms it: BoT-IoT is 78 % `incomplete` + 21 % `reset`,
+TON_IoT spreads across all six states. 21.3 % of TON_IoT rows carry a state
+never seen when training on BoT-IoT; in the other direction the rate is ~0.
+
+The harmonised categorical edges are what keeps the transfer above chance:
+removing them costs 0.08–0.16 balanced accuracy cross-domain
+(`results/crossdomain_table.csv`, variant `nocat`), confirming that the
+semantic state mapping carries real transferable information.
+
+Reproduce with:
+
+```bash
+python scripts/cross_domain.py --exp all          # 4 experiments
+python scripts/cross_domain.py --exp all --no-cat # numeric-only ablation
+python scripts/crossdomain_report.py              # tables + shift analysis
+```
 
 ---
 
@@ -270,7 +634,7 @@ Every claim maps to an artifact in `results/` (`*_real.csv` = full-dataset
 runs). Highlights: `kan14_cv_summary_real.csv` (CV), `kan14_compile_real.csv`
 and `kan14_ml_compile_real.csv` (compilations), `kan14_mc_e2e_int_real.csv`
 (end-to-end multiclass), `kan14_conformal_real.csv`,
-`kan14_symbolic_real.txt`, `ablation_L_real.csv`, `feature_curve_real.csv`,
+`kan14_symbolic_real.txt`, `ablation_L_real.csv`, `protocol_v1/feature_curve_real.csv`,
 `quant_basis_comparison_real.csv`, `cv_multiseed_summary_real.csv`
 (unified-10 baseline space).
 
