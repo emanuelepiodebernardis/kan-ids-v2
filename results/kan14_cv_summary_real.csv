@@ -1,3 +1,0 @@
-variante,f1_mean,f1_std,auc_mean,auc_std
-num10,0.972,0.0008,0.9927,0.0005
-num10+cat4,0.9837,0.0007,0.9957,0.0003

@@ -1,8 +1,0 @@
-model,macro_f1,note
-Random Forest,0.968,top-10 grezze
-LightGBM,0.965,top-10 grezze
-XGBoost,0.965,top-10 grezze
-KAN multi-layer,0.922,top-10 + log1p+quantile
-KAN single-layer,0.858,top-10 + log1p+quantile
-Decision Tree,0.793,top-10 grezze
-Logistic Regression,0.214,top-10 + log1p+quantile

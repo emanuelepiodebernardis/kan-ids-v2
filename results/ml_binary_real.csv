@@ -1,3 +1,0 @@
-arch,epochs,f1,roc_auc,parametri,nota
-10-16-1 deg8,300,0.9784,0.9815,1584,run completa
-10-32-1 deg8,153,0.9778,,3168,"early stop: plateau da ep 125, nessun guadagno vs h16"
