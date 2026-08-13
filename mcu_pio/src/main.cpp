@@ -76,6 +76,10 @@ static int freeMemory() {
       : (int)(&top - __brkval);
 }
 static long freeRamBytes() { return (long)freeMemory(); }
+#elif defined(HOST_CHECK)
+/* verifica offline: nessuna nozione di heap, si riporta -1 come le altre
+   varianti, cosi' anche questo firmware si compila senza toolchain MCU */
+static long freeRamBytes() { return -1L; }
 #else
 /* ESP32: heap libero riportato dall'IDF */
 static long freeRamBytes() { return (long)esp_get_free_heap_size(); }

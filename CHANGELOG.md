@@ -87,7 +87,7 @@ Difetti emersi dal porting, tutti invisibili in Python:
   su dati sintetici in ~20 s **senza scaricare nulla**.
 * `models/` versionata con `MANIFEST.json` (protocollo, seed, spazio di
   feature, metriche); `artifacts/` è cache cancellabile.
-* **22 test** impediscono la ricomparsa dei difetti: percorsi `/tmp`, percorsi
+* **30 test** impediscono la ricomparsa dei difetti: percorsi `/tmp`, percorsi
   assoluti, dipendenze non vincolate, selezione feature fuori da `kanids`,
   virgola mobile negli header integer, risultati v1 mescolati ai correnti.
 * I risultati prodotti prima della correzione sono in `results/protocol_v1/`
@@ -133,15 +133,50 @@ cio' che gira sulla board, non una copia che puo' divergere.
   vuoto: prima `requirements.txt` citava un lock che non esisteva.
 * `tools/audit_richieste.py` (`reproduce.py --stage audit`) verifica
   meccanicamente i sei punti della revisione e stampa, requisito per
-  requisito, l'evidenza che lo sostiene. **22 su 23**; l'unico non fatto e'
+  requisito, l'evidenza che lo sostiene. **26 su 27**; l'unico non fatto e'
   CIC-IoT-2023, indicato come obiettivo secondario.
 
-La suite e' passata da 22 a **25 test**.
+La suite e' passata da 22 a **30 test**, e l'audit da 23 a **27 controlli**.
+
+### 10. Ogni modello e' esportato in C e flashabile
+
+Prima alcuni modelli esistevano come header ma senza un `main` che li usasse:
+esportati sulla carta, non testabili fisicamente. Ora sono **sette su sette**,
+ognuno con il suo environment PlatformIO, verificato da un test che fallisce se
+qualcuno aggiunge un header senza il firmware corrispondente.
+
+Fra questi il **Decision Tree profondo 5** (`main_dt5.cpp`), che non era mai
+stato esportato pur essendo il modello che **domina** la KAN da 250 byte sulla
+frontiera in-domain. Senza, l'obiezione piu' seria al lavoro non sarebbe stata
+chiudibile su hardware. L'export ha gia' prodotto un risultato: quantizzare le
+soglie a Q7 per il dispositivo costa all'albero **0,0028 di F1**
+(0,9944 -> 0,9916, agreement 99,55%), e il divario con la KAN compilata scende
+da 0,0109 a **0,0081**. La KAN paga la quantizzazione meno dell'albero, ed e'
+un argomento che prima non avevamo perche' confrontavamo un albero float con
+una KAN gia' quantizzata.
+
+Aggiunto anche il firmware per la catena end-to-end a 10 classi
+(`main_mc_e2e.cpp`), che esisteva solo come verifica offline.
+
+### 11. Coerenza degli artefatti deployati
+
+L'export in C del modello multiclass era rimasto al **protocollo v1**: tabelle
+categoriche con 28 righe (3+9+13+3), senza slot UNK, contro le 32 (4+10+14+4)
+del protocollo attuale. Il firmware girava quindi su un modello incompatibile
+con il preprocessing v2 — senza errori visibili, perche' modello e vettori di
+test erano coerenti fra loro. Rigenerato, e un test ora vieta la presenza di
+qualunque header con tabelle a 28 righe.
+
+Corretto anche `main.cpp`, che era l'unico firmware non compilabile su host e
+quindi l'unico che nessuno poteva verificare prima di flasharlo. Un test ora
+compila tutti e sette i firmware a ogni esecuzione della suite.
 
 ### Cosa resta aperto
 
 * Benchmark fisici su Mega 2560 ed ESP32-C3: latenza, SRAM, energia, code size.
-  `results/latency_benchmark.csv` contiene le misure del paper precedente.
+  Tutti i firmware necessari esistono e sono compilabili; manca l'esecuzione
+  sulle board. `results/latency_benchmark.csv` contiene le misure del paper
+  precedente, relative alle varianti v1.
 * Larghezza nascosta, grado e clip non sono stati riselezionati dentro il
   ciclo: restano ereditati dalla fase precedente. L'effetto complessivo
   dell'esposizione ai dati e' pero' misurato ed e' sotto il millesimo di F1,

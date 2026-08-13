@@ -239,3 +239,56 @@ def test_e2e_kernel_is_shared_between_firmware_and_host_check():
         "il kernel condiviso contiene tipi in virgola mobile"
     hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text()
     assert "kan_e2e_infer.h" in hc, "l'host check non usa il kernel condiviso"
+
+
+def test_every_firmware_compiles_without_mcu_toolchain():
+    """Ogni firmware deve essere compilabile su host per la verifica offline.
+
+    Serve a poterlo controllare senza board: se un main non ha il ramo
+    HOST_CHECK, resta l'unico che nessuno puo' verificare prima di flashare.
+    """
+    import shutil, subprocess, tempfile
+    if not shutil.which("g++"):
+        pytest.skip("g++ non disponibile")
+    mp = REPO / "mcu_pio"
+    with tempfile.TemporaryDirectory() as d:
+        stub = Path(d) / "m.cpp"
+        stub.write_text("void setup();void loop();int main(){return 0;}\n")
+        for f in sorted((mp / "src").glob("*.cpp")):
+            r = subprocess.run(
+                ["g++", "-fsyntax-only", "-DHOST_CHECK",
+                 f"-I{mp/'include'}", f"-I{mp/'host_check'}", str(f)],
+                capture_output=True, text=True)
+            assert r.returncode == 0, f"{f.name} non compila su host:\n{r.stderr[:400]}"
+
+
+def test_every_model_has_a_flashable_firmware():
+    """Ogni modello esportato in C deve avere un firmware e un environment.
+
+    Un header senza un main che lo usi non e' testabile fisicamente: il
+    modello resterebbe "esportato" solo sulla carta.
+    """
+    src = REPO / "mcu_pio" / "src"
+    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore")
+    for nome in ("main_coeff.cpp", "main_mlcoeff.cpp", "main_mc.cpp",
+                 "main.cpp", "main_e2e.cpp", "main_mc_e2e.cpp", "main_dt5.cpp"):
+        assert (src / nome).exists(), f"firmware mancante: {nome}"
+        assert nome in ini, f"{nome} non ha un environment PlatformIO"
+
+
+def test_categorical_tables_include_the_unk_slot():
+    """Ogni header di modello con tabelle categoriche deve essere v2.
+
+    Le tabelle v1 hanno 3/9/13/3 righe (28 in totale), quelle v2 ne hanno
+    4/10/14/4 (32): l'indice 0 e' lo slot UNK. Un header v1 rimasto nel
+    repository farebbe girare sul dispositivo un modello incompatibile con
+    il preprocessing attuale, senza alcun errore visibile.
+    """
+    inc = REPO / "mcu_pio" / "include"
+    for h in inc.glob("*.h"):
+        for m in re.finditer(r"CAT\[(\d+)\]\[\d+\]", h.read_text(errors="ignore")):
+            tot = int(m.group(1))
+            assert tot != 28, (
+                f"{h.name}: tabelle categoriche con 28 righe = protocollo v1 "
+                f"(senza slot UNK). Rigenerare con lo script di export."
+            )
