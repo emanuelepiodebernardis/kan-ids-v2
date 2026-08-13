@@ -685,6 +685,32 @@ python scripts/crossdomain_report.py              # tables + shift analysis
 
 ---
 
+## What can actually be flashed
+
+Every exported model has a firmware and a PlatformIO environment, so each one
+can be measured on the two boards under the same benchmark protocol:
+
+| Model | Firmware | Environment | Input |
+|---|---|---|---|
+| KAN LUT integer | `main.cpp` | `megaatmega2560`, `esp32c3` | pre-normalised vectors |
+| KAN single-layer, spline coeffs | `main_coeff.cpp` | `*_coeff` | pre-normalised vectors |
+| KAN multi-layer | `main_mlcoeff.cpp` | `*_mlcoeff` | pre-normalised vectors |
+| KAN multiclass | `main_mc.cpp` | `esp32c3_mc` | pre-normalised vectors |
+| **KAN end-to-end, binary** | `main_e2e.cpp` | `*_e2e` | **raw counters** |
+| **KAN end-to-end, 10 classes** | `main_mc_e2e.cpp` | `esp32c3_mc_e2e` | **raw values** |
+| **Decision Tree d=5** | `main_dt5.cpp` | `*_dt5` | same feature space as the KAN |
+
+The last one exists for a specific reason. On parameter bytes the depth-5 tree
+occupies 141 B against the single-layer KAN's 250 B *and* is more accurate, so
+it dominates the in-domain Pareto front — but latency, SRAM and code size can
+only be measured on the device. Without a tree firmware the comparison that
+most threatens the premise of this work could not be closed. Quantising its
+thresholds to Q7 for the device costs it 0.0028 F1 (0.9944 → 0.9916, 99.55 %
+agreement with the float model), which narrows the gap to the compiled KAN
+from 0.0109 to 0.0081 — still in the tree's favour.
+
+---
+
 ## Firmware
 
 `mcu_pio/` is a PlatformIO project targeting the two boards of the original

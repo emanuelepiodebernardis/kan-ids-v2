@@ -7,7 +7,7 @@
     43,
     44
   ],
-  "data_export": "2026-08-10",
+  "data_export": "2026-08-13",
   "spazio_feature": {
     "feature_numeriche": [
       "src_ip_bytes",
@@ -54,13 +54,25 @@
       "file": "kan14_binary_singlelayer.npz",
       "descrizione": "KAN single-layer 14 feature (10 Chebyshev + 4 edge categorici)",
       "prodotto_da": "scripts/kan14_binary.py",
-      "byte": 2202
+      "byte": 2202,
+      "versionato": true,
+      "nota": ""
     },
     {
       "file": "kan14_binary_multilayer.pkl",
       "descrizione": "KAN multi-layer binaria [14 -> 16 hidden -> 1]",
       "prodotto_da": "scripts/kan14_ml_binary.py",
-      "byte": 25989
+      "byte": 25989,
+      "versionato": true,
+      "nota": ""
+    },
+    {
+      "file": "kan14_multiclass_multilayer.pkl",
+      "descrizione": "KAN multi-layer multiclass [14 -> 16 hidden -> 10]",
+      "prodotto_da": "scripts/kan_ml_cat_mc.py",
+      "byte": 41541,
+      "versionato": false,
+      "nota": "non committato per dimensione: rigenerabile con lo script indicato"
     }
   ],
   "header_c_deployabili": [
@@ -78,11 +90,11 @@
     },
     {
       "file": "mcu_pio/include/kan14_mc_coeff_int8.h",
-      "byte": 34805
+      "byte": 35069
     },
     {
       "file": "mcu_pio/include/kan14_mc_test_vectors.h",
-      "byte": 17651
+      "byte": 17689
     },
     {
       "file": "mcu_pio/include/kan14_ml_coeff_infer.h",
@@ -101,6 +113,10 @@
       "byte": 17995
     },
     {
+      "file": "mcu_pio/include/kan_e2e_infer.h",
+      "byte": 3952
+    },
+    {
       "file": "mcu_pio/include/kan_e2e_int.h",
       "byte": 11649
     },
@@ -115,6 +131,10 @@
     {
       "file": "mcu_pio/include/kan_infer.h",
       "byte": 3725
+    },
+    {
+      "file": "mcu_pio/include/kan_mc_e2e_infer.h",
+      "byte": 4306
     },
     {
       "file": "mcu_pio/include/kan_mc_e2e_int.h",

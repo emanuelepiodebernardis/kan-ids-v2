@@ -152,6 +152,16 @@ def main():
         "aggregati a finestra di BoT-IoT e i metadati DNS/SSL/HTTP di TON_IoT. Nel "
         "cross-domain il target entra <b>solo</b> nella valutazione."))
     story.append(P(
+        "<b>Nota sullo spazio di feature.</b> In-domain lo spazio e' <b>10 numeriche + 4 "
+        "categoriche</b> (proto, service, conn_state, dns_rejected). Nel cross-domain "
+        "diventa <b>10 + 2</b>: delle quattro categoriche solo proto e stato hanno un "
+        "corrispettivo nei log Argus di BoT-IoT, e includere le altre violerebbe il "
+        "vincolo «solo feature realmente confrontabili». I due blocchi di risultati non "
+        "sono quindi sullo stesso spazio, ed e' una conseguenza del vincolo, non una "
+        "svista: la colonna in-domain della tabella cross-domain va letta come "
+        "riferimento interno a quello spazio, non come confronto con la tabella "
+        "precedente."))
+    story.append(P(
         "<b>Nota sulle metriche.</b> BoT-IoT è attacco al 99,987%: in quel regime la PR-AUC "
         "sulla classe positiva vale ~1 per costruzione e non discrimina (nei run TON→BoT è "
         "0,9999 mentre i modelli sono al caso). Si riportano i due recall e la loro media, "
@@ -234,6 +244,15 @@ def main():
         "sul modello intero deployato, forma simbolica chiusa e tabelle riscrivibili, che "
         "sono il presupposto della ricalibrazione on-device."))
 
+    story.append(P(
+        "Con l'export in C dell'albero (<i>scripts/export_tree_c.py</i>) il confronto si "
+        "puo' finalmente fare sul dispositivo, e un primo risultato c'e' gia': "
+        "<b>quantizzare le soglie a Q7</b> per il target costa all'albero <b>0,0028 di "
+        "F1</b> (0,9944 → 0,9916, agreement 99,55% col modello float). Il divario con la "
+        "KAN compilata scende da 0,0109 a <b>0,0081</b>. La KAN paga la quantizzazione "
+        "meno dell'albero — un argomento che prima non avevamo, perche' confrontavamo un "
+        "albero in virgola mobile con una KAN gia' quantizzata."))
+
     story.append(P("4.4 Il cross-domain non degrada: collassa", "h2"))
     story.append(P(
         "TON→BoT lascia ogni modello fra 0,40 e 0,56 di balanced accuracy, cioè al caso o sotto. "
@@ -280,6 +299,17 @@ def main():
         "TON_IoT <i>src_bytes</i> e <i>dst_bytes</i> arrivano a 3,9·10<super>9</super>: "
         "sono i contatori di byte a imporre i 64 bit, non la durata."))
 
+    story.append(P(
+        "La catena e' anche <b>deployata</b>, non solo verificata: "
+        "<i>mcu_pio/src/main_e2e.cpp</i> parte dai contatori grezzi ed esegue a bordo "
+        "l'intera pipeline, feature engineering compreso, sotto il protocollo di "
+        "benchmark del paper. Tutte le altre varianti di firmware ricevono vettori gia' "
+        "normalizzati fuori dal dispositivo: senza questa, la catena sarebbe dimostrata "
+        "corretta ma non sarebbe mai stata <i>la</i> pipeline in esecuzione sull'MCU. "
+        "Firmware e harness di verifica includono lo stesso kernel "
+        "(<i>include/kan_e2e_infer.h</i>), quindi cio' che e' verificato bit per bit e' "
+        "cio' che gira sulla board, non una copia che puo' divergere."))
+
     story.append(P("4.6 Sul multiclass la profondità pesa quattro volte di più", "h2"))
     story.append(P(
         "Con lo stesso protocollo sulle 10 classi la KAN multi-layer fa "
@@ -324,6 +354,24 @@ def main():
         "sedici — e ora ha un prezzo misurato: 0,0009 di F1. È un argomento migliore di "
         "un picco che non c'è."))
 
+    story.append(P("4.9 Cosa si puo' effettivamente flashare", "h2"))
+    story.append(P(
+        "Ogni modello esportato ha un firmware e un environment PlatformIO — "
+        "<b>sette su sette</b> — quindi ognuno e' misurabile sulle due board con lo "
+        "stesso protocollo: KAN LUT intera, KAN single-layer a coefficienti, KAN "
+        "multi-layer, KAN multiclass, catena end-to-end binaria, catena end-to-end a 10 "
+        "classi e Decision Tree profondo 5. Prima alcuni esistevano come header ma senza "
+        "un <i>main</i> che li usasse: esportati sulla carta, non testabili fisicamente. "
+        "Un test lo impedisce ora, e ne compila sette su sette a ogni esecuzione della "
+        "suite, senza bisogno di toolchain per MCU."))
+    story.append(P(
+        "Nello stesso controllo e' emerso che l'export in C del modello multiclass era "
+        "rimasto al <b>protocollo v1</b>: tabelle categoriche a 28 righe invece di 32, "
+        "cioe' senza lo slot UNK. Il firmware girava su un modello incompatibile con il "
+        "preprocessing attuale, e senza errori visibili perche' modello e vettori di test "
+        "erano coerenti fra loro. Rigenerato; un test vieta ora qualunque header con "
+        "tabelle a 28 righe."))
+
     story.append(P("5. Stato e passi successivi", "h1"))
     rows = [["Punto", "Stato"],
             ["1. Protocollo leakage-free", "completato, con misura dell'effetto"],
@@ -333,6 +381,9 @@ def main():
             ["6. Riproducibilità da clone pulito", "completato, verificato"],
             ["5. Integer-only end-to-end (binario)", "completato: 200/200 bit-esatti, 822 B"],
             ["5. Integer-only end-to-end (10 classi)", "completato: 200/200 bit-esatti, 13,6 KB"],
+            ["5. Firmware che parte dai contatori grezzi", "completato: main_e2e.cpp, 500/500 concordi"],
+            ["Ogni modello esportato in C e flashabile", "completato: 7 firmware, 7 environment"],
+            ["Coerenza degli artefatti deployati", "completato: multiclass rigenerato al protocollo v2"],
             ["Ingombro dei parametri (asse dimensione)", "misurato: results/footprint.csv"],
             ["models/ + manifest (protocollo, seed, metriche)", "completato"],
             ["Conformal e forma simbolica sotto v2", "rigenerati: coperture 99,05/94,90/90,23"],

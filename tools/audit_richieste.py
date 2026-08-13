@@ -190,6 +190,35 @@ voce(5, "Firmware e harness di verifica condividono lo stesso kernel",
      "kan_e2e_infer.h incluso sia dal firmware sia dall'host check:\n"
      "cio' che e' verificato bit per bit e' cio' che gira sulla board")
 
+ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore")
+attesi = {
+    "KAN single-layer (coeff int8)": "main_coeff.cpp",
+    "KAN multi-layer": "main_mlcoeff.cpp",
+    "KAN multiclass": "main_mc.cpp",
+    "KAN LUT integer": "main.cpp",
+    "catena e2e binaria": "main_e2e.cpp",
+    "catena e2e 10 classi": "main_mc_e2e.cpp",
+    "Decision Tree d=5 (confronto Pareto)": "main_dt5.cpp",
+}
+mancanti = [k for k, v in attesi.items()
+            if not (src / v).exists() or v not in ini]
+voce(5, "Ogni modello ha un firmware flashabile con il suo environment",
+     OK if not mancanti else PART,
+     f"{len(attesi) - len(mancanti)}/{len(attesi)}: " +
+     ", ".join(f"{k} -> {v}" for k, v in attesi.items() if k not in mancanti)
+     if not mancanti else f"senza firmware: {mancanti}")
+
+v1_headers = []
+for _hdr in (REPO / "mcu_pio" / "include").glob("*.h"):
+    for _m in re.finditer(r"CAT\[(\d+)\]\[\d+\]", _hdr.read_text(errors="ignore")):
+        if int(_m.group(1)) == 28:
+            v1_headers.append(_hdr.name)
+voce(5, "Nessun header di modello e' rimasto al protocollo v1",
+     OK if not v1_headers else NO,
+     "tutte le tabelle categoriche hanno lo slot UNK (32 righe: 4+10+14+4)"
+     if not v1_headers else
+     f"header ancora v1 (28 righe, senza UNK): {sorted(set(v1_headers))}")
+
 voce(5, "Python solo per training, export e golden vector",
      OK if all(p.exists() for p in h + k) else NO,
      "i kernel C sono autosufficienti: gli host check compilano e girano\n"

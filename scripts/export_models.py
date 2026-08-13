@@ -59,16 +59,25 @@ def main():
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     d = prepare14_dict(verbose=False)
 
+    # Il manifest descrive il CONTENUTO di models/, non quello che si trova
+    # per caso nella cache: se un checkpoint e' gia' stato salvato in una
+    # sessione precedente deve restare elencato anche se artifacts/ e' vuoto.
     saved, missing = [], []
     for src, dst, desc, script in SOURCES:
-        p = artifact_path(src)
-        if not p.exists():
+        cached = artifact_path(src)
+        target = MODELS_DIR / dst
+        if cached.exists():
+            shutil.copy2(cached, target)
+        if not target.exists():
             missing.append((src, script))
             continue
-        shutil.copy2(p, MODELS_DIR / dst)
+        gitignored = "multiclass" in dst and dst.endswith(".pkl")
         saved.append({"file": dst, "descrizione": desc,
                       "prodotto_da": script,
-                      "byte": (MODELS_DIR / dst).stat().st_size})
+                      "byte": target.stat().st_size,
+                      "versionato": not gitignored,
+                      "nota": ("non committato per dimensione: rigenerabile "
+                               "con lo script indicato") if gitignored else ""})
 
     # metadati dello spazio di feature: senza questi i pesi non sono usabili
     space = {
@@ -125,7 +134,8 @@ def main():
 
     print(f"models/: {len(saved)} checkpoint di training")
     for s in saved:
-        print(f"  {s['file']:<38} {s['byte']:>9,} B   {s['descrizione']}")
+        tag = "" if s["versionato"] else "  (non versionato)"
+        print(f"  {s['file']:<38} {s['byte']:>9,} B{tag}")
     print(f"\nheader C deployabili (in mcu_pio/include/): {len(headers)}")
     for h in headers:
         print(f"  {h['file']:<44} {h['byte']:>9,} B")
