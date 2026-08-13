@@ -96,9 +96,12 @@ The multi-layer KAN here surpasses it (0.9974) using **14 features and 5 KB**.
 ## What is new, and why it matters
 
 ### 1. A 14-feature space that matches 95 features
-Feature-count ablation (`scripts/feature_curve_driver.py`) shows accuracy
-peaks at exactly **10 numeric features** for both tasks — more features add
-noise, not signal. The missing multiclass information turns out to be
+Feature-count ablation (`scripts/feature_curve_driver.py`) originally reported
+a peak at exactly **10 numeric features**. The nested cross-validation added in
+protocol v2 (see below) shows this is not the case: accuracy rises monotonically
+up to the full 16 candidates, and k = 10 costs 0.0009 F1. **k = 10 is a
+deployment choice** — 10 flow statistics to compute on-device instead of 16 —
+not an accuracy optimum. The missing multiclass information turns out to be
 **categorical** (`proto`, `service`, `conn_state`, `dns_rejected`): LightGBM on
 10 numeric + 4 categorical features reaches macro-F1 0.9675, statistically
 indistinguishable from 0.9694 obtained with all 95 features in the original
@@ -409,6 +412,65 @@ defensible independently of how large the effect turns out to be.
 
 ---
 
+## Is the reported estimate independent? A measurement, not an argument
+
+Cross-validation is unbiased for a *fixed* pipeline. Ours was not fixed: the
+number of numeric features (k = 10) was chosen by looking at results computed
+on the same 211,043 flows, together with the hidden width, the Chebyshev
+degree and the clip. That is precisely what "the final evaluation must remain
+genuinely independent" targets, so it was measured rather than argued.
+
+`scripts/nested_cv.py` runs a **nested cross-validation**: inside every outer
+fold, an inner 3-fold CV on the outer *training* data alone picks k from
+{5, 8, 10, 12, 14, 16}; the model is then refitted with that k and scored on
+the outer validation fold, which took no part in the choice. The gap between
+the nested estimate and the flat one **is** the selection optimism.
+
+| Model | Nested (selection inside the loop) | Flat (k fixed at 10) | Optimism | k chosen by the inner CV |
+|---|---|---|---|---|
+| KAN single-layer | 0.9845 ± 0.0006 | 0.9835 | **−0.0009** | 16 in **15/15** folds |
+| LightGBM | 0.9992 ± 0.0001 | 0.9991 | **−0.0001** | 16 in 11/15, 14 in 3, 12 in 1 |
+
+**There is no optimism to correct: the optimism is negative.** The nested
+estimate is *higher* than the reported one for both models, so the published
+numbers are, if anything, slightly conservative. The reason is simple — the
+flat protocol is locked to an inherited k = 10, while the nested procedure is
+free to pick a better one.
+
+**What the measurement does overturn is a different claim.** The inner
+selection never picks k = 10; it picks the full set of 16 candidates in 15/15
+folds for the KAN. The averaged inner curve is monotone, not peaked:
+
+| k | 5 | 8 | 10 | 12 | 14 | 16 |
+|---|---|---|---|---|---|---|
+| KAN single-layer | 0.9795 | 0.9809 | 0.9836 | 0.9839 | 0.9841 | **0.9845** |
+| LightGBM | 0.9984 | 0.9989 | 0.9990 | 0.9991 | 0.9991 | **0.9991** |
+
+So the earlier statement that "accuracy peaks at exactly 10 numeric features"
+does not survive the corrected protocol. Accuracy keeps creeping up with more
+features; it simply stops mattering. **k = 10 is a deployment decision, not an
+accuracy-optimal one**, and now it has a price tag: it costs **0.0009 F1** for
+the KAN and **0.0001** for LightGBM, in exchange for computing 10 flow
+statistics on the device instead of 16. That is the honest way to state it,
+and it is a better argument than a peak that is not there.
+
+Two caveats stated rather than hidden. The hidden width (16), the Chebyshev
+degree (8) and the clip (±3.5) were *not* re-selected inside the loop — they
+are inherited from the previous phase, and the supporting ablations live in
+`results/protocol_v1/`. And a genuinely virgin held-out is no longer
+obtainable for this phase: those choices were made while looking at data that
+any set carved out today would have been part of. What can be said, and now is
+said with a number, is that the effect of that exposure on the reported metric
+is below one thousandth of an F1 point, in the conservative direction.
+
+Reproduce with:
+
+```bash
+python scripts/nested_cv.py --task binary --models "KAN(cat,1L)|LightGBM"
+```
+
+---
+
 ## Multiclass (10 attack classes), 5-fold × 3 seed
 
 Same protocol, same feature space, same folds as the binary task.
@@ -513,6 +575,26 @@ In the cross-domain runs the target domain is used **only** for evaluation:
 feature selection, quantiles, categorical vocabularies and thresholds are all
 fitted on the source. Unseen target categories fall into the UNK slot, whose
 rate is reported.
+
+That constraint is **enforced by a test, not asserted in prose**
+(`tests/test_leakage.py::test_crossdomain_target_does_not_influence_training`).
+The pipeline is fitted twice on the same source with two radically different
+targets — one rescaled by 5,000 and carrying categories that never occur in the
+source — and the test requires that everything learned is byte-identical: the
+selected features, the categorical vocabularies and cardinalities, the fitted
+quantiles, and the transform of a third fixed probe set. Injecting the classic
+violation (fitting the preprocessor on source ∪ target) makes it fail, which is
+how we know it is not vacuous.
+
+| Experiment | Train | Test | Runs |
+|---|---|---|---|
+| training and test on TON_IoT | 168,834 | 42,209 | 15 per model |
+| training and test on BoT-IoT | 19,431 | 733,705 | 15 per model |
+| training on TON_IoT, test on BoT-IoT | 211,043 (all) | 3,668,522 (all) | 3 seeds |
+| training on BoT-IoT, test on TON_IoT | 24,327 | 211,043 (all) | 3 seeds |
+
+The two cross directions consume the target whole, so there are no folds there
+by construction and the dispersion reported is between seeds.
 
 **Metric note.** BoT-IoT is 99.987 % attack. Under that prior PR-AUC on the
 positive class is ~1 by construction and says nothing: the TON→BoT runs show

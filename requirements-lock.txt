@@ -1,0 +1,19 @@
+# Versioni ESATTE dell'ambiente in cui sono stati prodotti i numeri
+# pubblicati (results/, figures/, report). requirements.txt elenca i
+# vincoli minimi; questo file serve a riprodurre bit per bit.
+#
+# Generato con: pip freeze, filtrato sulle dipendenze del progetto.
+
+numpy==2.2.6
+pandas==2.3.3
+scikit-learn==1.7.2
+scipy==1.15.3
+joblib==1.5.3
+matplotlib==3.10.9
+seaborn==0.13.2
+lightgbm==4.7.0
+xgboost==3.2.0
+pyarrow==25.0.0
+reportlab==4.5.1
+pillow==12.2.0
+pytest==9.1.1

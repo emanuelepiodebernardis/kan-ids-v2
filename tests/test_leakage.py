@@ -163,3 +163,75 @@ def test_binary_and_multiclass_share_the_same_folds(df):
     folds = list(cv_splits(ym))
     assert all((yb[f["val_idx"]] == (ym[f["val_idx"]] != 0).astype(int)).all()
                for f in folds)
+
+
+# ── cross-domain: il target non deve entrare in NIENTE del training ───
+def _harmonized_synth(n, seed, shift=0.0):
+    """Frame sintetico nello schema armonizzato, per i test cross-domain."""
+    from kanids.harmonized import HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC
+    rng = np.random.RandomState(seed)
+    d = {c: np.abs(rng.randn(n) * 10 + 20 + shift) for c in HARMONIZED_NUMERIC}
+    df = pd.DataFrame(d)
+    df["proto_h"] = rng.choice(["tcp", "udp", "icmp"], n)
+    df["state_h"] = rng.choice(["established", "closed", "incomplete", "reset"], n)
+    for c in HARMONIZED_CATEGORICAL:
+        if c not in df:
+            df[c] = "other"
+    df["label"] = rng.randint(0, 2, n)
+    return df
+
+
+def _fit_on(source, target, seed=42):
+    sys.path.insert(0, str(REPO / "scripts"))
+    from cross_domain import fit_eval
+    info = {"exp": "a->b", "fold": 0, "variant": "cat", "ratio": 50.0,
+            "train_pos_rate": 0.0, "test_pos_rate": 0.0}
+    _, prep = fit_eval(source, target, seed, 5, True, "DecisionTree", False, info)
+    return prep
+
+
+def test_crossdomain_target_does_not_influence_training():
+    """Cambiare completamente il target non deve cambiare nulla di appreso.
+
+    E' il vincolo del punto 3: nel cross-domain il dataset target non puo'
+    entrare in feature selection, normalizzazione, vocabolari o tuning.
+    Qui lo si verifica per costruzione: si fitta due volte sullo stesso
+    source con due target radicalmente diversi e si confronta tutto cio'
+    che il preprocessor ha imparato, piu' la trasformazione di un terzo
+    insieme di riferimento fissato.
+    """
+    source = _harmonized_synth(4000, seed=1)
+    target_a = _harmonized_synth(3000, seed=2)
+    target_b = _harmonized_synth(3000, seed=3, shift=5000.0)   # scala del tutto diversa
+    target_b["proto_h"] = "sctp"                               # categoria mai vista
+    target_b["state_h"] = "bizarre"
+
+    p1 = _fit_on(source, target_a)
+    p2 = _fit_on(source, target_b)
+
+    assert p1.numeric_features_ == p2.numeric_features_, "la selezione feature e' cambiata"
+    assert p1.vocabularies_ == p2.vocabularies_, "i vocabolari categorici sono cambiati"
+    assert p1.cardinalities_ == p2.cardinalities_, "le cardinalita' sono cambiate"
+
+    # i quantili appresi devono essere identici bit per bit
+    np.testing.assert_array_equal(p1.quantile_.quantiles_, p2.quantile_.quantiles_)
+
+    # e la trasformazione di un insieme di riferimento fissato non deve muoversi
+    probe = _harmonized_synth(500, seed=99)
+    X1, C1 = p1.transform(probe)
+    X2, C2 = p2.transform(probe)
+    np.testing.assert_array_equal(X1, X2)
+    np.testing.assert_array_equal(C1, C2)
+
+
+def test_crossdomain_unseen_target_categories_go_to_unk():
+    """Le categorie del target assenti dal source finiscono in UNK, in range."""
+    source = _harmonized_synth(2000, seed=1)
+    target = _harmonized_synth(1000, seed=2)
+    target["proto_h"] = "sctp"
+    p = _fit_on(source, target)
+    _, C = p.transform(target)
+    j = p.categorical_.index("proto_h")
+    assert (C[:, j] == 0).all(), "categoria nuova non mappata su UNK"
+    assert p.unseen_rate(target)["proto_h"] == 1.0
+    assert C.max() < max(p.cardinalities_), "indice fuori dalla tabella"

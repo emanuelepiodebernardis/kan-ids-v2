@@ -301,6 +301,29 @@ def main():
         "focal loss, SMOTENC e class weighting."))
 
     # ── 5. cosa resta ────────────────────────────────────────
+    story.append(P("4.8 La stima riportata non è ottimista: è conservativa", "h2"))
+    story.append(P(
+        "La cross-validation è corretta per una pipeline fissata, ma la nostra non lo "
+        "era: k=10 è stato scelto guardando risultati calcolati sugli stessi dati. "
+        "Invece di argomentare che l'effetto fosse piccolo, l'ho misurato con una "
+        "<b>cross-validation annidata</b> — la scelta di k avviene dentro ogni fold "
+        "esterno, su dati che non partecipano alla valutazione."))
+    story.append(P(
+        "Risultato: l'ottimismo è <b>negativo</b>. La stima annidata vale 0,9845 ± 0,0006 "
+        "contro lo 0,9835 riportato per la KAN single-layer (−0,0009), e 0,9992 contro "
+        "0,9991 per LightGBM (−0,0001). I numeri pubblicati sono semmai leggermente "
+        "conservativi, perché il protocollo piatto è vincolato a un k=10 ereditato "
+        "mentre quello annidato è libero di scegliere meglio."))
+    story.append(P(
+        "La misura però smentisce un'altra affermazione. La selezione interna <b>non "
+        "sceglie mai k=10</b>: prende tutte e 16 le feature candidate in 15 fold su 15 "
+        "per la KAN. La curva media è monotona, non ha un picco: 0,9795 a k=5, 0,9836 a "
+        "k=10, 0,9845 a k=16. Il claim «l'accuratezza ha il massimo esattamente a 10 "
+        "feature» non sopravvive al protocollo corretto. <b>k=10 è una scelta di "
+        "deployment</b> — dieci statistiche di flusso da calcolare a bordo invece di "
+        "sedici — e ora ha un prezzo misurato: 0,0009 di F1. È un argomento migliore di "
+        "un picco che non c'è."))
+
     story.append(P("5. Stato e passi successivi", "h1"))
     rows = [["Punto", "Stato"],
             ["1. Protocollo leakage-free", "completato, con misura dell'effetto"],
@@ -316,6 +339,7 @@ def main():
             ["Benchmark fisici (latenza, energia, code size)", "da fare — richiedono le board"],
             ["Focal loss e SMOTENC (risultati negativi)", "ancora v1; corroborati indipendentemente in v2"],
             ["Multi-layer multiclass in CV 5x3", "completato: 0,9374 +/- 0,0036 su 15 fit"],
+            ["Indipendenza della stima (CV annidata)", "misurata: ottimismo -0,0009, conservativo"],
             ["CIC-IoT-2023 come terzo dataset", "non iniziato (obiettivo secondario)"]]
     story.append(KeepTogether([table(rows, [8.0 * cm, 7.5 * cm]), Spacer(1, 8)]))
     story.append(P(

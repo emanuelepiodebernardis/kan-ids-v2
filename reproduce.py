@@ -39,6 +39,10 @@ STAGES = {
           "--seeds", "42", "--folds", "3"],
          [PY, "-m", "pytest", "tests/", "-q"]],
     ),
+    "audit": (
+        "verifica meccanica dei sei punti della revisione, con le evidenze",
+        [[PY, "tools/audit_richieste.py"]],
+    ),
     "tests": (
         "solo i test di leakage e riproducibilita'",
         [[PY, "-m", "pytest", "tests/", "-q"]],
@@ -65,6 +69,11 @@ STAGES = {
         [[PY, "scripts/export_e2e_int_c.py"],
          [PY, "scripts/export_mc_e2e_int_c.py"],
          [PY, "scripts/e2e_int_pipeline.py"]],
+    ),
+    "nested-cv": (
+        "cross-validation annidata: misura l'ottimismo della stima piatta",
+        [[PY, "scripts/nested_cv.py", "--task", "binary",
+          "--models", "KAN(cat,1L)|LightGBM"]],
     ),
     "models": (
         "salva i pesi in models/ con il manifest (protocollo, seed, metriche)",
@@ -99,8 +108,8 @@ STAGES = {
     ),
 }
 
-ORDER = ["tests", "leakage-audit", "features", "cv-binary", "cv-multiclass",
-         "crossdomain", "compile", "integer", "conformal", "models", "footprint",
+ORDER = ["tests", "audit", "leakage-audit", "features", "cv-binary", "cv-multiclass",
+         "crossdomain", "compile", "integer", "conformal", "nested-cv", "models", "footprint",
          "figures", "report"]
 
 

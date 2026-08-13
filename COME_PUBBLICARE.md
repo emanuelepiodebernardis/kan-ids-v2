@@ -35,6 +35,19 @@ git push -u origin main --force   # ATTENZIONE: riscrive la storia remota
 
 Sconsigliata se vuoi conservare la cronologia dei commit precedenti.
 
+## Se stai aggiornando un clone gia' allineato
+
+Rispetto alla versione online mancano solo questi file. Se preferisci non
+sovrascrivere tutto, copia solo loro:
+
+**nuovi**: `requirements-lock.txt`, `scripts/nested_cv.py`,
+`tools/audit_richieste.py`, `results/nested_cv_folds_binary.csv`,
+`results/nested_cv_summary_binary.csv`
+
+**modificati**: `README.md`, `reproduce.py`, `.gitignore`,
+`scripts/make_report.py`, `tests/test_leakage.py`,
+`tests/test_reproducibility.py`, `report_KAN-IDS_fase2.pdf`
+
 ## Prima di pubblicare, una verifica in 30 secondi
 
 ```bash
@@ -42,8 +55,17 @@ pip install -r requirements.txt
 python reproduce.py --stage smoke
 ```
 
-Deve stampare `22 passed` e terminare senza errori. Non serve alcun dataset:
+Deve stampare `25 passed` e terminare senza errori. Non serve alcun dataset:
 lo stage usa dati sintetici con lo schema di TON_IoT.
+
+Poi la verifica dei sei punti della revisione, con le evidenze:
+
+```bash
+python reproduce.py --stage audit
+```
+
+Deve chiudersi con `22/23 requisiti verificati come soddisfatti` (l'unico
+mancante e' CIC-IoT-2023, obiettivo secondario).
 
 Per verificare che il firmware sia compilabile e bit-esatto senza dataset:
 

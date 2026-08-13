@@ -29,3 +29,7 @@ mcu_pio/.pio/
 
 # artefatto accidentale della redirezione di shell su "--exp bot->bot"
 /bot
+
+# log diagnostici occasionali
+run_debug.log
+*.log

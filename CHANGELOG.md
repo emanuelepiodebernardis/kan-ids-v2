@@ -93,11 +93,45 @@ Difetti emersi dal porting, tutti invisibili in Python:
 * I risultati prodotti prima della correzione sono in `results/protocol_v1/`
   con un README che spiega quali numeri sono superati.
 
+### 7. Indipendenza della stima, misurata
+
+`scripts/nested_cv.py` esegue una **cross-validation annidata**: dentro ogni
+fold esterno una CV interna sceglie k sul solo training, e la valutazione
+avviene su dati che non hanno partecipato alla scelta. La differenza rispetto
+alla stima piatta e' l'ottimismo di selezione.
+
+**Risultato: l'ottimismo e' negativo.** 0,9845 ± 0,0006 contro 0,9835 per la
+KAN single-layer (−0,0009) e 0,9992 contro 0,9991 per LightGBM (−0,0001). I
+numeri pubblicati sono semmai conservativi.
+
+La misura smentisce pero' un altro claim: la selezione interna **non sceglie
+mai k = 10**, prende tutte e 16 le feature candidate in 15 fold su 15. La curva
+e' monotona, non ha un picco. **k = 10 e' una scelta di deployment** — dieci
+statistiche di flusso a bordo invece di sedici — e costa 0,0009 di F1.
+
+### 8. Verifiche che impediscono le regressioni
+
+* `tests/test_leakage.py::test_crossdomain_target_does_not_influence_training`
+  fitta la pipeline due volte sullo stesso source con target radicalmente
+  diversi e pretende che tutto l'appreso sia identico bit per bit. Introdurre
+  la violazione classica (fit su source ∪ target) lo fa fallire.
+* `requirements-lock.txt` con le versioni esatte dell'ambiente che ha prodotto
+  i numeri pubblicati, piu' un test che impedisce alla promessa di tornare a
+  vuoto: prima `requirements.txt` citava un lock che non esisteva.
+* `tools/audit_richieste.py` (`reproduce.py --stage audit`) verifica
+  meccanicamente i sei punti della revisione e stampa, requisito per
+  requisito, l'evidenza che lo sostiene. **22 su 23**; l'unico non fatto e'
+  CIC-IoT-2023, indicato come obiettivo secondario.
+
+La suite e' passata da 22 a **25 test**.
+
 ### Cosa resta aperto
 
 * Benchmark fisici su Mega 2560 ed ESP32-C3: latenza, SRAM, energia, code size.
   `results/latency_benchmark.csv` contiene le misure del paper precedente.
-* Un held-out mai toccato da alcuna decisione (gli iperparametri sono stati
-  scelti sugli stessi dati usati nella cross-validation).
+* Larghezza nascosta, grado e clip non sono stati riselezionati dentro il
+  ciclo: restano ereditati dalla fase precedente. L'effetto complessivo
+  dell'esposizione ai dati e' pero' misurato ed e' sotto il millesimo di F1,
+  in direzione conservativa (vedi punto 7).
 * Analisi di sensibilità sul rapporto di undersampling (fissato a 1:50).
 * CIC-IoT-2023 come terzo dataset (obiettivo secondario).

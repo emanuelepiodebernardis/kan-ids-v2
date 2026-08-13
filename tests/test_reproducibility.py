@@ -15,8 +15,10 @@ import pytest
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO))
 
-# tools/migrate_tmp_paths.py contiene "/tmp" per costruzione (e' il migratore)
-EXEMPT = {"test_reproducibility.py", "migrate_tmp_paths.py"}
+# migrate_tmp_paths.py e audit_richieste.py contengono "/tmp" per mestiere:
+# il primo lo migra, il secondo lo cerca per verificarne l'assenza
+EXEMPT = {"test_reproducibility.py", "migrate_tmp_paths.py",
+          "audit_richieste.py"}
 
 PY_FILES = [p for p in REPO.rglob("*.py")
             if ".git" not in p.parts and "artifacts" not in p.parts
@@ -63,6 +65,21 @@ def test_artifacts_dir_is_inside_repo_and_gitignored():
     gi = (REPO / ".gitignore")
     assert gi.exists(), ".gitignore mancante"
     assert "artifacts/" in gi.read_text()
+
+
+def test_lock_file_exists_and_is_exact():
+    """requirements.txt promette un lock: deve esistere e usare versioni esatte.
+
+    Prima la promessa era scritta e il file assente: chi voleva riprodurre
+    bit per bit non aveva nulla su cui appoggiarsi.
+    """
+    lock = REPO / "requirements-lock.txt"
+    assert lock.exists(), "requirements.txt cita requirements-lock.txt, che non esiste"
+    righe = [l for l in lock.read_text().splitlines()
+             if l.strip() and not l.strip().startswith("#")]
+    assert righe, "lock vuoto"
+    non_esatte = [l for l in righe if "==" not in l]
+    assert not non_esatte, f"il lock deve fissare versioni esatte: {non_esatte}"
 
 
 def test_requirements_are_pinned():
