@@ -211,3 +211,31 @@ def test_v1_results_are_segregated_and_documented():
     for f in ("cv_multiseed_summary_real.csv", "kan14_cv_summary_real.csv"):
         assert not (REPO / "results" / f).exists(), \
             f"{f} e' ancora fra i risultati correnti"
+
+
+def test_firmware_uses_the_end_to_end_chain():
+    """Almeno un firmware deve partire dai contatori grezzi.
+
+    Le altre varianti ricevono vettori gia' normalizzati: senza questa, la
+    catena integer end-to-end sarebbe verificata ma non deployata, e la
+    "pipeline finale" sul dispositivo non andrebbe dai dati alla decisione.
+    """
+    src = REPO / "mcu_pio" / "src"
+    usa = [f.name for f in src.glob("*.cpp")
+           if "kan_e2e_infer.h" in f.read_text(errors="ignore")]
+    assert usa, "nessun firmware include la catena end-to-end"
+
+    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore")
+    assert "main_e2e.cpp" in ini, "la variante e2e non ha un environment PlatformIO"
+
+
+def test_e2e_kernel_is_shared_between_firmware_and_host_check():
+    """Il kernel verificato deve essere lo stesso che gira sulla board."""
+    hdr = REPO / "mcu_pio" / "include" / "kan_e2e_infer.h"
+    assert hdr.exists(), "kernel condiviso mancante"
+    body = "\n".join(r for r in hdr.read_text().splitlines()
+                      if not r.strip().startswith("*") and not r.strip().startswith("/*"))
+    assert not re.search(r"\b(float|double)\b", body), \
+        "il kernel condiviso contiene tipi in virgola mobile"
+    hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text()
+    assert "kan_e2e_infer.h" in hc, "l'host check non usa il kernel condiviso"
