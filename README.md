@@ -177,6 +177,19 @@ with **integer-only Horner (Q15)** — no floating point at inference.
 > end-to-end in structure but not integer-only in the runtime. Kept for
 > reference only.
 >
+> **The chain is now also deployed, not only verified.** `mcu_pio/src/main_e2e.cpp`
+> is a firmware variant that takes the **raw counters** and runs the whole chain
+> on the board — feature engineering included — under the paper's benchmark
+> protocol (500 timed inferences, on-board statistics, SRAM). Every other
+> firmware variant consumes vectors that were already normalised off-device;
+> without this one the end-to-end chain would be proven correct but never
+> actually run as *the* pipeline on the MCU. Build it with
+> `pio run -e megaatmega2560_e2e` or `-e esp32c3_e2e`.
+>
+> Firmware and offline harness include the **same** kernel
+> (`mcu_pio/include/kan_e2e_infer.h`), so what is verified bit-exactly is what
+> runs on the board rather than a copy that can drift.
+>
 > *On "no floating point":* the check is on the compiled assembly of the
 > inference path (`tools/check_no_float.sh`), and it excludes FP **arithmetic**
 > and int↔float conversions. The compiler does emit `pxor`/`movups` to zero the

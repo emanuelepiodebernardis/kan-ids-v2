@@ -109,7 +109,20 @@ mai k = 10**, prende tutte e 16 le feature candidate in 15 fold su 15. La curva
 e' monotona, non ha un picco. **k = 10 e' una scelta di deployment** — dieci
 statistiche di flusso a bordo invece di sedici — e costa 0,0009 di F1.
 
-### 8. Verifiche che impediscono le regressioni
+### 8. La catena end-to-end e' anche deployata, non solo verificata
+
+`mcu_pio/src/main_e2e.cpp` e' una variante di firmware che parte dai
+**contatori grezzi** ed esegue a bordo l'intera catena, feature engineering
+compreso, sotto il protocollo di benchmark del paper. Tutte le altre varianti
+ricevono vettori gia' normalizzati fuori dal dispositivo: senza questa, la
+catena integer sarebbe dimostrata corretta ma non sarebbe mai stata *la*
+pipeline in esecuzione sull'MCU.
+
+Firmware e harness di verifica includono lo **stesso** kernel
+(`mcu_pio/include/kan_e2e_infer.h`): cio' che e' verificato bit per bit e'
+cio' che gira sulla board, non una copia che puo' divergere.
+
+### 9. Verifiche che impediscono le regressioni
 
 * `tests/test_leakage.py::test_crossdomain_target_does_not_influence_training`
   fitta la pipeline due volte sullo stesso source con target radicalmente

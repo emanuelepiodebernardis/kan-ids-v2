@@ -171,6 +171,25 @@ fp = sum(len(re.findall(r"\b(float|double)\b", _senza_commenti(p.read_text())))
 voce(5, "Nessun floating point nel runtime MCU", OK if fp == 0 else NO,
      f"{fp} occorrenze di float/double in header e kernel, commenti esclusi;\n"
      f"verifica sull'assembly con tools/check_no_float.sh")
+src = REPO / "mcu_pio" / "src"
+fw_e2e = [f.name for f in src.glob("*.cpp")
+          if "kan_e2e_infer.h" in f.read_text(errors="ignore")
+          or "kan_mc_e2e_int.h" in f.read_text(errors="ignore")]
+voce(5, "Un firmware usa la catena end-to-end, non vettori pre-normalizzati",
+     OK if fw_e2e else NO,
+     f"{', '.join(fw_e2e)} parte dai contatori grezzi ed esegue a bordo anche\n"
+     f"il feature engineering; environment PlatformIO dedicati in platformio.ini"
+     if fw_e2e else
+     "gli altri main ricevono vettori gia' normalizzati: la catena e2e\n"
+     "sarebbe verificata ma non deployata")
+
+shared = REPO / "mcu_pio" / "include" / "kan_e2e_infer.h"
+hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text(errors="ignore")
+voce(5, "Firmware e harness di verifica condividono lo stesso kernel",
+     OK if (shared.exists() and "kan_e2e_infer.h" in hc) else PART,
+     "kan_e2e_infer.h incluso sia dal firmware sia dall'host check:\n"
+     "cio' che e' verificato bit per bit e' cio' che gira sulla board")
+
 voce(5, "Python solo per training, export e golden vector",
      OK if all(p.exists() for p in h + k) else NO,
      "i kernel C sono autosufficienti: gli host check compilano e girano\n"
