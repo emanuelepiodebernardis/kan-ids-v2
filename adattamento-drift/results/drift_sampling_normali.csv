@@ -1,0 +1,17 @@
+exp,regola,8,32,128,512
+bot->ton,adattiva,2.7,9.3,28.3,122.0
+bot->ton,bilanciato,4.0,16.0,64.0,256.0
+bot->ton,casuale,1.3,6.7,28.0,121.7
+bot->ton,conformal,0.7,3.7,14.7,54.0
+bot->ton,conformal_top,0.3,1.7,2.0,5.3
+bot->ton,margine,0.3,1.7,2.0,5.3
+bot->ton,misto,0.7,3.7,18.0,60.0
+bot->ton,strat_z,0.7,8.7,27.3,121.7
+ton->bot,adattiva,4.0,13.3,19.3,21.0
+ton->bot,bilanciato,4.0,16.0,64.0,256.0
+ton->bot,casuale,0.0,0.0,0.0,0.0
+ton->bot,conformal,0.0,0.0,0.0,0.0
+ton->bot,conformal_top,6.7,16.0,20.0,21.0
+ton->bot,margine,6.7,16.0,20.0,21.0
+ton->bot,misto,4.0,12.0,17.7,21.0
+ton->bot,strat_z,0.0,0.0,0.0,0.3

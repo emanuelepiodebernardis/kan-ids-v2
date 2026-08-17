@@ -1,0 +1,443 @@
+exp,seed,metodo,bal_acc,accordo_con_float,budget,normali,guadagni_q15,bias,iters_used
+ton->bot,42,float non adattato,0.5559197693920336,,,,,,
+ton->bot,42,intero non adattato,0.5076867400419287,0.9995610469031361,,,,,
+ton->bot,42,intero + guadagni float  n=8,0.6345390913253843,,8.0,3.0,,,
+ton->bot,42,intero + guadagni interi n=8,0.6227007099228113,,8.0,,"[-47, 11, 173, -7, -181, 102, 33, 163, -129, 13, 420, 546]",0.0,3600.0
+ton->bot,42,intero + guadagni float  n=32,0.5888225222823702,,32.0,9.0,,,
+ton->bot,42,intero + guadagni interi n=32,0.6475089507088188,,32.0,,"[-79, 106, -58, -22, -184, -59, 27, 30, -255, 50, 412, 848]",276.0,5700.0
+ton->bot,42,intero + guadagni float  n=128,0.8939123055834872,,128.0,21.0,,,
+ton->bot,42,intero + guadagni interi n=128,0.8388635288300293,,128.0,,"[-130, 187, 51, -32, -113, -176, -1, -11, -213, 49, 1021, -1927]",1714.0,5400.0
+ton->bot,43,float non adattato,0.5673576677148847,,,,,,
+ton->bot,43,intero non adattato,0.4383986320754717,0.9971966859041187,,,,,
+ton->bot,43,intero + guadagni interi n=8,,,8.0,,,,
+ton->bot,43,intero + guadagni float  n=32,0.4447448177997001,,32.0,1.0,,,
+ton->bot,43,intero + guadagni interi n=32,0.5490997060426719,,32.0,,"[203, 137, 53, -512, -89, -186, 56, 41, 160, 36, -130, -1161]",19100.0,19100.0
+ton->bot,43,intero + guadagni float  n=128,0.7821546903888263,,128.0,5.0,,,
+ton->bot,43,intero + guadagni interi n=128,0.7644887092850239,,128.0,,"[256, 2, 57, -251, 20, -512, -98, 187, 191, 24, 97, -2048]",407.0,12600.0
+ton->bot,44,float non adattato,0.5664562316561845,,,,,,
+ton->bot,44,intero non adattato,0.4404518501048218,0.9975508412436339,,,,,
+ton->bot,44,intero + guadagni interi n=8,,,8.0,,,,
+ton->bot,44,intero + guadagni interi n=32,,,32.0,,,,
+ton->bot,44,intero + guadagni float  n=128,0.8222964940165651,,128.0,4.0,,,
+ton->bot,44,intero + guadagni interi n=128,0.8035423981896259,,128.0,,"[256, 133, -7, 10, 138, -512, -1, 62, 79, 65, -67, -2048]",360.0,10600.0
+ton->bot,45,float non adattato,0.5442215251572327,,,,,,
+ton->bot,45,intero non adattato,0.5178610482180294,0.985210273497708,,,,,
+ton->bot,45,intero + guadagni float  n=8,0.6640262207866237,,8.0,2.0,,,
+ton->bot,45,intero + guadagni interi n=8,0.6666353990619718,,8.0,,"[-273, 106, -121, 55, -241, -90, 12, 39, -203, 4, 196, 537]",1599.0,3900.0
+ton->bot,45,intero + guadagni float  n=32,0.6566855805194718,,32.0,5.0,,,
+ton->bot,45,intero + guadagni interi n=32,0.7446093834955854,,32.0,,"[-317, 60, -75, 145, -174, 6, 35, 154, -247, 10, 131, -600]",384.0,6500.0
+ton->bot,45,intero + guadagni float  n=128,0.6478370373627238,,128.0,5.0,,,
+ton->bot,45,intero + guadagni interi n=128,0.5998700005588182,,128.0,,"[-255, 25, -37, 181, -85, 53, 38, 169, -176, 8, 190, -266]",0.0,3300.0
+ton->bot,46,float non adattato,0.5680726677148846,,,,,,
+ton->bot,46,intero non adattato,0.5208985744234801,0.9973612933154427,,,,,
+ton->bot,46,intero + guadagni float  n=8,0.836579897396922,,8.0,2.0,,,
+ton->bot,46,intero + guadagni interi n=8,0.9403240097202916,,8.0,,"[-270, 46, 49, -54, -47, -115, 116, 24, -109, 31, 359, -711]",5512.0,6300.0
+ton->bot,46,intero + guadagni float  n=32,0.8572883167041307,,32.0,10.0,,,
+ton->bot,46,intero + guadagni interi n=32,0.9427489004518548,,32.0,,"[-330, 54, 3, -53, -32, -150, 48, 34, -117, 31, 557, -368]",1482.0,7600.0
+ton->bot,46,intero + guadagni float  n=128,0.9764816819561797,,128.0,12.0,,,
+ton->bot,46,intero + guadagni interi n=128,0.6683142835747959,,128.0,,"[-257, 73, 287, -38, 4, -10, 8, 12, 33, 2, 966, -1058]",712.0,4700.0
+ton->bot,47,float non adattato,0.5521068972746331,,,,,,
+ton->bot,47,intero non adattato,0.4938866876310272,0.9985434738149513,,,,,
+ton->bot,47,intero + guadagni interi n=8,,,8.0,,,,
+ton->bot,47,intero + guadagni float  n=32,0.5902189099869607,,32.0,6.0,,,
+ton->bot,47,intero + guadagni interi n=32,0.666524211841807,,32.0,,"[-62, 86, -115, -41, -112, -263, 28, 37, -191, 40, 358, 2029]",6560.0,7000.0
+ton->bot,47,intero + guadagni float  n=128,0.7300959946970315,,128.0,8.0,,,
+ton->bot,47,intero + guadagni interi n=128,0.8759044925889435,,128.0,,"[-188, 51, 62, -72, -90, -328, 41, 29, -300, 37, 47, -715]",0.0,3300.0
+ton->bot,48,float non adattato,0.548811179245283,,,,,,
+ton->bot,48,intero non adattato,0.4395793501048218,0.9934655845807748,,,,,
+ton->bot,48,intero + guadagni interi n=8,,,8.0,,,,
+ton->bot,48,intero + guadagni interi n=32,,,32.0,,,,
+ton->bot,48,intero + guadagni interi n=128,,,128.0,,,,
+ton->bot,49,float non adattato,0.551206179245283,,,,,,
+ton->bot,49,intero non adattato,0.4404993501048218,0.996398589364366,,,,,
+ton->bot,49,intero + guadagni interi n=8,,,8.0,,,,
+ton->bot,49,intero + guadagni float  n=32,0.7786787099059178,,32.0,1.0,,,
+ton->bot,49,intero + guadagni interi n=32,0.8366523649400951,,32.0,,"[-1083, 112, 99, 20, -289, -234, 6, -71, 121, 63, 233, -898]",6301.0,6300.0
+ton->bot,49,intero + guadagni float  n=128,0.7851230696391358,,128.0,2.0,,,
+ton->bot,49,intero + guadagni interi n=128,0.8260940550441516,,128.0,,"[-143, 168, 73, 16, -238, -361, -8, 104, 35, 97, 495, -1562]",12706.0,12700.0
+ton->bot,50,float non adattato,0.5490897431865829,,,,,,
+ton->bot,50,intero non adattato,0.5176489203354298,0.9975259007267666,,,,,
+ton->bot,50,intero + guadagni float  n=8,0.7423849330524888,,8.0,1.0,,,
+ton->bot,50,intero + guadagni interi n=8,0.8302102128196336,,8.0,,"[511, 128, 27, 30, 204, -918, 33, 137, -351, 88, 768, -1088]",7209.0,7200.0
+ton->bot,50,intero + guadagni float  n=32,0.797156390122822,,32.0,1.0,,,
+ton->bot,50,intero + guadagni interi n=32,0.7819244703517281,,32.0,,"[302, 115, -31, 17, -223, -876, -70, 6, 135, 64, 703, -840]",9200.0,9200.0
+ton->bot,50,intero + guadagni float  n=128,0.8640418568961603,,128.0,2.0,,,
+ton->bot,50,intero + guadagni interi n=128,0.8608964700392827,,128.0,,"[211, 89, -228, 12, -305, -1024, -25, 58, -177, 90, 1024, -251]",4699.0,7900.0
+ton->bot,51,float non adattato,0.5714091037735849,,,,,,
+ton->bot,51,intero non adattato,0.49429846960167717,0.9984686522643496,,,,,
+ton->bot,51,intero + guadagni float  n=8,0.4869890096702901,,8.0,2.0,,,
+ton->bot,51,intero + guadagni interi n=8,0.5906426192785783,,8.0,,"[-184, 73, -512, 18, -154, -85, 62, 141, -242, 36, 546, 663]",134.0,3000.0
+ton->bot,51,intero + guadagni float  n=32,0.6105157189573575,,32.0,11.0,,,
+ton->bot,51,intero + guadagni interi n=32,0.7092235135332987,,32.0,,"[-387, 114, -213, -17, -175, -261, 13, 36, -65, 18, 549, 1009]",1004.0,9100.0
+ton->bot,51,intero + guadagni float  n=128,0.8095558089087269,,128.0,17.0,,,
+ton->bot,51,intero + guadagni interi n=128,0.5863037518431425,,128.0,,"[-512, 82, -117, -39, -164, -264, 63, 72, -263, 56, 400, -265]",0.0,10900.0
+bot->ton,42,float non adattato,0.590449634569649,,,,,,
+bot->ton,42,intero non adattato,0.6640593029190961,0.7793909298105125,,,,,
+bot->ton,42,intero + guadagni float  n=8,0.7103565733195472,,8.0,2.0,,,
+bot->ton,42,intero + guadagni interi n=8,0.597949650767938,,8.0,,"[78, 228, 198, 101, 66, 1210, 654, -232, 90, 452, -208, -468]",4108.0,6700.0
+bot->ton,42,intero + guadagni float  n=32,0.844167785201534,,32.0,5.0,,,
+bot->ton,42,intero + guadagni interi n=32,0.8306832723442266,,32.0,,"[128, 57, 127, 80, -53, 65, -216, -105, 128, 170, 1024, -116]",0.0,4700.0
+bot->ton,42,intero + guadagni float  n=128,0.8842107561087548,,128.0,27.0,,,
+bot->ton,42,intero + guadagni interi n=128,0.8814826329489662,,128.0,,"[-11, -10, 9, 37, 53, -9, -171, -167, 128, 92, 1024, -205]",0.0,4200.0
+bot->ton,43,float non adattato,0.7105053078991326,,,,,,
+bot->ton,43,intero non adattato,0.7666631183596928,0.8664205872736835,,,,,
+bot->ton,43,intero + guadagni interi n=8,,,8.0,,,,
+bot->ton,43,intero + guadagni float  n=32,0.868937449414551,,32.0,7.0,,,
+bot->ton,43,intero + guadagni interi n=32,0.8606393318719119,,32.0,,"[12, 63, 33, 179, 4, -91, -66, -88, 115, 52, 839, -719]",2531.0,3700.0
+bot->ton,43,intero + guadagni float  n=128,0.8627952381790461,,128.0,28.0,,,
+bot->ton,43,intero + guadagni interi n=128,0.8729105778094708,,128.0,,"[33, 33, 19, 13, 43, -205, -131, -667, 128, 118, 1093, -725]",77.0,5900.0
+bot->ton,44,float non adattato,0.49563425904882547,,,,,,
+bot->ton,44,intero non adattato,0.6802687120831082,0.710755627999981,,,,,
+bot->ton,44,intero + guadagni float  n=8,0.6666879901099352,,8.0,1.0,,,
+bot->ton,44,intero + guadagni interi n=8,0.7091195731115496,,8.0,,"[50, 63, 153, -101, -78, -206, 4, 41, 101, -31, 806, 44185]",5700.0,5700.0
+bot->ton,44,intero + guadagni float  n=32,0.726082840766457,,32.0,6.0,,,
+bot->ton,44,intero + guadagni interi n=32,0.7595952606868268,,32.0,,"[-81, 87, 157, -113, 26, -40, 388, -512, 250, 128, 758, -394]",4000.0,4000.0
+bot->ton,44,intero + guadagni float  n=128,0.8355870719990858,,128.0,20.0,,,
+bot->ton,44,intero + guadagni interi n=128,0.8441689183828998,,128.0,,"[-1, -50, 109, 2, 54, -8, 158, -102, 110, 128, 666, -492]",5161.0,5800.0
+bot->ton,45,float non adattato,0.5778067830951982,,,,,,
+bot->ton,45,intero non adattato,0.6485182648112615,0.8757741313381633,,,,,
+bot->ton,45,intero + guadagni float  n=8,0.7262379198385208,,8.0,2.0,,,
+bot->ton,45,intero + guadagni interi n=8,0.7854044488350447,,8.0,,"[-14, -34, -10, -95, 27, -57, -55, 66, 28, -4, 2048, 185]",4600.0,4600.0
+bot->ton,45,intero + guadagni float  n=32,0.7268770412086071,,32.0,2.0,,,
+bot->ton,45,intero + guadagni interi n=32,0.7849424213409073,,32.0,,"[1, 33, 23, -108, 7, -46, 10, -87, -11, 39, 1810, -32]",8100.0,8100.0
+bot->ton,45,intero + guadagni float  n=128,0.7772983228715318,,128.0,6.0,,,
+bot->ton,45,intero + guadagni interi n=128,0.7865616996876297,,128.0,,"[-8, 35, -6, -85, -3, 19, -16, -135, -11, 53, 1388, -38]",786.0,6200.0
+bot->ton,46,float non adattato,0.6121975759890216,,,,,,
+bot->ton,46,intero non adattato,0.743978347149519,0.7450709097198202,,,,,
+bot->ton,46,intero + guadagni float  n=8,0.73506413091326,,8.0,1.0,,,
+bot->ton,46,intero + guadagni interi n=8,0.7849761948789735,,8.0,,"[-22, -20, 73, -91, -16, 11, 11, -58, 27, 37, 2048, -169]",5900.0,5900.0
+bot->ton,46,intero + guadagni float  n=32,0.563909299175934,,32.0,3.0,,,
+bot->ton,46,intero + guadagni interi n=32,0.6179368635594976,,32.0,,"[-81, 24, 41, -78, 24, -2, 161, -539, -7, 59, 1584, 655]",164.0,6400.0
+bot->ton,46,intero + guadagni float  n=128,0.6156671244419304,,128.0,6.0,,,
+bot->ton,46,intero + guadagni interi n=128,0.6310239244729651,,128.0,,"[-113, -12, 55, 119, -128, 96, 54, -241, 15, 91, 1610, 1700]",201.0,12800.0
+bot->ton,47,float non adattato,0.6087325486981737,,,,,,
+bot->ton,47,intero non adattato,0.7560879239706165,0.6945646147941414,,,,,
+bot->ton,47,intero + guadagni float  n=8,0.7701537316881188,,8.0,2.0,,,
+bot->ton,47,intero + guadagni interi n=8,0.7807510886474692,,8.0,,"[-36, 206, 44, -63, -9, -8, -124, -203, 200, 89, 1712, -129]",6070.0,6200.0
+bot->ton,47,intero + guadagni float  n=32,0.8399455624814688,,32.0,7.0,,,
+bot->ton,47,intero + guadagni interi n=32,0.6808463403609815,,32.0,,"[33, 136, 148, -122, 30, -158, -2, -174, 108, 57, -73, -1414]",43.0,5800.0
+bot->ton,47,intero + guadagni float  n=128,0.8153524161402803,,128.0,24.0,,,
+bot->ton,47,intero + guadagni interi n=128,0.8579815603631487,,128.0,,"[31, 94, 104, -21, 77, -50, 98, -185, 128, 48, 914, -1318]",3189.0,6700.0
+bot->ton,48,float non adattato,0.5512176487646157,,,,,,
+bot->ton,48,intero non adattato,0.63778724042647,0.7349355344645404,,,,,
+bot->ton,48,intero + guadagni float  n=8,0.7359094413539715,,8.0,5.0,,,
+bot->ton,48,intero + guadagni interi n=8,0.7218677298057674,,8.0,,"[32, -38, -61, -256, -39, -68, -269, -220, 145, 128, 705, -279]",0.0,5400.0
+bot->ton,48,intero + guadagni float  n=32,0.8751587446807244,,32.0,8.0,,,
+bot->ton,48,intero + guadagni interi n=32,0.8210869143083537,,32.0,,"[38, -165, -8, -8, 14, -77, -3, -87, 168, 51, 376, -595]",0.0,5700.0
+bot->ton,48,intero + guadagni float  n=128,0.8379450310475083,,128.0,34.0,,,
+bot->ton,48,intero + guadagni interi n=128,0.8517358916005175,,128.0,,"[91, -121, -57, 35, 20, -3, -71, -30, 89, 57, 661, -473]",-3.0,4500.0
+bot->ton,49,float non adattato,0.6968267652117758,,,,,,
+bot->ton,49,intero non adattato,0.7149460898641977,0.7996569419502186,,,,,
+bot->ton,49,intero + guadagni interi n=8,,,8.0,,,,
+bot->ton,49,intero + guadagni float  n=32,0.8437311139884929,,32.0,10.0,,,
+bot->ton,49,intero + guadagni interi n=32,0.8444907600830691,,32.0,,"[175, -72, 256, 193, 62, -156, 297, -199, 128, 88, 2043, -12]",0.0,8900.0
+bot->ton,49,intero + guadagni float  n=128,0.8714808766343847,,128.0,28.0,,,
+bot->ton,49,intero + guadagni interi n=128,0.8592907986668914,,128.0,,"[75, -76, 51, 114, 38, -52, -9, -253, 117, 107, 1339, -238]",48.0,7900.0
+bot->ton,50,float non adattato,0.6922856045279832,,,,,,
+bot->ton,50,intero non adattato,0.733406101351813,0.7947479897461655,,,,,
+bot->ton,50,intero + guadagni interi n=8,,,8.0,,,,
+bot->ton,50,intero + guadagni float  n=32,0.8648752403426574,,32.0,10.0,,,
+bot->ton,50,intero + guadagni interi n=32,0.8577838578378881,,32.0,,"[48, 112, 114, 111, 6, 64, -90, -445, 256, 37, 859, -307]",0.0,5100.0
+bot->ton,50,intero + guadagni float  n=128,0.8593965669538878,,128.0,32.0,,,
+bot->ton,50,intero + guadagni interi n=128,0.78878171119714,,128.0,,"[27, 45, 119, 63, 124, 98, -89, -512, 128, 73, 781, -1774]",0.0,6600.0
+bot->ton,51,float non adattato,0.5764178359816944,,,,,,
+bot->ton,51,intero non adattato,0.7518403066261805,0.6606331411134224,,,,,
+bot->ton,51,intero + guadagni interi n=8,,,8.0,,,,
+bot->ton,51,intero + guadagni float  n=32,0.8598716523560308,,32.0,3.0,,,
+bot->ton,51,intero + guadagni interi n=32,0.7485491761823396,,32.0,,"[17, 43, 121, 112, 16, 9, 17, -450, 128, 74, 1942, -1244]",283.0,8800.0
+bot->ton,51,intero + guadagni float  n=128,0.8428084283718503,,128.0,23.0,,,
+bot->ton,51,intero + guadagni interi n=128,0.8480867069559972,,128.0,,"[58, 32, -28, -6, 37, -16, 139, -237, 128, 105, 691, -1554]",86.0,6200.0
+ton->unsw,42,float non adattato,0.22506183172790337,,,,,,
+ton->unsw,42,intero non adattato,0.29607566099227345,0.9104213479875657,,,,,
+ton->unsw,42,intero + guadagni float  n=8,0.5028777221510258,,8.0,4.0,,,
+ton->unsw,42,intero + guadagni interi n=8,0.511569635890721,,8.0,,"[-187, 13, -156, -11, -1024, -168, -180, -128, 227, -24, 172, -982]",439.0,3900.0
+ton->unsw,42,intero + guadagni float  n=32,0.7456095615426194,,32.0,18.0,,,
+ton->unsw,42,intero + guadagni interi n=32,0.7572136952306303,,32.0,,"[214, 149, 114, -50, -304, -350, -209, -12, -408, -64, -95, -802]",4158.0,4600.0
+ton->unsw,42,intero + guadagni float  n=128,0.5758642664269527,,128.0,77.0,,,
+ton->unsw,42,intero + guadagni interi n=128,0.5896274431806334,,128.0,,"[8, 173, 147, -87, -504, -178, -15, 78, 11, -91, 163, -1233]",2655.0,4800.0
+ton->unsw,43,float non adattato,0.21307170515643614,,,,,,
+ton->unsw,43,intero non adattato,0.29497921883505984,0.8842990922603455,,,,,
+ton->unsw,43,intero + guadagni interi n=8,,,8.0,,,,
+ton->unsw,43,intero + guadagni float  n=32,0.5483990020682348,,32.0,21.0,,,
+ton->unsw,43,intero + guadagni interi n=32,0.4827241648258152,,32.0,,"[-413, 94, -38, 281, -379, -176, 353, 117, 256, 27, 488, -888]",4652.0,4700.0
+ton->unsw,43,intero + guadagni float  n=128,0.5688655979251309,,128.0,71.0,,,
+ton->unsw,43,intero + guadagni interi n=128,0.5767318773691811,,128.0,,"[-78, 60, -9, 25, -156, -241, 35, -38, 124, -56, 361, 447]",2168.0,5800.0
+ton->unsw,44,float non adattato,0.22293098384814639,,,,,,
+ton->unsw,44,intero non adattato,0.30322507871415944,0.8956351655004599,,,,,
+ton->unsw,44,intero + guadagni float  n=8,0.6919486724645331,,8.0,4.0,,,
+ton->unsw,44,intero + guadagni interi n=8,0.7502807311605209,,8.0,,"[135, -4, 32, -18, -434, -43, -6, -73, 141, -20, 338, -1762]",0.0,4000.0
+ton->unsw,44,intero + guadagni float  n=32,0.770535642922147,,32.0,21.0,,,
+ton->unsw,44,intero + guadagni interi n=32,0.7641648123652589,,32.0,,"[294, 56, 2, -76, -883, -62, -54, -44, 201, 29, -123, -5856]",0.0,3800.0
+ton->unsw,44,intero + guadagni float  n=128,0.5828388643797738,,128.0,84.0,,,
+ton->unsw,44,intero + guadagni interi n=128,0.7605497001876389,,128.0,,"[290, 54, 62, -13, -416, -256, -63, -59, 118, -45, 356, 329]",0.0,3200.0
+ton->unsw,45,float non adattato,0.22469049688502904,,,,,,
+ton->unsw,45,intero non adattato,0.40360544984263047,0.7175295820671936,,,,,
+ton->unsw,45,intero + guadagni float  n=8,0.49909894149301837,,8.0,4.0,,,
+ton->unsw,45,intero + guadagni interi n=8,0.49820949792204544,,8.0,,"[-396, -87, -75, 512, -184, -232, 267, 492, 192, -366, -5, 9099]",2379.0,3900.0
+ton->unsw,45,intero + guadagni float  n=32,0.5990261373920706,,32.0,21.0,,,
+ton->unsw,45,intero + guadagni interi n=32,0.5996611306878573,,32.0,,"[132, 43, 49, 92, -262, -149, 339, -273, 98, 24, -752, -642]",3994.0,4500.0
+ton->unsw,45,intero + guadagni float  n=128,0.48418529601773824,,128.0,64.0,,,
+ton->unsw,45,intero + guadagni interi n=128,0.4970679451326948,,128.0,,"[-54, 134, -41, 41, -311, -80, 3, -51, 306, -19, -98, 982]",1218.0,4600.0
+ton->unsw,46,float non adattato,0.22808777708628028,,,,,,
+ton->unsw,46,intero non adattato,0.28909253235591237,0.9204301576028532,,,,,
+ton->unsw,46,intero + guadagni float  n=8,0.4160299945404461,,8.0,2.0,,,
+ton->unsw,46,intero + guadagni interi n=8,0.3980110495774105,,8.0,,"[-177, 104, 512, -8, -512, 93, 138, 233, 471, 9, 221, -2342]",4271.0,4300.0
+ton->unsw,46,intero + guadagni float  n=32,0.5496583180848817,,32.0,15.0,,,
+ton->unsw,46,intero + guadagni interi n=32,0.5174746721313159,,32.0,,"[438, 71, 294, -122, -402, 5, 61, 8, 460, -21, -60, -1031]",7885.0,8400.0
+ton->unsw,46,intero + guadagni float  n=128,0.7637337301586118,,128.0,67.0,,,
+ton->unsw,46,intero + guadagni interi n=128,0.48791147672561874,,128.0,,"[137, 3, 64, -60, -512, -73, 23, -71, 313, -16, -76, -1243]",5600.0,5600.0
+ton->unsw,47,float non adattato,0.2303150215784439,,,,,,
+ton->unsw,47,intero non adattato,0.2896516447160286,0.9001990895437241,,,,,
+ton->unsw,47,intero + guadagni float  n=8,0.7284532711235949,,8.0,5.0,,,
+ton->unsw,47,intero + guadagni interi n=8,0.7390250749981879,,8.0,,"[-27, 256, 49, -73, -251, 121, 235, -190, 290, -256, -371, -1906]",2800.0,2800.0
+ton->unsw,47,intero + guadagni float  n=32,0.6940527674511321,,32.0,18.0,,,
+ton->unsw,47,intero + guadagni interi n=32,0.7619301882366318,,32.0,,"[87, 99, 67, -43, -512, -222, 60, -61, 173, 12, 29, -4096]",4600.0,4600.0
+ton->unsw,47,intero + guadagni float  n=128,0.5927762717615725,,128.0,74.0,,,
+ton->unsw,47,intero + guadagni interi n=128,0.5979175522485702,,128.0,,"[-176, 183, -40, -33, 34, -256, 42, 47, 996, -47, 766, -3201]",0.0,3800.0
+ton->unsw,48,float non adattato,0.23652956200783448,,,,,,
+ton->unsw,48,intero non adattato,0.3016451607026477,0.902554788433402,,,,,
+ton->unsw,48,intero + guadagni float  n=8,0.6353508368981786,,8.0,6.0,,,
+ton->unsw,48,intero + guadagni interi n=8,0.7024336629525991,,8.0,,"[143, -11, -58, -136, -235, 91, -61, 35, 386, -3, 40, -3670]",0.0,4100.0
+ton->unsw,48,intero + guadagni float  n=32,0.4692939596187258,,32.0,15.0,,,
+ton->unsw,48,intero + guadagni interi n=32,0.46158118748975446,,32.0,,"[-135, -142, -47, 46, -512, 95, 36, -56, -47, -6, 166, 900]",1564.0,2300.0
+ton->unsw,48,intero + guadagni float  n=128,0.4829911188922791,,128.0,64.0,,,
+ton->unsw,48,intero + guadagni interi n=128,0.4819785380194559,,128.0,,"[-81, 37, 0, -20, -332, -56, -17, 15, -12, -49, -3, 656]",0.0,3300.0
+ton->unsw,49,float non adattato,0.2171081637254516,,,,,,
+ton->unsw,49,intero non adattato,0.3137562511471904,0.8703317770973288,,,,,
+ton->unsw,49,intero + guadagni float  n=8,0.6753199977210681,,8.0,3.0,,,
+ton->unsw,49,intero + guadagni interi n=8,0.6573969394669708,,8.0,,"[-288, 51, 104, 128, -144, -108, -184, -155, 62, -33, -181, -1393]",3564.0,3600.0
+ton->unsw,49,intero + guadagni float  n=32,0.7758860689215616,,32.0,19.0,,,
+ton->unsw,49,intero + guadagni interi n=32,0.7788430086307674,,32.0,,"[278, 256, 39, -56, -326, -181, 105, -104, 133, -91, 37, -805]",4261.0,4400.0
+ton->unsw,49,intero + guadagni float  n=128,0.49744860531067797,,128.0,76.0,,,
+ton->unsw,49,intero + guadagni interi n=128,0.49291876755379027,,128.0,,"[144, 48, 48, -32, -244, -227, 50, -66, -11, -63, 470, 217]",492.0,2700.0
+ton->unsw,50,float non adattato,0.22350022664663088,,,,,,
+ton->unsw,50,intero non adattato,0.2885157008131266,0.9083916436724065,,,,,
+ton->unsw,50,intero + guadagni float  n=8,0.46077814633416614,,8.0,5.0,,,
+ton->unsw,50,intero + guadagni interi n=8,0.39672227911597124,,8.0,,"[200, -20, 512, 38, -218, -93, 329, 151, 296, 256, -295, 6274]",0.0,6600.0
+ton->unsw,50,intero + guadagni float  n=32,0.4950753143830774,,32.0,25.0,,,
+ton->unsw,50,intero + guadagni interi n=32,0.49579797555900285,,32.0,,"[-223, -2, -81, 21, -1023, -117, 98, 14, 602, -77, 374, 718]",0.0,5400.0
+ton->unsw,50,intero + guadagni float  n=128,0.4818369869430214,,128.0,81.0,,,
+ton->unsw,50,intero + guadagni interi n=128,0.5001962963266626,,128.0,,"[162, -3, 28, -1, -762, 26, -29, -1, 246, -82, 86, -98]",2765.0,3900.0
+ton->unsw,51,float non adattato,0.22158421577621182,,,,,,
+ton->unsw,51,intero non adattato,0.2814583270892872,0.9246059928669282,,,,,
+ton->unsw,51,intero + guadagni float  n=8,0.5057897227137469,,8.0,6.0,,,
+ton->unsw,51,intero + guadagni interi n=8,0.5522785079526181,,8.0,,"[88, -163, 374, -21, -146, -301, 512, 143, 202, 40, 683, -6596]",0.0,4400.0
+ton->unsw,51,intero + guadagni float  n=32,0.46662607316490806,,32.0,21.0,,,
+ton->unsw,51,intero + guadagni interi n=32,0.42544889636350103,,32.0,,"[302, 47, -30, -74, -293, -56, -57, 233, 234, -10, 540, 309]",0.0,4700.0
+ton->unsw,51,intero + guadagni float  n=128,0.5167532575099796,,128.0,72.0,,,
+ton->unsw,51,intero + guadagni interi n=128,0.5161182648082671,,128.0,,"[156, 141, 51, -59, -330, -139, -47, 111, 231, -52, 106, 651]",3161.0,4500.0
+unsw->ton,42,float non adattato,0.32782417844923406,,,,,,
+unsw->ton,42,intero non adattato,0.4000088986792348,0.8526224513487772,,,,,
+unsw->ton,42,intero + guadagni float  n=8,0.5620450604624176,,8.0,3.0,,,
+unsw->ton,42,intero + guadagni interi n=8,0.609357866940291,,8.0,,"[-95, -95, 88, -218, -7, -120, -84, -149, -193, 75, -2047, -847]",1126.0,8100.0
+unsw->ton,42,intero + guadagni float  n=32,0.5641614848994215,,32.0,5.0,,,
+unsw->ton,42,intero + guadagni interi n=32,0.4162666954204736,,32.0,,"[136, -4, 117, 115, -88, -12, -256, -17, 176, -60, -251, -988]",93.0,2300.0
+unsw->ton,42,intero + guadagni float  n=128,0.7852620780601274,,128.0,24.0,,,
+unsw->ton,42,intero + guadagni interi n=128,0.6374746948791853,,128.0,,"[-18, -23, 10, 110, -30, -8, -103, -24, -26, 11, -1007, -554]",154.0,1800.0
+unsw->ton,43,float non adattato,0.2779416812900902,,,,,,
+unsw->ton,43,intero non adattato,0.4475623673180455,0.8478651270120308,,,,,
+unsw->ton,43,intero + guadagni float  n=8,0.4946071720063279,,8.0,1.0,,,
+unsw->ton,43,intero + guadagni interi n=8,0.4676758492694879,,8.0,,"[-29, 7, 447, -24, 108, 62, -84, -75, 175, -41, -1500, -69]",4500.0,5100.0
+unsw->ton,43,intero + guadagni float  n=32,0.7101374021947342,,32.0,7.0,,,
+unsw->ton,43,intero + guadagni interi n=32,0.7529093136994762,,32.0,,"[3, -125, 86, 114, -21, 17, -158, -99, -27, 256, -846, 573]",0.0,2000.0
+unsw->ton,43,intero + guadagni float  n=128,0.7704140234977103,,128.0,26.0,,,
+unsw->ton,43,intero + guadagni interi n=128,0.8064251553854214,,128.0,,"[-29, -60, 182, 171, 81, 71, -256, -73, -43, 205, -1112, -1336]",32.0,3700.0
+unsw->ton,44,float non adattato,0.2792441185273498,,,,,,
+unsw->ton,44,intero non adattato,0.39824806126314094,0.9205706893855754,,,,,
+unsw->ton,44,intero + guadagni float  n=8,0.6366912970825891,,8.0,3.0,,,
+unsw->ton,44,intero + guadagni interi n=8,0.5599497376467111,,8.0,,"[-10, -128, -20, -114, 84, -162, -68, -220, 256, -8, -521, 1003]",41.0,3600.0
+unsw->ton,44,intero + guadagni float  n=32,0.6283813479293487,,32.0,6.0,,,
+unsw->ton,44,intero + guadagni interi n=32,0.6207847873112269,,32.0,,"[-1, -48, 40, 209, -186, -192, -256, -128, 256, -512, -2699, 2048]",847.0,5300.0
+unsw->ton,44,intero + guadagni float  n=128,0.7263513162761357,,128.0,27.0,,,
+unsw->ton,44,intero + guadagni interi n=128,0.7103611242412242,,128.0,,"[-71, -23, 11, 91, -20, 67, -256, -29, 171, 99, 35, 181]",0.0,2800.0
+unsw->ton,45,float non adattato,0.28154705116024914,,,,,,
+unsw->ton,45,intero non adattato,0.4547953749619667,0.8470074818875775,,,,,
+unsw->ton,45,intero + guadagni float  n=8,0.6795874005268898,,8.0,2.0,,,
+unsw->ton,45,intero + guadagni interi n=8,0.7399758767228053,,8.0,,"[-193, -63, -131, 210, 227, -63, -104, -45, 182, 22, 147, -313]",0.0,5200.0
+unsw->ton,45,intero + guadagni float  n=32,0.7193157423597913,,32.0,6.0,,,
+unsw->ton,45,intero + guadagni interi n=32,0.7058154166560875,,32.0,,"[-90, -128, 56, 107, 72, 47, -256, -128, 87, 232, -62, -325]",0.0,7400.0
+unsw->ton,45,intero + guadagni float  n=128,0.7465175951581481,,128.0,28.0,,,
+unsw->ton,45,intero + guadagni interi n=128,0.7237641886052313,,128.0,,"[-60, -103, -169, 47, 10, 53, -196, -75, 129, 221, -504, -1541]",0.0,8000.0
+unsw->ton,46,float non adattato,0.2792938901411424,,,,,,
+unsw->ton,46,intero non adattato,0.3943111660239812,0.9173580739470155,,,,,
+unsw->ton,46,intero + guadagni float  n=8,0.5201466092511693,,8.0,2.0,,,
+unsw->ton,46,intero + guadagni interi n=8,0.5820352602103116,,8.0,,"[-40, 44, -310, 256, -155, -3, 119, -43, 67, -42, -123, -100]",5191.0,5900.0
+unsw->ton,46,intero + guadagni float  n=32,0.7027609645904982,,32.0,6.0,,,
+unsw->ton,46,intero + guadagni interi n=32,0.6903181133929939,,32.0,,"[-124, -256, -78, 128, 118, -75, 39, -118, 104, 172, -196, -2048]",164.0,3200.0
+unsw->ton,46,intero + guadagni float  n=128,0.7514193230597292,,128.0,23.0,,,
+unsw->ton,46,intero + guadagni interi n=128,0.7428365812394045,,128.0,,"[-27, -118, -125, 128, 66, -129, 105, -88, 55, 25, -924, -2048]",52.0,3500.0
+unsw->ton,47,float non adattato,0.32654833081847706,,,,,,
+unsw->ton,47,intero non adattato,0.4401512822041318,0.9220301076084021,,,,,
+unsw->ton,47,intero + guadagni float  n=8,0.6081085925352476,,8.0,1.0,,,
+unsw->ton,47,intero + guadagni interi n=8,0.5562801269438539,,8.0,,"[39, -46, -262, 256, -101, 44, -121, -32, 175, -168, -2515, 340]",4260.0,4300.0
+unsw->ton,47,intero + guadagni float  n=32,0.5861056222143541,,32.0,7.0,,,
+unsw->ton,47,intero + guadagni interi n=32,0.6391216132466497,,32.0,,"[-110, 70, 156, 221, 33, -19, -256, -53, -77, -59, -1358, -3259]",101.0,4900.0
+unsw->ton,47,intero + guadagni float  n=128,0.7508981153705115,,128.0,30.0,,,
+unsw->ton,47,intero + guadagni interi n=128,0.7473764149135353,,128.0,,"[-99, -75, -187, 15, 25, 131, -97, -70, 219, 157, -639, -3644]",0.0,8600.0
+unsw->ton,48,float non adattato,0.2829323460193861,,,,,,
+unsw->ton,48,intero non adattato,0.44990924380444974,0.8396724838066176,,,,,
+unsw->ton,48,intero + guadagni float  n=8,0.6936372400752122,,8.0,3.0,,,
+unsw->ton,48,intero + guadagni interi n=8,0.6823360510064638,,8.0,,"[-353, -99, -428, -31, -30, -63, 116, -73, 143, -106, -1631, 1329]",4.0,6600.0
+unsw->ton,48,intero + guadagni float  n=32,0.7877428838799814,,32.0,5.0,,,
+unsw->ton,48,intero + guadagni interi n=32,0.7629218859805194,,32.0,,"[-233, -71, 28, -42, -123, -104, 10, -114, 256, -84, -2264, -24]",0.0,4100.0
+unsw->ton,48,intero + guadagni float  n=128,0.7312592895432368,,128.0,19.0,,,
+unsw->ton,48,intero + guadagni interi n=128,0.7051448289087472,,128.0,,"[-128, -126, 53, 199, 256, -73, -120, -128, 210, -66, -204, -442]",0.0,6800.0
+unsw->ton,49,float non adattato,0.2767725005122855,,,,,,
+unsw->ton,49,intero non adattato,0.4475273008451159,0.8466852726695507,,,,,
+unsw->ton,49,intero + guadagni interi n=8,,,8.0,,,,
+unsw->ton,49,intero + guadagni float  n=32,0.7403652664849277,,32.0,4.0,,,
+unsw->ton,49,intero + guadagni interi n=32,0.7181849729172632,,32.0,,"[-242, -77, 143, 253, 94, -121, -160, -128, 256, -16, -1010, -1349]",475.0,4600.0
+unsw->ton,49,intero + guadagni float  n=128,0.7691029287804846,,128.0,24.0,,,
+unsw->ton,49,intero + guadagni interi n=128,0.734539023906355,,128.0,,"[-128, -66, -75, 199, -78, 89, -244, -128, 187, 296, -600, -3239]",0.0,5300.0
+unsw->ton,50,float non adattato,0.2770624050719373,,,,,,
+unsw->ton,50,intero non adattato,0.45115992672764416,0.8359528626867511,,,,,
+unsw->ton,50,intero + guadagni float  n=8,0.5729154715017697,,8.0,3.0,,,
+unsw->ton,50,intero + guadagni interi n=8,0.6184501754788405,,8.0,,"[-104, -27, 391, 256, -358, 52, -477, -80, -62, 30, 1338, 2637]",2025.0,6200.0
+unsw->ton,50,intero + guadagni float  n=32,0.6986818191405768,,32.0,11.0,,,
+unsw->ton,50,intero + guadagni interi n=32,0.5245545895120215,,32.0,,"[16, -14, 117, 256, 33, -65, -194, -30, 107, -73, 2407, -1085]",0.0,4900.0
+unsw->ton,50,intero + guadagni float  n=128,0.7814918392436325,,128.0,34.0,,,
+unsw->ton,50,intero + guadagni interi n=128,0.781099943045428,,128.0,,"[-14, -19, -40, 81, -22, 43, -256, 0, 155, 136, -16, -613]",6.0,2600.0
+unsw->ton,51,float non adattato,0.3303803675415883,,,,,,
+unsw->ton,51,intero non adattato,0.39631686027955265,0.8447188487654175,,,,,
+unsw->ton,51,intero + guadagni float  n=8,0.49521144580968074,,8.0,1.0,,,
+unsw->ton,51,intero + guadagni interi n=8,0.5143759889157394,,8.0,,"[-29, -2, 79, 161, -2, -79, -135, -8, 227, -217, -3190, -419]",5996.0,6600.0
+unsw->ton,51,intero + guadagni float  n=32,0.6282922250585935,,32.0,4.0,,,
+unsw->ton,51,intero + guadagni interi n=32,0.627605538753941,,32.0,,"[-128, -30, 165, 256, -132, -256, -47, -84, 17, 123, -1962, -462]",48.0,5700.0
+unsw->ton,51,intero + guadagni float  n=128,0.8273690274060118,,128.0,29.0,,,
+unsw->ton,51,intero + guadagni interi n=128,0.7323786448093369,,128.0,,"[-127, 27, 18, 90, -39, -215, 74, -82, 425, 198, -2467, -2048]",78.0,8500.0
+bot->unsw,42,float non adattato,0.46653615875685595,,,,,,
+bot->unsw,42,intero non adattato,0.44134885382820266,0.9294571026067924,,,,,
+bot->unsw,42,intero + guadagni float  n=8,0.6582142019995911,,8.0,6.0,,,
+bot->unsw,42,intero + guadagni interi n=8,0.505031631130667,,8.0,,"[-44, 229, -247, 59, 25, 152, -882, 102, -256, -147, 39, 779]",1528.0,3500.0
+bot->unsw,42,intero + guadagni float  n=32,0.7082780294517775,,32.0,19.0,,,
+bot->unsw,42,intero + guadagni interi n=32,0.7029733521764117,,32.0,,"[4, 85, -140, 2, 29, 560, 259, 94, -154, -168, -456, 220]",6414.0,6400.0
+bot->unsw,42,intero + guadagni float  n=128,0.6655442146869013,,128.0,66.0,,,
+bot->unsw,42,intero + guadagni interi n=128,0.6618686296825069,,128.0,,"[73, 63, -24, -120, -13, 181, 317, 51, -21, -4, -700, 2048]",6300.0,6300.0
+bot->unsw,43,float non adattato,0.45024325687094835,,,,,,
+bot->unsw,43,intero non adattato,0.4338067842369129,0.9550670811454829,,,,,
+bot->unsw,43,intero + guadagni float  n=8,0.44954630719046457,,8.0,4.0,,,
+bot->unsw,43,intero + guadagni interi n=8,0.5764112502295518,,8.0,,"[81, 292, 137, 430, -20, 252, 33, -210, 218, -97, -273, 6413]",1.0,6800.0
+bot->unsw,43,intero + guadagni float  n=32,0.5106258508927544,,32.0,16.0,,,
+bot->unsw,43,intero + guadagni interi n=32,0.6311272408044214,,32.0,,"[38, -61, -66, -186, 33, 2048, -84, -230, 95, -63, -1235, 1105]",28.0,5400.0
+bot->unsw,43,intero + guadagni float  n=128,0.6798994746713731,,128.0,70.0,,,
+bot->unsw,43,intero + guadagni interi n=128,0.675779008975284,,128.0,,"[49, 59, -33, -188, -22, 53, -390, -57, 27, -6, -853, 2048]",40.0,5100.0
+bot->unsw,44,float non adattato,0.4592590240913419,,,,,,
+bot->unsw,44,intero non adattato,0.4355580035154714,0.9475963721460922,,,,,
+bot->unsw,44,intero + guadagni float  n=8,0.4652928028640688,,8.0,5.0,,,
+bot->unsw,44,intero + guadagni interi n=8,0.5054424057306374,,8.0,,"[101, 91, 224, 172, 29, 823, 25, 368, 88, 2, -150, 75704]",0.0,3800.0
+bot->unsw,44,intero + guadagni float  n=32,0.4816482970508952,,32.0,16.0,,,
+bot->unsw,44,intero + guadagni interi n=32,0.4762425693374471,,32.0,,"[16, 20, 55, -7, -60, 77, -512, 244, -37, -8, -664, 830]",4.0,2700.0
+bot->unsw,44,intero + guadagni float  n=128,0.662707428586526,,128.0,71.0,,,
+bot->unsw,44,intero + guadagni interi n=128,0.5141239609331709,,128.0,,"[46, 51, -8, -42, -31, 85, -444, 69, -44, -25, -654, 1025]",0.0,5200.0
+bot->unsw,45,float non adattato,0.4515187894366607,,,,,,
+bot->unsw,45,intero non adattato,0.43574362984863646,0.942640478435847,,,,,
+bot->unsw,45,intero + guadagni float  n=8,0.6086321366858825,,8.0,4.0,,,
+bot->unsw,45,intero + guadagni interi n=8,0.608786386041259,,8.0,,"[128, -39, -256, -202, -42, 558, -14, -18, -123, -56, -923, 1001]",78.0,3600.0
+bot->unsw,45,intero + guadagni float  n=32,0.49039966211250297,,32.0,16.0,,,
+bot->unsw,45,intero + guadagni interi n=32,0.6620119674631824,,32.0,,"[128, 21, -256, -126, 4, 475, 107, -35, -25, -73, -145, 2048]",0.0,3000.0
+bot->unsw,45,intero + guadagni float  n=128,0.6822538685721117,,128.0,67.0,,,
+bot->unsw,45,intero + guadagni interi n=128,0.6626218605648275,,128.0,,"[37, 54, -49, -42, -128, 128, 483, -41, -2, -22, -289, 2048]",0.0,2600.0
+bot->unsw,46,float non adattato,0.47892487026586217,,,,,,
+bot->unsw,46,intero non adattato,0.4245372590802143,0.923045875974588,,,,,
+bot->unsw,46,intero + guadagni float  n=8,0.4717701449197337,,8.0,6.0,,,
+bot->unsw,46,intero + guadagni interi n=8,0.4618297646219066,,8.0,,"[68, -74, -228, -183, -18, 555, 10, 440, 84, 100, 200, 503]",2.0,3600.0
+bot->unsw,46,intero + guadagni float  n=32,0.47440443873193516,,32.0,17.0,,,
+bot->unsw,46,intero + guadagni interi n=32,0.4774162973783127,,32.0,,"[80, -5, -79, -67, 19, 273, 53, 200, -67, 24, 84, 1256]",0.0,3200.0
+bot->unsw,46,intero + guadagni float  n=128,0.5056571373576726,,128.0,69.0,,,
+bot->unsw,46,intero + guadagni interi n=128,0.6887681039824647,,128.0,,"[56, -33, -57, -11, -58, 15, -346, 202, -95, 44, -588, 2048]",5.0,4500.0
+bot->unsw,47,float non adattato,0.4822565156009084,,,,,,
+bot->unsw,47,intero non adattato,0.42359624038882143,0.9211054320786423,,,,,
+bot->unsw,47,intero + guadagni float  n=8,0.518232769065986,,8.0,4.0,,,
+bot->unsw,47,intero + guadagni interi n=8,0.5146749222973084,,8.0,,"[-256, 395, 137, -40, 21, -45, 129, 813, 130, 16, -234, 899]",751.0,4200.0
+bot->unsw,47,intero + guadagni float  n=32,0.4641880034655808,,32.0,22.0,,,
+bot->unsw,47,intero + guadagni interi n=32,0.6529225849756363,,32.0,,"[-10, 60, 64, -41, -80, 14, -301, -475, 20, -115, -2030, 1084]",8.0,4100.0
+bot->unsw,47,intero + guadagni float  n=128,0.5210606109578654,,128.0,70.0,,,
+bot->unsw,47,intero + guadagni interi n=128,0.5073688400345125,,128.0,,"[116, 44, -43, -154, -24, -18, -243, 157, 21, -4, -568, 2048]",7.0,3300.0
+bot->unsw,48,float non adattato,0.4521206748349564,,,,,,
+bot->unsw,48,intero non adattato,0.4349363788019385,0.9400752116054069,,,,,
+bot->unsw,48,intero + guadagni float  n=8,0.6234430592493448,,8.0,1.0,,,
+bot->unsw,48,intero + guadagni interi n=8,0.5393467049797722,,8.0,,"[38, 256, -96, -123, -63, 2048, 231, -324, -118, -58, -548, -4256]",5300.0,5300.0
+bot->unsw,48,intero + guadagni float  n=32,0.47996378132460094,,32.0,17.0,,,
+bot->unsw,48,intero + guadagni interi n=32,0.4865285591256341,,32.0,,"[47, -24, 45, 21, -23, 1024, -315, -63, -88, -48, -54, 1042]",13.0,2200.0
+bot->unsw,48,intero + guadagni float  n=128,0.6138283594168087,,128.0,74.0,,,
+bot->unsw,48,intero + guadagni interi n=128,0.5472279673184518,,128.0,,"[-21, 15, 108, 53, -3, -7, 217, -37, -111, 10, -60, 56]",2702.0,2700.0
+bot->unsw,49,float non adattato,0.44443621679954975,,,,,,
+bot->unsw,49,intero non adattato,0.43411962142764654,0.9548342278779693,,,,,
+bot->unsw,49,intero + guadagni float  n=8,0.7165650128448833,,8.0,2.0,,,
+bot->unsw,49,intero + guadagni interi n=8,0.6669529665826259,,8.0,,"[256, 457, 1, 231, -49, 610, -143, -512, 65, 34, -1083, -7805]",5500.0,5500.0
+bot->unsw,49,intero + guadagni float  n=32,0.47509584030116964,,32.0,17.0,,,
+bot->unsw,49,intero + guadagni interi n=32,0.6013763008959594,,32.0,,"[38, 153, -30, 7, -4, -51, -104, -85, 17, -47, -288, 368]",0.0,2200.0
+bot->unsw,49,intero + guadagni float  n=128,0.4943927853737194,,128.0,75.0,,,
+bot->unsw,49,intero + guadagni interi n=128,0.47262984281521064,,128.0,,"[62, -16, -88, -31, 24, -63, -205, -31, -13, -36, -15, 1429]",6.0,3200.0
+bot->unsw,50,float non adattato,0.4437648799781699,,,,,,
+bot->unsw,50,intero non adattato,0.4342468491318964,0.9489352784342946,,,,,
+bot->unsw,50,intero + guadagni float  n=8,0.6585971931480412,,8.0,5.0,,,
+bot->unsw,50,intero + guadagni interi n=8,0.6487007266565253,,8.0,,"[-110, 256, -256, -239, 52, -13, 67, 102, -93, -105, -818, 1051]",7.0,4500.0
+bot->unsw,50,intero + guadagni float  n=32,0.49448362068809093,,32.0,20.0,,,
+bot->unsw,50,intero + guadagni interi n=32,0.4881552722367836,,32.0,,"[3, 220, 22, -71, -45, 512, -333, 420, 44, 54, -575, 1274]",6.0,3600.0
+bot->unsw,50,intero + guadagni float  n=128,0.6860241580771851,,128.0,78.0,,,
+bot->unsw,50,intero + guadagni interi n=128,0.7831945109473071,,128.0,,"[33, 96, -45, -6, -163, 334, -245, 150, -125, 48, -1155, 2048]",125.0,3800.0
+bot->unsw,51,float non adattato,0.4836281691594858,,,,,,
+bot->unsw,51,intero non adattato,0.43436127952895115,0.9134173933629057,,,,,
+bot->unsw,51,intero + guadagni float  n=8,0.49149669222111647,,8.0,2.0,,,
+bot->unsw,51,intero + guadagni interi n=8,0.5056938833537283,,8.0,,"[177, 150, -63, 3, -70, 1024, -1024, 89, -132, -91, 100, 1567]",1355.0,5000.0
+bot->unsw,51,intero + guadagni float  n=32,0.6451762235267158,,32.0,13.0,,,
+bot->unsw,51,intero + guadagni interi n=32,0.7584836941136139,,32.0,,"[17, 76, 76, -86, -65, 1473, 8, -281, -54, -52, -686, 1332]",3400.0,3400.0
+bot->unsw,51,intero + guadagni float  n=128,0.7655976314166565,,128.0,59.0,,,
+bot->unsw,51,intero + guadagni interi n=128,0.7563246652733557,,128.0,,"[28, 140, 45, -23, -128, 54, -66, 9, -49, 56, -902, 2048]",4617.0,4600.0
+unsw->bot,42,float non adattato,0.6893996331236898,,,,,,
+unsw->bot,42,intero non adattato,0.4215531970649895,0.41152351641335416,,,,,
+unsw->bot,42,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,42,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,42,intero + guadagni interi n=128,,,128.0,,,,
+unsw->bot,43,float non adattato,0.7012460429769392,,,,,,
+unsw->bot,43,intero non adattato,0.4136881446540881,0.3905535298313522,,,,,
+unsw->bot,43,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,43,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,43,intero + guadagni float  n=128,0.575745725069952,,128.0,2.0,,,
+unsw->bot,43,intero + guadagni interi n=128,0.6589011182308012,,128.0,,"[164, 14, -427, 68, -36, -85, -84, 153, -52, -18, -443, 605]",11000.0,11000.0
+unsw->bot,44,float non adattato,0.7452321331236897,,,,,,
+unsw->bot,44,intero non adattato,0.40567742662473794,0.3191588062471007,,,,,
+unsw->bot,44,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,44,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,44,intero + guadagni interi n=128,,,128.0,,,,
+unsw->bot,45,float non adattato,0.7389496331236898,,,,,,
+unsw->bot,45,intero non adattato,0.4133924528301887,0.35319263556417946,,,,,
+unsw->bot,45,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,45,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,45,intero + guadagni interi n=128,,,128.0,,,,
+unsw->bot,46,float non adattato,0.7200046331236898,,,,,,
+unsw->bot,46,intero non adattato,0.41495317085953876,0.39172074602074053,,,,,
+unsw->bot,46,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,46,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,46,intero + guadagni float  n=128,0.5763789996143349,,128.0,1.0,,,
+unsw->bot,46,intero + guadagni interi n=128,0.5861252199768702,,128.0,,"[12, 144, -420, 26, 4, -57, -68, 110, -45, -57, -813, 838]",6700.0,6700.0
+unsw->bot,47,float non adattato,0.7509935429769392,,,,,,
+unsw->bot,47,intero non adattato,0.4131074528301887,0.3049127830125152,,,,,
+unsw->bot,47,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,47,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,47,intero + guadagni float  n=128,0.5757586056641766,,128.0,1.0,,,
+unsw->bot,47,intero + guadagni interi n=128,0.7677871299115274,,128.0,,"[412, 1, -197, 188, 7, -51, -49, 52, -157, -22, -835, 2010]",8600.0,8600.0
+unsw->bot,48,float non adattato,0.7286978511530398,,,,,,
+unsw->bot,48,intero non adattato,0.4134824528301887,0.3735889902582341,,,,,
+unsw->bot,48,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,48,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,48,intero + guadagni interi n=128,,,128.0,,,,
+unsw->bot,49,float non adattato,0.7048571331236897,,,,,,
+unsw->bot,49,intero non adattato,0.40965208071278825,0.3804576086034807,,,,,
+unsw->bot,49,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,49,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,49,intero + guadagni interi n=128,,,128.0,,,,
+unsw->bot,50,float non adattato,0.7452210429769393,,,,,,
+unsw->bot,50,intero non adattato,0.4211024528301887,0.3459399332591769,,,,,
+unsw->bot,50,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,50,intero + guadagni interi n=32,,,32.0,,,,
+unsw->bot,50,intero + guadagni float  n=128,0.49093692710618214,,128.0,2.0,,,
+unsw->bot,50,intero + guadagni interi n=128,0.42921637473713703,,128.0,,"[211, 37, 449, -256, 51, -157, -226, 34, -134, 103, -4096, -260]",0.0,2900.0
+unsw->bot,51,float non adattato,0.7235685429769392,,,,,,
+unsw->bot,51,intero non adattato,0.4137174528301887,0.37551439816038745,,,,,
+unsw->bot,51,intero + guadagni interi n=8,,,8.0,,,,
+unsw->bot,51,intero + guadagni float  n=32,0.6723572668469495,,32.0,1.0,,,
+unsw->bot,51,intero + guadagni interi n=32,0.9026770840656773,,32.0,,"[253, -20, -377, -150, 73, -117, -57, -256, 512, 160, -3189, 10276]",4335.0,6700.0
+unsw->bot,51,intero + guadagni float  n=128,0.6512938256364668,,128.0,2.0,,,
+unsw->bot,51,intero + guadagni interi n=128,0.6590028349439094,,128.0,,"[512, 17, -512, -219, 119, -208, -22, -186, 462, 97, -1983, 1427]",33.0,8500.0
