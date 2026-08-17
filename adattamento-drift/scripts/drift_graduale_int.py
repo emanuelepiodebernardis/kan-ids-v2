@@ -64,6 +64,12 @@ BUFFER = 256
 FIT_ITERS = 6000
 
 
+def ratio_suffix(ratio):
+    """Vuoto al rapporto storico (50): i file esistenti restano dove sono e
+    un rilancio a --ratio diverso non li sovrascrive (sezione 18)."""
+    return "" if ratio == 50.0 else f"_ratio{ratio:g}"
+
+
 def batch_indices(n_src, n_tgt, alpha, size, rng):
     n_t = int(round(alpha * size))
     n_s = size - n_t
@@ -138,7 +144,8 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
             bal = float(balanced_accuracy_score(yb, (z >= 0).astype(int)))
             rows.append({"exp": exp, "seed": seed, "politica": nome, "batch": k,
                          "frazione_target": round(alpha, 3), "bal_acc": bal,
-                         "adattamenti": st["n_ad"], "etichette": st["n_lab"]})
+                         "adattamenti": st["n_ad"], "etichette": st["n_lab"],
+                         "ratio": ratio})
             if nome == "martingala_int":
                 st["logM"] = martingale_update_int(st["logM"], d_logM)
             aggiorna = (nome == "ogni_batch_int"
@@ -176,7 +183,8 @@ def main():
     ap.add_argument("--max-seconds", type=float, default=None)
     args = ap.parse_args()
 
-    ckpt = ARTIFACTS_DIR / "drift_graduale_int.jsonl"
+    suffix = ratio_suffix(args.ratio)
+    ckpt = ARTIFACTS_DIR / f"drift_graduale_int{suffix}.jsonl"
     rows, done = [], set()
     if ckpt.exists():
         for line in ckpt.read_text().splitlines():
@@ -192,23 +200,23 @@ def main():
                 continue
             if args.max_seconds and time.time() - t0 > args.max_seconds:
                 print("[ckpt] fermato per tempo: rilancia lo stesso comando")
-                return finalize(rows)
+                return finalize(rows, suffix)
             run_unit(H, exp, seed, args.ratio, rows, ckpt)
-    return finalize(rows)
+    return finalize(rows, suffix)
 
 
-def finalize(rows):
+def finalize(rows, suffix=""):
     d = pd.DataFrame(rows)
     if d.empty:
         return
-    d.to_csv(RESULTS_DIR / "drift_graduale_int_runs.csv", index=False)
+    d.to_csv(RESULTS_DIR / f"drift_graduale_int_runs{suffix}.csv", index=False)
     fin = d[d.batch == d.batch.max()]
     g = fin.pivot_table(index="exp", columns="politica",
                         values=["bal_acc", "adattamenti", "etichette"],
                         aggfunc="mean").round(4)
     media = d.pivot_table(index="exp", columns="politica", values="bal_acc",
                           aggfunc="mean").round(4)
-    media.to_csv(RESULTS_DIR / "drift_graduale_int.csv")
+    media.to_csv(RESULTS_DIR / f"drift_graduale_int{suffix}.csv")
     print("\n" + "=" * 96)
     print("bal_acc media sui 20 batch")
     print(media.to_string())

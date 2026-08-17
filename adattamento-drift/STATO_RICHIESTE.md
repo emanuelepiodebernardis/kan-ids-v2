@@ -96,16 +96,34 @@ l'analisi principale, ma per questa ragione — non perché dia numeri migliori.
 
 | Voce | Stato |
 |---|---|
-| CIC-IoT-2023 come terzo dataset | **fatto** (vedi sopra) — l'audit non lo vede |
+| CIC-IoT-2023 come terzo dataset | **fatto** — l'audit ora lo vede (27/27) |
+| Sensibilità al rapporto di undersampling (1:50) | **fatto** — sezione 18 |
 | Benchmark fisici su Mega 2560 ed ESP32-C3 | **aperto** — passa al professore |
-| Sensibilità al rapporto di undersampling (1:50) | **aperto, e ora pesa di più** |
 | Larghezza nascosta, grado, clip non riselezionati | **aperto** |
 
-**La sensibilità all'undersampling merita attenzione.** Era già aperta nella
-fase 2, e tutto il lavoro sull'adattamento al drift la eredita senza
-verificarla: ogni script usa `--ratio` con default 50.0. Non è più una lacuna
-di una sezione, è un'assunzione non testata sotto quattordici sezioni di
-risultati nuovi.
+**La sensibilità all'undersampling è stata misurata, e non era una
+formalità.** Il rapporto è un no-op quando la sorgente è già più
+equilibrata di lui — TON_IoT sta naturalmente a 3,22:1 e UNSW-NB15 a
+1,77:1 — quindi una griglia 20/50/100 non le vincola mai e quattro
+direzioni su sei non sarebbero state testate affatto. Estesa a 1:3 e 1:1,
+che vincolano anche quelle sorgenti, su tutte e sei le direzioni e 10 seed.
+
+Il rapporto storico (1:50) sta nella zona sicura, ma **due affermazioni
+non sopravvivono su tutto l'intervallo**:
+
+- «I 13 coefficienti pareggiano con il rifit completo» regge da 1:3 in su;
+  **a 1:1 perdono in cinque direzioni su cinque**, quattro in modo
+  significativo. Corretto nella sezione 11.
+- «La RLS perde esattamente e solo quando BoT-IoT è la sorgente» si rompe
+  **già a 1:3**, dove `bot→unsw` cambia segno e vince, e a 1:1 perde anche
+  `unsw→bot`, che ha UNSW-NB15 come sorgente. È l'affermazione più fragile
+  del lavoro. Riscritta nella sezione 16.2.
+
+Le altre tre reggono con qualifiche minori, e il meccanismo dei cedimenti
+è sempre lo stesso: a 1:1 la selezione delle etichette sul target trova
+più spesso una sola classe. Non è l'adattamento a rompersi, è il trovare
+cosa etichettare — lo stesso collo di bottiglia già identificato nelle
+sezioni 4 e 11.
 
 **I benchmark fisici hanno un sostituto parziale.** Non essendo disponibile
 l'hardware, la sezione 17c costruisce un modello di costo in operazioni —
@@ -177,25 +195,28 @@ quel segnale di conformità** — un limite dimostrato, non constatato.
 
 **Una direzione fallisce davvero.** In `unsw→bot` la selezione raccoglie zero
 normali in **tutti e 10 i seed**: BoT-IoT ha 477 normali su 3,67 M. Il collo
-di bottiglia non è l'adattamento, è trovare cosa etichettare.
+di bottiglia non è l'adattamento, è trovare cosa etichettare. (Vero per ogni
+rapporto di undersampling da 1:3 in su; a 1:1 un seed su dieci ci riesce —
+sezione 18.)
 
 ---
 
 ## 6. Cosa resta da fare, in ordine
 
-1. **Aggiornare `tools/audit_richieste.py`** perché guardi anche in
-   `adattamento-drift/`. È l'unica cosa che oggi fa leggere al professore
-   che il punto 3 è incompleto quando non lo è. Cinque minuti.
-2. **Sensibilità al rapporto di undersampling.** Aperta dalla fase 2 ed
-   ereditata da tutto il lavoro nuovo senza verifica.
-3. **Benchmark fisici** su Mega 2560 ed ESP32-C3. Il modello di costo dice
+*(I primi due punti di questa lista — aggiornare `tools/audit_richieste.py`
+e misurare la sensibilità all'undersampling — sono stati fatti: l'audit
+riporta 27/27 e la sensibilità è la sezione 18.)*
+
+1. **Benchmark fisici** su Mega 2560 ed ESP32-C3. Il modello di costo dice
    cosa aspettarsi; le misure vere restano da fare.
-4. **Rendere affidabile la RLS.** Il modello di costo mostra che è **551
+2. **Rendere affidabile la RLS.** Il modello di costo mostra che è **551
    volte più economica in calcolo e 5,9 volte più piccola in RAM** di
    qualunque alternativa misurata. Non è bloccata dalle risorse: è bloccata
    da un problema di accuratezza in due direzioni su sei, quelle in cui
-   BoT-IoT è la sorgente. Risolverlo sblocca l'opzione più economica
-   dell'intero lavoro.
-5. **Un segnale di conformità diverso** da |z − mediana| per le due direzioni
+   BoT-IoT è la sorgente. **La sezione 18 rende questo punto più urgente**:
+   il pattern «perde solo quando BoT-IoT è la sorgente» non regge sotto
+   1:20, quindi la diagnosi esistente (quasi-separazione al primo
+   aggiornamento) è incompleta e va rifatta prima del rimedio.
+3. **Un segnale di conformità diverso** da |z − mediana| per le due direzioni
    dove la martingala non scatta.
-6. **Larghezza nascosta, grado e clip**, mai riselezionati dentro il ciclo.
+4. **Larghezza nascosta, grado e clip**, mai riselezionati dentro il ciclo.

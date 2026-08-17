@@ -83,6 +83,12 @@ RLS_RIDGE = 0.1
 RLS_CLIP = None
 
 
+def ratio_suffix(ratio):
+    """Vuoto al rapporto storico (50): i file esistenti restano dove sono e
+    un rilancio a --ratio diverso non li sovrascrive (sezione 18)."""
+    return "" if ratio == 50.0 else f"_ratio{ratio:g}"
+
+
 class StatSufficienti:
     """Aggiornamento dei 13 guadagni SENZA conservare le etichette.
 
@@ -290,7 +296,7 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
             rows.append({"exp": exp, "seed": seed, "politica": nome, "batch": k,
                          "frazione_target": round(alpha, 3), "bal_acc": bal,
                          "adattamenti": st["n_ad"], "etichette": st["n_lab"],
-                         "innesco": bool(innesco), "vuoti": rate0})
+                         "innesco": bool(innesco), "vuoti": rate0, "ratio": ratio})
             if nome == "martingala":
                 # pavimento a zero, come nel CUSUM: senza, la deriva negativa
                 # sotto scambiabilita' (20 000 p-value per batch) affonda la
@@ -322,7 +328,14 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
             st["w"], st["b"] = fit_gains(X, Y, seed)
 
     with ckpt.open("a") as fh:
-        for r in rows[-N_BATCH * 6:]:
+        # bug trovato in sezione 18: la costante era rimasta a 6 (il numero
+        # di politiche prima di COMPITO 3b), che dopo l'aggiunta di
+        # "stat_13x13_adaptive" (settima politica) tagliava dal checkpoint
+        # su disco i primi 2-3 batch per seed di 6 politiche su 7. Non
+        # intaccava i CSV pubblicati (finalize() lavora su `rows` in
+        # memoria, completo), ma corrompeva qualunque ricarica futura del
+        # .jsonl (ripresa di un run interrotto, o rilettura per analisi).
+        for r in rows[-N_BATCH * len(politiche):]:
             fh.write(json.dumps(r, default=float) + "\n")
     fin = {k: (v["n_ad"], v["n_lab"]) for k, v in politiche.items()}
     print(f"  {exp} s={seed}  vuoti in calibrazione={rate_cal:.3f}  "
@@ -338,7 +351,8 @@ def main():
     ap.add_argument("--max-seconds", type=float, default=None)
     args = ap.parse_args()
 
-    ckpt = ARTIFACTS_DIR / "drift_graduale.jsonl"
+    suffix = ratio_suffix(args.ratio)
+    ckpt = ARTIFACTS_DIR / f"drift_graduale{suffix}.jsonl"
     rows, done = [], set()
     if ckpt.exists():
         for line in ckpt.read_text().splitlines():
@@ -354,23 +368,23 @@ def main():
                 continue
             if args.max_seconds and time.time() - t0 > args.max_seconds:
                 print("[ckpt] fermato per tempo: rilancia lo stesso comando")
-                return finalize(rows)
+                return finalize(rows, suffix)
             run_unit(H, exp, seed, args.ratio, rows, ckpt)
-    return finalize(rows)
+    return finalize(rows, suffix)
 
 
-def finalize(rows):
+def finalize(rows, suffix=""):
     d = pd.DataFrame(rows)
     if d.empty:
         return
-    d.to_csv(RESULTS_DIR / "drift_graduale_runs.csv", index=False)
+    d.to_csv(RESULTS_DIR / f"drift_graduale_runs{suffix}.csv", index=False)
     curva = d.pivot_table(index=["exp", "frazione_target"], columns="politica",
                           values="bal_acc", aggfunc="mean").round(4)
     costo = d.groupby(["exp", "politica"]).agg(
         bal_media=("bal_acc", "mean"), adattamenti=("adattamenti", "max"),
         etichette=("etichette", "max")).round(4)
-    curva.to_csv(RESULTS_DIR / "drift_graduale_curva.csv")
-    costo.to_csv(RESULTS_DIR / "drift_graduale.csv")
+    curva.to_csv(RESULTS_DIR / f"drift_graduale_curva{suffix}.csv")
+    costo.to_csv(RESULTS_DIR / f"drift_graduale{suffix}.csv")
     print("\n" + "=" * 80)
     print("CURVA lungo la deriva")
     print(curva.to_string())
