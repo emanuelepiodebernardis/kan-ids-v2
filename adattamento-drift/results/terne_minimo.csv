@@ -1,0 +1,19 @@
+terna,exp,non adattato,8 etichette,32 etichette,128 etichette
+ton+bot+cic (prof.),bot->bot,0.9801,,,
+ton+bot+cic (prof.),bot->cic,0.532,0.552,0.7946,0.8741
+ton+bot+cic (prof.),bot->ton,0.6367,0.7841,0.7878,0.8129
+ton+bot+cic (prof.),cic->bot,0.5677,0.7458,0.739,0.6589
+ton+bot+cic (prof.),cic->cic,0.9923,,,
+ton+bot+cic (prof.),cic->ton,0.5499,0.6636,0.7162,0.7834
+ton+bot+cic (prof.),ton->bot,0.6326,0.5663,0.5504,0.5937
+ton+bot+cic (prof.),ton->cic,0.5117,0.5335,0.7993,0.946
+ton+bot+cic (prof.),ton->ton,0.9597,,,
+ton+bot+unsw,bot->bot,0.9801,,,
+ton+bot+unsw,bot->ton,0.6367,0.7841,0.7878,0.8129
+ton+bot+unsw,bot->unsw,0.4567,0.7239,0.7386,0.7618
+ton+bot+unsw,ton->bot,0.6326,0.5663,0.5504,0.5937
+ton+bot+unsw,ton->ton,0.9597,,,
+ton+bot+unsw,ton->unsw,0.3191,0.6836,0.7366,0.7642
+ton+bot+unsw,unsw->bot,0.7046,0.7348,0.7806,0.7406
+ton+bot+unsw,unsw->ton,0.351,0.7298,0.7799,0.8386
+ton+bot+unsw,unsw->unsw,0.7925,,,

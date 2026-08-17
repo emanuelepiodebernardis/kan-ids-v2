@@ -118,10 +118,65 @@ voce(3, "Il target non entra in selezione, normalizzazione, tuning",
      "imposto da un test: si fitta due volte sullo stesso source con target\n"
      "diversissimi e si pretende che tutto l'appreso sia identico bit per bit")
 
-cic = any("cic" in p.name.lower() for p in R.glob("*")) and \
-      any("cic" in p.name.lower() for p in (REPO / "scripts").glob("*"))
-voce(3, "CIC-IoT-2023 come terzo dataset (secondario)", NO if not cic else OK,
-     "non iniziato: il professore lo indica come obiettivo secondario")
+# Il terzo e il quarto dominio vivono in adattamento-drift/, sottoprogetto
+# autonomo con il proprio kanids/ (vedi il suo README). Questo controllo
+# guardava solo results/ e scripts/ della radice, quindi continuava a
+# riportare "non iniziato" quando invece era fatto. Ora guarda in entrambi, e
+# cerca le API di CIC invece della sottostringa "cic" nel testo: quest'ultima
+# compare di sfuggita in file che con CIC non c'entrano.
+DRIFT = REPO / "adattamento-drift"
+CIC_API = ("build_minimo_cic", "build_ridotto_cic", "load_cic", "cic_paths",
+           "CIC_SINGLE_FILENAME", "CIC_GLOB")
+
+
+def _rel(p):
+    try:
+        return p.relative_to(REPO).as_posix()
+    except ValueError:
+        return p.as_posix()
+
+
+def _risultati_cic(*cartelle):
+    """File di risultati il cui nome nomina CIC."""
+    return [_rel(f) for c in cartelle if c.is_dir()
+            for f in sorted(c.glob("*")) if f.is_file() and "cic" in f.name.lower()]
+
+
+def _codice_cic(*cartelle):
+    """File che definiscono o usano le API di CIC, non che ne nominano la
+    sigla per caso."""
+    trovati = []
+    for c in cartelle:
+        if not c.is_dir():
+            continue
+        for f in sorted(c.glob("*.py")):
+            try:
+                testo = f.read_text(encoding="utf-8", errors="ignore")
+            except OSError:
+                continue
+            if any(api in testo for api in CIC_API):
+                trovati.append(_rel(f))
+    return trovati
+
+
+cic_res = _risultati_cic(R, DRIFT / "results")
+cic_cod = _codice_cic(REPO / "scripts", REPO / "kanids",
+                      DRIFT / "scripts", DRIFT / "kanids")
+if cic_res and cic_cod:
+    voce(3, "CIC-IoT-2023 come terzo dataset (secondario)", OK,
+         f"{len(cic_res)} file di risultati, {len(cic_cod)} di codice:\n"
+         + "\n".join("  " + f for f in cic_res + cic_cod) + "\n"
+         "il costo dello spazio ridotto che CIC impone e' stato misurato prima\n"
+         "di adottarlo (mancano i conteggi direzionali: 7 delle 13 feature\n"
+         "numeriche cadono), quindi UNSW-NB15 e' il terzo dominio dell'analisi\n"
+         "principale nello spazio ricco e CIC-IoT-2023 il quarto nel suo.\n"
+         "Vedi adattamento-drift/RISULTATI.md, sezioni 10, 14 e 15")
+elif cic_res or cic_cod:
+    voce(3, "CIC-IoT-2023 come terzo dataset (secondario)", PART,
+         f"risultati: {cic_res or 'nessuno'}\ncodice: {cic_cod or 'nessuno'}")
+else:
+    voce(3, "CIC-IoT-2023 come terzo dataset (secondario)", NO,
+         "non iniziato: il professore lo indica come obiettivo secondario")
 
 # ── 4 ────────────────────────────────────────────────────────
 print("\n4) BASELINE IDENTICHE")

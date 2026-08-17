@@ -1,0 +1,261 @@
+src,dst,exp,seed,spazio,terna,in_domain,metodo,bal_acc,n_target,unseen_proto_h,unseen_state_h,roc_auc_target,frazione_attacchi,budget,normali
+ton,ton,ton->ton,42,minimo,ton+bot+cic (prof.),True,non adattato,0.9603028175354714,42209,0.0,0.0,0.9922871231643328,0.7630837025278969,,
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,non adattato,0.6262903773584906,200477,0.00027434568553998714,0.0,0.5894360796645702,0.9976206746908622,,
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,8 etichette,0.5430803924117723,200477,0.00027434568553998714,0.0,,,8.0,2.0
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.5535918077542327,200477,0.00027434568553998714,0.0,,,8.0,
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,32 etichette,0.5705500873576036,200477,0.00027434568553998714,0.0,,,32.0,3.0
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.5463909988467315,200477,0.00027434568553998714,0.0,,,32.0,
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,128 etichette,0.6261294954916443,200477,0.00027434568553998714,0.0,,,128.0,3.0
+ton,bot,ton->bot,42,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.5410441810941966,200477,0.00027434568553998714,0.0,,,128.0,
+ton,cic,ton->cic,42,minimo,ton+bot+cic (prof.),False,non adattato,0.512238233041721,237607,0.013257185183938184,0.0,0.4693379558326908,0.8417260434246466,,
+ton,cic,ton->cic,42,minimo,ton+bot+cic (prof.),False,8 etichette,,237607,0.013257185183938184,0.0,,,8.0,0.0
+ton,cic,ton->cic,42,minimo,ton+bot+cic (prof.),False,32 etichette,0.8975420880402603,237607,0.013257185183938184,0.0,,,32.0,7.0
+ton,cic,ton->cic,42,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.9567972559069884,237607,0.013257185183938184,0.0,,,32.0,
+ton,cic,ton->cic,42,minimo,ton+bot+cic (prof.),False,128 etichette,0.9350412997706614,237607,0.013257185183938184,0.0,,,128.0,18.0
+ton,cic,ton->cic,42,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9297657372599384,237607,0.013257185183938184,0.0,,,128.0,
+ton,ton,ton->ton,43,minimo,ton+bot+cic (prof.),True,non adattato,0.9592939675246048,42209,0.0,0.0,0.9924575506845912,0.7630837025278969,,
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,non adattato,0.6315089675052411,200477,0.00028432189228689577,0.0,0.6148372746331238,0.9976206746908622,,
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,8 etichette,0.6095980587687864,200477,0.00028432189228689577,0.0,,,8.0,4.0
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.5391120507399577,200477,0.00028432189228689577,0.0,,,8.0,
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,32 etichette,0.5380495965862235,200477,0.00028432189228689577,0.0,,,32.0,19.0
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.5425589180763999,200477,0.00028432189228689577,0.0,,,32.0,
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,128 etichette,0.5955568704160458,200477,0.00028432189228689577,0.0,,,128.0,22.0
+ton,bot,ton->bot,43,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.5395404289548186,200477,0.00028432189228689577,0.0,,,128.0,
+ton,cic,ton->cic,43,minimo,ton+bot+cic (prof.),False,non adattato,0.5120003865636716,237607,0.013497077106314207,0.0,0.4741012861302417,0.8417260434246466,,
+ton,cic,ton->cic,43,minimo,ton+bot+cic (prof.),False,8 etichette,,237607,0.013497077106314207,0.0,,,8.0,0.0
+ton,cic,ton->cic,43,minimo,ton+bot+cic (prof.),False,32 etichette,0.80737110052573,237607,0.013497077106314207,0.0,,,32.0,4.0
+ton,cic,ton->cic,43,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.8481934451782216,237607,0.013497077106314207,0.0,,,32.0,
+ton,cic,ton->cic,43,minimo,ton+bot+cic (prof.),False,128 etichette,0.9649305818293766,237607,0.013497077106314207,0.0,,,128.0,20.0
+ton,cic,ton->cic,43,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9490473546086557,237607,0.013497077106314207,0.0,,,128.0,
+ton,ton,ton->ton,44,minimo,ton+bot+cic (prof.),True,non adattato,0.9596109286224347,42209,0.0,0.0,0.9929870269179424,0.7630837025278969,,
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,non adattato,0.6400214937106918,200477,0.00027933378891344145,0.0,0.5694324213836478,0.9976206746908622,,
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,8 etichette,0.5463460004221624,200477,0.00027933378891344145,0.0,,,8.0,3.0
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.5548448204876009,200477,0.00027933378891344145,0.0,,,8.0,
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,32 etichette,0.5424706811755725,200477,0.00027933378891344145,0.0,,,32.0,7.0
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.5446758504387517,200477,0.00027933378891344145,0.0,,,32.0,
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,128 etichette,0.5593718454984414,200477,0.00027933378891344145,0.0,,,128.0,7.0
+ton,bot,ton->bot,44,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.546735966749245,200477,0.00027933378891344145,0.0,,,128.0,
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,non adattato,0.5109265271757917,237607,0.013454990804142976,0.0,0.4687411258542293,0.8417260434246466,,
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,8 etichette,0.5334827874606024,237607,0.013454990804142976,0.0,,,8.0,3.0
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.9079339034055577,237607,0.013454990804142976,0.0,,,8.0,
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,32 etichette,0.6929942793784665,237607,0.013454990804142976,0.0,,,32.0,3.0
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.8563661125076518,237607,0.013454990804142976,0.0,,,32.0,
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,128 etichette,0.9380219456222252,237607,0.013454990804142976,0.0,,,128.0,17.0
+ton,cic,ton->cic,44,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9763731052830623,237607,0.013454990804142976,0.0,,,128.0,
+bot,ton,bot->ton,42,minimo,ton+bot+cic (prof.),False,non adattato,0.6308172437796117,211043,0.0,0.212525409513701,0.5990846242307954,0.7630814573333397,,
+bot,ton,bot->ton,42,minimo,ton+bot+cic (prof.),False,8 etichette,,211043,0.0,0.212525409513701,,,8.0,0.0
+bot,ton,bot->ton,42,minimo,ton+bot+cic (prof.),False,32 etichette,0.8146953880452104,211043,0.0,0.212525409513701,,,32.0,6.0
+bot,ton,bot->ton,42,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.9063096990520099,211043,0.0,0.212525409513701,,,32.0,
+bot,ton,bot->ton,42,minimo,ton+bot+cic (prof.),False,128 etichette,0.8800490564814246,211043,0.0,0.212525409513701,,,128.0,32.0
+bot,ton,bot->ton,42,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9073942893546373,211043,0.0,0.212525409513701,,,128.0,
+bot,bot,bot->bot,42,minimo,ton+bot+cic (prof.),True,non adattato,0.9839095633059011,733705,0.0,0.0,0.9964781086178731,0.9998705201681874,,
+bot,cic,bot->cic,42,minimo,ton+bot+cic (prof.),False,non adattato,0.5322422396761242,237607,0.0,0.0,0.6046671494668546,0.8417260434246466,,
+bot,cic,bot->cic,42,minimo,ton+bot+cic (prof.),False,8 etichette,,237607,0.0,0.0,,,8.0,0.0
+bot,cic,bot->cic,42,minimo,ton+bot+cic (prof.),False,32 etichette,0.7714779822876796,237607,0.0,0.0,,,32.0,7.0
+bot,cic,bot->cic,42,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.9658120912055497,237607,0.0,0.0,,,32.0,
+bot,cic,bot->cic,42,minimo,ton+bot+cic (prof.),False,128 etichette,0.8947780869384783,237607,0.0,0.0,,,128.0,18.0
+bot,cic,bot->cic,42,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9872773128921457,237607,0.0,0.0,,,128.0,
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,non adattato,0.6275705973559856,211043,0.0,0.212525409513701,0.6308224006010817,0.7630814573333397,,
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,8 etichette,0.7891998194505175,211043,0.0,0.212525409513701,,,8.0,2.0
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.7364439701379482,211043,0.0,0.212525409513701,,,8.0,
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,32 etichette,0.7732406807531499,211043,0.0,0.212525409513701,,,32.0,7.0
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.8465560815399473,211043,0.0,0.212525409513701,,,32.0,
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,128 etichette,0.7802060072794147,211043,0.0,0.212525409513701,,,128.0,20.0
+bot,ton,bot->ton,43,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.8922197977895604,211043,0.0,0.212525409513701,,,128.0,
+bot,bot,bot->bot,43,minimo,ton+bot+cic (prof.),True,non adattato,0.9833356889039708,733705,0.0,0.0,0.9956656304547306,0.9998705201681874,,
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,non adattato,0.5317117882309145,237607,0.0,0.0,0.5589185288643072,0.8417260434246466,,
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,8 etichette,0.5404636950170111,237607,0.0,0.0,,,8.0,3.0
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.7450250988749987,237607,0.0,0.0,,,8.0,
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,32 etichette,0.7874296090121073,237607,0.0,0.0,,,32.0,4.0
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.9674246337284338,237607,0.0,0.0,,,32.0,
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,128 etichette,0.8034837151248095,237607,0.0,0.0,,,128.0,20.0
+bot,cic,bot->cic,43,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9847144440731387,237607,0.0,0.0,,,128.0,
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,non adattato,0.6518608940469315,211043,0.0,0.212525409513701,0.6065145850487137,0.7630814573333397,,
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,8 etichette,0.7790340195387827,211043,0.0,0.212525409513701,,,8.0,1.0
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.5222972640480654,211043,0.0,0.212525409513701,,,8.0,
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,32 etichette,0.7754052470843336,211043,0.0,0.212525409513701,,,32.0,9.0
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.8203890803561633,211043,0.0,0.212525409513701,,,32.0,
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,128 etichette,0.7784729251042819,211043,0.0,0.212525409513701,,,128.0,25.0
+bot,ton,bot->ton,44,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9252075316892945,211043,0.0,0.212525409513701,,,128.0,
+bot,bot,bot->bot,44,minimo,ton+bot+cic (prof.),True,non adattato,0.9729647690333096,733705,0.0,0.0,0.9941006371519645,0.9998705201681874,,
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,non adattato,0.5319816731592523,237607,0.0,0.0,0.5879805144653921,0.8417260434246466,,
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,8 etichette,0.5636297854845584,237607,0.0,0.0,,,8.0,3.0
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.9041251439487242,237607,0.0,0.0,,,8.0,
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,32 etichette,0.8248295923795026,237607,0.0,0.0,,,32.0,3.0
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.7450342799705958,237607,0.0,0.0,,,32.0,
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,128 etichette,0.9240686240480387,237607,0.0,0.0,,,128.0,17.0
+bot,cic,bot->cic,44,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.988363635991958,237607,0.0,0.0,,,128.0,
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,non adattato,0.5680115829312669,211043,0.0,0.29760285818529875,0.5786811317474215,0.7630814573333397,,
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,8 etichette,0.6796925156441975,211043,0.0,0.29760285818529875,,,8.0,1.0
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.6959837651756885,211043,0.0,0.29760285818529875,,,8.0,
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,32 etichette,0.734511710345167,211043,0.0,0.29760285818529875,,,32.0,6.0
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.9110247576765733,211043,0.0,0.29760285818529875,,,32.0,
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,128 etichette,0.8198925587833351,211043,0.0,0.29760285818529875,,,128.0,32.0
+cic,ton,cic->ton,42,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9174699185435398,211043,0.0,0.29760285818529875,,,128.0,
+cic,bot,cic->bot,42,minimo,ton+bot+cic (prof.),False,non adattato,0.5330914727463312,200477,0.0,0.002134908243838445,0.5417313888888889,0.9976206746908622,,
+cic,bot,cic->bot,42,minimo,ton+bot+cic (prof.),False,8 etichette,,200477,0.0,0.002134908243838445,,,8.0,0.0
+cic,bot,cic->bot,42,minimo,ton+bot+cic (prof.),False,32 etichette,,200477,0.0,0.002134908243838445,,,32.0,0.0
+cic,bot,cic->bot,42,minimo,ton+bot+cic (prof.),False,128 etichette,,200477,0.0,0.002134908243838445,,,128.0,0.0
+cic,cic,cic->cic,42,minimo,ton+bot+cic (prof.),True,non adattato,0.9918875565311915,87522,0.0,0.0,0.9974571850892683,0.9140673202166313,,
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,non adattato,0.5100443774023087,211043,0.0,0.29760285818529875,0.6290453142328447,0.7630814573333397,,
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,8 etichette,0.756035844183446,211043,0.0,0.29760285818529875,,,8.0,2.0
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.6722344431697125,211043,0.0,0.29760285818529875,,,8.0,
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,32 etichette,0.8188907309784055,211043,0.0,0.29760285818529875,,,32.0,7.0
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.8248865652404991,211043,0.0,0.29760285818529875,,,32.0,
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,128 etichette,0.7338715241898792,211043,0.0,0.29760285818529875,,,128.0,20.0
+cic,ton,cic->ton,43,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.8881258990687337,211043,0.0,0.29760285818529875,,,128.0,
+cic,bot,cic->bot,43,minimo,ton+bot+cic (prof.),False,non adattato,0.6946209853249476,200477,0.0,0.002214717897813714,0.7568254035639415,0.9976206746908622,,
+cic,bot,cic->bot,43,minimo,ton+bot+cic (prof.),False,8 etichette,,200477,0.0,0.002214717897813714,,,8.0,0.0
+cic,bot,cic->bot,43,minimo,ton+bot+cic (prof.),False,32 etichette,0.656462834354876,200477,0.0,0.002214717897813714,,,32.0,14.0
+cic,bot,cic->bot,43,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.8212313082259477,200477,0.0,0.002214717897813714,,,32.0,
+cic,bot,cic->bot,43,minimo,ton+bot+cic (prof.),False,128 etichette,0.571712868775807,200477,0.0,0.002214717897813714,,,128.0,14.0
+cic,bot,cic->bot,43,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.7455487154676006,200477,0.0,0.002214717897813714,,,128.0,
+cic,cic,cic->cic,43,minimo,ton+bot+cic (prof.),True,non adattato,0.9925114368459704,87522,0.0,0.0,0.9970396427749745,0.9140673202166313,,
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,non adattato,0.5716733338921903,211043,0.0,0.29760285818529875,0.6147886712865508,0.7630814573333397,,
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,8 etichette,0.5549289126695125,211043,0.0,0.29760285818529875,,,8.0,1.0
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.4766790907615763,211043,0.0,0.29760285818529875,,,8.0,
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,32 etichette,0.595241321241823,211043,0.0,0.29760285818529875,,,32.0,9.0
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.6845543623762103,211043,0.0,0.29760285818529875,,,32.0,
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,128 etichette,0.7965650975108531,211043,0.0,0.29760285818529875,,,128.0,25.0
+cic,ton,cic->ton,44,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9252011155322908,211043,0.0,0.29760285818529875,,,128.0,
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,non adattato,0.4754444811320755,200477,0.0,0.002224694104560623,0.5152848427672956,0.9976206746908622,,
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,8 etichette,0.7458452763135601,200477,0.0,0.002224694104560623,,,8.0,4.0
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,rifit completo n=8,0.7853887046028447,200477,0.0,0.002224694104560623,,,8.0,
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,32 etichette,0.8215467857124881,200477,0.0,0.002224694104560623,,,32.0,24.0
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,rifit completo n=32,0.819288185434702,200477,0.0,0.002224694104560623,,,32.0,
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,128 etichette,0.746045772346717,200477,0.0,0.002224694104560623,,,128.0,55.0
+cic,bot,cic->bot,44,minimo,ton+bot+cic (prof.),False,rifit completo n=128,0.9011067060804208,200477,0.0,0.002224694104560623,,,128.0,
+cic,cic,cic->cic,44,minimo,ton+bot+cic (prof.),True,non adattato,0.9925921298939487,87522,0.0,0.0,0.9974721047937438,0.9140673202166313,,
+ton,ton,ton->ton,42,minimo,ton+bot+unsw,True,non adattato,0.9603028175354714,42209,0.0,0.0,0.9922871231643328,0.7630837025278969,,
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,non adattato,0.6262903773584906,200477,0.00027434568553998714,0.0,0.5894360796645702,0.9976206746908622,,
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,8 etichette,0.5430803924117723,200477,0.00027434568553998714,0.0,,,8.0,2.0
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,rifit completo n=8,0.5535918077542327,200477,0.00027434568553998714,0.0,,,8.0,
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,32 etichette,0.5705500873576036,200477,0.00027434568553998714,0.0,,,32.0,3.0
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,rifit completo n=32,0.5463909988467315,200477,0.00027434568553998714,0.0,,,32.0,
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,128 etichette,0.6261294954916443,200477,0.00027434568553998714,0.0,,,128.0,3.0
+ton,bot,ton->bot,42,minimo,ton+bot+unsw,False,rifit completo n=128,0.5410441810941966,200477,0.00027434568553998714,0.0,,,128.0,
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,non adattato,0.3187884038220027,257673,0.1626712926849146,0.0,0.26072896102533344,0.6390774353541117,,
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,8 etichette,0.7588154445115405,257673,0.1626712926849146,0.0,,,8.0,3.0
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,rifit completo n=8,0.7471688369765154,257673,0.1626712926849146,0.0,,,8.0,
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,32 etichette,0.7546828558608107,257673,0.1626712926849146,0.0,,,32.0,8.0
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,rifit completo n=32,0.7308401275368168,257673,0.1626712926849146,0.0,,,32.0,
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,128 etichette,0.7773647126533614,257673,0.1626712926849146,0.0,,,128.0,48.0
+ton,unsw,ton->unsw,42,minimo,ton+bot+unsw,False,rifit completo n=128,0.7867224216717568,257673,0.1626712926849146,0.0,,,128.0,
+ton,ton,ton->ton,43,minimo,ton+bot+unsw,True,non adattato,0.9592939675246048,42209,0.0,0.0,0.9924575506845912,0.7630837025278969,,
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,non adattato,0.6315089675052411,200477,0.00028432189228689577,0.0,0.6148372746331238,0.9976206746908622,,
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,8 etichette,0.6095980587687864,200477,0.00028432189228689577,0.0,,,8.0,4.0
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,rifit completo n=8,0.5391120507399577,200477,0.00028432189228689577,0.0,,,8.0,
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,32 etichette,0.5380495965862235,200477,0.00028432189228689577,0.0,,,32.0,19.0
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,rifit completo n=32,0.5425589180763999,200477,0.00028432189228689577,0.0,,,32.0,
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,128 etichette,0.5955568704160458,200477,0.00028432189228689577,0.0,,,128.0,22.0
+ton,bot,ton->bot,43,minimo,ton+bot+unsw,False,rifit completo n=128,0.5395404289548186,200477,0.00028432189228689577,0.0,,,128.0,
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,non adattato,0.31880021814493353,257673,0.1626712926849146,0.0,0.2594975885412269,0.6390774353541117,,
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,8 etichette,0.6083253913182247,257673,0.1626712926849146,0.0,,,8.0,2.0
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,rifit completo n=8,0.6272131373582421,257673,0.1626712926849146,0.0,,,8.0,
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,32 etichette,0.679131063591576,257673,0.1626712926849146,0.0,,,32.0,8.0
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,rifit completo n=32,0.692996845319155,257673,0.1626712926849146,0.0,,,32.0,
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,128 etichette,0.7605280496254453,257673,0.1626712926849146,0.0,,,128.0,54.0
+ton,unsw,ton->unsw,43,minimo,ton+bot+unsw,False,rifit completo n=128,0.7711074258609877,257673,0.1626712926849146,0.0,,,128.0,
+ton,ton,ton->ton,44,minimo,ton+bot+unsw,True,non adattato,0.9596109286224347,42209,0.0,0.0,0.9929870269179424,0.7630837025278969,,
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,non adattato,0.6400214937106918,200477,0.00027933378891344145,0.0,0.5694324213836478,0.9976206746908622,,
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,8 etichette,0.5463460004221624,200477,0.00027933378891344145,0.0,,,8.0,3.0
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,rifit completo n=8,0.5548448204876009,200477,0.00027933378891344145,0.0,,,8.0,
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,32 etichette,0.5424706811755725,200477,0.00027933378891344145,0.0,,,32.0,7.0
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,rifit completo n=32,0.5446758504387517,200477,0.00027933378891344145,0.0,,,32.0,
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,128 etichette,0.5593718454984414,200477,0.00027933378891344145,0.0,,,128.0,7.0
+ton,bot,ton->bot,44,minimo,ton+bot+unsw,False,rifit completo n=128,0.546735966749245,200477,0.00027933378891344145,0.0,,,128.0,
+ton,unsw,ton->unsw,44,minimo,ton+bot+unsw,False,non adattato,0.3197107716700722,257673,0.1626712926849146,0.0,0.25733139909925107,0.6390774353541117,,
+ton,unsw,ton->unsw,44,minimo,ton+bot+unsw,False,8 etichette,,257673,0.1626712926849146,0.0,,,8.0,0.0
+ton,unsw,ton->unsw,44,minimo,ton+bot+unsw,False,32 etichette,0.7759548758126513,257673,0.1626712926849146,0.0,,,32.0,11.0
+ton,unsw,ton->unsw,44,minimo,ton+bot+unsw,False,rifit completo n=32,0.7845388874172808,257673,0.1626712926849146,0.0,,,32.0,
+ton,unsw,ton->unsw,44,minimo,ton+bot+unsw,False,128 etichette,0.7547654155925319,257673,0.1626712926849146,0.0,,,128.0,55.0
+ton,unsw,ton->unsw,44,minimo,ton+bot+unsw,False,rifit completo n=128,0.7668744322655967,257673,0.1626712926849146,0.0,,,128.0,
+bot,ton,bot->ton,42,minimo,ton+bot+unsw,False,non adattato,0.6308172437796117,211043,0.0,0.212525409513701,0.5990846242307954,0.7630814573333397,,
+bot,ton,bot->ton,42,minimo,ton+bot+unsw,False,8 etichette,,211043,0.0,0.212525409513701,,,8.0,0.0
+bot,ton,bot->ton,42,minimo,ton+bot+unsw,False,32 etichette,0.8146953880452104,211043,0.0,0.212525409513701,,,32.0,6.0
+bot,ton,bot->ton,42,minimo,ton+bot+unsw,False,rifit completo n=32,0.9063096990520099,211043,0.0,0.212525409513701,,,32.0,
+bot,ton,bot->ton,42,minimo,ton+bot+unsw,False,128 etichette,0.8800490564814246,211043,0.0,0.212525409513701,,,128.0,32.0
+bot,ton,bot->ton,42,minimo,ton+bot+unsw,False,rifit completo n=128,0.9073942893546373,211043,0.0,0.212525409513701,,,128.0,
+bot,bot,bot->bot,42,minimo,ton+bot+unsw,True,non adattato,0.9839095633059011,733705,0.0,0.0,0.9964781086178731,0.9998705201681874,,
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,non adattato,0.45725165650870553,257673,0.0,0.0,0.403323798699397,0.6390774353541117,,
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,8 etichette,0.7618920429086747,257673,0.0,0.0,,,8.0,3.0
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,rifit completo n=8,0.7364905926253907,257673,0.0,0.0,,,8.0,
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,32 etichette,0.6922189406079559,257673,0.0,0.0,,,32.0,8.0
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,rifit completo n=32,0.7138269437970755,257673,0.0,0.0,,,32.0,
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,128 etichette,0.7583233690334763,257673,0.0,0.0,,,128.0,48.0
+bot,unsw,bot->unsw,42,minimo,ton+bot+unsw,False,rifit completo n=128,0.7969681320823796,257673,0.0,0.0,,,128.0,
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,non adattato,0.6275705973559856,211043,0.0,0.212525409513701,0.6308224006010817,0.7630814573333397,,
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,8 etichette,0.7891998194505175,211043,0.0,0.212525409513701,,,8.0,2.0
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,rifit completo n=8,0.7364439701379482,211043,0.0,0.212525409513701,,,8.0,
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,32 etichette,0.7732406807531499,211043,0.0,0.212525409513701,,,32.0,7.0
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,rifit completo n=32,0.8465560815399473,211043,0.0,0.212525409513701,,,32.0,
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,128 etichette,0.7802060072794147,211043,0.0,0.212525409513701,,,128.0,20.0
+bot,ton,bot->ton,43,minimo,ton+bot+unsw,False,rifit completo n=128,0.8922197977895604,211043,0.0,0.212525409513701,,,128.0,
+bot,bot,bot->bot,43,minimo,ton+bot+unsw,True,non adattato,0.9833356889039708,733705,0.0,0.0,0.9956656304547306,0.9998705201681874,,
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,non adattato,0.4557949446439601,257673,0.0,0.0,0.37817273094955406,0.6390774353541117,,
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,8 etichette,0.6462452522809908,257673,0.0,0.0,,,8.0,2.0
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,rifit completo n=8,0.5714361703890856,257673,0.0,0.0,,,8.0,
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,32 etichette,0.7619270901447583,257673,0.0,0.0,,,32.0,8.0
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,rifit completo n=32,0.754429725893898,257673,0.0,0.0,,,32.0,
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,128 etichette,0.7629868641163383,257673,0.0,0.0,,,128.0,54.0
+bot,unsw,bot->unsw,43,minimo,ton+bot+unsw,False,rifit completo n=128,0.8063966791497599,257673,0.0,0.0,,,128.0,
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,non adattato,0.6518608940469315,211043,0.0,0.212525409513701,0.6065145850487137,0.7630814573333397,,
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,8 etichette,0.7790340195387827,211043,0.0,0.212525409513701,,,8.0,1.0
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,rifit completo n=8,0.5222972640480654,211043,0.0,0.212525409513701,,,8.0,
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,32 etichette,0.7754052470843336,211043,0.0,0.212525409513701,,,32.0,9.0
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,rifit completo n=32,0.8203890803561633,211043,0.0,0.212525409513701,,,32.0,
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,128 etichette,0.7784729251042819,211043,0.0,0.212525409513701,,,128.0,25.0
+bot,ton,bot->ton,44,minimo,ton+bot+unsw,False,rifit completo n=128,0.9252075316892945,211043,0.0,0.212525409513701,,,128.0,
+bot,bot,bot->bot,44,minimo,ton+bot+unsw,True,non adattato,0.9729647690333096,733705,0.0,0.0,0.9941006371519645,0.9998705201681874,,
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,non adattato,0.4571353405566418,257673,0.0,0.0,0.3938901688775324,0.6390774353541117,,
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,8 etichette,0.7635502993447145,257673,0.0,0.0,,,8.0,3.0
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,rifit completo n=8,0.6557185751923531,257673,0.0,0.0,,,8.0,
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,32 etichette,0.7617278068959172,257673,0.0,0.0,,,32.0,11.0
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,rifit completo n=32,0.7787867546948857,257673,0.0,0.0,,,32.0,
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,128 etichette,0.7640117932533952,257673,0.0,0.0,,,128.0,55.0
+bot,unsw,bot->unsw,44,minimo,ton+bot+unsw,False,rifit completo n=128,0.8046045096046102,257673,0.0,0.0,,,128.0,
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,non adattato,0.34256037313015775,211043,0.0,0.212525409513701,0.2841946933427718,0.7630814573333397,,
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,8 etichette,0.8061299016909075,211043,0.0,0.212525409513701,,,8.0,1.0
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,rifit completo n=8,0.6799830644393507,211043,0.0,0.212525409513701,,,8.0,
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,32 etichette,0.7710109877537517,211043,0.0,0.212525409513701,,,32.0,6.0
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,rifit completo n=32,0.9022669383846063,211043,0.0,0.212525409513701,,,32.0,
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,128 etichette,0.8366152951096777,211043,0.0,0.212525409513701,,,128.0,32.0
+unsw,ton,unsw->ton,42,minimo,ton+bot+unsw,False,rifit completo n=128,0.9455972853773313,211043,0.0,0.212525409513701,,,128.0,
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,non adattato,0.6951596645702306,200477,0.0,0.0,0.715862714884696,0.9976206746908622,,
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,8 etichette,0.7196724901747052,200477,0.0,0.0,,,8.0,2.0
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,rifit completo n=8,0.6345969379081373,200477,0.0,0.0,,,8.0,
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,32 etichette,0.8101987666571038,200477,0.0,0.0,,,32.0,2.0
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,rifit completo n=32,0.6505186041064055,200477,0.0,0.0,,,32.0,
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,128 etichette,0.810198609334407,200477,0.0,0.0,,,128.0,2.0
+unsw,bot,unsw->bot,42,minimo,ton+bot+unsw,False,rifit completo n=128,0.7030961031765802,200477,0.0,0.0,,,128.0,
+unsw,unsw,unsw->unsw,42,minimo,ton+bot+unsw,True,non adattato,0.7902481753731283,51535,0.0,0.0,0.8879271830634143,0.6390802367323178,,
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,non adattato,0.3668820980731854,211043,0.0,0.212525409513701,0.27162833448209484,0.7630814573333397,,
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,8 etichette,0.7462364576290983,211043,0.0,0.212525409513701,,,8.0,2.0
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,rifit completo n=8,0.7250817173654549,211043,0.0,0.212525409513701,,,8.0,
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,32 etichette,0.8452513675853558,211043,0.0,0.212525409513701,,,32.0,7.0
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,rifit completo n=32,0.9419396007420817,211043,0.0,0.212525409513701,,,32.0,
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,128 etichette,0.8590467839666391,211043,0.0,0.212525409513701,,,128.0,20.0
+unsw,ton,unsw->ton,43,minimo,ton+bot+unsw,False,rifit completo n=128,0.9582392356700347,211043,0.0,0.212525409513701,,,128.0,
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,non adattato,0.7018161006289307,200477,0.0,0.0,0.7443734381551363,0.9976206746908622,,
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,8 etichette,0.8070735674755778,200477,0.0,0.0,,,8.0,4.0
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,rifit completo n=8,0.7312743400745394,200477,0.0,0.0,,,8.0,
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,32 etichette,0.724673825431701,200477,0.0,0.0,,,32.0,6.0
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,rifit completo n=32,0.9362158163363785,200477,0.0,0.0,,,32.0,
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,128 etichette,0.6689474308909116,200477,0.0,0.0,,,128.0,18.0
+unsw,bot,unsw->bot,43,minimo,ton+bot+unsw,False,rifit completo n=128,0.7956804673943219,200477,0.0,0.0,,,128.0,
+unsw,unsw,unsw->unsw,43,minimo,ton+bot+unsw,True,non adattato,0.7940051396445589,51535,0.0,0.0,0.8919988809825805,0.6390802367323178,,
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,non adattato,0.34343688716678156,211043,0.0,0.212525409513701,0.2661442759387245,0.7630814573333397,,
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,8 etichette,0.637013286168503,211043,0.0,0.212525409513701,,,8.0,1.0
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,rifit completo n=8,0.5657037925899728,211043,0.0,0.212525409513701,,,8.0,
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,32 etichette,0.723552936460621,211043,0.0,0.212525409513701,,,32.0,9.0
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,rifit completo n=32,0.8785288313764569,211043,0.0,0.212525409513701,,,32.0,
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,128 etichette,0.8200855712434321,211043,0.0,0.212525409513701,,,128.0,25.0
+unsw,ton,unsw->ton,44,minimo,ton+bot+unsw,False,rifit completo n=128,0.9423418140038082,211043,0.0,0.212525409513701,,,128.0,
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,non adattato,0.7168036006289308,200477,0.0,0.0,0.7523098322851154,0.9976206746908622,,
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,8 etichette,0.67752222566677,200477,0.0,0.0,,,8.0,2.0
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,rifit completo n=8,0.5683935518065543,200477,0.0,0.0,,,8.0,
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,32 etichette,0.8069079729391218,200477,0.0,0.0,,,32.0,10.0
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,rifit completo n=32,0.770692923973243,200477,0.0,0.0,,,32.0,
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,128 etichette,0.7425841181433619,200477,0.0,0.0,,,128.0,12.0
+unsw,bot,unsw->bot,44,minimo,ton+bot+unsw,False,rifit completo n=128,0.5688134601940094,200477,0.0,0.0,,,128.0,
+unsw,unsw,unsw->unsw,44,minimo,ton+bot+unsw,True,non adattato,0.793098894694829,51535,0.0,0.0,0.8884464046974245,0.6390802367323178,,
