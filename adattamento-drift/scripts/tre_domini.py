@@ -67,6 +67,12 @@ SPAZI = {
 PROIEZIONE = {"ridotto": build_ridotto_da_ricco, "minimo": build_minimo_da_ricco}
 
 
+def ratio_suffix(ratio):
+    """Vuoto al rapporto storico (50): i file esistenti restano dove sono e
+    un rilancio a --ratio diverso non li sovrascrive (sezione 18)."""
+    return "" if ratio == 50.0 else f"_ratio{ratio:g}"
+
+
 def run_unit(H, src, seed, ratio, rows, ckpt, spazio="ricco", domini=None):
     domini = domini or DOMINI
     numeriche, skew = SPAZI[spazio]
@@ -102,7 +108,7 @@ def run_unit(H, src, seed, ratio, rows, ckpt, spazio="ricco", domini=None):
 
         def add(metodo, bal, extra=None):
             rec = {"src": src, "dst": dst, "exp": f"{src}->{dst}", "seed": seed,
-                   "spazio": spazio, "terna": "+".join(domini),
+                   "spazio": spazio, "terna": "+".join(domini), "ratio": ratio,
                    "in_domain": src == dst, "metodo": metodo,
                    "bal_acc": float(bal), "n_target": len(y_tgt),
                    **{f"unseen_{k}": v for k, v in unseen.items()}}
@@ -153,7 +159,8 @@ def main():
     ap.add_argument("--max-seconds", type=float, default=None)
     args = ap.parse_args()
 
-    ckpt = ARTIFACTS_DIR / f"tre_domini_{args.spazio}_{args.domini.replace(',', '')}.jsonl"
+    suffix = ratio_suffix(args.ratio)
+    ckpt = ARTIFACTS_DIR / f"tre_domini_{args.spazio}_{args.domini.replace(',', '')}{suffix}.jsonl"
     rows, done = [], set()
     if ckpt.exists():
         for line in ckpt.read_text().splitlines():
@@ -176,20 +183,24 @@ def main():
                 continue
             if args.max_seconds and time.time() - t0 > args.max_seconds:
                 print("[ckpt] fermato per tempo: rilancia lo stesso comando")
-                return finalize(rows)
+                return finalize(rows, suffix)
             run_unit(H, src, seed, args.ratio, rows, ckpt, args.spazio, domini)
-    return finalize(rows)
+    return finalize(rows, suffix)
 
 
-def finalize(rows):
+def finalize(rows, suffix=""):
     d = pd.DataFrame(rows)
     if d.empty:
         return
     # bug corretto (sezione 15 di RISULTATI.md): il nome non includeva la
     # terna, quindi un secondo run con domini diversi ma stesso spazio
-    # sovrascriveva silenziosamente i record per seed del primo.
+    # sovrascriveva silenziosamente i record per seed del primo. Stesso
+    # discorso per il rapporto di undersampling (sezione 18): senza il
+    # suffisso un rilancio a --ratio diverso sovrascriverebbe i risultati a
+    # 10 seed gia' prodotti a ratio=50.
     terna = d.terna.iloc[0].replace("+", "")
-    d.to_csv(RESULTS_DIR / f"tre_domini_runs_{d.spazio.iloc[0]}_{terna}.csv", index=False)
+    d.to_csv(RESULTS_DIR / f"tre_domini_runs_{d.spazio.iloc[0]}_{terna}{suffix}.csv",
+             index=False)
     idx = ["spazio", "exp"] if d.spazio.nunique() > 1 else ["exp"]
     g = d.pivot_table(index=idx, columns="metodo", values="bal_acc",
                       aggfunc="mean").round(4)
@@ -197,7 +208,7 @@ def finalize(rows):
               "rifit completo n=8", "rifit completo n=32", "rifit completo n=128"]
     g = g[[c for c in ordine if c in g.columns]]
     sp = "_".join(sorted(d.spazio.unique())) + "_" + "_".join(sorted(d.src.unique()))
-    g.to_csv(RESULTS_DIR / f"tre_domini_{sp}.csv")
+    g.to_csv(RESULTS_DIR / f"tre_domini_{sp}{suffix}.csv")
     auc = d[d.metodo == "non adattato"].pivot_table(
         index=idx, values=["roc_auc_target", "frazione_attacchi"], aggfunc="mean").round(4)
     print("\n" + "=" * 96)

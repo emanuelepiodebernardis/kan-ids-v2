@@ -571,6 +571,16 @@ da +0,2 a +0,4. Con 32 etichette e 24 byte. `unsw→bot` resta l'eccezione
 strutturale: non c'e' adattamento possibile se non si raccoglie nemmeno
 un'etichetta della classe minoritaria.
 
+> **Nota in avanti (sezione 18.4)**: l'entita' del recupero regge su tutta
+> la griglia di rapporti provata (1, 3, 20, 50, 100), ma la sua
+> **affidabilita'** no. A ratio=1 (sorgente ribilanciata 1:1) `bot→ton`
+> trova entrambe le classi solo in 8 seed su 10 e `ton→bot` in 7/10,
+> contro 9-10/10 a ogni altro rapporto: la selezione delle etichette sul
+> target, non l'adattamento in se', diventa meno affidabile quando la
+> sorgente e' ribilanciata all'estremo. E lo stesso rapporto estremo rende
+> `unsw→bot` — l'eccezione di questo paragrafo — **non piu' assoluta**:
+> vedi la nota alla frase "zero normali" piu' sotto.
+
 **Un fenomeno nuovo, invisibile con due domini: il transfer invertito.**
 `unsw→ton` e `ton→unsw` hanno ROC-AUC 0,26 e 0,27 — sotto il caso, cioè
 l'ordinamento è *sistematicamente rovesciato*, confermato a 10 seed con
@@ -610,6 +620,21 @@ contro 250 e nessun riaddestramento sul dispositivo — **non di
 accuratezza, e nemmeno di svantaggio in accuratezza**: sul valore atteso
 sono alla pari.
 
+> **Nota in avanti (sezione 18.4) — questo pareggio non regge dappertutto,
+> e va corretto, non solo qualificato.** Misurato anche a ratio 1, 3, 20 e
+> 100 (oltre al 50 originale): il pareggio **regge da ratio=3 in su**
+> (delta fra +0,0002 e −0,0066, sempre p>0,5) ma **cade nettamente a
+> ratio=1**: delta −0,033, t=−6,22, **p=0,0002**, e — a differenza di
+> ratio 3-100, dove la media vicino a zero nasce da `ton→bot` fortemente
+> positivo contro quattro direzioni leggermente negative — a ratio=1
+> **tutte e cinque le direzioni sono negative**, `ton→bot` incluso (che
+> scende da +0,135 a −0,005). Non e' un outlier che sposta la media, e'
+> un peggioramento diffuso: con la sorgente ribilanciata 1:1 il rifit
+> completo usa meglio il budget di etichette in ogni direzione, non solo
+> in quattro su cinque. "Pareggio in valore atteso" va riscritto come
+> "pareggio da ratio 3 in su; a ratio 1 i 13 coefficienti perdono in modo
+> diffuso e significativo".
+
 **Una direzione fallisce del tutto — confermato a 10 seed, non un artefatto
 del campione piccolo (vedi sopra).** In `unsw→bot` la regola di selezione
 raccoglie **zero normali** a ogni budget, in tutti i 10 seed: BoT-IoT ha 477
@@ -619,6 +644,16 @@ esattamente il punto già emerso nella sezione 4, qui in forma terminale (la
 sezione 4 usa pero' uno script diverso, `drift_sampling.py`, non ancora
 rilanciato a 10 seed in questo lavoro: la stessa cautela vale ma non e'
 stata verificata).
+
+> **Nota in avanti (sezione 18.4)**: "zero normali in tutti i 10 seed"
+> regge a ratio 3, 20, 50 e 100 (0/10 ovunque), ma **non a ratio=1**, dove
+> **un seed su dieci** trova abbastanza normali da produrre un numero
+> (balanced accuracy 0,76, contro 0,74 non adattato — un recupero modesto
+> anche quando riesce). "Fallisce in tutti i seed" va corretto in
+> "fallisce in tutti i seed per ogni rapporto da 3 in su; al rapporto piu'
+> estremo provato (1:1) fallisce in nove seed su dieci, non dieci su
+> dieci" — resta il collo di bottiglia piu' severo del lavoro, ma non e'
+> piu' letteralmente assoluto.
 
 **Un tetto che non avevamo visto — confermato, stesso numero.** Con
 UNSW-NB15 come target l'adattamento si ferma a 0,75–0,76 (`bot→unsw`
@@ -1441,6 +1476,25 @@ aggiornamento IRLS a prescindere dal target" — una diagnosi piu' precisa,
 che dice dove investigare dopo (probabilmente un ridge adattivo sulla
 frazione di classe minoritaria del primo batch, non ancora provato).
 
+> **Nota in avanti (sezione 18.4) — questa affermazione va riscritta, non
+> solo qualificata.** "Vince sempre tranne quando la sorgente e' BoT-IoT"
+> e' stato misurato al rapporto di undersampling 1:50 (e confermato a
+> ratio 20 e 100, dove la perdita di BoT→UNSW diventa anzi significativa:
+> p=0,036). **Ma a ratio=3 — il secondo punto della griglia, non il piu'
+> estremo — BoT→UNSW cambia segno e VINCE in modo significativo
+> (+0,029, p=0,035)**, mentre BoT→TON continua a perdere: le due direzioni
+> con BoT-IoT come sorgente smettono di comportarsi allo stesso modo. E
+> **a ratio=1 UNSW→BoT — sorgente UNSW-NB15, non BoT-IoT — perde in modo
+> significativo** (−0,058, p=0,038), mentre BoT→TON smette di perdere in
+> modo distinguibile (p=0,93) e BoT→UNSW vince ancora piu' nettamente
+> (+0,059). La sorgente da sola non predice piu' chi perde: il pattern
+> "BoT-IoT sorgente ⇒ perde" descriveva correttamente la sola zona di
+> griglia 20-100, non una proprieta' del meccanismo. La diagnosi
+> (quasi-separazione al primo aggiornamento IRLS con pochi normali nel
+> training) resta plausibile come un fattore, ma non spiega da sola perche'
+> le due direzioni BoT-sorgente divergano fra loro cambiando ratio — la
+> spiegazione completa resta da trovare (vedi "Cosa resta da fare").
+
 ### 16.3 — L'innesco a martingala in aritmetica intera: portato, con un bug trovato per strada
 
 Stesso principio della sigmoide a LUT (sezione 6): log e potenza frazionaria
@@ -1571,6 +1625,22 @@ in 6 direzioni su 6.** Rilanciato a 10 seed:
 Sei direzioni su sei, |t| da 3,3 a 91,5, guadagni da +0,040 a +0,261, segni
 concordi 9-10 su 10: questa era gia' "l'affermazione piu' solida di tutto il
 lavoro" nella sezione 13, e ora ha i numeri per esserlo davvero.
+
+> **Nota in avanti (sezione 18.4)**: "sei direzioni su sei, \|t\| da 3,3 a
+> 91,5" e' una misura al rapporto di undersampling 1:50, non una proprieta'
+> del metodo — e l'estremo inferiore era gia' il punto piu' debole. Da
+> ratio=3 a ratio=100 la tabella regge (6/6, t sempre sopra soglia, il
+> minimo scende a 2,5 a ratio=100). **A ratio=1 (sorgente ribilanciata
+> esattamente 1:1) diventa 4 direzioni su 6**: `unsw→bot` pareggia lo
+> statico bit per bit su tutti i dieci seed (il buffer di adattamento non
+> accumula mai entrambe le classi, quindi i guadagni restano all'identita'
+> anche se il contatore "adattamenti" sale), e `bot→ton` smette di
+> distinguersi dal rumore (t=1,49, p=0,17: in 8 seed su 10 il delta e'
+> zero per lo stesso motivo, solo 2 aggiornano davvero). Il meccanismo non
+> e' nell'adattamento ma nella selezione delle etichette a monte, che con
+> la sorgente ribilanciata all'estremo trova piu' spesso una sola classe
+> nel target. "Sei su sei" va letto come "sei su sei per ratio fra 3 e
+> 100", non come un fatto assoluto.
 
 **Il conteggio "vince in 4, perde in 2" per intero-contro-float, invece,
 era sbagliato per lo stesso motivo del paragrafo precedente — media/dev.std
@@ -1881,6 +1951,693 @@ attraverso la base spline che il gain-fit evita del tutto).
 
 ---
 
+## 18. Sensibilita' al rapporto di undersampling (1:50 contro 1:1, 1:3, 1:20 e 1:100)
+
+Ultima voce aperta della lista "Cosa resta aperto" della fase 2 che potesse
+ancora incrinare i risultati nuovi: il rapporto era fissato a 1:50 da prima
+di questo lavoro, mai testato, ed ereditato da ogni script di
+`adattamento-drift/` tramite `--ratio` con default 50.0. Quattordici
+sezioni di questo documento poggiano su quell'assunzione. Le sottosezioni
+18.1-18.2 misurano prima a 20 e 100; la 18.3 mostra perche' quella griglia
+non basta e la 18.4 la estende a 1 e 3, dove due delle cinque affermazioni
+verificate smettono di reggere.
+
+### La semantica di `undersample()`, prima dei numeri
+
+`scripts/cross_domain.py::undersample(y, idx, ratio, seed)`:
+
+    counts = bincount(y[idx])
+    minority = argmin(counts); majority = 1 - minority
+    n_keep = min(counts[majority], ratio * counts[minority])
+    tiene tutta la classe minoritaria + n_keep campioni della maggioritaria
+
+Tre cose non ovvie, verificate leggendo il codice invece di assumendole:
+
+1. **Si applica SOLO al training split del dominio SORGENTE.** Mai al
+   target, mai alla valutazione, mai alla selezione delle etichette in
+   fase di adattamento (`adaptive_pick`, `select_int`): quei passaggi non
+   ricevono `ratio`.
+2. **Riduce sempre e solo la classe maggioritaria** (qui, in tutti e tre i
+   domini, sempre gli attacchi: "normale" e' la classe minoritaria in
+   TON_IoT, BoT-IoT e UNSW-NB15), tenendo **tutta** la minoritaria.
+3. **E' un NO-OP se il rapporto naturale e' gia' piu' equilibrato di
+   `ratio`.** `n_keep = min(...)`: se `ratio * minoritaria >= maggioritaria`,
+   `n_keep` e' semplicemente tutta la maggioritaria, `rng.choice` non viene
+   nemmeno chiamato, e l'insieme di training e' identico bit per bit a
+   qualunque altro `ratio` che soddisfi la stessa disuguaglianza —
+   indipendente dal seed, perche' non c'e' estrazione casuale da fare.
+
+**Il rapporto naturale maggioritaria:minoritaria dei tre domini** (calcolato
+sui parquet armonizzati, l'intero dataset — lo split stratificato all'80%
+usato per il training preserva la proporzione):
+
+| dominio | normali | % normali | maggioritaria:minoritaria |
+|---|---|---|---|
+| TON_IoT | 50 000 / 211 043 | 23,69% | **3,22 : 1** |
+| BoT-IoT | 477 / 3 668 522 | 0,013% | **7 689,8 : 1** |
+| UNSW-NB15 | 93 000 / 257 673 | 36,09% | **1,77 : 1** |
+
+**Questa e' la frase che andava scritta prima di qualunque tabella:** lo
+stesso numero (`ratio`) significa cose opposte nelle due direzioni, perche'
+il rapporto naturale di TON_IoT (3,22) e di UNSW-NB15 (1,77) sta **sotto**
+ogni valore di `ratio` testato in questo lavoro (20, 50, 100), mentre quello
+di BoT-IoT (7 690) sta **tre ordini di grandezza sopra** anche il piu'
+permissivo. Per costruzione, quindi:
+
+- **Quando TON_IoT o UNSW-NB15 sono la sorgente, cambiare `--ratio` fra 20,
+  50 e 100 non cambia nulla**: il modello addestrato e' identico bit per
+  bit, non solo simile. Non e' un'ipotesi, e' una conseguenza diretta del
+  `min()` nel codice, verificata empiricamente su quattro combinazioni
+  indipendenti (script/direzione/seed) prima di lanciare qualunque run
+  lungo — vedi sotto.
+- **Solo quando BoT-IoT e' la sorgente il rapporto vincola davvero**, e lo
+  fa sempre, a qualunque `ratio` in questo intervallo: cambia quanti
+  attacchi entrano nel training rispetto ai 477 normali disponibili (a
+  ratio 20: ~381×20≈7 620 attacchi tenuti; a 50: ~19 050; a 100: ~38 100 —
+  contro 3,67 M naturalmente disponibili).
+
+**Conseguenza per lo scopo di questa sezione**: delle sei direzioni cross,
+**solo `bot->ton` e `bot->unsw`** (piu' il riferimento in-domain `bot->bot`)
+possono differire fra i tre rapporti. `ton->bot`, `ton->unsw`, `unsw->bot`,
+`unsw->ton` (e i riferimenti in-domain `ton->ton`, `unsw->unsw`) sono
+**garantiti identici per costruzione**, non solo "probabilmente simili": la
+sensibilita' al rapporto di undersampling e' interamente una domanda su
+come reagisce il training su BoT-IoT, non sulle altre due sorgenti.
+
+**Verifica empirica dell'identita', prima di lanciare i run lunghi** (la
+stessa cautela gia' imposta per il suffisso dei checkpoint, sotto): un
+singolo seed per script, sorgente non-BoT, confrontato bit per bit contro
+il checkpoint a ratio=50 gia' presente:
+
+| script | direzione/sorgente | ratio testato | esito |
+|---|---|---|---|
+| `tre_domini.py` | src=ton, seed 42 | 20 | identico a 4 decimali su tutte le celle (`ton->bot`, `ton->ton`) |
+| `tre_domini.py` | src=unsw, seed 42 | 100 | identico a 4 decimali su tutte le celle (`unsw->ton`, `unsw->bot`, `unsw->unsw`) |
+| `drift_int_adapt.py` | `ton->bot`, seed 42 | 20 | identico a 4 decimali su tutte le 8 righe (float/intero × non adatt./guadagni float/interi × 3 budget) |
+| `drift_graduale.py` | `ton->bot`, seed 42 | 20 | identico su tutti i 20 batch della politica `statico` (confrontati i primi 5) |
+| `drift_graduale_int.py` | `ton->bot`, seed 42 | 20 | identico sull'ultimo batch della politica `statico` (0,471147114711471... a entrambi i rapporti) |
+
+Tutte e cinque le verifiche confermano l'identita' predetta dal codice. Da
+qui in avanti, per le direzioni con TON_IoT o UNSW-NB15 come sorgente, i
+numeri citati a ratio 20 e 100 **sono** quelli gia' misurati a ratio 50
+altrove nel documento — non ricalcolati, perche' ricalcolarli
+produrrebbe per costruzione lo stesso numero.
+
+### Il bug evitato: i checkpoint non includevano il rapporto nel nome
+
+Prima di lanciare qualunque run, verificato che `tre_domini.py`,
+`drift_int_adapt.py`, `drift_graduale.py` e `drift_graduale_int.py`
+scrivessero il checkpoint in `artifacts/` e i CSV in `results/` **senza**
+il rapporto nel nome — la stessa trappola gia' scattata due volte in questo
+lavoro (run per terna sovrascritti in sezione 15, poi `--iters` con file
+separati in sezione 16.1): un rilancio a `--ratio` diverso da 50 avrebbe
+sovrascritto silenziosamente i risultati a 10 seed appena prodotti.
+
+Corretto in tutti e quattro gli script con un suffisso `_ratio{valore}`,
+**vuoto quando `ratio==50`** (cosi' i file esistenti restano dove sono e
+non si ricalcola nulla): `tre_domini_{spazio}_{terna}{suffix}.jsonl`,
+`drift_int_adapt{suffix_iters}{suffix_ratio}.jsonl`,
+`drift_graduale{suffix}.jsonl`, `drift_graduale_int{suffix}.jsonl`, e i
+rispettivi CSV in `results/`. In `drift_int_adapt.py` anche la condizione
+che scrive l'header C (`mcu_pio/include/kan_int_adapt.h`) ora richiede
+`ratio == 50.0`, non solo `iters == 6000`: un rilancio a rapporto diverso
+non deve sovrascrivere l'header canonico del dispositivo.
+
+**Verificato su un run breve prima di procedere**, per tutti e quattro gli
+script (un seed, una direzione, `--ratio 20`): i file nuovi
+(`tre_domini_ricco_tonbotunsw_ratio20.jsonl`,
+`drift_int_adapt_ratio20.jsonl`, `drift_graduale_ratio20.jsonl`,
+`drift_graduale_int_ratio20.jsonl`, e i CSV corrispondenti) sono comparsi
+accanto ai vecchi con lo stesso contenuto atteso, e i checksum MD5 dei file
+esistenti a ratio=50 sono rimasti invariati prima e dopo. Solo a questo
+punto sono partiti i run completi.
+
+### 18.1 — `tre_domini.py`, spazio ricco, ton/bot/unsw: la sezione 11
+
+Dato che solo le direzioni con BoT-IoT come sorgente possono cambiare,
+rilanciato **solo `--src bot`** (non le altre due, per l'identita' sopra) a
+`--ratio 20` e `--ratio 100`, sugli stessi 10 seed (42-51) gia' usati per
+ratio=50. ~25 s per seed: il training su BoT-IoT sotto-campionato a questi
+rapporti resta piccolo (7 620-38 100 righe contro 3,67 M naturali).
+
+Balanced accuracy, media sui 10 seed (n riusciti/10 dove rilevante):
+
+| | non adattato | 32 etichette | 128 etichette |
+|---|---|---|---|
+| `bot->ton`, ratio 20 | 0,5900 | 0,8449 (10/10) | 0,8273 (10/10) |
+| `bot->ton`, ratio 50 | 0,6340 | 0,8003 (9/10) | 0,8623 (9/10) |
+| `bot->ton`, ratio 100 | 0,6496 | 0,8681 (9/10) | 0,8538 (9/10) |
+| `bot->unsw`, ratio 20 | 0,4671 | 0,7155 (10/10) | 0,7562 (10/10) |
+| `bot->unsw`, ratio 50 | 0,4551 | 0,7381 (9/10) | 0,7552 (10/10) |
+| `bot->unsw`, ratio 100 | 0,4645 | 0,7075 (10/10) | 0,7582 (10/10) |
+| `bot->bot` *(in-domain)*, ratio 20 | 0,9949 | — | — |
+| `bot->bot` *(in-domain)*, ratio 50 | 0,9931±0,0009 | — | — |
+| `bot->bot` *(in-domain)*, ratio 100 | 0,9945 | — | — |
+
+**Un effetto reale ma piccolo sul modello non adattato, che l'adattamento
+assorbe.** Test t appaiati per seed (SEM, non dev.std) fra ciascun rapporto
+e il basale a 50:
+
+| direzione | metodo | delta (20−50) | t | p | delta (100−50) | t | p |
+|---|---|---|---|---|---|---|---|
+| `bot->ton` | non adattato | −0,0440 | −2,76 | **0,022** | +0,0156 | 0,51 | 0,62 |
+| `bot->unsw` | non adattato | +0,0120 | 4,17 | **0,0024** | +0,0094 | 2,83 | **0,020** |
+| `bot->ton` | 128 etichette | −0,0171 | −0,57 | 0,59 | −0,0085 | −1,40 | 0,20 |
+| `bot->unsw` | 128 etichette | +0,0010 | 0,23 | 0,82 | +0,0030 | 0,36 | 0,72 |
+
+Il rapporto di undersampling **sposta davvero, in modo statisticamente
+distinguibile, il modello non adattato** addestrato su BoT-IoT (3 celle su
+4 significative a p<0,05) — atteso, perche' cambia quanti attacchi vede il
+training. Ma **una volta adattato a 128 etichette la differenza sparisce**
+(tutte e 4 le celle p>0,19): l'adattamento a 13 coefficienti ririscrive
+abbastanza il modello da assorbire la differenza fra i tre training set.
+E' lo stesso fenomeno gia' misurato in sezione 15 per il prior della
+sorgente ("con poche etichette conta ancora il modello di partenza, con
+molte l'adattamento lo sovrascrive"), qui sul rapporto invece che sul
+dominio sorgente.
+
+**Le cinque affermazioni, verificate:**
+
+**1. "L'adattamento a 13 coefficienti recupera in 5 direzioni su 6" —
+regge a tutti e tre i rapporti.** `unsw->bot` fallisce sempre (0/10 a ogni
+ratio, per costruzione — vedi sotto). Le altre cinque, incluse le due
+sensibili al rapporto, recuperano con guadagni dello stesso ordine di
+grandezza gia' riportato (+0,2/+0,4): `bot->ton` +0,237/+0,228/+0,204 (20/
+50/100), `bot->unsw` +0,289/+0,300/+0,294. Il rapporto sposta l'entita' del
+recupero di qualche punto, non il fatto che ci sia.
+
+**4. "`unsw->bot` fallisce, zero normali in tutti i seed" — regge per
+costruzione, non solo per misura.** La sorgente e' UNSW-NB15: per
+l'identita' sopra, il training e' bit-identico a ogni rapporto, e la
+raccolta di normali sul target avviene con `adaptive_pick`/`subsample_target`,
+che non ricevono `ratio`. Il fallimento a 0/10 seed non e' una scoperta di
+questa sezione, e' una conseguenza necessaria di quella gia' misurata in
+sezione 11 a ratio=50: non puo' cambiare a nessun rapporto, e non e' stato
+ricalcolato per lo stesso motivo per cui non lo sono state le altre tre
+direzioni non-BoT-sorgente.
+
+**5. "13 coefficienti contro rifit completo, pareggio, delta medio −0,002"
+— regge a questi tre rapporti.** Qui sotto la prima stesura di questo
+blocco, che aggregava un t-test sulla media delle 5 direzioni per seed
+senza dichiarare quanti seed avessero tutte e cinque le direzioni
+disponibili — lo stesso errore, trovato e corretto dopo, che la sezione
+18.4 documenta e risolve con test per-direzione. Il numero non cambia
+sostanzialmente (i tre rapporti qui hanno completezza alta, 9-10/10 seed
+per direzione, quindi l'aggregato non era gravemente distorto come lo era
+poi a ratio=1), ma la tabella corretta — con n dichiarato, per direzione —
+e' quella di sezione 18.4, non questa:
+
+| ratio | delta medio (5 direzioni, seed disponibili) | t appaiato per seed (SEM) | p | n metodo B (tutte e 5 disponibili) |
+|---|---|---|---|---|
+| 20 | −0,0055 | −0,43 | 0,68 | 9/10 |
+| 50 (originale) | −0,0050 | −0,58 | 0,58 | 8/10 |
+| 100 | −0,0066 | −0,70 | 0,50 | 8/10 |
+
+Pareggio non distinguibile da zero a tutti e tre (|t|<1, p>0,5) sia
+nell'aggregato sia direzione per direzione (sezione 18.4): il numero
+originale (−0,002) non era un artefatto del rapporto 1:50. **Vedi sezione
+18.4 per la tabella per-direzione completa e per cosa succede a ratio=1**,
+dove la stessa affermazione cade.
+
+**Verdetto del blocco (a): le cinque — anzi qui tre delle cinque, le altre
+due non toccate da questo blocco — affermazioni testabili con
+`tre_domini.py` (1, 4, 5) sopravvivono al cambio di rapporto fra 1:20 e
+1:100.** L'unico effetto reale trovato e' laterale rispetto alle
+affermazioni: il rapporto sposta significativamente il punto di partenza
+(modello non adattato) quando BoT-IoT e' sorgente, ma l'adattamento a 13
+coefficienti — l'oggetto delle cinque affermazioni — lo rende
+indistinguibile.
+
+### Un bug trovato analizzando il blocco (b): il checkpoint di `drift_graduale.py` troncava 6 politiche su 7
+
+Prima di riportare le affermazioni 2 e 3, un problema di integrita' dei
+dati emerso mentre si analizzavano i risultati — la stessa categoria di
+trappola gia' incontrata due volte in questo lavoro, qui una terza volta.
+
+`scripts/drift_graduale.py` scrive il checkpoint con:
+
+    with ckpt.open("a") as fh:
+        for r in rows[-N_BATCH * 6:]:
+            fh.write(...)
+
+La costante `6` e' il numero di politiche **prima** che sezione 17b
+(COMPITO 3b) aggiungesse `stat_13x13_adaptive` come settima. Da quel
+momento ogni chiamata a `run_unit` scrive nel `rows` in memoria
+`N_BATCH * 7 = 140` righe (20 batch × 7 politiche), ma il codice ne
+persiste su disco solo le ultime `120`: **i primi 2-3 batch di 6 politiche
+su 7 (tutte tranne l'ultima aggiunta) vengono persi dal file `.jsonl` a
+ogni chiamata**, per ogni seed.
+
+**Non intacca i CSV gia' pubblicati**: `finalize()` lavora sull'oggetto
+`rows` in memoria, completo per costruzione entro una singola invocazione
+continua dello script — motivo per cui `results/drift_graduale.csv` e le
+tabelle delle sezioni 9/13/16.2/17b, generate da run continui su tutti i
+seed in un colpo solo, sono corrette (verificato: i valori li' — es.
+`bot->ton` statico 0,8179, RLS 0,7434 — coincidono esattamente con quelli
+ricalcolati dai file `results/drift_graduale_runs.csv`, che vengono dallo
+stesso `rows` completo). **Intacca invece qualunque ricarica del
+checkpoint**: un run interrotto e ripreso, o — come successo qui — un run
+di verifica breve su un seed seguito da un run "completo" sugli stessi
+seed, che ricarica quel seed dal `.jsonl` gia' troncato invece di
+ricalcolarlo. E' esattamente cosi' che si è' corrotto il primo tentativo
+di questa sezione: un run di prova a un seed su `bot->ton,bot->unsw` per
+cronometrare la durata, seguito dal run "completo" sugli stessi 10 seed,
+che ha ricaricato il seed 42 gia' troncato (17-18 batch su 20) invece di
+ricalcolarlo da zero — scoperto confrontando `results/drift_graduale.csv`
+(corretto, generato da un run continuo passato) con una prima
+ricostruzione manuale dal `.jsonl` grezzo, che dava numeri diversi e
+incompatibili con quelli gia' pubblicati.
+
+**Corretto** sostituendo la costante con `N_BATCH * len(politiche)`
+(`scripts/drift_graduale.py`), cosi' il numero si aggiorna da solo se in
+futuro si aggiunge un'altra politica. Il run di seed 42 corrotto e' stato
+cancellato e ricalcolato da zero; da questo punto in avanti tutte le
+tabelle di questa sezione vengono da `results/drift_graduale_runs*.csv` e
+`results/drift_graduale_int_runs*.csv` (il `rows` completo scritto da
+`finalize()`), mai dal `.jsonl` grezzo ricaricato — la stessa cautela gia'
+imposta per il denominatore (sezioni 15/16.3) e per i nomi dei checkpoint
+(sopra), qui sulla completezza dei dati invece che sulla loro
+sovrascrittura o sul loro rumore.
+
+### 18.2 — `drift_graduale.py` e `drift_graduale_int.py`: le sezioni 16.2 e 16.3
+
+Anche qui, solo `bot->ton` e `bot->unsw` possono cambiare (identita' sopra
+per le altre quattro direzioni cross). Rilanciati a ratio 20 e 100, 10
+seed (42-51), dati verificati completi (20/20 batch per ogni cella) prima
+di calcolare qualunque statistica.
+
+**Affermazione 3 (sezione 16.2): "la RLS perde contro lo statico esattamente
+e solo quando BoT-IoT e' la sorgente" — regge, e con un dettaglio nuovo a
+ratio 100.** Delta (RLS − statico), media sui 20 batch per seed, t
+appaiato (SEM):
+
+| direzione | ratio 20 | ratio 50 (originale) | ratio 100 |
+|---|---|---|---|
+| `bot->ton` | −0,0979±0,0261, t=−3,75, p=0,0046 | −0,0745±0,0165, t=−4,53, p=0,0014 | −0,0652±0,0231, t=−2,83, p=0,020 |
+| `bot->unsw` | −0,0053±0,0150, t=−0,35, p=0,73 | −0,0079±0,0157, t=−0,50, p=0,63 | **−0,0413±0,0167, t=−2,47, p=0,036** |
+
+`bot->ton` perde in modo significativo a tutti e tre i rapporti (mai un
+pareggio). `bot->unsw` perde sempre di segno ma non in modo distinguibile
+dal rumore a ratio 20 e 50 — **a ratio 100 la perdita diventa
+statisticamente significativa** (p=0,036, prima >0,6): il rapporto non
+cambia *quali* direzioni perdono (restano esattamente le due con BoT-IoT
+sorgente, mai le altre quattro, per costruzione), ma a ratio piu' alto la
+perdita di `bot->unsw` smette di essere trascurabile. Coerente con la
+diagnosi della sezione 16.2 (quasi-separazione al primo batch quando i
+normali di BoT-IoT sono pochi): un ratio piu' alto lascia in training
+ancora meno segnale relativo sulla classe minoritaria, e il primo
+aggiornamento IRLS ne risente un po' di piu'.
+
+**Affermazione 2 (sezione 16.3): "il riadattamento continuo in interi batte
+lo statico in 6 direzioni su 6, con \|t\| appaiati da 3,3 a 91,5" — regge
+in tutte le sei direzioni a tutti i rapporti, ma il punto piu' debole
+(`bot->ton`, gia' il piu' piccolo a ratio 50) si indebolisce ulteriormente
+a ratio 100.** Le altre quattro direzioni sono identiche per costruzione
+alla misura originale (t da 12,6 a 91,5, invariate). Le due sensibili:
+
+| direzione | ratio 20 | ratio 50 (originale, il minimo della sez. 16.3) | ratio 100 |
+|---|---|---|---|
+| `bot->ton` | +0,0557±0,0067, t=8,32, p<0,0001 | +0,0402±0,0122, **t=3,29**, p=0,009 | +0,0390±0,0154, **t=2,53**, p=0,032 |
+| `bot->unsw` | +0,1190±0,0061, t=19,43, p<0,0001 | +0,1319±0,0052, t=25,33, p<0,0001 | +0,1264±0,0045, t=27,79, p<0,0001 |
+
+`bot->unsw` resta fortissimo ovunque. `bot->ton` — che era gia' il legame
+piu' debole della catena "3,3-91,5" a ratio 50 — **resta significativo a
+tutti e tre i rapporti (p sempre <0,05) ma il suo `t` scende ulteriormente
+a ratio 100 (2,53, contro 3,29 originale)**: l'intervallo da citare non e'
+piu' "3,3-91,5" in modo assoluto, e' "il legame piu' debole (`bot->ton`)
+resta sopra la soglia di significativita' ma non ha molto margine, e si
+restringe ancora se si campiona a ratio piu' alto". Il verdetto qualitativo
+— 6 direzioni su 6, sempre — non cambia; il margine del punto piu' debole
+si', e va detto con lo stesso numero.
+
+**Verdetto del blocco (b): entrambe le affermazioni testabili qui (2, 3)
+sopravvivono al cambio di rapporto fra 1:20 e 1:100, qualitativamente
+identiche.** Due dettagli quantitativi da portare avanti: a ratio 100 la
+perdita della RLS in `bot->unsw` diventa significativa (prima non lo era),
+e il `t` piu' debole della sezione 16.3 (`bot->ton`) scende da 3,29 a 2,53
+pur restando sopra soglia. Nessuna delle due affermazioni si capovolge, ma
+`bot->ton` in sezione 16.3 e' il punto della intera sezione 18 piu' vicino
+a cedere: a un rapporto ancora piu' alto di 100 non e' garantito che regga.
+
+> **Nota in avanti**: questo verdetto e' corretto per la griglia su cui e'
+> stato misurato (20-100), ma quella griglia copriva solo due direzioni su
+> sei — le altre quattro erano identiche per costruzione a ratio=50 non
+> perche' robuste, ma perche' nessuno dei tre rapporti vincolava le
+> sorgenti TON_IoT o UNSW-NB15. La sottosezione 18.3 quantifica il buco di
+> copertura; la 18.4 lo colma con `--ratio 1` e `--ratio 3`. Il verdetto
+> qui sopra **non regge** su quella griglia estesa — vedi il verdetto
+> finale in fondo alla sezione.
+
+### 18.3 — Il problema di copertura: quattro direzioni su sei non erano mai vincolate
+
+La scoperta della sezione 18 iniziale — `undersample()` e' un no-op se il
+rapporto naturale e' gia' piu' equilibrato di `ratio` — e' corretta, ma ha
+una conseguenza che i blocchi (a) e (b) non affrontavano: con la griglia
+20/50/100, **nessuno dei tre valori vincola TON_IoT (naturale 3,22) o
+UNSW-NB15 (naturale 1,77)**. Le quattro direzioni con quelle sorgenti
+(`ton->bot`, `ton->unsw`, `unsw->ton`, `unsw->bot`) erano quindi
+matematicamente garantite identiche a ratio=50 a **ogni** valore provato,
+non "risultate stabili" — la manopola semplicemente non le muoveva. Dire
+"le conclusioni sono stabili fra 1:20 e 1:100" su quella base e' vero e
+vuoto insieme per due terzi delle direzioni.
+
+Per vincolare le altre due sorgenti serve `ratio` **sotto** il loro
+rapporto naturale:
+
+| sorgente | rapporto naturale | vincolato da |
+|---|---|---|
+| UNSW-NB15 | 1,77 | solo `ratio=1` |
+| TON_IoT | 3,22 | `ratio=1` o `ratio=3` |
+| BoT-IoT | 7 689,8 | qualunque `ratio` in questo lavoro (1, 3, 20, 50, 100) |
+
+Rilanciato quindi a **`--ratio 1`** (vincola tutte e tre le sorgenti, un
+solo run copre le sei direzioni cross) e **`--ratio 3`** (vincola TON_IoT
+e BoT-IoT, non UNSW-NB15 — punto intermedio), sui soliti 10 seed (42-51),
+su `tre_domini.py` (spazio ricco, tutte e tre le sorgenti), `drift_graduale.py`
+e `drift_graduale_int.py` (tutte e sei le direzioni a ratio=1; a ratio=3
+solo le quattro con TON_IoT o BoT-IoT come sorgente, verificata
+l'invarianza di `unsw->ton`/`unsw->bot` con lo stesso spot-check a un
+seed gia' usato nei blocchi (a)/(b) — `tre_domini.py --src unsw --ratio 3
+--seeds 42` riproduce esattamente i valori di ratio=50), e
+`drift_int_adapt.py` (`bot->ton`/`bot->unsw` a ratio 20/100 come richiesto
+dal blocco (c) rimasto indietro, piu' tutte e sei le direzioni a ratio 1 e
+le quattro rilevanti a ratio 3).
+
+A `ratio=1` il training su BoT-IoT diventa minuscolo: 477 normali × 0,8 ≈
+381 nel training split, e `ratio=1` tiene tanti attacchi quanti normali,
+quindi **~762 righe** invece delle 3,67 M naturali — un training set circa
+4 800 volte piu' piccolo (a `ratio=3`, ~1 524 righe: ancora minuscolo, gli
+attacchi tenuti triplicano ma restano lontanissimi dal naturale). Per
+TON_IoT e UNSW-NB15 la riduzione e' molto meno drastica ma non nulla:
+**TON_IoT** a `ratio=1` tiene 40 000 attacchi invece di ~128 800 naturali
+(**−69%**, training totale 80 000 righe contro ~168 800), a `ratio=3` la
+riduzione e' piccola (120 000 attacchi, **−7%**, training 160 000 righe).
+**UNSW-NB15** a `ratio=1` tiene 74 400 attacchi invece di ~131 700
+naturali (**−44%**, training 148 800 righe), mentre a `ratio=3` non si
+muove affatto (0%, il rapporto naturale 1,77 e' gia' sotto 3).
+
+Durante l'analisi di questo blocco e' emerso anche un bug di logging
+(non di calcolo): per direzioni lente come `unsw->bot`, l'output su file
+di `drift_graduale.py` puo' bufferizzare tutte le righe di progresso per
+seme e mostrare solo la tabella finale — un run che si ferma per
+`--max-seconds` puo' quindi sembrare, guardando il solo file di log,
+identico a uno completato. Verificato ogni volta contando i seed
+effettivamente presenti nel CSV (`groupby(['exp','seed']).seed.nunique()`)
+invece di fidarsi del testo del log; un caso (`drift_graduale.py --ratio
+1`, `unsw->bot` fermo a 3/10 seed) e' stato scoperto cosi' e completato
+con una ripresa.
+
+### 18.4 — I risultati a ratio 1 e 3: dove le cinque affermazioni reggono e dove no
+
+**Il meccanismo comune ai cedimenti trovati qui**, prima dei numeri: a
+`ratio=1` la sorgente e' ribilanciata **esattamente 1:1**, non solo "meno
+sbilanciata". Il punteggio del modello sorgente sul target (`z0`) cambia
+di conseguenza, e la selezione delle etichette sul target
+(`adaptive_pick`) — che sceglie i punti piu' vicini al confine di
+decisione *di quel punteggio* — trova sistematicamente **meno spesso
+entrambe le classi** nel budget disponibile. Non e' un problema nuovo: e'
+lo stesso meccanismo di "impossibile e' spesso raro, non assoluto" delle
+sezioni 4/11/15, qui mostrato sensibile al rapporto oltre che al seed.
+
+**Affermazione 1 (sez. 11) — regge in media, ma l'affidabilita' cala a
+ratio=1.** Successi su 10 seed a 128 etichette, per direzione, sull'intera
+griglia:
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 | ratio 100 |
+|---|---|---|---|---|---|
+| `unsw->bot` | **1/10** | 0/10 | 0/10 | 0/10 | 0/10 |
+| `bot->ton` | **8/10** | 10/10 | 10/10 | 9/10 | 9/10 |
+| `ton->bot` | **7/10** | 10/10 | 9/10 | 9/10 | 9/10 |
+| `bot->unsw` | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| `unsw->ton` | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| `ton->unsw` | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+
+Dove l'adattamento riesce, il recupero resta forte anche a ratio=1
+(`bot->ton` 0,88 contro 0,58 non adattato, `ton->bot` 0,76 contro 0,48,
+`bot->unsw` 0,77 contro 0,40, `unsw->ton` 0,82 contro 0,31, `ton->unsw`
+0,74 contro 0,22): l'**entita'** del recupero non e' il problema.
+**L'affidabilita' si', e solo a ratio=1**: due direzioni che a ogni altro
+rapporto riuscivano 9-10 volte su 10 scendono a 7-8/10. Da ratio=3 in su
+(compreso il punto intermedio) la tabella e' piatta.
+
+**Affermazione 4 (sez. 11) — cade a ratio=1, regge altrove.** "Zero
+normali in tutti i seed" e' vero a ratio 3, 20, 50, 100 (0/10 ovunque, il
+numero originale). **A ratio=1 un seed su dieci trova abbastanza normali
+da produrre un numero** (bal_acc 0,76, contro 0,74 non adattato — un
+recupero modesto anche quando riesce). Non e' piu' letteralmente vero che
+"nessun seed" ci riesce: va corretto a "un seed su dieci, solo al rapporto
+piu' estremo provato — 0/10 per ogni rapporto da 3 in su".
+
+**Affermazione 5 (sez. 11) — regge fino a ratio=3, cade nettamente a
+ratio=1.** Prima versione di questa sottosezione aggregava un t-test sulla
+media delle 5 direzioni per seed: sbagliato senza dichiararlo, per lo
+stesso motivo gia' documentato in sezione 15 (metodo A/B) — un seed con 2
+direzioni disponibili su 5 pesa quanto uno con 5, e la mancanza di
+direzioni non e' casuale, si concentra dove la selezione fallisce, cioe'
+nei casi piu' difficili. Corretto: **il risultato primario e' il test
+per-direzione**, che ha n vicino a 10 in ogni cella ed e' quindi robusto
+da solo; l'aggregato, quando riportato, dichiara esplicitamente n e
+metodo.
+
+**Un secondo problema, trovato verificando il primo.** Riverificando
+manualmente i file grezzi per capire la copertura, `ton->bot` a
+ratio=3 e `unsw->ton`/`ton->bot` a ratio=20/100 mostravano in
+`results/tre_domini_runs_ricco_tonbotunsw_ratio{3,20,100}.csv` un solo
+seed per la sorgente non misurata a quel rapporto (`unsw` a ratio=3 e
+100, `ton` a ratio=20) — un residuo dei singoli run a un seed usati in
+sezione 18.3 per **verificare** l'identita' (`tre_domini.py --src unsw
+--seeds 42 --ratio 3`, eccetera), scritti per costruzione nello stesso
+checkpoint del rapporto corrispondente perche' checkpoint e spazio
+coincidevano. Il codice di questa sezione non li usa mai (per quelle
+sorgenti legge sempre da ratio=50, come da identita' verificata), quindi
+non hanno alterato nessun numero qui sopra — ma chiunque leggesse quei
+CSV direttamente, come e' stato fatto per trovare il problema
+dell'aggregato, ci avrebbe visto esattamente il tipo di copertura parziale
+non dichiarata che questa sottosezione doveva evitare. La stessa cosa era
+successa in `drift_graduale_int_ratio20.jsonl` e
+`drift_int_adapt_ratio20.jsonl` (`ton->bot` a un solo seed, residuo di un
+test di cronometraggio). **Tutti e cinque i file ripuliti**: le righe
+della sorgente/direzione non misurata rimosse dai checkpoint, i CSV
+rigenerati da capo con `finalize()` sugli stessi dati (nessun ricalcolo,
+solo riscrittura senza le righe orfane) — verificato che ogni file
+`*_runs*.csv` di questa sezione ora contiene **solo** le direzioni
+effettivamente misurate a quel rapporto, 10/10 seed ciascuna.
+
+**Quanti seed sono disponibili per cella** (13 coefficienti E rifit
+completo entrambi presenti a n=128 — questo conteggio e' il fenomeno che
+sezione 18.4 misura, non un dettaglio contabile: cala dove la selezione
+delle etichette fatica, cioe' a ratio=1 per le direzioni con BoT-IoT come
+target o sorgente):
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 | ratio 100 |
+|---|---|---|---|---|---|
+| `bot→ton` | 8/10 | 10/10 | 10/10 | 9/10 | 9/10 |
+| `ton→bot` | 7/10 | 10/10 | 9/10 | 9/10 | 9/10 |
+| `bot→unsw` | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| `unsw→ton` | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+| `ton→unsw` | 10/10 | 10/10 | 10/10 | 10/10 | 10/10 |
+
+**Test t appaiato per seed, PER DIREZIONE, delta (13 coeff. − rifit) a
+n=128 — risultato primario:**
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 (orig.) | ratio 100 |
+|---|---|---|---|---|---|
+| `bot→ton` | n=8, **−0,0546, t=−4,01, p=0,0051** | n=10, −0,0249, t=−1,20, p=0,26 | n=10, −0,0412, t=−1,22, p=0,25 | n=9, −0,0380, t=−2,93, p=0,019 | n=9, −0,0465, t=−2,89, p=0,020 |
+| `ton→bot` | n=7, **−0,0053, t=−0,18, p=0,86** | n=10, **+0,1232, t=13,18, p<0,0001** | n=9, +0,1347, t=13,91, p<0,0001 | n=9, +0,1347, t=13,91, p<0,0001 | n=9, +0,1347, t=13,91, p<0,0001 |
+| `bot→unsw` | n=10, **−0,0229, t=−3,48, p=0,0070** | n=10, −0,0033, t=−0,32, p=0,76 | n=10, −0,0110, t=−1,60, p=0,14 | n=10, −0,0165, t=−2,92, p=0,017 | n=10, −0,0162, t=−1,70, p=0,12 |
+| `unsw→ton` | n=10, **−0,0585, t=−3,36, p=0,0083** | n=10, −0,0710, t=−2,45, p=0,037 | n=10, −0,0710, t=−2,45, p=0,037 | n=10, −0,0710, t=−2,45, p=0,037 | n=10, −0,0710, t=−2,45, p=0,037 |
+| `ton→unsw` | n=10, **−0,0237, t=−4,29, p=0,0020** | n=10, −0,0230, t=−3,97, p=0,0032 | n=10, −0,0198, t=−3,20, p=0,011 | n=10, −0,0198, t=−3,20, p=0,011 | n=10, −0,0198, t=−3,20, p=0,011 |
+
+(`unsw→ton` e `ton→unsw` a ratio 20/50/100, e `ton→bot`/`unsw→ton`/
+`ton→unsw` a ratio=3, vengono dall'identita' di sezione 18.3 — stesso dato
+di ratio=50, non ricalcolato, quindi stesso n.)
+
+**Il risultato che conta e' il conteggio dei segni, non l'aggregato: a
+ratio=1 tutte e cinque le direzioni sono negative, e quattro delle cinque
+in modo significativo** (`ton→bot`, l'unica non significativa, e' anche
+quella con meno seed disponibili, n=7). A ratio 3-100 il quadro e' misto:
+`ton→bot` vince sempre in modo netto e significativo, le altre quattro
+perdono, ma quasi mai in modo significativo con n~9-10 (l'eccezione e'
+`bot→ton` a ratio 50/100, dove perde in modo significativo anche li'). Il
+salto qualitativo a ratio=1 e' quindi duplice: **il segno di `ton→bot` si
+inverte** (da vittoria netta a perdita non significativa, sui pochi seed
+dove la selezione riesce) **e le altre quattro perdite, gia' presenti,
+diventano quasi tutte significative**.
+
+**Un aggregato, se serve un solo numero — dichiarato con n e metodo, come
+in sezione 15.** Media dei delta di seed dove **tutte e cinque** le
+direzioni hanno un valore (metodo B; la colonna "ratio 3/20/100" usa
+l'identita' di sezione 18.3 per le direzioni non ricalcolate, quindi il
+conteggio di seed completi qui non e' una misura pura per quelle celle):
+
+| ratio | n seed completi (metodo B) | delta medio | t | p |
+|---|---|---|---|---|
+| **1** | **6/10** | **−0,0341** | **−5,04** | **0,0040** |
+| 3 | 10/10 (4 direzioni misurate + 1 da identita') | +0,0002 | 0,02 | 0,98 |
+| 20 | 9/10 (2 misurate + 3 da identita') | +0,0002 | 0,01 | 0,99 |
+| 50 (originale) | 8/10 | −0,0001 | −0,01 | 0,99 |
+| 100 | 8/10 | −0,0014 | −0,15 | 0,88 |
+
+A ratio=1 anche l'aggregato via metodo B, su un n piu' piccolo ma
+genuino (6 seed dove **tutte e cinque le direzioni erano effettivamente
+misurate**, nessuna identita' coinvolta a questo rapporto), conferma il
+segno e la significativita' del conteggio per direzione: −0,034, p=0,004.
+**Questa e' la cifra da citare per l'affermazione 5**, non quella con
+n=10 apparente della prima stesura, che mescolava seed con copertura
+diversa senza dirlo.
+
+**Questa affermazione va corretta in sezione 11**: "pareggio in valore
+atteso" e' vero da ratio=3 in su (dove il segno resta misto, `ton→bot`
+positivo contro quattro negative perlopiu' non significative) ma falso a
+ratio=1, dove **cinque direzioni su cinque perdono, quattro in modo
+significativo**, sul sottoinsieme di seed dove la selezione riesce.
+
+**Affermazione 2 (sez. 16.3) — regge da ratio=3 in su, cade a ratio=1, e
+il meccanismo del cedimento e' la selezione, non l'adattamento.** Delta
+(riadattamento continuo intero − statico), media sui 20 batch, t appaiato
+per seed:
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 (originale) | ratio 100 |
+|---|---|---|---|---|---|
+| `unsw->bot` | **0,0000, t=n/d** | +0,2607, t=91,6 | +0,2607, t=91,6 | +0,2607, t=91,6 | +0,2607, t=91,6 |
+| `bot->ton` | +0,1284, t=7,3 | +0,0789, t=10,3 | +0,0557, t=8,3 | +0,0402, t=3,3 | +0,0390, t=2,5 |
+| `ton->bot` | **+0,0211, t=1,49, p=0,17** | +0,1554, t=8,9 | +0,1393, t=12,6 | +0,1393, t=12,6 | +0,1393, t=12,6 |
+| `bot->unsw` | +0,0941, t=11,1 | +0,1158, t=19,6 | +0,1190, t=19,4 | +0,1319, t=25,3 | +0,1264, t=27,8 |
+| `unsw->ton` | +0,1449, t=18,1 | +0,0830, t=16,1 | +0,0830, t=16,1 | +0,0830, t=16,1 | +0,0830, t=16,1 |
+| `ton->unsw` | +0,2015, t=11,2 | +0,1381, t=13,6 | +0,1411, t=17,1 | +0,1411, t=17,1 | +0,1411, t=17,1 |
+
+Da ratio=3 a ratio=100 tutte e sei restano significative (t da 2,5 a 91,6,
+mai sotto soglia). **A ratio=1 due direzioni su sei smettono di battere lo
+statico**: `unsw->bot` **pareggia esattamente** — non un pareggio
+approssimato, `bal_acc` identico a bit per bit fra le due politiche su
+tutti e dieci i seed — perche' in nessuno dei 20 batch, in nessuno dei 10
+seed, il buffer accumula mai entrambe le classi (il contatore
+"adattamenti" sale comunque a 19, perche' incrementa prima del controllo
+sulle classi: la politica *tenta* ma non aggiorna mai i guadagni). E
+`ton->bot` diventa non significativo (t=1,49, p=0,17): in 8 dei 10 seed il
+delta e' esattamente zero per lo stesso motivo, e solo in 2 (seed 50, 51)
+l'aggiornamento riesce (+0,11, +0,10). **"6 direzioni su 6" va corretto in
+sezione 16.3**: vero per ratio ≥ 3, falso a ratio=1, dove diventa 4/6 (le
+due che cedono non peggiorano l'adattamento — restano pari allo statico,
+non sotto — ma smettono di batterlo in modo distinguibile dal rumore).
+
+**Affermazione 3 (sez. 16.2) — questa e' quella che cede peggio, e gia' a
+ratio=3.** Delta (RLS − statico), t appaiato per seed:
+
+| direzione | fonte | ratio 1 | ratio 3 | ratio 20 | ratio 50 (orig.) | ratio 100 |
+|---|---|---|---|---|---|---|
+| `unsw->bot` | UNSW | **−0,058, p=0,038 (PERDE)** | +0,044, p<0,0001 | +0,044, p<0,0001 | +0,044, p<0,0001 | +0,044, p<0,0001 |
+| `bot->ton` | BoT | −0,052, p=0,0007 (perde) | −0,086, p=0,003 (perde) | −0,098, p=0,005 (perde) | −0,075, p=0,001 (perde) | −0,065, p=0,020 (perde) |
+| `ton->bot` | TON | −0,002, p=0,93 (n.s.) | +0,112, p<0,0001 | +0,106, p<0,0001 | +0,106, p<0,0001 | +0,106, p<0,0001 |
+| `bot->unsw` | BoT | **+0,059, p=0,0006 (VINCE)** | **+0,029, p=0,035 (vince)** | −0,005, p=0,73 (n.s.) | −0,008, p=0,63 (n.s.) | −0,041, p=0,036 (perde) |
+| `unsw->ton` | UNSW | +0,098, p=0,0007 | +0,131, p<0,0001 | +0,131, p<0,0001 | +0,131, p<0,0001 | +0,131, p<0,0001 |
+| `ton->unsw` | TON | +0,189, p<0,0001 | +0,109, p<0,0001 | +0,120, p<0,0001 | +0,120, p<0,0001 | +0,120, p<0,0001 |
+
+L'affermazione era: perde **esattamente e solo** quando BoT-IoT e' la
+sorgente. Tre rotture, non una:
+
+1. **`bot->unsw` cambia segno.** A ratio 20-100 perde o pareggia (coerente
+   con l'affermazione). **A ratio 3 e 1 vince in modo significativo** —
+   una delle due direzioni che l'affermazione descriveva come perdenti
+   smette di esserlo, e non di poco (+0,059 a ratio=1).
+2. **`unsw->bot` perde a ratio=1** — una direzione con **UNSW-NB15**, non
+   BoT-IoT, come sorgente. Questo da solo falsifica "esattamente e solo
+   quando BoT-IoT e' la sorgente": a ratio=1 non e' piu' vero che la
+   sorgente determina da sola chi perde.
+3. **`ton->bot` smette di vincere in modo significativo a ratio=1**
+   (p=0,93) — non perde, ma il "vince sempre tranne quando BoT-IoT e'
+   sorgente" perde anche il suo contrappunto piu' netto.
+
+**Questa affermazione va riscritta in sezione 16.2, non solo annotata**:
+non regge come descritta a nessun rapporto sotto 20, e il pattern
+"BoT-IoT sorgente ⇒ perde" **si rompe gia' a ratio=3**, il secondo punto
+piu' vicino a quello originale (50), non solo al punto piu' estremo (1).
+Il meccanismo diagnosticato in sezione 16.2 (quasi-separazione al primo
+batch quando i normali nel training sono pochi) resta plausibile come
+spiegazione parziale, ma non basta da solo: se fosse l'unico fattore
+`bot->unsw` non dovrebbe cambiare segno mentre `bot->ton` no, dato che
+entrambe condividono la stessa sorgente sotto-campionata.
+
+### 18.5 — Blocco (c): `drift_int_adapt.py`, la catena intera end-to-end
+
+Rimasto indietro rispetto ai blocchi (a) e (b); completato qui insieme
+all'estensione della griglia. Non testa una delle cinque affermazioni
+elencate — la sua misura centrale e' quella delle sezioni 6/13: **la stima
+dei guadagni in interi non costa accuratezza rispetto alla stessa stima in
+virgola mobile**. Rilanciato a ratio 20 e 100 su `bot->ton`/`bot->unsw`
+(le uniche direzioni misurabili, per l'identita' della sezione 18) e a
+ratio 1 e 3 su tutte e sei, per coerenza con i blocchi precedenti.
+
+**La parita' intero-float regge su tutta la griglia.** Delta (guadagni
+interi − guadagni float) a n=128, t appaiato per seed:
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 | ratio 100 |
+|---|---|---|---|---|---|
+| `bot->ton` | +0,0048, p=0,75 | −0,0004, p=0,91 | −0,0183, p=0,17 | −0,0028, p=0,85 | −0,0065, p=0,31 |
+| `bot->unsw` | +0,0324, p=0,43 | −0,0099, p=0,64 | +0,0616, p=0,065 | +0,0045, p=0,83 | +0,0359, p=0,14 |
+
+Nessuna cella e' significativa (p sempre >0,06, contro la soglia 0,05):
+l'affermazione "l'aritmetica intera non costa" non solo regge, e' quella
+di questo lavoro che si allontana di piu' dalla soglia di significativita'
+su tutta la griglia — nessun segno di cedimento nemmeno a ratio=1.
+
+**Un dettaglio interessante, in direzione opposta a tutto il resto di
+questa sezione.** La selezione per `unsw->bot` in questo script non usa
+`adaptive_pick` sui punteggi float ma la deduplicazione sui contributi
+interi (sezione 6), che gia' a ratio=50 raccoglie normali dove la
+selezione float fallisce sempre (5/10 seed qui, contro 0/10 in
+`tre_domini.py`/`drift_graduale.py`). **A ratio=1 questa resa migliora
+invece di peggiorare**: 6/10 seed, il numero piu' alto di tutta la
+griglia per questa direzione. E' l'opposto del pattern trovato altrove
+(selezione piu' fragile a ratio=1): la deduplicazione sui pattern interi
+sembra meno sensibile, o sensibile in verso diverso, al ribilanciamento
+estremo della sorgente rispetto alla selezione per margine sui punteggi
+float. Non investigato oltre — un'osservazione, non una spiegazione.
+
+**Verdetto del blocco (c): l'unica affermazione che testa (parita'
+intero-float) e' la piu' robusta misurata in questo lavoro, stabile su
+tutta la griglia da ratio=1 a ratio=100.**
+
+### Verdetto finale delle cinque affermazioni, sulla griglia completa {1, 3, 20, 50, 100}
+
+| # | affermazione | dove regge | dove cade | correzione necessaria |
+|---|---|---|---|---|
+| 1 | 13 coeff. recupera in 5/6 direzioni | tutta la griglia, in **entita'** | **affidabilita'** (n/10) cala a ratio=1 per `bot->ton` (8/10), `ton->bot` (7/10) | qualificare, non ritrattare — sez. 11 |
+| 4 | `unsw->bot` fallisce, 0 normali in tutti i seed | ratio ≥ 3 | ratio=1: 1/10 seed riesce | correggere "tutti" → "tutti tranne il rapporto piu' estremo provato" — sez. 11 |
+| 5 | 13 coeff. vs rifit, pareggio (delta −0,002) | ratio ≥ 3 (segno misto, `ton→bot` positivo contro quattro negative perlopiu' non sig.) | **ratio=1: 5/5 direzioni negative, 4/5 significative per direzione (n=7-10); metodo B su 6 seed genuinamente completi: −0,034, t=−5,04, p=0,0040** | correggere: "pareggio da ratio 3 in su, non a ratio 1" — sez. 11 |
+| 2 | riadattamento continuo intero, 6/6, \|t\| 3,3-91,5 | ratio ≥ 3 (tutte e sei, sempre p<0,003) | **ratio=1: 4/6** (`unsw->bot` pareggia esatto, `ton->bot` n.s.) | correggere l'intervallo di `t` e il "6/6" — sez. 16.3 (fatto sotto) |
+| 3 | RLS perde esattamente e solo quando BoT-IoT e' sorgente | **solo ratio ≥ 20** | **ratio=3: `bot->unsw` vince** (rottura del pattern); **ratio=1: anche `unsw->bot` (fonte UNSW) perde**, `ton->bot` non vince piu' | riscrivere, non qualificare — sez. 16.2 (fatto sotto) |
+
+**La sintesi che questa sezione avrebbe scritto fermandosi a 20-100 —
+"le conclusioni sono stabili fra 1:20 e 1:100" — era vera su quella
+griglia e ingannevole sulla domanda che il compito poneva**, perche' su
+quella griglia quattro direzioni su sei non erano mai vincolate (18.3).
+Estesa a 1-3, la risposta corretta non e' una sola soglia ma due, perche'
+le cinque affermazioni non cedono tutte nello stesso punto:
+
+- **Quattro affermazioni (1, 2, 4, 5) reggono, con qualifiche minori a
+  ratio=1, per tutto l'intervallo 3-100** — che copre sia il valore
+  storico (50) sia un margine ragionevole in entrambe le direzioni. Il
+  loro cedimento e' concentrato **solo** al punto piu' estremo, ratio=1
+  (ribilanciamento esatto 1:1), e condivide lo stesso meccanismo: la
+  selezione delle etichette sul target trova piu' spesso una sola classe
+  quando la sorgente e' ribilanciata all'estremo, non un problema
+  dell'adattamento in se'.
+- **L'affermazione 3 e' la piu' fragile del lavoro, e cede prima delle
+  altre**: regge solo per ratio ≥ 20, si rompe gia' a ratio=3 — il secondo
+  punto della griglia, non il piu' estremo — e per un motivo diverso dalle
+  altre quattro (`bot->unsw` cambia segno mentre `bot->ton`, la stessa
+  sorgente, no: non e' spiegabile solo dalla selezione delle etichette).
+  La diagnosi esistente in sezione 16.2 (quasi-separazione) resta un
+  fattore plausibile ma dimostrabilmente incompleta.
+
+Nessuna delle due letture sostituisce l'altra: il rapporto storico (50) e'
+dentro la zona sicura per tutte e cinque, ma "sicura fra 1:3 e 1:100" —
+l'affermazione che ci si aspetterebbe di poter scrivere dopo questo lavoro
+— e' vera per quattro affermazioni su cinque e falsa per la quinta.
+
+---
+
 ## Cosa resta da fare
 1. ~~Terzo dominio~~ — **fatto** con UNSW-NB15. Tutte le sezioni da 5 a 9 sono
    state rieseguite su sei direzioni (sezioni 11, 12 e 13). **Sezione 11
@@ -2028,6 +2785,37 @@ attraverso la base spline che il gain-fit evita del tutto).
    qui non affrontato. Restano le **misure vere sul dispositivo** (tempo e
    memoria su Mega 2560, ESP32-C3): il modello di costo dice cosa aspettarsi
    moltiplicando per i cicli-per-operazione del target, non lo sostituisce.
+8. ~~Sensibilita' al rapporto di undersampling (1:50)~~ — **fatto** (sezione
+   18), l'ultima voce aperta dalla fase 2. Il rapporto e' un no-op quando la
+   sorgente e' gia' piu' equilibrata di lui (TON_IoT naturale 3,22:1,
+   UNSW-NB15 1,77:1): la prima griglia provata (20/50/100) non vincolava mai
+   quelle due sorgenti, quindi quattro direzioni su sei non erano testate
+   affatto. Estesa a `--ratio 1` e `--ratio 3` (che vincolano anche TON_IoT e,
+   a ratio=1, anche UNSW-NB15) su tutte e sei le direzioni, 10 seed. **Tre
+   affermazioni reggono con qualifiche minori** (1: l'affidabilita' della
+   selezione cala a ratio=1 per due direzioni; 4: `unsw→bot` fallisce in 9/10
+   seed a ratio=1 invece di 10/10; 2: "6/6" diventa "6/6 per ratio ≥ 3, 4/6 a
+   ratio=1" — corretto in sezione 16.3). **Due cadono davvero**: 5 (13
+   coefficienti contro rifit completo, "pareggio" regge da ratio=3 in su ma a
+   ratio=1 perde in 5 direzioni su 5, 4 in modo significativo per direzione
+   (n=7-10 seed ciascuna) — corretto in sezione 11, con test per-direzione
+   invece di un aggregato su seed a copertura diseguale, come gia' in
+   sezione 15) e 3 (RLS "perde esattamente e solo quando BoT-IoT e' sorgente"
+   si rompe gia' a ratio=3, dove `bot→unsw` cambia segno e vince, e a
+   ratio=1 anche `unsw→bot`, sorgente non-BoT-IoT, perde — corretto in
+   sezione 16.2, e' l'affermazione piu' fragile del
+   lavoro). Il meccanismo comune ai cedimenti (tranne per l'affermazione 3):
+   a ratio=1 la selezione delle etichette sul target trova piu' spesso una
+   sola classe, perche' il punteggio del modello sorgente ribilanciato 1:1
+   cambia. **Non spiegato**: perche' l'affermazione 3 si rompe gia' a
+   ratio=3 e in modo asimmetrico fra le due direzioni BoT-sorgente
+   (`bot→unsw` cambia segno, `bot→ton` no) — la diagnosi esistente
+   (quasi-separazione IRLS) non basta da sola. Un bug reale trovato per
+   strada e corretto: il checkpoint di `drift_graduale.py` troncava 6
+   politiche su 7 su disco (mai nei CSV pubblicati, generati da run continui
+   in memoria) da quando sezione 17b aveva aggiunto una settima politica
+   senza aggiornare la costante di scrittura — sistemato rendendo la
+   costante dipendente dal numero di politiche invece che fissa.
 
 ---
 
@@ -2039,12 +2827,19 @@ attraverso la base spline che il gain-fit evita del tutto).
 - `scripts/drift_baselines.py` — aggiornamento minimo strutturale per modello
 - `scripts/drift_int_adapt.py` — adattamento integer-only ed export C, ora
   con `--iters` (default 6000, file separati per valore diverso — sezione
-  16.1, confronto 2000-contro-6000 a campioni appaiati) e `--adaptive`
+  16.1, confronto 2000-contro-6000 a campioni appaiati), `--adaptive`
   (sezione 17a, passo che si dimezza sui plateau + arresto sul punto fisso)
+  e `--ratio` incluso nel nome di checkpoint/CSV (vuoto a ratio=50 — sezione
+  18); l'header C canonico si scrive solo a `iters=6000, ratio=50`
 - `scripts/drift_graduale.py` — deriva progressiva e politiche di
   riadattamento; `StatSufficienti` ora supporta `adaptive_ridge` con
   `ridge_mode="per_batch"` (falsificato) o `"warmup"` (non ha battuto il
-  ridge fisso — sezione 17b), politica aggiuntiva `stat_13x13_adaptive`
+  ridge fisso — sezione 17b), politica aggiuntiva `stat_13x13_adaptive`;
+  `--ratio` incluso nel nome di checkpoint/CSV (sezione 18); bug corretto
+  nella scrittura del checkpoint, che troncava su disco (non nei CSV
+  pubblicati, generati da `rows` in memoria) i primi batch di 6 politiche
+  su 7 da quando la settima e' stata aggiunta senza aggiornare la costante
+  di slicing (sezione 18, trovato analizzando la sensibilita' al rapporto)
 - `scripts/drift_senza_etichette.py` — EM sul prior, TENT, TENT filtrato, IM
 - `scripts/drift_trasferimenti.py` — Firth e k-center da altri campi
 - `scripts/spazio_ridotto.py` — costo della riduzione dello spazio armonizzato
@@ -2059,9 +2854,10 @@ attraverso la base spline che il gain-fit evita del tutto).
 - `scripts/tre_domini.py` — terne di domini, ora passa `spazio_cic` coerente
   con `--spazio`, e `finalize()` scrive `tre_domini_runs_<spazio>_<terna>.csv`
   (bug corretto: il nome non includeva la terna e un secondo run la
-  sovrascriveva, sezione 15)
+  sovrascriveva, sezione 15); `--ratio` incluso nel nome dal 18 in poi
 - `scripts/drift_graduale_int.py` — **nuovo**: martingala conformal e
-  riadattamento in aritmetica intera (sezione 16.3)
+  riadattamento in aritmetica intera (sezione 16.3); `--ratio` incluso nel
+  nome di checkpoint/CSV dal 18 in poi
 - `kanids/harmonized.py`, `kanids/datasets.py` — con UNSW-NB15 e con
   CIC-IoT-2023 vero (`test.csv`, `flow_duration` reale, etichetta multiclasse
   binarizzata, `build_ridotto_cic` finalmente raggiungibile)
@@ -2094,6 +2890,9 @@ attraverso la base spline che il gain-fit evita del tutto).
 - `results/drift_sampling_normali.csv` — normali raccolte da ogni regola,
   la colonna che spiega tutte le altre
 - `results/drift_graduale_curva.csv` — accuratezza contro contaminazione
+- `results/*_ratio{1,3,20,100}*.csv`, `artifacts/*_ratio{1,3,20,100}*.jsonl`
+  — sezione 18, la griglia di sensibilita' al rapporto di undersampling;
+  vuoto (nessun suffisso) a ratio=50, che resta il file storico
 
 Gli script sono checkpointati e riprendibili, come gli altri del repository,
 e non toccano nulla di esistente fuori da `adattamento-drift/`. Verifica

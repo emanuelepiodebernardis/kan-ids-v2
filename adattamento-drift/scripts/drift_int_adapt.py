@@ -59,6 +59,12 @@ BUDGETS = [8, 32, 128]
 N_GOLDEN = 200
 
 
+def ratio_suffix(ratio):
+    """Vuoto al rapporto storico (50): i file esistenti restano dove sono e
+    un rilancio a --ratio diverso non li sovrascrive (sezione 18)."""
+    return "" if ratio == 50.0 else f"_ratio{ratio:g}"
+
+
 # ─────────────────────────────────────────────────────────────
 def quantize_edges(model, Xtr):
     """Ogni edge numerico -> coefficienti B-spline int8 + scala; ogni edge
@@ -188,7 +194,8 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, write_header=False, iters=6000,
     d = len(mult)
 
     def add(metodo, bal, extra=None):
-        rec = {"exp": exp, "seed": seed, "metodo": metodo, "bal_acc": float(bal)}
+        rec = {"exp": exp, "seed": seed, "metodo": metodo, "bal_acc": float(bal),
+               "ratio": ratio}
         rec.update(extra or {})
         rows.append(rec)
         with ckpt.open("a") as fh:
@@ -300,8 +307,8 @@ def main():
                          "di --iters fisso (COMPITO 3a, sezione 16.1)")
     args = ap.parse_args()
 
-    suffix = "_adaptive" if args.adaptive else (
-        "" if args.iters == 6000 else f"_iters{args.iters}")
+    suffix = ("_adaptive" if args.adaptive else (
+        "" if args.iters == 6000 else f"_iters{args.iters}")) + ratio_suffix(args.ratio)
     ckpt = ARTIFACTS_DIR / f"drift_int_adapt{suffix}.jsonl"
     rows, done = [], set()
     if ckpt.exists():
@@ -322,10 +329,12 @@ def main():
                 print("[ckpt] fermato per tempo: rilancia lo stesso comando")
                 return finalize(rows, suffix)
             # l'header C va scritto solo dalla configurazione canonica
-            # (iters=6000): un rilancio a --iters diverso (confronto,
-            # sezione 16.1) non deve sovrascrivere mcu/kan_int_adapt.h
+            # (iters=6000, ratio=50): un rilancio a --iters o --ratio
+            # diverso (confronto, sezioni 16.1 e 18) non deve sovrascrivere
+            # mcu/kan_int_adapt.h
             run_unit(H, exp, seed, args.ratio, rows, ckpt,
-                     write_header=(first and args.iters == 6000 and not args.adaptive),
+                     write_header=(first and args.iters == 6000
+                                  and not args.adaptive and args.ratio == 50.0),
                      iters=args.iters, adaptive=args.adaptive)
             first = False
     return finalize(rows, suffix)
