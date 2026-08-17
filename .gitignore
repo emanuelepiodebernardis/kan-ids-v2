@@ -12,6 +12,13 @@ data/*.csv
 train_test_network.csv
 *.parquet
 
+# copia di lavoro dei dataset grezzi: ~1,3 GB, mai versionata.
+# Senza questa riga un `git add -A` dalla radice tenta di committare
+# test.csv (348 MB) e i quattro shard di BoT-IoT.
+kanids-data/
+UNSW_2018_IoT_Botnet_Full5pc_*.csv
+UNSW_NB15_*-set.csv
+
 # python
 __pycache__/
 *.py[cod]
@@ -23,6 +30,13 @@ venv/
 # sistema
 .DS_Store
 Thumbs.db
+
+# configurazione locale dell'assistente: permessi e lock di sessione,
+# personali della macchina e non del progetto. settings.json (senza
+# .local) resta versionabile se un giorno si vuole condividere la
+# configurazione di progetto.
+.claude/settings.local.json
+.claude/*.lock
 
 # build firmware
 mcu_pio/.pio/

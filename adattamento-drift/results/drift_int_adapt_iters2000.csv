@@ -1,0 +1,9 @@
+metodo,bot->ton,bot->unsw,ton->bot,ton->unsw,unsw->bot,unsw->ton
+float non adattato,0.6112,0.4613,0.5575,0.2243,0.7248,0.294
+intero + guadagni float  n=128,0.8203,0.6277,0.8124,0.5547,0.574,0.764
+intero + guadagni float  n=32,0.8014,0.5224,0.6655,0.6114,0.6724,0.6766
+intero + guadagni float  n=8,0.7241,0.5662,0.6729,0.5684,,0.5848
+intero + guadagni interi n=128,0.8315,0.6271,0.73,0.5488,0.6313,0.7454
+intero + guadagni interi n=32,0.804,0.5882,0.6954,0.6104,0.9511,0.6349
+intero + guadagni interi n=8,0.7311,0.5598,0.7229,0.5685,,0.5912
+intero non adattato,0.7098,0.4332,0.4811,0.3062,0.414,0.428
