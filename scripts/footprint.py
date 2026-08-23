@@ -1,23 +1,30 @@
 #!/usr/bin/env python3
-"""Ingombro dei modelli deployati, con una regola di conteggio unica.
+"""Ingombro dei modelli deployati, sulla rappresentazione C compilata.
 
 Il confronto "246 byte contro un ensemble" non regge se i byte dei due
-modelli sono contati in modi diversi. Qui ogni modello e' misurato con la
-stessa regola: **byte dei parametri effettivamente memorizzati**, in una
-rappresentazione table-driven adatta a un MCU (nessun if/else generato,
-che sposterebbe l'ingombro dai dati al codice rendendolo dipendente dal
-compilatore e dal target).
+modelli sono contati in modi diversi. Fino alla versione precedente di
+questo script *lo erano*: i byte venivano contati con una regola di
+impacchettamento ideale che il codice C non implementa. L'albero profondo 5
+risultava 141 B con quella regola, mentre `mcu_pio/include/dt5_model.h` —
+l'header che PlatformIO compila davvero — ne occupa 285, perche' alloca
+quattro array paralleli lunghi quanto il numero totale di nodi, foglie
+comprese. Sulla KAN single-layer lo scarto era piu' piccolo (250 contro
+254) ma di segno opposto, e bastava a invertire l'ordinamento fra i due.
 
-Regola per modello
-------------------
-KAN            coefficienti spline int8 + tabelle categoriche int8 +
-               costanti affini (misurati direttamente dagli script di
-               compilazione, results/kan14_*compile_real.csv)
-Albero         nodo interno = indice feature (1 B) + soglia (int16, 2 B) +
-               figlio destro (1 B, il sinistro e' implicito) = 4 B
-               foglia = classe/probabilita' quantizzata (1 B)
-Ensemble       somma degli alberi, stessa regola
-MLP            pesi + bias quantizzati a int8, 1 B ciascuno
+Ora vale una regola sola, e privilegia il codice:
+
+**A. modelli con un header C compilato** — i byte sono la somma degli array
+`static const` dichiarati nell'header, letti da `scripts/c_footprint.py` e
+verificabili con `nm` sull'oggetto prodotto dal compilatore. Riguarda tutte
+le varianti KAN e l'albero profondo 5, cioe' tutto cio' che va davvero su
+microcontrollore.
+
+**B. modelli senza header C** — MLP, LightGBM e XGBoost non sono stati
+esportati in C: per loro resta una *stima* table-driven (nodo interno =
+indice feature 1 B + soglia int16 2 B + figlio destro 1 B; foglia = 1 B;
+MLP = 1 B per parametro int8). La colonna `regola` del CSV dice riga per
+riga quale delle due si applica, cosi' che il confronto non venga letto
+come omogeneo: la stima e' un limite inferiore, la misura no.
 
 Cosa NON e' misurato qui: dimensione del codice e latenza. Dipendono da
 toolchain e target e vanno misurate sul dispositivo; questo script produce
@@ -33,14 +40,20 @@ import numpy as np
 import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from kanids import (CLIP, K_NUMERIC, RESULTS_DIR, LeakageFreePreprocessor,
                     cv_splits, set_global_seed)
 from kanids.datasets import encode_targets, load_ton_iot
 from kanids.models import get_baselines
 
+from c_footprint import collect as c_collect  # noqa: E402
+
 BYTES_NODE = 4      # feature idx + soglia int16 + figlio
 BYTES_LEAF = 1
+
+REGOLA_C = "array C compilati"
+REGOLA_STIMA = "stima table-driven (nessun header C)"
 
 
 def tree_bytes(n_internal: int, n_leaves: int) -> int:
@@ -67,6 +80,9 @@ def main():
     models = get_baselines("binary", prep.cardinalities_, seed=42)
 
     rows = []
+
+    # ── byte letti dagli header C effettivamente compilati ───
+    cmap = {r["modello"]: r for r in c_collect()}
 
     # ── baseline: strutture reali, contate dopo il fit ───────
     for name, wrapper in models.items():
@@ -105,37 +121,30 @@ def main():
             detail = f"{npar} parametri int8"
         else:
             continue
-        rows.append({"modello": name, "byte_parametri": int(b), "dettaglio": detail})
+        if name in cmap:
+            # esiste l'header C: la misura vince sulla stima. Se le due non
+            # coincidono lo si dice, invece di sceglierne una in silenzio.
+            c = cmap[name]
+            if int(b) != c["byte_parametri"]:
+                print(f"[nota] {name}: stima {int(b)} B, header C "
+                      f"{c['byte_parametri']} B -> si usa l'header "
+                      f"({c['header']})")
+            rows.append({"modello": name, "byte_parametri": c["byte_parametri"],
+                         "regola": REGOLA_C, "dettaglio": c["dettaglio"],
+                         "fonte": c["header"]})
+        else:
+            rows.append({"modello": name, "byte_parametri": int(b),
+                         "regola": REGOLA_STIMA, "dettaglio": detail,
+                         "fonte": "—"})
 
-    # ── KAN: dagli artefatti di compilazione gia' misurati ───
-    for csv, label, col in [
-        ("kan14_compile_real.csv", "KAN(cat,1L)", "mem_bytes"),
-        ("kan14_ml_compile_real.csv", "KAN(cat,ML)", "mem_bytes"),
-    ]:
-        p = RESULTS_DIR / csv
-        if not p.exists():
-            print(f"[avviso] {csv} assente: lanciare prima gli script di compilazione")
+    # ── varianti che esistono solo come header C ─────────────
+    gia = {r["modello"] for r in rows}
+    for label, c in cmap.items():
+        if label in gia:
             continue
-        d = pd.read_csv(p)
-        r = d.iloc[-1]
-        key = [c for c in d.columns if "compil" in c or "quant" in c][0]
-        rows.append({"modello": label, "byte_parametri": int(r[col]),
-                     "dettaglio": f"{r[key]} (results/{csv})"})
-
-    p = RESULTS_DIR / "e2e_int_export.csv"
-    if p.exists():
-        r = pd.read_csv(p).iloc[0]
-        rows.append({"modello": "KAN e2e integer (binario)",
-                     "byte_parametri": int(r["mem_bytes"]),
-                     "dettaglio": "coeff int8 + LUT ln + affini, contatori grezzi -> decisione"})
-
-    p = RESULTS_DIR / "mc_e2e_int_export.csv"
-    if p.exists():
-        r = pd.read_csv(p).iloc[0]
-        rows.append({"modello": "KAN e2e integer (10 classi)",
-                     "byte_parametri": int(r["mem_bytes"]),
-                     "dettaglio": "soglie + coeff int8 due layer + cat + tanh LUT, "
-                                  "grezzi -> argmax"})
+        rows.append({"modello": label, "byte_parametri": c["byte_parametri"],
+                     "regola": REGOLA_C, "dettaglio": c["dettaglio"],
+                     "fonte": c["header"]})
 
     out = pd.DataFrame(rows).sort_values("byte_parametri")
 
@@ -149,17 +158,22 @@ def main():
 
     out.to_csv(RESULTS_DIR / "footprint.csv", index=False)
 
-    print("\n" + "=" * 92)
-    print(f"{'modello':<28}{'byte':>10}{'KB':>9}{'F1 (CV 5x3)':>18}   dettaglio")
-    print("-" * 92)
+    print("\n" + "=" * 104)
+    print(f"{'modello':<32}{'byte':>10}{'KB':>9}{'F1 (CV 5x3)':>18}   regola")
+    print("-" * 104)
     for _, r in out.iterrows():
         f1s = (f"{r['f1_cv']:.4f} ± {r['f1_std']:.4f}"
                if pd.notna(r["f1_cv"]) else "—")
-        print(f"{r['modello']:<28}{r['byte_parametri']:>10,}{r['kb']:>9.2f}{f1s:>18}   {r['dettaglio']}")
-    print("=" * 92)
-    print("Regola: byte dei parametri memorizzati, rappresentazione table-driven.")
+        print(f"{r['modello']:<32}{r['byte_parametri']:>10,}{r['kb']:>9.2f}"
+              f"{f1s:>18}   {r['regola']}")
+    print("=" * 104)
+    print(f"'{REGOLA_C}': somma degli array static const nell'header che")
+    print("  PlatformIO compila; verificabile con nm sull'oggetto del compilatore.")
+    print(f"'{REGOLA_STIMA}': limite inferiore, il modello non e' stato")
+    print("  esportato in C. Le due colonne non sono omogenee: non confrontarle")
+    print("  senza dirlo.")
     print("Non include dimensione del codice ne' latenza: richiedono il target reale.")
-    print(f"\nsalvato results/footprint.csv")
+    print("\nsalvato results/footprint.csv")
 
 
 if __name__ == "__main__":

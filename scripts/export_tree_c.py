@@ -3,12 +3,18 @@
 
 Perche' serve
 -------------
-Nel confronto dimensione/accuratezza l'albero profondo 5 occupa 141 byte con
-F1 0,9944 e **domina** il modello KAN da 250 byte: piu' piccolo e piu'
-accurato (results/footprint.csv). Quel confronto pero' e' fatto contando i
-byte dei parametri; latenza, SRAM e dimensione del codice si misurano solo
-sul dispositivo. Senza un export in C dell'albero, la frontiera di Pareto
-resta a meta' e l'obiezione piu' seria al lavoro non si puo' chiudere.
+Nel confronto dimensione/accuratezza l'albero profondo 5 e' **piu' accurato**
+del modello KAN single-layer (F1 0,9944 contro 0,9835), ed e' l'obiezione piu'
+seria al lavoro. Sulla dimensione invece non vince: l'header prodotto qui
+occupa 285 byte contro i 254 della KAN compilata (results/footprint.csv),
+perche' alloca quattro array paralleli su tutti e 57 i nodi, foglie comprese.
+Una versione precedente di questa nota diceva 141 byte, che e' l'ingombro di
+un impacchettamento ideale mai implementato: se un giorno lo si implementa,
+il numero torna valido, ma va cambiato prima il codice.
+
+Restano fuori dai byte dei parametri la latenza e la dimensione del codice,
+che si misurano solo sul dispositivo. Senza un export in C dell'albero la
+frontiera di Pareto resta a meta'.
 
 Rappresentazione
 ----------------

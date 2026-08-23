@@ -8,7 +8,7 @@ latenza calcolate **a bordo**, misura di **SRAM**, verifica delle
 predizioni contro i valori attesi, e hook opzionale per la misura di
 **energia** via INA219.
 
-Un solo sorgente (`src/main.cpp`) copre entrambi i target tramite `#ifdef`.
+Ogni sorgente in `src/` copre entrambi i target tramite `#ifdef`.
 
 ---
 
@@ -16,25 +16,34 @@ Un solo sorgente (`src/main.cpp`) copre entrambi i target tramite `#ifdef`.
 
 ```
 mcu_pio/
-├── platformio.ini          # 2 env: megaatmega2560, esp32c3
-├── src/
-│   └── main.cpp            # firmware unico (AVR + ESP32-C3)
-├── include/
-│   ├── kan_ids_layer_int.h # modello KAN-LUT INTEGER-ONLY (copia da ../mcu)
-│   ├── kan_ids_layer.h     # variante float (copia; non usata dal firmware)
-│   ├── test_vectors.h      # 40 vettori z-scored + etichette (copia da ../mcu)
-│   └── kan_infer.h         # logica di inferenza PURA condivisa
-├── host_check/            # verifica offline con g++ (no MCU necessario)
+├── platformio.ini          # 13 env su 2 schede: megaatmega2560, esp32c3
+├── src/                    # 7 firmware, uno per variante di modello
+│   ├── main.cpp            # KAN-LUT integer (env di default)
+│   ├── main_coeff.cpp      # KAN single-layer a coefficienti (254 B)
+│   ├── main_mlcoeff.cpp    # KAN multi-layer (5,2 KB)
+│   ├── main_mc.cpp         # KAN multiclasse 10 classi (8,3 KB)
+│   ├── main_e2e.cpp        # catena end-to-end binaria dai contatori grezzi
+│   ├── main_mc_e2e.cpp     # catena end-to-end a 10 classi
+│   └── main_dt5.cpp        # albero profondo 5, il concorrente sul Pareto
+├── include/                # header dei modelli + golden vector
+├── host_check/             # verifica offline con g++ (no MCU necessario)
 │   ├── arduino_stub.h      # stub minimale di Arduino.h
 │   ├── avr/pgmspace.h      # stub PROGMEM (solo per il check host)
 │   ├── Wire.h              # stub I2C (solo per il check host)
-│   └── run_host_check.cpp  # harness: inferenza sui test vector reali
+│   └── run_*_check.cpp     # 6 harness, uno per kernel
+├── wokwi.toml              # simulazione senza hardware (vedi §8)
+├── diagram.json            # schema Wokwi: Arduino Mega 2560
+├── diagram.esp32c3.json    # schema Wokwi: ESP32-C3-DevKitM-1
 └── README.md
 ```
 
-> Gli header in `include/` sono **copie non modificate** di quelli in
-> `../mcu/` (vincolo del progetto: non toccare `mcu/`). Se rigeneri i
-> modelli, ricopia i file aggiornati in `include/`.
+> Gli header in `include/` erano copie non modificate di quelli in `../mcu/`.
+> Non lo sono piu': quattro di essi (`dt5_model.h`, `kan_e2e_int.h`,
+> `kan_mc_e2e_int.h`, `test_vectors.h`) sono stati corretti con `PROGMEM` e i
+> relativi `pgm_read_*`, perche' senza quella qualificazione su AVR le tabelle
+> finivano in SRAM invece che in Flash — 6,3 KB e 7,3 KB sugli 8 KB del Mega,
+> cioe' due firmware che non partivano. Se rigeneri i modelli, riporta la
+> correzione anche nella copia in `../mcu/`.
 
 ### Scelta del modello: variante INT
 
@@ -163,8 +172,10 @@ da parsare.
   significativamente di più sul Mega 2560 (AVR 8-bit @16 MHz, LUT in
   PROGMEM). I valori esatti li fornisce la riga SUMMARY.
 - **SRAM**: `sram_model_cost_bytes` è il costo in RAM delle strutture
-  costruite a runtime (soli 2 array di indici `int8`). Il modello vero e i
-  test vector stanno in **Flash/PROGMEM**, quindi non pesano sulla SRAM. Il
+  costruite a runtime (soli 2 array di indici `int8`). Il modello e i test
+  vector stanno in **Flash/PROGMEM** — cosa vera per costruzione solo dopo la
+  correzione descritta in §1: prima lo era per le varianti `_coeff` e
+  `_mlcoeff`, non per `_dt5`, `_e2e` e l'env di default. Il
   firmware usa **statistiche in streaming** (somma e somma dei quadrati),
   senza mai allocare un buffer da 500 campioni → rispetta il budget di
   8 KB del Mega.
@@ -250,10 +261,36 @@ misura. Calibra `INA219_CURRENT_LSB_A`, `INA219_POWER_LSB_W` e
 > (`Adafruit_INA219 ina; ina.begin(); ina.getPower_mW();`). L'integrazione
 > `potenza × dt` resta identica.
 
-## Terza variante: coefficienti B-spline full-integer (246 B)
+## 8. Verifica preliminare su Wokwi (senza hardware)
+
+`wokwi.toml` + `diagram.json` sono pronti per l'estensione Wokwi di VS Code.
+Servono a controllare che il firmware parta davvero, stampi il CSV sulla
+seriale e che le predizioni coincidano con i golden vector — non a misurare la
+latenza, che in simulazione non è quella del silicio, né l'energia, che non è
+simulabile.
+
+```bash
+cd mcu_pio
+pio run -e megaatmega2560_coeff        # il binario deve esistere prima
+# VS Code: F1 -> "Wokwi: Start Simulator"
+```
+
+Per l'ESP32-C3: `pio run -e esp32c3_coeff`, poi copiare
+`diagram.esp32c3.json` su `diagram.json` e scambiare le due righe
+`firmware`/`elf` in `wokwi.toml` con quelle del blocco commentato.
+
+La variante di default è `_coeff` perché è l'unica che sta comodamente su
+entrambe le schede e porta a bordo i 200 golden vector con le predizioni
+attese, quindi il confronto è automatico e non serve leggere i numeri a mano.
+
+---
+
+## Terza variante: coefficienti B-spline full-integer (254 B)
 
 La variante `main_coeff.cpp` implementa la compilazione a coefficienti della
-KAN binaria a 14 feature (F1 0.9826, modello da 246 byte, zero float):
+KAN binaria a 14 feature (F1 0.9826, modello da 254 byte nell'header C
+compilato — 250 secondo lo script di compilazione, che non conta i 4 byte
+della tabella di offset categorici; zero float):
 
 ```
 pio run -e megaatmega2560_coeff -t upload    # oppure -e esp32c3_coeff

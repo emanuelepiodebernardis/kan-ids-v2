@@ -32,17 +32,25 @@ artifact in `results/`.
 
 | Model | Accuracy (TON_IoT, held-out) | Deployed size | Arithmetic |
 |---|---|---|---|
-| Binary, single-layer + categorical edges | **F1 = 0.9837 ± 0.0007** (5-fold × 3-seed CV) | **246 B** | integer-only (int8 / Q15) |
-| Binary, multi-layer (16 hidden) | **F1 = 0.9976 ± 0.0002** (5-fold × 3-seed CV) | **5.05 KB**, lossless (ΔF1 = 0.0000) | integer-only |
-| Multiclass, 10 attack classes | macro-F1 = **0.9374 ± 0.0036** (5-fold × 3-seed CV) | 8.3 KB (inference) / **13.6 KB end-to-end** | integer-only, raw counters → decision |
+| Binary, single-layer + categorical edges | **F1 = 0.9837 ± 0.0007** (5-fold × 3-seed CV) | **254 B** | integer-only (int8 / Q15) |
+| Binary, multi-layer (16 hidden) | **F1 = 0.9976 ± 0.0002** (5-fold × 3-seed CV) | **5.12 KB**, lossless (ΔF1 = 0.0000) | integer-only |
+| Multiclass, 10 attack classes | macro-F1 = **0.9374 ± 0.0036** (5-fold × 3-seed CV) | 8.07 KB (inference) / **21.7 KB end-to-end** | integer-only, raw counters → decision |
 | Symbolic form of the binary model | F1 = 0.9835 | a printable 10-term equation + 4 lookup tables | — |
+
+> **Sizes are counted on the C headers that PlatformIO actually compiles**,
+> not on an idealised packing: `scripts/c_footprint.py` sums the
+> `static const` arrays of `mcu_pio/include/*.h`, and every figure above can
+> be re-derived with `nm` on the object the compiler emits. Earlier versions
+> of this table reported 246 B, 5.05 KB and 13.6 KB, produced by a counting
+> rule the C code does not implement — see the size/accuracy section below,
+> where the correction changes which model sits on the Pareto front.
 
 For reference, the strongest neural baseline of the original paper — an MLP
 via TensorFlow Lite Micro — reaches F1 = 0.9959 using **95 features and 13 KB**.
 The multi-layer KAN here surpasses it (0.9974) using **14 features and 5 KB**.
 
 > **Correction (protocol v2).** An earlier version of this table claimed that
-> the 246-byte single-layer model outperforms tree ensembles "on the same
+> the 254-byte single-layer model outperforms tree ensembles "on the same
 > deployable feature space". It does not. That comparison put the KAN on the
 > raw 14-feature space and the baselines on the *derived* 10-feature unified
 > space of the original paper — two different inputs. Re-run under v2 with
@@ -85,11 +93,15 @@ The multi-layer KAN here surpasses it (0.9974) using **14 features and 5 KB**.
 >    The residual gap is 0.0015 F1 (LightGBM wins 15/15, so it is real, not
 >    noise), but 400 boosted trees do not fit an ATmega2560 at all, while the
 >    multi-layer KAN runs in 5 KB with integer-only arithmetic.
-> 2. **The depth-5 decision tree wins outright in-domain.** It beats the
->    246-byte single-layer model by 0.0109 F1, 15/15 folds, *and* is smaller
->    (141 B vs 250 B under identical accounting). The single-layer KAN is
->    dominated on the in-domain Pareto front — see the size/accuracy section
->    below for what survives and why the argument moves to cross-domain.
+> 2. **The depth-5 decision tree wins on accuracy in-domain**, by 0.0109 F1,
+>    15/15 folds. It is **not** smaller: an earlier version of this line said
+>    141 B against the KAN's 250 B and concluded the single-layer KAN was
+>    dominated. Those two numbers came from different accounting — the 141 B
+>    was an idealised packing, the C header `mcu_pio/include/dt5_model.h`
+>    stores four parallel arrays over all 57 nodes and occupies **285 B**
+>    against the KAN's **254 B**. Counted the same way, on the code that
+>    ships, the KAN is the smaller model and the front is a genuine
+>    trade-off, not a domination — see the size/accuracy section below.
 
 ---
 
@@ -125,8 +137,15 @@ quantised spline coefficients** (19 per edge) instead of a sampled LUT:
 | Compilation | Size | ΔF1 | Agreement vs float |
 |---|---|---|---|
 | Sampled LUT, L = 64 (baseline) | 5,476 B | −0.0001 | 99.95 % |
-| Spline coefficients, int16 | 492 B | **0.0000 (lossless)** | **100.000 %** |
-| Spline coefficients, int8, full-integer | **246 B** | −0.0002 | 99.95 % |
+| Spline coefficients, int16 | 500 B | **0.0000 (lossless)** | **100.000 %** |
+| Spline coefficients, int8, full-integer | **250 B** | −0.0002 | 99.95 % |
+
+Those are the sizes reported by the compilation script
+(`results/kan14_compile_real.csv`), which counts the coefficients, the
+categorical tables and the Q15 multipliers. The **deployed** header
+`mcu_pio/include/kan14_coeff_int8.h` is **254 B**: it also stores the 4-byte
+table of categorical offsets, which the script treats as derivable. 254 B is
+the number used in the Pareto below, because it is what the compiler emits.
 
 Uniform (unclamped) knots give a closed matrix form per segment, evaluated
 with **integer-only Horner (Q15)** — no floating point at inference.
@@ -139,7 +158,9 @@ with **integer-only Horner (Q15)** — no floating point at inference.
 > `mcu_pio/host_check/run_e2e_check.cpp` runs the whole chain — raw counters →
 > integer features → affine segment map → int8 spline kernel → decision — in
 > pure integer arithmetic. Result: **200/200 logits bit-identical** to the
-> Python reference (`kanids/integer.py`), decisions identical, ~822 B of tables.
+> Python reference (`kanids/integer.py`), decisions identical, **1,334 B** of
+> tables (an earlier version said ~822 B, counting the natural-log LUT as
+> `int16`; the header declares it `int32_t[256]`, i.e. 1,024 B on its own).
 > Compiling the inference path and inspecting the assembly shows **zero
 > floating-point instructions**; two tests fail the build if a `float` or
 > `double` ever reappears in the header or the kernel.
@@ -158,8 +179,13 @@ with **integer-only Horner (Q15)** — no floating point at inference.
 > categorical tables → tanh LUT → layer-2 int8 splines → argmax, all in
 > integers. Result: **200/200 golden vectors with all ten accumulators
 > bit-identical** to the Python reference, argmax identical, macro-F1 0.9352
-> against 0.9378 for the float pipeline (99.42 % argmax agreement), 13.6 KB of
-> tables.
+> against 0.9378 for the float pipeline (99.42 % argmax agreement), **21.7 KB**
+> of tables. (An earlier version said 13.6 KB. The header stores the knots
+> twice — `MC_KNOT` as `int64_t[1290]`, 10,320 B, plus `MC_KNOTZ` as
+> `int16_t[1290]`, 2,580 B — and the earlier count included only one of the
+> two. Storing both is what makes the binary search exact on the raw counters
+> *and* cheap on the normalised ones; it costs 12.6 KB of the 21.7, and is the
+> most obvious place to look if this variant ever has to shrink.)
 >
 > The same failure mode appeared a second time here: `round(tanh(x)·32768)`
 > reaches exactly 32768 at the edges of the domain, overflowing `int16`. It is
@@ -379,7 +405,8 @@ repeat it. Individual scripts remain runnable on their own:
 
 ```bash
 python scripts/cv_leakagefree.py --task binary --models KAN,LightGBM
-python scripts/kan14_compile.py                   # 246 B full-integer
+python scripts/kan14_compile.py                   # 250 B full-integer (254 B nell'header C)
+python scripts/c_footprint.py --verbose            # byte contati sugli header compilati
 python scripts/kan14_mc_e2e_int.py                # raw counters → 10 classes
 ```
 
@@ -518,9 +545,9 @@ Two things the 10-class task shows that the binary one hides:
    over the single-layer, against +0.0141 F1 on the binary task. Separating attack
    *families* needs feature interactions far more than separating attack from normal
    does — which is the same structural argument, with a much larger effect size.
-2. **The depth-5 tree collapses.** It was the smallest and most accurate model on the
-   binary task (141 B, F1 0.9944); here it is last by a wide margin, 0.1741 macro-F1
-   below the multi-layer KAN. Its in-domain dominance was specific to the binary
+2. **The depth-5 tree collapses.** It was the most accurate model on the binary
+   task (285 B, F1 0.9944); here it is last by a wide margin, 0.1741 macro-F1
+   below the multi-layer KAN. Its in-domain advantage was specific to the binary
    problem and does not survive the harder task.
 
 **MITM is the ceiling for everyone.** With 1,043 flows (0.49 %), every model bottoms
@@ -532,30 +559,49 @@ the architecture or the loss. The multi-layer KAN doubles the single-layer's MIT
 
 ---
 
-## Size/accuracy Pareto: what the 246-byte claim actually buys
+## Size/accuracy Pareto: what the 254-byte claim actually buys
 
-Counting every model with the **same rule** — bytes of stored parameters in a
-table-driven representation (`scripts/footprint.py`) — settles the comparison
-the earlier claim left open:
+Counting every model with the **same rule** settles the comparison the earlier
+claim left open — but only if the rule is the one the code implements. It was
+not. Until this revision `scripts/footprint.py` counted bytes under an
+idealised packing (internal node = 4 B, leaf = 1 B), which the C tree does not
+use: `mcu_pio/include/dt5_model.h` stores four parallel arrays over all 57
+nodes, leaves included, and occupies 285 B rather than 141. The rule now reads
+the headers PlatformIO compiles (`scripts/c_footprint.py`), and the correction
+is not cosmetic: it **reverses the size ordering** of the two smallest models.
 
-| Model | Bytes | F1 (TON_IoT, 5×3 CV) | Bal. acc. TON→BoT | Structure |
-|---|---|---|---|---|
-| **Decision Tree (d=5)** | **141** | **0.9944 ± 0.0004** | 0.5466 | 28 internal nodes + 29 leaves |
-| KAN single-layer + cat | 250 | 0.9835 ± 0.0007 | **0.5632** | int8 spline coeffs + 4 tables |
-| MLP (16) | 705 | 0.9964 ± 0.0009 | 0.4703 | 705 int8 parameters |
-| KAN e2e integer (binary) | 822 | — | — | raw counters → decision, all tables |
-| **KAN multi-layer + cat** | **5,232** | **0.9976 ± 0.0002** | — | int8, two spline layers |
-| XGBoost | 49,905 | 0.9989 ± 0.0001 | 0.5597 | 300 trees, 9,921 nodes |
-| LightGBM | 60,400 | 0.9991 ± 0.0001 | 0.4815 | 400 trees, 12,000 nodes |
+| Model | Bytes | Rule | F1 (TON_IoT, 5×3 CV) | Bal. acc. TON→BoT | Structure |
+|---|---|---|---|---|---|
+| **KAN single-layer + cat** | **254** | compiled | 0.9835 ± 0.0007 | **0.5632** | int8 spline coeffs + 4 tables |
+| Decision Tree (d=5) | 285 | compiled | **0.9944 ± 0.0004** | 0.5466 | 4 arrays × 57 nodes |
+| MLP (16) | 705 | *estimate* | 0.9964 ± 0.0009 | 0.4703 | 705 int8 parameters |
+| KAN e2e integer (binary) | 1,334 | compiled | — | — | raw counters → decision, all tables |
+| **KAN multi-layer + cat** | **5,244** | compiled | **0.9976 ± 0.0002** | — | int8, two spline layers |
+| KAN multiclass (10 classes) | 8,268 | compiled | — | — | int8, two layers, 10 outputs |
+| KAN LUT integer (default env) | 10,248 | compiled | — | — | int16 lookup table, 10 × 512 |
+| KAN e2e integer (10 classes) | 22,264 | compiled | — | — | raw values → argmax, knots stored twice |
+| XGBoost | 49,905 | *estimate* | 0.9989 ± 0.0001 | 0.5597 | 300 trees, 9,921 nodes |
+| LightGBM | 60,400 | *estimate* | 0.9991 ± 0.0001 | 0.4815 | 400 trees, 12,000 nodes |
 
-**In-domain, the single-layer KAN is dominated.** A depth-5 decision tree is
-both *smaller* (141 B vs 250 B) and *more accurate* (0.9944 vs 0.9835). It is
-also monotone-invariant, so it needs no preprocessing at all, while the KAN's
-end-to-end integer chain costs 822 B including its tables. "Accuracy per byte"
-is therefore **not** a defensible argument for the single-layer model on
-TON_IoT, and the repository no longer makes it.
+**The two rules are not interchangeable, and the table says which applies
+where.** "Compiled" is a measurement: the sum of the `static const` arrays in
+the header, reproducible with `nm` on the emitted object. "Estimate" is a
+lower bound for the three models never exported to C — MLP, XGBoost, LightGBM
+— so a model that appears to be beaten on size by an estimated row has not
+been proven to be.
 
-Three things do survive, and they are what the line of work should be built on:
+**In-domain the single-layer KAN is no longer dominated; it is the smallest
+model on the front.** The depth-5 tree is still more accurate (0.9944 vs
+0.9835) and is monotone-invariant, so it needs no preprocessing at all, and
+the KAN's end-to-end integer chain costs 1,334 B once the feature engineering
+is included. The front is a real trade-off across its whole range — 31 bytes
+buys 0.011 F1 at the bottom, 49,600 bytes buys 0.0045 more at the top — rather
+than a domination. What does **not** follow from this correction is that
+"accuracy per byte" is vindicated: 31 bytes is a rounding error on either
+board, and the argument the repository makes for the single-layer model still
+rests on cross-domain behaviour, not on size.
+
+Three things survive, and they are what the line of work should be built on:
 
 1. **The multi-layer KAN sits on the frontier.** 5.2 KB and F1 0.9976, against
    the original paper's TensorFlow Lite Micro MLP at 13 KB and 0.9959 using 95
@@ -574,9 +620,18 @@ Three things do survive, and they are what the line of work should be built on:
 
 ![Pareto](figures/fig_pareto_size_accuracy.png)
 
-Not measured here: **code size and latency**, which depend on toolchain and
-target and require the physical benchmark on the Mega 2560 and ESP32-C3.
+Not measured here: **latency**, which depends on toolchain and target and
+requires the physical benchmark on the Mega 2560 and ESP32-C3.
 `scripts/footprint.py` produces the size axis only.
+
+**Code size and SRAM, however, are now measurable without the boards**, by
+building the firmware with the AVR toolchain and reading `avr-size`. Doing so
+found a defect the parameter count hides: `dt5_model.h`, `kan_e2e_int.h`,
+`kan_mc_e2e_int.h` and `test_vectors.h` were declared without `PROGMEM`, so on
+AVR their tables landed in **SRAM** instead of Flash — 6,286 B for the tree
+firmware and 7,334 B for the end-to-end one, against the Mega 2560's 8 KB
+total. Both would have failed on the bench, not in the table. See the firmware
+section for the fix and the current figures.
 
 ---
 
@@ -976,14 +1031,15 @@ can be measured on the two boards under the same benchmark protocol:
 | **KAN end-to-end, 10 classes** | `main_mc_e2e.cpp` | `esp32c3_mc_e2e` | **raw values** |
 | **Decision Tree d=5** | `main_dt5.cpp` | `*_dt5` | same feature space as the KAN |
 
-The last one exists for a specific reason. On parameter bytes the depth-5 tree
-occupies 141 B against the single-layer KAN's 250 B *and* is more accurate, so
-it dominates the in-domain Pareto front — but latency, SRAM and code size can
-only be measured on the device. Without a tree firmware the comparison that
-most threatens the premise of this work could not be closed. Quantising its
-thresholds to Q7 for the device costs it 0.0028 F1 (0.9944 → 0.9916, 99.55 %
-agreement with the float model), which narrows the gap to the compiled KAN
-from 0.0109 to 0.0081 — still in the tree's favour.
+The last one exists for a specific reason: the depth-5 tree is the model that
+most threatens the premise of this work, being more accurate in-domain than the
+compiled single-layer KAN, and without a firmware that comparison could not be
+closed on the device. On parameter bytes it occupies 285 B against the KAN's
+254 B — the two are within 12 % of each other, so the tree's case rests on
+accuracy, not on size. Quantising its thresholds to Q7 for the device costs it
+0.0028 F1 (0.9944 → 0.9916, 99.55 % agreement with the float model), which
+narrows the gap to the compiled KAN from 0.0109 to 0.0081 — still in the
+tree's favour.
 
 ---
 
@@ -998,7 +1054,7 @@ CSV over serial):
 ```bash
 cd mcu_pio
 pio run -e megaatmega2560 -t upload           # variant 1-2: LUT inference
-pio run -e megaatmega2560_coeff -t upload     # variant 3: 246 B binary (F1 0.983)
+pio run -e megaatmega2560_coeff -t upload     # variant 3: 254 B binary (F1 0.983)
 pio run -e megaatmega2560_mlcoeff -t upload   # variant 4: 5 KB multi-layer (F1 0.9974)
 pio run -e esp32c3_mc -t upload               # variant 5: 8 KB multiclass (macro-F1 0.941)
 pio device monitor --baud 115200
@@ -1013,7 +1069,7 @@ Without hardware, the exact inference kernels can be verified on any host:
 ```bash
 cd mcu_pio
 g++ -O2 -o c1 host_check/run_host_check.cpp     && ./c1   # LUT variant
-g++ -O2 -o c2 host_check/run_coeff_check.cpp    && ./c2   # binary 246 B: 200/200
+g++ -O2 -o c2 host_check/run_coeff_check.cpp    && ./c2   # binary 254 B: 200/200
 g++ -O2 -o c3 host_check/run_ml_coeff_check.cpp && ./c3   # multi-layer:  200/200
 g++ -O2 -o c4 host_check/run_mc_coeff_check.cpp && ./c4   # multiclass:   200/200
 ```
@@ -1022,6 +1078,43 @@ The C kernel in `include/kan14_coeff_infer.h` is a line-by-line translation of
 the bit-exact NumPy integer simulation and matches it on 200/200 real test
 vectors. An optional INA219 hook (`-DENABLE_INA219`) measures energy per
 inference.
+
+### Flash and SRAM per variant, measured without the boards
+
+PlatformIO needs to download its toolchains; `avr-gcc` alone does not, and it
+is enough to compile each variant for the ATmega2560 and read the segment
+sizes. This closes the part of the deployment question that does not need
+hardware — only latency and energy do:
+
+```bash
+avr-g++ -mmcu=atmega2560 -Os -std=c++11 -DF_CPU=16000000UL \
+        -Iinclude src/main_coeff.cpp -o /tmp/fw.elf
+avr-size /tmp/fw.elf      # text = Flash, data + bss = SRAM (8,192 B available)
+```
+
+Doing this found a defect that the parameter count cannot show. Four headers —
+`dt5_model.h`, `kan_e2e_int.h`, `kan_mc_e2e_int.h` and `test_vectors.h` — had
+no `PROGMEM` qualifier, so on AVR their tables were emitted into `.data`, i.e.
+**SRAM**, instead of Flash:
+
+| Environment | Flash | SRAM before | SRAM after | of 8 KB |
+|---|---|---|---|---|
+| `megaatmega2560` (LUT) | 12,430 B | 1,762 B | see note | 21.5 % → — |
+| `megaatmega2560_coeff` | 7,402 B | 4 B | 4 B | 0.05 % |
+| `megaatmega2560_dt5` | 548 B | **6,286 B** | **0 B** | 76.7 % → 0 % |
+| `megaatmega2560_e2e` | 5,544 B | **7,334 B** | see note | 89.5 % → — |
+| `megaatmega2560_mlcoeff` | 13,364 B | 4 B | 4 B | 0.05 % |
+
+The two variants that were already `PROGMEM`-correct (`_coeff`, `_mlcoeff`)
+use 4 bytes of SRAM. The other two did not fit: `_e2e` at 89.5 % of the
+Mega 2560's total SRAM leaves nothing for the stack and would have failed at
+the first run on the bench, silently and in a way that looks like a hardware
+problem. Moving the tables to Flash trades SRAM for Flash — the tree firmware
+goes from 548 B to 6,880 B of Flash, which on a 256 KB part is free.
+
+The lesson generalises past this repository: *bytes of parameters* and *bytes
+of SRAM* are different quantities, and a size table that reports only the first
+can pass review while the firmware cannot boot.
 
 ---
 

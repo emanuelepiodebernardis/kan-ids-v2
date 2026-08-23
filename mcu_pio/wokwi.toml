@@ -1,0 +1,30 @@
+# Wokwi — simulazione del firmware KAN-IDS senza hardware
+# =========================================================
+# Serve per una verifica preliminare: che il firmware parta, stampi il CSV
+# sulla seriale e che le predizioni coincidano con quelle attese. NON
+# sostituisce il benchmark sulla scheda vera: la latenza in simulazione non
+# e' quella del silicio, e l'energia non e' misurabile affatto.
+#
+# Prerequisito: il binario deve esistere, quindi prima si compila.
+#
+#   pio run -e megaatmega2560_coeff
+#
+# Poi, dall'estensione Wokwi per VS Code: F1 -> "Wokwi: Start Simulator".
+#
+# Per simulare l'ESP32-C3 invece del Mega:
+#   1. pio run -e esp32c3_coeff
+#   2. copiare diagram.esp32c3.json su diagram.json
+#   3. sostituire le due righe qui sotto con quelle del blocco ESP32-C3
+#
+# La variante scelta di default e' `_coeff` (KAN single-layer, 254 B): e'
+# l'unica che sta comodamente su entrambe le schede e ha i 200 golden vector
+# con le predizioni attese gia' a bordo, quindi il confronto e' automatico.
+
+[wokwi]
+version = 1
+firmware = '.pio/build/megaatmega2560_coeff/firmware.hex'
+elf = '.pio/build/megaatmega2560_coeff/firmware.elf'
+
+# ---- blocco ESP32-C3 (scommentare al posto delle due righe sopra) ----
+# firmware = '.pio/build/esp32c3_coeff/firmware.bin'
+# elf = '.pio/build/esp32c3_coeff/firmware.elf'

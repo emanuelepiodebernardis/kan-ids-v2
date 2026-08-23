@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Esporta la KAN binaria 14-feature full-integer (246 B) in header C per
+"""Esporta la KAN binaria 14-feature full-integer (254 B) in header C per
 mcu_pio: coefficienti int8, moltiplicatori Q15, tabelle categoriche, e
 200 test vector (input Q12 + categorie) con predizioni attese dalla
 simulazione integer bit-fedele."""
@@ -85,7 +85,7 @@ cat_flat = np.concatenate([t8[j][0] for j in range(J)])
 
 with open("mcu_pio/include/kan14_coeff_int8.h", "w") as f:
     f.write("/* KAN-IDS binaria 14-feature, compilazione a coefficienti B-spline\n"
-            " * FULL-INTEGER int8 (246 B di modello). Generato da export_kan14_coeff_c.py\n"
+            " * FULL-INTEGER int8 (254 B di modello, contati sugli array di questo header).\n * Generato da export_kan14_coeff_c.py\n"
             f" * feature numeriche: {feats}\n"
             f" * categoriche (cardinalita'): proto {cards[0]}, service {cards[1]}, "
             f"conn_state {cards[2]}, dns_rejected {cards[3]} */\n"
