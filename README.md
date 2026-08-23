@@ -316,6 +316,12 @@ kan-ids/
 `kan_ml_cat_deg.py`, `conformal_ids.py` / `kan14_conformal_symbolic.py`,
 `symbolic_extract.py`.
 
+**Cross-domain & joint training** — `cross_domain.py` (four TON_IoT ↔
+BoT-IoT experiments) and `crossdomain_report.py` (tables + shift analysis);
+`joint_training.py` (TON_IoT + BoT-IoT trained together at matched
+size/ratio, evaluated separately on each and, with `--eval-extra unsw`, on
+UNSW-NB15 without retraining).
+
 Long-running scripts (`*_driver.py`, `kan*_ml_*.py`) are **checkpointed**:
 they save state after each unit/epoch chunk and can be re-invoked until they
 print `DONE` — convenient on shared or time-limited machines.
@@ -602,12 +608,19 @@ how we know it is not vacuous.
 | Experiment | Train | Test | Runs |
 |---|---|---|---|
 | training and test on TON_IoT | 168,834 | 42,209 | 15 per model |
-| training and test on BoT-IoT | 19,431 | 733,705 | 15 per model |
-| training on TON_IoT, test on BoT-IoT | 211,043 (all) | 3,668,522 (all) | 3 seeds |
-| training on BoT-IoT, test on TON_IoT | 24,327 | 211,043 (all) | 3 seeds |
+| training and test on BoT-IoT | 19,431–19,482 | 733,704–733,705 | 50 per model |
+| training on TON_IoT, test on BoT-IoT | 211,043 (all) | 3,668,522 (all) | 10 seeds |
+| training on BoT-IoT, test on TON_IoT | 24,327 | 211,043 (all) | 10 seeds |
 
 The two cross directions consume the target whole, so there are no folds there
-by construction and the dispersion reported is between seeds.
+by construction and the dispersion reported is between seeds. The in-domain
+BoT-IoT and both cross directions were rerun at 10 seeds (up from 3) to close
+a gap flagged during an internal audit: the cross-domain claims were resting
+on 3 repetitions against 15 for in-domain, and a follow-up project working on
+domain adaptation on the same data (`adattamento-drift/`, see below) had
+already shown that 3-seed samples on these exact directions can mislead. The
+in-domain TON_IoT reference is unchanged at 3 seeds × 5 folds = 15, which was
+never flagged and is left as is.
 
 **Metric note.** BoT-IoT is 99.987 % attack. Under that prior PR-AUC on the
 positive class is ~1 by construction and says nothing: the TON→BoT runs show
@@ -618,38 +631,46 @@ per-class recalls and their mean (balanced accuracy), reported below.
 
 | Model | TON in-domain | TON→BoT | δ | BoT in-domain | BoT→TON | δ |
 |---|---|---|---|---|---|---|
-| **KAN multi-layer** | 0.9933 | **0.4026** | **0.591** | 0.9979 | 0.6581 | 0.340 |
-| MLP (16) | 0.9885 | 0.4703 | 0.518 | 0.9460 | 0.7343 | 0.212 |
-| LightGBM | 0.9962 | 0.4815 | 0.515 | 0.9966 | 0.7171 | 0.280 |
-| XGBoost | 0.9948 | 0.5597 | 0.435 | 0.9769 | 0.6508 | 0.326 |
-| Decision Tree (d=5) | 0.9828 | 0.5466 | 0.436 | 0.9953 | 0.4651 | **0.530** |
-| **KAN single-layer** | 0.9700 | **0.5632** | **0.407** | 0.9935 | 0.5989 | 0.395 |
+| **KAN multi-layer** | 0.9933 | 0.4588 | 0.534 | 0.9971 | 0.6855 | 0.312 |
+| **MLP (16)** | 0.9885 | **0.4369** | **0.552** | 0.9426 | 0.7343 | 0.208 |
+| LightGBM | 0.9962 | 0.4779 | 0.518 | 0.9971 | 0.6964 | 0.301 |
+| XGBoost | 0.9948 | 0.5528 | 0.442 | 0.9779 | 0.6487 | 0.329 |
+| Decision Tree (d=5) | 0.9828 | 0.5494 | 0.433 | 0.9952 | 0.4597 | **0.536** |
+| **KAN single-layer** | 0.9700 | **0.5573** | **0.413** | 0.9934 | 0.6112 | 0.382 |
 
-All four experiments now use the full protocol: 15 fits for the two in-domain
-directions, 3 seeds for the two cross directions (where the target is consumed
-whole and there are no folds by construction).
+All four experiments now use the same 10-seed protocol for the cross
+directions (15 fits for the two in-domain references, unchanged; see the
+table above for exact run counts).
 
-Three things worth stating plainly:
+Three things worth stating plainly, and one correction from the 3-seed table
+this replaces:
 
-1. **The collapse is near-total, not a degradation.** TON→BoT leaves every
-   model between 0.47 and 0.56 balanced accuracy — at or barely above chance.
-   This is an order of magnitude worse than the δ ≤ 5.95 points quantified in
-   the original paper, and it says the in-domain numbers of *any* of these
-   models describe the testbed, not intrusion detection.
-2. **The best in-domain model degrades the worst — and the effect is visible
-   *inside* one architecture family.** Adding depth to the KAN buys +0.0141 F1
-   in-domain on the binary task and +0.0608 macro-F1 on the 10-class task, and
-   costs it the transfer entirely: the multi-layer KAN falls to **0.4026
-   balanced accuracy, below chance**, the worst of every model tested, while
-   the single-layer — the weakest in-domain — is the best cross-domain at
-   0.5632 and loses the least (δ = 0.407). Since the two share the feature
-   space, the preprocessing, the folds and the training loop, and differ only
-   by one hidden layer, this is a controlled measurement of a
-   capacity/transferability trade-off, not a comparison across families.
-   LightGBM shows the same pattern from the top (0.9962 → 0.4815).
-3. **BoT→TON is unstable, not just degraded.** Trained on 477 normal flows,
-   the single-layer KAN scores 0.50 / 0.72 / 0.26 F1 across three seeds. The
-   normal class is effectively undetermined by the available data.
+1. **The collapse is near-total, not a degradation. This still holds.**
+   TON→BoT leaves every model between 0.44 and 0.56 balanced accuracy — at or
+   barely above chance. An order of magnitude worse than the δ ≤ 5.95 points
+   quantified in the original paper.
+2. **Correction: at 3 seeds the multi-layer KAN looked like the worst
+   cross-domain performer and the biggest loser (0.4026, δ=0.591); at 10 seeds
+   it is not — MLP (16) is, on both counts (0.4369, δ=0.552).** The
+   multi-layer KAN is still a large loser (δ=0.534) and the qualitative
+   pattern the original claim rested on — capacity bought in-domain costs
+   transfer — still holds and is if anything sharper with the correction: two
+   different architecture families (a deeper KAN, a wider MLP) both convert
+   in-domain capacity into cross-domain loss, so it is not an artifact of the
+   KAN family specifically. What does not survive is the specific ranking
+   ("the worst of every model tested"), which was resting on 3 points per
+   model. **The single-layer KAN remains the best cross-domain performer and
+   the smallest loser in this direction** (0.5573, δ=0.413) at 10 seeds too.
+   LightGBM keeps the same top-in/poor-cross pattern (0.9962 → 0.4779).
+3. **BoT→TON is unstable, not just degraded — confirmed and sharper.** The
+   single-layer KAN's F1 has mean 0.463 with std **0.141** across the 10
+   seeds (`results/crossdomain_runs_cat.csv`) — the widest dispersion of any
+   cell in this table other than KAN multi-layer's own 0.140. The normal
+   class (477 examples) is effectively undetermined by the available data.
+   **New at 10 seeds:** Decision Tree (d=5) is the actual worst performer in
+   this direction, and consistently so (F1 mean 0.162, std 0.033 — low
+   variance, not instability): a shallow tree fit on 24,327 rows finds a rule
+   that transfers worse than any other model here, reliably.
 
 ### Why it degrades
 
@@ -682,6 +703,261 @@ python scripts/cross_domain.py --exp all          # 4 experiments
 python scripts/cross_domain.py --exp all --no-cat # numeric-only ablation
 python scripts/crossdomain_report.py              # tables + shift analysis
 ```
+
+---
+
+## Joint training: TON_IoT + BoT-IoT together, tested on a third domain
+
+Cross-domain shows what happens training on one domain and testing on
+another. The complementary question is what happens training on **both at
+once**, with matched contribution from each — and whether whatever it learns
+survives contact with a domain it has never seen at all.
+
+### The constraint that limits everything here
+
+The request was a joint training set with the same total size and, as far as
+possible, the same normal/attack ratio contributed by each domain. Both
+constraints together are bounded by BoT-IoT: 477 normal flows total, ~382 of
+them inside its own 80% training split — three orders of magnitude fewer than
+TON_IoT's ~40,000. `balance_joint()` (`scripts/joint_training.py`) enforces
+this: it splits train/test **inside each domain first**, then caps both
+domains' normal count at the smaller of the two (always BoT-IoT's), then caps
+attacks at `ratio × normals` in both, **then** concatenates — feature
+selection, preprocessing and model fitting only ever see the union. This
+order is enforced by a test
+(`tests/test_joint_training.py::test_joint_training_test_set_does_not_influence_training`),
+built the same way as the cross-domain one: fit the same joint training set
+twice against radically different held-out test pairs and require the
+learned preprocessor to be byte-identical.
+
+### Choosing the ratio: a first guess, then data
+
+`--ratio 50` was the project's standing convention going in, and was tested
+first as the natural default, together with 1:20 and 1:100 as sensitivity.
+Across those three, three of the six models (LightGBM, XGBoost, MLP) got
+measurably **worse** as the ratio grew — paired t-tests across 10 seeds, e.g.
+LightGBM on TON_test: 0.9816 (1:20) → 0.9794 (1:50) → 0.9776 (1:100), t=3.57,
+p=0.006. That ruled out 1:50 as the default: the grid was extended down to
+1:10 and 1:5. The trend continued all the way to the floor tested — 1:5 beats
+1:20 in 10 of 12 (model, test-domain) cells (paired t-test across the 10
+seeds), significantly in four (TON_test: LightGBM p=0.0001, XGBoost p<0.0001,
+MLP p<0.0001; BoT_test: XGBoost p=0.0066), and the two cells where 1:20
+"wins" are −0.0013 (BoT_test, KAN single-layer) and −0.0019 (BoT_test, MLP),
+neither significant (p=0.25, p=0.57). **1:5 is the
+configuration used from here on**, not 1:50: keeping a number because it was
+already the convention, once the data says otherwise, is exactly the kind of
+unexamined default this project tries not to have.
+
+Two things about that grid need to be stated, not left implicit:
+
+- **The ratio confounds two variables.** Normals are pinned at ~382 in every
+  cell; only the attack count changes, so a lower ratio means a training set
+  that is *both* more balanced *and* smaller (1:5 → 2,292 rows/domain; 1:100
+  → 38,582). The result — lower ratio wins — cannot distinguish "balance
+  matters" from "size matters" by itself.
+- **A result that does not need that distinction to be interesting: smaller
+  wins anyway.** 1:5's training set is ~17× smaller than 1:100's and still
+  matches or beats it on every model. For this joint-training setup, balance
+  dominates volume, not the other way around.
+- **MLP (16) is the least reliable model in this grid**, not just the most
+  ratio-sensitive: its seed-to-seed std on TON_test ranges 0.0061–0.0476
+  across the five ratios tested; every other model stays within 0.0011–0.0082
+  over the same grid, so at its worst (ratio 50) MLP's dispersion is ~5.8×
+  the widest value any other model reaches. Read its numbers with that
+  reservation; they are not as trustworthy as the other five models' at the
+  same seed count.
+- **The floor was not pushed to 1:1.** At 1:1 each domain's training
+  contribution would be ~764 rows, and this exact regime — BoT-IoT-derived
+  extreme rebalancing — is where a companion project working the same data
+  (`adattamento-drift/`, see below) already documented a **different** failure
+  mode: label selection for adaptation becomes unreliable before the model
+  itself does. 1:5 is reported as the best point *measured*, not as a proven
+  optimum; the true optimum may sit below it.
+
+Full grid, checkpoints and the balance/ratio corrections above are in
+`results/joint_training_*_ratio{5,10,20,50,100}_cat.csv`.
+
+### Generalization to UNSW-NB15, frozen, no retraining
+
+The joint model (features, preprocessing, architecture and hyperparameters,
+all frozen at fit time) is evaluated on UNSW-NB15 exactly as fitted — same
+call, one more test dataframe, never touched by training, selection or
+balancing (`--eval-extra unsw` in `scripts/joint_training.py`).
+
+**Before reading that number: UNSW-NB15 has a ceiling in this feature space,
+independent of any transfer.** Trained and tested only on itself, in the same
+13+2-feature harmonised space, it reaches **0.8184 in-domain**
+(`adattamento-drift/RISULTATI.md`, section 11) — because its discriminative
+power lives largely in 38 features this space excludes by construction (the
+same exclusions applied to TON_IoT/BoT-IoT, for the same reasons). No
+TON+BoT→UNSW result can exceed 0.8184 in this space; a number well below it is
+the target domain's ceiling showing through, not proof the joint model
+learned nothing.
+
+### The final table, one protocol throughout
+
+| Model | TON→TON | BoT→BoT | TON→BoT | BoT→TON | TON+BoT→TON | TON+BoT→BoT | TON+BoT→UNSW |
+|---|---|---|---|---|---|---|---|
+| LightGBM | 0.9962 | 0.9971 | 0.4779 | 0.6964 | 0.9846 | 0.9951 | 0.3884 |
+| XGBoost | 0.9948 | 0.9779 | 0.5528 | 0.6487 | 0.9804 | 0.9925 | 0.4193 |
+| KAN multi-layer | 0.9933 | 0.9971 | 0.4588 | 0.6855 | 0.9811 | 0.9924 | 0.3629 |
+| Decision Tree (d=5) | 0.9828 | 0.9952 | 0.5494 | 0.4597 | 0.9669 | 0.9865 | 0.4081 |
+| MLP (16) | 0.9885 | 0.9426 | 0.4369 | 0.7343 | 0.9296 | 0.9494 | 0.3119 |
+| KAN single-layer | 0.9700 | 0.9934 | 0.5573 | 0.6112 | 0.9432 | 0.9825 | 0.3991 |
+
+All entries are balanced accuracy. TON→TON is the one column still at the
+original 3 seeds × 5 folds (15 fits) — never flagged as needing a rerun, so
+left as is; BoT→BoT, TON→BoT and BoT→TON are 10 seeds (this session's
+rerun, see above); the three joint columns are 10 seeds at the ratio-5
+configuration chosen above. Reading it in order:
+
+- **Joint training roughly matches single-domain in-domain performance on
+  both domains it was trained on, and even improves it for two models on
+  one domain.** TON+BoT→TON costs 0.012–0.059 balanced accuracy versus
+  TON→TON (worst case MLP, best case LightGBM/KAN multi-layer); on BoT,
+  TON+BoT→BoT costs at most 0.011 (KAN single-layer) and **improves on
+  BoT→BoT for two models** — XGBoost by 0.015, MLP by 0.007. Pooling the two
+  training sets at matched size/ratio does not cost much on either domain
+  for any of the six models, and for a third of them it is a net win on BoT.
+- **TON+BoT→UNSW sits at 0.31–0.42 — well under the 0.8184 ceiling, and
+  below the entire range of the pairwise cross-domain numbers** (0.44–0.73):
+  a domain the joint model never saw any part of transfers worse than one
+  domain transferring to the other. Some of that gap is the ceiling itself
+  (0.8184 versus ~0.97–0.99 in-domain for TON_IoT/BoT-IoT), but not all of
+  it — even scaled by the ceiling, UNSW is the hardest target in this table.
+- Cross-domain rankings among the six models are **not** preserved in the
+  joint-training columns: Decision Tree is the worst BoT→TON performer
+  (0.4597) but the second-best TON+BoT→UNSW performer (0.4081, behind only
+  XGBoost). Joint training and cross-domain transfer are different regimes
+  and one does not predict the other from this table alone.
+
+Reproduce with:
+
+```bash
+python scripts/joint_training.py --ratio 5                    # main config
+python scripts/joint_training.py --ratio 5 --eval-extra unsw   # + UNSW-NB15
+python scripts/joint_training.py --ratio 10   # sensitivity, also 20/50/100
+```
+
+---
+
+## A fourth dataset, in a smaller space: CIC-IoT-2023
+
+Requested by name. CIC-IoT-2023 does not report directional counts — no
+`src_bytes`/`dst_bytes`, no `src_pkts`/`dst_pkts`, no connection state — so
+seven of the thirteen rich-space numeric features (both asymmetries, both
+mean payloads, all four directional counts) cannot be built for it. What
+survives in all four datasets is six numeric features (duration, total
+bytes, total packets, mean payload, flow rate, byte rate) plus the same two
+categorical edges: a **6+2** space, not the 3+2 an earlier pass through this
+data mistakenly concluded — that mistake mattered, because it also flagged
+`flow_duration` as unusable, and `test.csv` (the file actually used here)
+has a genuine one: median 26.1 s for benign flows against 0.0 s for attacks,
+correlation with the (separately corrupted) `IAT` column of 0.008. `Duration`
+is the TTL and is not used; `flow_duration` is not `Duration`.
+
+**Verified, not assumed, that no missing feature is filled with an invented
+value.** `build_ridotto_cic()` (`kanids/harmonized.py`) raises `KeyError` if
+`flow_duration`, `Number` or `Tot sum` are absent rather than defaulting —
+confirmed by running it against the actual file: all three are present, and
+so are the TCP flag columns (`rst_count`, `fin_count`, `syn_count`,
+`ack_count`) used to reconstruct connection state. Loaded whole, `test.csv`
+gives a non-degenerate `state_h` (44% incomplete, 42% reset, 8% other, 6%
+closed) and `proto_h` (67% TCP, 16% UDP, 11% ICMP, 6% other) — if the flag
+columns had been absent, the fallback path would have collapsed `state_h` to
+100% "incomplete", which is not what is observed.
+
+### The cost of the reduction — measured on domains that don't need it
+
+The same TON_IoT+BoT-IoT joint model (ratio 1:5, 10 seeds) was refit in the
+6+2 space and re-evaluated on TON_test, BoT_test and UNSW-NB15, so the
+reduction's cost is measured on the three domains already analysed in the
+rich space, isolating what the reduction itself does:
+
+| Model | Δ TON (rich−reduced) | p | Δ BoT | p | Δ UNSW | p |
+|---|---|---|---|---|---|---|
+| KAN single-layer | **−0.0054** | **<0.0001** | +0.0021 | 0.395 | **−0.0755** | **<0.0001** |
+| KAN multi-layer | +0.0008 | 0.343 | −0.0026 | 0.244 | **−0.0592** | **0.0006** |
+| LightGBM | **+0.0027** | **0.0006** | −0.0010 | 0.343 | **−0.0590** | **0.0489** |
+| XGBoost | +0.0011 | 0.193 | 0.0000 | 0.995 | −0.0302 | 0.208 |
+| Decision Tree (d=5) | 0.0000 | 0.995 | −0.0062 | 0.112 | −0.0286 | 0.146 |
+| MLP (16) | **+0.0361** | **0.0273** | +0.0037 | 0.255 | +0.0029 | 0.435 |
+
+Positive means the rich space wins; p is a paired t-test across the 10
+seeds. **On BoT_test the reduction costs nothing distinguishable from noise
+for any model** (all p>0.11). **On UNSW it wins significantly for three of
+six models** (KAN single-layer, KAN multi-layer, LightGBM; p from <0.0001 to
+0.049) **and loses significantly for none** — weaker than "wins for five of
+six" (a sign count, not a test — an earlier draft of this section made
+exactly that mistake, the third time in this line of work that a sign count
+got reported where a test was needed) but still the opposite of what
+"reduction costs generalization" predicted, for the three models where the
+result is distinguishable from noise. **On TON_test the direction is not
+uniform**: KAN single-layer significantly prefers the *reduced* space
+(p<0.0001) while LightGBM and MLP significantly prefer the *rich* one
+(p=0.0006, p=0.027) — three-way split, not "free either way." All TON deltas
+are small (≤0.036) so "the cost is negligible" still holds; "the same for
+every model" does not, and which space a given model prefers is not
+predictable from the UNSW result for that same model (LightGBM prefers rich
+on TON but reduced on UNSW). A plausible reading of the UNSW result specifically:
+five of the seven dropped features are directional (asymmetries,
+per-direction payload and counts), and directional statistics are exactly
+what a capture setup can make look different across domains without the
+traffic itself being different — dropping them may remove testbed-specific
+signal along with genuine signal. This is a hypothesis the data here does
+not distinguish from a smaller, noisier feature set transferring better for
+unrelated reasons; it is reported as an observation, not a mechanism.
+
+### CIC-IoT-2023 itself
+
+| Model | Balanced accuracy |
+|---|---|
+| XGBoost | 0.5099 |
+| KAN multi-layer | 0.5002 |
+| LightGBM | 0.4928 |
+| KAN single-layer | 0.4974 |
+| MLP (16) | 0.4725 |
+| Decision Tree (d=5) | 0.4144 |
+
+Near chance for every model, and in the same range as TON+BoT→UNSW
+re-measured in this same reduced space (0.31–0.47) — the two hardest targets
+in this document sit close together once both are looked at in the same
+6+2 space, below most of the pairwise TON↔BoT cross-domain numbers (0.44–0.73)
+but not all of them (the worst pairwise cell, MLP on TON→BoT at 0.4369, falls
+inside CIC's own range). This is not a contradiction of the companion project's
+finding that CIC-IoT-2023 "is not a severe transfer benchmark" — that finding
+was about single-domain cross-domain transfer *into* CIC-IoT-2023, in a
+different space, with adaptation. Zero-shot from a joint TON+BoT model,
+un-adapted, is a different question, and the answer here is that it
+transfers poorly. The two results are about different pipelines and are not
+in tension.
+
+CIC-IoT-2023's rows are also a different unit of observation from the other
+three datasets — sliding windows of packets, not bidirectional flows — which
+this space does not correct for and which is a more likely explanation for
+the near-chance result than the feature reduction itself (whose measured
+cost, above, is small or favorable).
+
+Reproduce with:
+
+```bash
+python scripts/joint_training.py --ratio 5 --spazio ridotto --eval-extra unsw,cic
+```
+
+---
+
+## A companion project: adaptation to domain drift
+
+`adattamento-drift/` is a separate, self-contained project living at the
+repository root, built on the same TON_IoT/BoT-IoT/UNSW-NB15 harmonised
+feature space as the cross-domain work above but developed and reported
+independently (its own `kanids/`, `scripts/`, `RISULTATI.md`, README). It
+asks the question this cross-domain section's degradation implies: *given
+that a model trained on one domain fails on another, can it be adapted back
+to usable accuracy with a small, embedded-feasible label budget?* It is not
+integrated into `reproduce.py` or this README's tables, and is not required
+to reproduce anything above — see `adattamento-drift/README.md` for what it
+contains and how to run it.
 
 ---
 
@@ -757,7 +1033,9 @@ and `kan14_ml_compile_real.csv` (compilations), `kan14_mc_e2e_int_real.csv`
 (end-to-end multiclass), `kan14_conformal_real.csv`,
 `kan14_symbolic_real.txt`, `ablation_L_real.csv`, `protocol_v1/feature_curve_real.csv`,
 `quant_basis_comparison_real.csv`, `cv_multiseed_summary_real.csv`
-(unified-10 baseline space).
+(unified-10 baseline space). Joint training and its UNSW-NB15 generalization:
+`joint_training_{runs,summary,balance}_ratio{5,10,20,50,100}_cat.csv` and
+`confusion_joint_ratio5_cat_{ton,bot,unsw}_*.csv`.
 
 **Known limitations.** The MITM class (208 test samples) stays at F1 ≈ 0.57:
 three independent remedies (class weighting, focal loss, SMOTENC) show the

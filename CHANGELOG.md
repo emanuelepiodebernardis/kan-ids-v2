@@ -1,5 +1,69 @@
 # Changelog
 
+## Joint training, generalizzazione e CIC-IoT-2023 (agosto 2026)
+
+Richiesta del Prof. Kuznetsov per chiudere il primo progetto: joint training
+TON_IoT + BoT-IoT, generalizzazione a un terzo dominio mai visto, CIC-IoT-2023
+come quarto per nome. `adattamento-drift/` resta un progetto separato, non
+integrato in questa pipeline; il README lo documenta come tale.
+
+**Joint training** (`scripts/joint_training.py`, nuovo). Ordine imposto e
+verificato da un test (`tests/test_joint_training.py`): split train/test per
+dominio, bilanciamento a pari dimensione e pari rapporto normal/attack
+(`balance_joint`, vincolato da BoT-IoT: ~382 normali in training su 3,67 M
+flussi), unione, solo allora preprocessing e fit. **Il rapporto principale è
+1:5, non 1:50**: la configurazione storica è stata testata per prima insieme
+a 1:20/1:100, ma tre modelli su sei (LightGBM, XGBoost, MLP) degradavano in
+modo significativo all'aumentare del rapporto senza segni di arresto fino al
+pavimento testato — la griglia è stata estesa a 1:10/1:5 e la scelta rifatta
+sui dati (paired t-test su 10 seed). Non spinto a 1:1: quel regime è dove
+adattamento-drift ha già documentato un collasso della selezione delle
+etichette.
+
+**Generalizzazione a UNSW-NB15** (`--eval-extra unsw`), congelando feature,
+preprocessing e iperparametri: nessun retraining. Il soffitto — UNSW-NB15
+arriva a 0,8184 anche in-domain in questo spazio (`adattamento-drift/RISULTATI.md`,
+sezione 11) — è dichiarato prima di ogni numero.
+
+**`cross_domain.py` rilanciato a 10 seed** per TON→BoT e BoT→TON (BoT→BoT
+incluso per rigore). Una conclusione della fase 2 non regge più: a 3 seed il
+KAN multi-layer sembrava il peggior modello cross-domain; a 10 è MLP(16), sia
+in valore assoluto sia in δ. Il pattern generale (capacità in-domain costa
+transfer) si rafforza: riguarda due famiglie di modelli, non una.
+TON_IoT→TON_IoT resta al protocollo originale (3 seed × 5 fold), mai
+segnalato come insufficiente.
+
+**CIC-IoT-2023** (`kanids/harmonized.py::build_ridotto_cic`, portato dalla
+versione già esistente in `adattamento-drift/kanids/`; verificato — non solo
+dichiarato — che nessuna feature mancante è riempita con un valore inventato:
+solleva `KeyError` se le colonne vere non ci sono, e sul file reale non
+scatta mai). Lo spazio comune ai quattro dataset è **6+2, non 3+2**:
+`test.csv` ha una `flow_duration` genuina (mediana 26,1 s benigni contro 0,0 s
+attacchi), a differenza di `Duration` che è il TTL. Il costo della riduzione,
+misurato sugli stessi tre domini già analizzati nello spazio ricco con t
+appaiati per seed, non contando i segni: su UNSW-NB15 lo spazio ridotto vince
+in modo significativo per 3 modelli su 6 (KAN single-layer, KAN multi-layer,
+LightGBM; p da <0,0001 a 0,049) e non perde in modo significativo per
+nessuno — il contrario di quanto assunto in precedenza, sui modelli dove la
+differenza è distinguibile dal rumore. Su TON_test la direzione non è
+uniforme: KAN single-layer preferisce il ridotto (p<0,0001), LightGBM e MLP
+preferiscono il ricco (p=0,0006, p=0,027) — costo comunque piccolo (≤0,036)
+ma non lo stesso segno per tutti i modelli. CIC-IoT-2023
+stesso resta vicino al caso (0,41–0,51 di balanced accuracy) per un modello
+congiunto zero-shot, non in tensione con la misura di adattamento-drift (che
+riguarda un pipeline diverso: cross-domain a singolo dominio, con
+adattamento).
+
+Un bug corretto durante il lavoro: il CSV di bilanciamento non univa con la
+versione già su disco, perdendo silenziosamente un seed quando un run isolato
+precedeva quello completo — stessa classe di errore già vista tre volte in
+adattamento-drift. Un secondo bug (KAN costruita con `in_dim` fisso a 10
+invece del numero reale di feature selezionate) è emerso solo nello spazio
+ridotto, dove le candidate sono 6: corretto prima di qualunque run lungo.
+
+Dettagli, tabelle e riproduzione: `README.md`, sezioni "Joint training" e
+"A fourth dataset, in a smaller space".
+
 ## Protocollo v2 — consolidamento sperimentale (agosto 2026)
 
 Fase di consolidamento richiesta dal Prof. Kuznetsov. Nessuna nuova variante
