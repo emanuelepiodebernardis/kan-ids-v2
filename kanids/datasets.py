@@ -144,6 +144,127 @@ def load_bot_iot(directory=None, verbose: bool = True) -> pd.DataFrame:
     return df
 
 
+UNSW_GLOB = "UNSW_NB15_*-set.csv"
+UNSW_USECOLS = ["dur", "proto", "state", "spkts", "dpkts", "sbytes",
+                "dbytes", "attack_cat", "label"]
+
+
+def unsw_paths(directory=None) -> list[Path]:
+    import glob
+    roots = [Path(directory)] if directory else [DATA_DIR, REPO_ROOT, Path.cwd()]
+    for r in roots:
+        found = sorted(Path(p) for p in glob.glob(str(r / UNSW_GLOB)))
+        if found:
+            return found
+    raise FileNotFoundError(
+        f"{UNSW_GLOB} non trovato. Servono UNSW_NB15_training-set.csv e "
+        f"UNSW_NB15_testing-set.csv (la versione a 45 colonne con "
+        f"intestazione), da mettere in {DATA_DIR}/. NON i quattro file "
+        f"UNSW-NB15_1..4.csv, che sono senza intestazione e con nomi di "
+        f"colonna diversi."
+    )
+
+
+def load_unsw(directory=None, verbose: bool = True) -> pd.DataFrame:
+    """UNSW-NB15. Stesso strumento (Argus) e stesso schema di BoT-IoT.
+
+    I due file training-set e testing-set sono due partizioni della stessa
+    cattura: qui si concatenano, perche' la nostra suddivisione la
+    decidiamo noi e quella originale non ci vincola.
+    """
+    files = unsw_paths(directory)
+    parts = []
+    for f in files:
+        d = pd.read_csv(f, low_memory=False)
+        cols = [c for c in UNSW_USECOLS if c in d.columns]
+        mancanti = set(UNSW_USECOLS) - set(cols)
+        if mancanti - {"attack_cat"}:
+            raise ValueError(f"colonne mancanti in {f.name}: {sorted(mancanti)}")
+        parts.append(d[cols])
+    df = pd.concat(parts, ignore_index=True)
+    df["label"] = pd.to_numeric(df["label"], errors="coerce").fillna(0).astype(int)
+    if verbose:
+        n_norm = int((df["label"] == 0).sum())
+        print(f"[data] UNSW-NB15: {len(files)} file, {len(df):,} flussi, "
+              f"normali={n_norm:,} ({n_norm/len(df):.4%})")
+        if "attack_cat" in df.columns:
+            print("       categorie:", df["attack_cat"].value_counts().head(12).to_dict())
+    return df
+
+
+CIC_GLOB = "*.csv"
+CIC_DIRNAME = "cic"
+# Il vero CIC-IoT-2023 (46 feature, 34 classi di attacco, colonna
+# `flow_duration` genuina) arriva spesso come singolo file da un unico
+# split, con questo nome esatto. Va cercato PRIMA del glob a shard, perche'
+# in DATA_DIR convivono anche TON_IoT/BoT-IoT/UNSW-NB15 e un glob su
+# DATA_DIR/*.csv li ingoierebbe tutti come se fossero CIC.
+CIC_SINGLE_FILENAME = "test.csv"
+
+
+def cic_paths(directory=None) -> list[Path]:
+    import glob
+    if directory is None:
+        for r in (DATA_DIR, REPO_ROOT):
+            p = r / CIC_SINGLE_FILENAME
+            if p.exists():
+                return [p]
+    roots = ([Path(directory)] if directory
+             else [DATA_DIR / CIC_DIRNAME, REPO_ROOT / CIC_DIRNAME])
+    for r in roots:
+        found = sorted(Path(p) for p in glob.glob(str(r / CIC_GLOB)))
+        if found:
+            return found
+    raise FileNotFoundError(
+        f"CSV di CIC-IoT-2023 non trovati. Metti {CIC_SINGLE_FILENAME} in "
+        f"{DATA_DIR}/, oppure 10-20 dei 169 shard in {DATA_DIR / CIC_DIRNAME}/."
+    )
+
+
+def load_cic(directory=None, verbose: bool = True, max_files: int | None = None,
+             max_attacchi: int = 400_000, seed: int = 42):
+    """CIC-IoT-2023. Attenzione: NON ha i conteggi direzionali.
+
+    Utilizzabile solo nello spazio ridotto (kanids.harmonized.RIDOTTO_NUMERIC),
+    e il costo di quella riduzione e' misurato confrontando TON/BoT/UNSW
+    proiettati sullo stesso spazio ridotto.
+    """
+    files = cic_paths(directory)
+    if max_files:
+        files = files[:max_files]
+    parts = []
+    for f in files:
+        d = pd.read_csv(f, low_memory=False)
+        if "label" in d.columns and d["label"].dtype == object:
+            # file unico con etichetta multiclasse in stringa (es. "test.csv":
+            # "BenignTraffic", "DDoS-ICMP_Flood", ...): normale vs il resto.
+            d["label"] = (~d["label"].astype(str).str.lower()
+                          .str.startswith("benign")).astype(int)
+        elif "label" not in d.columns and "Label" not in d.columns:
+            # distribuzione a shard: l'etichetta e' nel NOME del file
+            # (Benign_test.pcap.csv contro i file di attacco)
+            d["label"] = 0 if f.name.lower().startswith("benign") else 1
+        elif "Label" in d.columns:
+            d["label"] = (~d["Label"].astype(str).str.lower()
+                          .str.startswith("benign")).astype(int)
+        parts.append(d)
+    df = pd.concat(parts, ignore_index=True)
+    # gli attacchi sono milioni e i benigni decine di migliaia: si tiene
+    # tutta la minoritaria e si sottocampiona la maggioritaria, come per
+    # BoT-IoT. La valutazione resta su proporzioni dichiarate.
+    if max_attacchi and int((df.label == 1).sum()) > max_attacchi:
+        rng = np.random.RandomState(seed)
+        att = np.flatnonzero(df.label.to_numpy() == 1)
+        keep = np.concatenate([np.flatnonzero(df.label.to_numpy() == 0),
+                               rng.choice(att, max_attacchi, replace=False)])
+        df = df.iloc[np.sort(keep)].reset_index(drop=True)
+    if verbose:
+        n_norm = int((df.label == 0).sum())
+        print(f"[data] CIC-IoT-2023: {len(files)} file, {len(df):,} righe, "
+              f"benigni={n_norm:,} ({n_norm/len(df):.4%})")
+    return df
+
+
 def encode_targets(df: pd.DataFrame):
     """(y_binary, y_multiclass, class_names) con ordine di classi FISSO.
 

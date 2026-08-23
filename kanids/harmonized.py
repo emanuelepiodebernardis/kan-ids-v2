@@ -81,6 +81,10 @@ _STATE_ARGUS = {
     "RST": "reset",
     "URP": "other", "ECO": "other", "ECR": "other",
     "TST": "other", "MAS": "other", "NRS": "other",
+    # stati che compaiono in UNSW-NB15 ma non in BoT-IoT. Stesso strumento,
+    # vocabolario leggermente piu' ampio: aggiunti qui, non tarati sui dati.
+    "PAR": "other", "URN": "other", "no": "other", "NO": "other",
+    "ECR ": "other",
 }
 
 COMMON_STATES = ["established", "closed", "rejected", "incomplete", "reset", "other"]
@@ -141,6 +145,28 @@ def build_harmonized_bot(df: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
+def build_harmonized_unsw(df: pd.DataFrame) -> pd.DataFrame:
+    """UNSW-NB15 (Argus) -> spazio armonizzato ricco.
+
+    Stesso strumento di cattura di BoT-IoT, quindi la corrispondenza e'
+    diretta e non richiede nessuna decisione nuova: sbytes/dbytes sono gia'
+    byte a livello IP, header inclusi, come src_ip_bytes/dst_ip_bytes di
+    Zeek. La mappa degli stati e' la stessa di Argus, estesa ai pochi valori
+    in piu' che UNSW-NB15 usa.
+    """
+    out = _derive(
+        duration=_num(df, "dur"),
+        b_src=_num(df, "sbytes"),
+        b_dst=_num(df, "dbytes"),
+        p_src=_num(df, "spkts"),
+        p_dst=_num(df, "dpkts"),
+    )
+    out["proto_h"] = df["proto"].astype(str).str.lower().map(_PROTO).fillna("other")
+    out["state_h"] = df["state"].astype(str).str.upper().map(_STATE_ARGUS).fillna("other")
+    out["label"] = df["label"].astype(int).to_numpy()
+    return out
+
+
 def coverage_report(h: pd.DataFrame, name: str) -> pd.DataFrame:
     """Distribuzione delle categoriche armonizzate: serve a leggere il
     degrado cross-domain prima ancora di addestrare qualcosa."""
@@ -150,3 +176,124 @@ def coverage_report(h: pd.DataFrame, name: str) -> pd.DataFrame:
         for k, v in vc.items():
             rows.append({"dataset": name, "feature": c, "valore": k, "frazione": round(float(v), 6)})
     return pd.DataFrame(rows)
+
+
+# ─────────────────────────────────────────────────────────────
+# SPAZIO RIDOTTO — il massimo comune denominatore con CIC-IoT-2023
+# ─────────────────────────────────────────────────────────────
+# CIC-IoT-2023 non riporta i conteggi direzionali: non esistono
+# src_bytes/dst_bytes ne' src_pkts/dst_pkts, e non c'e' uno stato di
+# connessione. Le sue feature sono durata, statistiche sulla dimensione dei
+# pacchetti, tassi e conteggi di flag TCP.
+#
+# Sette delle tredici feature numeriche ricche dipendono dalla direzione (le
+# due asimmetrie, i due payload medi, i quattro conteggi per direzione) e
+# vanno perse. Restano sei quantita' che TON_IoT, BoT-IoT, UNSW-NB15 e
+# CIC-IoT-2023 misurano davvero tutti e quattro.
+#
+# NON si ricostruiscono le direzioni da Srate/Drate: sarebbe una stima
+# spacciata per misura. Meglio uno spazio piu' povero ma onesto.
+RIDOTTO_NUMERIC = [
+    "duration", "bytes_total", "pkts_total",
+    "payload_mean", "flow_rate", "byte_rate",
+]
+
+RIDOTTO_SKEWED = {
+    "duration", "bytes_total", "pkts_total",
+    "payload_mean", "flow_rate", "byte_rate",
+}
+
+_PROTO_CIC = ["TCP", "UDP", "ICMP", "ARP"]
+
+
+def _state_da_flag(df: pd.DataFrame) -> np.ndarray:
+    """Stato della connessione per CIC-IoT-2023, dalla stessa nozione
+    semantica usata per Zeek e Argus: chi ha chiuso, chi ha resettato, chi
+    non ha mai risposto. Decisione a priori, non tarata sui dati."""
+    def col(*nomi):
+        for n in nomi:
+            if n in df.columns:
+                return pd.to_numeric(df[n], errors="coerce").fillna(0.0).to_numpy(np.float64)
+        return np.zeros(len(df))
+
+    rst = col("rst_count", "rst_flag_number")
+    fin = col("fin_count", "fin_flag_number")
+    syn = col("syn_count", "syn_flag_number")
+    ack = col("ack_count", "ack_flag_number")
+    tcp = col("TCP")
+
+    out = np.full(len(df), "other", dtype=object)
+    non_tcp = tcp <= 0
+    out[(syn > 0) & (ack <= 0)] = "incomplete"
+    out[(syn > 0) & (ack > 0)] = "established"
+    out[fin > 0] = "closed"
+    out[rst > 0] = "reset"
+    out[non_tcp] = "incomplete"
+    return out
+
+
+def _cic_label(df: pd.DataFrame) -> np.ndarray:
+    """0/1 dalla colonna label della famiglia CIC (gia' normalizzata a 0/1
+    da load_cic; robusta anche su un dataframe grezzo non passato di li')."""
+    lab = df["label"] if "label" in df.columns else df["Label"]
+    if lab.dtype == object:
+        return (~lab.astype(str).str.lower().str.startswith("benign")).astype(int).to_numpy()
+    return lab.astype(int).to_numpy()
+
+
+def _derive_ridotto(duration, b_tot, p_tot) -> pd.DataFrame:
+    return pd.DataFrame({
+        "duration": duration,
+        "bytes_total": b_tot,
+        "pkts_total": p_tot,
+        "payload_mean": b_tot / (p_tot + 1.0),
+        "flow_rate": p_tot / (duration + _EPS),
+        "byte_rate": b_tot / (duration + _EPS),
+    })
+
+
+def build_ridotto_da_ricco(h: pd.DataFrame) -> pd.DataFrame:
+    """Proietta lo spazio ricco (TON_IoT, BoT-IoT, UNSW-NB15) su quello
+    ridotto: stesse righe, stessi modelli, solo meno colonne, cosi' la
+    differenza di risultato e' attribuibile solo alla riduzione."""
+    out = _derive_ridotto(h["duration"].to_numpy(),
+                          h["bytes_total"].to_numpy(),
+                          h["pkts_total"].to_numpy())
+    out["proto_h"] = h["proto_h"].to_numpy()
+    out["state_h"] = h["state_h"].to_numpy()
+    out["label"] = h["label"].to_numpy()
+    return out
+
+
+def build_ridotto_cic(df: pd.DataFrame) -> pd.DataFrame:
+    """CIC-IoT-2023 -> spazio ridotto.
+
+    Corrispondenze (nessuna e' una stima: tutte richiedono la colonna vera,
+    sollevano KeyError se assente invece di riempire con un valore inventato):
+      duration    <- flow_duration  (genuina in test.csv: mediana benigni
+                     26,1 s contro 0,0 s per gli attacchi, non il TTL)
+      pkts_total  <- Number          (numero di pacchetti del flusso)
+      bytes_total <- Tot sum         (somma delle dimensioni dei pacchetti)
+      proto_h     <- indicatori TCP/UDP/ICMP/ARP
+      state_h     <- conteggi dei flag TCP (vedi _state_da_flag)
+    """
+    def col(*nomi):
+        for n in nomi:
+            if n in df.columns:
+                return pd.to_numeric(df[n], errors="coerce").fillna(0.0).to_numpy(np.float64)
+        raise KeyError(f"nessuna di {nomi} presente in CIC-IoT-2023")
+
+    dur = col("flow_duration")
+    pk = col("Number", "Tot size")
+    bt = col("Tot sum")
+    out = _derive_ridotto(dur, bt, pk)
+
+    proto = np.full(len(df), "other", dtype=object)
+    for nome in _PROTO_CIC:
+        if nome in df.columns:
+            m = pd.to_numeric(df[nome], errors="coerce").fillna(0.0).to_numpy() > 0
+            proto[m] = _PROTO.get(nome.lower(), "other")
+    out["proto_h"] = proto
+    out["state_h"] = _state_da_flag(df)
+    out["label"] = _cic_label(df)
+    return out

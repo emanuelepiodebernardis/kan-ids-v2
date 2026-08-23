@@ -1,0 +1,15 @@
+exp,politica,bal_media,adattamenti,etichette
+bot->ton,martingala,0.8996,18,576
+bot->ton,ogni_batch,0.9027,19,608
+bot->ton,oracolo,0.9374,19,608
+bot->ton,stat_13x13,0.7569,19,608
+bot->ton,stat_13x13_adaptive,0.7509,19,608
+bot->ton,statico,0.8222,0,0
+bot->ton,su_innesco,0.9136,16,512
+bot->unsw,martingala,0.8199,18,576
+bot->unsw,ogni_batch,0.828,19,608
+bot->unsw,oracolo,0.8608,19,608
+bot->unsw,stat_13x13,0.682,19,608
+bot->unsw,stat_13x13_adaptive,0.6626,19,608
+bot->unsw,statico,0.7233,0,0
+bot->unsw,su_innesco,0.8102,15,480
