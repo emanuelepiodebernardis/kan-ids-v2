@@ -1,5 +1,6 @@
 /* KAN-IDS binaria 14-feature, compilazione a coefficienti B-spline
- * FULL-INTEGER int8 (246 B di modello). Generato da export_kan14_coeff_c.py
+ * FULL-INTEGER int8 (254 B di modello, contati sugli array di questo header).
+ * Generato da export_kan14_coeff_c.py
  * feature numeriche: [np.str_('src_ip_bytes'), np.str_('dst_port'), np.str_('dst_ip_bytes'), np.str_('src_port'), np.str_('duration'), np.str_('src_bytes'), np.str_('dst_pkts'), np.str_('dst_bytes'), np.str_('src_pkts'), np.str_('dns_qtype')]
  * categoriche (cardinalita'): proto 4, service 10, conn_state 14, dns_rejected 4 */
 #pragma once

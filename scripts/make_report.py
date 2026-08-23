@@ -185,9 +185,11 @@ def main():
     story.extend(fig("fig_crossdomain_degradation.png", 14 * cm))
     story.append(PageBreak())
     story.extend(fig("fig_pareto_size_accuracy.png", 16 * cm,
-                     "Frontiera di Pareto dimensione/accuratezza. A sinistra in-domain: "
-                     "il modello KAN da 250 byte è dominato dall'albero profondo 5, che "
-                     "occupa 141 byte ed è più accurato. A destra cross-domain: la "
+                     "Frontiera di Pareto dimensione/accuratezza, byte contati sugli "
+                     "header C effettivamente compilati. A sinistra in-domain: il modello "
+                     "KAN da 254 byte è il più piccolo sulla frontiera, l'albero profondo "
+                     "5 ne occupa 285 ed è più accurato: un compromesso, non una "
+                     "dominanza. A destra cross-domain: la "
                      "classifica si ribalta e il single-layer è il modello che trasferisce "
                      "meglio."))
 
@@ -206,7 +208,7 @@ def main():
 
     story.append(P("4.1 Il confronto con le baseline era viziato", "h2"))
     story.append(P(
-        "La versione precedente dichiarava che il modello da 246 byte supera gli ensemble ad "
+        "La versione precedente dichiarava che il modello da 254 byte supera gli ensemble ad "
         "alberi «sullo stesso spazio di feature deployabile». Non è così: quel confronto "
         "metteva la KAN sullo spazio grezzo a 14 feature e le baseline sullo spazio derivato "
         "a 10 feature del paper. Con input identici, <b>LightGBM raggiunge 0,9991 contro "
@@ -222,17 +224,25 @@ def main():
         "interazioni, non la capacità né l'ottimizzazione — e trasforma un punto debole "
         "in un risultato architetturale."))
 
-    story.append(P("4.3 A parità di conteggio, il modello da 250 byte è dominato", "h2"))
+    story.append(P("4.3 A parità di conteggio il Pareto è un compromesso, non una dominanza", "h2"))
     story.append(P(
-        "Contando ogni modello con la stessa regola — byte dei parametri memorizzati in "
-        "rappresentazione table-driven — l'albero di profondità 5 occupa <b>141 byte</b> "
-        "con F1 <b>0,9944</b>: è insieme <b>più piccolo e più accurato</b> del modello KAN "
-        "single-layer (250 byte, 0,9835), che risulta quindi <b>dominato</b> sulla "
-        "frontiera di Pareto in-domain. L'albero è anche invariante a trasformazioni "
-        "monotone, quindi non richiede alcun preprocessing, mentre la catena integer "
-        "end-to-end della KAN costa 822 byte comprese le tabelle. «Accuratezza per byte» "
-        "non è un argomento difendibile per il single-layer su TON_IoT, e il repository "
-        "non lo sostiene più."))
+        "Perché il confronto sia una misura e non un artefatto, i byte vanno contati con "
+        "una regola sola, e deve essere quella che il codice implementa. Fino a questa "
+        "revisione non lo era: <code>footprint.py</code> usava un impacchettamento ideale "
+        "(4 byte per nodo interno, 1 per foglia) che l'albero in C non usa. L'header "
+        "<code>mcu_pio/include/dt5_model.h</code> memorizza quattro array paralleli su "
+        "tutti e 57 i nodi, foglie comprese, e occupa <b>285 byte</b>, non 141. Contati "
+        "sugli header compilati (<code>scripts/c_footprint.py</code>, verificabili con "
+        "<code>nm</code> sull'oggetto del compilatore), i due modelli più piccoli si "
+        "invertono: la KAN single-layer sta in <b>254 byte</b>, l'albero in <b>285</b>."))
+    story.append(P(
+        "Resta però vero che l'albero è <b>più accurato</b> (F1 0,9944 contro 0,9835) ed è "
+        "invariante a trasformazioni monotone, quindi non richiede alcun preprocessing, "
+        "mentre la catena integer end-to-end della KAN costa 1.334 byte comprese le "
+        "tabelle. Il single-layer non è dominato, ma 31 byte di differenza sono un "
+        "arrotondamento su entrambe le schede: l'argomento a favore del single-layer "
+        "resta il comportamento cross-domain, non la dimensione. «Accuratezza per byte» "
+        "non è un argomento difendibile su TON_IoT, e il repository non lo sostiene."))
     story.append(P(
         "Tre cose invece reggono, e sono quelle su cui costruire. <b>(a)</b> La KAN "
         "multi-layer sta sulla frontiera: 5,2 KB e F1 0,9976 contro l'MLP TensorFlow Lite "
@@ -295,7 +305,7 @@ def main():
         "categoriche → LUT tanh → secondo strato → argmax, tutto intero. "
         "<b>200 golden vector su 200 con tutti e dieci gli accumulatori bit-identici</b> al "
         "riferimento, argmax identico, macro-F1 0,9352 contro 0,9378 della pipeline float "
-        "(agreement 99,42%), 13,6 KB di tabelle. Le soglie restano a 64 bit perche' su "
+        "(agreement 99,42%), 21,7 KB di tabelle. Le soglie restano a 64 bit perche' su "
         "TON_IoT <i>src_bytes</i> e <i>dst_bytes</i> arrivano a 3,9·10<super>9</super>: "
         "sono i contatori di byte a imporre i 64 bit, non la durata."))
 
@@ -380,7 +390,7 @@ def main():
             ["4. Baseline identiche", "completato su binario e multiclass"],
             ["6. Riproducibilità da clone pulito", "completato, verificato"],
             ["5. Integer-only end-to-end (binario)", "completato: 200/200 bit-esatti, 822 B"],
-            ["5. Integer-only end-to-end (10 classi)", "completato: 200/200 bit-esatti, 13,6 KB"],
+            ["5. Integer-only end-to-end (10 classi)", "completato: 200/200 bit-esatti, 21,7 KB"],
             ["5. Firmware che parte dai contatori grezzi", "completato: main_e2e.cpp, 500/500 concordi"],
             ["Ogni modello esportato in C e flashabile", "completato: 7 firmware, 7 environment"],
             ["Coerenza degli artefatti deployati", "completato: multiclass rigenerato al protocollo v2"],
