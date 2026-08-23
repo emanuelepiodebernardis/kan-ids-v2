@@ -1097,20 +1097,26 @@ Doing this found a defect that the parameter count cannot show. Four headers —
 no `PROGMEM` qualifier, so on AVR their tables were emitted into `.data`, i.e.
 **SRAM**, instead of Flash:
 
-| Environment | Flash | SRAM before | SRAM after | of 8 KB |
+| Environment | Flash after | SRAM before | SRAM after | of 8 KB |
 |---|---|---|---|---|
-| `megaatmega2560` (LUT) | 12,430 B | 1,762 B | see note | 21.5 % → — |
+| `megaatmega2560` (LUT) | 14,220 B | 1,762 B | 82 B | 21.5 % → **1.0 %** |
 | `megaatmega2560_coeff` | 7,402 B | 4 B | 4 B | 0.05 % |
-| `megaatmega2560_dt5` | 548 B | **6,286 B** | **0 B** | 76.7 % → 0 % |
-| `megaatmega2560_e2e` | 5,544 B | **7,334 B** | see note | 89.5 % → — |
 | `megaatmega2560_mlcoeff` | 13,364 B | 4 B | 4 B | 0.05 % |
+| `megaatmega2560_dt5` | 6,880 B | **6,286 B** | **0 B** | 76.7 % → **0 %** |
+| `megaatmega2560_e2e` | 12,942 B | **7,334 B** | **0 B** | 89.5 % → **0 %** |
 
 The two variants that were already `PROGMEM`-correct (`_coeff`, `_mlcoeff`)
-use 4 bytes of SRAM. The other two did not fit: `_e2e` at 89.5 % of the
-Mega 2560's total SRAM leaves nothing for the stack and would have failed at
-the first run on the bench, silently and in a way that looks like a hardware
-problem. Moving the tables to Flash trades SRAM for Flash — the tree firmware
-goes from 548 B to 6,880 B of Flash, which on a 256 KB part is free.
+used 4 bytes of SRAM and are unchanged. The other three did not fit: `_e2e` at
+89.5 % of the Mega 2560's total SRAM leaves nothing for the stack and would
+have failed at the first run on the bench, silently and in a way that looks
+like a hardware fault rather than a software one. Moving the tables to Flash
+trades SRAM for Flash — the tree firmware goes from 548 B to 6,880 B of Flash,
+free on a 256 KB part.
+
+`esp32c3_mc_e2e` has no AVR counterpart and cannot have one: its 200 golden
+vectors are ~35 KB as a single object, past the AVR 32 KB per-object limit.
+That was already true before this change; `platformio.ini` defines the
+environment for the ESP32-C3 only, and the host check covers its correctness.
 
 The lesson generalises past this repository: *bytes of parameters* and *bytes
 of SRAM* are different quantities, and a size table that reports only the first

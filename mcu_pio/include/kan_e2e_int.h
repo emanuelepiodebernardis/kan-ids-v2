@@ -8,7 +8,9 @@
 #ifdef __AVR__
 #include <avr/pgmspace.h>
 #else
-#define PROGMEM
+#ifndef PROGMEM
+#define PROGMEM      /* su ESP32 lo definisce gia' pgmspace.h */
+#endif
 #endif
 
 #define E2E_N_FEAT   10

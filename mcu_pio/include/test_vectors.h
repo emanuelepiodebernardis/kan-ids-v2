@@ -3,7 +3,9 @@
 #ifdef __AVR__
 #include <avr/pgmspace.h>
 #else
-#define PROGMEM
+#ifndef PROGMEM
+#define PROGMEM      /* su ESP32 lo definisce gia' pgmspace.h */
+#endif
 #endif
 #define N_TEST 40
 static const float TEST_X[N_TEST][10] PROGMEM = {
