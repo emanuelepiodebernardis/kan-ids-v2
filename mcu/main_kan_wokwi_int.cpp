@@ -97,18 +97,23 @@ void setup() {
   unsigned long tot_us = 0, tmin = 0xFFFFFFFF, tmax = 0;
 
   for (int i = 0; i < N_TEST; i++) {
+    float xrow[10];
+    memcpy_P(xrow, TEST_X[i], sizeof(xrow));
+    int label;
+    memcpy_P(&label, &TEST_LABEL[i], sizeof(label));
+
     unsigned long t0 = micros_now();
-    int32_t z = kan_logit_int(TEST_X[i]);
+    int32_t z = kan_logit_int(xrow);
     int pred = (z >= 0) ? 1 : 0;            /* soglia intera: zero float */
     unsigned long us = micros_now() - t0;
 
-    if (pred == TEST_LABEL[i]) correct++;
+    if (pred == label) correct++;
     tot_us += us;
     if (us < tmin) tmin = us;
     if (us > tmax) tmax = us;
 
     Serial.print(i); Serial.print(F(","));
-    Serial.print(TEST_LABEL[i]); Serial.print(F(","));
+    Serial.print(label); Serial.print(F(","));
     Serial.print(pred); Serial.print(F(","));
     Serial.print(z); Serial.print(F(","));
     Serial.println(us);

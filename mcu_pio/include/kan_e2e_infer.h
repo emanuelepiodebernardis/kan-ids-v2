@@ -24,6 +24,16 @@
 #define E2E_Q16 65536
 #endif
 
+/* Lettura delle tabelle: su AVR sono in PROGMEM (Flash), servono i
+ * pgm_read_*; altrove (host, ESP32) accesso diretto. */
+#ifdef __AVR__
+  #define E2E_RD8(x)  ((int8_t)pgm_read_byte(&(x)))
+  #define E2E_RD32(x) ((int32_t)pgm_read_dword(&(x)))
+#else
+  #define E2E_RD8(x)  (x)
+  #define E2E_RD32(x) (x)
+#endif
+
 /* floor(log2(v)) per v >= 1. Sul target si puo' sostituire con
  * 31 - __builtin_clz(v) dove disponibile. */
 static inline int e2e_ilog2(int64_t v) {
@@ -39,7 +49,7 @@ static inline int64_t e2e_iln(int64_t v) {
   int64_t m = ((v << 8) >> k) - 256;
   if (m < 0) m = 0;
   if (m > 255) m = 255;
-  return (int64_t)k * E2E_LN2_Q16 + (int64_t)E2E_LN_LUT[m];
+  return (int64_t)k * E2E_LN2_Q16 + (int64_t)E2E_RD32(E2E_LN_LUT[m]);
 }
 
 /* Divisione con arrotondamento verso -infinito. In C la divisione intera
@@ -75,7 +85,7 @@ static inline void e2e_features(int64_t sb, int64_t db, int64_t sp,
 static inline int64_t e2e_forward(const int64_t F[E2E_N_FEAT]) {
   int64_t z = 0;
   for (int i = 0; i < E2E_N_FEAT; ++i) {
-    int64_t u = (F[i] - (int64_t)E2E_AFF_A[i]) * (int64_t)E2E_AFF_M[i];
+    int64_t u = (F[i] - (int64_t)E2E_RD32(E2E_AFF_A[i])) * (int64_t)E2E_RD32(E2E_AFF_M[i]);
     const int64_t umax = ((int64_t)E2E_N_SEG << E2E_SHIFT) - 1;
     if (u < 0) u = 0;
     if (u > umax) u = umax;
@@ -92,9 +102,9 @@ static inline int64_t e2e_forward(const int64_t F[E2E_N_FEAT]) {
     const int64_t b3 = t3;
 
     const int8_t *c = E2E_COEF[i];
-    const int64_t acc = b0 * c[seg] + b1 * c[seg + 1]
-                      + b2 * c[seg + 2] + b3 * c[seg + 3];
-    z += (acc * (int64_t)E2E_MULT[i]) >> 15;
+    const int64_t acc = b0 * E2E_RD8(c[seg]) + b1 * E2E_RD8(c[seg + 1])
+                      + b2 * E2E_RD8(c[seg + 2]) + b3 * E2E_RD8(c[seg + 3]);
+    z += (acc * (int64_t)E2E_RD32(E2E_MULT[i])) >> 15;
   }
   return z;
 }

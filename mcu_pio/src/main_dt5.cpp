@@ -49,8 +49,11 @@ void setup() {
 
   /* riscaldamento: stessa catena, risultati scartati */
   volatile uint8_t sink = 0;
-  for (uint8_t w = 0; w < N_WARM; w++)
-    sink ^= dt5_predict(DT5_GOLDEN[w].x);
+  for (uint8_t w = 0; w < N_WARM; w++) {
+    dt5_golden_t g;
+    memcpy_P(&g, &DT5_GOLDEN[w], sizeof(g));
+    sink ^= dt5_predict(g.x);
+  }
 
   uint32_t n_ok = 0, n_match_label = 0;
   float sum = 0, sum2 = 0;
@@ -61,14 +64,15 @@ void setup() {
      * blocchi per rispettare il protocollo 250 attacco + 250 normale */
     uint16_t k = (r < 250) ? (r % (DT5_N_GOLDEN / 2))
                            : ((DT5_N_GOLDEN / 2) + (r % (DT5_N_GOLDEN / 2)));
-    const dt5_golden_t *g = &DT5_GOLDEN[k];
+    dt5_golden_t g;
+    memcpy_P(&g, &DT5_GOLDEN[k], sizeof(g));
 
     const uint32_t t0 = micros();
-    const uint8_t p = dt5_predict(g->x);
+    const uint8_t p = dt5_predict(g.x);
     const uint32_t dt = micros() - t0;
 
-    if (p == g->pred)  n_ok++;
-    if (p == g->label) n_match_label++;
+    if (p == g.pred)  n_ok++;
+    if (p == g.label) n_match_label++;
     sum += dt; sum2 += (float)dt * dt;
     if (dt < tmin) tmin = dt;
     if (dt > tmax) tmax = dt;
@@ -76,8 +80,8 @@ void setup() {
     Serial.print(F("dt5,")); Serial.print(r); Serial.print(',');
     Serial.print(r < 250 ? F("blockA") : F("blockB")); Serial.print(',');
     Serial.print(dt); Serial.print(',');
-    Serial.print(p); Serial.print(','); Serial.print(g->pred); Serial.print(',');
-    Serial.println(p == g->pred ? 1 : 0);
+    Serial.print(p); Serial.print(','); Serial.print(g.pred); Serial.print(',');
+    Serial.println(p == g.pred ? 1 : 0);
   }
 
   const int sram1 = freeMemory();
