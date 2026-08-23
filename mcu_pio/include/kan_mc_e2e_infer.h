@@ -18,13 +18,33 @@
 #define Q12 4096
 #define Q15 32768
 
+/* Lettura delle tabelle: su AVR sono in PROGMEM (Flash), servono i
+ * pgm_read_*; MC_KNOT e' int64_t (nessun pgm_read_qword in avr-libc),
+ * quindi si copia con memcpy_P. Altrove (host, ESP32) accesso diretto. */
+#ifdef __AVR__
+  #define MC_RD8(x)  ((int8_t)pgm_read_byte(&(x)))
+  #define MC_RD16(x) ((int16_t)pgm_read_word(&(x)))
+  #define MC_RD32(x) ((int32_t)pgm_read_dword(&(x)))
+  static inline int64_t mc_rd64_(const int64_t *p) {
+    int64_t v;
+    memcpy_P(&v, p, sizeof(v));
+    return v;
+  }
+  #define MC_RD64(x) (mc_rd64_(&(x)))
+#else
+  #define MC_RD8(x)  (x)
+  #define MC_RD16(x) (x)
+  #define MC_RD32(x) (x)
+  #define MC_RD64(x) (x)
+#endif
+
 // Ultimo indice k tale che knot[k] <= v, vincolato a [0, n-2].
 // Replica np.searchsorted(..., side="right") - 1 con lo stesso clamp.
 static int mc_bsearch(const int64_t *knot, int n, int64_t v) {
   int lo = 0, hi = n - 1;
   while (lo < hi) {
     const int mid = (lo + hi + 1) >> 1;
-    if (knot[mid] <= v) lo = mid; else hi = mid - 1;
+    if (MC_RD64(knot[mid]) <= v) lo = mid; else hi = mid - 1;
   }
   if (lo > n - 2) lo = n - 2;
   if (lo < 0) lo = 0;
@@ -34,22 +54,22 @@ static int mc_bsearch(const int64_t *knot, int n, int64_t v) {
 // grezzi (gia' in unita' intere, scala MC_RAW_SCALE) -> z in Q12
 static void mc_preprocess(const int64_t raw[MC_K], int32_t z[MC_K]) {
   for (int i = 0; i < MC_K; ++i) {
-    const int n = MC_NKNOT[i];
+    const int n = MC_RD16(MC_NKNOT[i]);
     const int64_t *kr = MC_KNOT[i];
     const int16_t *kz = MC_KNOTZ[i];
     const int64_t v = raw[i];
 
     int32_t zi;
-    if (v <= kr[0])            zi = kz[0];
-    else if (v >= kr[n - 1])   zi = kz[n - 1];
+    if (v <= MC_RD64(kr[0]))            zi = MC_RD16(kz[0]);
+    else if (v >= MC_RD64(kr[n - 1]))   zi = MC_RD16(kz[n - 1]);
     else {
       const int k = mc_bsearch(kr, n, v);
-      const int64_t lo = kr[k], hi = kr[k + 1];
+      const int64_t lo = MC_RD64(kr[k]), hi = MC_RD64(kr[k + 1]);
       int64_t span = hi - lo; if (span < 1) span = 1;
       int64_t wq = ((v - lo) << 15) / span;      // numeratore >= 0: floor == trunc
       if (wq < 0) wq = 0;
       if (wq > Q15) wq = Q15;
-      zi = (int32_t)(kz[k] + ((((int64_t)kz[k + 1] - kz[k]) * wq) >> 15));
+      zi = (int32_t)(MC_RD16(kz[k]) + ((((int64_t)MC_RD16(kz[k + 1]) - MC_RD16(kz[k])) * wq) >> 15));
     }
     if (zi < -Q12) zi = -Q12;
     if (zi >  Q12) zi =  Q12;
@@ -71,7 +91,7 @@ static int64_t mc_spline(int64_t u, const int8_t *c, int seg_shift) {
   const int64_t b1 = 3 * t3 - 6 * t2 + ((int64_t)4 << 15);
   const int64_t b2 = -3 * t3 + 3 * t2 + 3 * t + ((int64_t)1 << 15);
   const int64_t b3 = t3;
-  return b0 * c[seg] + b1 * c[seg + 1] + b2 * c[seg + 2] + b3 * c[seg + 3];
+  return b0 * MC_RD8(c[seg]) + b1 * MC_RD8(c[seg + 1]) + b2 * MC_RD8(c[seg + 2]) + b3 * MC_RD8(c[seg + 3]);
 }
 
 static void mc_forward(const int32_t z[MC_K], const int16_t cat[MC_J],
@@ -81,14 +101,14 @@ static void mc_forward(const int32_t z[MC_K], const int16_t cat[MC_J],
   for (int i = 0; i < MC_K; ++i) {
     const int64_t u = (int64_t)(z[i] + Q12) * MC_NSEG;      // Q13
     for (int h = 0; h < MC_HID; ++h)
-      Hq[h] += (mc_spline(u, MC_C1[i][h], 13) * MC_M1[i * MC_HID + h]) >> 15;
+      Hq[h] += (mc_spline(u, MC_C1[i][h], 13) * MC_RD32(MC_M1[i * MC_HID + h])) >> 15;
   }
   for (int j = 0; j < MC_J; ++j) {
     int v = cat[j];
     if (v < 0) v = 0;
-    if (v >= MC_CARD[j]) v = 0;          // fuori vocabolario -> slot UNK
+    if (v >= MC_RD16(MC_CARD[j])) v = 0;          // fuori vocabolario -> slot UNK
     for (int h = 0; h < MC_HID; ++h)
-      Hq[h] += (int64_t)MC_CAT[j][v][h] * MC_TM[j] * 6;
+      Hq[h] += (int64_t)MC_RD8(MC_CAT[j][v][h]) * MC_RD32(MC_TM[j]) * 6;
   }
 
   int64_t Aq[MC_HID];
@@ -96,7 +116,7 @@ static void mc_forward(const int32_t z[MC_K], const int16_t cat[MC_J],
     int64_t idx = ((Hq[h] * MC_IDXMULT) >> 30) + (MC_TL / 2);
     if (idx < 0) idx = 0;
     if (idx > MC_TL - 1) idx = MC_TL - 1;
-    Aq[h] = MC_TANH[idx];
+    Aq[h] = MC_RD16(MC_TANH[idx]);
   }
 
   for (int c = 0; c < MC_C; ++c) Z[c] = 0;
@@ -106,7 +126,7 @@ static void mc_forward(const int32_t z[MC_K], const int16_t cat[MC_J],
     if (a > 2 * Q15 - 1) a = 2 * Q15 - 1;
     const int64_t u = a * MC_NSEG;                          // Q16
     for (int c = 0; c < MC_C; ++c)
-      Z[c] += (mc_spline(u, MC_C2[h][c], 16) * MC_M2[h * MC_C + c]) >> 15;
+      Z[c] += (mc_spline(u, MC_C2[h][c], 16) * MC_RD32(MC_M2[h * MC_C + c])) >> 15;
   }
 }
 

@@ -169,8 +169,10 @@ static uint8_t nNormal = 0;
 static void buildClassIndices() {
   nAttack = 0; nNormal = 0;
   for (int i = 0; i < N_TEST; i++) {
-    if (TEST_LABEL[i] == 1) idxAttack[nAttack++] = (int8_t)i;
-    else                    idxNormal[nNormal++] = (int8_t)i;
+    int label;
+    memcpy_P(&label, &TEST_LABEL[i], sizeof(label));
+    if (label == 1) idxAttack[nAttack++] = (int8_t)i;
+    else             idxNormal[nNormal++] = (int8_t)i;
   }
 }
 
@@ -249,7 +251,9 @@ void setup() {
   /* ---- warm-up (non misurato): scalda cache/branch predictor ---- */
   volatile int32_t sink = 0;
   for (int i = 0; i < N_WARMUP; i++) {
-    sink += kan_logit_int(TEST_X[i % N_TEST]);
+    float xrow[10];
+    memcpy_P(xrow, TEST_X[i % N_TEST], sizeof(xrow));
+    sink += kan_logit_int(xrow);
   }
 
   /* ---- header CSV dati ---- */
@@ -267,14 +271,17 @@ void setup() {
   /* ---------- BLOCCO 1: 250 inferenze ATTACCO ---------- */
   for (int i = 0; i < N_ATTACK; i++) {
     int8_t vi = (nAttack > 0) ? idxAttack[i % nAttack] : (int8_t)0;
-    const float* x = TEST_X[vi];
+    float xrow[10];
+    memcpy_P(xrow, TEST_X[vi], sizeof(xrow));
+    const float* x = xrow;
 
     unsigned long t0 = micros_now();
     int32_t logit;
     int pred = kan_predict_int(x, &logit);
     unsigned long us = micros_now() - t0;
 
-    int expected = TEST_LABEL[vi];
+    int expected;
+    memcpy_P(&expected, &TEST_LABEL[vi], sizeof(expected));
     int match = (pred == expected);
     if (match) correct++;
     st.add((uint32_t)us);
@@ -299,14 +306,17 @@ void setup() {
   /* ---------- BLOCCO 2: 250 inferenze NORMALE ---------- */
   for (int i = 0; i < N_NORMAL; i++) {
     int8_t vi = (nNormal > 0) ? idxNormal[i % nNormal] : (int8_t)0;
-    const float* x = TEST_X[vi];
+    float xrow[10];
+    memcpy_P(xrow, TEST_X[vi], sizeof(xrow));
+    const float* x = xrow;
 
     unsigned long t0 = micros_now();
     int32_t logit;
     int pred = kan_predict_int(x, &logit);
     unsigned long us = micros_now() - t0;
 
-    int expected = TEST_LABEL[vi];
+    int expected;
+    memcpy_P(&expected, &TEST_LABEL[vi], sizeof(expected));
     int match = (pred == expected);
     if (match) correct++;
     st.add((uint32_t)us);

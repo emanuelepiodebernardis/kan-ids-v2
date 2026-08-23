@@ -94,18 +94,23 @@ void setup() {
   unsigned long tot_us = 0, tmin = 0xFFFFFFFF, tmax = 0;
 
   for (int i = 0; i < N_TEST; i++) {
+    float xrow[10];
+    memcpy_P(xrow, TEST_X[i], sizeof(xrow));
+    int label;
+    memcpy_P(&label, &TEST_LABEL[i], sizeof(label));
+
     float prob = 0.0f;
     unsigned long t0 = micros_now();
-    int pred = kan_predict(TEST_X[i], &prob);
+    int pred = kan_predict(xrow, &prob);
     unsigned long us = micros_now() - t0;
 
-    if (pred == TEST_LABEL[i]) correct++;
+    if (pred == label) correct++;
     tot_us += us;
     if (us < tmin) tmin = us;
     if (us > tmax) tmax = us;
 
     Serial.print(i); Serial.print(F(","));
-    Serial.print(TEST_LABEL[i]); Serial.print(F(","));
+    Serial.print(label); Serial.print(F(","));
     Serial.print(pred); Serial.print(F(","));
     Serial.print(prob, 4); Serial.print(F(","));
     Serial.println(us);

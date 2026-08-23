@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdarg>
+#include <cstring>
 #include <ctime>
 
 /* ---- macro PROGMEM / F() ---- */
@@ -30,6 +31,12 @@ typedef const char* __FlashStringHelper_stub;
 #endif
 #ifndef pgm_read_byte
 #define pgm_read_byte(addr) (*(const uint8_t*)(addr))
+#endif
+#ifndef pgm_read_dword
+#define pgm_read_dword(addr) (*(const uint32_t*)(addr))
+#endif
+#ifndef memcpy_P
+#define memcpy_P(dest, src, n) memcpy((dest), (src), (n))
 #endif
 
 /* ---- timing ---- */

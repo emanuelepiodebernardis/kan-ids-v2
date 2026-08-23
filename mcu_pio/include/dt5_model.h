@@ -5,6 +5,11 @@
 #ifndef DT5_MODEL_H
 #define DT5_MODEL_H
 #include <stdint.h>
+#ifdef __AVR__
+#include <avr/pgmspace.h>
+#else
+#define PROGMEM
+#endif
 
 #define DT5_NNODE   57
 #define DT5_NFEAT   14
@@ -12,20 +17,34 @@
 #define DT5_N_GOLDEN 200
 
 // feature = -1 marca una foglia; il figlio sinistro e' l'indice successivo
-static const int8_t  DT5_FEAT[DT5_NNODE]  = {10, 1, 9, 3, 0, -1, -1, 11, -1, -1, 6, 8, -1, -1, 4, -1, -1, 3, 1, -1, 3, -1, -1, 5, 0, -1, -1, 4, -1, -1, 13, 9, 0, 4, -1, -1, 13, -1, -1, 13, 0, -1, -1, 7, -1, -1, 6, 3, 3, -1, -1, -1, 8, -1, 8, -1, -1};
-static const int16_t DT5_THR[DT5_NNODE]   = {320, 85, 280, -391, 22, 0, 0, 1088, 0, 0, 227, 383, 0, 0, 200, 0, 0, -80, 230, 0, -140, 0, 0, 61, -299, 0, 0, 367, 0, 0, 320, 56, -14, 55, 0, 0, 192, 0, 0, 192, -207, 0, 0, 180, 0, 0, 207, -103, -103, 0, 0, 0, 81, 0, 99, 0, 0};
-static const uint8_t DT5_RIGHT[DT5_NNODE] = {30, 17, 10, 7, 6, 0, 0, 9, 0, 0, 14, 13, 0, 0, 16, 0, 0, 23, 20, 0, 22, 0, 0, 27, 26, 0, 0, 29, 0, 0, 46, 39, 36, 35, 0, 0, 38, 0, 0, 43, 42, 0, 0, 45, 0, 0, 52, 51, 50, 0, 0, 0, 54, 0, 56, 0, 0};
-static const uint8_t DT5_LEAF[DT5_NNODE]  = {0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0};
+static const int8_t  DT5_FEAT[DT5_NNODE]  PROGMEM = {10, 1, 9, 3, 0, -1, -1, 11, -1, -1, 6, 8, -1, -1, 4, -1, -1, 3, 1, -1, 3, -1, -1, 5, 0, -1, -1, 4, -1, -1, 13, 9, 0, 4, -1, -1, 13, -1, -1, 13, 0, -1, -1, 7, -1, -1, 6, 3, 3, -1, -1, -1, 8, -1, 8, -1, -1};
+static const int16_t DT5_THR[DT5_NNODE]   PROGMEM = {320, 85, 280, -391, 22, 0, 0, 1088, 0, 0, 227, 383, 0, 0, 200, 0, 0, -80, 230, 0, -140, 0, 0, 61, -299, 0, 0, 367, 0, 0, 320, 56, -14, 55, 0, 0, 192, 0, 0, 192, -207, 0, 0, 180, 0, 0, 207, -103, -103, 0, 0, 0, 81, 0, 99, 0, 0};
+static const uint8_t DT5_RIGHT[DT5_NNODE] PROGMEM = {30, 17, 10, 7, 6, 0, 0, 9, 0, 0, 14, 13, 0, 0, 16, 0, 0, 23, 20, 0, 22, 0, 0, 27, 26, 0, 0, 29, 0, 0, 46, 39, 36, 35, 0, 0, 38, 0, 0, 43, 42, 0, 0, 45, 0, 0, 52, 51, 50, 0, 0, 0, 54, 0, 56, 0, 0};
+static const uint8_t DT5_LEAF[DT5_NNODE]  PROGMEM = {0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0};
+
+/* Lettura degli array del nodo: su AVR passano da Flash via pgm_read
+ * (i dati sono in PROGMEM, non in SRAM); altrove accesso diretto. */
+#ifdef __AVR__
+  #define DT5_RD_FEAT(i)  ((int8_t)pgm_read_byte(&DT5_FEAT[(i)]))
+  #define DT5_RD_THR(i)   ((int16_t)pgm_read_word(&DT5_THR[(i)]))
+  #define DT5_RD_RIGHT(i) (pgm_read_byte(&DT5_RIGHT[(i)]))
+  #define DT5_RD_LEAF(i)  (pgm_read_byte(&DT5_LEAF[(i)]))
+#else
+  #define DT5_RD_FEAT(i)  (DT5_FEAT[(i)])
+  #define DT5_RD_THR(i)   (DT5_THR[(i)])
+  #define DT5_RD_RIGHT(i) (DT5_RIGHT[(i)])
+  #define DT5_RD_LEAF(i)  (DT5_LEAF[(i)])
+#endif
 
 static inline uint8_t dt5_predict(const int16_t *x) {
   uint8_t i = 0;
-  while (DT5_FEAT[i] >= 0)
-    i = (x[DT5_FEAT[i]] <= DT5_THR[i]) ? (uint8_t)(i + 1) : DT5_RIGHT[i];
-  return DT5_LEAF[i];
+  while (DT5_RD_FEAT(i) >= 0)
+    i = (x[DT5_RD_FEAT(i)] <= DT5_RD_THR(i)) ? (uint8_t)(i + 1) : DT5_RD_RIGHT(i);
+  return DT5_RD_LEAF(i);
 }
 
 typedef struct { int16_t x[DT5_NFEAT]; uint8_t pred, label; } dt5_golden_t;
-static const dt5_golden_t DT5_GOLDEN[DT5_N_GOLDEN] = {
+static const dt5_golden_t DT5_GOLDEN[DT5_N_GOLDEN] PROGMEM = {
   {{181, 65, -448, -32, -448, -58, -448, -448, -448, -448, 256, 128, 128, 128}, 1, 1},
   {{-44, 159, 0, 32, -448, -58, -5, -448, -448, 20, 256, 128, 256, 128}, 1, 1},
   {{90, -22, 115, 111, 112, 114, 48, -448, 111, 137, 256, 768, 1408, 128}, 1, 1},

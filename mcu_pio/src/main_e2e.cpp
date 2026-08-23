@@ -49,8 +49,9 @@ void setup() {
   /* riscaldamento: stessa catena, risultati scartati */
   volatile uint8_t sink = 0;
   for (uint8_t w = 0; w < N_WARM; w++) {
-    const e2e_golden_t *g = &E2E_GOLDEN[w];
-    sink ^= e2e_predict(g->sb, g->db, g->sp, g->dp, g->dur_us);
+    e2e_golden_t g;
+    memcpy_P(&g, &E2E_GOLDEN[w], sizeof(g));
+    sink ^= e2e_predict(g.sb, g.db, g.sp, g.dp, g.dur_us);
   }
 
   uint32_t n_ok = 0, n_match_label = 0;
@@ -62,14 +63,15 @@ void setup() {
      * blocchi per rispettare il protocollo 250 attacco + 250 normale */
     uint16_t k = (r < 250) ? (r % (E2E_N_GOLDEN / 2))
                            : ((E2E_N_GOLDEN / 2) + (r % (E2E_N_GOLDEN / 2)));
-    const e2e_golden_t *g = &E2E_GOLDEN[k];
+    e2e_golden_t g;
+    memcpy_P(&g, &E2E_GOLDEN[k], sizeof(g));
 
     const uint32_t t0 = micros();
-    const uint8_t p = e2e_predict(g->sb, g->db, g->sp, g->dp, g->dur_us);
+    const uint8_t p = e2e_predict(g.sb, g.db, g.sp, g.dp, g.dur_us);
     const uint32_t dt = micros() - t0;
 
-    if (p == g->dec)   n_ok++;
-    if (p == g->label) n_match_label++;
+    if (p == g.dec)   n_ok++;
+    if (p == g.label) n_match_label++;
     sum += dt; sum2 += (float)dt * dt;
     if (dt < tmin) tmin = dt;
     if (dt > tmax) tmax = dt;
@@ -77,8 +79,8 @@ void setup() {
     Serial.print(F("e2e_int,")); Serial.print(r); Serial.print(',');
     Serial.print(r < 250 ? F("blockA") : F("blockB")); Serial.print(',');
     Serial.print(dt); Serial.print(',');
-    Serial.print(p); Serial.print(','); Serial.print(g->dec); Serial.print(',');
-    Serial.println(p == g->dec ? 1 : 0);
+    Serial.print(p); Serial.print(','); Serial.print(g.dec); Serial.print(',');
+    Serial.println(p == g.dec ? 1 : 0);
   }
 
   const int sram1 = freeMemory();

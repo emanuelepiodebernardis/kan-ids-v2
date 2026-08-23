@@ -5,6 +5,11 @@
 #ifndef KAN_E2E_INT_H
 #define KAN_E2E_INT_H
 #include <stdint.h>
+#ifdef __AVR__
+#include <avr/pgmspace.h>
+#else
+#define PROGMEM
+#endif
 
 #define E2E_N_FEAT   10
 #define E2E_N_SEG    16
@@ -14,7 +19,7 @@
 #define E2E_DUR_SCALE 1000000L
 #define E2E_N_GOLDEN 200
 
-static const int32_t E2E_LN_LUT[256] = {
+static const int32_t E2E_LN_LUT[256] PROGMEM = {
   0, 256, 510, 764, 1016, 1268, 1518, 1768, 2017, 2264, 2511, 2757,
   3002, 3246, 3489, 3732, 3973, 4214, 4453, 4692, 4930, 5167, 5403, 5638,
   5873, 6106, 6339, 6571, 6802, 7033, 7262, 7491, 7719, 7946, 8173, 8398,
@@ -39,21 +44,21 @@ static const int32_t E2E_LN_LUT[256] = {
   44912, 45041, 45170, 45298,
 };
 
-static const int32_t E2E_AFF_A[10] = {
+static const int32_t E2E_AFF_A[10] PROGMEM = {
   -605884, -472663, -601644, -146680, -111893, -107468,
   -361864, -472900, -189750, -1011919,
 };
 
-static const int32_t E2E_AFF_M[10] = {
+static const int32_t E2E_AFF_M[10] PROGMEM = {
   11, 14, 11, 34, 79, 65,
   19, 15, 40, 7,
 };
 
-static const int32_t E2E_MULT[10] = {
+static const int32_t E2E_MULT[10] PROGMEM = {
   13648, 9749, 5990, 32768, 11570, 2745, 6770, 8315, 6307, 3965,
 };
 
-static const int8_t E2E_COEF[10][19] = {
+static const int8_t E2E_COEF[10][19] PROGMEM = {
   {-82, 12, 5, -11, -8, 8, 21, 22, 7, -14, -30, -33, -19, 4, 21, 15, -10, -13, 127},
   {-127, 19, 3, -12, -3, 9, 7, -11, -30, -35, -21, 4, 24, 24, 4, -14, -5, 21, -89},
   {93, -12, -12, 3, 6, 0, -8, -15, -19, -22, -21, -14, 1, 19, 30, 21, -13, -27, 127},
@@ -68,7 +73,7 @@ static const int8_t E2E_COEF[10][19] = {
 
 // golden vector: contatori grezzi -> logit atteso e decisione attesa
 typedef struct { int32_t sb, db, sp, dp; int32_t dur_us; int64_t z; uint8_t dec; uint8_t label; } e2e_golden_t;
-static const e2e_golden_t E2E_GOLDEN[200] = {
+static const e2e_golden_t E2E_GOLDEN[200] PROGMEM = {
   {0, 0, 1, 0, 0, 741125LL, 1, 1},
   {0, 0, 120, 0, 168473, -2728399LL, 0, 0},
   {155, 651, 5, 5, 2628, 1025644LL, 1, 1},
