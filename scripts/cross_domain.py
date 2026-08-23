@@ -101,14 +101,21 @@ def undersample(y: np.ndarray, idx: np.ndarray, ratio: float, seed: int) -> np.n
     return np.sort(np.concatenate([idx[yi == minority], keep_maj]))
 
 
-def build_models(cardinalities, seed, wanted=None, multilayer=True):
+def build_models(cardinalities, seed, wanted=None, multilayer=True, in_dim=K_NUMERIC):
+    """`in_dim` deve essere il numero REALE di feature numeriche selezionate
+    dal preprocessor (`len(prep.numeric_features_)`), non la costante
+    K_NUMERIC: coincidono solo perche' lo spazio armonizzato ricco ha 13
+    candidate e k=10. In uno spazio con meno di 10 candidate (es. lo spazio
+    ridotto usato per CIC-IoT-2023 in adattamento-drift, o in joint_training.py
+    nella radice, dove questo stesso difetto e' stato trovato) le KAN
+    indicizzerebbero fuori dall'array."""
     models = {
         "KAN(cat,1L)": CategoricalKANBinary(
-            in_dim=K_NUMERIC, cardinalities=cardinalities, degree=8, clip=CLIP, seed=seed),
+            in_dim=in_dim, cardinalities=cardinalities, degree=8, clip=CLIP, seed=seed),
     }
     if multilayer:
         models["KAN(cat,ML)"] = MultiLayerKANBinary(
-            in_dim=K_NUMERIC, cardinalities=cardinalities, hidden=16,
+            in_dim=in_dim, cardinalities=cardinalities, hidden=16,
             degree=8, clip=CLIP, seed=seed)
     models.update(get_baselines("binary", cardinalities, seed=seed))
     if wanted:
@@ -136,7 +143,8 @@ def fit_eval(train_df, test_df, seed, k, use_cat, wanted, multilayer, tag_info,
 
     unseen = prep.unseen_rate(test_df) if use_cat else {}
     rows = []
-    for name, model in build_models(prep.cardinalities_, seed, wanted, multilayer).items():
+    for name, model in build_models(prep.cardinalities_, seed, wanted, multilayer,
+                                    in_dim=len(prep.numeric_features_)).items():
         t = time.time()
         kw = {}
         # I fit multi-layer costano ~170 s: si spezzano salvando lo stato

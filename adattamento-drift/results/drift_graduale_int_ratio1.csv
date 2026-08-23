@@ -1,7 +1,0 @@
-exp,martingala_int,ogni_batch_int,statico
-bot->ton,0.8238,0.8573,0.729
-bot->unsw,0.8013,0.8241,0.73
-ton->bot,0.6314,0.6314,0.6103
-ton->unsw,0.5796,0.6811,0.4797
-unsw->bot,0.5683,0.5683,0.5683
-unsw->ton,0.733,0.7446,0.5997
