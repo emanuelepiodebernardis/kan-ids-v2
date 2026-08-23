@@ -31,13 +31,6 @@ venv/
 .DS_Store
 Thumbs.db
 
-# configurazione locale dell'assistente: permessi e lock di sessione,
-# personali della macchina e non del progetto. settings.json (senza
-# .local) resta versionabile se un giorno si vuole condividere la
-# configurazione di progetto.
-.claude/settings.local.json
-.claude/*.lock
-
 # build firmware
 mcu_pio/.pio/
 
