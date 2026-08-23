@@ -1,6 +1,9 @@
 # Versioni minime verificate. Per una riproduzione bit-identica dei numeri
 # pubblicati usare requirements-lock.txt (versioni esatte).
 numpy>=1.24,<3
+# Il limite <3 su pandas e' conservativo, non una incompatibilita': la suite
+# (38 test) e l'audit passano anche con pandas 3.0.2. E' tenuto perche' i
+# numeri pubblicati sono stati misurati con le versioni di requirements-lock.txt.
 pandas>=2.0,<3
 scikit-learn>=1.3,<2
 scipy>=1.10,<2
