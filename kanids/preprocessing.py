@@ -136,7 +136,12 @@ class LeakageFreePreprocessor:
             X = X.fillna(X.median())
         else:
             X = X.fillna(0.0)
-        return X.to_numpy(np.float64)
+        arr = X.to_numpy(np.float64)
+        # Sotto pandas >= 3 il copy-on-write puo' restituire una vista in sola
+        # lettura: `transform()` scrive in place la colonna log1p, quindi qui
+        # serve un array scrivibile. Sotto pandas 2 `to_numpy` consolida gia'
+        # in un array nuovo e la copia non avviene.
+        return arr if arr.flags.writeable else arr.copy()
 
     # ── fit ────────────────────────────────────────────────────
     def fit(self, df: pd.DataFrame, y: np.ndarray) -> "LeakageFreePreprocessor":
