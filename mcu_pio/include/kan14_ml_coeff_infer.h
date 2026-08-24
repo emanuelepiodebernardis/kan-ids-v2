@@ -32,7 +32,8 @@ static inline int32_t kan14_ml_logit(const int16_t xq[10], const uint8_t cat[4])
   /* ---- layer 1: 10 edge numerici verso i 16 hidden ---- */
   for (uint8_t i = 0; i < 10; i++) {
     int32_t xi = (int32_t)xq[i] + 4096;
-    if (xi < 0) xi = 0; if (xi > 8192) xi = 8192;
+    if (xi < 0) xi = 0;
+    if (xi > 8192) xi = 8192;
     int32_t u = xi * KML_NSEG;
     uint8_t seg = (uint8_t)(u >> 13);
     if (seg > KML_NSEG - 1) seg = KML_NSEG - 1;
@@ -55,7 +56,8 @@ static inline int32_t kan14_ml_logit(const int16_t xq[10], const uint8_t cat[4])
   int32_t z = 0;
   for (uint8_t h = 0; h < KML_HID; h++) {
     int32_t idx = (int32_t)(((int64_t)H[h] * KML_IDX_MULT) >> 30) + KML_TANH_N / 2;
-    if (idx < 0) idx = 0; if (idx > KML_TANH_N - 1) idx = KML_TANH_N - 1;
+    if (idx < 0) idx = 0;
+    if (idx > KML_TANH_N - 1) idx = KML_TANH_N - 1;
     int32_t a = KML_RD16(KML_TANH[idx]);                /* Q15 in [-1,1]  */
     int32_t u = (a + 32768L) * KML_NSEG;                /* Q16 di dominio */
     if (u < 0) u = 0;

@@ -22,7 +22,8 @@ static inline int32_t kan14_coeff_logit(const int16_t xq[10], const uint8_t cat[
   int32_t z = 0;
   for (uint8_t i = 0; i < KC_NFEAT; i++) {
     int32_t xi = (int32_t)xq[i] + 4096;              /* [0, 8192]           */
-    if (xi < 0) xi = 0; if (xi > 8192) xi = 8192;
+    if (xi < 0) xi = 0;
+    if (xi > 8192) xi = 8192;
     int32_t u = xi * KC_NSEG;                        /* Q13 per segmento    */
     uint8_t seg = (uint8_t)(u >> 13);
     if (seg > KC_NSEG - 1) seg = KC_NSEG - 1;

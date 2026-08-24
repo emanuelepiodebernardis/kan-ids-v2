@@ -28,7 +28,8 @@ static inline uint8_t kan14_mc_predict(const int16_t xq[10], const uint8_t cat[4
   for (uint8_t h = 0; h < KMC_HID; h++) H[h] = 0;
   for (uint8_t i = 0; i < 10; i++) {
     int32_t xi = (int32_t)xq[i] + 4096;
-    if (xi < 0) xi = 0; if (xi > 8192) xi = 8192;
+    if (xi < 0) xi = 0;
+    if (xi > 8192) xi = 8192;
     int32_t u = xi * KMC_NSEG;
     uint8_t seg = (uint8_t)(u >> 13);
     if (seg > KMC_NSEG - 1) seg = KMC_NSEG - 1;
@@ -50,7 +51,8 @@ static inline uint8_t kan14_mc_predict(const int16_t xq[10], const uint8_t cat[4
   for (uint8_t c = 0; c < KMC_NCLS; c++) Z[c] = 0;
   for (uint8_t h = 0; h < KMC_HID; h++) {
     int32_t idx = (int32_t)(((int64_t)H[h] * KMC_IDX_MULT) >> 30) + KMC_TANH_N / 2;
-    if (idx < 0) idx = 0; if (idx > KMC_TANH_N - 1) idx = KMC_TANH_N - 1;
+    if (idx < 0) idx = 0;
+    if (idx > KMC_TANH_N - 1) idx = KMC_TANH_N - 1;
     int32_t a = KMC_RD16(KMC_TANH[idx]);
     int32_t u = (a + 32768L) * KMC_NSEG;
     if (u < 0) u = 0;
