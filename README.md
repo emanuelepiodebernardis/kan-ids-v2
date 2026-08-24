@@ -1096,11 +1096,21 @@ Without hardware, the exact inference kernels can be verified on any host:
 
 ```bash
 cd mcu_pio
-g++ -O2 -o c1 host_check/run_host_check.cpp     && ./c1   # LUT variant
-g++ -O2 -o c2 host_check/run_coeff_check.cpp    && ./c2   # binary 254 B: 200/200
-g++ -O2 -o c3 host_check/run_ml_coeff_check.cpp && ./c3   # multi-layer:  200/200
-g++ -O2 -o c4 host_check/run_mc_coeff_check.cpp && ./c4   # multiclass:   200/200
+g++ -O2 -o c1 host_check/run_coeff_check.cpp    && ./c1   # binary 254 B:  200/200
+g++ -O2 -o c2 host_check/run_ml_coeff_check.cpp && ./c2   # multi-layer:   200/200
+g++ -O2 -o c3 host_check/run_mc_coeff_check.cpp && ./c3   # multiclass:    200/200
+g++ -O2 -o c4 host_check/run_e2e_check.cpp      && ./c4   # e2e binary:    200/200
+g++ -O2 -o c5 host_check/run_mc_e2e_check.cpp   && ./c5   # e2e 10 classes:200/200
+g++ -O2 -o c6 host_check/run_host_check.cpp     && ./c6   # LUT variant:   39/40
 ```
+
+The first five compare the C kernel against the **Python reference**, golden
+vector by golden vector, and are bit-exact. The sixth is a different kind of
+check and is listed separately for that reason: it compares the LUT variant's
+predictions against the **ground-truth labels** of 40 real flows, and the one
+mismatch is a borderline normal the model itself gets wrong — present in the
+float variant too, so a model error rather than a quantisation artifact. It is
+not a bit-exactness result and should not be quoted as one.
 
 The C kernel in `include/kan14_coeff_infer.h` is a line-by-line translation of
 the bit-exact NumPy integer simulation and matches it on 200/200 real test

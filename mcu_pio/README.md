@@ -79,9 +79,15 @@ della variante float (stessa accuratezza, stessi mismatch — vedi §6).
 > PlatformIO: `2 succeeded` per i due di default e `10 succeeded` per gli
 > altri, senza warning. Le dimensioni riportate dalla toolchain ufficiale sono
 > nel README della radice, sezione *Flash and SRAM per variant*. Sono state
-> verificate anche, senza hardware: i sei kernel di inferenza contro il
-> riferimento Python (200/200 bit-esatti ciascuno), la compilazione di tutti i
-> firmware in entrambi i rami `#ifdef` con g++, e la compilazione per
+> verificate anche, senza hardware: **cinque** kernel di inferenza contro il
+> riferimento Python, bit-esatti su 200 golden vector ciascuno (`coeff`,
+> `ml_coeff`, `mc_coeff`, `e2e`, `mc_e2e`). Il sesto harness,
+> `run_host_check`, e' di natura diversa: confronta le predizioni della
+> variante LUT con le **etichette reali** e da' 39/40, dove l'unico scarto e'
+> un errore del modello presente anche nella variante float (vedi §6), non un
+> difetto del kernel. Chiamarlo bit-esatto sarebbe scorretto. Verificata
+> inoltre la compilazione di tutti i firmware in entrambi i rami `#ifdef`
+> con g++, e la compilazione per
 > ATmega2560 con `avr-gcc`, che misura il firmware **senza** il core Arduino e
 > serve ad attribuire una variazione al codice invece che al runtime. E' stato
 > ricompilato con PlatformIO anche lo stato precedente alla correzione
