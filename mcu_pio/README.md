@@ -83,8 +83,11 @@ della variante float (stessa accuratezza, stessi mismatch — vedi §6).
 > riferimento Python (200/200 bit-esatti ciascuno), la compilazione di tutti i
 > firmware in entrambi i rami `#ifdef` con g++, e la compilazione per
 > ATmega2560 con `avr-gcc`, che misura il firmware **senza** il core Arduino e
-> serve ad attribuire una variazione al codice invece che al runtime. Restano
-> fuori solo latenza ed energia, che richiedono le schede.
+> serve ad attribuire una variazione al codice invece che al runtime. E' stato
+> ricompilato con PlatformIO anche lo stato precedente alla correzione
+> `PROGMEM` (worktree su 4a9b235), per misurare il prima e il dopo con la
+> stessa toolchain invece di derivarne uno: 79,2% e 92,0% della SRAM contro
+> 2,5%. Restano fuori solo latenza ed energia, che richiedono le schede.
 
 ```bash
 cd mcu_pio

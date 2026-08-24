@@ -80,7 +80,8 @@ static inline int32_t tanh_lut(int32_t h_pre) {
   if (v < 0) v = 0;
   if (v > span) v = span;
   int idx = (int)(((int64_t)v * (KANML_TL - 1)) / span);
-  if (idx < 0) idx = 0; if (idx >= KANML_TL) idx = KANML_TL - 1;
+  if (idx < 0) idx = 0;
+  if (idx >= KANML_TL) idx = KANML_TL - 1;
   return TANH_RD(idx);
 }
 

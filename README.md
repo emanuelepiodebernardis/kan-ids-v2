@@ -1107,44 +1107,90 @@ the bit-exact NumPy integer simulation and matches it on 200/200 real test
 vectors. An optional INA219 hook (`-DENABLE_INA219`) measures energy per
 inference.
 
-### Flash and SRAM per variant, measured without the boards
+### Flash and SRAM per variant, measured
 
-PlatformIO needs to download its toolchains; `avr-gcc` alone does not, and it
-is enough to compile each variant for the ATmega2560 and read the segment
-sizes. This closes the part of the deployment question that does not need
-hardware — only latency and energy do:
+All twelve PlatformIO environments build. These are the figures the official
+toolchain reports for the binaries that get flashed — Arduino core included:
+
+**Arduino Mega 2560** — 8,192 B SRAM, 253,952 B Flash
+
+| Environment | Flash | SRAM | of SRAM |
+|---|---|---|---|
+| `megaatmega2560` (LUT) | 19,408 B | 298 B | 3.6 % |
+| `megaatmega2560_coeff` | 12,190 B | 208 B | 2.5 % |
+| `megaatmega2560_mlcoeff` | 18,156 B | 208 B | 2.5 % |
+| `megaatmega2560_e2e` | 17,964 B | 204 B | 2.5 % |
+| `megaatmega2560_dt5` | 11,662 B | 204 B | 2.5 % |
+
+**ESP32-C3-DevKitM-1** — 327,680 B SRAM, 1,310,720 B Flash
+
+| Environment | Flash | SRAM | of SRAM |
+|---|---|---|---|
+| `esp32c3` (LUT) | 263,778 B | 13,828 B | 4.2 % |
+| `esp32c3_coeff` | 255,756 B | 13,748 B | 4.2 % |
+| `esp32c3_mlcoeff` | 261,050 B | 13,748 B | 4.2 % |
+| `esp32c3_mc` | 264,120 B | 13,748 B | 4.2 % |
+| `esp32c3_e2e` | 260,804 B | 13,748 B | 4.2 % |
+| `esp32c3_dt5` | 256,166 B | 13,748 B | 4.2 % |
+| `esp32c3_mc_e2e` | 309,026 B | 13,748 B | 4.2 % |
+
+On the ESP32-C3 the SRAM figure is dominated by the Arduino core and barely
+moves between variants — 13,748 B for six of the seven — which is the useful
+observation: on that board the *model* is not what constrains memory. On the
+Mega it is, and that is where the next paragraph matters.
+
+#### The defect this exposed
+
+Four headers — `dt5_model.h`, `kan_e2e_int.h`, `kan_mc_e2e_int.h` and
+`test_vectors.h` — carried no `PROGMEM` qualifier, so on AVR their tables were
+emitted into `.data`: copied into **SRAM** at startup instead of being read
+from Flash in place. Both states were built with PlatformIO, so the comparison
+is like-for-like on the toolchain that will be used on the bench:
+
+| Environment | SRAM before | SRAM after | Flash before | Flash after |
+|---|---|---|---|---|
+| `megaatmega2560_dt5` | **6,488 B — 79.2 %** | 204 B — 2.5 % | 11,642 B | 11,662 B |
+| `megaatmega2560_e2e` | **7,538 B — 92.0 %** | 204 B — 2.5 % | 17,820 B | 17,964 B |
+
+At 92 % of the Mega 2560's 8,192 bytes there is nothing left for the stack.
+Both firmware would have failed at the first run on the bench, in a way that
+looks like a hardware fault rather than a software one — and note that **both
+still link and build successfully**, so nothing in the build output warns you.
+
+**The fix costs almost no Flash: 20 bytes for the tree and 144 for the
+end-to-end chain.** That is worth stating because it corrects the obvious
+intuition, which this README held until the two states were actually measured:
+moving tables to `PROGMEM` is not a Flash-for-SRAM trade. Initialised data
+already occupies Flash — that is where its initialisers live — and the copy
+into SRAM at startup is pure loss. `PROGMEM` removes the copy, not the storage;
+the few extra bytes are the `pgm_read_*` and `memcpy_P` call sites.
+
+Independently, each variant was also compiled for the ATmega2560 with
+`avr-gcc` alone, which links no Arduino core and therefore measures the
+firmware's own footprint in isolation — useful for attributing a change to the
+code rather than to the runtime:
 
 ```bash
 avr-g++ -mmcu=atmega2560 -Os -std=c++11 -DF_CPU=16000000UL \
         -Iinclude src/main_coeff.cpp -o /tmp/fw.elf
-avr-size /tmp/fw.elf      # text = Flash, data + bss = SRAM (8,192 B available)
+avr-size /tmp/fw.elf
 ```
 
-Doing this found a defect that the parameter count cannot show. Four headers —
-`dt5_model.h`, `kan_e2e_int.h`, `kan_mc_e2e_int.h` and `test_vectors.h` — had
-no `PROGMEM` qualifier, so on AVR their tables were emitted into `.data`, i.e.
-**SRAM**, instead of Flash:
+It puts the tables' own contribution at 6,286 B for the tree and 7,334 B for
+the end-to-end chain, against the ~204 B the Arduino core occupies regardless —
+which reconciles with the PlatformIO figures above to within two bytes.
 
-| Environment | Flash after | SRAM before | SRAM after | of 8 KB |
-|---|---|---|---|---|
-| `megaatmega2560` (LUT) | 14,220 B | 1,762 B | 82 B | 21.5 % → **1.0 %** |
-| `megaatmega2560_coeff` | 7,402 B | 4 B | 4 B | 0.05 % |
-| `megaatmega2560_mlcoeff` | 13,364 B | 4 B | 4 B | 0.05 % |
-| `megaatmega2560_dt5` | 6,880 B | **6,286 B** | **0 B** | 76.7 % → **0 %** |
-| `megaatmega2560_e2e` | 12,942 B | **7,334 B** | **0 B** | 89.5 % → **0 %** |
-
-The two variants that were already `PROGMEM`-correct (`_coeff`, `_mlcoeff`)
-used 4 bytes of SRAM and are unchanged. The other three did not fit: `_e2e` at
-89.5 % of the Mega 2560's total SRAM leaves nothing for the stack and would
-have failed at the first run on the bench, silently and in a way that looks
-like a hardware fault rather than a software one. Moving the tables to Flash
-trades SRAM for Flash — the tree firmware goes from 548 B to 6,880 B of Flash,
-free on a 256 KB part.
+Two smaller things the first real `pio run` caught, neither of which the
+offline checks could: `main.cpp` called `esp_timer_get_time()` and
+`esp_get_free_heap_size()` without including `esp_timer.h` or `esp_system.h`,
+relying on `Arduino.h` pulling them in transitively — true on this core
+version, not guaranteed on others; and three inference headers clamped with two
+`if` statements on one line, which `-Wmisleading-indentation` flags. Both are
+fixed, and all twelve builds are warning-free.
 
 `esp32c3_mc_e2e` has no AVR counterpart and cannot have one: its 200 golden
 vectors are ~35 KB as a single object, past the AVR 32 KB per-object limit.
-That was already true before this change; `platformio.ini` defines the
-environment for the ESP32-C3 only, and the host check covers its correctness.
+`platformio.ini` defines that environment for the ESP32-C3 only.
 
 The lesson generalises past this repository: *bytes of parameters* and *bytes
 of SRAM* are different quantities, and a size table that reports only the first
