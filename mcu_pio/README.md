@@ -75,6 +75,17 @@ della variante float (stessa accuratezza, stessi mismatch — vedi §6).
 
 ## 3. Compilare
 
+> **Stato della verifica, dichiarato.** Senza hardware sono stati controllati:
+> i sei kernel di inferenza contro il riferimento Python (200/200 bit-esatti
+> ciascuno), la compilazione di tutti e sette i firmware in entrambi i rami
+> `#ifdef` con g++, e la compilazione reale per ATmega2560 con `avr-gcc`, da
+> cui vengono le cifre di Flash e SRAM piu' sotto. **Non** e' stato eseguito
+> `pio run` con i toolchain veri: il registro PlatformIO non era raggiungibile
+> dall'ambiente di sviluppo. Le due cose non coincidono — il core
+> Arduino-ESP32 porta header e macro che uno stub non riproduce — quindi la
+> prima build su una macchina con rete va considerata parte della verifica,
+> non una formalita'.
+
 ```bash
 cd mcu_pio
 

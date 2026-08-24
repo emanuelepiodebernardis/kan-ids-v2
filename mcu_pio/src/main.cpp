@@ -37,6 +37,16 @@
   #include "arduino_stub.h"
 #else
   #include <Arduino.h>
+  #if !defined(__AVR__)
+    /* Questo e' l'unico firmware che usa esp_timer_get_time() e
+     * esp_get_free_heap_size(): gli altri sei si fermano a micros(). Le due
+     * funzioni vengono dall'IDF e i loro header vanno inclusi esplicitamente
+     * — su alcune versioni del core Arduino-ESP32 arrivano per transitivita'
+     * da Arduino.h, su altre no, e la differenza si vede solo al primo
+     * `pio run` vero. Includerli e' innocuo se sono gia' presenti. */
+    #include "esp_system.h"
+    #include "esp_timer.h"
+  #endif
 #endif
 
 #include <stdint.h>
