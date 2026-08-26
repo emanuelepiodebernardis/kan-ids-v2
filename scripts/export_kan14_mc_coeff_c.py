@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
-"""Esporta il multiclass ml+cat 14-feature (macro-F1 0.9409) in header C
-full-integer: L1 10x16 + cat + tanh LUT + L2 16x10 -> argmax. + 200 vettori."""
+"""Esporta il multiclass ml+cat 14-feature in header C full-integer:
+L1 10x16 + cat + tanh LUT + L2 16x10 -> argmax. + 200 vettori.
+
+Il macro-F1 non e' scritto a mano qui: viene MISURATO a ogni esportazione
+sulla catena integer e stampato nell'intestazione dell'header generato,
+oltre che in results/kan14_mc_coeff_export.csv. Le versioni precedenti
+riportavano 0.9409, che e' il valore del protocollo v1 (vedi
+results/protocol_v1/kan14_mc_e2e_int_real.csv) e non del protocollo
+leakage-free in uso: la costante era rimasta indietro rispetto ai dati
+e si era propagata in altri quattro file."""
 
 # --- percorsi artefatti (migrato da /tmp, vedi tools/migrate_tmp_paths.py) ---
 import sys as _sys
@@ -12,7 +20,9 @@ from kanids.legacy import prepare14_dict
 import sys, pickle
 import numpy as np
 sys.path.insert(0, "src"); sys.path.insert(0, "preprocessing")
+sys.path.insert(0, str(_Path(__file__).resolve().parent))   # per c_footprint
 from kan_bspline import bspline_basis
+from c_footprint import scan
 from sklearn.metrics import f1_score
 
 N_INT = 16; Q15 = 1 << 15; Q12 = 1 << 12; TL = 512
@@ -91,7 +101,8 @@ for hh in range(HID):
     for c in range(C):
         Zq[:, c] += (spline_int(u, C2q[hh][:, c], 16)*m2[hh, c]) >> 15
 pred = Zq.argmax(1)
-print(f"sim integer mc: macro-F1={f1_score(ymte, pred, average='macro', zero_division=0):.4f}")
+MACRO_F1 = float(f1_score(ymte, pred, average="macro", zero_division=0))
+print(f"sim integer mc: macro-F1={MACRO_F1:.4f}")
 
 rs2 = np.random.RandomState(3)
 sel = []
@@ -102,8 +113,9 @@ sel = np.array(sel)
 def arr(a): return ", ".join(str(int(v)) for v in a)
 off = np.concatenate([[0], np.cumsum(cards)])[:J]
 
-with open("mcu_pio/include/kan14_mc_coeff_int8.h", "w") as f:
-    f.write("/* KAN-IDS MULTICLASS 10 classi, ml+cat 14-feature (macro-F1 0.9409),\n"
+with open("mcu_pio/include/kan14_mc_coeff_int8.h", "w", encoding="utf-8", newline="\n") as f:
+    f.write(f"/* KAN-IDS MULTICLASS 10 classi, ml+cat 14-feature "
+            f"(macro-F1 {MACRO_F1:.4f}, misurato all'export),\n"
             " * coefficienti B-spline FULL-INTEGER int8 (~8 KB). Generato da\n"
             " * export_kan14_mc_coeff_c.py. Classi (LabelEncoder alfabetico):\n"
             " * backdoor,ddos,dos,injection,mitm,normal,password,ransomware,scanning,xss */\n"
@@ -133,7 +145,7 @@ with open("mcu_pio/include/kan14_mc_coeff_int8.h", "w") as f:
     f.write(f"static const int16_t KMC_CAT_MULT[{J}] PROGMEM = {{" + arr(tm) + "};\n")
     f.write(f"static const int16_t KMC_TANH[{TL}] PROGMEM = {{" + arr(tanh_q15) + "};\n")
 
-with open("mcu_pio/include/kan14_mc_test_vectors.h", "w") as f:
+with open("mcu_pio/include/kan14_mc_test_vectors.h", "w", encoding="utf-8", newline="\n") as f:
     f.write(f"/* {len(sel)} test vector reali (fino a 20 per classe). */\n"
             "#pragma once\n#include <stdint.h>\n\n")
     f.write(f"#define KMCTV_N {len(sel)}\n\n")
@@ -145,3 +157,17 @@ with open("mcu_pio/include/kan14_mc_test_vectors.h", "w") as f:
     f.write("static const uint8_t KMCTV_LABEL[" + str(len(sel)) + "] PROGMEM = {" + arr(ymte[sel]) + "};\n")
 print(f"header mc generati; acc attesa sui {len(sel)} vettori:",
       round((pred[sel]==ymte[sel]).mean()*100, 1), "%")
+
+# Il numero misurato finisce anche in results/, cosi' README e commenti
+# possono citarlo indicando l'artefatto invece di ricopiarlo.
+import pandas as pd  # noqa: E402
+from kanids.config import RESULTS_DIR  # noqa: E402
+_mem = scan(_Path("mcu_pio/include/kan14_mc_coeff_int8.h"), "KMC_")[0]
+pd.DataFrame([{
+    "macro_f1_integer": round(MACRO_F1, 4),
+    "n_golden": len(sel),
+    "acc_golden_pct": round(float((pred[sel] == ymte[sel]).mean()) * 100, 1),
+    "mem_bytes": _mem,
+    "mem_kb": round(_mem / 1024, 2),
+}]).to_csv(RESULTS_DIR / "kan14_mc_coeff_export.csv", index=False)
+print("salvato results/kan14_mc_coeff_export.csv")

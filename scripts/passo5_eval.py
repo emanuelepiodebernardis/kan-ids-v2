@@ -88,7 +88,7 @@ Xte_s = np.clip(qt.transform(Xte_log), -CLIP, CLIP)
 # ── 5. Forward pass Python (usa LUT dagli header pubblicati) ─────────────────
 # Parsa kan_ml_layer1.h, kan_ml_layer2.h, kan_ml_tanh.h
 def parse_lut_header(path, macro):
-    txt = Path(path).read_text()
+    txt = Path(path).read_text(encoding="utf-8")
     import re
     # trova l'array: static const int16_t MACRO[E][W] = { {…}, … };
     m = re.search(rf'static const int16_t {macro}\[(\d+)\]\[(\d+)\].*?=\s*\{{(.*?)\}};', txt, re.DOTALL)
@@ -99,7 +99,7 @@ def parse_lut_header(path, macro):
     return arr.reshape(E, KSEG, L)
 
 def parse_tanh_header(path):
-    txt = Path(path).read_text()
+    txt = Path(path).read_text(encoding="utf-8")
     import re
     m = re.search(r'static const int16_t KANML_TANH\[(\d+)\].*?=\s*\{([^}]+)\}', txt, re.DOTALL)
     vals = [int(v) for v in m.group(2).split(',')]
@@ -206,7 +206,7 @@ out_dir = REPO / 'mcu_e2e'
 out_dir.mkdir(exist_ok=True)
 
 prep_h = out_dir / 'kan_ml_prep.h'
-with open(prep_h, 'w') as f:
+with open(prep_h, 'w', encoding="utf-8", newline="\n") as f:
     f.write("// kan_ml_prep.h — preprocessing on-chip: knot QT + costanti\n")
     f.write("// Generato da passo5_eval.py (pipeline deterministica Passo 3/4)\n")
     f.write("#pragma once\n#include <stdint.h>\n#include <math.h>\n\n")
@@ -259,7 +259,7 @@ match_lab  = sum(a==b for a,b in zip(my_labels, pub_labels))
 print(f"  Label sanity match con header pubblicato: {match_lab}/40")
 
 vec_h = out_dir / 'test_vectors_e2e.h'
-with open(vec_h, 'w') as f:
+with open(vec_h, 'w', encoding="utf-8", newline="\n") as f:
     f.write("// 40 vettori di test in feature grezze (double)\n")
     f.write("// label identici a test_vectors_ml_q16.h\n")
     f.write("#pragma once\n")
@@ -276,7 +276,7 @@ print(f"  Scritto {vec_h}")
 harness_src = out_dir / 'main_harness_12k.cpp'
 
 # Leggi eval_l1, eval_l2, tanh_lut dal firmware pubblicato
-fw_src = (REPO / 'mcu' / 'main_kan_ml_wokwi.cpp').read_text()
+fw_src = (REPO / 'mcu' / 'main_kan_ml_wokwi.cpp').read_text(encoding="utf-8")
 # Estrai dalla riga '#define FP_SHIFT' fino alla fine di kan_ml_predict
 import re
 fw_core = re.search(
@@ -405,7 +405,7 @@ int main(int argc, char **argv) {
 }
 """
 
-harness_src.write_text(cpp)
+harness_src.write_text(cpp, encoding="utf-8", newline="\n")
 print(f"  Scritto {harness_src}")
 
 print("\n=== Pipeline Python completata ===")

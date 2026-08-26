@@ -237,7 +237,7 @@ def write_c_header(art, qt: FixedPointQuantileTransformer,
     lines.append(f"//   TOTALE                 : {(qt_bytes+kan_bytes)} byte "
                  f"({(qt_bytes+kan_bytes)/1024:.2f} KB)")
 
-    Path(path).write_text("\n".join(lines))
+    Path(path).write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return path
 
 

@@ -38,7 +38,7 @@ def cached_npz(name: str, key: str, builder: Callable[[], dict], verbose: bool =
 
     if path.exists() and meta.exists():
         try:
-            if json.loads(meta.read_text())["key"] == key:
+            if json.loads(meta.read_text(encoding="utf-8"))["key"] == key:
                 if verbose:
                     print(f"[cache] hit  {path.name} ({key})")
                 d = np.load(path, allow_pickle=True)
@@ -53,7 +53,7 @@ def cached_npz(name: str, key: str, builder: Callable[[], dict], verbose: bool =
     data = builder()
     np.savez_compressed(path, **data)
     meta.write_text(json.dumps({"key": key, "pipeline_version": PIPELINE_VERSION,
-                                "arrays": sorted(data)}, indent=2))
+                                "arrays": sorted(data)}, indent=2), encoding="utf-8", newline="\n")
     return data
 
 

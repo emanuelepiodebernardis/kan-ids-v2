@@ -47,7 +47,7 @@ def load_runs() -> pd.DataFrame:
         if csv.exists():
             d = pd.read_csv(csv)
         elif jsonl.exists():
-            d = pd.DataFrame([json.loads(l) for l in jsonl.read_text().splitlines() if l.strip()])
+            d = pd.DataFrame([json.loads(l) for l in jsonl.read_text(encoding="utf-8").splitlines() if l.strip()])
         else:
             continue
         d["variant"] = v
@@ -91,6 +91,48 @@ def distribution_shift() -> pd.DataFrame:
     return pd.DataFrame(rows).sort_values("sovrapposizione")
 
 
+def significativita(cat: pd.DataFrame) -> pd.DataFrame:
+    """Confronti appaiati per seed fra tutte le coppie di modelli, in
+    ciascuna direzione cross-domain.
+
+    Esiste perche' "questo modello ha la media piu' alta" non e' la stessa
+    affermazione di "questo modello generalizza meglio", e senza il test la
+    seconda finiva scritta al posto della prima. Su TON→BoT la KAN
+    single-layer ha la media piu' alta ma batte XGBoost in 4 seed su 10:
+    la differenza fra i due e' rumore, e va detto.
+
+    I seed sono appaiati (stesso split, stesso bilanciamento, stesse
+    feature), quindi il test corretto e' quello per campioni appaiati e non
+    quello per campioni indipendenti. `vince_in` conta i seed, e NON e' un
+    test: sta accanto al p-value per mostrarne la dispersione, non per
+    sostituirlo.
+    """
+    from itertools import combinations
+
+    from scipy import stats
+
+    righe = []
+    for exp in ("ton->bot", "bot->ton"):
+        piv = (cat[cat.exp == exp]
+               .pivot_table(index="seed", columns="model", values="balanced_acc"))
+        piv = piv.dropna(axis=1, how="any")
+        for a, b in combinations(sorted(piv.columns), 2):
+            xa, xb = piv[a].to_numpy(), piv[b].to_numpy()
+            if len(xa) < 3:
+                continue
+            t, p = stats.ttest_rel(xa, xb)
+            righe.append({
+                "exp": exp, "modello_a": a, "modello_b": b, "n_seed": len(xa),
+                "media_a": round(float(xa.mean()), 4),
+                "media_b": round(float(xb.mean()), 4),
+                "differenza": round(float(xa.mean() - xb.mean()), 4),
+                "t": round(float(t), 3), "p_value": round(float(p), 4),
+                "significativa_5pct": bool(p < 0.05),
+                "vince_in": f"{int((xa > xb).sum())}/{len(xa)}",
+            })
+    return pd.DataFrame(righe).sort_values(["exp", "p_value"])
+
+
 def main():
     d = load_runs()
 
@@ -114,6 +156,9 @@ def main():
             deg[f"delta_{cross}"] = (bal[src] - bal[cross]).round(4)
     deg = deg.reset_index().sort_values(deg.columns[-1])
     deg.to_csv(RESULTS_DIR / "crossdomain_degradation.csv", index=False)
+
+    sig = significativita(cat)
+    sig.to_csv(RESULTS_DIR / "crossdomain_significativita.csv", index=False)
 
     shift = distribution_shift()
     shift.to_csv(RESULTS_DIR / "crossdomain_shift.csv", index=False)
@@ -156,7 +201,7 @@ def main():
         md.append(f"| {r['feature']} | {r['mediana_TON']:.3f} | "
                   f"{r['mediana_BoT']:.3f} | {r['sovrapposizione']:.3f} |")
 
-    (RESULTS_DIR / "crossdomain_report.md").write_text("\n".join(md), encoding="utf-8")
+    (RESULTS_DIR / "crossdomain_report.md").write_text("\n".join(md), encoding="utf-8", newline="\n")
 
     print("\n".join(md[:4]))
     print("\n=== degrado ===")

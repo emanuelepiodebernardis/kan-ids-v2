@@ -47,3 +47,9 @@ mcu_pio/.pio/
 # log diagnostici occasionali
 run_debug.log
 *.log
+
+# patch di lavoro delle sessioni di revisione
+*.patch
+
+# output dell'audit: si rigenera, non si versiona
+audit.txt

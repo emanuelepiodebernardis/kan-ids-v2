@@ -1,11 +1,16 @@
 /* Benchmark on-board del DECISION TREE profondo 5, sullo stesso spazio di
  * feature della KAN e con lo stesso protocollo.
  *
- * Serve a chiudere il confronto dimensione/accuratezza: contando i byte dei
- * parametri l'albero occupa 141 B contro i 250 della KAN single-layer ed e'
- * piu' accurato. Latenza, SRAM e dimensione del codice pero' si misurano
- * solo qui, sul dispositivo. Senza questo firmware la frontiera di Pareto
- * resterebbe a meta'.
+ * Serve a chiudere il confronto dimensione/accuratezza: contando gli array
+ * che questo firmware compila davvero, l'albero occupa 285 B contro i 254
+ * della KAN single-layer. E' quindi piu' accurato ma anche piu' grande: i
+ * due modelli stanno entrambi sulla frontiera di Pareto e nessuno dei due
+ * domina l'altro. (Una versione precedente di questo commento diceva 141 B
+ * contro 250 e concludeva che l'albero dominava. I 141 B venivano da una
+ * regola table-driven idealizzata, mentre dt5_model.h dichiara quattro
+ * array paralleli su tutti i 57 nodi: vedi scripts/c_footprint.py.)
+ * Latenza, SRAM e dimensione del codice si misurano solo qui, sul
+ * dispositivo. Senza questo firmware la frontiera resterebbe a meta'.
  *
  * Protocollo del paper Electronics 2026: 500 inferenze temporizzate
  * (250 attacco + 250 normale), statistiche calcolate a bordo, verifica

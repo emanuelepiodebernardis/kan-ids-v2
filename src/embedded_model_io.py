@@ -150,7 +150,7 @@ def save_xgb_int8(model: Any, path: Union[str, Path]) -> int:
         jpath = Path(tmp.name)
     try:
         model.get_booster().save_model(str(jpath))
-        with open(jpath) as f:
+        with open(jpath, encoding="utf-8") as f:
             xgb_data = _json.load(f)
     finally:
         jpath.unlink(missing_ok=True)

@@ -63,7 +63,7 @@ def main():
     out = ex.write_c_header(art, a.out)
     print(f"[4] header: {out} ({Path(out).stat().st_size/1024:.1f} KB sorgente)")
     import csv
-    with open("results/lut_export_real.csv", "w", newline="") as f:
+    with open("results/lut_export_real.csv", "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
         w.writerow(["f1_float","f1_quant","agree_pct","n_diff","lut_bytes","L","degree","epochs","test_n"])
         w.writerow([f"{f1_float:.4f}", f"{f1_quant:.4f}", f"{agree*100:.3f}", n_diff, lut_bytes, a.L, a.degree, a.epochs, len(yte)])

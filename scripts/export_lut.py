@@ -204,7 +204,7 @@ def write_c_header(art, path, name="kan_ids_layer", thr=0.5):
     for e in range(E):
         lines.append("  {" + ",".join(f"{v:.8e}f" for v in ym[e]) + "},")
     lines.append("};")
-    Path(path).write_text("\n".join(lines))
+    Path(path).write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return path
 
 

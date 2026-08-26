@@ -13,11 +13,24 @@ artifacts/, ricostruibili e cancellabili con --stage clean.
 
 I seed sono fissati in kanids/config.py (SEEDS = 42, 43, 44) e stampati
 all'inizio di ogni run insieme alle versioni delle librerie, cosi' il log
-di un esperimento contiene tutto quello che serve per ripeterlo.
+di un esperimento contiene tutto quello che serve per ripeterlo. I blocchi
+cross-domain e joint usano invece dieci seed (42-51), che e' il protocollo
+richiesto per quella parte.
+
+Le tabelle principali dell'articolo escono da qui:
+
+    tabella di Pareto (byte/accuratezza)   stage 'footprint'
+    degrado cross-domain a 4 direzioni     stage 'crossdomain'
+    tabella finale a 7 colonne             stage 'joint' poi 'tabelle'
+
+Lo stage 'joint' sceglie prima il rapporto attacco:normale sulla sola
+validation interna al training, e solo dopo valuta una volta sui test:
+l'ordine dei tre comandi non e' scambiabile.
 """
 from __future__ import annotations
 
 import argparse
+import os
 import platform
 import subprocess
 import sys
@@ -64,11 +77,29 @@ STAGES = {
         [[PY, "scripts/kan14_compile.py"],
          [PY, "scripts/hybrid_compile.py"]],
     ),
+    "multiclass-state": (
+        "riaddestra la KAN multi-layer multiclasse (artifacts/mlcat_state.pkl). "
+        "FUORI da 'all': i due header C a 10 classi sono congelati, vedi sotto",
+        # Il budget e' un meccanismo di RIPRESA, non un criterio di arresto:
+        # con un valore piccolo lo script salva un checkpoint parziale e
+        # ritorna, e gli esportatori esporterebbero un modello mezzo
+        # addestrato senza accorgersene. Qui gliene si da' abbastanza da
+        # arrivare in fondo alle 300 epoche in una volta sola. Deve stampare
+        # "DONE"; se stampa "CHECKPOINT" va rilanciato.
+        [[PY, "scripts/kan_ml_cat_mc.py", "100000"]],
+    ),
     "integer": (
-        "pipeline integer-only end-to-end: export in C + golden vectors",
+        "pipeline integer-only end-to-end binaria: export in C + golden vectors "
+        "(rigenera kan_e2e_int.h byte per byte)",
         [[PY, "scripts/export_e2e_int_c.py"],
-         [PY, "scripts/export_mc_e2e_int_c.py"],
          [PY, "scripts/e2e_int_pipeline.py"]],
+    ),
+    "integer-10classi": (
+        "rigenera i due header C a 10 classi. FUORI da 'all', e da usare solo "
+        "sapendo che sovrascrive artefatti congelati con versioni equivalenti "
+        "ma non identiche: richiede prima lo stage 'multiclass-state'",
+        [[PY, "scripts/export_mc_e2e_int_c.py"],
+         [PY, "scripts/export_kan14_mc_coeff_c.py"]],
     ),
     "nested-cv": (
         "cross-validation annidata: misura l'ottimismo della stima piatta",
@@ -98,9 +129,40 @@ STAGES = {
          [PY, "scripts/cross_domain.py", "--exp", "all", "--no-cat"],
          [PY, "scripts/crossdomain_report.py"]],
     ),
+    "architettura": (
+        "sceglie larghezza e grado della KAN su una validation interna al "
+        "training (regola 1-SE). Sta PRIMA di cv-binary perche' tutto quello "
+        "che viene dopo usa l'architettura che esce di qui. E' lo stage piu' "
+        "lungo di 'all': se serve solo rifare le tabelle, si salta e valgono "
+        "i valori gia' scelti in results/arch_selection_scelta.json.",
+        [[PY, "scripts/select_architettura.py"]],
+    ),
+    "joint": (
+        "joint training TON+BoT: scelta del rapporto su validation, poi "
+        "valutazione unica sui test e su UNSW-NB15",
+        # PRIMO comando: sceglie il rapporto guardando SOLO la validation
+        # ritagliata dentro il training. I test set non vengono toccati.
+        # SECONDO e TERZO: valutano una volta sola, al rapporto gia' scelto,
+        # che joint_training.py rilegge da
+        # results/joint_ratio_selection_scelta.json.
+        [[PY, "scripts/joint_training.py", "--select-ratio"],
+         [PY, "scripts/joint_training.py"],
+         [PY, "scripts/joint_training.py", "--eval-extra", "unsw"]],
+    ),
+    "tabelle": (
+        "compone la tabella principale a sette colonne dai CSV, senza "
+        "ricopiature a mano (richiede 'crossdomain' e 'joint')",
+        [[PY, "scripts/tabella_finale.py"]],
+    ),
     "leakage-audit": (
         "quantifica l'effetto del difetto del protocollo v1",
         [[PY, "scripts/leakage_audit.py"]],
+    ),
+    "pacchetto": (
+        "costruisce l'archivio da consegnare (risultati, figure, header C, "
+        "audit, indice). FUORI da 'all': si fa alla fine, quando tutto il "
+        "resto e' aggiornato, con --firmware per includere i binari",
+        [[PY, "scripts/pacchetto_finale.py"]],
     ),
     "conformal": (
         "calibrazione split-conformal ed estrazione della forma simbolica",
@@ -108,9 +170,19 @@ STAGES = {
     ),
 }
 
-ORDER = ["tests", "audit", "leakage-audit", "features", "cv-binary", "cv-multiclass",
-         "crossdomain", "compile", "integer", "conformal", "nested-cv", "models", "footprint",
-         "figures", "report"]
+ORDER = ["tests", "audit", "leakage-audit", "features", "architettura",
+         "cv-binary", "cv-multiclass",
+         "crossdomain", "joint", "tabelle", "compile", "integer", "conformal",
+         "nested-cv", "models", "footprint", "figures", "report"]
+
+# Due stage restano FUORI da ORDER di proposito: "multiclass-state" e
+# "integer-10classi". I due header C a 10 classi derivano da uno stato
+# addestrato che non e' riproducibile bit per bit — 300 epoche di Adam
+# amplificano l'ordine delle riduzioni BLAS fino a spostare un campione
+# MITM su 208, e il macro-F1 passa da 0,9378 a 0,9384. Sono artefatti
+# congelati, verificati bit-esatti dai check host; rigenerarli dentro
+# `--stage all` sostituirebbe in silenzio un artefatto di deployment
+# verificato con uno diverso, senza guadagnare riproducibilita'.
 
 
 def env_report() -> str:
@@ -130,9 +202,25 @@ def env_report() -> str:
     return "\n".join(lines)
 
 
+def ambiente_figlio() -> dict:
+    """L'ambiente degli script lanciati da qui, con l'output in UTF-8.
+
+    Gli script che importano kanids si riconfigurano da soli (vedi
+    kanids/console.py), ma non tutti lo importano — export_lut_int.py e
+    compagni no. Su Windows, se `reproduce.py` gira con l'output rediretto
+    (`> riproduzione.log`, che e' il modo naturale di conservare una
+    riproduzione lunga), quei figli ereditano una pipe, scelgono cp1252 e
+    muoiono sulla prima delta o freccia che stampano. PYTHONIOENCODING
+    copre anche loro, senza doverli modificare uno per uno.
+    """
+    env = dict(os.environ)
+    env["PYTHONIOENCODING"] = "utf-8"
+    return env
+
+
 def run(cmd: list[str]) -> int:
     print(f"\n$ {' '.join(cmd)}", flush=True)
-    return subprocess.call(cmd, cwd=REPO)
+    return subprocess.call(cmd, cwd=REPO, env=ambiente_figlio())
 
 
 def main():
@@ -147,7 +235,12 @@ def main():
     if args.list:
         print("stage disponibili:\n")
         for k in ["smoke"] + ORDER:
-            print(f"  {k:<16}{STAGES[k][0]}")
+            print(f"  {k:<18}{STAGES[k][0]}")
+        fuori = [k for k in STAGES if k not in ORDER and k != "smoke"]
+        if fuori:
+            print("\nfuori da 'all', da lanciare solo esplicitamente:\n")
+            for k in fuori:
+                print(f"  {k:<18}{STAGES[k][0]}")
         print(f"\n  {'all':<16}esegue in ordine: {', '.join(ORDER)}")
         print(f"  {'clean':<16}svuota artifacts/")
         return

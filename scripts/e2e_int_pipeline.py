@@ -13,11 +13,21 @@ Catena interamente intera (simulata bit-fedele in numpy int64):
   4. kernel spline intero (coefficienti int8, basi Q15) -> decisione a segno
 Confronto con la pipeline float (build_unified_features_ton + StandardScaler
 + KAN Chebyshev float) su tutto il test set reale.
-Overhead on-device: LUT ln 256*int16 = 512 B + parametri affini ~120 B.
+I byte del modello NON si contano qui. Questa era la terza copia a mano
+della stessa regola, e sbagliava gli stessi termini corretti altrove: la LUT
+del logaritmo e' dichiarata `int32_t[256]` nell'header, cioe' 1.024 B e non
+512. La formula dava ~842 B, un valore che il README dichiara ritirato.
+Adesso si leggono dall'header emesso da export_e2e_int_c.py con la stessa
+`c_footprint.scan()` che li conta per tutti gli altri modelli.
 """
 import sys, time
 import numpy as np, pandas as pd
-sys.path.insert(0, "preprocessing"); sys.path.insert(0, "src")
+import pathlib
+_REPO = pathlib.Path(__file__).resolve().parents[1]
+for _p in ("preprocessing", "src", "scripts"):
+    sys.path.insert(0, str(_REPO / _p))
+sys.path.insert(0, str(_REPO))
+from c_footprint import scan
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import f1_score
@@ -134,9 +144,18 @@ def main():
     dec_int = (zint >= 0).astype(int)
     f1_int = f1_score(yte, dec_int)
     agree = (dec_int == dec_float).mean()
-    mem = sum(len(c) for c in C8) + 10*2 + 512 + 10*12
+    # Unica regola di conteggio del progetto, letta dall'header che il
+    # compilatore vede davvero. Se manca, e' perche' export_e2e_int_c.py non
+    # e' stato eseguito: meglio fermarsi che stampare una stima.
+    header = _REPO / "mcu_pio" / "include" / "kan_e2e_int.h"
+    if not header.exists():
+        raise SystemExit(
+            f"manca {header.name}: esegui prima scripts/export_e2e_int_c.py "
+            f"(reproduce.py --stage integer li lancia in quest'ordine)")
+    mem, _dettaglio = scan(header, "E2E_")
     print(f"[e2e-int] F1={f1_int:.4f} dF1={f1_int-f1_float:+.4f} agreement vs float={agree*100:.3f}%")
-    print(f"[e2e-int] memoria: coeff {sum(len(c) for c in C8)} B + LUT ln 512 B + affini ~120 B = ~{mem} B")
+    print(f"[e2e-int] memoria del modello: {mem} B (letti da {header.name}, "
+          f"di cui {sum(len(c) for c in C8)} B di coefficienti)")
     pd.DataFrame([{"f1_float_pipeline": round(f1_float,4), "f1_e2e_int": round(f1_int,4),
                    "delta_f1": round(f1_int-f1_float,4), "agreement_pct": round(agree*100,3),
                    "mem_bytes": mem}]).to_csv("results/e2e_int_pipeline_real.csv", index=False)

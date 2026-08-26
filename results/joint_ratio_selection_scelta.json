@@ -1,0 +1,92 @@
+{
+  "ratio_scelto": 5.0,
+  "criterio": "balanced accuracy media su 6 modelli x 2 domini, misurata sulla validation interna al training set",
+  "modelli": [
+    "DecisionTree(d=5)",
+    "KAN(cat,1L)",
+    "KAN(cat,ML)",
+    "LightGBM",
+    "MLP(16)",
+    "XGBoost"
+  ],
+  "candidati": [
+    5.0,
+    10.0,
+    20.0,
+    50.0,
+    100.0
+  ],
+  "val_size": 0.2,
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51
+  ],
+  "media_per_rapporto": {
+    "5.0": 0.9732,
+    "10.0": 0.9702,
+    "20.0": 0.9657,
+    "50.0": 0.9592,
+    "100.0": 0.9523
+  },
+  "seed_concordi_su_scelta": 10,
+  "seed_totali": 10,
+  "argmax_per_seed": {
+    "42": 5.0,
+    "43": 5.0,
+    "44": 5.0,
+    "45": 5.0,
+    "46": 5.0,
+    "47": 5.0,
+    "48": 5.0,
+    "49": 5.0,
+    "50": 5.0,
+    "51": 5.0
+  },
+  "confronti_appaiati": [
+    {
+      "contro": 10.0,
+      "n_coppie": 120,
+      "differenza_media": 0.003,
+      "t": 4.396,
+      "p_value": 2.408e-05,
+      "significativa_5pct": true,
+      "vince_in": "78/120"
+    },
+    {
+      "contro": 20.0,
+      "n_coppie": 120,
+      "differenza_media": 0.0075,
+      "t": 3.763,
+      "p_value": 0.000262,
+      "significativa_5pct": true,
+      "vince_in": "83/120"
+    },
+    {
+      "contro": 50.0,
+      "n_coppie": 120,
+      "differenza_media": 0.014,
+      "t": 5.42,
+      "p_value": 3.169e-07,
+      "significativa_5pct": true,
+      "vince_in": "89/120"
+    },
+    {
+      "contro": 100.0,
+      "n_coppie": 120,
+      "differenza_media": 0.0209,
+      "t": 5.682,
+      "p_value": 9.61e-08,
+      "significativa_5pct": true,
+      "vince_in": "89/120"
+    }
+  ],
+  "test_set_usati_in_questa_fase": 0
+}

@@ -33,7 +33,8 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from kanids import (  # noqa: E402
-    ARTIFACTS_DIR, CLIP, K_NUMERIC, N_SPLITS, NUMERIC_RAW, RESULTS_DIR, SEEDS,
+    ARTIFACTS_DIR, CLIP, DEGREE, DEGREE_1L, HIDDEN, K_NUMERIC, N_SPLITS,
+    NUMERIC_RAW, RESULTS_DIR, SEEDS,
     LeakageFreePreprocessor, aggregate, binary_metrics, cv_splits,
     describe_protocol, multiclass_metrics, set_global_seed,
 )
@@ -50,20 +51,20 @@ def build_models(task, cardinalities, n_classes, seed, wanted=None,
     models = {}
     if task == "binary":
         models["KAN(cat,1L)"] = CategoricalKANBinary(
-            in_dim=K_NUMERIC, cardinalities=cardinalities, degree=8,
+            in_dim=K_NUMERIC, cardinalities=cardinalities, degree=DEGREE_1L,
             clip=CLIP, seed=seed)
         if multilayer:
             models["KAN(cat,ML)"] = MultiLayerKANBinary(
-                in_dim=K_NUMERIC, cardinalities=cardinalities, hidden=16,
-                degree=8, clip=CLIP, seed=seed)
+                in_dim=K_NUMERIC, cardinalities=cardinalities, hidden=HIDDEN,
+                degree=DEGREE, clip=CLIP, seed=seed)
     else:
         models["KAN(cat,1L)"] = CategoricalKANMulticlass(
             in_dim=K_NUMERIC, n_classes=n_classes, cardinalities=cardinalities,
-            degree=8, clip=CLIP, seed=seed)
+            degree=DEGREE_1L, clip=CLIP, seed=seed)
         if multilayer:
             models["KAN(cat,ML)"] = MultiLayerKANMulticlass(
                 in_dim=K_NUMERIC, n_classes=n_classes, cardinalities=cardinalities,
-                hidden=16, degree=8, clip=CLIP, seed=seed)
+                hidden=HIDDEN, degree=DEGREE, clip=CLIP, seed=seed)
     models.update(get_baselines(task, cardinalities, seed=seed, n_classes=n_classes))
     if wanted:
         keep = {w.strip().lower() for w in wanted.split(",")}
@@ -132,7 +133,7 @@ def main():
         ckpt.unlink()
     done, fold_rows = set(), []
     if ckpt.exists():
-        for line in ckpt.read_text().splitlines():
+        for line in ckpt.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 fold_rows.append(r)
@@ -208,7 +209,7 @@ def main():
                                        class_names=classes)
             m.update({"model": name, "seed": seed, "fold": fold, "task": args.task})
             fold_rows.append(m)
-            with ckpt.open("a") as fh:
+            with ckpt.open("a", encoding="utf-8", newline="\n") as fh:
                 fh.write(json.dumps({k: (float(v) if isinstance(v, (np.floating, float)) else v)
                                      for k, v in m.items()}) + "\n")
             confusions.setdefault(name, []).append(
@@ -264,7 +265,7 @@ def main():
         "categorical_encoding": "vocabolario dal training fold, indice 0 = UNK",
         "feature_selection": "mutual_info_classif sul target a 10 classi, "
                              "calcolata dentro il fold",
-    }, indent=2, default=str))
+    }, indent=2, default=str), encoding="utf-8", newline="\n")
 
     print("\n" + "=" * 74)
     print(f"{'modello':<20}{key:>18}{'PR-AUC':>18}")

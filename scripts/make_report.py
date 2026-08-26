@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 """Genera il report tecnico in PDF a partire dai CSV in results/.
 
-Nessun numero e' scritto a mano: ogni valore della tabella e' letto dai
-CSV prodotti dagli esperimenti, cosi' il report non puo' divergere dai
-risultati.
+Le tabelle e i valori del blocco cross-domain sono letti dai CSV prodotti
+dagli esperimenti, cosi' non possono divergere dai risultati. Il resto del
+testo narrativo cita numeri scritti nel sorgente: e' li' che il report era
+rimasto a 3 seed mentre le tabelle erano gia' a 10, e
+tests/test_coerenza_artifact.py adesso fallisce se ricompare uno dei valori
+ritirati.
 """
 from __future__ import annotations
 
+import re
 import sys
 from pathlib import Path
 
@@ -44,6 +48,12 @@ S = {
                           textColor=GREY, alignment=1, spaceAfter=10),
     "cell": ParagraphStyle("cl", parent=styles["Normal"], fontSize=8, leading=10),
 }
+
+
+def n(v, dec=4):
+    """Numero con la virgola decimale: il resto del report e' in italiano e
+    un 0.44 in mezzo agli 0,44 si nota."""
+    return f"{v:.{dec}f}".replace(".", ",")
 
 
 def P(txt, k="body"):
@@ -167,7 +177,47 @@ def main():
         "0,9999 mentre i modelli sono al caso). Si riportano i due recall e la loro media, "
         "la balanced accuracy, dove <b>0,50 = caso</b>."))
 
-    deg = pd.read_csv(RESULTS / "crossdomain_degradation.csv")
+    deg = pd.read_csv(RESULTS / "crossdomain_degradation.csv").set_index("model")
+
+    # Il testo del blocco cross-domain legge da qui invece di ripetere le
+    # cifre: era rimasto a 3 seed mentre le tabelle erano gia' a 10, e
+    # affermava che la KAN multi-layer fosse la peggiore in transfer (0,4026)
+    # — cosa che a 10 seed non e' piu' vera, il peggiore e' l'MLP.
+    cd = {
+        "best_tb": deg["ton->bot"].idxmax(),
+        "worst_tb": deg["ton->bot"].idxmin(),
+        "tree_tb": deg.loc["DecisionTree(d=5)", "ton->bot"],
+        "tree_bt": deg.loc["DecisionTree(d=5)", "bot->ton"],
+        "ml_tb": deg.loc["KAN(cat,ML)", "ton->bot"],
+        "min_tb": deg["ton->bot"].min(),
+        "max_tb": deg["ton->bot"].max(),
+        "dmin": deg["delta_ton->bot"].min() * 100,
+        "dmax": deg["delta_ton->bot"].max() * 100,
+    }
+    cd["best_tb_val"] = deg.loc[cd["best_tb"], "ton->bot"]
+    _somm = pd.read_csv(RESULTS / "crossdomain_summary_cat.csv")
+    cd["n_in_domain"] = int(_somm[_somm.exp == "ton->ton"].n_runs.iloc[0])
+    cd["n_cross"] = int(_somm[_somm.exp == "ton->bot"].n_runs.iloc[0])
+
+    # contributo degli edge categorici: differenza cat - nocat su tutte le
+    # celle davvero misurate in entrambe le varianti
+    _nc = RESULTS / "crossdomain_summary_nocat.csv"
+    if _nc.exists():
+        # solo le due direzioni cross: la frase parla di transfer, e sono le
+        # stesse undici celle citate dal README (KAN(cat,ML) non ha un run
+        # nocat su ton->bot, quindi sono 11 e non 12)
+        _cross = ["ton->bot", "bot->ton"]
+        a = _somm[_somm.exp.isin(_cross)].set_index(["exp", "model"]).balanced_accuracy_mean
+        b = (pd.read_csv(_nc).query("exp in @_cross")
+             .set_index(["exp", "model"]).balanced_accuracy_mean)
+        d_cat = (a - b).dropna()
+        cd["cat_min"], cd["cat_max"] = d_cat.min(), d_cat.max()
+        cd["cat_n"], cd["cat_pos"] = len(d_cat), int((d_cat > 0).sum())
+    else:
+        cd["cat_min"] = cd["cat_max"] = float("nan")
+        cd["cat_n"] = cd["cat_pos"] = 0
+
+    deg = deg.reset_index()
     rows = [["Modello", "TON in-dom.", "TON→BoT", "δ", "BoT in-dom.", "BoT→TON", "δ"]]
     hl = []
     for i, (_, r) in enumerate(deg.iterrows(), start=1):
@@ -180,8 +230,9 @@ def main():
             hl.append(i)
     story.append(table(rows, [3.3 * cm, 2.2 * cm, 2.0 * cm, 1.7 * cm, 2.2 * cm, 2.0 * cm, 1.7 * cm],
                        align_right=[1, 2, 3, 4, 5, 6], highlight=hl))
-    story.append(P("Balanced accuracy. In-domain: 15 fit. Direzioni cross: 3 seed, "
-                   "training sull'intero source, valutazione sull'intero target.", "cap"))
+    story.append(P(f"Balanced accuracy. In-domain: {cd['n_in_domain']} fit "
+                   f"(5 fold x 10 seed). Direzioni cross: {cd['n_cross']} seed, "
+                   f"training sull'intero source, valutazione sull'intero target.", "cap"))
     story.extend(fig("fig_crossdomain_degradation.png", 14 * cm))
     story.append(PageBreak())
     story.extend(fig("fig_pareto_size_accuracy.png", 16 * cm,
@@ -212,7 +263,8 @@ def main():
         "alberi «sullo stesso spazio di feature deployabile». Non è così: quel confronto "
         "metteva la KAN sullo spazio grezzo a 14 feature e le baseline sullo spazio derivato "
         "a 10 feature del paper. Con input identici, <b>LightGBM raggiunge 0,9991 contro "
-        "0,9835 della KAN single-layer</b>, vincendo 15 fold su 15 (t-test p = 3,7·10⁻¹⁴). "
+        "0,9835 della KAN single-layer</b>, vincendo 15 fold su 15 "
+        "(t-test appaiato p = 1,0·10⁻²⁰). "
         "Il claim è stato corretto nel README."))
 
     story.append(P("4.2 La profondità colma il divario, e spiega perché esisteva", "h2"))
@@ -245,12 +297,14 @@ def main():
         "non è un argomento difendibile su TON_IoT, e il repository non lo sostiene."))
     story.append(P(
         "Tre cose invece reggono, e sono quelle su cui costruire. <b>(a)</b> La KAN "
-        "multi-layer sta sulla frontiera: 5,2 KB e F1 0,9976 contro l'MLP TensorFlow Lite "
+        "multi-layer sta sulla frontiera: 5,12 KB e F1 0,9976 contro l'MLP TensorFlow Lite "
         "Micro del paper originale, 13 KB e 0,9959 con 95 feature — più piccola, più "
         "accurata, 14 feature invece di 95. <b>(b)</b> Nel cross-domain la classifica si "
-        "ribalta: il single-layer è il modello che trasferisce meglio (0,5632) mentre "
-        "l'albero scende a 0,5466 ed è il peggiore di tutti nella direzione BoT→TON "
-        "(0,4651). <b>(c)</b> La KAN offre ciò che un albero non ha: calibrazione conformal "
+        f"ribalta: il single-layer ha il valore medio più alto su TON→BoT "
+        f"({n(cd['best_tb_val'])}), pur senza essere separabile da XGBoost né "
+        f"dall'albero — vedi crossdomain_significativita.csv; l'albero è a "
+        f"{n(cd['tree_tb'])} ed è il peggiore di tutti nella direzione BoT→TON "
+        f"({n(cd['tree_bt'])}). <b>(c)</b> La KAN offre ciò che un albero non ha: calibrazione conformal "
         "sul modello intero deployato, forma simbolica chiusa e tabelle riscrivibili, che "
         "sono il presupposto della ricalibrazione on-device."))
 
@@ -265,14 +319,18 @@ def main():
 
     story.append(P("4.4 Il cross-domain non degrada: collassa", "h2"))
     story.append(P(
-        "TON→BoT lascia ogni modello fra 0,40 e 0,56 di balanced accuracy, cioè al caso o sotto. "
-        "Il δ quantificato nel paper era ≤ 5,95 punti; qui siamo a <b>40–52 punti</b>. "
+        f"TON→BoT lascia ogni modello fra {n(cd['min_tb'], 2)} e {n(cd['max_tb'], 2)} di "
+        f"balanced accuracy, cioè al caso o sotto. "
+        f"Il δ quantificato nel paper era ≤ 5,95 punti; qui siamo a "
+        f"<b>{cd['dmin']:.0f}–{cd['dmax']:.0f} punti</b>. "
         "Due osservazioni non ovvie: il compromesso fra capacità e trasferibilità si "
         "misura <b>dentro la stessa famiglia</b> — aggiungere profondità alla KAN vale "
-        "+0,0141 di F1 sul binario e +0,0608 di macro-F1 sulle 10 classi, e le costa il "
-        "transfer per intero (0,4026 di balanced accuracy, <b>sotto il caso</b>, il peggiore "
-        "di tutti i modelli), mentre la single-layer, ultima in-domain, è prima cross-domain; "
-        "e la direzione "
+        "+0,0141 di F1 sul binario e +0,0608 di macro-F1 sulle 10 classi, e le costa quasi "
+        f"tutto il transfer ({n(cd['ml_tb'])} di balanced accuracy, <b>sotto il caso</b>), "
+        f"mentre la single-layer, ultima in-domain, ha il valore più alto cross-domain. Il "
+        f"modello che trasferisce peggio non è però la KAN profonda ma {cd['worst_tb']} "
+        f"({n(cd['min_tb'])}): a 3 seed sembrava il contrario, ed è una delle affermazioni "
+        f"che i 10 seed hanno ritirato. E la direzione "
         "BoT→TON non è degradata ma <b>indeterminata</b> — con 477 flussi normali in "
         "training la varianza fra seed supera la differenza fra modelli, quindi qualunque "
         "classifica in quella direzione sarebbe rumore."))
@@ -281,10 +339,14 @@ def main():
         "sovrappongono (byte_rate 0,085, duration 0,106). TON_IoT ha flussi brevi e "
         "bidirezionali, il 5% di BoT-IoT è dominato da flood UDP lunghi e unidirezionali. "
         "Il 21,3% dei flussi di TON_IoT porta uno stato di connessione mai visto "
-        "addestrando su BoT-IoT. Gli edge categorici armonizzati sono ciò che tiene il "
-        "transfer sopra il caso: rimuoverli costa 0,08–0,16 di balanced accuracy."))
+        "addestrando su BoT-IoT. Gli edge categorici armonizzati aiutano il transfer "
+        f"nella maggior parte dei casi ma non sempre: su {cd['cat_n']} celle misurate in "
+        f"entrambe le varianti rimuoverli sposta la balanced accuracy fra "
+        f"{n(cd['cat_min'])} e {'+' if cd['cat_max'] > 0 else ''}{n(cd['cat_max'])}, e in {cd['cat_n'] - cd['cat_pos']} "
+        f"celle la rimozione aiuta. Una versione precedente di questo paragrafo dava "
+        f"«0,08–0,16», un intervallo che escludeva proprio le celle che lo contraddicono."))
 
-    story.append(P("4.5 La catena integer end-to-end ora è in C, e ha rivelato due bug", "h2"))
+    story.append(P("4.5 La catena integer end-to-end ora è in C, e ha rivelato tre difetti", "h2"))
     story.append(P(
         "Il percorso dai contatori grezzi alla decisione gira interamente in aritmetica "
         "intera nel firmware: <b>200 golden vector su 200 con logit bit-identico</b> al "
@@ -335,10 +397,13 @@ def main():
     story.append(P(
         "Sul multiclass la classe MITM (1.043 flussi, 0,49%) è il collo di bottiglia per "
         "<b>ogni</b> modello: LightGBM 0,767, MLP 0,386, KAN single-layer 0,270, albero "
-        "profondo 5 0,151. Tutte le altre classi stanno sopra 0,88. Poiché anche il modello "
-        "più capace si ferma a 0,77, il limite è nell'informazione disponibile nello spazio "
-        "di feature, non nell'architettura — coerente con il fallimento già documentato di "
-        "focal loss, SMOTENC e class weighting."))
+        "profondo 5 0,151. Per ogni modello tranne l'albero profondo 5 tutte le altre "
+        "classi stanno sopra 0,88. Nessuno dei sei modelli supera 0,77 su MITM, e né "
+        "focal loss né SMOTENC né il class weighting l'hanno spostata: è coerente con un "
+        "limite dell'informazione disponibile in questo spazio di feature, ma non lo "
+        "dimostra — sei architetture non esauriscono lo spazio delle architetture, e la "
+        "dispersione fra loro su questa classe (da 0,151 a 0,767, un fattore cinque) è la "
+        "più larga di ogni altra classe, quindi qui l'architettura pesa ancora molto."))
 
     # ── 5. cosa resta ────────────────────────────────────────
     story.append(P("4.8 La stima riportata non è ottimista: è conservativa", "h2"))
@@ -383,16 +448,31 @@ def main():
         "tabelle a 28 righe."))
 
     story.append(P("5. Stato e passi successivi", "h1"))
+    # firmware ed environment contati, non ricordati: erano fermi a 7 e 7
+    # mentre gli environment sono diventati 21
+    _mcu = REPO / "mcu_pio"
+    _n_firmware = len(list((_mcu / "src").glob("main*.cpp")))
+    _env = re.findall(r"\[env:([a-z0-9_]+)\]",
+                      (_mcu / "platformio.ini").read_text(encoding="utf-8"))
+    _n_env = len(_env)
+    _n_env_energia = len([e for e in _env if "energy" in e])
+
     rows = [["Punto", "Stato"],
             ["1. Protocollo leakage-free", "completato, con misura dell'effetto"],
             ["2. Multi-layer con lo stesso protocollo", "completato: 0,9976 ± 0,0002"],
             ["3. BoT-IoT, 4 direzioni", "completato, con analisi del degrado"],
             ["4. Baseline identiche", "completato su binario e multiclass"],
             ["6. Riproducibilità da clone pulito", "completato, verificato"],
-            ["5. Integer-only end-to-end (binario)", "completato: 200/200 bit-esatti, 822 B"],
+            ["5. Integer-only end-to-end (binario)", "completato: 200/200 bit-esatti, 1.334 B"],
             ["5. Integer-only end-to-end (10 classi)", "completato: 200/200 bit-esatti, 21,7 KB"],
-            ["5. Firmware che parte dai contatori grezzi", "completato: main_e2e.cpp, 500/500 concordi"],
-            ["Ogni modello esportato in C e flashabile", "completato: 7 firmware, 7 environment"],
+            ["5. Firmware che parte dai contatori grezzi",
+             "completato: main_e2e.cpp, 200 golden vector verificati, "
+             "500 inferenze temporizzate"],
+            ["Ogni modello esportato in C e flashabile",
+             f"completato: {_n_firmware} firmware, {_n_env} environment PlatformIO"],
+            ["Benchmark di energia a batch, senza I/O nella finestra",
+             f"completato: main_energy.cpp, {_n_env_energia} environment; "
+             f"misure sulle schede a cura del relatore"],
             ["Coerenza degli artefatti deployati", "completato: multiclass rigenerato al protocollo v2"],
             ["Ingombro dei parametri (asse dimensione)", "misurato: results/footprint.csv"],
             ["models/ + manifest (protocollo, seed, metriche)", "completato"],

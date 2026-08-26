@@ -7,7 +7,7 @@
     43,
     44
   ],
-  "data_export": "2026-08-13",
+  "data_export": "2026-08-26",
   "spazio_feature": {
     "feature_numeriche": [
       "src_ip_bytes",
@@ -70,7 +70,7 @@
       "file": "kan14_multiclass_multilayer.pkl",
       "descrizione": "KAN multi-layer multiclass [14 -> 16 hidden -> 10]",
       "prodotto_da": "scripts/kan_ml_cat_mc.py",
-      "byte": 41541,
+      "byte": 41507,
       "versionato": false,
       "nota": "non committato per dimensione: rigenerabile con lo script indicato"
     }
@@ -78,19 +78,19 @@
   "header_c_deployabili": [
     {
       "file": "mcu_pio/include/kan14_coeff_infer.h",
-      "byte": 2180
+      "byte": 2184
     },
     {
       "file": "mcu_pio/include/kan14_coeff_int8.h",
-      "byte": 1961
+      "byte": 2002
     },
     {
       "file": "mcu_pio/include/kan14_mc_coeff_infer.h",
-      "byte": 2728
+      "byte": 2771
     },
     {
       "file": "mcu_pio/include/kan14_mc_coeff_int8.h",
-      "byte": 35069
+      "byte": 35743
     },
     {
       "file": "mcu_pio/include/kan14_mc_test_vectors.h",
@@ -98,7 +98,7 @@
     },
     {
       "file": "mcu_pio/include/kan14_ml_coeff_infer.h",
-      "byte": 3036
+      "byte": 3044
     },
     {
       "file": "mcu_pio/include/kan14_ml_coeff_int8.h",
@@ -114,11 +114,11 @@
     },
     {
       "file": "mcu_pio/include/kan_e2e_infer.h",
-      "byte": 3952
+      "byte": 4340
     },
     {
       "file": "mcu_pio/include/kan_e2e_int.h",
-      "byte": 11649
+      "byte": 11839
     },
     {
       "file": "mcu_pio/include/kan_ids_layer.h",
@@ -134,11 +134,11 @@
     },
     {
       "file": "mcu_pio/include/kan_mc_e2e_infer.h",
-      "byte": 4306
+      "byte": 5145
     },
     {
       "file": "mcu_pio/include/kan_mc_e2e_int.h",
-      "byte": 97401
+      "byte": 97647
     }
   ],
   "harness_di_verifica": [
@@ -228,7 +228,7 @@
         "f1_e2e_int": 0.9646,
         "delta_f1": -0.0026,
         "agreement_pct": 99.33,
-        "mem_bytes": 822,
+        "mem_bytes": 1334,
         "n_golden": 200
       }
     ],
@@ -239,8 +239,8 @@
         "delta": -0.0026,
         "weighted_f1": 0.9785,
         "agreement_pct": 99.42,
-        "mem_bytes": 13922,
-        "mem_kb": 13.6,
+        "mem_bytes": 22264,
+        "mem_kb": 21.74,
         "n_golden": 200
       }
     ]

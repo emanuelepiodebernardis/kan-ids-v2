@@ -1,5 +1,5 @@
 /* Benchmark on-board della KAN-IDS 14-feature a COEFFICIENTI B-spline
- * full-integer (246 B di modello) — terza variante di compilazione.
+ * full-integer (254 B di modello) — terza variante di compilazione.
  * Protocollo del paper Electronics 2026: 500 inferenze temporizzate
  * (250 attacco + 250 normale, cicliche sui 200 test vector reali),
  * statistiche on-board, verifica predizioni, SRAM, CSV su Serial. */
