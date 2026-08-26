@@ -1,6 +1,18 @@
-/* KAN-IDS MULTICLASS 10 classi, ml+cat 14-feature (macro-F1 0.9409),
- * coefficienti B-spline FULL-INTEGER int8 (~8 KB). Generato da
- * export_kan14_mc_coeff_c.py. Classi (LabelEncoder alfabetico):
+/* KAN-IDS MULTICLASS 10 classi, ml+cat 14-feature (macro-F1 0.9378,
+ * results/kan_ml_cat_mc_real.csv), coefficienti B-spline FULL-INTEGER
+ * int8 (~8 KB). Generato da export_kan14_mc_coeff_c.py.
+ *
+ * ARTEFATTO CONGELATO. Questa riga di intestazione e' l'unica cosa
+ * corretta a mano in questo file: diceva 0.9409, che e' il valore del
+ * protocollo v1. Non e' stata corretta rigenerando l'header perche' lo
+ * stato addestrato da cui deriva (artifacts/mlcat_state.pkl) e' andato
+ * perduto e il riaddestramento non e' riproducibile bit per bit: ne
+ * esce un modello equivalente ma non identico (macro-F1 0.9384 contro
+ * 0.9378, un campione MITM su 208 che cambia lato). Rigenerare avrebbe
+ * sostituito un artefatto verificato bit-esatto dai check host con uno
+ * diverso, senza guadagnare riproducibilita'. Vedi il CHANGELOG.
+ *
+ * Classi (LabelEncoder alfabetico):
  * backdoor,ddos,dos,injection,mitm,normal,password,ransomware,scanning,xss */
 #pragma once
 #include <stdint.h>

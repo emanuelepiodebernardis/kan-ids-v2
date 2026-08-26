@@ -41,7 +41,8 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from kanids import (  # noqa: E402
+from kanids import (  # HIDDEN/DEGREE: vedi kanids/config.py
+    DEGREE, DEGREE_1L, HIDDEN,  # noqa: E402
     ARTIFACTS_DIR, CLIP, K_NUMERIC, N_SPLITS, RESULTS_DIR, SEEDS,
     LeakageFreePreprocessor, aggregate, binary_metrics, cv_splits,
     set_global_seed,
@@ -111,12 +112,12 @@ def build_models(cardinalities, seed, wanted=None, multilayer=True, in_dim=K_NUM
     indicizzerebbero fuori dall'array."""
     models = {
         "KAN(cat,1L)": CategoricalKANBinary(
-            in_dim=in_dim, cardinalities=cardinalities, degree=8, clip=CLIP, seed=seed),
+            in_dim=in_dim, cardinalities=cardinalities, degree=DEGREE_1L, clip=CLIP, seed=seed),
     }
     if multilayer:
         models["KAN(cat,ML)"] = MultiLayerKANBinary(
-            in_dim=in_dim, cardinalities=cardinalities, hidden=16,
-            degree=8, clip=CLIP, seed=seed)
+            in_dim=in_dim, cardinalities=cardinalities, hidden=HIDDEN,
+            degree=DEGREE, clip=CLIP, seed=seed)
     models.update(get_baselines("binary", cardinalities, seed=seed))
     if wanted:
         keep = {w.strip().lower() for w in wanted.split("|")}
@@ -204,7 +205,7 @@ def main():
         ckpt.unlink()
     done, rows = set(), []
     if ckpt.exists():
-        for line in ckpt.read_text().splitlines():
+        for line in ckpt.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 rows.append(r)
@@ -256,7 +257,7 @@ def main():
                 return
             for m, yte, pred in out:
                 rows.append(m)
-                with ckpt.open("a") as fh:
+                with ckpt.open("a", encoding="utf-8", newline="\n") as fh:
                     fh.write(json.dumps({k: (float(v) if isinstance(v, (np.floating,)) else v)
                                          for k, v in m.items()}) + "\n")
                 confusions.setdefault((exp, m["model"]), []).append(

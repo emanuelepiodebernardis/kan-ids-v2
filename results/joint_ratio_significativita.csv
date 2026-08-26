@@ -1,0 +1,5 @@
+contro,n_coppie,differenza_media,t,p_value,significativa_5pct,vince_in
+10.0,120,0.003,4.396,2.408e-05,True,78/120
+20.0,120,0.0075,3.763,0.000262,True,83/120
+50.0,120,0.014,5.42,3.169e-07,True,89/120
+100.0,120,0.0209,5.682,9.61e-08,True,89/120

@@ -5,7 +5,9 @@ Split-conformal: train 72% / calibrazione 8% / test 20% (test invariato).
 Score di non conformita': s = 1 - p(y_vera). Prediction set: {c : p(c) >= 1-q}.
 Varianti: marginale e Mondrian (per classe, garanzia condizionata — cruciale
 per un IDS: copertura garantita anche sulla classe attacco).
-Calibrazione eseguita ANCHE sul modello deployato (coeff B-spline int8, 230 B):
+Calibrazione eseguita ANCHE sul modello deployato (coeff B-spline int8:
+10 edge x 19 coefficienti = 190 B; i 254 B di results/footprint.csv sono
+il modello completo, comprese le quattro tabelle categoriche):
 la garanzia vale per cio' che gira sull'MCU. Costo on-device: 1-2 soglie float.
 """
 import sys, time
@@ -72,7 +74,7 @@ def main():
     rows = []
     for model_name, zf_cal, zf_te in (
         ("float", sum(phi(i, Xcal[:, i]) for i in range(10)), sum(phi(i, Xte[:, i]) for i in range(10))),
-        ("deploy int8 (230B)", z_dep(Xcal), z_dep(Xte)),
+        (f"deploy int8 ({10 * len(coefs[0])}B)", z_dep(Xcal), z_dep(Xte)),
     ):
         p_cal = sig(zf_cal); p_te = sig(zf_te)
         P_cal = np.stack([1-p_cal, p_cal], 1); P_te = np.stack([1-p_te, p_te], 1)

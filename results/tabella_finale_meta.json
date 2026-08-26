@@ -1,0 +1,17 @@
+{
+  "metrica": "balanced_accuracy",
+  "ratio_joint": 5.0,
+  "run_per_cella": {
+    "TON→TON": 50,
+    "BoT→BoT": 50,
+    "TON→BoT": 10,
+    "BoT→TON": 10,
+    "TON+BoT→TON": 10,
+    "TON+BoT→BoT": 10,
+    "TON+BoT→UNSW": 10
+  },
+  "fonti": {
+    "crossdomain": "crossdomain_summary_cat.csv",
+    "joint": "joint_training_summary_ratio5_cat.csv"
+  }
+}

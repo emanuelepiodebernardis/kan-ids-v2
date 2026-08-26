@@ -90,7 +90,7 @@ def main():
     print("  z = " + "\n    + ".join(formula_parts))
     print(f"\nF1 KAN float={f1f:.4f} | F1 simbolico={f1s:.4f} | dF1={f1s-f1f:+.4f} | agreement={agree*100:.2f}%")
     pd.DataFrame(rows).to_csv("results/symbolic_edges_real.csv", index=False)
-    with open("results/symbolic_formula_real.txt", "w") as fo:
+    with open("results/symbolic_formula_real.txt", "w", encoding="utf-8", newline="\n") as fo:
         fo.write("z = " + "\n  + ".join(formula_parts) + f"\n\nF1_kan={f1f:.4f} F1_sym={f1s:.4f} agreement={agree*100:.2f}%\n")
     pd.DataFrame([{"f1_kan": round(f1f,4), "f1_symbolic": round(f1s,4),
                    "delta": round(f1s-f1f,4), "agreement_pct": round(agree*100,2)}]).to_csv(

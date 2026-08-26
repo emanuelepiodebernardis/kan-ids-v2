@@ -83,7 +83,7 @@ def arr_c(a, fmt="%d"):
 off = np.concatenate([[0], np.cumsum(cards)])[:J]
 cat_flat = np.concatenate([t8[j][0] for j in range(J)])
 
-with open("mcu_pio/include/kan14_coeff_int8.h", "w") as f:
+with open("mcu_pio/include/kan14_coeff_int8.h", "w", encoding="utf-8", newline="\n") as f:
     f.write("/* KAN-IDS binaria 14-feature, compilazione a coefficienti B-spline\n"
             " * FULL-INTEGER int8 (254 B di modello, contati sugli array di questo header).\n * Generato da export_kan14_coeff_c.py\n"
             f" * feature numeriche: {feats}\n"
@@ -101,7 +101,7 @@ with open("mcu_pio/include/kan14_coeff_int8.h", "w") as f:
     f.write("static const uint8_t KC_CAT_OFF[" + str(J) + "] = {" + arr_c(off) + "};\n")
     f.write("static const int16_t KC_CAT_MULT[" + str(J) + "] PROGMEM = {" + arr_c(tmul) + "};\n")
 
-with open("mcu_pio/include/kan14_test_vectors.h", "w") as f:
+with open("mcu_pio/include/kan14_test_vectors.h", "w", encoding="utf-8", newline="\n") as f:
     f.write("/* 200 test vector reali (100 attacco + 100 normale): input z Q12,\n"
             " * codici categorici, predizione attesa dalla simulazione integer\n"
             " * bit-fedele e label vera. */\n#pragma once\n#include <stdint.h>\n\n")

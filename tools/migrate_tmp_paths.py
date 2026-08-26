@@ -75,7 +75,7 @@ def migrate(path: Path, apply: bool) -> int:
         lines.insert(k, "\n" + HEADER)
         new = "".join(lines)
     if apply:
-        path.write_text(new, encoding="utf-8")
+        path.write_text(new, encoding="utf-8", newline="\n")
     return n
 
 

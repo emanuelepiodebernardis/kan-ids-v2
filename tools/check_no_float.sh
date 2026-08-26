@@ -1,14 +1,9 @@
 #!/usr/bin/env bash
-# Verifica che un file assembly non contenga ARITMETICA in virgola mobile.
-#
-# Distinzione importante: il compilatore usa i registri SSE (pxor, movups,
-# movaps) anche per azzerare o copiare array di interi in blocco. Quelle
-# sono istruzioni di movimento dati, non operazioni floating point, e non
-# implicano una FPU sul target. Cio' che va escluso e' l'aritmetica reale
-# e le conversioni intero<->reale.
+# Comodita' per la riga di comando: la verifica vera e' in
+# tools/check_no_float.py, che e' l'unica copia della regola e funziona
+# anche dove bash non c'e' (su Windows `bash` puo' risolvere a una WSL non
+# installata, e la suite falliva li' per ragioni estranee alla virgola
+# mobile). Stesso codice di uscita: 0 pulito, 1 virgola mobile trovata,
+# 2 file assente.
 set -u
-f="$1"
-FP='\b(adds[sd]|subs[sd]|muls[sd]|divs[sd]|sqrts[sd]|maxs[sd]|mins[sd]|comis[sd]|ucomis[sd]|cvtsi2s[sd]|cvtts[sd]2si|cvts[sd]2s[sd]|fadd|fsub|fmul|fdiv|fld[a-z]*|fst[a-z]*|fsqrt|fprem)\b'
-n=$(grep -cE "$FP" "$f" || true)
-echo "aritmetica FP in $(basename "$f"): $n"
-if [ "$n" -gt 0 ]; then grep -nE "$FP" "$f" | head -10; exit 1; fi
+exec "${PYTHON:-python3}" "$(dirname "$0")/check_no_float.py" "$@"

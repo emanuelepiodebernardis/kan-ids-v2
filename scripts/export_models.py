@@ -55,6 +55,23 @@ METRICS = [
 ]
 
 
+def byte_versionati(path) -> int:
+    """Byte del file COSI' COM'E' VERSIONATO, non com'e' sul disco.
+
+    Su Windows un checkout con `core.autocrlf=true` materializza gli header
+    con terminatori CRLF: `kan14_coeff_infer.h` misura 2.184 B nel
+    repository e 2.238 B sul disco, uno per riga in piu'. Con `st_size` il
+    MANIFEST registrava il secondo numero, quindi cambiava a seconda del
+    sistema operativo di chi lo rigenerava — lo stesso difetto dell'encoding
+    implicito, in un'altra forma.
+
+    Normalizzando i CRLF il numero torna a essere una proprieta' del
+    contenuto. `.gitattributes` fissa comunque LF nel repository: questa
+    funzione serve a non dipendere neanche da quello.
+    """
+    return len(path.read_bytes().replace(b"\r\n", b"\n"))
+
+
 def main():
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     d = prepare14_dict(verbose=False)
@@ -98,13 +115,13 @@ def main():
     headers = []
     inc = _REPO / "mcu_pio" / "include"
     for h in sorted(inc.glob("kan*.h")):
-        headers.append({"file": str(h.relative_to(_REPO)),
-                        "byte": h.stat().st_size})
+        headers.append({"file": h.relative_to(_REPO).as_posix(),
+                        "byte": byte_versionati(h)})
 
     checks = []
     hc = _REPO / "mcu_pio" / "host_check"
     for c in sorted(hc.glob("run_*.cpp")):
-        checks.append(str(c.relative_to(_REPO)))
+        checks.append(c.relative_to(_REPO).as_posix())
 
     metrics = {}
     for f, label in METRICS:
@@ -130,7 +147,7 @@ def main():
                 "compilare e verificare senza dataset.",
     }
     (MODELS_DIR / "MANIFEST.json").write_text(
-        json.dumps(manifest, indent=2, ensure_ascii=False, default=str))
+        json.dumps(manifest, indent=2, ensure_ascii=False, default=str), encoding="utf-8", newline="\n")
 
     print(f"models/: {len(saved)} checkpoint di training")
     for s in saved:

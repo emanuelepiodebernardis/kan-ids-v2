@@ -33,6 +33,7 @@ from sklearn.metrics import f1_score
 from sklearn.preprocessing import QuantileTransformer
 
 import feature_curve as fc
+from c_footprint import scan
 from kan_bspline import bspline_basis
 from kanids.config import RESULTS_DIR, artifact_path
 from kanids.datasets import load_ton_iot
@@ -70,7 +71,12 @@ def spline_kernel(u, Cq, seg_shift):
 
 
 def carr(name, vals, ctype, per_line=12):
-    out = [f"static const {ctype} {name}[{len(vals)}] = {{"]
+    # PROGMEM: kan_mc_e2e_infer.h legge questi array con pgm_read_* su AVR.
+    # Senza l'annotazione finiscono in SRAM e pgm_read su un indirizzo di
+    # SRAM legge la Flash a quell'offset, cioe' dati arbitrari. Il
+    # generatore non la emetteva e l'header committato ce l'ha: chi
+    # rigenerava rompeva silenziosamente il firmware.
+    out = [f"static const {ctype} {name}[{len(vals)}] PROGMEM = {{"]
     for i in range(0, len(vals), per_line):
         out.append("  " + ", ".join(str(int(v)) for v in vals[i:i + per_line]) + ",")
     out.append("};")
@@ -243,13 +249,16 @@ def main():
 
     # 8 B per soglia (int64) + 2 B per il valore z (int16). int64 e' necessario:
     # src_bytes e dst_bytes arrivano a 3,9e9 e sforano int32 anche a scala 1.
+    # Il totale in byte NON si calcola qui: si legge dall'header appena
+    # scritto, piu' in basso, con la stessa funzione che conta tutti gli
+    # altri modelli. Questi termini restano solo come scomposizione
+    # informativa nel log.
     knot_bytes = sum(len(k) * 10 for k in KN_INT)
     coef_bytes = sum(c.size for c in C1q) + sum(c.size for c in C2q)
     cat_bytes = sum(t[0].size for t in t8)
     mult_bytes = (m1.size + m2.size) * 4 + J * 4
-    mem = knot_bytes + coef_bytes + cat_bytes + TL * 2 + mult_bytes
-    print(f"memoria: soglie {knot_bytes} B + coeff {coef_bytes} B + cat {cat_bytes} B "
-          f"+ tanh {TL*2} B + mult {mult_bytes} B = {mem/1024:.1f} KB")
+    print(f"scomposizione: soglie {knot_bytes} B + coeff {coef_bytes} B "
+          f"+ cat {cat_bytes} B + tanh {TL*2} B + mult {mult_bytes} B")
 
     # ── header C ─────────────────────────────────────────────
     NK = max(len(k) for k in KN_INT)
@@ -260,7 +269,14 @@ def main():
         "// Catena integer-only end-to-end a 10 classi: grezzi -> argmax.",
         "// Nessun tipo in virgola mobile: tutte le costanti sono intere.",
         "#ifndef KAN_MC_E2E_INT_H", "#define KAN_MC_E2E_INT_H",
-        "#include <stdint.h>", "",
+        "#include <stdint.h>",
+        "#ifdef __AVR__",
+        "#include <avr/pgmspace.h>",
+        "#else",
+        "#ifndef PROGMEM",
+        "#define PROGMEM      /* su ESP32 lo definisce gia' pgmspace.h */",
+        "#endif",
+        "#endif", "",
         f"#define MC_K       {K}", f"#define MC_HID     {HID}",
         f"#define MC_C       {C}", f"#define MC_J       {J}",
         f"#define MC_NCOEF   {C1q[0].shape[0]}", f"#define MC_NSEG    {N_INT}",
@@ -268,23 +284,23 @@ def main():
         f"#define MC_IDXMULT {idx_mult}LL", f"#define MC_N_GOLDEN {N_GOLDEN}", "",
         carr("MC_RAW_SCALE", RAW_SCALE, "int32_t", 10), "",
         carr("MC_NKNOT", [len(k) for k in KN_INT], "int16_t", 10), "",
-        f"static const int64_t MC_KNOT[MC_K][MC_NK] = {{",
+        f"static const int64_t MC_KNOT[MC_K][MC_NK] PROGMEM = {{",
     ]
     for k in KN_INT:
         pad = list(k) + [k[-1]] * (NK - len(k))
         H_.append("  {" + ", ".join(f"{int(v)}LL" for v in pad) + "},")
     H_.append("};")
-    H_.append(f"static const int16_t MC_KNOTZ[MC_K][MC_NK] = {{")
+    H_.append(f"static const int16_t MC_KNOTZ[MC_K][MC_NK] PROGMEM = {{")
     for kz in KN_Z:
         pad = list(kz) + [kz[-1]] * (NK - len(kz))
         H_.append("  {" + ", ".join(str(int(v)) for v in pad) + "},")
     H_.append("};")
-    H_.append(f"static const int8_t MC_C1[MC_K][MC_HID][MC_NCOEF] = {{")
+    H_.append(f"static const int8_t MC_C1[MC_K][MC_HID][MC_NCOEF] PROGMEM = {{")
     for i in range(K):
         H_.append("  {" + ", ".join("{" + ", ".join(str(int(v)) for v in C1q[i][:, hh]) + "}"
                                     for hh in range(HID)) + "},")
     H_.append("};")
-    H_.append(f"static const int8_t MC_C2[MC_HID][MC_C][MC_NCOEF] = {{")
+    H_.append(f"static const int8_t MC_C2[MC_HID][MC_C][MC_NCOEF] PROGMEM = {{")
     for hh in range(HID):
         H_.append("  {" + ", ".join("{" + ", ".join(str(int(v)) for v in C2q[hh][:, c]) + "}"
                                     for c in range(C)) + "},")
@@ -295,7 +311,7 @@ def main():
     H_.append(carr("MC_CARD", cards, "int16_t", 8))
     H_.append(carr("MC_TANH", tanh_q15, "int16_t", 16))
     maxcard = max(cards)
-    H_.append(f"static const int8_t MC_CAT[MC_J][{maxcard}][MC_HID] = {{")
+    H_.append(f"static const int8_t MC_CAT[MC_J][{maxcard}][MC_HID] PROGMEM = {{")
     for j in range(J):
         rows = [list(t8[j][0][v]) if v < cards[j] else [0] * HID for v in range(maxcard)]
         H_.append("  {" + ", ".join("{" + ", ".join(str(int(x)) for x in r) + "}"
@@ -304,7 +320,7 @@ def main():
     H_.append("")
     H_.append("typedef struct { int64_t raw[MC_K]; int16_t cat[MC_J]; "
               "int64_t z[MC_C]; uint8_t pred, label; } mc_golden_t;")
-    H_.append(f"static const mc_golden_t MC_GOLDEN[MC_N_GOLDEN] = {{")
+    H_.append(f"static const mc_golden_t MC_GOLDEN[MC_N_GOLDEN] PROGMEM = {{")
     Rg = np.round(Rte[g] * RAW_SCALE).astype(np.int64)
     for n, j in enumerate(g):
         raw = ", ".join(f"{int(v)}LL" for v in Rg[n])
@@ -317,8 +333,13 @@ def main():
     H_.append("#endif // KAN_MC_E2E_INT_H")
 
     out = _REPO / "mcu_pio" / "include" / "kan_mc_e2e_int.h"
-    out.write_text("\n".join(H_))
+    out.write_text("\n".join(H_), encoding="utf-8", newline="\n")
     print(f"scritto {out.relative_to(_REPO)} ({out.stat().st_size/1024:.0f} KB)")
+
+    mem, dettaglio = scan(out, "MC_")
+    print(f"memoria del modello: {mem} B ({mem/1024:.2f} KB)")
+    for nome, typ, count, nbytes in dettaglio:
+        print(f"    {nome:<14} {typ:<8} x{count:<6} {nbytes:>6} B")
 
     pd.DataFrame([{
         "macro_f1_float": round(f1f, 4), "macro_f1_e2e_int": round(f1q, 4),

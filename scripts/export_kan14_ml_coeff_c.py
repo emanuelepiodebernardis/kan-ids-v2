@@ -103,7 +103,7 @@ def arr(a): return ", ".join(str(int(v)) for v in a)
 off = np.concatenate([[0], np.cumsum(cards)])[:J]
 cat_flat = np.concatenate([t8[j][0] for j in range(J)])
 
-with open("mcu_pio/include/kan14_ml_coeff_int8.h", "w") as f:
+with open("mcu_pio/include/kan14_ml_coeff_int8.h", "w", encoding="utf-8", newline="\n") as f:
     f.write("/* KAN-IDS binaria multi-layer 14-feature (F1 0.9974), compilazione a\n"
             " * coefficienti B-spline FULL-INTEGER int8 (~5 KB). Generato da\n"
             " * export_kan14_ml_coeff_c.py */\n#pragma once\n#include <stdint.h>\n"
@@ -130,7 +130,7 @@ with open("mcu_pio/include/kan14_ml_coeff_int8.h", "w") as f:
     f.write(f"static const int16_t KML_CAT_MULT[{J}] PROGMEM = {{" + arr(tm) + "};\n\n")
     f.write(f"static const int16_t KML_TANH[{TL}] PROGMEM = {{" + arr(tanh_q15) + "};\n")
 
-with open("mcu_pio/include/kan14_ml_test_vectors.h", "w") as f:
+with open("mcu_pio/include/kan14_ml_test_vectors.h", "w", encoding="utf-8", newline="\n") as f:
     f.write("/* 200 test vector reali per il multi-layer (input Q12 + categorie,\n"
             " * predizione attesa dalla simulazione bit-fedele, label vera). */\n"
             "#pragma once\n#include <stdint.h>\n\n#define KMLTV_N 200\n\n")

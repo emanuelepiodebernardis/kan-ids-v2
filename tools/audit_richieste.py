@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
-"""Verifica meccanica dei sei punti della revisione.
+"""Verifica meccanica delle richieste della revisione.
+
+Due sezioni: i sei punti della prima revisione, e i cinque della seconda
+(la mail del 25 agosto: rapporto scelto su validation, artifact allineati,
+formulazioni scientifiche, benchmark di energia, lock dell'ambiente).
 
 Ogni controllo legge i file del repository e restituisce PASSA / PARZIALE /
 NON FATTO con l'evidenza che lo sostiene. Serve perche' "abbiamo fatto tutto"
-e' un'affermazione, mentre questo e' un controllo che chiunque puo' rieseguire.
+e' un'affermazione, mentre questo e' un controllo che chiunque puo'
+rieseguire — relatore compreso, da un clone pulito.
+
+Dove un requisito e' gia' coperto dalla suite, l'audit cita i test per nome
+invece di riverificare a mano: la verifica resta in un posto solo, e chi
+legge puo' rieseguire quel singolo test.
 
     python tools/audit_richieste.py
 """
@@ -18,6 +27,17 @@ from pathlib import Path
 import pandas as pd
 
 REPO = Path(__file__).resolve().parents[1]
+
+# Questo file stampa "TON→BoT" e altri caratteri fuori da ASCII, e non
+# importa kanids a livello di modulo: la riconfigurazione va chiesta qui.
+# Senza, `python tools/audit_richieste.py > audit.txt` (o una pipe, o la
+# cattura di un log di CI) muore con UnicodeEncodeError dopo aver gia'
+# stampato quaranta righe — cioe' proprio quando qualcuno prova a
+# conservare il risultato dell'audit invece che a guardarlo e basta.
+sys.path.insert(0, str(REPO))
+from kanids.console import usa_utf8                       # noqa: E402
+usa_utf8()
+
 R = REPO / "results"
 OK, PART, NO = "PASSA", "PARZIALE", "NON FATTO"
 esiti = []
@@ -41,8 +61,12 @@ MODELLI = ["KAN(cat,1L)", "KAN(cat,ML)", "LightGBM", "XGBoost",
 
 # ── 1 ────────────────────────────────────────────────────────
 print("\n1) PROTOCOLLO LEAKAGE-FREE")
-t = subprocess.run([sys.executable, "-m", "pytest", str(REPO / "tests"), "-q"],
+# -v serve alla sezione v2.1 in fondo, che cita i singoli test per nome
+# invece di riverificare a mano cio' che la suite gia' verifica.
+t = subprocess.run([sys.executable, "-m", "pytest", str(REPO / "tests"), "-v",
+                    "--tb=no", "-p", "no:cacheprovider"],
                    capture_output=True, text=True, cwd=REPO)
+SUITE = t.stdout
 m = re.search(r"(\d+) passed", t.stdout)
 n_test = int(m.group(1)) if m else 0
 voce(1, "Trasformazioni apprese solo sul training",
@@ -112,7 +136,7 @@ except Exception as e:
     voce(3, "Solo feature realmente confrontabili", NO, str(e))
 
 vincolo = "test_crossdomain_target_does_not_influence_training"
-ha = vincolo in (REPO / "tests" / "test_leakage.py").read_text()
+ha = vincolo in (REPO / "tests" / "test_leakage.py").read_text(encoding="utf-8")
 voce(3, "Il target non entra in selezione, normalizzazione, tuning",
      OK if ha else NO,
      "imposto da un test: si fitta due volte sullo stesso source con target\n"
@@ -221,15 +245,15 @@ k = [(REPO / "mcu_pio" / "host_check" / n) for n in ("run_e2e_check.cpp", "run_m
 def _senza_commenti(testo):
     return "\n".join(r for r in testo.splitlines() if not r.strip().startswith("//"))
 
-fp = sum(len(re.findall(r"\b(float|double)\b", _senza_commenti(p.read_text())))
+fp = sum(len(re.findall(r"\b(float|double)\b", _senza_commenti(p.read_text(encoding="utf-8"))))
          for p in h + k if p.exists())
 voce(5, "Nessun floating point nel runtime MCU", OK if fp == 0 else NO,
      f"{fp} occorrenze di float/double in header e kernel, commenti esclusi;\n"
-     f"verifica sull'assembly con tools/check_no_float.sh")
+     f"verifica sull'assembly con tools/check_no_float.py")
 src = REPO / "mcu_pio" / "src"
 fw_e2e = [f.name for f in src.glob("*.cpp")
-          if "kan_e2e_infer.h" in f.read_text(errors="ignore")
-          or "kan_mc_e2e_int.h" in f.read_text(errors="ignore")]
+          if "kan_e2e_infer.h" in f.read_text(errors="ignore", encoding="utf-8")
+          or "kan_mc_e2e_int.h" in f.read_text(errors="ignore", encoding="utf-8")]
 voce(5, "Un firmware usa la catena end-to-end, non vettori pre-normalizzati",
      OK if fw_e2e else NO,
      f"{', '.join(fw_e2e)} parte dai contatori grezzi ed esegue a bordo anche\n"
@@ -239,13 +263,13 @@ voce(5, "Un firmware usa la catena end-to-end, non vettori pre-normalizzati",
      "sarebbe verificata ma non deployata")
 
 shared = REPO / "mcu_pio" / "include" / "kan_e2e_infer.h"
-hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text(errors="ignore")
+hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text(errors="ignore", encoding="utf-8")
 voce(5, "Firmware e harness di verifica condividono lo stesso kernel",
      OK if (shared.exists() and "kan_e2e_infer.h" in hc) else PART,
      "kan_e2e_infer.h incluso sia dal firmware sia dall'host check:\n"
      "cio' che e' verificato bit per bit e' cio' che gira sulla board")
 
-ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore")
+ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore", encoding="utf-8")
 attesi = {
     "KAN single-layer (coeff int8)": "main_coeff.cpp",
     "KAN multi-layer": "main_mlcoeff.cpp",
@@ -265,7 +289,7 @@ voce(5, "Ogni modello ha un firmware flashabile con il suo environment",
 
 v1_headers = []
 for _hdr in (REPO / "mcu_pio" / "include").glob("*.h"):
-    for _m in re.finditer(r"CAT\[(\d+)\]\[\d+\]", _hdr.read_text(errors="ignore")):
+    for _m in re.finditer(r"CAT\[(\d+)\]\[\d+\]", _hdr.read_text(errors="ignore", encoding="utf-8")):
         if int(_m.group(1)) == 28:
             v1_headers.append(_hdr.name)
 voce(5, "Nessun header di modello e' rimasto al protocollo v1",
@@ -288,13 +312,13 @@ mancanti = [k for k, v in cartelle.items() if not (REPO / v).exists()]
 voce(6, "Organizzazione richiesta", OK if not mancanti else PART,
      "presenti: " + ", ".join(cartelle) if not mancanti else f"mancanti: {mancanti}")
 rp = REPO / "reproduce.py"
-stage = re.findall(r'^\s{4}"([a-z-]+)": \(', rp.read_text(), re.M) if rp.exists() else []
+stage = re.findall(r'^\s{4}"([a-z-]+)": \(', rp.read_text(encoding="utf-8"), re.M) if rp.exists() else []
 voce(6, "Script principale per riprodurre gli esperimenti",
      OK if len(stage) >= 8 else PART,
      f"reproduce.py con {len(stage)} stage: {', '.join(stage)}")
 mf = REPO / "models" / "MANIFEST.json"
 if mf.exists():
-    man = json.loads(mf.read_text())
+    man = json.loads(mf.read_text(encoding="utf-8"))
     voce(6, "Seed utilizzati documentati", OK,
          f"split={man['seed_split']}, cross-validation={man['seed_cross_validation']}, "
          f"in models/MANIFEST.json e stampati a ogni run")
@@ -318,6 +342,255 @@ for f in REPO.rglob("*.py"):
         pass
 voce(6, "Nessuna dipendenza da file temporanei locali", OK if not tmp else NO,
      "0 percorsi /tmp negli script" if not tmp else f"residui: {tmp}")
+
+# ═════════════════════════════════════════════════════════════
+# SECONDA REVISIONE — i cinque punti chiesti per la v2.1
+# ═════════════════════════════════════════════════════════════
+def test_esito(frammento: str) -> str | None:
+    """PASSED / FAILED / SKIPPED del primo test il cui id contiene
+    `frammento`, dalla suite gia' eseguita al punto 1. L'audit cita i test
+    invece di riverificare a mano: la verifica sta in un posto solo, e chi
+    legge puo' rieseguire quel test da solo."""
+    for riga in SUITE.splitlines():
+        if frammento in riga:
+            for stato in ("PASSED", "FAILED", "SKIPPED", "ERROR"):
+                if stato in riga:
+                    return stato
+    return None
+
+
+def da_test(punto, requisito, *frammenti):
+    esiti_test = {f: test_esito(f) for f in frammenti}
+    mancanti = [f for f, s in esiti_test.items() if s is None]
+    falliti = [f for f, s in esiti_test.items() if s in ("FAILED", "ERROR")]
+    saltati = [f for f, s in esiti_test.items() if s == "SKIPPED"]
+    if mancanti:
+        stato, nota = NO, f"test non trovati: {mancanti}"
+    elif falliti:
+        stato, nota = NO, f"test falliti: {falliti}"
+    elif saltati:
+        stato, nota = PART, (f"{len(esiti_test) - len(saltati)} verdi, "
+                             f"{len(saltati)} saltati (toolchain assente): {saltati}")
+    else:
+        n = len(esiti_test)
+        stato = OK
+        nota = f"{n} test verde" if n == 1 else f"{n} test verdi"
+    voce(punto, requisito, stato,
+         nota + "\n" + "\n".join(f"  {f}" for f in frammenti))
+
+
+print("\n" + "=" * 74)
+print("SECONDA REVISIONE (v2.1) — i cinque punti della mail del 25 agosto")
+print("=" * 74)
+
+# ── v2.1-1: rapporto scelto su validation, test usati una volta sola ──
+print("\nv1) JOINT TRAINING: RAPPORTO SCELTO SU VALIDATION INTERNA")
+jt = (REPO / "scripts" / "joint_training.py").read_text(encoding="utf-8")
+voce("v1", "Esiste una validation ritagliata dentro il training",
+     OK if "def inner_split(" in jt else NO,
+     "joint_training.py::inner_split divide split_train in fit + validation")
+_m_cand = re.search(r"RATIOS_CANDIDATI = \(([^)]*)\)", jt)
+_candidati = _m_cand.group(1) if _m_cand else "?"
+voce("v1", "La scelta del rapporto ha un comando dedicato che non tocca i test",
+     OK if "--select-ratio" in jt else NO,
+     "joint_training.py --select-ratio; candidati: " + _candidati)
+voce("v1", "--ratio non ha piu' un valore di default scelto a mano",
+     OK if 'ap.add_argument("--ratio", type=float, default=None' in jt else NO,
+     "senza --ratio esplicito il rapporto viene letto dalla selezione su validation")
+da_test("v1", "Anche larghezza e grado si scelgono su validation, non sul test",
+        "test_la_selezione_non_legge_il_test",
+        "test_validation_e_test_sono_disgiunti",
+        "test_la_regola_e_quella_dichiarata",
+        "test_la_pipeline_legge_larchitettura_invece_di_riscriverla",
+        "test_lo_scarto_dalla_selezione_e_dichiarato")
+try:
+    from kanids import scarto_dalla_selezione as _scarto
+    _s = _scarto()
+    if _s is None:
+        voce("v1", "Selezione dell'architettura eseguita", PART,
+             "non ancora eseguita: python scripts/select_architettura.py "
+             "--seeds 42,43,44,45,46")
+    else:
+        _righe = []
+        for _m, _v in _s.items():
+            _d, _sel = _v["deployata"], _v["selezionata"]
+            _righe.append(
+                f"  {_m}: deployata h={_d['hidden']} g={_d['degree']}, "
+                f"selezionata h={_sel['hidden']} g={_sel['degree']}"
+                + ("  (coincidono)" if _v["coincidono"] else "  DIVERSE"))
+        _tutte = all(_v["coincidono"] for _v in _s.values())
+        voce("v1", "Architettura: cosa sceglie la validation e cosa si deploya",
+             OK if _tutte else PART,
+             "\n".join(_righe) + ("" if _tutte else
+             "\nlo scarto e' dichiarato nel README, sezione 'Architecture: "
+             "selected and deployed are not the same': il progetto deploya la "
+             "configurazione piu' piccola per vincolo di dimensione, non "
+             "perche' la selezione l'abbia scelta"))
+except Exception as _e:                                    # pragma: no cover
+    voce("v1", "Selezione dell'architettura", NO, str(_e))
+da_test("v1", "I test set non entrano nella scelta del rapporto",
+        "test_ratio_selection_ignores_the_test_sets_entirely",
+        "test_inner_split_partitions_the_train_split_only",
+        "test_inner_split_keeps_both_classes_in_validation")
+
+sc = R / "joint_ratio_selection_scelta.json"
+if sc.exists():
+    d = json.loads(sc.read_text(encoding="utf-8"))
+    concordi = f"{d.get('seed_concordi_su_scelta')}/{d.get('seed_totali')}"
+    conf = d.get("confronti_appaiati", [])
+    righe_conf = [
+        f"  contro 1:{c['contro']:g}: {c['differenza_media']:+.4f}, "
+        f"p={c['p_value']:.2e}, "
+        f"{'significativa' if c['significativa_5pct'] else 'NON significativa'}, "
+        f"vince in {c['vince_in']}"
+        for c in conf]
+    voce("v1", "La selezione e' stata eseguita e i test non sono stati toccati",
+         OK if d.get("test_set_usati_in_questa_fase") == 0 else NO,
+         f"rapporto scelto 1:{d['ratio_scelto']:g} su candidati {d['candidati']}\n"
+         f"criterio: {d['criterio']}\n"
+         f"stesso argmax in {concordi} seed presi singolarmente\n"
+         f"medie per rapporto: {d['media_per_rapporto']}"
+         + ("\nconfronti appaiati:\n" + "\n".join(righe_conf) if conf else ""))
+else:
+    voce("v1", "La selezione e' stata eseguita", NO,
+         "manca results/joint_ratio_selection_scelta.json:\n"
+         "  python scripts/joint_training.py --select-ratio")
+
+# ── v2.1-2: artifact allineati ──
+print("\nv2) ARTIFACT ALLINEATI, VALORI VECCHI RIMOSSI")
+da_test("v2", "Byte del modello coerenti fra header C, CSV, MANIFEST e README",
+        "test_footprint_csv_coincide_con_gli_header",
+        "test_csv_di_export_coincidono_con_gli_header",
+        "test_manifest_coincide_con_i_csv",
+        "test_tabella_del_readme_coincide_con_footprint_csv")
+da_test("v2", "La regola di conteggio dei byte esiste in un posto solo",
+        "test_nessuna_formula_di_conteggio_riscritta_a_mano",
+        "test_nessuno_script_ricalcola_i_byte_del_modello",
+        "test_il_conformal_non_dichiara_byte_a_mano")
+da_test("v2", "Anche la prima tabella e i commenti del firmware sono verificati",
+        "test_la_tabella_di_testa_del_readme_e_ai_valori_correnti",
+        "test_nessuno_dichiara_sei_check_host_bit_esatti",
+        "test_i_byte_del_firmware_di_energia_vengono_da_footprint")
+da_test("v2", "Gli artefatti non cambiano a seconda della macchina che li rigenera",
+        "test_ogni_io_testuale_dichiara_lencoding",
+        "test_gli_artefatti_non_ascii_sono_utf8",
+        "test_il_manifest_si_rilegge_uguale",
+        "test_ogni_scrittura_di_testo_fissa_il_terminatore_di_riga",
+        "test_gitattributes_fissa_i_terminatori_di_riga",
+        "test_nessun_file_di_testo_versionato_ha_i_cr",
+        "test_nessun_percorso_windows_negli_artefatti",
+        "test_il_manifest_misura_i_byte_del_contenuto_non_del_checkout")
+da_test("v2", "L'output degli script non dipende da dove viene scritto",
+        "test_il_difetto_esiste_davvero",
+        "test_importare_kanids_mette_loutput_in_utf8",
+        "test_laudit_riconfigura_loutput_prima_di_stampare",
+        "test_reproduce_passa_lencoding_ai_figli")
+sys.path.insert(0, str(REPO / "scripts"))
+try:
+    from c_footprint import collect as _fp
+    righe = [f"  {r['modello']:<30}{r['byte_parametri']:>7} B" for r in _fp()]
+    voce("v2", "Byte misurati dagli header che il compilatore vede", OK,
+         "\n".join(righe))
+except Exception as exc:                                   # pragma: no cover
+    voce("v2", "Byte misurati dagli header", NO, f"c_footprint non eseguibile: {exc}")
+
+# ── v2.1-3: formulazioni scientifiche ──
+print("\nv3) FORMULAZIONI SCIENTIFICHE")
+rd = (REPO / "README.md").read_text(encoding="utf-8")
+ritirate = {
+    "UNSW 0.8184 presentato come ceiling":
+        "No TON+BoT→UNSW result can exceed 0.8184",
+    "KAN-1L dichiarata la migliore in transfer":
+        "The single-layer KAN remains the best cross-domain performer",
+    "LightGBM dichiarata ultima cross-domain":
+        "LightGBM, first in-domain, is last cross-domain",
+    "LightGBM dichiarata non installabile sul Mega":
+        "400 boosted trees do not fit an ATmega2560 at all",
+    "MITM presentato come limite dimostrato":
+        "MITM is the ceiling for everyone",
+}
+rimaste = {k: v for k, v in ritirate.items() if v in rd}
+voce("v3", "Le affermazioni ritirate non sono piu' nel README",
+     OK if not rimaste else NO,
+     f"{len(ritirate)} formulazioni ritirate, {len(rimaste)} ancora presenti"
+     + ("" if not rimaste else "\n" + "\n".join(f"  ANCORA PRESENTE: {k}" for k in rimaste)))
+
+sig = csv("crossdomain_significativita.csv")
+if sig is not None:
+    tb = sig[sig.exp == "ton->bot"]
+    testa = tb[(tb.p_value >= 0.05)]
+    voce("v3", "I confronti fra modelli hanno un test appaiato a sostegno", OK,
+         f"{len(sig)} confronti appaiati per seed in crossdomain_significativita.csv\n"
+         f"su ton->bot {len(testa)} coppie su {len(tb)} NON sono separabili (p >= 0.05)\n"
+         f"la piu' stretta: {testa.iloc[0].modello_a} vs {testa.iloc[0].modello_b} "
+         f"p={testa.iloc[0].p_value}" if len(testa) else "nessuna coppia indistinguibile")
+else:
+    voce("v3", "Confronti appaiati fra modelli", NO,
+         "manca results/crossdomain_significativita.csv "
+         "(python scripts/crossdomain_report.py)")
+da_test("v3", "La colonna cross-domain del README e' ai 10 seed del protocollo",
+        "test_colonna_crossdomain_del_readme_e_a_dieci_seed")
+
+# ── v2.1-4: benchmark energia ──
+print("\nv4) BENCHMARK DI ENERGIA")
+fw = REPO / "mcu_pio" / "src" / "main_energy.cpp"
+voce("v4", "Esiste un firmware dedicato alla misura di energia",
+     OK if fw.exists() else NO,
+     f"{_rel(fw)} — finestra di EB_BATCH inferenze marcata su un pin, "
+     f"finestra di riferimento di pari durata" if fw.exists() else "assente")
+da_test("v4", "Nessuna Serial e nessun I2C dentro la finestra misurata",
+        "test_la_finestra_misurata_non_contiene_io",
+        "test_la_finestra_di_riferimento_ha_la_stessa_durata")
+try:
+    from kanids.toolchain import motivo_assenza as _perche, trova as _trova
+    _comp = {n: _trova(n) for n in ("avr-g++", "g++")}
+    _righe = []
+    for _n, _p in _comp.items():
+        _righe.append(f"{_n:<9} {_p if _p else 'assente'}")
+        if _p is None:
+            _righe.append(f"          {_perche(_n)}")
+    voce("v4", "Compilatori disponibili per i test che compilano davvero",
+         OK if all(_comp.values()) else PART, "\n".join(_righe))
+except Exception as _e:                                    # pragma: no cover
+    voce("v4", "Compilatori disponibili", NO, str(_e))
+da_test("v4", "Le inferenze non possono essere ottimizzate via dal compilatore",
+        "test_il_ciclo_di_misura_non_puo_essere_ottimizzato_via",
+        "test_le_inferenze_avvengono_davvero")
+ini = (REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
+env_en = re.findall(r"\[env:([a-z0-9_]*energy[a-z0-9_]*)\]", ini)
+voce("v4", "Environment PlatformIO per entrambe le schede",
+     OK if len(env_en) >= 2 else NO,
+     f"{len(env_en)} environment: {', '.join(env_en)}")
+
+# ── v2.1-5: lock e riproducibilita' ──
+print("\nv5) AMBIENTE BLOCCATO E TABELLE RIPRODUCIBILI")
+da_test("v5", "requirements.txt e requirements-lock.txt sono coerenti",
+        "test_ogni_versione_del_lock_soddisfa_il_vincolo_dichiarato",
+        "test_ogni_dipendenza_dichiarata_e_bloccata",
+        "test_il_lock_e_esatto",
+        "test_pyarrow_e_dichiarato")
+da_test("v5", "reproduce.py copre le tabelle principali, nell'ordine giusto",
+        "test_reproduce_esegue_script_che_esistono",
+        "test_reproduce_copre_le_tabelle_principali")
+da_test("v5", "Il pacchetto per il relatore si genera da script",
+        "test_lo_script_esiste_e_si_importa",
+        "test_il_pacchetto_si_costruisce_e_dichiara_cio_che_manca",
+        "test_lindice_non_contiene_numeri_scritti_a_mano",
+        "test_i_numeri_dellindice_vengono_dagli_artefatti")
+tf = R / "tabella_finale.csv"
+if tf.exists():
+    d = pd.read_csv(tf)
+    meta = json.loads((R / "tabella_finale_meta.json").read_text(encoding="utf-8"))
+    voce("v5", "La tabella finale e' un artefatto generato, non copiata a mano",
+         OK if d.notna().all().all() else PART,
+         f"results/tabella_finale.csv: {len(d)} modelli x {len(d.columns) - 1} colonne, "
+         f"rapporto 1:{meta['ratio_joint']:g}\n"
+         f"run per cella: {meta['run_per_cella']}")
+    da_test("v5", "Il README coincide con la tabella generata, cella per cella",
+            "test_tabella_finale_del_readme_coincide_con_lartefatto")
+else:
+    voce("v5", "Tabella finale generata", NO,
+         "manca results/tabella_finale.csv (python scripts/tabella_finale.py)")
 
 # ── verdetto ─────────────────────────────────────────────────
 print("\n" + "=" * 74)

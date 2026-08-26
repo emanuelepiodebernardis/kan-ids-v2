@@ -1,4 +1,5 @@
-/* Kernel FULL-INTEGER del MULTICLASS 10 classi (macro-F1 0.9409):
+/* Kernel FULL-INTEGER del MULTICLASS 10 classi
+ * (macro-F1 0.9378, results/kan_ml_cat_mc_real.csv):
  * [10 num spline int8 + 4 cat] -> 16 hidden -> tanh LUT -> spline int8
  * -> argmax su 10 accumulatori interi. Zero float a runtime. */
 #pragma once

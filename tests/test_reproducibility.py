@@ -64,7 +64,7 @@ def test_artifacts_dir_is_inside_repo_and_gitignored():
     assert kanids.ARTIFACTS_DIR.exists()
     gi = (REPO / ".gitignore")
     assert gi.exists(), ".gitignore mancante"
-    assert "artifacts/" in gi.read_text()
+    assert "artifacts/" in gi.read_text(encoding="utf-8")
 
 
 def test_lock_file_exists_and_is_exact():
@@ -75,7 +75,7 @@ def test_lock_file_exists_and_is_exact():
     """
     lock = REPO / "requirements-lock.txt"
     assert lock.exists(), "requirements.txt cita requirements-lock.txt, che non esiste"
-    righe = [l for l in lock.read_text().splitlines()
+    righe = [l for l in lock.read_text(encoding="utf-8").splitlines()
              if l.strip() and not l.strip().startswith("#")]
     assert righe, "lock vuoto"
     non_esatte = [l for l in righe if "==" not in l]
@@ -83,7 +83,7 @@ def test_lock_file_exists_and_is_exact():
 
 
 def test_requirements_are_pinned():
-    req = (REPO / "requirements.txt").read_text().splitlines()
+    req = (REPO / "requirements.txt").read_text(encoding="utf-8").splitlines()
     pkgs = [l for l in req if l.strip() and not l.strip().startswith("#")]
     assert pkgs, "requirements.txt vuoto"
     unpinned = [l for l in pkgs if "==" not in l and ">=" not in l]
@@ -91,7 +91,7 @@ def test_requirements_are_pinned():
 
 
 def test_reproduce_script_exists_and_declares_stages():
-    src = (REPO / "reproduce.py").read_text()
+    src = (REPO / "reproduce.py").read_text(encoding="utf-8")
     for stage in ["smoke", "features", "cv-binary"]:
         assert stage in src, f"stage {stage} non dichiarato in reproduce.py"
 
@@ -160,7 +160,7 @@ def test_e2e_integer_header_has_no_floating_point():
     h = REPO / "mcu_pio" / "include" / "kan_e2e_int.h"
     if not h.exists():
         pytest.skip("header non generato: lanciare scripts/export_e2e_int_c.py")
-    text = h.read_text()
+    text = h.read_text(encoding="utf-8")
     bad = [f"riga {i}: {l.strip()[:80]}"
            for i, l in enumerate(text.splitlines(), 1)
            if re.search(r"\b(float|double)\b", l) and not l.strip().startswith("//")]
@@ -173,7 +173,7 @@ def test_mc_e2e_integer_header_has_no_floating_point():
     if not h.exists():
         pytest.skip("header non generato: lanciare scripts/export_mc_e2e_int_c.py")
     bad = [f"riga {i}: {l.strip()[:80]}"
-           for i, l in enumerate(h.read_text().splitlines(), 1)
+           for i, l in enumerate(h.read_text(encoding="utf-8").splitlines(), 1)
            if re.search(r"\b(float|double)\b", l) and not l.strip().startswith("//")]
     assert not bad, "tipi in virgola mobile nell'header multiclass:\n" + "\n".join(bad)
 
@@ -184,7 +184,7 @@ def test_e2e_integer_kernel_has_no_floating_point():
         c = REPO / "mcu_pio" / "host_check" / name
         if not c.exists():
             continue
-        body = [l for l in c.read_text().splitlines()
+        body = [l for l in c.read_text(encoding="utf-8").splitlines()
                 if not l.strip().startswith("//")]
         # printf finale escluso: appartiene all'harness, non al kernel
         inference = "\n".join(body).split("int main(")[0]
@@ -222,10 +222,10 @@ def test_firmware_uses_the_end_to_end_chain():
     """
     src = REPO / "mcu_pio" / "src"
     usa = [f.name for f in src.glob("*.cpp")
-           if "kan_e2e_infer.h" in f.read_text(errors="ignore")]
+           if "kan_e2e_infer.h" in f.read_text(errors="ignore", encoding="utf-8")]
     assert usa, "nessun firmware include la catena end-to-end"
 
-    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore")
+    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore", encoding="utf-8")
     assert "main_e2e.cpp" in ini, "la variante e2e non ha un environment PlatformIO"
 
 
@@ -233,11 +233,11 @@ def test_e2e_kernel_is_shared_between_firmware_and_host_check():
     """Il kernel verificato deve essere lo stesso che gira sulla board."""
     hdr = REPO / "mcu_pio" / "include" / "kan_e2e_infer.h"
     assert hdr.exists(), "kernel condiviso mancante"
-    body = "\n".join(r for r in hdr.read_text().splitlines()
+    body = "\n".join(r for r in hdr.read_text(encoding="utf-8").splitlines()
                       if not r.strip().startswith("*") and not r.strip().startswith("/*"))
     assert not re.search(r"\b(float|double)\b", body), \
         "il kernel condiviso contiene tipi in virgola mobile"
-    hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text()
+    hc = (REPO / "mcu_pio" / "host_check" / "run_e2e_check.cpp").read_text(encoding="utf-8")
     assert "kan_e2e_infer.h" in hc, "l'host check non usa il kernel condiviso"
 
 
@@ -253,7 +253,7 @@ def test_every_firmware_compiles_without_mcu_toolchain():
     mp = REPO / "mcu_pio"
     with tempfile.TemporaryDirectory() as d:
         stub = Path(d) / "m.cpp"
-        stub.write_text("void setup();void loop();int main(){return 0;}\n")
+        stub.write_text("void setup();void loop();int main(){return 0;}\n", encoding="utf-8", newline="\n")
         for f in sorted((mp / "src").glob("*.cpp")):
             r = subprocess.run(
                 ["g++", "-fsyntax-only", "-DHOST_CHECK",
@@ -269,7 +269,7 @@ def test_every_model_has_a_flashable_firmware():
     modello resterebbe "esportato" solo sulla carta.
     """
     src = REPO / "mcu_pio" / "src"
-    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore")
+    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore", encoding="utf-8")
     for nome in ("main_coeff.cpp", "main_mlcoeff.cpp", "main_mc.cpp",
                  "main.cpp", "main_e2e.cpp", "main_mc_e2e.cpp", "main_dt5.cpp"):
         assert (src / nome).exists(), f"firmware mancante: {nome}"
@@ -286,7 +286,7 @@ def test_categorical_tables_include_the_unk_slot():
     """
     inc = REPO / "mcu_pio" / "include"
     for h in inc.glob("*.h"):
-        for m in re.finditer(r"CAT\[(\d+)\]\[\d+\]", h.read_text(errors="ignore")):
+        for m in re.finditer(r"CAT\[(\d+)\]\[\d+\]", h.read_text(errors="ignore", encoding="utf-8")):
             tot = int(m.group(1))
             assert tot != 28, (
                 f"{h.name}: tabelle categoriche con 28 righe = protocollo v1 "

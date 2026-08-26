@@ -129,7 +129,7 @@ def write_int_c_header(art, table_int, path, L, name="kan_ids_layer_int"):
     for e in range(E):
         lines.append("  {" + ",".join(str(int(v)) for v in flat[e]) + "},")
     lines.append("};")
-    Path(path).write_text("\n".join(lines))
+    Path(path).write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return path
 
 

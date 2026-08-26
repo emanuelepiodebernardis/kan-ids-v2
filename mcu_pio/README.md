@@ -20,8 +20,8 @@ mcu_pio/
 ├── src/                    # 7 firmware, uno per variante di modello
 │   ├── main.cpp            # KAN-LUT integer (env di default)
 │   ├── main_coeff.cpp      # KAN single-layer a coefficienti (254 B)
-│   ├── main_mlcoeff.cpp    # KAN multi-layer (5,2 KB)
-│   ├── main_mc.cpp         # KAN multiclasse 10 classi (8,3 KB)
+│   ├── main_mlcoeff.cpp    # KAN multi-layer (5,1 KB)
+│   ├── main_mc.cpp         # KAN multiclasse 10 classi (8,1 KB)
 │   ├── main_e2e.cpp        # catena end-to-end binaria dai contatori grezzi
 │   ├── main_mc_e2e.cpp     # catena end-to-end a 10 classi
 │   └── main_dt5.cpp        # albero profondo 5, il concorrente sul Pareto
@@ -240,7 +240,85 @@ un riepilogo di accuratezza.
 
 ---
 
-## 7. Misura di energia (INA219, opzionale)
+## 7. Misura di energia
+
+### 7a. Firmware dedicato — `src/main_energy.cpp` (da usare per l'articolo)
+
+I sette firmware di latenza cronometrano **una** inferenza per volta e fra
+una misura e la successiva stampano da cinque a nove valori su Serial. Per la
+latenza va bene: fra `t0` e `t1` c'è solo la chiamata al kernel. Per
+l'energia no. Uno strumento misura la corrente nel tempo, e in quel tempo la
+UART a 115200 baud — e, dove era attivo l'hook INA219 di §7b, anche il bus
+I²C — consumano molto più dell'inferenza. Il vecchio integratore accumulava
+proprio su quegli intervalli e chiamava l'I²C dentro il conteggio: misurava
+l'energia della UART, non quella del modello.
+
+`main_energy.cpp` è costruito per essere misurato dall'esterno. Ogni
+ripetizione produce **due finestre adiacenti della stessa durata**:
+
+| pin di marcatura | contenuto |
+|---|---|
+| **ALTO** | `EB_BATCH` inferenze consecutive e nient'altro: nessuna Serial, nessun Wire, nessun `delay`, nessun accesso a Flash (i vettori sono già in RAM) |
+| **BASSO** | riferimento: CPU sveglia che gira su `nop` per lo stesso numero di microsecondi, nessuna inferenza |
+
+Sul pin esce quindi un'onda quadra al 50 %: semiperiodo alto = carico,
+semiperiodo basso = linea di base. L'energia per inferenza è
+
+```
+E_inf = (P_alta − P_bassa) × T_finestra / EB_BATCH
+```
+
+Tutte le stampe stanno **prima** della prima finestra e **dopo** l'ultima.
+
+**Comandi.**
+
+```bash
+pio run -e megaatmega2560_energy -t upload        # KAN single-layer, 254 B
+pio run -e esp32c3_energy        -t upload
+pio run -e megaatmega2560_energy_dt5   -t upload  # albero d=5, 285 B
+pio run -e megaatmega2560_energy_e2e   -t upload  # end-to-end integer, 1.334 B
+pio run -e megaatmega2560_energy_mlcoeff -t upload
+pio run -e esp32c3_energy_mc     -t upload        # 10 classi, 8.268 B
+
+# batch e ripetizioni si cambiano senza toccare i file
+PLATFORMIO_BUILD_FLAGS="-DEB_BATCH=5000 -DEB_REPS=10" pio run -e esp32c3_energy
+```
+
+**Collegamento del trigger.** Il pin di marcatura è il **22** sul Mega 2560 e
+il **GPIO 3** sull'ESP32-C3, e va collegato **solo** all'ingresso di trigger
+dello strumento, che è ad alta impedenza. Non è il pin del LED di bordo:
+il LED assorbirebbe corrente dentro la finestra misurata. Con `-DEB_NO_PIN`
+il pin non viene toccato affatto, per chi preferisce allineare le finestre
+sul gradino di corrente.
+
+**Verifica che le inferenze siano avvenute.** Tolta la Serial dalla finestra,
+sparisce l'unica cosa che consumava il risultato, e i kernel sono `static
+inline` con ingressi costanti in Flash: `-O2` potrebbe cancellare l'intero
+ciclo, e una finestra vuota sembrerebbe soltanto un modello molto efficiente.
+Il risultato di ogni inferenza è perciò accumulato in un `volatile` e la
+somma viene confrontata con quella attesa dai golden vector. L'output finisce
+con `checksum_ok=1`; se dice `0`, il firmware stampa che **la misura non è
+valida**. `tests/test_energy_firmware.py` compila ed esegue le cinque varianti
+sull'host pretendendo `checksum_ok=1`, e rilegge il sorgente per verificare
+che dentro la finestra non sia ricomparso dell'I/O.
+
+**Output** (nessuna virgola mobile nemmeno nella stampa, così su AVR non
+entrano le routine soft-float in un firmware che misura un modello
+integer-only):
+
+```
+# energy benchmark variant=coeff_int8 model_bytes=254 batch=2000 reps=5 vectors_in_ram=20 marker_pin=22
+variant,rep,batch,window_us,ns_per_inference,checksum,expected,ok
+coeff_int8,0,2000,...
+SUMMARY variant=coeff_int8 model_bytes=254 mean_window_us=... mean_ns_per_inference=... checksum_ok=1
+```
+
+### 7b. Hook INA219 dentro i firmware di latenza (storico, sconsigliato)
+
+Resta documentato perché il codice c'è ancora, ma **non va usato per i numeri
+dell'articolo**: integra su intervalli che contengono le `Serial.print` e
+chiama l'I²C dentro il conteggio, quindi misura in larghissima parte
+l'energia di UART e I²C. Per l'energia usare §7a.
 
 Il firmware compila **anche senza** energia (default). Per abilitarla,
 aggiungi il flag `-DENABLE_INA219` nell'env desiderato in `platformio.ini`:
@@ -334,7 +412,9 @@ LUT (99.95% agreement col float) con 1/22 della memoria; latenza da misurare
 
 - `main_mlcoeff.cpp` — multi-layer binario F1 0.9974, full-integer (~5 KB):
   `pio run -e megaatmega2560_mlcoeff -t upload` (o `esp32c3_mlcoeff`)
-- `main_mc.cpp` — multiclass 10 classi macro-F1 0.9409, full-integer (~8 KB):
+- `main_mc.cpp` — multiclass 10 classi, full-integer (8.268 B; macro-F1
+  0.9378 in `results/kan_ml_cat_mc_real.csv`; artefatto congelato, vedi
+  il paragrafo 9):
   `pio run -e esp32c3_mc -t upload`
 - Verifica offline: `g++ -O2 host_check/run_ml_coeff_check.cpp && ./a.out`
   (atteso 200/200) e idem con `run_mc_coeff_check.cpp`.

@@ -109,7 +109,7 @@ def main():
     inner_ckpt = ARTIFACTS_DIR / f"nested_inner_{args.task}.jsonl"
     inner_cache = {}
     if inner_ckpt.exists() and not args.fresh:
-        for line in inner_ckpt.read_text().splitlines():
+        for line in inner_ckpt.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 inner_cache[(r["model"], r["seed"], r["fold"], r["k"])] = r["score"]
@@ -121,7 +121,7 @@ def main():
         ckpt.unlink()
     done, rows = set(), []
     if ckpt.exists():
-        for line in ckpt.read_text().splitlines():
+        for line in ckpt.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 r = json.loads(line)
                 rows.append(r)
@@ -161,7 +161,7 @@ def main():
                         for i in inner]
                 inner_scores[k] = float(np.mean(vals))
                 inner_cache[key_i] = inner_scores[k]
-                with inner_ckpt.open("a") as fh:
+                with inner_ckpt.open("a", encoding="utf-8", newline="\n") as fh:
                     fh.write(json.dumps({"model": name, "seed": seed, "fold": fold,
                                          "k": k, "score": inner_scores[k]}) + "\n")
                 print(f"    [inner] seed={seed} fold={fold} {name:<14} k={k:>2} "
@@ -180,7 +180,7 @@ def main():
                    "score_esterno": outer,
                    **{f"inner_k{k}": v for k, v in inner_scores.items()}}
             rows.append(rec)
-            with ckpt.open("a") as fh:
+            with ckpt.open("a", encoding="utf-8", newline="\n") as fh:
                 fh.write(json.dumps(rec) + "\n")
             print(f"  seed={seed} fold={fold} {name:<14} k*={k_star:>2}  "
                   f"esterno={outer:.4f}  [{time.time()-t0:5.0f}s]", flush=True)

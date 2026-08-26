@@ -1,8 +1,18 @@
 # Versioni ESATTE dell'ambiente in cui sono stati prodotti i numeri
 # pubblicati (results/, figures/, report). requirements.txt elenca i
-# vincoli minimi; questo file serve a riprodurre bit per bit.
+# vincoli; questo file serve a riprodurre bit per bit.
 #
 # Generato con: pip freeze, filtrato sulle dipendenze del progetto.
+#
+# Python 3.11.
+#
+# Ogni riga qui deve soddisfare il vincolo corrispondente in
+# requirements.txt, e ogni dipendenza non opzionale di requirements.txt
+# deve comparire qui. tests/test_ambiente.py lo verifica: senza quel test
+# i due file erano gia' divergenti in tre modi diversi.
+#
+# torch e m2cgen non ci sono di proposito: sono opzionali e nessun numero
+# pubblicato dipende da loro (vedi la nota in fondo a requirements.txt).
 
 numpy==2.2.6
 pandas==2.3.3
@@ -17,3 +27,37 @@ pyarrow==25.0.0
 reportlab==4.5.1
 pillow==12.2.0
 pytest==9.1.1
+
+# ─────────────────────────────────────────────────────────────────────
+# SECONDO AMBIENTE, VERIFICATO (agosto 2026)
+#
+# La sessione di revisione che ha prodotto v2.1-rc e' girata su un
+# ambiente DIVERSO da quello qui sopra:
+#
+#     Python 3.13.2   numpy 2.3.4   scipy 1.16.2
+#     matplotlib 3.10.7   lightgbm 4.6.0   pyarrow 23.0.1
+#     (pandas, scikit-learn e xgboost coincidono con il lock)
+#
+# Serve saperlo perche' e' una prova di robustezza e insieme un limite
+# misurato. Con cinque pacchetti diversi e un minor di Python diverso,
+# tutto cio' che e' stato rigenerato e' venuto IDENTICO:
+#
+#   - mcu_pio/include/kan_e2e_int.h      byte per byte
+#   - mcu_pio/include/dt5_model.h        byte per byte
+#   - results/dt5_export.csv             identico
+#   - results/e2e_int_export.csv         identico (F1 0.9646, 1334 B)
+#   - i sei check host                   200/200 bit-esatti
+#
+# Un solo numero si e' mosso: la STIMA dei byte di XGBoost in
+# results/footprint.csv, da 49.905 a 50.120 B (+0,43%), perche' l'albero
+# cambia forma — 9.921 nodi interni contro 9.964. Non e' xgboost, che e'
+# lo stesso 3.2.0 in entrambi gli ambienti: sono numpy e scipy che
+# spostano gli ultimi bit delle feature preprocessate, e la costruzione
+# greedy degli split amplifica la differenza. L'F1 non si muove
+# (0,9989 ± 0,0001 in entrambi).
+#
+# results/footprint.csv committato riporta il valore dell'ambiente qui
+# sopra, quello del lock. Chi rigenera con un numpy diverso vedra' quella
+# riga cambiare di qualche centinaio di byte su cinquantamila: e' una
+# stima, un limite inferiore per un modello mai esportato in C, e nessuna
+# affermazione del progetto ci si appoggia.

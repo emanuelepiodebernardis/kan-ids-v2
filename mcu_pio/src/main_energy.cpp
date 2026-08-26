@@ -1,0 +1,338 @@
+/* BENCHMARK DI ENERGIA — una finestra lunga di sole inferenze, niente altro.
+ *
+ * Perche' serve un firmware separato
+ * ----------------------------------
+ * I sette firmware di latenza cronometrano UNA inferenza per volta e fra una
+ * misura e la successiva stampano 5-9 valori su Serial. Per la latenza va
+ * bene: fra t0 e t1 c'e' solo la chiamata al kernel. Per l'energia no: uno
+ * strumento misura la corrente assorbita nel tempo, e in quel tempo la UART
+ * a 115200 baud e — dove era abilitato l'hook INA219 — anche il bus I2C
+ * consumano molto piu' dell'inferenza. L'integratore che c'era in main.cpp
+ * accumulava proprio su quegli intervalli sporchi e chiamava l'I2C dentro il
+ * conteggio: misurava l'energia della UART, non quella del modello.
+ *
+ * Come e' fatto qui (richiesta del Prof. Kuznetsov, punto 4)
+ * ----------------------------------------------------------
+ * Ogni ripetizione produce due finestre della STESSA durata, adiacenti:
+ *
+ *     pin ALTO   finestra ATTIVA: EB_BATCH inferenze consecutive, e nulla
+ *                altro. Nessuna Serial, nessun Wire, nessun delay, nessun
+ *                accesso a PROGMEM: i vettori di ingresso sono gia' in RAM.
+ *     pin BASSO  finestra di RIFERIMENTO: la CPU gira a vuoto su `nop` per
+ *                un numero di giri calibrato in modo da durare quanto la
+ *                finestra attiva. Stesso clock, stesse periferiche, stessa
+ *                durata, nessuna inferenza.
+ *
+ * Sul pin di marcatura esce quindi un'onda quadra al 50%: il semiperiodo
+ * alto e' il carico, quello basso e' la linea di base. L'energia per
+ * inferenza si ricava come
+ *
+ *     E_inf = (P_attiva - P_riferimento) * T_finestra / EB_BATCH
+ *
+ * Tutte le stampe sono PRIMA della prima finestra e DOPO l'ultima. Fra le
+ * ripetizioni non viene eseguita una sola istruzione di I/O.
+ *
+ * Sulla linea di base: la CPU sveglia che gira su `nop` consuma piu' di una
+ * CPU in sleep e meno di una che esegue il kernel. Sottraendola si ottiene
+ * il costo MARGINALE dell'inferenza rispetto a un processore acceso e
+ * inattivo, che e' la quantita' confrontabile fra i sette modelli. Il
+ * consumo assoluto del sistema e' la sola finestra attiva, ed e' comunque
+ * misurabile perche' le due finestre sono separate sul pin.
+ *
+ * Contro l'eliminazione del codice morto
+ * --------------------------------------
+ * Nei firmware di latenza l'unica cosa che impediva al compilatore di
+ * cancellare le inferenze era la Serial.print del risultato. Qui la Serial
+ * non c'e': i kernel sono `static inline` in header, le costanti stanno in
+ * Flash e senza precauzioni `-O2` potrebbe eliminare l'intero ciclo. Il
+ * risultato di ogni inferenza viene quindi accumulato in un `volatile`, e
+ * alla fine la somma viene CONFRONTATA con quella attesa, calcolata dai
+ * golden vector. Se il confronto fallisce il firmware lo dichiara: una
+ * finestra vuota non puo' essere scambiata per una finestra veloce.
+ *
+ * Uso
+ * ---
+ *   pio run -e megaatmega2560_energy -t upload      (variante di default)
+ *   pio run -e esp32c3_energy -t upload
+ *
+ * Varianti selezionabili a compilazione, una sola per volta:
+ *   -DEB_COEFF (default)  KAN single-layer a coefficienti, 254 B
+ *   -DEB_MLCOEFF          KAN multi-layer, 5.244 B
+ *   -DEB_MC               KAN multiclasse 10 classi, 8.268 B
+ *   -DEB_E2E              catena integer end-to-end binaria, 1.334 B
+ *   -DEB_DT5              albero di decisione profondo 5, 285 B
+ *
+ * Altri parametri: -DEB_BATCH=n (inferenze per finestra), -DEB_REPS=n
+ * (ripetizioni), -DEB_PIN=n (pin di marcatura), -DEB_NO_PIN (nessun pin).
+ *
+ * Il pin di marcatura va collegato SOLO all'ingresso di trigger dello
+ * strumento, che e' ad alta impedenza. Non usare il pin del LED di bordo:
+ * il LED assorbe corrente e finirebbe dentro la misura. Per questo il
+ * default non e' LED_BUILTIN.
+ */
+#ifdef HOST_CHECK
+  #include "arduino_stub.h"
+#else
+  #include <Arduino.h>
+#endif
+#include <stdint.h>
+#include <string.h>
+
+/* ── selezione della variante ─────────────────────────────────────── */
+#if !defined(EB_COEFF) && !defined(EB_MLCOEFF) && !defined(EB_MC) && \
+    !defined(EB_E2E) && !defined(EB_DT5)
+  #define EB_COEFF
+#endif
+
+#if defined(EB_COEFF)
+  #include "kan14_coeff_infer.h"
+  #include "kan14_test_vectors.h"
+  #define EB_NAME       "coeff_int8"
+  #define EB_MODEL_BYTES 254
+#elif defined(EB_MLCOEFF)
+  #include "kan14_ml_coeff_infer.h"
+  #include "kan14_ml_test_vectors.h"
+  #define EB_NAME       "ml_coeff_int8"
+  #define EB_MODEL_BYTES 5244
+#elif defined(EB_MC)
+  #include "kan14_mc_coeff_infer.h"
+  #include "kan14_mc_test_vectors.h"
+  #define EB_NAME       "mc_coeff_int8"
+  #define EB_MODEL_BYTES 8268
+#elif defined(EB_E2E)
+  #include "kan_e2e_int.h"
+  #include "kan_e2e_infer.h"
+  #define EB_NAME       "e2e_int"
+  #define EB_MODEL_BYTES 1334
+#elif defined(EB_DT5)
+  #include "dt5_model.h"
+  #define EB_NAME       "dt5"
+  #define EB_MODEL_BYTES 285
+#endif
+
+/* ── parametri ────────────────────────────────────────────────────── */
+#ifndef EB_BATCH
+  #define EB_BATCH 2000            /* inferenze per finestra attiva */
+#endif
+#ifndef EB_REPS
+  #define EB_REPS 5                /* finestre ripetute */
+#endif
+#ifndef EB_CACHE
+  #define EB_CACHE 20              /* vettori tenuti in RAM (10 + 10) */
+#endif
+#ifndef EB_PIN
+  #if defined(__AVR__)
+    #define EB_PIN 22              /* pin digitale libero sul Mega, NON il LED */
+  #else
+    #define EB_PIN 3               /* GPIO libero su ESP32-C3 DevKitM-1 */
+  #endif
+#endif
+
+#if defined(__AVR__)
+  #define EB_RD16(p) ((int16_t)pgm_read_word(&(p)))
+  #define EB_RD8(p)  ((uint8_t)pgm_read_byte(&(p)))
+#else
+  #define EB_RD16(p) (p)
+  #define EB_RD8(p)  (p)
+#endif
+
+/* ── vettori di ingresso, copiati in RAM prima delle finestre ─────── */
+#if defined(EB_E2E)
+static int32_t  eb_sb[EB_CACHE], eb_db[EB_CACHE], eb_sp[EB_CACHE], eb_dp[EB_CACHE];
+static int32_t  eb_dur[EB_CACHE];
+#elif defined(EB_DT5)
+static int16_t  eb_x[EB_CACHE][DT5_NFEAT];
+#else
+static int16_t  eb_x[EB_CACHE][10];
+static uint8_t  eb_c[EB_CACHE][4];
+#endif
+static uint8_t  eb_expected[EB_CACHE];
+
+/* Meta' dei vettori dal blocco attacco, meta' dal blocco normale: il ciclo
+ * non deve girare su un ingresso degenere, perche' i rami presi cambiano il
+ * consumo. Gli indici seguono la stessa convenzione dei firmware di latenza
+ * (prima meta' attacco, seconda meta' normale). */
+static void eb_load(void) {
+  for (uint8_t i = 0; i < EB_CACHE; i++) {
+    const uint8_t half = EB_CACHE / 2;
+#if defined(EB_E2E)
+    const uint16_t k = (i < half) ? i : (E2E_N_GOLDEN / 2 + (i - half));
+    e2e_golden_t g;
+    memcpy_P(&g, &E2E_GOLDEN[k], sizeof(g));
+    eb_sb[i] = g.sb; eb_db[i] = g.db; eb_sp[i] = g.sp; eb_dp[i] = g.dp;
+    eb_dur[i] = g.dur_us;
+    eb_expected[i] = g.dec;
+#elif defined(EB_DT5)
+    const uint16_t k = (i < half) ? i : (DT5_N_GOLDEN / 2 + (i - half));
+    dt5_golden_t g;
+    memcpy_P(&g, &DT5_GOLDEN[k], sizeof(g));
+    memcpy(eb_x[i], g.x, sizeof(g.x));
+    eb_expected[i] = g.pred;
+#else
+  #if defined(EB_COEFF)
+    #define EB_TVX KTV_X
+    #define EB_TVC KTV_CAT
+    #define EB_TVE KTV_EXPECTED
+    #define EB_TVN KTV_N
+  #elif defined(EB_MLCOEFF)
+    #define EB_TVX KMLTV_X
+    #define EB_TVC KMLTV_CAT
+    #define EB_TVE KMLTV_EXPECTED
+    #define EB_TVN KMLTV_N
+  #else
+    #define EB_TVX KMCTV_X
+    #define EB_TVC KMCTV_CAT
+    #define EB_TVE KMCTV_EXPECTED
+    #define EB_TVN KMCTV_N
+  #endif
+    const uint16_t k = (i < half) ? i : (EB_TVN / 2 + (i - half));
+    for (uint8_t j = 0; j < 10; j++) eb_x[i][j] = EB_RD16(EB_TVX[k][j]);
+    for (uint8_t j = 0; j < 4;  j++) eb_c[i][j] = EB_RD8(EB_TVC[k][j]);
+    eb_expected[i] = EB_RD8(EB_TVE[k]);
+#endif
+  }
+}
+
+/* Una inferenza sul vettore i, gia' in RAM. Questo e' TUTTO quello che gira
+ * dentro la finestra misurata. */
+static inline uint8_t eb_one(uint8_t i) {
+#if defined(EB_COEFF)
+  return kan14_coeff_predict(eb_x[i], eb_c[i]);
+#elif defined(EB_MLCOEFF)
+  return kan14_ml_predict(eb_x[i], eb_c[i]);
+#elif defined(EB_MC)
+  return kan14_mc_predict(eb_x[i], eb_c[i]);
+#elif defined(EB_E2E)
+  return e2e_predict(eb_sb[i], eb_db[i], eb_sp[i], eb_dp[i], eb_dur[i]);
+#elif defined(EB_DT5)
+  return dt5_predict(eb_x[i]);
+#endif
+}
+
+/* ── accumulatore volatile: senza, il ciclo puo' sparire ──────────── */
+static volatile uint32_t eb_acc = 0;
+
+/* giri di `nop` in un microsecondo, calibrati a runtime */
+static uint32_t eb_nop_per_us = 0;
+
+static void eb_calibra(void) {
+  const uint32_t t0 = micros();
+  uint32_t n = 0;
+  while ((uint32_t)(micros() - t0) < 20000UL) {   /* 20 ms */
+    __asm__ __volatile__("nop");
+    n++;
+  }
+  eb_nop_per_us = n / 20000UL;
+  if (eb_nop_per_us == 0) eb_nop_per_us = 1;
+}
+
+/* Finestra di riferimento: stessa durata, CPU sveglia, nessuna inferenza.
+ * Gira su `nop` e non su micros(), che sarebbe un carico diverso (su AVR
+ * legge un timer e disabilita brevemente gli interrupt). */
+static void eb_riferimento(uint32_t durata_us) {
+  volatile uint32_t giri = eb_nop_per_us * durata_us;
+  while (giri--) { __asm__ __volatile__("nop"); }
+}
+
+void setup() {
+  Serial.begin(115200);
+  delay(1500);
+
+  eb_load();
+  eb_calibra();
+
+  /* somma attesa delle predizioni sulla finestra: e' la prova che le
+   * inferenze sono state eseguite davvero e non ottimizzate via */
+  uint32_t attesa_per_batch = 0;
+  for (uint32_t r = 0; r < (uint32_t)EB_BATCH; r++)
+    attesa_per_batch += eb_expected[r % EB_CACHE];
+
+  /* riscaldamento fuori da ogni finestra */
+  for (uint16_t w = 0; w < 64; w++) eb_acc += eb_one(w % EB_CACHE);
+  eb_acc = 0;
+
+#ifndef EB_NO_PIN
+  pinMode(EB_PIN, OUTPUT);
+  digitalWrite(EB_PIN, LOW);
+#endif
+
+  Serial.print(F("# energy benchmark variant=")); Serial.print(F(EB_NAME));
+  Serial.print(F(" model_bytes=")); Serial.print(EB_MODEL_BYTES);
+  Serial.print(F(" batch=")); Serial.print((uint32_t)EB_BATCH);
+  Serial.print(F(" reps="));  Serial.print((uint32_t)EB_REPS);
+  Serial.print(F(" vectors_in_ram=")); Serial.print((uint32_t)EB_CACHE);
+#ifndef EB_NO_PIN
+  Serial.print(F(" marker_pin=")); Serial.print((uint32_t)EB_PIN);
+#else
+  Serial.print(F(" marker_pin=none"));
+#endif
+  Serial.println();
+  Serial.println(F("# finestra ALTA = inferenze, finestra BASSA = riferimento, "
+                   "stessa durata; nessun I/O fra le due"));
+  Serial.println(F("# E_inf = (P_alta - P_bassa) * T / batch"));
+  Serial.flush();
+  delay(200);                     /* la UART deve essere ferma prima di iniziare */
+
+  uint32_t durata[EB_REPS];
+  uint32_t somma[EB_REPS];
+
+  for (uint8_t rep = 0; rep < EB_REPS; rep++) {
+    eb_acc = 0;
+
+    /* ---------- finestra ATTIVA ---------- */
+#ifndef EB_NO_PIN
+    digitalWrite(EB_PIN, HIGH);
+#endif
+    const uint32_t t0 = micros();
+    for (uint32_t k = 0; k < (uint32_t)EB_BATCH; k++)
+      eb_acc += eb_one((uint8_t)(k % EB_CACHE));
+    const uint32_t t1 = micros();
+#ifndef EB_NO_PIN
+    digitalWrite(EB_PIN, LOW);
+#endif
+    /* ---------- fine finestra ATTIVA ---------- */
+
+    durata[rep] = t1 - t0;
+    somma[rep]  = eb_acc;
+
+    eb_riferimento(durata[rep]);          /* finestra BASSA, stessa durata */
+  }
+
+  /* Da qui in poi si puo' tornare a parlare. */
+  uint8_t tutte_ok = 1;
+  Serial.println(F("variant,rep,batch,window_us,ns_per_inference,checksum,expected,ok"));
+  for (uint8_t rep = 0; rep < EB_REPS; rep++) {
+    const uint8_t ok = (somma[rep] == attesa_per_batch);
+    if (!ok) tutte_ok = 0;
+    Serial.print(F(EB_NAME));     Serial.print(',');
+    Serial.print(rep);            Serial.print(',');
+    Serial.print((uint32_t)EB_BATCH); Serial.print(',');
+    Serial.print(durata[rep]);    Serial.print(',');
+    /* niente virgola mobile nemmeno qui: su AVR tirerebbe dentro le
+     * routine soft-float di libgcc in un firmware che esiste per
+     * misurare un modello integer-only. Nanosecondi in interi. */
+    Serial.print((uint32_t)((durata[rep] * 1000UL) / (uint32_t)EB_BATCH));
+    Serial.print(',');
+    Serial.print(somma[rep]);     Serial.print(',');
+    Serial.print(attesa_per_batch); Serial.print(',');
+    Serial.println(ok ? 1 : 0);
+  }
+
+  uint32_t tot = 0;
+  for (uint8_t rep = 0; rep < EB_REPS; rep++) tot += durata[rep];
+  Serial.print(F("SUMMARY variant=")); Serial.print(F(EB_NAME));
+  Serial.print(F(" model_bytes=")); Serial.print(EB_MODEL_BYTES);
+  Serial.print(F(" mean_window_us=")); Serial.print(tot / EB_REPS);
+  Serial.print(F(" mean_ns_per_inference="));
+  Serial.print((uint32_t)((tot * 1000UL) / ((uint32_t)EB_REPS * (uint32_t)EB_BATCH)));
+  Serial.print(F(" nop_per_us=")); Serial.print(eb_nop_per_us);
+  Serial.print(F(" checksum_ok=")); Serial.print(tutte_ok ? 1 : 0);
+  Serial.println();
+  if (!tutte_ok) {
+    Serial.println(F("ATTENZIONE: il checksum non torna. Le inferenze nella "
+                     "finestra potrebbero essere state eliminate dal "
+                     "compilatore: la misura di energia NON e' valida."));
+  }
+}
+
+void loop() {}

@@ -175,7 +175,7 @@ def export_arduino(
     size_orig_kb = _joblib_size_kb(model)
 
     c_code = m2c.export_to_c(model)
-    (OUT / f"{name}.c").write_text(c_code, encoding="utf-8")
+    (OUT / f"{name}.c").write_text(c_code, encoding="utf-8", newline="\n")
 
     size_quant_kb = len(c_code.encode("utf-8")) / 1024
     sram_bytes    = int(size_quant_kb * 1024)
@@ -269,7 +269,7 @@ def export_mlp(
     c_array   = _tflite_to_c_array(tflite)
 
     (OUT / f"{name}.tflite").write_bytes(tflite)
-    (OUT / f"{name}.h").write_text(c_array, encoding="utf-8")
+    (OUT / f"{name}.h").write_text(c_array, encoding="utf-8", newline="\n")
 
     size_quant_kb = len(tflite) / 1024
 
@@ -332,7 +332,7 @@ def _xgb_int8_binary(model: Any) -> float:
         path = Path(tmp.name)
     try:
         model.get_booster().save_model(str(path))
-        with open(path) as f:
+        with open(path, encoding="utf-8") as f:
             xgb_data = _json.load(f)
     finally:
         path.unlink(missing_ok=True)

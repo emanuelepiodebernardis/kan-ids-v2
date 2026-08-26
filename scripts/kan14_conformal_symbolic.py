@@ -146,7 +146,7 @@ def main():
     f1s = f1_score(yte, (zs >= 0).astype(int))
     agree = ((zs >= 0).astype(int) == (zte >= 0).astype(int)).mean()
     print(f"SIMBOLICO 14feat: F1={f1s:.4f} agreement={agree*100:.2f}%")
-    with open("results/kan14_symbolic_real.txt", "w") as fo:
+    with open("results/kan14_symbolic_real.txt", "w", encoding="utf-8", newline="\n") as fo:
         fo.write("\n".join(desc) + "\n\nTabelle categoriche (contributo al logit):\n")
         for j, cn in enumerate(CATS):
             fo.write(f"{cn}: {np.round(tabs[j], 3).tolist()}\n")

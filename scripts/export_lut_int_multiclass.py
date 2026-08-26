@@ -130,7 +130,7 @@ def write_int_c_header_mc(art, table_int, path, in_dim, C, L,
     for e in range(E):
         lines.append("  {" + ",".join(str(int(v)) for v in flat[e]) + "},")
     lines.append("};")
-    Path(path).write_text("\n".join(lines))
+    Path(path).write_text("\n".join(lines), encoding="utf-8", newline="\n")
     return path
 
 

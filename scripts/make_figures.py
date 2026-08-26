@@ -36,7 +36,7 @@ def read_csv_rows(path):
     if not os.path.isfile(path):
         warn(f"missing CSV: {path}")
         return None
-    with open(path, newline="") as f:
+    with open(path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
     if not rows:
@@ -271,7 +271,7 @@ def fig4():
         if not os.path.isfile(path):
             warn(f"missing confusion CSV for {title}: {path}")
             continue
-        with open(path, newline="") as f:
+        with open(path, newline="", encoding="utf-8") as f:
             reader = csv.reader(f)
             file_rows = list(reader)
         if len(file_rows) < 3:

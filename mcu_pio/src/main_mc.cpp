@@ -1,4 +1,5 @@
-/* Benchmark on-board del MULTICLASS 10 classi (macro-F1 0.9409)
+/* Benchmark on-board del MULTICLASS 10 classi (macro-F1 0.9378,
+ * results/kan_ml_cat_mc_real.csv)
  * a coefficienti B-spline full-integer (~8 KB) — quinta variante.
  * Protocollo del paper Electronics 2026: 500 inferenze temporizzate
  * (250 attacco + 250 normale, cicliche sui 200 test vector reali),

@@ -43,7 +43,7 @@ def write_header_lut(path, name, macro, tables, extra_lines=None):
     for e in range(E):
         lines.append("  {" + ",".join(str(int(v)) for v in flat[e]) + "},")
     lines.append("};")
-    Path(path).write_text("\n".join(lines))
+    Path(path).write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def main():
@@ -117,7 +117,7 @@ def main():
                      f"#define KANML_HMAX {Hmax}",f"#define KANML_TL {TL}"])
     write_header_lut('kan_ml_layer2.h','kan_ml_layer2','KANML_L2',tab2)
     # tabella tanh
-    with open('kan_ml_tanh.h','w') as f:
+    with open('kan_ml_tanh.h','w', encoding="utf-8", newline="\n") as f:
         f.write("// kan_ml_tanh.h — tabella tanh intera\n#pragma once\n#include <stdint.h>\n")
         f.write("#ifdef __AVR__\n#include <avr/pgmspace.h>\n#else\n#define PROGMEM\n#endif\n")
         f.write(f"static const int16_t KANML_TANH[{TL}] PROGMEM = {{")
@@ -134,7 +134,7 @@ def main():
     sel=np.array(sel); rng.shuffle(sel)
     V=np.clip(Xte_s[sel],-1.0,1.0); lab=yte[sel]
     Xq=np.round((V+1.0)*FP).astype(np.int64)   # off da -1: (x+1)*2^16, in [0, 2*2^16]
-    with open('test_vectors_ml_q16.h','w') as f:
+    with open('test_vectors_ml_q16.h','w', encoding="utf-8", newline="\n") as f:
         f.write("// 40 input multi-layer pre-quantizzati: (x+1)*2^16, x in [-1,1]\n#pragma once\n")
         f.write(f"#define N_TEST {len(sel)}\nstatic const int32_t TEST_XQ[N_TEST][{K}] = {{\n")
         for r in Xq: f.write('  {'+','.join(str(int(v)) for v in r)+'},\n')

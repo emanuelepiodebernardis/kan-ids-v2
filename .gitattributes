@@ -1,0 +1,28 @@
+# Terminatori di riga: LF nel repository, su qualunque sistema.
+#
+# Senza questo file il contenuto versionato dipende dalla configurazione
+# `core.autocrlf` di chi committa. Con `autocrlf=true` (default degli
+# installer Windows) git normalizza in ingresso e nasconde il problema; con
+# `autocrlf=false` gli stessi file entrano nel repository con CRLF, e da
+# quel momento due checkout dello stesso commit hanno contenuti diversi.
+#
+# Il difetto si era gia' manifestato in modo visibile: `models/MANIFEST.json`
+# registrava la dimensione degli header con `st_size`, e su un checkout
+# Windows `kan14_coeff_infer.h` misurava 2.238 B invece di 2.184 — un byte
+# per riga, cioe' i CR. Un artefatto versionato non deve cambiare a seconda
+# del sistema operativo di chi lo rigenera.
+#
+# Conta anche per i golden vector: gli host check confrontano gli header con
+# valori attesi calcolati da Python, e un diff di soli terminatori renderebbe
+# illeggibile ogni verifica byte per byte.
+* text=auto eol=lf
+
+# Binari: git non deve provare a normalizzarli.
+*.png    binary
+*.pdf    binary
+*.npz    binary
+*.pkl    binary
+*.bin    binary
+*.parquet binary
+*.gz     binary
+*.zip    binary

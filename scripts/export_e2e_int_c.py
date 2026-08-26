@@ -23,7 +23,7 @@ import numpy as np
 import pandas as pd
 
 _REPO = Path(__file__).resolve().parents[1]
-for p in [_REPO, _REPO / "src", _REPO / "preprocessing"]:
+for p in [_REPO, _REPO / "src", _REPO / "preprocessing", _REPO / "scripts"]:
     sys.path.insert(0, str(p))
 
 from sklearn.metrics import f1_score
@@ -31,6 +31,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 import section_310_unified_feature_engineering as fe
+from c_footprint import scan
 from kan_bspline import bspline_basis
 from kan_chebyshev import ChebyshevKANBinary, chebyshev_basis
 from kanids.config import RESULTS_DIR
@@ -48,7 +49,13 @@ RAW_COLS = ["src_bytes", "dst_bytes", "src_pkts", "dst_pkts", "duration"]
 
 
 def carr(name, values, ctype, per_line=12):
-    out = [f"static const {ctype} {name}[{len(values)}] = {{"]
+    # PROGMEM non e' un'ottimizzazione: kan_e2e_infer.h legge questi array
+    # con pgm_read_dword/pgm_read_byte quando compila per AVR. Un array
+    # senza PROGMEM finisce in SRAM, e pgm_read su un indirizzo di SRAM
+    # legge la Flash a quell'offset, cioe' dati arbitrari. Senza questa
+    # annotazione il firmware sul Mega 2560 calcola logit sbagliati **e**
+    # occupa il 92% della SRAM invece del 2,5%.
+    out = [f"static const {ctype} {name}[{len(values)}] PROGMEM = {{"]
     for i in range(0, len(values), per_line):
         out.append("  " + ", ".join(str(int(v)) for v in values[i:i + per_line]) + ",")
     out.append("};")
@@ -129,12 +136,19 @@ def main():
     # moltiplicatore vale esattamente 32768, che in int16 va in overflow
     # silenzioso (diventerebbe -32768). Costa 20 byte in piu' ed elimina
     # un bug che si sarebbe manifestato solo sul dispositivo.
-    mem = coeff_bytes + 256 * 2 + 10 * (4 + 4 + 4)
+    #
+    # I byte NON si contano qui. Una versione precedente riscriveva la regola
+    # a mano (`coeff_bytes + 256*2 + 10*(4+4+4)` = 822 B) e sbagliava due
+    # termini su tre: la LUT del logaritmo e' dichiarata int32 e non int16
+    # (1024 B, non 512) e gli affini sono TRE array int32 da 10 (120 B, non
+    # 100). Il totale vero e' 1334 B. Adesso i byte si leggono dall'header
+    # appena scritto, con la stessa funzione che li conta per tutti gli altri
+    # modelli: la regola vive in un posto solo e non puo' piu' divergere da
+    # quello che il compilatore vede davvero.
 
     print(f"pipeline float      F1 = {f1_float:.4f}")
     print(f"catena integer e2e  F1 = {f1_int:.4f}  (delta {f1_int - f1_float:+.4f})")
     print(f"agreement vs float     = {agree * 100:.3f}%")
-    print(f"memoria: coeff {coeff_bytes} B + LUT ln 512 B + affini 100 B = {mem} B")
 
     # ── golden vector ────────────────────────────────────────
     g = np.random.RandomState(SEED).choice(len(sb), N_GOLDEN, replace=False)
@@ -147,6 +161,13 @@ def main():
         "#ifndef KAN_E2E_INT_H",
         "#define KAN_E2E_INT_H",
         "#include <stdint.h>",
+        "#ifdef __AVR__",
+        "#include <avr/pgmspace.h>",
+        "#else",
+        "#ifndef PROGMEM",
+        "#define PROGMEM      /* su ESP32 lo definisce gia' pgmspace.h */",
+        "#endif",
+        "#endif",
         "",
         f"#define E2E_N_FEAT   10",
         f"#define E2E_N_SEG    {N_SEG}",
@@ -164,7 +185,7 @@ def main():
         "",
         carr("E2E_MULT", mult, "int32_t", 10),
         "",
-        f"static const int8_t E2E_COEF[10][{ncoef}] = {{",
+        f"static const int8_t E2E_COEF[10][{ncoef}] PROGMEM = {{",
     ]
     for c in C8:
         H.append("  {" + ", ".join(str(int(v)) for v in c) + "},")
@@ -173,7 +194,7 @@ def main():
     H.append("// golden vector: contatori grezzi -> logit atteso e decisione attesa")
     H.append("typedef struct { int32_t sb, db, sp, dp; int32_t dur_us; "
              "int64_t z; uint8_t dec; uint8_t label; } e2e_golden_t;")
-    H.append(f"static const e2e_golden_t E2E_GOLDEN[{N_GOLDEN}] = {{")
+    H.append(f"static const e2e_golden_t E2E_GOLDEN[{N_GOLDEN}] PROGMEM = {{")
     for j in g:
         H.append(f"  {{{sb[j]}, {db[j]}, {sp[j]}, {dp[j]}, {du[j]}, "
                  f"{zint[j]}LL, {dec_int[j]}, {yte[j]}}},")
@@ -182,8 +203,16 @@ def main():
     H.append("#endif // KAN_E2E_INT_H")
 
     out = _REPO / "mcu_pio" / "include" / "kan_e2e_int.h"
-    out.write_text("\n".join(H))
+    out.write_text("\n".join(H), encoding="utf-8", newline="\n")
     print(f"scritto {out.relative_to(_REPO)} ({out.stat().st_size/1024:.1f} KB)")
+
+    # I byte del modello letti dall'header appena scritto (unica regola di
+    # conteggio del progetto, quella verificata contro `nm` sugli oggetti
+    # prodotti dal compilatore).
+    mem, dettaglio = scan(out, "E2E_")
+    print(f"memoria del modello: {mem} B  (coefficienti {coeff_bytes} B)")
+    for nome, typ, count, nbytes in dettaglio:
+        print(f"    {nome:<14} {typ:<8} x{count:<6} {nbytes:>6} B")
 
     pd.DataFrame([{
         "f1_float_pipeline": round(f1_float, 4),

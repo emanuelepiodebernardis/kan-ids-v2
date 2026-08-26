@@ -105,13 +105,18 @@ def main():
     f1_int = f1_score(yte, dec_int)
     print(f"F1 KAN float={f1_kan:.4f} | F1 full-int={f1_int:.4f} | dF1={f1_int-f1_kan:+.4f}")
     print(f"agreement full-int vs coeff-float={agree_vs_cf*100:.3f}% | vs KAN float={agree_vs_kan*100:.3f}%")
-    mem = sum(c.size for c in C_int8) + 10*2 + 2       # coeff int8 + mult int16 + s_ref
-    print(f"memoria stimata on-device: {mem} B (coeff) — aritmetica: int32/64, zero float")
+    # ATTENZIONE: questo NON e' il footprint del modello deployato. Qui ci
+    # sono i soli dieci edge numerici; il modello in mcu_pio/include/
+    # kan14_coeff_int8.h ne ha anche le quattro tabelle categoriche, ed e'
+    # 254 B in results/footprint.csv. Il nome della colonna lo dice, per
+    # non far nascere un quinto numero da confrontare con il primo.
+    mem_edge = sum(c.size for c in C_int8) + 10*2 + 2   # coeff int8 + mult Q15 + s_ref
+    print(f"memoria dei soli edge numerici: {mem_edge} B (il modello deployato completo e\' 254 B) — aritmetica: int32/64, zero float")
     pd.DataFrame([{"f1_kan_float": round(f1_kan,4), "f1_fullint": round(f1_int,4),
                    "delta_f1": round(f1_int-f1_kan,4),
                    "agree_vs_coeff_float_pct": round(agree_vs_cf*100,3),
                    "agree_vs_kan_float_pct": round(agree_vs_kan*100,3),
-                   "mem_bytes": mem}]).to_csv("results/coeff_int_inference_real.csv", index=False)
+                   "mem_bytes_solo_edge_numerici": mem_edge}]).to_csv("results/coeff_int_inference_real.csv", index=False)
     print(f"salvato results/coeff_int_inference_real.csv t={time.time()-t0:.0f}s")
 
 if __name__ == "__main__":

@@ -66,6 +66,27 @@ struct WireStub {
 };
 static WireStub Wire;
 
+/* ---- GPIO finto ----
+   Serve a src/main_energy.cpp, che marca le finestre di misura alzando e
+   abbassando un pin per il trigger dello strumento. Qui non fa nulla: il
+   compile-check verifica solo che il firmware compili per entrambe le
+   varianti #ifdef senza i toolchain PlatformIO. */
+#ifndef HIGH
+#define HIGH 1
+#endif
+#ifndef LOW
+#define LOW 0
+#endif
+#ifndef OUTPUT
+#define OUTPUT 1
+#endif
+#ifndef INPUT
+#define INPUT 0
+#endif
+static inline void pinMode(int, int) {}
+static inline void digitalWrite(int, int) {}
+static inline int  digitalRead(int) { return 0; }
+
 /* ---- Serial finto ---- */
 #define DEC 10
 #define HEX 16
@@ -73,6 +94,10 @@ struct SerialStub {
   void begin(unsigned long) {}
   operator bool() const { return true; }
   void print(const char* s) { std::fputs(s, stdout); }
+  /* senza questa, Serial.print(',') finiva su print(int) e stampava "44":
+     l'output CSV del compile-check era illeggibile, e su hardware vero no */
+  void print(char c) { std::putchar(c); }
+  void println(char c) { std::putchar(c); std::putchar('\n'); }
   void print(int v) { std::printf("%d", v); }
   void print(unsigned int v) { std::printf("%u", v); }
   void print(long v) { std::printf("%ld", v); }
