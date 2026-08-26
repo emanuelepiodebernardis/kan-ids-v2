@@ -46,11 +46,18 @@ SPAZI = {
 }
 
 
-def run_unit(H, exp, seed, ratio, rows, ckpt):
+def run_unit(H, exp, seed, ratio, rows, ckpt, done=()):
     src, dst = exp.split("->")
     for nome, (numeriche, skew, proietta) in SPAZI.items():
+        if (exp, seed, nome) in done:
+            continue
         set_global_seed(seed)
-        Hs = {k: (build_ridotto_da_ricco(v) if proietta else v) for k, v in H.items()}
+        # Proiettare SOLO i due domini che servono: `H` puo' contenere anche
+        # cic (spazio minimo 3+2, senza `duration` per costruzione) e unsw,
+        # e `build_ridotto_da_ricco` pretende lo spazio ricco. Proiettarli
+        # tutti sollevava KeyError: 'duration' sul frame CIC.
+        Hs = {k: (build_ridotto_da_ricco(H[k]) if proietta else H[k])
+              for k in (src, dst)}
         y_src_all = Hs[src]["label"].to_numpy()
         tr = undersample(y_src_all, np.arange(len(y_src_all)), ratio, seed)
         train_df = Hs[src].iloc[tr]
@@ -122,17 +129,22 @@ def main():
             if line.strip():
                 r = json.loads(line)
                 rows.append(r)
-                done.add((r["exp"], r["seed"]))
-    H = load_harmonized()
+                # La chiave include lo spazio: run_unit ne esegue due per
+                # unita' e la seconda puo' fallire da sola. Con la chiave
+                # (exp, seed) la ripresa saltava il seed con meta' risultati.
+                done.add((r["exp"], r["seed"], r["spazio"]))
+    exps = [e.strip() for e in args.exp.split(",")]
+    domini = sorted({d for e in exps for d in e.split("->")})
+    H = load_harmonized(domini=domini)
     t0 = time.time()
-    for exp in [e.strip() for e in args.exp.split(",")]:
+    for exp in exps:
         for seed in [int(s) for s in args.seeds.split(",")]:
-            if (exp, seed) in done:
+            if all((exp, seed, nome) in done for nome in SPAZI):
                 continue
             if args.max_seconds and time.time() - t0 > args.max_seconds:
                 print("[ckpt] fermato per tempo: rilancia lo stesso comando")
                 return finalize(rows)
-            run_unit(H, exp, seed, args.ratio, rows, ckpt)
+            run_unit(H, exp, seed, args.ratio, rows, ckpt, done)
     return finalize(rows)
 
 

@@ -1,8 +1,14 @@
-metodo,ton->bot,bot->ton,ton->unsw,unsw->ton,bot->unsw,unsw->bot
-non adattato,0.5632,0.5989,0.2204,0.295,0.4587,0.712
-EM sul prior,0.5606,0.5,0.3746,0.4926,0.5,0.5
-TENT,0.44,0.6187,0.2428,0.4565,0.4887,0.6837
-TENT filtrato,0.5439,0.5262,0.2406,0.4999,0.4963,0.4821
-IM (SHOT),0.6411,0.7613,0.2428,0.3546,0.3781,0.7023
-8 etichette,0.7218,0.7249,0.7044,0.5924,0.6104,0.5
-32 etichette,0.9085,0.8939,0.7231,0.7727,0.7448,0.5
+,,bal_acc,bal_acc,frazione_positivi,frazione_positivi
+exp,,bot->ton,ton->bot,bot->ton,ton->bot
+metodo,etichette,,,,
+32 etichette,32,0.7831,0.7859,0.5602,0.7486
+8 etichette,8,0.6462,0.6992,0.4307,0.5909
+EM sul prior,0,0.5,0.5609,0.0,0.2348
+IM (SHOT),0,0.7777,0.6431,0.7255,0.4534
+IM come prior + 32 etichette,32,0.7937,0.6883,0.691,0.5992
+IM come prior + 8 etichette,8,0.7731,0.6273,0.7132,0.4702
+IM seleziona + 32 etichette,32,0.8137,0.7055,0.7347,0.9205
+IM seleziona + 8 etichette,8,0.6529,0.8083,0.8231,0.9451
+TENT,0,0.5314,0.4852,0.1004,0.2839
+TENT filtrato,0,0.5125,0.5213,0.034,0.254
+non adattato,0,0.6112,0.5575,0.2684,0.4407
