@@ -96,7 +96,7 @@ def main():
     print(f"LUT: numerica {fc.lut_kb(num_edges):.1f} KB + categorica {cat_bytes} B = {lut_kb:.1f} KB")
     pd.DataFrame([{"modello": "KAN mista num10+cat4", "macro_f1": round(macro,4),
                    "weighted_f1": round(weighted,4), "lut_kb": round(lut_kb,1),
-                   "baseline_solo_num": 0.8579}]).to_csv("results/kan_categorical_mc_real.csv", index=False)
+                   "baseline_solo_num": 0.8579}]).to_csv("results/kan_categorical_mc_real.csv", index=False, lineterminator="\n")
     pickle.dump({"coeffs": kan.coeffs, "tabs": tabs, "ep": ep}, open(CK, "wb"))
     print("DONE")
 

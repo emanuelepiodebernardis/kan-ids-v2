@@ -346,7 +346,7 @@ def main():
         "delta": round(f1q - f1f, 4), "weighted_f1": round(wq, 4),
         "agreement_pct": round(agree * 100, 2), "mem_bytes": mem,
         "mem_kb": round(mem / 1024, 2), "n_golden": N_GOLDEN,
-    }]).to_csv(RESULTS_DIR / "mc_e2e_int_export.csv", index=False)
+    }]).to_csv(RESULTS_DIR / "mc_e2e_int_export.csv", index=False, lineterminator="\n")
     print("salvato results/mc_e2e_int_export.csv")
 
 

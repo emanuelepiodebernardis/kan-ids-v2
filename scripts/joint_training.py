@@ -374,7 +374,7 @@ def finalize_selection(rows, suffix_spazio):
     if d.empty:
         print("nessun run di selezione")
         return None
-    d.to_csv(RESULTS_DIR / f"joint_ratio_selection_runs{suffix_spazio}.csv", index=False)
+    d.to_csv(RESULTS_DIR / f"joint_ratio_selection_runs{suffix_spazio}.csv", index=False, lineterminator="\n")
 
     per_ratio = (d.groupby("ratio")["balanced_accuracy"]
                   .agg(["mean", "std", "count"]).round(4))
@@ -388,33 +388,7 @@ def finalize_selection(rows, suffix_spazio):
 
     tabella = (d.pivot_table(index="ratio", columns=["dst", "model"],
                              values="balanced_accuracy", aggfunc="mean").round(4))
-    tabella.to_csv(RESULTS_DIR / f"joint_ratio_selection{suffix_spazio}.csv")
-
-    # Confronti appaiati fra il rapporto scelto e gli altri candidati. Ogni
-    # misura e' una tripla (seed, modello, dominio di validation): sono le
-    # stesse condizioni per tutti i rapporti, quindi il test corretto e'
-    # quello per campioni appaiati. Serve a non far passare per netta una
-    # scelta che potrebbe essere netta solo verso una parte della griglia:
-    # "la media piu' alta" e "significativamente meglio" sono due cose
-    # diverse, ed e' la distinzione su cui il relatore ha gia' corretto
-    # un'affermazione nel README.
-    from scipy import stats
-
-    app = d.pivot_table(index=["seed", "model", "dst"], columns="ratio",
-                        values="balanced_accuracy").dropna()
-    confronti = []
-    for r in sorted(c for c in app.columns if c != scelto):
-        a, b = app[scelto].to_numpy(), app[r].to_numpy()
-        tt, pv = stats.ttest_rel(a, b)
-        confronti.append({
-            "contro": float(r), "n_coppie": int(len(a)),
-            "differenza_media": round(float(a.mean() - b.mean()), 4),
-            "t": round(float(tt), 3), "p_value": float(f"{pv:.3e}"),
-            "significativa_5pct": bool(pv < 0.05),
-            "vince_in": f"{int((a > b).sum())}/{len(a)}",
-        })
-    pd.DataFrame(confronti).to_csv(
-        RESULTS_DIR / f"joint_ratio_significativita{suffix_spazio}.csv", index=False)
+    tabella.to_csv(RESULTS_DIR / f"joint_ratio_selection{suffix_spazio}.csv", lineterminator="\n")
 
     # Dispersione per modello lungo la griglia. Non serve a scegliere il
     # rapporto — la scelta e' gia' fatta — ma dice quali modelli sono
@@ -424,7 +398,7 @@ def finalize_selection(rows, suffix_spazio):
     disp = (d.groupby(["model", "dst", "ratio"])["balanced_accuracy"]
               .agg(["mean", "std"]).round(4).reset_index())
     disp.to_csv(RESULTS_DIR / f"joint_ratio_dispersione{suffix_spazio}.csv",
-                index=False)
+                index=False, lineterminator="\n")
     peggiori = (disp.groupby("model")["std"].max().sort_values(ascending=False))
 
     scelta = {
@@ -440,11 +414,24 @@ def finalize_selection(rows, suffix_spazio):
         "seed_concordi_su_scelta": concordi,
         "seed_totali": int(d.seed.nunique()),
         "argmax_per_seed": {str(k): float(v) for k, v in argmax_per_seed.items()},
-        "confronti_appaiati": confronti,
+        # lo riempie statistica_confronti.rapporto(), qui sotto: legge i run
+        # appena scritti e usa il seed come unita' di analisi
+        "confronti_appaiati": [],
         "test_set_usati_in_questa_fase": 0,
     }
     path = RESULTS_DIR / f"joint_ratio_selection_scelta{suffix_spazio}.json"
     path.write_text(json.dumps(scelta, indent=2) + "\n", encoding="utf-8", newline="\n")
+
+    # I confronti appaiati li scrive scripts/statistica_confronti.py, che
+    # rilegge i run appena salvati. Qui c'era un t su 120 "coppie" — 10 seed
+    # x 6 modelli x 2 domini in una lista sola — cioe' precisamente cio' che
+    # il punto 4 della revisione chiede di togliere: modelli e domini non
+    # sono repliche della stessa quantita', e il criterio dichiarato e' gia'
+    # la media su di essi. L'unita' e' il seed, e i seed sono dieci.
+    import sys as _sys
+    _sys.path.insert(0, str(RESULTS_DIR.parent / "scripts"))
+    from statistica_confronti import rapporto as _confronti_rapporto
+    confronti_df = _confronti_rapporto() if not suffix_spazio else None
 
     print("\n" + "=" * 76)
     print("SELEZIONE DEL RAPPORTO — solo validation interna, nessun test set")
@@ -455,12 +442,16 @@ def finalize_selection(rows, suffix_spazio):
     print("\ndispersione fra seed, massimo su griglia e domini:")
     for m, s in peggiori.items():
         print(f"  {m:<20}std max {s:.4f}")
-    print(f"\nconfronti appaiati su {len(app)} misure (seed x modello x dominio):")
-    print(f"  {'contro':>8}{'differenza':>12}{'p':>11}{'significativa':>15}{'vince in':>11}")
-    for c in confronti:
-        print(f"  {'1:' + format(c['contro'], 'g'):>8}"
-              f"{c['differenza_media']:>+12.4f}{c['p_value']:>11.2e}"
-              f"{('si' if c['significativa_5pct'] else 'NO'):>15}{c['vince_in']:>11}")
+    if confronti_df is not None and len(confronti_df):
+        print(f"\nconfronti appaiati, unita' = seed "
+              f"({int(confronti_df.n_unita.iloc[0])} osservazioni):")
+        print(f"  {'contro':>8}{'differenza':>12}{'p':>11}{'p (Holm)':>11}"
+              f"{'vince in':>11}")
+        for _i, c in confronti_df.iterrows():
+            print(f"  {c.modello_b:>8}{c.differenza:>+12.4f}"
+                  f"{c.p_formattato:>11}"
+                  f"{('n/d' if c.p_holm is None else format(c.p_holm, '.2e')):>11}"
+                  f"{c.vince_a:>11}")
     print(f"scritto in {path.name}. La valutazione finale lo legge da li' da sola:\n"
           f"    python scripts/joint_training.py                  # TON_test, BoT_test\n"
           f"    python scripts/joint_training.py --eval-extra unsw")
@@ -561,7 +552,7 @@ def main():
         H = {k: (build_ridotto_da_ricco(v) if k != "cic" else v) for k, v in H.items()}
     cov = pd.concat([coverage_report(H["ton"], "TON_IoT"),
                      coverage_report(H["bot"], "BoT-IoT")])
-    cov.to_csv(RESULTS_DIR / "harmonized_coverage.csv", index=False)
+    cov.to_csv(RESULTS_DIR / "harmonized_coverage.csv", index=False, lineterminator="\n")
 
     ckpt = ARTIFACTS_DIR / f"joint_training{suffix}.jsonl"
     if args.fresh and ckpt.exists():
@@ -651,15 +642,15 @@ def main():
     df = df.drop_duplicates(subset=keys, keep="last").reset_index(drop=True)
     if before != len(df):
         print(f"[merge] {before - len(df)} run sovrascritti da esecuzioni piu' recenti")
-    df.to_csv(out_csv, index=False)
+    df.to_csv(out_csv, index=False, lineterminator="\n")
     summ = aggregate(df.to_dict("records"), by=("dst", "model"))
-    summ.to_csv(RESULTS_DIR / f"joint_training_summary{suffix}.csv", index=False)
+    summ.to_csv(RESULTS_DIR / f"joint_training_summary{suffix}.csv", index=False, lineterminator="\n")
 
     for (dst, model), mats in confusions.items():
         cm = np.sum(mats, axis=0)
         pd.DataFrame(cm, index=["normal", "attack"], columns=["normal", "attack"]).to_csv(
             RESULTS_DIR / f"confusion_joint{suffix}_{dst}_"
-            f"{model.replace('(','_').replace(')','').replace(',','_')}.csv")
+            f"{model.replace('(','_').replace(')','').replace(',','_')}.csv", lineterminator="\n")
 
     if balance_info_per_seed:
         # Stessa logica di unione del CSV dei run: i seed gia' in checkpoint
@@ -673,7 +664,7 @@ def main():
         if bal_path.exists():
             bal_new = pd.concat([pd.read_csv(bal_path), bal_new], ignore_index=True)
         bal_new.drop_duplicates(subset=["seed"], keep="last").sort_values("seed").to_csv(
-            bal_path, index=False)
+            bal_path, index=False, lineterminator="\n")
 
     print("\n" + "=" * 96)
     print(f"{'dominio':<9}{'modello':<18}{'F1':>16}{'bal.acc':>16}{'PR-AUC':>16}")

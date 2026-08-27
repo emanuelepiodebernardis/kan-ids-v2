@@ -15,11 +15,11 @@
 #include <cstdint>
 
 /* header del modello INTEGER-ONLY (autoconsistente) */
-#include "kan_ids_layer_int.h"
+#include "../include/kan_ids_layer_int.h"
 /* test vector reali (z-scored) + etichette attese */
-#include "test_vectors.h"
+#include "../include/test_vectors.h"
 /* logica di inferenza pura condivisa col firmware */
-#include "kan_infer.h"
+#include "../include/kan_infer.h"
 
 int main() {
   printf("== host check: inferenza KAN-LUT integer-only sui test vector ==\n");

@@ -17,20 +17,21 @@ Ogni sorgente in `src/` copre entrambi i target tramite `#ifdef`.
 ```
 mcu_pio/
 ├── platformio.ini          # 13 env su 2 schede: megaatmega2560, esp32c3
-├── src/                    # 7 firmware, uno per variante di modello
+├── src/                    # 8 firmware, uno per variante di modello
 │   ├── main.cpp            # KAN-LUT integer (env di default)
 │   ├── main_coeff.cpp      # KAN single-layer a coefficienti (254 B)
 │   ├── main_mlcoeff.cpp    # KAN multi-layer (5,1 KB)
 │   ├── main_mc.cpp         # KAN multiclasse 10 classi (8,1 KB)
 │   ├── main_e2e.cpp        # catena end-to-end binaria dai contatori grezzi
 │   ├── main_mc_e2e.cpp     # catena end-to-end a 10 classi
-│   └── main_dt5.cpp        # albero profondo 5, il concorrente sul Pareto
+│   ├── main_dt5.cpp        # albero profondo 5, il concorrente sul Pareto
+│   └── main_mlp.cpp        # MLP piccolo 16 nascosti, la baseline densa
 ├── include/                # header dei modelli + golden vector
 ├── host_check/             # verifica offline con g++ (no MCU necessario)
 │   ├── arduino_stub.h      # stub minimale di Arduino.h
 │   ├── avr/pgmspace.h      # stub PROGMEM (solo per il check host)
 │   ├── Wire.h              # stub I2C (solo per il check host)
-│   └── run_*_check.cpp     # 6 harness, uno per kernel
+│   └── run_*_check.cpp     # 7 harness, uno per kernel
 ├── wokwi.toml              # simulazione senza hardware (vedi §8)
 ├── diagram.json            # schema Wokwi: Arduino Mega 2560
 ├── diagram.esp32c3.json    # schema Wokwi: ESP32-C3-DevKitM-1
@@ -244,7 +245,7 @@ un riepilogo di accuratezza.
 
 ### 7a. Firmware dedicato — `src/main_energy.cpp` (da usare per l'articolo)
 
-I sette firmware di latenza cronometrano **una** inferenza per volta e fra
+Gli otto firmware di latenza cronometrano **una** inferenza per volta e fra
 una misura e la successiva stampano da cinque a nove valori su Serial. Per la
 latenza va bene: fra `t0` e `t1` c'è solo la chiamata al kernel. Per
 l'energia no. Uno strumento misura la corrente nel tempo, e in quel tempo la
@@ -278,6 +279,7 @@ pio run -e esp32c3_energy        -t upload
 pio run -e megaatmega2560_energy_dt5   -t upload  # albero d=5, 285 B
 pio run -e megaatmega2560_energy_e2e   -t upload  # end-to-end integer, 1.334 B
 pio run -e megaatmega2560_energy_mlcoeff -t upload
+pio run -e megaatmega2560_energy_mlp   -t upload  # MLP(16) denso, 760 B
 pio run -e esp32c3_energy_mc     -t upload        # 10 classi, 8.268 B
 
 # batch e ripetizioni si cambiano senza toccare i file
@@ -298,7 +300,7 @@ ciclo, e una finestra vuota sembrerebbe soltanto un modello molto efficiente.
 Il risultato di ogni inferenza è perciò accumulato in un `volatile` e la
 somma viene confrontata con quella attesa dai golden vector. L'output finisce
 con `checksum_ok=1`; se dice `0`, il firmware stampa che **la misura non è
-valida**. `tests/test_energy_firmware.py` compila ed esegue le cinque varianti
+valida**. `tests/test_energy_firmware.py` compila ed esegue le sei varianti
 sull'host pretendendo `checksum_ok=1`, e rilegge il sorgente per verificare
 che dentro la finestra non sia ricomparso dell'I/O.
 
@@ -420,3 +422,45 @@ LUT (99.95% agreement col float) con 1/22 della memoria; latenza da misurare
   (atteso 200/200) e idem con `run_mc_coeff_check.cpp`.
 - Header rigenerabili con `scripts/export_kan14_ml_coeff_c.py` e
   `scripts/export_kan14_mc_coeff_c.py` dai pesi in `models/`.
+
+## Variante 6: MLP piccolo denso (760 B)
+
+`main_mlp.cpp` — la baseline che mancava sul dispositivo. Fino alla revisione
+il confronto on-board era fra albero, KAN single-layer, KAN multi-layer e
+LUT: la rete densa, cioè proprio l'architettura che la KAN vuole sostituire,
+esisteva solo in cross-validation e con i byte **stimati** a un byte per
+parametro. Adesso è compilata e misurabile come le altre.
+
+```
+pio run -e megaatmega2560_mlp -t upload      # oppure -e esp32c3_mlp
+pio device monitor --baud 115200
+```
+
+- Modello: `include/mlp16_int8.h` (generato da `scripts/export_mlp_int_c.py`)
+- Kernel: `include/mlp16_infer.h` — 10 ingressi in Q12, ReLU, accumulatori
+  int32, decisione a segno. Traduzione 1:1 della simulazione numpy.
+- Verifica host: `g++ -O2 -o check host_check/run_mlp_check.cpp && ./check`
+  → atteso 200/200.
+
+Due dettagli che riguardano cosa viene misurato, non la matematica.
+
+**Il one-hot non esiste a bordo.** Il design di scikit-learn ha 42 colonne:
+10 numeriche più 32 colonne one-hot per le quattro feature categoriche. A
+bordo ogni categorica seleziona *una riga* di `MLP16_CAT`: una somma per
+neurone nascosto invece di 32 moltiplicazioni. Misurare il one-hot esplicito
+avrebbe misurato una trasposizione ingenua, non l'MLP.
+
+**Niente aritmetica a 64 bit.** L'attivazione nascosta viene ridotta di
+`MLP16_HSHIFT` bit prima del secondo layer, così ogni accumulatore sta in
+int32. Con l'accumulatore a 64 bit il kernel chiamerebbe `__adddi3`,
+`__ashrdi3` e `__mulsidi3` di libgcc su AVR, e la latenza misurata sarebbe
+quella di un tipo che il processore non ha. Lo shift è fissato dal bound
+calcolato all'export sui pesi quantizzati e su |xq| ≤ 2¹², non scelto sui
+dati, e costa pochi bit su ventitré.
+
+**Byte: 760, non 705.** La stima table-driven contava un byte per parametro.
+Il conteggio sull'header che il compilatore compila davvero è 760: i bias del
+primo layer sono int32 (64 B) e la tabella categorica ha una riga per codice.
+È lo stesso genere di scarto già visto sull'albero, dove la stima diceva 141 B
+e la misura 285. Il numero si legge da `results/footprint.csv`, che a sua
+volta lo legge dall'header con `scripts/c_footprint.py`.

@@ -1,0 +1,49 @@
+vettore,caso,edge,contributo
+7,"attacco, logit alto",src_ip_bytes,914924
+7,"attacco, logit alto",dst_port,2037931
+7,"attacco, logit alto",dst_ip_bytes,2252454
+7,"attacco, logit alto",src_port,-86133
+7,"attacco, logit alto",duration,-125344
+7,"attacco, logit alto",src_bytes,1076593
+7,"attacco, logit alto",dst_pkts,299650
+7,"attacco, logit alto",dst_bytes,975173
+7,"attacco, logit alto",src_pkts,1236406
+7,"attacco, logit alto",dns_qtype,1497442
+7,"attacco, logit alto",proto (cat),1342644
+7,"attacco, logit alto",service (cat),365292
+7,"attacco, logit alto",conn_state (cat),74520
+7,"attacco, logit alto",dns_rejected (cat),181440
+7,"attacco, logit alto",SOMMA = logit,12042992
+7,"attacco, logit alto",predizione (1 = attacco),1
+140,"normale, logit basso",src_ip_bytes,787221
+140,"normale, logit basso",dst_port,-1479009
+140,"normale, logit basso",dst_ip_bytes,-2136592
+140,"normale, logit basso",src_port,-858448
+140,"normale, logit basso",duration,-327019
+140,"normale, logit basso",src_bytes,-633651
+140,"normale, logit basso",dst_pkts,-2931752
+140,"normale, logit basso",dst_bytes,975173
+140,"normale, logit basso",src_pkts,-135657
+140,"normale, logit basso",dns_qtype,-1061129
+140,"normale, logit basso",proto (cat),-1184064
+140,"normale, logit basso",service (cat),-635508
+140,"normale, logit basso",conn_state (cat),-788670
+140,"normale, logit basso",dns_rejected (cat),-1152144
+140,"normale, logit basso",SOMMA = logit,-11561249
+140,"normale, logit basso",predizione (1 = attacco),0
+29,il piu' vicino alla soglia,src_ip_bytes,-37801
+29,il piu' vicino alla soglia,dst_port,274596
+29,il piu' vicino alla soglia,dst_ip_bytes,1401193
+29,il piu' vicino alla soglia,src_port,-358753
+29,il piu' vicino alla soglia,duration,-1498613
+29,il piu' vicino alla soglia,src_bytes,75758
+29,il piu' vicino alla soglia,dst_pkts,299650
+29,il piu' vicino alla soglia,dst_bytes,-132530
+29,il piu' vicino alla soglia,src_pkts,1236406
+29,il piu' vicino alla soglia,dns_qtype,-312406
+29,il piu' vicino alla soglia,proto (cat),-1184064
+29,il piu' vicino alla soglia,service (cat),-635508
+29,il piu' vicino alla soglia,conn_state (cat),248400
+29,il piu' vicino alla soglia,dns_rejected (cat),743904
+29,il piu' vicino alla soglia,SOMMA = logit,120232
+29,il piu' vicino alla soglia,predizione (1 = attacco),1

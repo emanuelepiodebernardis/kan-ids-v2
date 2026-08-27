@@ -98,7 +98,7 @@ def main():
                          "delta_f1": round(f1_score(yte, dec_i)-f1f, 4),
                          "agreement_pct": round((dec_f == dec_i).mean()*100, 3)})
             print(rows[-1], flush=True)
-    pd.DataFrame(rows).to_csv("results/kan14_compile_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/kan14_compile_real.csv", index=False, lineterminator="\n")
     print(f"salvato results/kan14_compile_real.csv t={time.time()-t0:.0f}s")
 
 if __name__ == "__main__":

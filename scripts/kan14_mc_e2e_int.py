@@ -189,7 +189,7 @@ def main():
     pd.DataFrame([{"macro_f1_float": round(f1f,4), "macro_f1_e2e_int": round(f1q,4),
                    "delta": round(f1q-f1f,4), "weighted_f1": round(wq,4),
                    "agreement_pct": round(agree*100,2), "mem_kb": round(mem/1024,1)}]
-                 ).to_csv("results/kan14_mc_e2e_int_real.csv", index=False)
+                 ).to_csv("results/kan14_mc_e2e_int_real.csv", index=False, lineterminator="\n")
     print(f"salvato results/kan14_mc_e2e_int_real.csv t={time.time()-t0:.0f}s")
 
 if __name__ == "__main__":

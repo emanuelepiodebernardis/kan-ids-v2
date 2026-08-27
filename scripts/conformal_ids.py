@@ -98,7 +98,7 @@ def main():
                          "size_media": round(size, 3), "pct_singleton": round(single*100, 1),
                          "cov_classe_normale": round(cov_m0, 4), "cov_classe_attacco": round(cov_m1, 4)})
             print(rows[-1], flush=True)
-    pd.DataFrame(rows).to_csv("results/conformal_ids_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/conformal_ids_real.csv", index=False, lineterminator="\n")
     print("salvato results/conformal_ids_real.csv (costo on-device: 1 soglia float marginale, 2 per Mondrian)")
 
 if __name__ == "__main__":

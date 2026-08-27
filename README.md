@@ -181,9 +181,9 @@ with **integer-only Horner (Q15)** — no floating point at inference.
 > inspecting the emitted assembly shows **zero floating-point arithmetic and
 > zero soft-float calls** — the latter being how floating point actually
 > appears on a device without an FPU (`__addsf3`, `__mulsf3`, `__floatsisf`
-> and relatives), which an x86-only check cannot see at all. Verified for five
-> kernels: single-layer, multi-layer, 10-class, end-to-end integer and the
-> depth-5 tree (`tests/test_no_float_avr.py`, skipped where `avr-g++` is
+> and relatives), which an x86-only check cannot see at all. Verified for six
+> kernels: single-layer, multi-layer, 10-class, end-to-end integer, the
+> depth-5 tree and the dense MLP (`tests/test_no_float_avr.py`, skipped where `avr-g++` is
 > absent). The same suite includes a check of the check: a source that plainly
 > uses `float` must make the script fail, and the previous x86-only regex did
 > not. Two further tests fail the build if a `float` or `double` ever
@@ -657,13 +657,45 @@ five seeds, though the larger model is ahead in 5 of 5). The criterion was
 and remains the 1-SE rule, which excludes 16 / 8; the t-test is reported
 because hiding it would be the same sin in the other direction.
 
-**The project keeps 16 / 8, and that is not a result of the selection.** It is
-the size constraint of a microcontroller, stated as such: 2.8·10⁻⁴ of balanced
-accuracy is not worth 57 % more parameters on a device where the model must
-share 256 KB of Flash with the firmware. Nothing in this repository claims the
-architecture was selected on validation — it was inherited from phase 1, and
-what the selection contributes is the *price* of that inheritance, now
-measured instead of assumed.
+**The project keeps 16 / 8, and that is not a result of the selection.**
+Nothing in this repository claims the architecture was selected on validation
+— it was inherited from phase 1. What the selection contributes is the *price*
+of that inheritance, and on a reviewer's request that price is now **compiled
+and measured** rather than asserted (`scripts/footprint_architettura.py`,
+`results/arch_footprint.csv`):
+
+| | model bytes | kernel stack | kernel code | bal. acc. (validation) |
+|---|---|---|---|---|
+| selected — 32 / 6 | 9,452 | 219 | 2,130 | 0.99631 |
+| **deployed — 16 / 8** | **5,244** | **155** | **1,916** | **0.99602** |
+| difference | **+4,208 (+80.2 %)** | +64 (+41 %) | +214 | +0.00028 |
+
+Both configurations were trained with the protocol of the selection and
+compiled with the same procedure as the deployed header
+(`kanids/compila_ml.py`, shared so that the comparison is between two
+architectures and not between two compilers). The deployed arm reproduces the
+5,244 B of the committed header exactly — that is what makes the two rows
+comparable with `results/footprint.csv`. Bytes are counted twice, by this
+project's parser and by the sections `avr-g++` emits for the ATmega2560, and
+the two agree. The h = 32 model was **not** evaluated on the test set, then or
+now: its accuracy figures are the selection's, on validation, over five seeds.
+
+The cost in *compiled* bytes (+80 %) is larger than the cost in Chebyshev
+parameters (+57 %), and the difference is not an accident: after compilation
+to B-splines every learned function is 19 coefficients whatever the degree of
+the polynomial it came from, so the footprint follows the hidden width and
+ignores the degree. An earlier version of this section quoted the parameter
+figure as though it were the footprint.
+
+**The honest form of the argument is not "it does not fit".** On the two
+boards used here it fits: 9,452 B is 3.6 % of the ATmega2560's 256 KB of
+Flash, and less on the ESP32-C3. What is true is that the selected
+configuration costs 80 % more model Flash and 41 % more SRAM on the inference
+path to buy 2.8·10⁻⁴ of balanced accuracy that a paired t-test does not
+separate — and that the 1-SE rule's own tie-break is "at equal practical
+score, take the smaller". This is therefore a **declared preference with a
+measured price**, not a hard constraint, and the audit reports it as the one
+requirement that is not fully met instead of hiding it.
 
 Two limits of this selection, stated for the same reason the ratio's are:
 
@@ -747,7 +779,7 @@ is not cosmetic: it **reverses the size ordering** of the two smallest models.
 |---|---|---|---|---|---|
 | **KAN single-layer + cat** | **254** | compiled | 0.9835 ± 0.0007 | **0.5573** | int8 spline coeffs + 4 tables |
 | Decision Tree (d=5) | 285 | compiled | **0.9944 ± 0.0004** | 0.5494 | 4 arrays × 57 nodes |
-| MLP (16) | 705 | *estimate* | 0.9964 ± 0.0009 | 0.4369 | 705 int8 parameters |
+| MLP (16) | 760 | compiled | 0.9964 ± 0.0009 | 0.4369 | int8 weights + categorical table + int32 biases |
 | KAN e2e integer (binary) | 1,334 | compiled | — | — | raw counters → decision, all tables |
 | **KAN multi-layer + cat** | **5,244** | compiled | **0.9976 ± 0.0002** | 0.4588 | int8, two spline layers |
 | KAN multiclass (10 classes) | 8,268 | compiled | — | — | int8, two layers, 10 outputs |
@@ -759,9 +791,17 @@ is not cosmetic: it **reverses the size ordering** of the two smallest models.
 **The two rules are not interchangeable, and the table says which applies
 where.** "Compiled" is a measurement: the sum of the `static const` arrays in
 the header, reproducible with `nm` on the emitted object. "Estimate" is a
-lower bound for the three models never exported to C — MLP, XGBoost, LightGBM
-— so a model that appears to be beaten on size by an estimated row has not
-been proven to be.
+lower bound for the two models never exported to C — XGBoost and LightGBM —
+so a model that appears to be beaten on size by an estimated row has not been
+proven to be.
+
+The MLP row moved from *estimate* to *compiled* during the second review, and
+the number moved with it: 705 B estimated at one byte per parameter, 760 B
+measured on `mcu_pio/include/mlp16_int8.h`. The 55 B are the first-layer
+biases, kept in int32, and the categorical table into which the 32 one-hot
+design columns are compiled. This is the same kind of gap the tree showed
+(141 B estimated, 285 B measured), in the same direction: the estimate is
+always the optimistic one.
 
 **In-domain the single-layer KAN is no longer dominated; counted on
 parameter bytes it is the smallest model on the front.** The depth-5 tree is still more accurate (0.9944 vs
@@ -902,24 +942,37 @@ this replaces:
    **What replaces the ranking claim: on TON→BoT there is a head group of
    three models that this data cannot separate.** Paired per-seed t-tests
    over the 10 seeds (`results/crossdomain_significativita.csv`, produced by
-   `scripts/crossdomain_report.py`):
+   `scripts/statistica_confronti.py`), with Holm correction over the family
+   of 15 pairs in this direction:
 
-   | | mean | vs KAN single-layer | p | wins in |
-   |---|---|---|---|---|
-   | KAN single-layer | 0.5573 | — | — | — |
-   | XGBoost | 0.5528 | −0.0046 | 0.62 | 6/10 *against* the KAN |
-   | Decision Tree (d=5) | 0.5494 | −0.0079 | 0.14 | 1/10 |
-   | LightGBM | 0.4779 | −0.0795 | <0.0001 | 0/10 |
-   | KAN multi-layer | 0.4588 | −0.0985 | 0.0004 | 0/10 |
-   | MLP (16) | 0.4369 | −0.1204 | 0.0001 | 0/10 |
+   | | mean | vs KAN single-layer | p | p (Holm) | KAN wins in |
+   |---|---|---|---|---|---|
+   | KAN single-layer | 0.5573 | — | — | — | — |
+   | XGBoost | 0.5528 | +0.0046 | 0.62 | 1.00 | 4/10 |
+   | Decision Tree (d=5) | 0.5494 | +0.0079 | 0.14 | 0.72 | 9/10 |
+   | LightGBM | 0.4779 | +0.0795 | 9.7·10⁻⁹ | 1.5·10⁻⁷ | 10/10 |
+   | KAN multi-layer | 0.4588 | +0.0985 | 4.0·10⁻⁴ | 4.4·10⁻³ | 10/10 |
+   | MLP (16) | 0.4369 | +0.1205 | 1.0·10⁻⁴ | 1.2·10⁻³ | 10/10 |
+
+   **What these ten numbers are, exactly.** In this direction `n_train` has a
+   single value (211,043 — all of TON_IoT) and `n_test` a single value
+   (3,668,522 — all of BoT-IoT) across every seed: the training set and the
+   evaluation set never change. The ten seeds vary only the models' internal
+   randomness, so the dispersion above is **retraining** variability, not
+   sampling variability, and the test answers "is the gap larger than the
+   jitter of retraining on this exact pair of datasets" — not "does this model
+   generalise better across domains", for which there is one source–target
+   pair and therefore n = 1. This is also why an earlier version of the
+   artifact reached t = −58 and printed `p_value = 0.0`.
 
    The single-layer KAN has the highest **mean**, and that is all the data
-   supports. It is not separable from XGBoost (p = 0.62 — and XGBoost is
+   supports. It is not separable from XGBoost (Holm p = 1.00 — and XGBoost is
    actually ahead in 6 of the 10 seeds, so the mean is carried by a minority
-   of splits) nor from the depth-5 tree (p = 0.14); the three head models are
-   also mutually indistinguishable (all pairwise p ≥ 0.14). What *is*
-   significant is the split between that head group and the other three:
-   every one of the nine head-vs-tail comparisons has p ≤ 0.0027. So the
+   of them) nor from the depth-5 tree (Holm p = 0.72); the three head models
+   are mutually indistinguishable (all three within-head pairs at Holm
+   p = 1.00), and so are the three tail models. What *is* separable is the
+   split between the two groups: all nine head-vs-tail comparisons survive
+   Holm, the weakest at p = 0.019. So the
    defensible statement is **"a single-layer KAN, an ensemble of boosted
    trees and a single shallow tree transfer significantly better than a
    deeper KAN, a wider MLP and LightGBM, and are not distinguishable from
@@ -1026,21 +1079,41 @@ the two validation sets — which keep their natural class distribution, the
 same condition the test sets are in. The winner is the highest mean balanced
 accuracy over 6 models × 2 domains × 10 seeds:
 
-| ratio | bal. accuracy on validation | vs 1:5 | p (paired) | 1:5 wins in |
-|---|---|---|---|---|
-| **1:5** | **0.9732 ± 0.0228** | — | — | — |
-| 1:10 | 0.9702 ± 0.0243 | −0.0030 | 2.4·10⁻⁵ | 78/120 |
-| 1:20 | 0.9657 ± 0.0319 | −0.0075 | 2.6·10⁻⁴ | 83/120 |
-| 1:50 | 0.9592 ± 0.0430 | −0.0140 | 3.2·10⁻⁷ | 89/120 |
-| 1:100 | 0.9523 ± 0.0563 | −0.0209 | 9.6·10⁻⁸ | 89/120 |
+The unit of analysis is the **seed**: the criterion is already a mean over
+models and domains, so the mean is taken first and ten paired observations
+remain. An earlier version of this table listed 120 "pairs" — 10 seeds × 6
+models × 2 domains in one list — which inflates the degrees of freedom
+twelvefold without adding information, and produced p-values down to 10⁻⁸.
 
-Monotone, and **1:5 is also the argmax in each of the 10 seeds taken
-separately**. Every difference is significant at 5 %, but the one that
-matters least is the nearest: 0.0030 against 0.0209 at the far end. Note also
-that the dispersion grows with the ratio — 0.0228 at 1:5, 0.0563 at 1:100 —
-so higher ratios are not only worse on average, they are less repeatable.
+| ratio | bal. acc. on validation (10 seeds) | vs 1:5 | p | p (Holm) | 1:5 wins in |
+|---|---|---|---|---|---|
+| **1:5** | **0.97320 ± 0.00405** | — | — | — | — |
+| 1:10 | 0.97020 ± 0.00488 | −0.00300 | 2.0·10⁻⁴ | 4.5·10⁻⁴ | 10/10 |
+| 1:20 | 0.96566 ± 0.00639 | −0.00753 | 6.2·10⁻³ | 6.2·10⁻³ | 10/10 |
+| 1:50 | 0.95920 ± 0.00603 | −0.01400 | 5.0·10⁻⁵ | 1.5·10⁻⁴ | 10/10 |
+| 1:100 | 0.95230 ± 0.00421 | −0.02090 | 2.7·10⁻⁷ | 1.1·10⁻⁶ | 10/10 |
+
+Monotone, and **1:5 wins on every one of the ten seeds against every
+candidate** — which is the assumption-free part of the evidence and the one
+worth quoting. The differences remain separable after Holm correction over
+the family of four, but note what the test can and cannot say: the validation
+sets are the *same* for all seeds, so the dispersion above is the variability
+of **retraining**, not of sampling. The choice rests on the mean and on the
+10/10 win count, not on these p-values.
+
+One claim retracted here. An earlier version read "the dispersion grows with
+the ratio — 0.0228 at 1:5, 0.0563 at 1:100 — so higher ratios are also less
+repeatable". Those figures were the spread over all 120 measurements, which
+mixes two different things. Decomposed: **between seeds** the dispersion does
+not grow (0.00405 → 0.00488 → 0.00639 → 0.00603 → 0.00421, not monotone);
+**between models and domains** it does (0.0221 → 0.0234 → 0.0270 → 0.0410 →
+0.0566). So a high ratio does not make a run less repeatable — it makes the
+six models *disagree more with one another*. Different statement, and the
+one the data supports.
+
 Artifacts: `results/joint_ratio_selection.csv`,
 `results/joint_ratio_significativita.csv`,
+`results/joint_ratio_vittorie.csv` (per model × domain × candidate),
 `results/joint_ratio_selection_scelta.json`.
 
 > **Correction (this is the second review).** An earlier version chose 1:5
@@ -1276,6 +1349,96 @@ python scripts/joint_training.py --ratio 5 --spazio ridotto --eval-extra unsw,ci
 
 ---
 
+## Interpretability: the explanation *is* the computation
+
+The deployed single-layer kernel
+(`mcu_pio/include/kan14_coeff_infer.h`) computes exactly this and nothing
+else:
+
+```
+logit =  Σ_i  ((acc_i · KC_MULT[i]) >> 15)                 10 numeric edges
+      +  Σ_j  (KC_CAT[off_j + c_j] · KC_CAT_MULT[j] · 6)    4 categorical edges
+```
+
+No interaction terms, no residual bias. So the per-feature decomposition is
+not an *estimate* of what each input contributed — which is what SHAP, LIME
+and saliency maps produce, by fitting a local surrogate to an opaque function
+— but **the addends of the sum the microcontroller actually performs**. Add
+the fourteen numbers and you get the logit back, bit for bit.
+
+That is a checkable claim, and it is checked:
+`tests/test_interpretabilita.py` compiles the real C kernel, runs it on the
+200 committed test vectors, and requires the fourteen addends to sum to the
+kernel's own `int32` logit on **200 out of 200** — not "approximately", not
+"correlated with". The project depends on no post-hoc explainer, and a test
+fails if `shap`, `lime`, `captum` or `eli5` ever appear in the requirements.
+
+### The fourteen learned functions
+
+![learned functions](figures/fig_kan_funzioni_apprese.png)
+
+Ten spline edges over the numeric features (after the quantile-normal
+transform and the ±3.5 clip) and four lookup tables over the categorical
+ones, slot 0 being the never-seen-in-training `UNK`. The ordinate is the
+contribution to the logit in the kernel's integer units.
+
+**Read the values, not the wiggles.** The curves oscillate: degree 8 with no
+smoothness penalty, compiled to 16 B-spline segments, and nothing in the
+training objective rewards monotone or simple shapes. For a *given input* the
+contribution is exact, and that is what the local explanations below use. The
+shape *between* the training density's modes is not evidence of a domain law,
+and this README does not read it as one.
+
+### Three real flows, decomposed
+
+![local contributions](figures/fig_kan_contributi_locali.png)
+
+A confident attack, a confident normal flow, and the vector closest to the
+decision threshold. The third is the interesting one: its logit is
++0.12·10⁶ — about one per cent of the confident case — and it is the residue
+of terms pulling in opposite directions, with `duration` and `proto` pushing
+toward *normal* and `dst_ip_bytes`, `src_pkts`, `dns_rejected` toward
+*attack*. A model that only emitted a score would say "attack, barely". This
+one says which four terms would have to move, and by how much.
+
+The numbers are in `results/interpretabilita_contributi.csv`, including the
+row where the addends are summed and the row with the resulting decision.
+
+### How much each edge can move the logit
+
+| edge | min | max | range |
+|---|---|---|---|
+| src_ip_bytes | -3.74 | +2.08 | **5.82** |
+| src_pkts | -3.15 | +2.42 | **5.58** |
+| dst_port | -2.86 | +2.04 | **4.90** |
+| dst_pkts | -2.93 | +1.71 | **4.64** |
+| dst_ip_bytes | -2.14 | +2.25 | **4.39** |
+
+Over the 200 verification vectors, in units of 10⁶. This is not an estimated
+feature importance: it is the observed range of an additive term, read off
+the addends themselves (`results/interpretabilita_escursione.csv`).
+
+### The multi-layer does not decompose this way, and we do not pretend it does
+
+For `KAN(cat,ML)` the second layer sees combinations of the sixteen hidden
+units, so a feature's effect depends on the values of the others and **no
+exact additive per-feature decomposition exists**. One could produce a
+figure that looks like the one above by holding the other features fixed, but
+it would be a local surrogate — the same category of object as SHAP, with the
+same caveats — and presenting it beside a decomposition that *is* exact would
+blur precisely the distinction this section is about. So the tooling
+(`scripts/interpretabilita.py`) refuses to emit anything for that model, and
+what can be said about it is the weaker and true statement: it is more
+accurate (0.9976 vs 0.9835 F1) and it is not directly interpretable.
+
+Reproduce with:
+
+```bash
+python scripts/interpretabilita.py
+```
+
+---
+
 ## A companion project: adaptation to domain drift
 
 `adattamento-drift/` is a separate, self-contained project living at the
@@ -1348,11 +1511,12 @@ g++ -O2 -o c2 host_check/run_ml_coeff_check.cpp && ./c2   # multi-layer:   200/2
 g++ -O2 -o c3 host_check/run_mc_coeff_check.cpp && ./c3   # multiclass:    200/200
 g++ -O2 -o c4 host_check/run_e2e_check.cpp      && ./c4   # e2e binary:    200/200
 g++ -O2 -o c5 host_check/run_mc_e2e_check.cpp   && ./c5   # e2e 10 classes:200/200
-g++ -O2 -o c6 host_check/run_host_check.cpp     && ./c6   # LUT variant:   39/40
+g++ -O2 -o c6 host_check/run_mlp_check.cpp      && ./c6   # dense MLP(16):  200/200
+g++ -O2 -o c7 host_check/run_host_check.cpp     && ./c7   # LUT variant:   39/40
 ```
 
-The first five compare the C kernel against the **Python reference**, golden
-vector by golden vector, and are bit-exact. The sixth is a different kind of
+The first six compare the C kernel against the **Python reference**, golden
+vector by golden vector, and are bit-exact. The seventh is a different kind of
 check and is listed separately for that reason: it compares the LUT variant's
 predictions against the **ground-truth labels** of 40 real flows, and the one
 mismatch is a borderline normal the model itself gets wrong — present in the
@@ -1474,10 +1638,13 @@ four ratios is archived under `griglia_su_test_superata/`.
 **Known limitations.** The MITM class (208 test samples) stays at F1 ≈ 0.57, and
 three independent remedies (class weighting, focal loss, SMOTENC) failed to move
 it — consistent with an informational rather than a methodological limit, but not
-a demonstration of one. Cross-dataset evaluation
-(CIC-IoT-2023) is restricted to the 10 harmonised numeric features — the
-categorical features that boost in-domain accuracy are capture-tool specific.
-Physical latency/energy benchmarks require the boards and are the next step.
+a demonstration of one. Cross-dataset evaluation on CIC-IoT-2023 runs in the
+reduced **6+2** space — six numeric features plus the two categorical edges —
+because that dataset reports no directional counts, so seven of the thirteen
+rich-space numeric features cannot be built for it; the section *A fourth
+dataset, in a smaller space* measures what that reduction costs on the domains
+that do not need it. Physical latency/energy benchmarks require the boards and
+are the next step.
 
 ---
 

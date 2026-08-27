@@ -113,7 +113,7 @@ def main():
                          "pct_singleton": round((sets.sum(1) == 1).mean()*100, 1),
                          "cov_attacco_mondrian": round(sets_m[yte == 1, 1].mean(), 4)})
             print(rows[-1], flush=True)
-    pd.DataFrame(rows).to_csv("results/kan14_conformal_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/kan14_conformal_real.csv", index=False, lineterminator="\n")
 
     # ---- SIMBOLICO ----
     LIB = {
@@ -152,7 +152,7 @@ def main():
             fo.write(f"{cn}: {np.round(tabs[j], 3).tolist()}\n")
         fo.write(f"\nF1_sym={f1s:.4f} agreement={agree*100:.2f}%\n")
     pd.DataFrame([{"f1_symbolic": round(f1s,4), "agreement_pct": round(agree*100,2)}]
-                 ).to_csv("results/kan14_symbolic_real.csv", index=False)
+                 ).to_csv("results/kan14_symbolic_real.csv", index=False, lineterminator="\n")
     print("salvati results/kan14_conformal_real.csv, kan14_symbolic_real.*")
 
 if __name__ == "__main__":

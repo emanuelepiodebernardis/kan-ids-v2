@@ -1,7 +1,7 @@
 modello,byte_parametri,regola,dettaglio,fonte,f1_cv,f1_std,kb
 "KAN(cat,1L)",254,array C compilati,coefficienti B-spline int8 + tabelle categoriche int8 + moltiplicatori Q15,mcu_pio/include/kan14_coeff_int8.h,0.9835,0.0007,0.25
 DecisionTree(d=5),285,array C compilati,"4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)",mcu_pio/include/dt5_model.h,0.9944,0.0004,0.28
-MLP(16),705,stima table-driven (nessun header C),705 parametri int8,—,0.9964,0.0009,0.69
+MLP(16),760,array C compilati,pesi int8 dei due layer + tabella categorica int8 (one-hot compilato) + bias int32,mcu_pio/include/mlp16_int8.h,0.9964,0.0009,0.74
 KAN e2e integer (binario),1334,array C compilati,"coefficienti int8 + LUT ln int32 + costanti affini, contatori grezzi -> decisione",mcu_pio/include/kan_e2e_int.h,,,1.3
 "KAN(cat,ML)",5244,array C compilati,due layer int8 + LUT tanh int16,mcu_pio/include/kan14_ml_coeff_int8.h,0.9976,0.0002,5.12
 "KAN(cat,MC) 10 classi",8268,array C compilati,"due layer int8, 10 uscite + LUT tanh int16",mcu_pio/include/kan14_mc_coeff_int8.h,,,8.07

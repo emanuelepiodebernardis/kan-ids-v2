@@ -1,5 +1,5 @@
-contro,n_coppie,differenza_media,t,p_value,significativa_5pct,vince_in
-10.0,120,0.003,4.396,2.408e-05,True,78/120
-20.0,120,0.0075,3.763,0.000262,True,83/120
-50.0,120,0.014,5.42,3.169e-07,True,89/120
-100.0,120,0.0209,5.682,9.61e-08,True,89/120
+exp,modello_a,modello_b,unita,n_unita,media_a,dev_a,media_b,dev_b,differenza,dev_differenza,vince_a,pareggi,t,p_value,p_formattato,t_corretto,p_corretto,p_holm,valutazione_fissa,correzione
+selezione rapporto,1:5,1:10,seed,10,0.9732,0.00405,0.9702,0.00488,0.003,0.0016,10/10,0,5.922,0.00022296270987956938,0.0002,,,0.00044592541975913875,True,"insieme di valutazione fisso: la correzione di Nadeau-Bengio non si applica, il test misura la variabilita' di riaddestramento"
+selezione rapporto,1:5,1:20,seed,10,0.9732,0.00405,0.96566,0.00639,0.00753,0.00671,10/10,0,3.552,0.006192994822441279,0.0062,,,0.006192994822441279,True,"insieme di valutazione fisso: la correzione di Nadeau-Bengio non si applica, il test misura la variabilita' di riaddestramento"
+selezione rapporto,1:5,1:50,seed,10,0.9732,0.00405,0.9592,0.00603,0.014,0.00614,10/10,0,7.215,5.000925201892721e-05,5.00e-05,,,0.00015002775605678164,True,"insieme di valutazione fisso: la correzione di Nadeau-Bengio non si applica, il test misura la variabilita' di riaddestramento"
+selezione rapporto,1:5,1:100,seed,10,0.9732,0.00405,0.9523,0.00421,0.0209,0.00487,10/10,0,13.56,2.7007067517575054e-07,2.70e-07,,,1.0802827007030022e-06,True,"insieme di valutazione fisso: la correzione di Nadeau-Bengio non si applica, il test misura la variabilita' di riaddestramento"

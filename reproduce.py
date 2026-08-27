@@ -110,9 +110,32 @@ STAGES = {
         "salva i pesi in models/ con il manifest (protocollo, seed, metriche)",
         [[PY, "scripts/export_models.py"]],
     ),
+    "baseline-c": (
+        "esporta in C intero le due baseline non-KAN che vanno su scheda: "
+        "albero profondo 5 e MLP a 16 nascosti. Sta PRIMA di 'footprint' "
+        "perche' i byte di entrambe si leggono dagli header prodotti qui",
+        # export_tree_c.py non era in nessuno stage: l'header dell'albero
+        # esisteva nel repository ma nessuna riproduzione lo rigenerava, ed
+        # e' il modello con cui la KAN viene confrontata piu' spesso.
+        [[PY, "scripts/export_tree_c.py"],
+         [PY, "scripts/export_mlp_int_c.py"]],
+    ),
     "footprint": (
         "ingombro dei parametri di tutti i modelli, regola di conteggio unica",
         [[PY, "scripts/footprint.py"]],
+    ),
+    "footprint-architettura": (
+        "compila la configurazione che la selezione sceglie (h=32 grado=6) e "
+        "ne misura l'ingombro accanto a quella deployata, per rendere il "
+        "compromesso accuratezza/memoria un numero misurato invece che una "
+        "affermazione. Richiede 'architettura' per sapere quale sia la scelta",
+        [[PY, "scripts/footprint_architettura.py"]],
+    ),
+    "interpretabilita": (
+        "funzioni apprese e contributi locali della KAN single-layer, letti "
+        "dall'header deployato. Non serve il dataset: coefficienti e vettori "
+        "di verifica stanno negli header committati",
+        [[PY, "scripts/interpretabilita.py"]],
     ),
     "figures": (
         "figure del report a partire dai CSV in results/",
@@ -149,6 +172,12 @@ STAGES = {
          [PY, "scripts/joint_training.py"],
          [PY, "scripts/joint_training.py", "--eval-extra", "unsw"]],
     ),
+    "statistica": (
+        "ricalcola i confronti fra modelli dai run archiviati, con il seed "
+        "come unita' di analisi. Non riaddestra niente: si puo' rilanciare "
+        "da solo ogni volta che i run cambiano",
+        [[PY, "scripts/statistica_confronti.py"]],
+    ),
     "tabelle": (
         "compone la tabella principale a sette colonne dai CSV, senza "
         "ricopiature a mano (richiede 'crossdomain' e 'joint')",
@@ -172,8 +201,9 @@ STAGES = {
 
 ORDER = ["tests", "audit", "leakage-audit", "features", "architettura",
          "cv-binary", "cv-multiclass",
-         "crossdomain", "joint", "tabelle", "compile", "integer", "conformal",
-         "nested-cv", "models", "footprint", "figures", "report"]
+         "crossdomain", "joint", "statistica", "tabelle", "compile", "integer", "conformal",
+         "nested-cv", "models", "baseline-c", "footprint",
+         "footprint-architettura", "interpretabilita", "figures", "report"]
 
 # Due stage restano FUORI da ORDER di proposito: "multiclass-state" e
 # "integer-10classi". I due header C a 10 classi derivano da uno stato

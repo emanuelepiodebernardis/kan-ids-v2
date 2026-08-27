@@ -97,7 +97,7 @@ def main():
     print(f"RISULTATO ml binario 14feat: F1={f1c:.4f} ROC-AUC={auc:.4f} parametri={n_par}")
     pd.DataFrame([{"arch": f"14feat 10num+4cat-{HID}h-1", "f1": round(f1c,4),
                    "roc_auc": round(auc,4), "parametri": n_par}]).to_csv(
-                   "results/kan14_ml_binary_real.csv", index=False)
+                   "results/kan14_ml_binary_real.csv", index=False, lineterminator="\n")
     pickle.dump(st, open(CK, "wb"))
     print("DONE")
 

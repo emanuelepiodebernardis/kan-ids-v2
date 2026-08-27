@@ -115,7 +115,7 @@ def main():
                      "max_err_logit": round(float(np.max(np.abs(zf - zc))), 3)})
         print(f"n_int={n_int}: agreement solo ri-fit={agree_refit*100:.3f}% | coeff-int16: {nbytes} B ->", rows[-1], flush=True)
 
-    pd.DataFrame(rows).to_csv("results/hybrid_compile_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/hybrid_compile_real.csv", index=False, lineterminator="\n")
     print("salvato results/hybrid_compile_real.csv")
 
 if __name__ == "__main__":

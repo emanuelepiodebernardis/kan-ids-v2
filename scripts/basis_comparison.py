@@ -153,9 +153,9 @@ def main():
     print("(= piu' leggero, perche' bastano meno campioni per la stessa fedelta')")
     print("="*64)
     pd.DataFrame([(args.task,f1c,f1b)],columns=["task","cheb_f1","bspl_f1"]).to_csv(
-        f"basis_acc_{args.task}.csv",index=False)
+        f"basis_acc_{args.task}.csv",index=False, lineterminator="\n")
     pd.DataFrame(rows,columns=["L","cheb_max","cheb_mean","bspl_max","bspl_mean"]).to_csv(
-        f"basis_quant_{args.task}.csv",index=False)
+        f"basis_quant_{args.task}.csv",index=False, lineterminator="\n")
 
 
 if __name__=="__main__":

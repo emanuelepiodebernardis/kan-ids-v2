@@ -14,7 +14,7 @@
 /* Il kernel e' in include/kan_e2e_infer.h: lo stesso codice che gira sul
  * firmware. Duplicarlo qui significherebbe verificare una copia che puo'
  * divergere da quella deployata. */
-#include "kan_e2e_infer.h"
+#include "../include/kan_e2e_infer.h"
 
 int main(void) {
   int z_ok = 0, dec_ok = 0, label_ok = 0;

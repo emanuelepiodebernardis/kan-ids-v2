@@ -118,7 +118,7 @@ def main():
     print("per-classe:", np.round(per, 3).tolist())
     pd.DataFrame([{"modello": f"KAN ml focal g2 num10+cat4 ({HID}h)", "macro_f1": round(mac,4),
                    "weighted_f1": round(wgt,4), "parametri": n_par,
-                   "riferimento_lgbm": 0.9675}]).to_csv("results/kan_ml_cat_focal_real.csv", index=False)
+                   "riferimento_lgbm": 0.9675}]).to_csv("results/kan_ml_cat_focal_real.csv", index=False, lineterminator="\n")
     pickle.dump(st, open(CK, "wb"))
     print("DONE")
 

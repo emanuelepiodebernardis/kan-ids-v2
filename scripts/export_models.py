@@ -29,20 +29,21 @@ _REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(_REPO))
 
 from kanids.cache import PIPELINE_VERSION
+from kanids.checkpoint import VERSIONATI
 from kanids.config import MODELS_DIR, RESULTS_DIR, SEEDS, artifact_path
 from kanids.legacy import prepare14_dict
 
-SOURCES = [
-    ("kan14_bin_model.npz", "kan14_binary_singlelayer.npz",
-     "KAN single-layer 14 feature (10 Chebyshev + 4 edge categorici)",
-     "scripts/kan14_binary.py"),
-    ("kan14_mlbin.pkl", "kan14_binary_multilayer.pkl",
-     "KAN multi-layer binaria [14 -> 16 hidden -> 1]",
-     "scripts/kan14_ml_binary.py"),
-    ("mlcat_state.pkl", "kan14_multiclass_multilayer.pkl",
-     "KAN multi-layer multiclass [14 -> 16 hidden -> 10]",
-     "scripts/kan_ml_cat_mc.py"),
-]
+# Nome e script vengono da kanids/checkpoint.py: la stessa corrispondenza
+# serve agli esportatori per trovare uno stato quando artifacts/ e' vuoto, e
+# due copie divergerebbero al primo rinomino. Qui restano le descrizioni.
+DESCRIZIONI = {
+    "kan14_bin_model.npz":
+        "KAN single-layer 14 feature (10 Chebyshev + 4 edge categorici)",
+    "kan14_mlbin.pkl": "KAN multi-layer binaria [14 -> 16 hidden -> 1]",
+    "mlcat_state.pkl": "KAN multi-layer multiclass [14 -> 16 hidden -> 10]",
+}
+SOURCES = [(src, dst, DESCRIZIONI[src], script)
+           for src, (dst, script) in VERSIONATI.items()]
 
 METRICS = [
     ("kan14_binary_real.csv", "F1 binario single-layer"),
@@ -114,7 +115,11 @@ def main():
     # .pkl sono checkpoint di training, rigenerabili.
     headers = []
     inc = _REPO / "mcu_pio" / "include"
-    for h in sorted(inc.glob("kan*.h")):
+    # `kan*.h` lasciava fuori dt5_model.h — l'albero contro cui la KAN viene
+    # confrontata piu' spesso — e avrebbe lasciato fuori anche mlp16_*.h. Il
+    # campo si chiama "header_c_deployabili": o li elenca tutti, o il nome e'
+    # sbagliato. Sono tutti header di modello o di vettori di verifica.
+    for h in sorted(inc.glob("*.h")):
         headers.append({"file": h.relative_to(_REPO).as_posix(),
                         "byte": byte_versionati(h)})
 

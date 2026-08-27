@@ -169,5 +169,5 @@ pd.DataFrame([{
     "acc_golden_pct": round(float((pred[sel] == ymte[sel]).mean()) * 100, 1),
     "mem_bytes": _mem,
     "mem_kb": round(_mem / 1024, 2),
-}]).to_csv(RESULTS_DIR / "kan14_mc_coeff_export.csv", index=False)
+}]).to_csv(RESULTS_DIR / "kan14_mc_coeff_export.csv", index=False, lineterminator="\n")
 print("salvato results/kan14_mc_coeff_export.csv")

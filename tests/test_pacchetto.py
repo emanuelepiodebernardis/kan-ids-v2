@@ -158,3 +158,121 @@ def test_lindice_avverte_se_il_commit_non_ha_un_tag():
         "l'indice non avverte che il commit non e' su un tag")
     assert "non porta un tag" not in con_tag, (
         "l'indice avverte anche quando il tag c'e'")
+
+
+def test_il_pacchetto_include_tutti_gli_environment_di_energia():
+    """La lista era scritta a mano e ne ometteva tre, fra cui la KAN
+    multi-layer — il modello che il relatore considera il miglior compromesso
+    in accuratezza. Gli environment esistevano in platformio.ini da sempre:
+    a mancare era solo la riga che li mette nel pacchetto, ed e' il tipo di
+    omissione che nessuno nota perche' non produce nessun errore."""
+    import re
+    m = _modulo()
+    ini = (REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
+    definiti = {n for n in re.findall(r"^\[env:([^\]]+)\]", ini, re.M)
+                if "_energy" in n}
+    mancanti = definiti - set(m.FIRMWARE)
+    assert not mancanti, (
+        f"environment di energia definiti in platformio.ini ma non inclusi nel "
+        f"pacchetto: {sorted(mancanti)}")
+    inventati = set(m.FIRMWARE) - definiti
+    assert not inventati, (
+        f"il pacchetto elenca environment che non esistono: {sorted(inventati)}")
+
+
+# ─────────────────────────────────────────────────────────────
+# Gli host check devono compilare DAL PACCHETTO ESTRATTO
+# ─────────────────────────────────────────────────────────────
+def test_gli_host_check_compilano_e_girano_dal_pacchetto(tmp_path):
+    """Richiesta esplicita del Prof. Kuznetsov (punto 5).
+
+    Non compilavano. Gli header finivano in `header_c/` mentre i sorgenti li
+    cercano in `../include/`, che e' il percorso che hanno nel repository:
+    dal pacchetto estratto il primo comando che un lettore prova —
+    `cd host_check && g++ -O2 -o check run_coeff_check.cpp` — falliva con un
+    include mancante. Adesso la cartella si chiama `include/` e i check si
+    compilano senza una sola opzione.
+
+    Il test costruisce il pacchetto, entra nella copia estratta e compila ed
+    ESEGUE ogni check, senza `-I`, senza il repository intorno.
+    """
+    import shutil
+    import subprocess
+    import sys as _s
+    _s.path.insert(0, str(REPO / "scripts"))
+    from kanids.toolchain import ambiente, motivo_assenza, trova
+    gpp = trova("g++")
+    if gpp is None:
+        pytest.skip(motivo_assenza("g++"))
+
+    # --senza-audit: rigenerare l'audit significa rieseguire tutta la suite,
+    # e questo test ne fa parte. Qui interessa la disposizione dei file, non
+    # il contenuto del report.
+    dest = tmp_path / "pacchetto"
+    r = subprocess.run([_s.executable, str(REPO / "scripts" / "pacchetto_finale.py"),
+                        "--out", str(dest), "--senza-audit"],
+                       capture_output=True, text=True, cwd=REPO, timeout=600)
+    assert dest.exists(), r.stdout[-2000:] + r.stderr[-2000:]
+
+    hc = dest / "host_check"
+    assert (dest / "include").is_dir(), (
+        "il pacchetto non ha una cartella `include/`: gli host check cercano "
+        "i loro header in `../include/` e non li troverebbero")
+    assert hc.is_dir()
+
+    # il pacchetto estratto viene isolato: niente repository intorno
+    lavoro = tmp_path / "estratto"
+    shutil.copytree(dest, lavoro)
+
+    sorgenti = sorted((lavoro / "host_check").glob("run_*.cpp"))
+    assert len(sorgenti) >= 5, f"solo {len(sorgenti)} host check nel pacchetto"
+
+    _s.path.insert(0, str(Path(__file__).resolve().parent))
+    from artefatti import include_mancanti
+    falliti, eseguiti, saltati = [], [], []
+    for f in sorgenti:
+        # un header generato non ancora prodotto non e' un difetto del
+        # pacchetto: lo dice gia' tests/test_mlp_int.py, con il comando
+        manca = include_mancanti(REPO / "mcu_pio" / "host_check" / f.name)
+        if manca:
+            saltati.append(f"{f.name} ({', '.join(manca)})")
+            continue
+        exe = f.with_suffix(".exe")
+        c = subprocess.run([gpp, "-O2", "-o", str(exe), f.name],
+                           cwd=f.parent, capture_output=True, text=True,
+                           env=ambiente("g++"))
+        if c.returncode != 0:
+            falliti.append(f"{f.name}: compilazione\n{c.stderr[-400:]}")
+            continue
+        r = subprocess.run([str(exe)], cwd=f.parent, capture_output=True,
+                           text=True, timeout=120)
+        if r.returncode != 0:
+            falliti.append(f"{f.name}: esecuzione rc={r.returncode}\n"
+                           f"{r.stdout[-400:]}")
+        else:
+            eseguiti.append(f.name)
+    assert not falliti, (
+        "host check che non compilano o non girano dal pacchetto estratto:\n"
+        + "\n".join(falliti))
+    assert eseguiti, "nessun host check eseguito"
+    if saltati:
+        print("saltati per header generati assenti: " + "; ".join(saltati))
+
+
+def test_nel_pacchetto_gli_header_stanno_dove_i_check_li_cercano():
+    """Controllo statico, per dire *perche'* la cartella si chiama cosi'.
+
+    Se qualcuno rinominasse `include/` in qualcos'altro il test sopra
+    fallirebbe con un errore del compilatore; questo fallisce dicendo la
+    ragione."""
+    testo = (REPO / "scripts" / "pacchetto_finale.py").read_text(encoding="utf-8")
+    assert '"include"' in testo, (
+        "il pacchetto non copia piu' gli header in `include/`")
+    for f in sorted((REPO / "mcu_pio" / "host_check").glob("run_*.cpp")):
+        sorgente = f.read_text(encoding="utf-8")
+        import re as _re
+        for inc in _re.findall(r'#include\s+"([^"]+)"', sorgente):
+            assert inc.startswith("../include/"), (
+                f"{f.name} include {inc!r} senza percorso relativo: dal "
+                f"pacchetto estratto servirebbe un -I, e la riga di comando "
+                f"documentata non ne ha")

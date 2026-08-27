@@ -481,7 +481,17 @@ def main():
             ["Focal loss e SMOTENC (risultati negativi)", "ancora v1; corroborati indipendentemente in v2"],
             ["Multi-layer multiclass in CV 5x3", "completato: 0,9374 +/- 0,0036 su 15 fit"],
             ["Indipendenza della stima (CV annidata)", "misurata: ottimismo -0,0009, conservativo"],
-            ["CIC-IoT-2023 come terzo dataset", "non iniziato (obiettivo secondario)"]]
+            ["CIC-IoT-2023 come quarto dominio, spazio ridotto 6+2",
+             "completato: joint 1:5 valutato anche su CIC, costo della "
+             "riduzione misurato sui domini che non ne hanno bisogno"],
+            ["MLP piccolo esportato in C intero (baseline hardware)",
+             "completato: 760 B misurati sull'header, non stimati"],
+            ["Ingombro della configurazione scelta dalla selezione",
+             "misurato: 9.452 B contro 5.244 della deployata"],
+            ["Statistica dei confronti sull'unita' di analisi giusta",
+             "completato: il seed, non le 120 coppie seed x modello x dominio"],
+            ["Interpretabilita' diretta della single-layer",
+             "completata: i 14 addendi sommano al logit del kernel C, 200/200"]]
     story.append(KeepTogether([table(rows, [8.0 * cm, 7.5 * cm]), Spacer(1, 8)]))
     story.append(P(
         "La priorità che suggerirei è il benchmark fisico: senza gli ingombri misurati, "

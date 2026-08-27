@@ -61,9 +61,12 @@ DECL = re.compile(
     r"static\s+const\s+(\w+)\s+(\w+)\s*((?:\[[^\]]*\])+)"
 )
 # costanti scalari del modello (es. KANI_XMIN/KANI_XMAX: gli estremi
-# dell'intervallo di input della LUT). Occupano byte quanto gli array.
+# dell'intervallo di input della LUT, o MLP16_B2, il bias di uscita).
+# Occupano byte quanto gli array. PROGMEM e' opzionale: uno scalare in Flash
+# e' un parametro del modello tanto quanto uno in SRAM, e senza questo la
+# regex saltava in silenzio le costanti dichiarate PROGMEM.
 SCALAR = re.compile(
-    r"static\s+const\s+(\w+)\s+(\w+)\s*=", )
+    r"static\s+const\s+(\w+)\s+(\w+)\s*(?:PROGMEM\s*)?=", )
 
 # modello -> (header, prefisso dei simboli, descrizione della variante)
 MODELS = [
@@ -74,6 +77,7 @@ MODELS = [
     ("KAN e2e integer (binario)",   "kan_e2e_int.h",          "E2E_",  "coefficienti int8 + LUT ln int32 + costanti affini, contatori grezzi -> decisione"),
     ("KAN e2e integer (10 classi)", "kan_mc_e2e_int.h",       "MC_",   "nodi int64 + nodi normalizzati int16 + due layer int8 + LUT tanh"),
     ("KAN-LUT integer (env default)", "kan_ids_layer_int.h",  "KANI_", "tabella di lookup int16 pre-scalata, 10 edge x 512 punti"),
+    ("MLP(16)",                     "mlp16_int8.h",           "MLP16_", "pesi int8 dei due layer + tabella categorica int8 (one-hot compilato) + bias int32"),
 ]
 
 

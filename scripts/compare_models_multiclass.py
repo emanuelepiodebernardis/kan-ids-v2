@@ -151,7 +151,7 @@ def main():
                             "weighted_f1": weighted_k, "space": "10feat",
                             "mitm_f1": mitm_f1}])
     pd.concat([res95, res10, kanrow], ignore_index=True).to_csv(
-        "kan_ids_multiclass_results.csv", index=False)
+        "kan_ids_multiclass_results.csv", index=False, lineterminator="\n")
     print("\nRisultati salvati in kan_ids_multiclass_results.csv")
 
 

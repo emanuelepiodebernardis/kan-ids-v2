@@ -156,7 +156,7 @@ def main():
 
     pd.DataFrame(rows, columns=["k", "bin_f1", "mc_macrof1", "edge_bin",
                                 "edge_mc", "lut_bin_kb", "lut_mc_kb"]
-                 ).to_csv(str(RESULTS_DIR / "feature_curve_results.csv"), index=False)
+                 ).to_csv(str(RESULTS_DIR / "feature_curve_results.csv"), index=False, lineterminator="\n")
     print("\nSalvato feature_curve_results.csv")
 
 

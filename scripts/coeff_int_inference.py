@@ -116,7 +116,7 @@ def main():
                    "delta_f1": round(f1_int-f1_kan,4),
                    "agree_vs_coeff_float_pct": round(agree_vs_cf*100,3),
                    "agree_vs_kan_float_pct": round(agree_vs_kan*100,3),
-                   "mem_bytes_solo_edge_numerici": mem_edge}]).to_csv("results/coeff_int_inference_real.csv", index=False)
+                   "mem_bytes_solo_edge_numerici": mem_edge}]).to_csv("results/coeff_int_inference_real.csv", index=False, lineterminator="\n")
     print(f"salvato results/coeff_int_inference_real.csv t={time.time()-t0:.0f}s")
 
 if __name__ == "__main__":

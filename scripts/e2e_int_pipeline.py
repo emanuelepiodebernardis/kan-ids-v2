@@ -158,7 +158,7 @@ def main():
           f"di cui {sum(len(c) for c in C8)} B di coefficienti)")
     pd.DataFrame([{"f1_float_pipeline": round(f1_float,4), "f1_e2e_int": round(f1_int,4),
                    "delta_f1": round(f1_int-f1_float,4), "agreement_pct": round(agree*100,3),
-                   "mem_bytes": mem}]).to_csv("results/e2e_int_pipeline_real.csv", index=False)
+                   "mem_bytes": mem}]).to_csv("results/e2e_int_pipeline_real.csv", index=False, lineterminator="\n")
     print("salvato results/e2e_int_pipeline_real.csv")
 
 if __name__ == "__main__":

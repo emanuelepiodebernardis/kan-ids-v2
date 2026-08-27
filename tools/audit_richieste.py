@@ -278,6 +278,7 @@ attesi = {
     "catena e2e binaria": "main_e2e.cpp",
     "catena e2e 10 classi": "main_mc_e2e.cpp",
     "Decision Tree d=5 (confronto Pareto)": "main_dt5.cpp",
+    "MLP(16) denso (baseline hardware)": "main_mlp.cpp",
 }
 mancanti = [k for k, v in attesi.items()
             if not (src / v).exists() or v not in ini]
@@ -403,6 +404,32 @@ da_test("v1", "Anche larghezza e grado si scelgono su validation, non sul test",
         "test_la_regola_e_quella_dichiarata",
         "test_la_pipeline_legge_larchitettura_invece_di_riscriverla",
         "test_lo_scarto_dalla_selezione_e_dichiarato")
+def _prezzo_architettura() -> str:
+    """Quanto costa la configurazione scelta, LETTO da arch_footprint.csv.
+
+    Prima questa riga diceva "per vincolo di dimensione" e basta. Adesso il
+    prezzo e' misurato, quindi si stampa: un requisito dichiarato non pieno
+    deve dire anche quanto vale la scelta di lasciarlo tale."""
+    d = csv("arch_footprint.csv")
+    if d is None or len(d) < 2 or "ruolo" not in d.columns:
+        return ("\nIl prezzo di quella scelta non e' ancora misurato: "
+                "python scripts/footprint_architettura.py")
+    try:
+        dep = d[d.ruolo == "deployata"].iloc[0]
+        sel = d[d.ruolo == "selezionata"].iloc[0]
+    except IndexError:
+        return ""
+    db = int(sel.byte_parametri) - int(dep.byte_parametri)
+    coda = (f"\nIl prezzo e' misurato, non affermato: la configurazione scelta "
+            f"occupa {int(sel.byte_parametri):,} B contro "
+            f"{int(dep.byte_parametri):,} ({db:+,} B, "
+            f"{100.0 * db / int(dep.byte_parametri):+.1f}%)")
+    if "byte_avr_stack_main" in d.columns:
+        coda += (f" e {int(sel.byte_avr_stack_main)} B di stack contro "
+                 f"{int(dep.byte_avr_stack_main)}")
+    return coda + ". Entrambe stanno su entrambe le schede."
+
+
 try:
     from kanids import scarto_dalla_selezione as _scarto
     _s = _scarto()
@@ -424,8 +451,8 @@ try:
              "\n".join(_righe) + ("" if _tutte else
              "\nlo scarto e' dichiarato nel README, sezione 'Architecture: "
              "selected and deployed are not the same': il progetto deploya la "
-             "configurazione piu' piccola per vincolo di dimensione, non "
-             "perche' la selezione l'abbia scelta"))
+             "configurazione piu' piccola, e non perche' la selezione l'abbia "
+             "scelta." + _prezzo_architettura()))
 except Exception as _e:                                    # pragma: no cover
     voce("v1", "Selezione dell'architettura", NO, str(_e))
 da_test("v1", "I test set non entrano nella scelta del rapporto",
@@ -469,7 +496,7 @@ da_test("v2", "La regola di conteggio dei byte esiste in un posto solo",
         "test_il_conformal_non_dichiara_byte_a_mano")
 da_test("v2", "Anche la prima tabella e i commenti del firmware sono verificati",
         "test_la_tabella_di_testa_del_readme_e_ai_valori_correnti",
-        "test_nessuno_dichiara_sei_check_host_bit_esatti",
+        "test_il_numero_di_check_bit_esatti_e_quello_dei_sorgenti",
         "test_i_byte_del_firmware_di_energia_vengono_da_footprint")
 da_test("v2", "Gli artefatti non cambiano a seconda della macchina che li rigenera",
         "test_ogni_io_testuale_dichiara_lencoding",
@@ -479,7 +506,9 @@ da_test("v2", "Gli artefatti non cambiano a seconda della macchina che li rigene
         "test_gitattributes_fissa_i_terminatori_di_riga",
         "test_nessun_file_di_testo_versionato_ha_i_cr",
         "test_nessun_percorso_windows_negli_artefatti",
-        "test_il_manifest_misura_i_byte_del_contenuto_non_del_checkout")
+        "test_il_manifest_misura_i_byte_del_contenuto_non_del_checkout",
+        "test_ogni_to_csv_fissa_il_terminatore_di_riga",
+        "test_il_repository_non_contiene_messaggi_di_commit_ne_patch")
 da_test("v2", "L'output degli script non dipende da dove viene scritto",
         "test_il_difetto_esiste_davvero",
         "test_importare_kanids_mette_loutput_in_utf8",
@@ -516,14 +545,24 @@ voce("v3", "Le affermazioni ritirate non sono piu' nel README",
      + ("" if not rimaste else "\n" + "\n".join(f"  ANCORA PRESENTE: {k}" for k in rimaste)))
 
 sig = csv("crossdomain_significativita.csv")
-if sig is not None:
+if sig is not None and "p_holm" in sig.columns:
     tb = sig[sig.exp == "ton->bot"]
-    testa = tb[(tb.p_value >= 0.05)]
+    non_sep = tb[tb.p_holm >= 0.05].sort_values("p_holm")
     voce("v3", "I confronti fra modelli hanno un test appaiato a sostegno", OK,
-         f"{len(sig)} confronti appaiati per seed in crossdomain_significativita.csv\n"
-         f"su ton->bot {len(testa)} coppie su {len(tb)} NON sono separabili (p >= 0.05)\n"
-         f"la piu' stretta: {testa.iloc[0].modello_a} vs {testa.iloc[0].modello_b} "
-         f"p={testa.iloc[0].p_value}" if len(testa) else "nessuna coppia indistinguibile")
+         f"{len(sig)} confronti appaiati per seed in "
+         f"crossdomain_significativita.csv, con correzione di Holm per famiglia\n"
+         f"su ton->bot {len(non_sep)} coppie su {len(tb)} NON sono separabili "
+         f"dopo Holm\n"
+         + (f"la piu' stretta fra quelle non separabili: "
+            f"{non_sep.iloc[0].modello_a} vs {non_sep.iloc[0].modello_b}, "
+            f"p Holm = {non_sep.iloc[0].p_holm:.3g}\n" if len(non_sep) else "")
+         + "il test confronta dieci riaddestramenti sugli stessi identici "
+           "training e test set: misura la variabilita' di riaddestramento, "
+           "non quella di campionamento, e il CSV lo dichiara riga per riga")
+elif sig is not None:
+    voce("v3", "I confronti fra modelli hanno un test appaiato a sostegno", NO,
+         "crossdomain_significativita.csv e' nel formato vecchio: "
+         "python scripts/statistica_confronti.py")
 else:
     voce("v3", "Confronti appaiati fra modelli", NO,
          "manca results/crossdomain_significativita.csv "
@@ -591,6 +630,219 @@ if tf.exists():
 else:
     voce("v5", "Tabella finale generata", NO,
          "manca results/tabella_finale.csv (python scripts/tabella_finale.py)")
+
+# ═════════════════════════════════════════════════════════════
+# TERZA REVISIONE — le richieste per la v2.1-rc2
+# ═════════════════════════════════════════════════════════════
+print("\nr6) BASELINE HARDWARE: MLP PICCOLO IN C INTERO")
+
+_inc = REPO / "mcu_pio" / "include"
+_hdr = _inc / "mlp16_int8.h"
+voce("r6", "L'MLP e' esportato in C intero, non stimato",
+     OK if _hdr.exists() else NO,
+     f"{_rel(_hdr)} + {_rel(_inc / 'mlp16_infer.h')} + "
+     f"{_rel(_inc / 'mlp16_test_vectors.h')}"
+     if _hdr.exists() else
+     "header assente: python scripts/export_mlp_int_c.py")
+
+_fpc = csv("footprint.csv")
+if _fpc is not None and "MLP(16)" in set(_fpc.modello):
+    _r = _fpc[_fpc.modello == "MLP(16)"].iloc[0]
+    _misurato = _r.regola == "array C compilati"
+    voce("r6", "I byte dell'MLP sono misurati sull'header, non stimati",
+         OK if _misurato else NO,
+         f"MLP(16): {int(_r.byte_parametri)} B, regola '{_r.regola}', "
+         f"fonte {_r.fonte}\n"
+         f"  la stima a un byte per parametro diceva 705 B")
+else:
+    voce("r6", "I byte dell'MLP sono misurati sull'header", NO,
+         "riga MLP(16) assente da results/footprint.csv")
+
+_src = REPO / "mcu_pio" / "src"
+_ini = (REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
+_env_mlp = [e for e in ("megaatmega2560_mlp", "esp32c3_mlp",
+                        "megaatmega2560_energy_mlp", "esp32c3_energy_mlp")
+            if f"[env:{e}]" in _ini]
+voce("r6", "L'MLP e' flashabile e misurabile come gli altri modelli",
+     OK if (_src / "main_mlp.cpp").exists() and len(_env_mlp) == 4 else NO,
+     f"src/main_mlp.cpp + EB_MLP in main_energy.cpp\n"
+     f"  environment: {', '.join(_env_mlp)}")
+
+da_test("r6", "Il kernel C dell'MLP e' identico alla simulazione numpy",
+        "test_il_kernel_c_riproduce_il_logit_della_simulazione",
+        "test_il_confronto_saprebbe_vedere_una_differenza",
+        "test_la_versione_intera_segue_il_modello_float")
+da_test("r6", "Nessun accumulatore dell'MLP puo' andare in overflow",
+        "test_tutti_gli_accumulatori_stanno_in_int32",
+        "test_il_bound_dell_accumulatore_e_rispettato",
+        "test_pesi_troppo_grandi_fermano_lexport")
+da_test("r6", "Il confronto a cinque e' verificato su tutti i kernel",
+        "test_kernel_senza_virgola_mobile_su_avr",
+        "test_il_numero_di_check_bit_esatti_e_quello_dei_sorgenti",
+        "test_le_inferenze_avvengono_davvero")
+
+print("\nr3) INGOMBRO MISURATO DELLA CONFIGURAZIONE SCELTA")
+
+_af = csv("arch_footprint.csv")
+if _af is not None and len(_af) >= 2:
+    _dep = _af[_af.ruolo == "deployata"].iloc[0]
+    _sel = _af[_af.ruolo == "selezionata"].iloc[0]
+    _d = int(_sel.byte_parametri) - int(_dep.byte_parametri)
+    voce("r3", "La configurazione scelta dalla selezione e' stata compilata",
+         OK,
+         f"h={int(_sel.hidden)} grado={int(_sel.degree)}: "
+         f"{int(_sel.byte_parametri):,} B di parametri\n"
+         f"  h={int(_dep.hidden)} grado={int(_dep.degree)} (deployata): "
+         f"{int(_dep.byte_parametri):,} B\n"
+         f"  differenza {_d:+,} B "
+         f"({100.0 * _d / int(_dep.byte_parametri):+.1f}%)")
+    _fp = csv("footprint.csv")
+    _atteso = None
+    if _fp is not None and "KAN(cat,ML)" in set(_fp.modello):
+        _atteso = int(_fp[_fp.modello == "KAN(cat,ML)"].iloc[0].byte_parametri)
+    voce("r3", "Il confronto e' omogeneo con results/footprint.csv",
+         OK if _atteso == int(_dep.byte_parametri) else NO,
+         f"la deployata ricompilata da' {int(_dep.byte_parametri):,} B, "
+         f"l'header committato {_atteso:,} B" if _atteso is not None
+         else "footprint.csv non ha la riga KAN(cat,ML)")
+    if "byte_avr_dati" in _af.columns and _af.byte_avr_dati.notna().all():
+        _diff = [(r.ruolo, int(r.byte_parametri), int(r.byte_avr_dati))
+                 for r in _af.itertuples()
+                 if int(r.byte_parametri) != int(r.byte_avr_dati)]
+        voce("r3", "Due misure indipendenti dell'ingombro coincidono",
+             OK if not _diff else NO,
+             "\n".join(f"  {r.ruolo}: parser {int(r.byte_parametri):,} B, "
+                       f"avr-g++ {int(r.byte_avr_dati):,} B, stack "
+                       f"{int(r.byte_avr_stack_main)} B"
+                       for r in _af.itertuples())
+             if not _diff else f"non coincidono: {_diff}")
+else:
+    voce("r3", "La configurazione scelta dalla selezione e' stata compilata", NO,
+         "manca results/arch_footprint.csv "
+         "(python scripts/footprint_architettura.py)")
+
+da_test("r3", "La misura non apre il test set e usa una compilazione sola",
+        "test_la_misura_non_legge_il_test",
+        "test_lo_script_scarta_esplicitamente_lindice_del_test",
+        "test_lheader_committato_si_riemette_identico",
+        "test_anche_i_test_vector_si_riemettono_identici",
+        "test_la_compilazione_del_multilayer_binario_esiste_in_un_posto_solo")
+
+print("\nr4) STATISTICA: UNITA' DI ANALISI E P-VALUE")
+
+_js = csv("joint_ratio_significativita.csv")
+if _js is not None and "unita" in _js.columns:
+    voce("r4", "La selezione del rapporto usa il seed come unita' di analisi",
+         OK if (_js.unita == "seed").all() and _js.n_unita.max() < 100 else NO,
+         f"{len(_js)} confronti su {int(_js.n_unita.max())} osservazioni "
+         f"appaiate (prima erano 120: 10 seed x 6 modelli x 2 domini)\n"
+         + "\n".join(f"  contro {r.modello_b}: {r.differenza:+.5f} "
+                     f"+/- {r.dev_differenza:.5f}, vince in {r.vince_a}, "
+                     f"p Holm = {r.p_holm:.2e}" for r in _js.itertuples()))
+else:
+    voce("r4", "La selezione del rapporto usa il seed come unita' di analisi",
+         NO, "artefatto assente o nel formato vecchio: "
+             "python scripts/statistica_confronti.py")
+
+_zeri = []
+for _n in ("crossdomain_significativita.csv", "joint_ratio_significativita.csv",
+           "indomain_significativita.csv"):
+    _d = csv(_n)
+    if _d is not None and "p_value" in _d.columns:
+        _q = int((_d.p_value == 0).sum())
+        if _q:
+            _zeri.append(f"{_n}: {_q}")
+voce("r4", "Nessun p-value e' scritto come zero", OK if not _zeri else NO,
+     "un p arrotondato a 0,0 si legge come certezza assoluta; i CSV portano "
+     "il valore pieno e una colonna formattata che sotto 1e-12 scrive una "
+     "disuguaglianza" if not _zeri else f"ancora zeri in {_zeri}")
+
+_id = csv("indomain_significativita.csv")
+if _id is not None and "correzione" in _id.columns:
+    _con = sorted({c.split(",")[0] for c in _id.correzione})
+    voce("r4", "La correzione si applica dove il suo regime esiste", OK,
+         "\n".join(f"  {e}: {_id[_id.exp == e].correzione.iloc[0][:96]}"
+                   for e in sorted(_id.exp.unique())))
+else:
+    voce("r4", "La correzione si applica dove il suo regime esiste", NO,
+         "manca results/indomain_significativita.csv")
+
+da_test("r4", "Media, dispersione e vittorie stanno accanto a ogni p",
+        "test_i_csv_dei_confronti_portano_le_quantita_richieste",
+        "test_nessun_p_value_e_zero_negli_artefatti",
+        "test_la_selezione_del_rapporto_usa_il_seed_come_unita",
+        "test_il_json_della_scelta_concorda_con_il_csv")
+da_test("r4", "Il README riporta i numeri corretti, non quelli vecchi",
+        "test_la_tabella_del_rapporto_nel_readme_viene_dallartefatto",
+        "test_la_tabella_cross_domain_nel_readme_viene_dallartefatto",
+        "test_il_readme_non_promette_piu_ripetibilita_dove_non_ce")
+
+print("\nr7) INTERPRETABILITA' DIRETTA DELLA KAN SINGLE-LAYER")
+
+_fig = [f for f in ("fig_kan_funzioni_apprese.png", "fig_kan_contributi_locali.png")
+        if (REPO / "figures" / f).exists()]
+voce("r7", "Le due figure richieste esistono", OK if len(_fig) == 2 else NO,
+     "\n".join(f"  figures/{f}" for f in _fig) if _fig else
+     "python scripts/interpretabilita.py")
+
+_c = csv("interpretabilita_contributi.csv")
+if _c is not None:
+    _ok, _tot = 0, 0
+    for _v, _g in _c.groupby("vettore"):
+        _add = _g[~_g.edge.astype(str).str.startswith(("SOMMA", "predizione"))]
+        _som = _g[_g.edge == "SOMMA = logit"].contributo.iloc[0]
+        _tot += 1
+        _ok += int(int(_add.contributo.sum()) == int(_som))
+    voce("r7", "I contributi sommano esattamente al logit",
+         OK if _ok == _tot else NO,
+         f"{_ok}/{_tot} esempi in cui i 14 addendi sommano al logit senza resto:\n"
+         f"  non e' una stima del contributo come SHAP o LIME, sono gli addendi\n"
+         f"  della somma che il kernel esegue")
+else:
+    voce("r7", "I contributi sommano esattamente al logit", NO,
+         "manca results/interpretabilita_contributi.csv")
+
+_e = csv("interpretabilita_escursione.csv")
+if _e is not None:
+    voce("r7", "Ogni edge e' ordinato per quanto muove davvero il logit", OK,
+         "\n".join(f"  {r.edge:<24}{r.escursione / 1e6:>8.2f} x10^6"
+                   for r in _e.head(4).itertuples()))
+
+da_test("r7", "La scomposizione e' quella del kernel C, verificata sul binario",
+        "test_la_somma_dei_contributi_e_il_logit_del_kernel_c",
+        "test_il_confronto_saprebbe_vedere_una_differenza",
+        "test_nessun_explainer_post_hoc_fra_le_dipendenze")
+da_test("r7", "Il multi-layer resta descritto in modo prudente",
+        "test_il_readme_e_prudente_sul_multilayer",
+        "test_il_readme_non_sovrainterpreta_la_forma_delle_curve")
+
+print("\nr5) ALLINEAMENTO TOTALE: PACCHETTO, DOCUMENTI, NUMERI")
+
+da_test("r5", "Gli host check compilano e girano dal pacchetto estratto",
+        "test_gli_host_check_compilano_e_girano_dal_pacchetto",
+        "test_nel_pacchetto_gli_header_stanno_dove_i_check_li_cercano")
+da_test("r5", "CIC-IoT-2023 e' sempre descritto nello spazio ridotto 6+2",
+        "test_cic_e_sempre_descritto_nello_spazio_ridotto")
+da_test("r5", "Nessun conteggio invecchiato di firmware o environment",
+        "test_i_conteggi_di_firmware_e_environment_sono_quelli_veri",
+        "test_la_lista_dei_firmware_del_pacchetto_e_completa")
+da_test("r5", "Il report non dichiara da fare cio' che e' fatto",
+        "test_il_report_non_dichiara_come_da_fare_cose_gia_fatte")
+
+_mf = REPO / "models" / "MANIFEST.json"
+_pdf = REPO / "report_KAN-IDS_fase2.pdf"
+_eta = []
+if _mf.exists() and _pdf.exists():
+    import os as _os
+    _piu_nuovi = [f for f in (REPO / "results").glob("*.csv")
+                  if f.stat().st_mtime > _pdf.stat().st_mtime]
+    if _piu_nuovi:
+        _eta = sorted(f.name for f in _piu_nuovi)[:6]
+voce("r5", "Il PDF del report non e' piu' vecchio dei risultati che cita",
+     OK if not _eta else PART,
+     "report e artefatti allineati" if not _eta else
+     f"{len(_eta)} risultati piu' recenti del PDF, fra cui {_eta}\n"
+     f"  rigenerare con: python scripts/make_report.py")
 
 # ── verdetto ─────────────────────────────────────────────────
 print("\n" + "=" * 74)

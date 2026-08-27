@@ -53,40 +53,53 @@
   "confronti_appaiati": [
     {
       "contro": 10.0,
-      "n_coppie": 120,
+      "unita": "seed",
+      "n": 10,
       "differenza_media": 0.003,
-      "t": 4.396,
-      "p_value": 2.408e-05,
-      "significativa_5pct": true,
-      "vince_in": "78/120"
+      "dev_differenza": 0.0016,
+      "vince_in": "10/10",
+      "t": 5.922,
+      "p_value": 0.00022296270987956938,
+      "p_holm": 0.00044592541975913875,
+      "significativa_5pct": true
     },
     {
       "contro": 20.0,
-      "n_coppie": 120,
-      "differenza_media": 0.0075,
-      "t": 3.763,
-      "p_value": 0.000262,
-      "significativa_5pct": true,
-      "vince_in": "83/120"
+      "unita": "seed",
+      "n": 10,
+      "differenza_media": 0.00753,
+      "dev_differenza": 0.00671,
+      "vince_in": "10/10",
+      "t": 3.552,
+      "p_value": 0.006192994822441279,
+      "p_holm": 0.006192994822441279,
+      "significativa_5pct": true
     },
     {
       "contro": 50.0,
-      "n_coppie": 120,
+      "unita": "seed",
+      "n": 10,
       "differenza_media": 0.014,
-      "t": 5.42,
-      "p_value": 3.169e-07,
-      "significativa_5pct": true,
-      "vince_in": "89/120"
+      "dev_differenza": 0.00614,
+      "vince_in": "10/10",
+      "t": 7.215,
+      "p_value": 5.000925201892721e-05,
+      "p_holm": 0.00015002775605678164,
+      "significativa_5pct": true
     },
     {
       "contro": 100.0,
-      "n_coppie": 120,
+      "unita": "seed",
+      "n": 10,
       "differenza_media": 0.0209,
-      "t": 5.682,
-      "p_value": 9.61e-08,
-      "significativa_5pct": true,
-      "vince_in": "89/120"
+      "dev_differenza": 0.00487,
+      "vince_in": "10/10",
+      "t": 13.56,
+      "p_value": 2.7007067517575054e-07,
+      "p_holm": 1.0802827007030022e-06,
+      "significativa_5pct": true
     }
   ],
-  "test_set_usati_in_questa_fase": 0
+  "test_set_usati_in_questa_fase": 0,
+  "nota_statistiche": "L'unita' di analisi e' il seed: il criterio dichiarato e' la media su modelli e domini, quindi si media prima e restano dieci osservazioni appaiate. La versione precedente ne elencava 120 (10 seed x 6 modelli x 2 domini) come se fossero indipendenti. La validation e' la stessa per ogni seed, quindi il test misura la variabilita' del riaddestramento e non quella del campionamento: la scelta 1:5 viene dalla media e dal fatto che vince in 10 seed su 10, non da questi p."
 }

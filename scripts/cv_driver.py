@@ -63,9 +63,9 @@ def main():
 
     if not units:
         df = pd.DataFrame(rows)
-        df.to_csv("results/cv_multiseed_results_real.csv", index=False)
+        df.to_csv("results/cv_multiseed_results_real.csv", index=False, lineterminator="\n")
         summ = cvm.summarize(df)
-        summ.to_csv("results/cv_multiseed_summary_real.csv", index=False)
+        summ.to_csv("results/cv_multiseed_summary_real.csv", index=False, lineterminator="\n")
         cvm.print_table(summ)
         print("DONE"); return
 
@@ -84,7 +84,7 @@ def main():
                 est.n_jobs = -1
             met = cvm.eval_baseline_fold(est, Xtr, ytr, Xva, yva)
         rows.append({"model": m, "fold": fold, "seed": seed, **met})
-        pd.DataFrame(rows).to_csv(PROG, index=False)
+        pd.DataFrame(rows).to_csv(PROG, index=False, lineterminator="\n")
         print(f"unit ok: {m} seed={seed} fold={fold} f1={met['f1']:.4f} t={time.time()-t0:.0f}s", flush=True)
     remaining = len(units) - sum(1 for r in rows if True) + len(done)
     print(f"CHECKPOINT: {len(rows)} unita' complete")

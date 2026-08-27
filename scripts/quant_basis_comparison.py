@@ -94,7 +94,7 @@ def main():
                          "agreement_pct": round((dec == dq).mean()*100, 3),
                          "max_err_logit": round(float(np.max(np.abs(zf - zq))), 4)})
             print(rows[-1], flush=True)
-    pd.DataFrame(rows).to_csv("results/quant_basis_comparison_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/quant_basis_comparison_real.csv", index=False, lineterminator="\n")
     print("salvato results/quant_basis_comparison_real.csv")
 
 if __name__ == "__main__":

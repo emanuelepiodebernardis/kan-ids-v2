@@ -25,19 +25,16 @@ from pathlib import Path
 
 import pytest
 
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).resolve().parent))
+
 REPO = Path(__file__).resolve().parents[1]
 INCLUDE = REPO / "mcu_pio" / "include"
 SCRIPTS = REPO / "scripts"
 
-# header dei modelli -> generatore che lo produce
-GENERATI = {
-    "kan_e2e_int.h": "export_e2e_int_c.py",
-    "kan_mc_e2e_int.h": "export_mc_e2e_int_c.py",
-    "dt5_model.h": "export_tree_c.py",
-    "kan14_coeff_int8.h": "export_kan14_coeff_c.py",
-    "kan14_ml_coeff_int8.h": "export_kan14_ml_coeff_c.py",
-    "kan14_mc_coeff_int8.h": "export_kan14_mc_coeff_c.py",
-}
+# header dei modelli -> generatore che lo produce. L'elenco sta in
+# tests/artefatti.py: era duplicato, e un elenco duplicato si aggiorna a meta'.
+from artefatti import GENERATI, motivo                              # noqa: E402
 
 # header non generati da uno script di export ma comunque letti da AVR
 SOLO_HEADER = ["test_vectors.h"]
@@ -50,12 +47,25 @@ DICHIARAZIONE = re.compile(
 # l'indirizzo sbagliato su AVR tanto quanto uno in SRAM letto con pgm_read.
 # Questi tre sono indicizzati normalmente (`KC_CAT_OFF[j] + cat[j]`), quindi
 # devono stare in SRAM: sono 4 byte l'uno e restano tali di proposito.
-IN_SRAM_DI_PROPOSITO = {"KC_CAT_OFF", "KML_CAT_OFF", "KMC_CAT_OFF"}
+IN_SRAM_DI_PROPOSITO = {"KC_CAT_OFF", "KML_CAT_OFF", "KMC_CAT_OFF",
+                        "MLP16_CAT_OFF"}
+
+
+def _testo(header: str) -> str:
+    """Contenuto dell'header, o skip con il comando che lo genera.
+
+    Gli header sono committati, ma subito dopo aver aggiunto un esportatore
+    nuovo non esistono ancora: meglio un salto che dice quale script lanciare
+    di un FileNotFoundError dentro un test che parla di PROGMEM."""
+    p = INCLUDE / header
+    if not p.exists():
+        pytest.skip(motivo(header))
+    return p.read_text(encoding="utf-8", errors="replace")
 
 
 @pytest.mark.parametrize("header", sorted(GENERATI) + SOLO_HEADER)
 def test_ogni_array_del_modello_e_in_progmem(header):
-    testo = (INCLUDE / header).read_text(encoding="utf-8", errors="replace")
+    testo = _testo(header)
     senza = [m.group(1) for m in DICHIARAZIONE.finditer(testo)
              if not m.group(3) and m.group(1) not in IN_SRAM_DI_PROPOSITO]
     assert not senza, (
@@ -76,27 +86,52 @@ def test_ogni_array_del_modello_e_in_progmem(header):
 def test_ogni_header_dichiara_progmem_anche_fuori_da_avr(header):
     """Su ESP32 e su host `PROGMEM` deve esistere come macro vuota, altrimenti
     l'header non compila affatto fuori da AVR."""
-    testo = (INCLUDE / header).read_text(encoding="utf-8", errors="replace")
+    testo = _testo(header)
     assert "#ifdef __AVR__" in testo and "avr/pgmspace.h" in testo, (
         f"{header}: manca l'inclusione condizionale di avr/pgmspace.h")
     assert "#define PROGMEM" in testo, (
         f"{header}: manca la definizione di PROGMEM per i target non-AVR")
 
 
+def _sorgenti_dellemettitore(script: str) -> list[tuple[str, str]]:
+    """(nome, testo) dello script e dei moduli di kanids/ che importa.
+
+    Serve perche' un esportatore puo' delegare l'emissione: quello del
+    multi-layer lo fa da quando la compilazione e' stata spostata in
+    `kanids/compila_ml.py`, per poter compilare anche la configurazione che
+    la selezione sceglie con lo stesso codice. Cercare le dichiarazioni solo
+    nello script avrebbe fatto fallire il test senza che PROGMEM c'entrasse
+    — o, peggio, lo avrebbe fatto passare a vuoto su un esportatore che non
+    emette piu' niente da solo.
+    """
+    testo = (SCRIPTS / script).read_text(encoding="utf-8")
+    fuori = [(script, testo)]
+    for m in re.finditer(r"from kanids\.(\w+) import", testo):
+        modulo = REPO / "kanids" / f"{m.group(1)}.py"
+        if modulo.exists():
+            fuori.append((f"kanids/{modulo.name}",
+                          modulo.read_text(encoding="utf-8")))
+    return fuori
+
+
 @pytest.mark.parametrize("header, script", sorted(GENERATI.items()))
 def test_il_generatore_emette_progmem(header, script):
     """Il vincolo vero: non basta che l'header ce l'abbia adesso, deve
     averlo anche dopo che qualcuno rilancia l'esportatore."""
-    sorgente = (SCRIPTS / script).read_text(encoding="utf-8")
+    sorgenti = _sorgenti_dellemettitore(script)
+    sorgente = "\n".join(testo for _n, testo in sorgenti)
     # righe che scrivono una dichiarazione di array nell'header generato
     emesse = [r for r in sorgente.splitlines()
               if "static const" in r and "=" in r]
-    assert emesse, f"{script}: non emette dichiarazioni di array"
+    assert emesse, (
+        f"{script}: non emette dichiarazioni di array, ne' da solo ne' "
+        f"attraverso {[n for n, _ in sorgenti[1:]]}")
     senza = [r.strip() for r in emesse
              if "PROGMEM" not in r
              and not any(n in r for n in IN_SRAM_DI_PROPOSITO)]
     assert not senza, (
-        f"{script} emette {len(senza)} dichiarazioni senza PROGMEM:\n  "
+        f"{script} (con {[n for n, _ in sorgenti[1:]]}) emette {len(senza)} "
+        f"dichiarazioni senza PROGMEM:\n  "
         + "\n  ".join(senza)
         + f"\n\nRieseguirlo riscriverebbe {header} senza PROGMEM e "
           f"romperebbe il firmware su AVR.")

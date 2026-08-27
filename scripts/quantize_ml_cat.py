@@ -114,7 +114,7 @@ def main():
     out = "results/quantize_ml_cat_real.csv"
     try: df = pd.read_csv(out); df = df[df.L != L]
     except FileNotFoundError: df = pd.DataFrame()
-    pd.concat([df, pd.DataFrame([row])]).sort_values("L").to_csv(out, index=False)
+    pd.concat([df, pd.DataFrame([row])]).sort_values("L").to_csv(out, index=False, lineterminator="\n")
     print("salvato", out)
 
 if __name__ == "__main__":

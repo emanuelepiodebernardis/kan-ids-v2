@@ -167,7 +167,7 @@ def main():
                    "agreement_pct": round(agree * 100, 2),
                    "n_nodi_interni": n_int, "n_foglie": n_leaf,
                    "byte_table_driven": byte_nodi, "n_golden": N_GOLDEN}
-                  ]).to_csv(RESULTS_DIR / "dt5_export.csv", index=False)
+                  ]).to_csv(RESULTS_DIR / "dt5_export.csv", index=False, lineterminator="\n")
     print("salvato results/dt5_export.csv")
 
 

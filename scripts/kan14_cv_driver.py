@@ -55,8 +55,8 @@ def main():
         summ = dfres.groupby("variante").agg(
             f1_mean=("f1", "mean"), f1_std=("f1", "std"),
             auc_mean=("roc_auc", "mean"), auc_std=("roc_auc", "std")).round(4)
-        summ.to_csv("results/kan14_cv_summary_real.csv")
-        dfres.to_csv("results/kan14_cv_folds_real.csv", index=False)
+        summ.to_csv("results/kan14_cv_summary_real.csv", lineterminator="\n")
+        dfres.to_csv("results/kan14_cv_folds_real.csv", index=False, lineterminator="\n")
         print(summ.to_string()); print("DONE"); return
 
     for key, variant, seed, fold, tr, va in units:

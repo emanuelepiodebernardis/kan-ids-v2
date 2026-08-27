@@ -254,12 +254,23 @@ def test_every_firmware_compiles_without_mcu_toolchain():
     with tempfile.TemporaryDirectory() as d:
         stub = Path(d) / "m.cpp"
         stub.write_text("void setup();void loop();int main(){return 0;}\n", encoding="utf-8", newline="\n")
+        import sys as _s
+        _s.path.insert(0, str(Path(__file__).resolve().parent))
+        from artefatti import include_mancanti
+        saltati = []
         for f in sorted((mp / "src").glob("*.cpp")):
+            manca = include_mancanti(f)
+            if manca:
+                # header generato non ancora prodotto: lo dice test_mlp_int.py
+                saltati.append(f"{f.name} ({', '.join(manca)})")
+                continue
             r = subprocess.run(
                 ["g++", "-fsyntax-only", "-DHOST_CHECK",
                  f"-I{mp/'include'}", f"-I{mp/'host_check'}", str(f)],
                 capture_output=True, text=True)
             assert r.returncode == 0, f"{f.name} non compila su host:\n{r.stderr[:400]}"
+        if saltati:
+            pytest.skip("header generati assenti: " + "; ".join(saltati))
 
 
 def test_every_model_has_a_flashable_firmware():
@@ -271,7 +282,8 @@ def test_every_model_has_a_flashable_firmware():
     src = REPO / "mcu_pio" / "src"
     ini = (REPO / "mcu_pio" / "platformio.ini").read_text(errors="ignore", encoding="utf-8")
     for nome in ("main_coeff.cpp", "main_mlcoeff.cpp", "main_mc.cpp",
-                 "main.cpp", "main_e2e.cpp", "main_mc_e2e.cpp", "main_dt5.cpp"):
+                 "main.cpp", "main_e2e.cpp", "main_mc_e2e.cpp", "main_dt5.cpp",
+                 "main_mlp.cpp"):
         assert (src / nome).exists(), f"firmware mancante: {nome}"
         assert nome in ini, f"{nome} non ha un environment PlatformIO"
 
@@ -292,3 +304,19 @@ def test_categorical_tables_include_the_unk_slot():
                 f"{h.name}: tabelle categoriche con 28 righe = protocollo v1 "
                 f"(senza slot UNK). Rigenerare con lo script di export."
             )
+
+
+def test_laudit_elenca_tutti_i_firmware_che_esistono():
+    """L'elenco dei modelli flashabili nell'audit era scritto a mano e si e'
+    fermato a sette quando l'MLP ne ha portati otto. Un elenco che seleziona
+    un sottoinsieme e' un posto dove le cose spariscono in silenzio: qui si
+    confronta con i sorgenti."""
+    import re
+    testo = (REPO / "tools" / "audit_richieste.py").read_text(encoding="utf-8")
+    citati = set(re.findall(r'"(main[\w]*\.cpp)"', testo))
+    reali = {f.name for f in (REPO / "mcu_pio" / "src").glob("main*.cpp")
+             if f.name != "main_energy.cpp"}
+    mancanti = reali - citati
+    assert not mancanti, (
+        f"firmware presenti in src/ ma non elencati dall'audit: "
+        f"{sorted(mancanti)}")
