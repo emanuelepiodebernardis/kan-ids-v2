@@ -100,7 +100,7 @@ def main():
 
     tab = pd.DataFrame(righe)
     fuori = RESULTS_DIR / "tabella_finale.csv"
-    tab.to_csv(fuori, index=False)
+    tab.to_csv(fuori, index=False, lineterminator="\n")
 
     meta = {"metrica": args.metrica, "ratio_joint": ratio,
             "run_per_cella": n_seed, "fonti": {k: v.name for k, v in fonti.items()}}

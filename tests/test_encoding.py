@@ -353,3 +353,85 @@ def test_usa_utf8_non_tocca_uno_stream_gia_a_posto():
         def reconfigure(self, **kw):  # pragma: no cover
             raise AssertionError("ha riconfigurato uno stream gia' UTF-8")
     assert usa_utf8(Finto()) == []
+
+
+# ─────────────────────────────────────────────────────────────────────
+# Terza forma dello stesso difetto: to_csv e i terminatori di riga
+# ─────────────────────────────────────────────────────────────────────
+def test_ogni_to_csv_fissa_il_terminatore_di_riga():
+    """`DataFrame.to_csv(percorso)` usa `os.linesep`: CRLF su Windows, LF
+    altrove.
+
+    E' la terza volta che questo difetto compare in una forma diversa —
+    prima l'encoding non dichiarato, poi `newline=None` in `write_text`,
+    adesso `to_csv` — e le prime due erano state chiuse credendo di aver
+    chiuso il problema. Il sintomo qui e' piu' insidioso: `.gitattributes`
+    normalizza in fase di commit, quindi il file NELL'INDICE e' pulito e il
+    test a valle passa, mentre il file SUL DISCO differisce fra le due
+    macchine. Le somme SHA-256 del pacchetto consegnato dipendono percio'
+    dal sistema che lo ha costruito, e il requisito "gli artefatti non
+    cambiano a seconda della macchina che li rigenera" era verde ed era
+    falso per ottanta chiamate.
+
+    Si guarda l'AST e non il testo: `to_csv(` compare anche nei commenti e
+    nelle stringhe di questo stesso file.
+    """
+    import ast
+    colpevoli = []
+    for p in sorted(REPO.glob("*.py")) + sorted(REPO.glob("scripts/*.py")) \
+            + sorted(REPO.glob("tools/*.py")) + sorted(REPO.glob("kanids/*.py")):
+        try:
+            albero = ast.parse(p.read_text(encoding="utf-8"))
+        except SyntaxError:                                # pragma: no cover
+            continue
+        for n in ast.walk(albero):
+            if not (isinstance(n, ast.Call)
+                    and isinstance(n.func, ast.Attribute)
+                    and n.func.attr == "to_csv"):
+                continue
+            chiavi = {k.arg for k in n.keywords}
+            if "lineterminator" in chiavi or None in chiavi:
+                continue
+            colpevoli.append(f"{p.relative_to(REPO).as_posix()}:{n.lineno}")
+    assert not colpevoli, (
+        f"{len(colpevoli)} chiamate a to_csv senza lineterminator=\"\\n\":\n  "
+        + "\n  ".join(colpevoli[:12])
+        + "\n\nSu Windows scrivono CRLF, su Linux LF: lo stesso comando "
+          "produce due file diversi, e le somme del pacchetto con loro.")
+
+
+def test_il_difetto_di_to_csv_e_ancora_riproducibile():
+    """Controllo del controllo: se pandas smettesse di usare os.linesep, il
+    test sopra non starebbe piu' impedendo niente e sarebbe meglio saperlo."""
+    import io
+    import os
+    import pandas as pd
+    if os.linesep == "\n":
+        pytest.skip("su questo sistema os.linesep e' gia' LF: il difetto non "
+                    "si manifesta qui, ma il test sopra protegge Windows")
+    b = io.StringIO()
+    pd.DataFrame({"a": [1]}).to_csv(b, index=False)
+    assert "\r\n" in b.getvalue(), (
+        "pandas non usa piu' os.linesep: il vincolo sopra e' diventato "
+        "inutile e va rivisto")
+
+
+def test_il_repository_non_contiene_messaggi_di_commit_ne_patch():
+    """`git add -A` prima di un commit tira dentro tutto quello che sta nella
+    cartella, e i file di appoggio della sessione ci finiscono: i messaggi di
+    commit e di tag, e le patch applicate. Sono artefatti del processo, non
+    del progetto, e in un repository consegnato a un revisore dicono solo che
+    nessuno ha guardato cosa stava committando."""
+    import subprocess
+    r = subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True,
+                       text=True)
+    if r.returncode != 0:                                  # pragma: no cover
+        pytest.skip("git non disponibile")
+    import re
+    schemi = (re.compile(r"^[^/]*\.patch$"),
+              re.compile(r"^(commit|tag)_[^/]*\.txt$"))
+    colpevoli = [n for n in r.stdout.split()
+                 if any(s.match(n) for s in schemi)]
+    assert not colpevoli, (
+        f"file di appoggio della sessione dentro il repository: {colpevoli}.\n"
+        f"Rimuoverli con `git rm --cached <file>` e aggiungerli a .gitignore.")

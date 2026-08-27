@@ -221,7 +221,7 @@ def main():
         "agreement_pct": round(agree * 100, 3),
         "mem_bytes": mem,
         "n_golden": N_GOLDEN,
-    }]).to_csv(RESULTS_DIR / "e2e_int_export.csv", index=False)
+    }]).to_csv(RESULTS_DIR / "e2e_int_export.csv", index=False, lineterminator="\n")
     print("salvato results/e2e_int_export.csv")
 
 

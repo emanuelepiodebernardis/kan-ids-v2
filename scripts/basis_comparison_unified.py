@@ -63,7 +63,7 @@ def main():
                  "roc_auc": round(roc_auc_score(yte, prb), 4)})
     print(rows[-1], f"t={time.time()-t0:.0f}s", flush=True)
 
-    pd.DataFrame(rows).to_csv("results/basis_comparison_unified_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/basis_comparison_unified_real.csv", index=False, lineterminator="\n")
     print("salvato results/basis_comparison_unified_real.csv")
 
 if __name__ == "__main__":

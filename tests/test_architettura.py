@@ -267,3 +267,68 @@ def test_larchitettura_ereditata_e_dichiarata_come_tale():
     assert "ARCH_EREDITATA" in testo
     assert "held-out" in testo, (
         "config.py non dice piu' da dove vengono i valori ereditati")
+
+
+def test_anche_config_py_riporta_le_cifre_dell_artefatto():
+    """Lo stesso controllo del README, sul file che DEFINISCE l'architettura.
+
+    Il test sul README esiste perche' quattro cifre della sezione erano
+    ricalcoli fatti su un output gia' arrotondato. Le stesse quattro erano
+    anche nel commento di `kanids/config.py`, che nessuno guardava, e ci sono
+    rimaste dopo la correzione: 0,99632 invece di 0,99631, 0,99600 invece di
+    0,99602, uno scarto di 0,00032 invece di 0,00028, una soglia mancata per
+    0,00020 invece di 0,00015 e p = 0,067 invece di 0,083.
+
+    E' il posto peggiore dove lasciarle: quel commento e' la giustificazione
+    di ARCH_EREDITATA, cioe' della configurazione che tutta la pipeline usa.
+    """
+    from kanids.config import scarto_dalla_selezione
+    scarto = scarto_dalla_selezione()
+    if scarto is None:
+        pytest.skip("selezione non ancora eseguita")
+    diversi = {m: s for m, s in scarto.items() if not s["coincidono"]}
+    if not diversi:
+        return
+
+    import json as _json
+    import pandas as _pd
+    grezzo = _json.loads(
+        (REPO / "results" / "arch_selection_scelta.json").read_text(encoding="utf-8"))
+    tabella = _pd.read_csv(REPO / "results" / "arch_selection.csv")
+    testo = (REPO / "kanids" / "config.py").read_text(encoding="utf-8")
+
+    # solo il blocco di commento che giustifica ARCH_EREDITATA, non l'intero
+    # file: altrove le cifre possono comparire per altre ragioni
+    blocco = testo.split("ARCH_EREDITATA", 1)[0] + \
+        testo.split("ARCH_EREDITATA", 1)[1].split("ARCH =", 1)[0]
+
+    def in_italiano(v: float) -> str:
+        return f"{v:.5f}".replace(".", ",")
+
+    mancanti = []
+    for m, s in diversi.items():
+        g = grezzo["scelte"][m]
+        dep = s["deployata"]
+        riga = tabella[(tabella.model == m) & (tabella.hidden == dep["hidden"])
+                       & (tabella.degree == dep["degree"])]
+        attesi = {"media della scelta": g.get("media_validation"),
+                  "soglia 1-SE": g.get("soglia_1se")}
+        if len(riga):
+            attesi["media della deployata"] = float(
+                riga["balanced_accuracy_mean"].iloc[0])
+        for confronto in g.get("confronti_appaiati", []):
+            if (confronto["hidden"], confronto["degree"]) == (dep["hidden"],
+                                                              dep["degree"]):
+                attesi["scarto dalla scelta"] = confronto["delta"]
+        for che_cosa, valore in attesi.items():
+            if valore is None:
+                continue
+            if in_italiano(valore) not in blocco and \
+                    f"{valore:.5f}" not in blocco:
+                mancanti.append(f"{m}: {che_cosa} = {in_italiano(valore)}")
+    assert not mancanti, (
+        "il commento di kanids/config.py non riporta questi numeri della "
+        "selezione:\n  " + "\n  ".join(mancanti)
+        + "\n\nSono la giustificazione di ARCH_EREDITATA: se sono sbagliati "
+          "li' e' giusti nel README, il repository si contraddice nel posto "
+          "che conta di piu'.")

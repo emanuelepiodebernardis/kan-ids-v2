@@ -20,13 +20,14 @@ COSA CONTIENE
     SOMME.sha256           impronta di ogni file, per verificare l'integrita'
     tabelle/               i CSV che stanno dietro alle tabelle dell'articolo
     figure/                le figure del report
-    header_c/              gli header deployabili + i kernel di inferenza
-    host_check/            i sorgenti che verificano i kernel senza dataset
+    include/               gli header deployabili + i kernel di inferenza
+    host_check/            i sorgenti che verificano i kernel senza dataset,
+                           compilabili dal pacchetto estratto senza opzioni
     firmware/              i .hex e .bin gia' compilati, se PlatformIO c'e'
     report/                il PDF, il MANIFEST, l'audit
     protocollo/            selezione del rapporto e dell'architettura
 
-Il firmware si costruisce solo con --firmware: sono nove environment e non
+Il firmware si costruisce solo con --firmware: sono undici environment e non
 tutti servono a tutti. Senza, il pacchetto si fa lo stesso e l'indice dice
 che mancano invece di far finta di niente.
 
@@ -59,25 +60,40 @@ TABELLE = [
     ("tabella_finale_meta.json", "metrica, rapporto e run per cella"),
     ("footprint.csv", "byte di ogni modello, regola di conteggio unica"),
     ("crossdomain_summary_cat.csv", "degrado cross-domain, 4 direzioni"),
-    ("crossdomain_significativita.csv", "30 confronti appaiati per seed"),
+    ("crossdomain_significativita.csv", "30 confronti appaiati per seed, con Holm"),
+    ("indomain_significativita.csv", "confronti in-domain, con Nadeau-Bengio"),
     ("cv_leakagefree_summary_binary_ALL.csv", "CV 5x3 binaria"),
     ("cv_leakagefree_summary_multiclass_ALL.csv", "CV 5x3 a 10 classi"),
     ("nested_cv_summary_binary.csv", "CV annidata: ottimismo della stima"),
     ("e2e_int_export.csv", "catena integer end-to-end binaria"),
     ("mc_e2e_int_export.csv", "catena integer end-to-end a 10 classi"),
     ("dt5_export.csv", "albero di confronto"),
+    ("mlp16_export.csv", "MLP piccolo esportato in C intero"),
+    ("interpretabilita_contributi.csv", "i 14 addendi di tre flussi reali"),
+    ("interpretabilita_escursione.csv", "quanto ciascun edge muove il logit"),
 ]
 PROTOCOLLO = [
     ("joint_ratio_selection.csv", "rapporto: medie per candidato, su validation"),
-    ("joint_ratio_significativita.csv", "rapporto: confronti appaiati"),
+    ("joint_ratio_significativita.csv", "rapporto: confronti appaiati, unita' = seed"),
+    ("joint_ratio_vittorie.csv", "rapporto: vittorie per modello x dominio"),
     ("joint_ratio_selection_scelta.json", "rapporto: la scelta e il criterio"),
     ("arch_selection.csv", "architettura: 15 configurazioni x 5 seed"),
     ("arch_selection_scelta.json", "architettura: la scelta e la regola 1-SE"),
+    ("arch_footprint.csv", "architettura: ingombro misurato delle due configurazioni"),
 ]
 # environment PlatformIO utili alle misure che fara' il relatore
+# Tutti e nove: la KAN multi-layer c'era gia' in platformio.ini ma questa
+# lista la ometteva, quindi il modello che il relatore considera il miglior
+# compromesso KAN non finiva nel pacchetto delle misure. Un elenco scritto a
+# mano che seleziona un sottoinsieme e' un posto dove le cose spariscono in
+# silenzio: adesso ci sono tutti gli environment di energia, e un test
+# verifica che questa lista e platformio.ini coincidano.
 FIRMWARE = ["megaatmega2560_energy", "esp32c3_energy",
+            "megaatmega2560_energy_mlcoeff", "esp32c3_energy_mlcoeff",
             "megaatmega2560_energy_e2e", "esp32c3_energy_e2e",
-            "megaatmega2560_energy_dt5", "esp32c3_energy_dt5"]
+            "megaatmega2560_energy_dt5", "esp32c3_energy_dt5",
+            "megaatmega2560_energy_mlp", "esp32c3_energy_mlp",
+            "esp32c3_energy_mc"]
 
 
 def sha256(path: Path) -> str:
@@ -109,6 +125,14 @@ def numeri_chiave() -> dict:
         d = pd.read_csv(fp)
         n["footprint"] = [(r.modello, int(r.byte_parametri), r.regola)
                           for r in d.itertuples()]
+    af = RESULTS_DIR / "arch_footprint.csv"
+    if af.exists():
+        d = pd.read_csv(af)
+        if "ruolo" in d.columns:
+            n["arch_fp"] = [(r.ruolo, int(r.hidden), int(r.degree),
+                             int(r.byte_parametri),
+                             int(getattr(r, "byte_avr_stack_main", 0) or 0))
+                            for r in d.itertuples()]
     tf = RESULTS_DIR / "tabella_finale.csv"
     if tf.exists():
         n["tabella"] = pd.read_csv(tf)
@@ -193,6 +217,21 @@ def scrivi_indice(dest: Path, n: dict, fw: list, ver: dict, mancanti: list):
          "3. `report/audit.txt` — la verifica meccanica di ogni requisito.",
          "4. `firmware/` — i binari per le misure sulle schede." if fw else
          "4. `firmware/` — **non incluso**: rilanciare con `--firmware`.",
+         "",
+         "## Verificare i kernel senza clonare niente",
+         "",
+         "Gli host check girano su questa copia estratta, con un compilatore",
+         "qualunque e senza opzioni: gli header stanno in `include/` e i",
+         "sorgenti li cercano con quel percorso relativo.",
+         "",
+         "```bash",
+         "cd host_check",
+         "g++ -O2 -o check run_coeff_check.cpp && ./check",
+         "```",
+         "",
+         "Ogni `run_*_check.cpp` confronta il kernel C con la predizione attesa",
+         "dalla simulazione numpy, vettore per vettore. Non serve Python, non",
+         "serve il dataset, non serve una scheda.",
          ""]
 
     if "tabella" in n:
@@ -226,10 +265,18 @@ def scrivi_indice(dest: Path, n: dict, fw: list, ver: dict, mancanti: list):
                   f"({s['media_validation']:.5f}, {s['parametri']:,} parametri)."]
         r += ["",
               "Il progetto **deploya h=16 grado=8** per la KAN multi-layer, "
-              "ereditata dalla fase 1: e' un vincolo di dimensione, non un "
-              "risultato della selezione, ed e' dichiarato come tale nel "
-              "README del repository. `protocollo/arch_selection.csv` ha tutte "
-              "le configurazioni con medie e deviazioni.", ""]
+              "ereditata dalla fase 1: non e' un risultato della selezione, ed "
+              "e' dichiarato come tale nel README del repository. "
+              "`protocollo/arch_selection.csv` ha tutte le configurazioni con "
+              "medie e deviazioni.", ""]
+        if "arch_fp" in n:
+            r += ["Quanto costa la configurazione scelta, misurato "
+                  "compilandola (`protocollo/arch_footprint.csv`):", "",
+                  "| configurazione | byte del modello | stack del kernel |",
+                  "|---|---|---|"]
+            r += [f"| h={h} grado={g} ({ruolo}) | {b:,} | {s:,} |"
+                  for ruolo, h, g, b, s in n["arch_fp"]]
+            r += [""]
 
     if fw:
         r += ["## Firmware inclusi", "", "| environment | file | byte |",
@@ -298,9 +345,22 @@ def main():
         copia(f, dest / "figure" / f.name)
     print("header C e host check...")
     for f in sorted((_REPO / "mcu_pio" / "include").glob("*.h")):
-        copia(f, dest / "header_c" / f.name)
-    for f in sorted((_REPO / "mcu_pio" / "host_check").glob("*.*")):
-        copia(f, dest / "host_check" / f.name)
+        copia(f, dest / "include" / f.name)
+    # La cartella si chiama `include/` e non `header_c/` per una ragione
+    # pratica: gli host check includono i loro header come
+    # `"../include/kan14_coeff_infer.h"`, cioe' con lo stesso percorso
+    # relativo che hanno nel repository. Con quel nome il pacchetto estratto
+    # si compila senza opzioni:
+    #
+    #     cd host_check && g++ -O2 -o check run_coeff_check.cpp && ./check
+    #
+    # Con `header_c/` non compilava, ed e' il primo comando che il relatore
+    # avrebbe provato. Un test costruisce il pacchetto e li compila TUTTI
+    # dalla copia estratta.
+    for f in sorted((_REPO / "mcu_pio" / "host_check").rglob("*")):
+        if f.is_file():
+            copia(f, dest / "host_check"
+                  / f.relative_to(_REPO / "mcu_pio" / "host_check"))
     print("report e manifest...")
     for src, dst in ((_REPO / "report_KAN-IDS_fase2.pdf", "report/report.pdf"),
                      (_REPO / "models" / "MANIFEST.json", "report/MANIFEST.json"),

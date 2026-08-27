@@ -97,21 +97,30 @@ def _selezione():
 # dentro un file JSON, invece di costringere qualcuno a dichiararlo.
 #
 #   selezione su validation (1-SE, 5 seed):  KAN(cat,ML) h=32 grado=6
-#                                            0,99632 di balanced accuracy
+#                                            0,99631 di balanced accuracy
 #                                            2.592 parametri
 #   architettura deployata:                  KAN(cat,ML) h=16 grado=8
-#                                            0,99600 sulla stessa validation
+#                                            0,99602 sulla stessa validation
 #                                            1.648 parametri
 #
-# Lo scarto e' -0,00032 di balanced accuracy per il 36% di parametri in meno.
-# La 16/8 manca la soglia 1-SE per 0,00020: la selezione la esclude, ma di
-# un margine che vale meno di un campione ogni tremila. Il t appaiato fra le
-# due da' p = 0,067 su cinque seed.
+# Lo scarto e' 0,00028 di balanced accuracy per il 36% di parametri in meno.
+# La 16/8 manca la soglia 1-SE (0,99617) per 0,00015: la selezione la esclude,
+# ma di un margine che vale meno di un campione ogni seimila. Il t appaiato
+# fra le due da' p = 0,083 su cinque seed.
+#
+# (Una versione precedente di questo commento diceva 0,99632, 0,99600,
+# -0,00032, 0,00020 e p = 0,067: erano ricalcoli fatti su numeri gia'
+# arrotondati, corretti nel README e rimasti qui. Adesso un test li confronta
+# con results/arch_selection_scelta.json, che e' la fonte.)
 #
 # Il progetto deploya la 16/8, che e' ereditata dalla fase 1, e questo NON e'
-# un risultato della selezione: e' il vincolo di dimensione di un
-# microcontrollore, dichiarato come tale. La selezione resta agli atti come
-# misura di quanto costa quel vincolo — che era il punto di eseguirla.
+# un risultato della selezione. Quanto costa quel vincolo non e' piu'
+# un'affermazione: scripts/footprint_architettura.py compila entrambe le
+# configurazioni e le misura (results/arch_footprint.csv). Sono 5.244 B contro
+# 9.452 B di modello e 155 B contro 219 B di stack, cioe' +80% di Flash e
+# +41% di SRAM sul percorso di inferenza. Entrambe stanno su entrambe le
+# schede: e' una preferenza dichiarata con un prezzo misurato, non un limite
+# fisico, ed e' l'unico requisito che l'audit non da' per pieno.
 #
 # Percio' ARCH_ORIGINE dice "ereditata" anche quando l'artefatto esiste, e un
 # test pretende che lo scarto sia scritto nel README. Adottare la selezione

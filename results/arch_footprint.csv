@@ -1,0 +1,3 @@
+ruolo,hidden,degree,byte_parametri,bal_acc_validation_float,bal_acc_validation_intera,seed_compilazione,header,byte_avr_dati,byte_avr_codice,byte_avr_sram,byte_avr_stack_main,balanced_accuracy_mean,balanced_accuracy_std,n_parametri_appresi
+deployata,16,8,5244,0.99514,0.99517,42,artifacts/footprint_arch/h16g8/kan14_ml_coeff_int8.h,5244,1916,4,155,0.9960233428416192,0.0005481131586593,1648
+selezionata,32,6,9452,0.99589,0.99569,42,artifacts/footprint_arch/h32g6/kan14_ml_coeff_int8.h,9452,2130,4,219,0.9963082712384056,0.0002798054500754,2592

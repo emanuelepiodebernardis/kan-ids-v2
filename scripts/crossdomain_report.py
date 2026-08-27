@@ -92,7 +92,15 @@ def distribution_shift() -> pd.DataFrame:
 
 
 def significativita(cat: pd.DataFrame) -> pd.DataFrame:
-    """Confronti appaiati per seed fra tutte le coppie di modelli, in
+    """SUPERATA da kanids/statistica.py: resta come riferimento di cio' che
+    veniva scritto prima della revisione, e non viene piu' chiamata.
+
+    Trattava i dieci seed come repliche senza dire che training e test sono
+    due interi domini fissi, e arrotondava il p a quattro decimali — cioe'
+    scriveva `p_value = 0.0` sei volte su trenta. Vedi
+    scripts/statistica_confronti.py.
+
+    Confronti appaiati per seed fra tutte le coppie di modelli, in
     ciascuna direzione cross-domain.
 
     Esiste perche' "questo modello ha la media piu' alta" non e' la stessa
@@ -143,7 +151,7 @@ def main():
     tab.columns = [f"{a}_{b}" for a, b in tab.columns]
     tab["n_runs"] = d.groupby(["exp", "model", "variant"]).size()
     tab = tab.reset_index()
-    tab.to_csv(RESULTS_DIR / "crossdomain_table.csv", index=False)
+    tab.to_csv(RESULTS_DIR / "crossdomain_table.csv", index=False, lineterminator="\n")
 
     # degrado in-domain -> cross-domain, variante con categoriche
     cat = d[d.variant == "cat"]
@@ -155,13 +163,20 @@ def main():
             deg[cross] = bal[cross].round(4)
             deg[f"delta_{cross}"] = (bal[src] - bal[cross]).round(4)
     deg = deg.reset_index().sort_values(deg.columns[-1])
-    deg.to_csv(RESULTS_DIR / "crossdomain_degradation.csv", index=False)
+    deg.to_csv(RESULTS_DIR / "crossdomain_degradation.csv", index=False, lineterminator="\n")
 
-    sig = significativita(cat)
-    sig.to_csv(RESULTS_DIR / "crossdomain_significativita.csv", index=False)
+    # I confronti appaiati li scrive scripts/statistica_confronti.py, che
+    # legge i run archiviati: la stessa procedura deve valere sia quando si
+    # rigenera tutto sia quando si ricalcola la sola statistica, altrimenti
+    # i due percorsi producono due CSV con colonne diverse e nessuno se ne
+    # accorge finche' non li confronta.
+    import sys as _sys
+    _sys.path.insert(0, str(RESULTS_DIR.parent / "scripts"))
+    from statistica_confronti import crossdomain as _confronti_cross
+    _confronti_cross()
 
     shift = distribution_shift()
-    shift.to_csv(RESULTS_DIR / "crossdomain_shift.csv", index=False)
+    shift.to_csv(RESULTS_DIR / "crossdomain_shift.csv", index=False, lineterminator="\n")
 
     # contributo delle categoriche armonizzate
     piv = (d.groupby(["exp", "model", "variant"]).balanced_acc.mean()

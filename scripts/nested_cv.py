@@ -186,7 +186,7 @@ def main():
                   f"esterno={outer:.4f}  [{time.time()-t0:5.0f}s]", flush=True)
 
     d = pd.DataFrame(rows)
-    d.to_csv(RESULTS_DIR / f"nested_cv_folds_{args.task}.csv", index=False)
+    d.to_csv(RESULTS_DIR / f"nested_cv_folds_{args.task}.csv", index=False, lineterminator="\n")
 
     # ── confronto con la stima piatta ────────────────────────
     key = "f1" if args.task == "binary" else "macro_f1"
@@ -215,7 +215,7 @@ def main():
             rec["ottimismo"] = f[f"{key}_mean"] - rec["nested_mean"]
         out.append(rec)
     summ = pd.DataFrame(out)
-    summ.to_csv(RESULTS_DIR / f"nested_cv_summary_{args.task}.csv", index=False)
+    summ.to_csv(RESULTS_DIR / f"nested_cv_summary_{args.task}.csv", index=False, lineterminator="\n")
 
     print("\n" + "=" * 78)
     cols = [c for c in ["model", "n_fold", "nested_mean", "nested_std",

@@ -198,7 +198,7 @@ def main():
     H = load_harmonized()
     cov = pd.concat([coverage_report(H["ton"], "TON_IoT"),
                      coverage_report(H["bot"], "BoT-IoT")])
-    cov.to_csv(RESULTS_DIR / "harmonized_coverage.csv", index=False)
+    cov.to_csv(RESULTS_DIR / "harmonized_coverage.csv", index=False, lineterminator="\n")
 
     ckpt = ARTIFACTS_DIR / f"crossdomain_{variant}.jsonl"
     if args.fresh and ckpt.exists():
@@ -282,15 +282,15 @@ def main():
     df = df.drop_duplicates(subset=keys, keep="last").reset_index(drop=True)
     if before != len(df):
         print(f"[merge] {before - len(df)} run sovrascritti da esecuzioni piu' recenti")
-    df.to_csv(out_csv, index=False)
+    df.to_csv(out_csv, index=False, lineterminator="\n")
     summ = aggregate(df.to_dict("records"), by=("exp", "model"))
-    summ.to_csv(RESULTS_DIR / f"crossdomain_summary_{variant}.csv", index=False)
+    summ.to_csv(RESULTS_DIR / f"crossdomain_summary_{variant}.csv", index=False, lineterminator="\n")
 
     for (exp, model), mats in confusions.items():
         cm = np.sum(mats, axis=0)
         pd.DataFrame(cm, index=["normal", "attack"], columns=["normal", "attack"]).to_csv(
             RESULTS_DIR / f"confusion_crossdomain_{variant}_{exp.replace('->','_')}_"
-            f"{model.replace('(','_').replace(')','').replace(',','_')}.csv")
+            f"{model.replace('(','_').replace(')','').replace(',','_')}.csv", lineterminator="\n")
 
     print("\n" + "=" * 92)
     print(f"{'esperimento':<11}{'modello':<18}{'F1':>16}{'recall normal':>16}{'PR-AUC':>16}")

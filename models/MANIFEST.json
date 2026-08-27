@@ -7,7 +7,7 @@
     43,
     44
   ],
-  "data_export": "2026-08-26",
+  "data_export": "2026-08-27",
   "spazio_feature": {
     "feature_numeriche": [
       "src_ip_bytes",
@@ -77,6 +77,10 @@
   ],
   "header_c_deployabili": [
     {
+      "file": "mcu_pio/include/dt5_model.h",
+      "byte": 19409
+    },
+    {
       "file": "mcu_pio/include/kan14_coeff_infer.h",
       "byte": 2184
     },
@@ -139,6 +143,22 @@
     {
       "file": "mcu_pio/include/kan_mc_e2e_int.h",
       "byte": 97647
+    },
+    {
+      "file": "mcu_pio/include/mlp16_infer.h",
+      "byte": 3593
+    },
+    {
+      "file": "mcu_pio/include/mlp16_int8.h",
+      "byte": 4955
+    },
+    {
+      "file": "mcu_pio/include/mlp16_test_vectors.h",
+      "byte": 18212
+    },
+    {
+      "file": "mcu_pio/include/test_vectors.h",
+      "byte": 4848
     }
   ],
   "harness_di_verifica": [
@@ -147,7 +167,8 @@
     "mcu_pio/host_check/run_host_check.cpp",
     "mcu_pio/host_check/run_mc_coeff_check.cpp",
     "mcu_pio/host_check/run_mc_e2e_check.cpp",
-    "mcu_pio/host_check/run_ml_coeff_check.cpp"
+    "mcu_pio/host_check/run_ml_coeff_check.cpp",
+    "mcu_pio/host_check/run_mlp_check.cpp"
   ],
   "metriche": {
     "F1 binario single-layer": [

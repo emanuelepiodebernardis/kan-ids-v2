@@ -88,7 +88,7 @@ def main():
               f"overlap con v1 = {rows[-1]['overlap_con_v1']}/{K_NUMERIC}", flush=True)
 
     out = pd.DataFrame(rows)
-    out.to_csv(RESULTS_DIR / "leakage_audit_folds.csv", index=False)
+    out.to_csv(RESULTS_DIR / "leakage_audit_folds.csv", index=False, lineterminator="\n")
 
     # ── sintesi ──────────────────────────────────────────────────
     rank_cols = [f"r{i+1}" for i in range(K_NUMERIC)]
@@ -96,7 +96,7 @@ def main():
     stability = freq.rename("frazione_di_fold").reset_index()
     stability.columns = ["feature", "frazione_di_fold"]
     stability["in_top10_v1"] = stability.feature.isin(top_v1)
-    stability.to_csv(RESULTS_DIR / "leakage_audit_stability.csv", index=False)
+    stability.to_csv(RESULTS_DIR / "leakage_audit_stability.csv", index=False, lineterminator="\n")
 
     print("\n" + "-" * 78)
     print(f"overlap medio con la selezione v1: "

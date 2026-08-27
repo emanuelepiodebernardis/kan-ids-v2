@@ -237,7 +237,7 @@ def main():
     res10["space"] = "10feat"
     kan_row = pd.DataFrame([{"model": "KAN Chebyshev", "f1": f1_k, "roc_auc": auc_k,
                              "precision": prec_k, "recall": rec_k, "space": "10feat"}])
-    pd.concat([res95, res10, kan_row], ignore_index=True).to_csv(out, index=False)
+    pd.concat([res95, res10, kan_row], ignore_index=True).to_csv(out, index=False, lineterminator="\n")
     print(f"\nRisultati salvati in {out}")
 
 

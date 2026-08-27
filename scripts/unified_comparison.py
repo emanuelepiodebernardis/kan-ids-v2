@@ -118,7 +118,7 @@ def main():
     print("\n--- classifica ---")
     for n,f in sorted(rows,key=lambda r:-r[1]): print(f"  {n:<22} {f:.4f}")
     pd.DataFrame(rows,columns=["model",f"f1_{args.task}"]).to_csv(
-        f"unified_{args.task}_{args.which}.csv",index=False)
+        f"unified_{args.task}_{args.which}.csv",index=False, lineterminator="\n")
     print(f"\nSalvato unified_{args.task}_{args.which}.csv")
 
 

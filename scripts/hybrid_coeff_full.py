@@ -150,5 +150,5 @@ if __name__ == "__main__":
     out = "results/hybrid_coeff_full_real.csv"
     try: prev = pd.read_csv(out); prev = prev[prev.task != rows[0]["task"]]
     except FileNotFoundError: prev = pd.DataFrame()
-    pd.concat([prev, pd.DataFrame(rows)]).to_csv(out, index=False)
+    pd.concat([prev, pd.DataFrame(rows)]).to_csv(out, index=False, lineterminator="\n")
     print("salvato", out)

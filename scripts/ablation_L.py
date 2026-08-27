@@ -53,7 +53,7 @@ def main():
                      "delta_f1": round(f1q - f1_float, 4),
                      "agreement_pct": round(agree*100, 3)})
         print(f"L={L:4d}  {nbytes/1024:6.2f} KB  F1q={f1q:.4f}  dF1={f1q-f1_float:+.4f}  agree={agree*100:.3f}%")
-    pd.DataFrame(rows).to_csv("results/ablation_L_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/ablation_L_real.csv", index=False, lineterminator="\n")
     print("salvato results/ablation_L_real.csv")
 
 if __name__ == "__main__":

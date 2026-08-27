@@ -46,6 +46,10 @@ KERNEL = [
      "sink = e2e_predict(1, 1, 1, 1, 1000);"),
     ("DecisionTree(d=5)", ["dt5_model.h"],
      "int16_t x[10]={0}; sink = dt5_predict(x);"),
+    # La baseline densa: e' quella con l'accumulatore int64, cioe' quella dove
+    # e' piu' facile che il compilatore tiri dentro una routine di libgcc.
+    ("MLP(16)", ["mlp16_int8.h", "mlp16_infer.h"],
+     "int16_t x[10]={0}; uint8_t c[4]={0}; sink = mlp16_predict(x, c);"),
 ]
 
 # Non basta shutil.which: su Windows avr-g++ sta quasi sempre dentro i
@@ -79,6 +83,9 @@ def _assembly(tmp_path: Path, headers: list[str], corpo: str) -> Path:
 @pytest.mark.parametrize("nome, headers, corpo", KERNEL,
                          ids=[k[0] for k in KERNEL])
 def test_kernel_senza_virgola_mobile_su_avr(tmp_path, nome, headers, corpo):
+    for h in headers:
+        if not (INCLUDE / h).exists():
+            pytest.skip(f"{h} non generato: vedi scripts/export_*.py")
     asm = _assembly(tmp_path, headers, corpo)
     r = subprocess.run([sys.executable, str(CHECK), str(asm)],
                        capture_output=True, text=True)

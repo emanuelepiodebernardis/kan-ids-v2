@@ -106,7 +106,7 @@ def main():
     print("   basta, o se serve 'quantile' (difficile su MCU)")
     print("="*68)
     pd.DataFrame(rows,columns=["preproc","single_macrof1","multi_macrof1","mitm_multi"]
-                 ).to_csv(str(RESULTS_DIR / "preproc_x_model_results.csv"),index=False)
+                 ).to_csv(str(RESULTS_DIR / "preproc_x_model_results.csv"),index=False, lineterminator="\n")
     print("\nSalvato preproc_x_model_results.csv")
 
 

@@ -13,7 +13,7 @@
 #include <stdint.h>
 
 /* Il kernel e' in include/kan_mc_e2e_infer.h: lo stesso che gira sul firmware. */
-#include "kan_mc_e2e_infer.h"
+#include "../include/kan_mc_e2e_infer.h"
 
 int main(void) {
   int z_ok = 0, pred_ok = 0, label_ok = 0;

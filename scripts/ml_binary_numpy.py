@@ -115,7 +115,7 @@ def main():
     n_par = C1.size + C2.size
     print(f"RISULTATO multi-layer 10->{HID}->1 deg={DEG}: F1={f1:.4f} ROC-AUC={auc:.4f} parametri={n_par}")
     pd.DataFrame([{"arch": f"10-{HID}-1 deg{DEG}", "epochs": EPOCHS, "f1": round(f1,4),
-                   "roc_auc": round(auc,4), "parametri": n_par}]).to_csv(OUT, index=False)
+                   "roc_auc": round(auc,4), "parametri": n_par}]).to_csv(OUT, index=False, lineterminator="\n")
     with open(CK, "wb") as f: pickle.dump(st, f)
     print("DONE")
 

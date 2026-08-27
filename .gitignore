@@ -53,3 +53,10 @@ run_debug.log
 
 # output dell'audit: si rigenera, non si versiona
 audit.txt
+
+# Messaggi di commit e di tag scritti a parte, e la cartella in cui si estrae
+# il pacchetto per provarlo. `git add -A` li ha gia' tirati dentro una volta:
+# sono artefatti del processo, non del progetto.
+commit_*.txt
+tag_*.txt
+prova/

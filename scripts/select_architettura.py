@@ -342,7 +342,7 @@ def main():
                   f"{METRICA}={r[METRICA]:.4f}  ({r['secondi']:.0f} s)")
 
     runs = pd.DataFrame(rows)
-    runs.to_csv(out_dir / "arch_selection_runs.csv", index=False)
+    runs.to_csv(out_dir / "arch_selection_runs.csv", index=False, lineterminator="\n")
 
     # Un reticolo incompleto non deve produrre una scelta: il file JSON viene
     # letto dalla pipeline, e una scelta fatta su meta' delle configurazioni
@@ -368,7 +368,7 @@ def main():
                            "n_runs": (METRICA, "size"),
                            "n_parametri": ("n_parametri", "first")})
                    .reset_index())
-    sintesi.to_csv(out_dir / "arch_selection.csv", index=False)
+    sintesi.to_csv(out_dir / "arch_selection.csv", index=False, lineterminator="\n")
 
     scelte = {m: scegli(runs, m) for m in sorted(runs.model.unique())}
     payload = {"regola": REGOLA, "metrica": METRICA, "seeds": list(seeds),

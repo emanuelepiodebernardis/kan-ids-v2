@@ -2,7 +2,7 @@
  *
  * Perche' serve un firmware separato
  * ----------------------------------
- * I sette firmware di latenza cronometrano UNA inferenza per volta e fra una
+ * Gli otto firmware di latenza cronometrano UNA inferenza per volta e fra una
  * misura e la successiva stampano 5-9 valori su Serial. Per la latenza va
  * bene: fra t0 e t1 c'e' solo la chiamata al kernel. Per l'energia no: uno
  * strumento misura la corrente assorbita nel tempo, e in quel tempo la UART
@@ -61,6 +61,7 @@
  *   -DEB_MC               KAN multiclasse 10 classi, 8.268 B
  *   -DEB_E2E              catena integer end-to-end binaria, 1.334 B
  *   -DEB_DT5              albero di decisione profondo 5, 285 B
+ *   -DEB_MLP              MLP piccolo, 16 nascosti ReLU, 760 B
  *
  * Altri parametri: -DEB_BATCH=n (inferenze per finestra), -DEB_REPS=n
  * (ripetizioni), -DEB_PIN=n (pin di marcatura), -DEB_NO_PIN (nessun pin).
@@ -80,7 +81,7 @@
 
 /* ── selezione della variante ─────────────────────────────────────── */
 #if !defined(EB_COEFF) && !defined(EB_MLCOEFF) && !defined(EB_MC) && \
-    !defined(EB_E2E) && !defined(EB_DT5)
+    !defined(EB_E2E) && !defined(EB_DT5) && !defined(EB_MLP)
   #define EB_COEFF
 #endif
 
@@ -108,6 +109,11 @@
   #include "dt5_model.h"
   #define EB_NAME       "dt5"
   #define EB_MODEL_BYTES 285
+#elif defined(EB_MLP)
+  #include "mlp16_infer.h"
+  #include "mlp16_test_vectors.h"
+  #define EB_NAME       "mlp16_int8"
+  #define EB_MODEL_BYTES 760
 #endif
 
 /* ── parametri ────────────────────────────────────────────────────── */
@@ -179,6 +185,11 @@ static void eb_load(void) {
     #define EB_TVC KMLTV_CAT
     #define EB_TVE KMLTV_EXPECTED
     #define EB_TVN KMLTV_N
+  #elif defined(EB_MLP)
+    #define EB_TVX MLPTV_X
+    #define EB_TVC MLPTV_CAT
+    #define EB_TVE MLPTV_EXPECTED
+    #define EB_TVN MLPTV_N
   #else
     #define EB_TVX KMCTV_X
     #define EB_TVC KMCTV_CAT
@@ -206,32 +217,79 @@ static inline uint8_t eb_one(uint8_t i) {
   return e2e_predict(eb_sb[i], eb_db[i], eb_sp[i], eb_dp[i], eb_dur[i]);
 #elif defined(EB_DT5)
   return dt5_predict(eb_x[i]);
+#elif defined(EB_MLP)
+  return mlp16_predict(eb_x[i], eb_c[i]);
 #endif
 }
 
 /* ── accumulatore volatile: senza, il ciclo puo' sparire ──────────── */
 static volatile uint32_t eb_acc = 0;
 
-/* giri di `nop` in un microsecondo, calibrati a runtime */
-static uint32_t eb_nop_per_us = 0;
+/* Quanti giri del ciclo di riferimento stanno in un microsecondo, in Q8.
+ *
+ * PERCHE' IN Q8 E PERCHE' COL MEDESIMO CICLO.
+ * La prima versione cronometrava un ciclo diverso da quello poi usato:
+ *
+ *     while ((uint32_t)(micros() - t0) < 20000UL) { nop; n++; }
+ *     eb_nop_per_us = n / 20000UL;
+ *
+ * Ogni giro pagava una chiamata a micros(), che su AVR costa ~3,4 us fra
+ * lettura del timer e disabilitazione degli interrupt. In 20 ms si fanno
+ * cosi' ~5.900 giri invece dei ~320.000 di un ciclo di soli nop, e la
+ * divisione intera 5900/20000 da' ZERO, poi forzato a 1 dal guard. La
+ * finestra di riferimento girava quindi a 1 giro per microsecondo dove il
+ * ciclo vero ne fa sedici: durava piu' di un ordine di grandezza meno di
+ * quella attiva, mentre E = (P_alta - P_bassa) * T / N presuppone che le
+ * due durate coincidano.
+ *
+ * Adesso si cronometra ESATTAMENTE la funzione che verra' usata, con
+ * micros() chiamato due volte in tutto e fuori dal ciclo, e il risultato
+ * si tiene in virgola fissa Q8 perche' su un core veloce il valore intero
+ * arrotonderebbe di nuovo male. */
+static uint32_t eb_nop_per_us_q8 = 0;
+static uint8_t  eb_calibrazione_ok = 0;
 
-static void eb_calibra(void) {
-  const uint32_t t0 = micros();
-  uint32_t n = 0;
-  while ((uint32_t)(micros() - t0) < 20000UL) {   /* 20 ms */
-    __asm__ __volatile__("nop");
-    n++;
-  }
-  eb_nop_per_us = n / 20000UL;
-  if (eb_nop_per_us == 0) eb_nop_per_us = 1;
+/* L'unico ciclo di riferimento del firmware: quello calibrato e quello
+ * eseguito devono essere lo stesso codice, altrimenti si calibra una cosa
+ * e se ne misura un'altra. `volatile` impedisce all'ottimizzatore di
+ * cancellarlo. */
+static void eb_nop_loop(uint32_t giri) {
+  volatile uint32_t n = giri;
+  while (n--) { __asm__ __volatile__("nop"); }
 }
 
-/* Finestra di riferimento: stessa durata, CPU sveglia, nessuna inferenza.
- * Gira su `nop` e non su micros(), che sarebbe un carico diverso (su AVR
- * legge un timer e disabilita brevemente gli interrupt). */
-static void eb_riferimento(uint32_t durata_us) {
-  volatile uint32_t giri = eb_nop_per_us * durata_us;
-  while (giri--) { __asm__ __volatile__("nop"); }
+static void eb_calibra(void) {
+  uint32_t giri = 20000UL;
+  for (uint8_t tent = 0; tent < 12; tent++) {
+    const uint32_t t0 = micros();
+    eb_nop_loop(giri);
+    const uint32_t dt = (uint32_t)(micros() - t0);
+    if (dt >= 50000UL) {                       /* almeno 50 ms di finestra */
+      eb_nop_per_us_q8 = (uint32_t)(((uint64_t)giri << 8) / dt);
+      if (eb_nop_per_us_q8 == 0) eb_nop_per_us_q8 = 1;
+      eb_calibrazione_ok = 1;
+      return;
+    }
+    giri <<= 1;                                /* troppo corta: raddoppia */
+  }
+  /* Nessun tentativo ha raggiunto 50 ms: succede se micros() non avanza
+   * (host stub) o su un core cosi' veloce da esaurire i raddoppi. Il valore
+   * di ripiego e' arbitrario e il firmware lo DICE: una finestra di
+   * riferimento sbagliata in silenzio e' il difetto che questa funzione
+   * esiste per non ripetere. */
+  eb_nop_per_us_q8 = 1 << 8;
+}
+
+/* Finestra di riferimento: stessa durata della finestra attiva, CPU sveglia,
+ * nessuna inferenza. Restituisce la durata MISURATA, che il firmware stampa:
+ * "stessa durata" e' una promessa, e chi legge i numeri deve poterla
+ * verificare invece di crederci. */
+static uint32_t eb_riferimento(uint32_t durata_us) {
+  const uint32_t giri =
+      (uint32_t)(((uint64_t)eb_nop_per_us_q8 * durata_us) >> 8);
+  const uint32_t t0 = micros();
+  eb_nop_loop(giri);
+  return (uint32_t)(micros() - t0);
 }
 
 void setup() {
@@ -269,11 +327,15 @@ void setup() {
   Serial.println();
   Serial.println(F("# finestra ALTA = inferenze, finestra BASSA = riferimento, "
                    "stessa durata; nessun I/O fra le due"));
-  Serial.println(F("# E_inf = (P_alta - P_bassa) * T / batch"));
+  Serial.println(F("# E_totale per inferenza  = P_alta * T_alta / batch"));
+  Serial.println(F("# E_dinamica per inferenza = (P_alta - P_bassa) * T_alta / batch"));
+  Serial.println(F("# la prima include il consumo statico del core sveglio, la "
+                   "seconda e' il solo costo del calcolo"));
   Serial.flush();
   delay(200);                     /* la UART deve essere ferma prima di iniziare */
 
-  uint32_t durata[EB_REPS];
+  uint32_t durata[EB_REPS];       /* finestra ATTIVA, misurata */
+  uint32_t durata_rif[EB_REPS];   /* finestra di RIFERIMENTO, misurata */
   uint32_t somma[EB_REPS];
 
   for (uint8_t rep = 0; rep < EB_REPS; rep++) {
@@ -295,12 +357,13 @@ void setup() {
     durata[rep] = t1 - t0;
     somma[rep]  = eb_acc;
 
-    eb_riferimento(durata[rep]);          /* finestra BASSA, stessa durata */
+    durata_rif[rep] = eb_riferimento(durata[rep]);   /* finestra BASSA */
   }
 
   /* Da qui in poi si puo' tornare a parlare. */
   uint8_t tutte_ok = 1;
-  Serial.println(F("variant,rep,batch,window_us,ns_per_inference,checksum,expected,ok"));
+  Serial.println(F("variant,rep,batch,window_us,ref_us,ns_per_inference,"
+                   "checksum,expected,ok"));
   for (uint8_t rep = 0; rep < EB_REPS; rep++) {
     const uint8_t ok = (somma[rep] == attesa_per_batch);
     if (!ok) tutte_ok = 0;
@@ -308,6 +371,7 @@ void setup() {
     Serial.print(rep);            Serial.print(',');
     Serial.print((uint32_t)EB_BATCH); Serial.print(',');
     Serial.print(durata[rep]);    Serial.print(',');
+    Serial.print(durata_rif[rep]); Serial.print(',');
     /* niente virgola mobile nemmeno qui: su AVR tirerebbe dentro le
      * routine soft-float di libgcc in un firmware che esiste per
      * misurare un modello integer-only. Nanosecondi in interi. */
@@ -325,7 +389,16 @@ void setup() {
   Serial.print(F(" mean_window_us=")); Serial.print(tot / EB_REPS);
   Serial.print(F(" mean_ns_per_inference="));
   Serial.print((uint32_t)((tot * 1000UL) / ((uint32_t)EB_REPS * (uint32_t)EB_BATCH)));
-  Serial.print(F(" nop_per_us=")); Serial.print(eb_nop_per_us);
+  uint32_t tot_rif = 0;
+  for (uint8_t rep = 0; rep < EB_REPS; rep++) tot_rif += durata_rif[rep];
+  Serial.print(F(" mean_ref_us=")); Serial.print(tot_rif / EB_REPS);
+  /* scarto fra le due finestre in parti per mille: se non e' piccolo, la
+   * sottrazione del baseline non ha senso e va detto qui, non scoperto dopo. */
+  Serial.print(F(" ref_vs_active_permille="));
+  Serial.print((int32_t)(((int64_t)tot_rif - (int64_t)tot) * 1000
+                         / (int64_t)(tot ? tot : 1)));
+  Serial.print(F(" nop_per_us_q8=")); Serial.print(eb_nop_per_us_q8);
+  Serial.print(F(" calibration_ok=")); Serial.print(eb_calibrazione_ok ? 1 : 0);
   Serial.print(F(" checksum_ok=")); Serial.print(tutte_ok ? 1 : 0);
   Serial.println();
   if (!tutte_ok) {

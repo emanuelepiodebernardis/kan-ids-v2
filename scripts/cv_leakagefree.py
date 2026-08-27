@@ -235,24 +235,24 @@ def main():
     summary = summary.sort_values(f"{key}_mean", ascending=False)
 
     suffix = f"{args.task}_{tag}"
-    folds.to_csv(out_dir / f"cv_leakagefree_folds_{suffix}.csv", index=False)
-    summary.to_csv(out_dir / f"cv_leakagefree_summary_{suffix}.csv", index=False)
+    folds.to_csv(out_dir / f"cv_leakagefree_folds_{suffix}.csv", index=False, lineterminator="\n")
+    summary.to_csv(out_dir / f"cv_leakagefree_summary_{suffix}.csv", index=False, lineterminator="\n")
 
     # stabilita' della feature selection per-fold: e' la domanda diretta
     # "cambiare protocollo cambia le feature scelte?"
     sel = pd.DataFrame(selections)
-    sel.to_csv(out_dir / f"feature_selection_per_fold_{suffix}.csv", index=False)
+    sel.to_csv(out_dir / f"feature_selection_per_fold_{suffix}.csv", index=False, lineterminator="\n")
     rank_cols = [c for c in sel.columns if re.fullmatch(r"f\d+", c)]
     counts = pd.Series(sel[rank_cols].values.ravel()).value_counts()
     stability = (counts / len(sel)).rename("frazione_di_fold").reset_index()
     stability.columns = ["feature", "frazione_di_fold"]
-    stability.to_csv(out_dir / f"feature_selection_stability_{suffix}.csv", index=False)
+    stability.to_csv(out_dir / f"feature_selection_stability_{suffix}.csv", index=False, lineterminator="\n")
 
     for name, mats in confusions.items():
         cm = np.sum(mats, axis=0)
         labs = ["normal", "attack"] if args.task == "binary" else classes
         pd.DataFrame(cm, index=labs, columns=labs).to_csv(
-            out_dir / f"confusion_{suffix}_{name.replace('(', '_').replace(')', '').replace(',', '_')}.csv")
+            out_dir / f"confusion_{suffix}_{name.replace('(', '_').replace(')', '').replace(',', '_')}.csv", lineterminator="\n")
 
     (out_dir / f"protocol_{suffix}.json").write_text(json.dumps({
         "protocol": describe_protocol(args.folds, seeds),

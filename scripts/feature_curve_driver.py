@@ -132,7 +132,7 @@ def main():
                      "lut_kb_binario": st["done"][f"binary_{k}"]["lut_kb"],
                      "lut_kb_multiclass": st["done"][f"multiclass_{k}"]["lut_kb"]})
     out = pd.DataFrame(rows)
-    out.to_csv("results/feature_curve_real.csv", index=False)
+    out.to_csv("results/feature_curve_real.csv", index=False, lineterminator="\n")
     print(out.to_string(index=False)); print("DONE")
 
 if __name__ == "__main__":

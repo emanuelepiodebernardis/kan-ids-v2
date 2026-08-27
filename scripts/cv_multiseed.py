@@ -447,8 +447,8 @@ def main():
     outdir.mkdir(parents=True, exist_ok=True)
     res_path = outdir / "cv_multiseed_results.csv"
     sum_path = outdir / "cv_multiseed_summary.csv"
-    results.to_csv(res_path, index=False)
-    summary.to_csv(sum_path, index=False)
+    results.to_csv(res_path, index=False, lineterminator="\n")
+    summary.to_csv(sum_path, index=False, lineterminator="\n")
 
     # 5) tabella a schermo
     print_table(summary)

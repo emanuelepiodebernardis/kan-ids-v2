@@ -19,12 +19,35 @@ verificabili con `nm` sull'oggetto prodotto dal compilatore. Riguarda tutte
 le varianti KAN e l'albero profondo 5, cioe' tutto cio' che va davvero su
 microcontrollore.
 
-**B. modelli senza header C** — MLP, LightGBM e XGBoost non sono stati
-esportati in C: per loro resta una *stima* table-driven (nodo interno =
-indice feature 1 B + soglia int16 2 B + figlio destro 1 B; foglia = 1 B;
-MLP = 1 B per parametro int8). La colonna `regola` del CSV dice riga per
-riga quale delle due si applica, cosi' che il confronto non venga letto
-come omogeneo: la stima e' un limite inferiore, la misura no.
+**B. modelli senza header C** — LightGBM e XGBoost non sono stati esportati
+in C: per loro resta una *stima* table-driven (nodo interno = indice feature
+1 B + soglia int16 2 B + figlio destro 1 B; foglia = 1 B). La colonna
+`regola` del CSV dice riga per riga quale delle due si applica, cosi' che il
+confronto non venga letto come omogeneo: la stima e' un limite inferiore, la
+misura no.
+
+L'MLP(16) stava nel gruppo B fino alla revisione (705 parametri x 1 byte).
+Adesso e' esportato — `scripts/export_mlp_int_c.py` — e misurato come gli
+altri. Il numero si e' mosso, ed e' esattamente il motivo per cui le due
+regole vanno tenute distinte: la stima non contava i bias in int32 ne' le
+righe della tabella in cui il one-hot delle categoriche viene compilato.
+
+Le stime del gruppo B non sono stabili fra ambienti
+---------------------------------------------------
+Le righe misurate si leggono da un header e sono identiche ovunque. Le righe
+stimate no: per ottenerle bisogna riaddestrare LightGBM e XGBoost, e la
+costruzione greedy degli split amplifica le ultime cifre delle feature
+preprocessate. Fra l'ambiente di `requirements-lock.txt` e uno con numpy e
+scipy piu' recenti, XGBoost passa da 9.921 a 9.964 nodi interni, cioe' da
+49.905 a 50.120 B (+0,43%); l'F1 non si muove.
+
+Fino alla revisione, rilanciare questo script su una macchina qualsiasi
+**riscriveva quel numero in silenzio**, e il README — che lo riporta a mano —
+cominciava a divergere senza che nessuno avesse cambiato niente. Adesso una
+riga stimata gia' presente nel CSV non viene sovrascritta: lo script dice cosa
+avrebbe scritto, di quanto differisce, e tiene il valore committato, che e'
+quello dell'ambiente del lock. Con `--aggiorna-stime` lo si adotta di
+proposito, e allora va aggiornato anche il README.
 
 Cosa NON e' misurato qui: dimensione del codice e latenza. Dipendono da
 toolchain e target e vanno misurate sul dispositivo; questo script produce
@@ -32,6 +55,7 @@ l'asse "dimensione" del Pareto, non l'asse "tempo".
 """
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -60,6 +84,48 @@ def tree_bytes(n_internal: int, n_leaves: int) -> int:
     return n_internal * BYTES_NODE + n_leaves * BYTES_LEAF
 
 
+def unisci_stime(nuove: list[dict], committate: pd.DataFrame | None,
+                 aggiorna: bool = False) -> tuple[list[dict], list[str]]:
+    """Righe da scrivere, e le note da stampare.
+
+    Le righe MISURATE vengono sempre da questa esecuzione: si leggono da un
+    header, sono deterministiche, e un test le confronta con l'header stesso.
+    Le righe STIMATE richiedono di riaddestrare un ensemble, e il risultato
+    dipende dall'ambiente: se ce n'e' gia' una nel CSV committato, quella
+    vince, a meno che non si chieda esplicitamente di aggiornarla.
+
+    Funzione pura di proposito: e' l'unico pezzo di questo script che si puo'
+    verificare senza il dataset.
+    """
+    if committate is None or committate.empty:
+        return nuove, []
+    vecchie = {r["modello"]: r for r in committate.to_dict("records")}
+    fuori, note = [], []
+    for riga in nuove:
+        v = vecchie.get(riga["modello"])
+        if (riga["regola"] != REGOLA_STIMA or v is None
+                or int(v["byte_parametri"]) == int(riga["byte_parametri"])):
+            fuori.append(riga)
+            continue
+        delta = int(riga["byte_parametri"]) - int(v["byte_parametri"])
+        pct = 100.0 * delta / int(v["byte_parametri"])
+        if aggiorna:
+            note.append(f"[stima] {riga['modello']}: {int(v['byte_parametri']):,} "
+                        f"-> {int(riga['byte_parametri']):,} B ({pct:+.2f}%), "
+                        f"adottata su richiesta (--aggiorna-stime). "
+                        f"Aggiornare anche la tabella del README.")
+            fuori.append(riga)
+        else:
+            note.append(f"[stima] {riga['modello']}: questo ambiente stima "
+                        f"{int(riga['byte_parametri']):,} B, il CSV committato "
+                        f"dice {int(v['byte_parametri']):,} B ({pct:+.2f}%). Si "
+                        f"tiene il valore committato, che e' quello "
+                        f"dell'ambiente di requirements-lock.txt; per adottare "
+                        f"il nuovo: --aggiorna-stime.")
+            fuori.append({k: v.get(k, riga.get(k)) for k in riga})
+    return fuori, note
+
+
 def sklearn_tree_size(est):
     t = est.tree_
     n_leaves = int((t.children_left == -1).sum())
@@ -68,6 +134,12 @@ def sklearn_tree_size(est):
 
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--aggiorna-stime", action="store_true",
+                    help="adotta le stime di QUESTO ambiente al posto di quelle "
+                         "gia' nel CSV (poi va aggiornata la tabella del README)")
+    args = ap.parse_args()
+
     set_global_seed(42)
     df = load_ton_iot()
     yb, ym, _ = encode_targets(df)
@@ -146,6 +218,13 @@ def main():
                      "regola": REGOLA_C, "dettaglio": c["dettaglio"],
                      "fonte": c["header"]})
 
+    csv_committato = None
+    if (RESULTS_DIR / "footprint.csv").exists():
+        csv_committato = pd.read_csv(RESULTS_DIR / "footprint.csv")
+    rows, note = unisci_stime(rows, csv_committato, args.aggiorna_stime)
+    for n in note:
+        print(n)
+
     out = pd.DataFrame(rows).sort_values("byte_parametri")
 
     # ── unisci l'F1 misurato in CV ───────────────────────────
@@ -156,7 +235,7 @@ def main():
     out["f1_std"] = out.modello.map(smap).round(4)
     out["kb"] = (out.byte_parametri / 1024).round(2)
 
-    out.to_csv(RESULTS_DIR / "footprint.csv", index=False)
+    out.to_csv(RESULTS_DIR / "footprint.csv", index=False, lineterminator="\n")
 
     print("\n" + "=" * 104)
     print(f"{'modello':<32}{'byte':>10}{'KB':>9}{'F1 (CV 5x3)':>18}   regola")

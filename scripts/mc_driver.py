@@ -64,7 +64,7 @@ def main():
         print(f"ok {name}: macro_f1={state['done'][name]['macro_f1']:.4f} t={time.time()-t0:.0f}s", flush=True)
 
     rows = [{"model": k, **v} for k, v in state["done"].items()]
-    pd.DataFrame(rows).sort_values("macro_f1", ascending=False).to_csv(OUT, index=False)
+    pd.DataFrame(rows).sort_values("macro_f1", ascending=False).to_csv(OUT, index=False, lineterminator="\n")
     print(pd.DataFrame(rows).sort_values("macro_f1", ascending=False).round(4).to_string(index=False))
     print("DONE")
 

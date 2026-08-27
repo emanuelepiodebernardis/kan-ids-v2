@@ -75,7 +75,7 @@ def main():
     if rows[-1]["modello"] == "num10+cat4":
         np.savez(_ART("kan14_bin_model.npz"), coeffs=kan.coeffs,
                  **{f"tab{j}": tabs[j] for j in range(J)})
-    pd.DataFrame(rows).to_csv("results/kan14_binary_real.csv", index=False)
+    pd.DataFrame(rows).to_csv("results/kan14_binary_real.csv", index=False, lineterminator="\n")
     print(f"salvato results/kan14_binary_real.csv + modello in {_ART('kan14_bin_model.npz')}")
 
 if __name__ == "__main__":
