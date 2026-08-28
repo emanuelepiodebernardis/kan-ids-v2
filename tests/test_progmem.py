@@ -153,23 +153,46 @@ def test_il_kernel_dt5_usa_gli_accessori_di_flash():
             f"{nome}: dt5_predict non usa gli accessori")
 
 
-def test_header_a_10_classi_congelato():
-    """I due header a 10 classi sono artefatti di record: derivano da uno
-    stato addestrato non riproducibile bit per bit e non vanno rigenerati
-    dentro una riproduzione di routine. Qui si verifica che portino la nota
-    che lo dice e che non sia tornato il macro-F1 del protocollo v1."""
+def test_header_a_10_classi_dichiara_lo_stato_da_cui_deriva():
+    """Fino alla rc3 questi due header erano artefatti CONGELATI: lo stato di
+    training da cui venivano era perduto, e la nota nell'intestazione lo
+    diceva. Ora lo stato e' committato (rc3, punto 7), l'header e' la sua
+    funzione deterministica, e la nota giusta e' un'altra: quale file lo
+    genera e con quale comando si riemette.
+
+    Il macro-F1 non e' confrontato con una costante scritta qui: si legge
+    dall'intestazione, che l'esportatore MISURA a ogni export, e si pretende
+    solo che non sia tornato quello del protocollo v1 — il numero che questo
+    progetto ha gia' avuto per sbaglio."""
+    import re
     h = (INCLUDE / "kan14_mc_coeff_int8.h").read_text(encoding="utf-8")
-    assert "0.9409" not in h.split("*/", 1)[1], (
+    intestazione, dati = h.split("*/", 1)
+
+    assert "0.9409" not in dati, (
         "il macro-F1 del protocollo v1 e' tornato nei dati dell'header")
-    assert "ARTEFATTO CONGELATO" in h, (
-        "manca la nota che spiega perche' l'header non viene rigenerato")
-    assert "0.9378" in h, "manca il macro-F1 dello stato da cui deriva"
+    assert "STATO CANONICO: models/kan14_multiclass_multilayer.pkl" in intestazione, (
+        "l'header non dichiara da quale stato versionato deriva")
+    assert "integer-10classi" in intestazione, (
+        "l'header non dice con quale comando si riemette")
+    assert re.search(r"macro-F1 0\.9\d{3}, misurato all'export", intestazione), (
+        "l'intestazione non riporta il macro-F1 misurato all'export")
 
 
 def test_i_due_stage_a_rischio_sono_fuori_da_all():
-    """`reproduce.py --stage all` non deve rigenerare i due header a 10
-    classi: sostituirebbe artefatti verificati bit-esatti con versioni
-    equivalenti ma diverse, senza guadagnare riproducibilita'."""
+    """`reproduce.py --stage all` non deve toccare i due header a 10 classi.
+
+    La ragione e' cambiata con la rc3 ed e' bene che sia scritta giusta.
+    Prima: gli header erano congelati e rigenerarli dava un modello diverso.
+    Adesso lo stato e' committato e l'export ne e' la funzione deterministica,
+    quindi rigenerare darebbe — sulla stessa macchina — lo stesso file. Restano
+    fuori lo stesso, per due motivi distinti: riaddestrare
+    (`multiclass-state`) produce comunque un altro stato, e riesportare
+    (`integer-10classi`) riscrive due artefatti di deployment appoggiandosi a
+    una lstsq di LAPACK, la cui ultima cifra puo' dipendere dalla versione
+    installata. Che sia davvero deterministica lo verifica
+    tests/test_stato_multiclasse.py, dove il confronto e' byte per byte e il
+    fallimento e' informativo — non dentro una riproduzione di routine, dove
+    sarebbe una sostituzione silenziosa."""
     import importlib.util
     spec = importlib.util.spec_from_file_location("reproduce", REPO / "reproduce.py")
     mod = importlib.util.module_from_spec(spec)
@@ -177,8 +200,8 @@ def test_i_due_stage_a_rischio_sono_fuori_da_all():
     for stage in ("multiclass-state", "integer-10classi"):
         assert stage in mod.STAGES, f"lo stage {stage} non esiste piu'"
         assert stage not in mod.ORDER, (
-            f"lo stage {stage} e' rientrato in 'all': rigenererebbe gli "
-            f"header congelati a ogni riproduzione")
+            f"lo stage {stage} e' rientrato in 'all': riscriverebbe due "
+            f"artefatti di deployment a ogni riproduzione")
     comandi = [c for _, cmds in mod.STAGES.items() for c in cmds
                if isinstance(c, list)]
     in_all = [c for s in mod.ORDER for c in mod.STAGES[s][1]]

@@ -23,12 +23,15 @@ and each states its own protocol. Every number is backed by a script in
 > (`kanids/preprocessing.py`, enforced by `tests/test_leakage.py`).
 > In protocol v1 the mutual-information ranking that picks the 10 numeric
 > features was computed on a sample of the *whole* dataset before the split,
-> so feature selection could see test labels. The numbers in the table below
-> were produced under v1 and are **being regenerated under v2**; each one is
-> republished only once `reproduce.py --stage cv-binary` / `cv-multiclass`
-> has re-measured it with 5-fold × 3-seed cross-validation.
+> so feature selection could see test labels. **That regeneration is now
+> complete.** Every number in the table below was re-measured under v2 with
+> 5-fold × 3-seed cross-validation and comes from
+> `results/cv_leakagefree_summary_*.csv`: none of it is inherited from v1.
 > `results/feature_selection_stability_*.csv` reports how often each feature
-> survives per-fold selection, which bounds how much v1 and v2 can differ.
+> survives per-fold selection — the same 10 features in 15/15 folds, which is
+> why the two protocols end up as close as they do. A v1 figure quoted
+> anywhere else in this file is labelled as such, and kept only to show what
+> changed.
 
 ## Headline results
 
@@ -37,7 +40,7 @@ and each states its own protocol. Every number is backed by a script in
 | Binary, single-layer + categorical edges | **F1 = 0.9835 ± 0.0007** (5-fold × 3-seed CV) | **254 B** | integer-only (int8 / Q15) |
 | Binary, multi-layer (16 hidden) | **F1 = 0.9976 ± 0.0002** (5-fold × 3-seed CV) | **5.12 KB**, lossless (ΔF1 = 0.0000) | integer-only |
 | Multiclass, 10 attack classes | macro-F1 = **0.9374 ± 0.0036** (5-fold × 3-seed CV) | 8.07 KB (inference) / **21.7 KB end-to-end** | integer-only, raw counters → decision |
-| Symbolic form of the binary model | F1 = 0.9835 | a printable 10-term equation + 4 lookup tables | — |
+| Symbolic form of the binary model | F1 = 0.9830 (98.47 % agreement with the network) | a printable 10-term equation + 4 lookup tables | — |
 
 > **Sizes are counted on the C headers that PlatformIO actually compiles**,
 > not on an idealised packing: `scripts/c_footprint.py` sums the
@@ -139,10 +142,16 @@ every model family evaluated here.
 KANs have no native way to consume categorical inputs; one-hot encoding wastes
 polynomial bases. We introduce **tabular categorical edges**:
 φ(category) = a learned table row, trained jointly by backpropagation, indexed
-by category ID at inference. In a LUT-compiled KAN this is *free* — a
-categorical edge is already a lookup table (560 bytes for all four features).
-Effect: multiclass macro-F1 climbs 0.858 → 0.875 (single layer)
-→ **0.941** (with depth); binary F1 climbs 0.971 → **0.984**.
+by category ID at inference. The cost is small because a categorical edge
+*is* a lookup table: in the deployed single-layer header the four tables are
+`KC_CAT[32]`, **32 bytes** of the model's 254. (An earlier version of this
+line claimed 560 bytes and attributed the saving to "a LUT-compiled KAN";
+neither is right — no artifact supports 560, and the LUT-compiled variant
+`kan_ids_layer_int.h` has no categorical edges at all.)
+Effect, under protocol v1: multiclass macro-F1 climbs 0.858 → 0.875 (single
+layer) → 0.941 (with depth); binary F1 climbs 0.971 → 0.984. Those three
+figures are **v1** and are kept here as the ablation that motivated the
+design; the v2 values of the same models are in *Headline results* above.
 
 ### 3. Hybrid compilation: train-Chebyshev, deploy-B-spline (novel)
 Chebyshev bases train more accurately; B-splines quantise more faithfully
@@ -150,18 +159,34 @@ Chebyshev bases train more accurately; B-splines quantise more faithfully
 **re-fitting the learned edge functions with cubic B-splines and storing the
 quantised spline coefficients** (19 per edge) instead of a sampled LUT:
 
-| Compilation | Size | ΔF1 | Agreement vs float |
-|---|---|---|---|
-| Sampled LUT, L = 64 (baseline) | 5,476 B | −0.0001 | 99.95 % |
-| Spline coefficients, int16 | 500 B | **0.0000 (lossless)** | **100.000 %** |
-| Spline coefficients, int8, full-integer | **250 B** | −0.0002 | 99.95 % |
+<!-- tabella-compilazione:inizio -->
 
-Those are the sizes reported by the compilation script
+| Compilation | Size | ΔF1 vs float | Agreement vs float |
+|---|---|---|---|
+| Spline coefficients, int16 | 500 B | −0.0000 | 99.995 % |
+| Spline coefficients, int8 | 278 B | −0.0006 | 99.905 % |
+| Spline coefficients, int8, full-integer | **250 B** | −0.0006 | 99.905 % |
+
+<!-- tabella-compilazione:fine -->
+
+Those are the sizes and the losses reported by the compilation script
 (`results/kan14_compile_real.csv`), which counts the coefficients, the
-categorical tables and the Q15 multipliers. The **deployed** header
+categorical tables and the Q15 multipliers; `tests/test_coerenza_artifact.py`
+compares this table against that file cell by cell. The **deployed** header
 `mcu_pio/include/kan14_coeff_int8.h` is **254 B**: it also stores the 4-byte
 table of categorical offsets, which the script treats as derivable. 254 B is
 the number used in the Pareto below, because it is what the compiler emits.
+
+**Earlier versions of this table carried a fourth row — "Sampled LUT,
+L = 64, 5,476 B" — and claimed the int16 form was lossless at 100.000 %.**
+Neither survived checking. The lossless claim was a v1 number (420 B, on the
+0.9672 model) pasted onto the v2 row; the true int16 agreement is 99.995 %.
+And the LUT row came from `results/ablation_L_real.csv`, whose float baseline
+is 0.9672 — a *different trained model* from the 0.9832 of the coefficient
+rows, so the size ratio it implied mixed representation with retraining. The
+honest version of that comparison is the sampled-LUT row of
+§"Size/accuracy Pareto" below, which is sampled from the deployed header
+itself and therefore changes only the representation.
 
 Uniform (unclamped) knots give a closed matrix form per segment, evaluated
 with **integer-only Horner (Q15)** — no floating point at inference.
@@ -204,8 +229,8 @@ with **integer-only Horner (Q15)** — no floating point at inference.
 > over per-feature threshold tables → z in Q12 → layer-1 int8 splines +
 > categorical tables → tanh LUT → layer-2 int8 splines → argmax, all in
 > integers. Result: **200/200 golden vectors with all ten accumulators
-> bit-identical** to the Python reference, argmax identical, macro-F1 0.9352
-> against 0.9378 for the float pipeline (99.42 % argmax agreement), **21.7 KB**
+> bit-identical** to the Python reference, argmax identical, macro-F1 0.9362
+> against 0.9384 for the float pipeline (99.44 % argmax agreement), **21.7 KB**
 > of tables. (An earlier version said 13.6 KB. The header stores the knots
 > twice — `MC_KNOT` as `int64_t[1290]`, 10,320 B, plus `MC_KNOTZ` as
 > `int16_t[1290]`, 2,580 B — and the earlier count included only one of the
@@ -259,11 +284,13 @@ replaced by **empirical per-feature threshold tables built offline from the
 fitted transformer** (quantile knots + most-frequent values — exact on
 discrete masses). Verified end-to-end on all 42,209 test flows: binary F1
 0.9646 in **1,334 B** of model (`results/e2e_int_export.csv`); 10-class
-macro-F1 **0.9352**, agreement **99.42 %**, in **21.7 KB**
+macro-F1 **0.9362**, agreement **99.44 %**, in **21.7 KB**
 (`results/mc_e2e_int_export.csv`). Earlier versions of this paragraph said
-~842 B, 0.9384 / 99.5 % and ~11.1 KB: the first two figures came from a
-byte-counting rule that under-counted two of three terms, the third from the
-superseded v1 protocol.
+~842 B and ~11.1 KB: those figures came from a byte-counting rule that
+under-counted two of three terms and from the superseded v1 protocol. The
+10-class figures moved by 0.001 in the fourth revision, when the multiclass
+state was retrained and **committed** so that the two headers derive from a
+versioned file instead of a lost one (see *Canonical state* below).
 
 ### 5. Conformal prediction in under 1 KB
 Split-conformal calibration (marginal and per-class/Mondrian) is applied
@@ -311,7 +338,7 @@ measured on the full dataset, with artifacts in `results/`:
 | **Lower layer-2 degree (4 vs 8)** (`protocol_v1/kan_ml_cat_deg4_real.csv`) | macro-F1 0.9374 vs 0.9409; LUT/coefficient memory does not depend on degree | Why degree 8 is kept: the cheaper variant saves nothing where it matters |
 | **Focal loss (γ = 2) for the rare MITM class** (`protocol_v1/kan_ml_cat_focal_real.csv`) | macro-F1 0.9401 vs 0.9409; MITM F1 0.572 vs 0.571 | The MITM weakness is not a loss-design problem — **measured under protocol v1, not yet re-run under v2** |
 | **SMOTENC oversampling (10× MITM)** (`protocol_v1/kan_ml_cat_smote_real.csv`) | macro-F1 0.9377; MITM F1 0.541 (worse than baseline) | Synthetic interpolation adds no real information — **protocol v1, not yet re-run under v2** |
-| **MITM under every model** (`cv_leakagefree_summary_multiclass_real.csv`, v2) | LightGBM 0.767, XGBoost 0.761, MLP 0.386, KAN 0.270, Decision Tree 0.151 — every other class above 0.88 | **Independent v2 evidence pointing the same way**: no model tested exceeds 0.77, which is consistent with a limit in the feature space rather than in the architecture or the loss — though six architectures cannot establish such a limit, and the 5x spread between them shows the architecture still matters here |
+| **MITM under every model** (`cv_leakagefree_summary_multiclass_real.csv`, v2) | LightGBM 0.767, XGBoost 0.761, MLP 0.386, KAN 0.270, Decision Tree 0.151 — for every model except the depth-5 tree, every other class is above 0.88 | **Independent v2 evidence pointing the same way**: no model tested exceeds 0.77, which is consistent with a limit in the feature space rather than in the architecture or the loss — though six architectures cannot establish such a limit, and the 5x spread between them shows the architecture still matters here |
 | **Analytical replication of sklearn's quantile-normal transform in integer arithmetic** | Two attempts (single-sided and two-sided quantile interpolation) left errors up to 0.8σ on discrete-mass features and broke the multiclass pipeline | Why the integer preprocessing uses **empirical per-feature threshold tables sampled offline from the fitted transformer** — exact on discrete masses by construction, 3 KB total |
 
 Two further checks worth knowing about: the accelerated training path used
@@ -404,12 +431,15 @@ git clone https://github.com/KuznetsovKarazin/lut-kan.git   # OPTIONAL: legacy L
 ran on Python 3.13.2 with numpy 2.3.4, scipy 1.16.2, lightgbm 4.6.0 and
 pyarrow 23.0.1 — five packages and a Python minor apart from the lock. Every
 artifact regenerated under it came out **identical**: both C headers byte for
-byte, `dt5_export.csv` and `e2e_int_export.csv` unchanged, the five bit-exact host
-checks still 200/200. Exactly one number moved: the XGBoost *estimate* in
-`results/footprint.csv`, 49,905 → 50,120 B (+0.43 %), because the ensemble
-grows 9,921 → 9,964 internal nodes. It is not xgboost — that is the same 3.2.0
-in both — it is numpy and scipy shifting the last bits of the preprocessed
-features, which greedy split selection amplifies. F1 does not move
+byte, `dt5_export.csv` and `e2e_int_export.csv` unchanged, every bit-exact host
+check still 200/200. Exactly one number moved: the XGBoost *estimate* in
+`results/footprint.csv`, 49,905 → 50,120 B (+0.43 %), as the ensemble grew
+from 9,921 to 9,964 internal nodes. Those two figures come from that run and
+were not written to any artifact, so they cannot be re-derived from this
+repository — they are reported as an observation, not as a result. xgboost is
+the same 3.2.0 in both environments, which leaves the preprocessing libraries
+as the plausible source; **no experiment here isolates the variable**, and
+five packages plus a Python minor changed together. F1 does not move
 (0.9989 ± 0.0001 either way). The committed value is the locked
 environment's; nothing in this repository rests on it, since it is a lower
 bound for a model never exported to C.
@@ -433,8 +463,13 @@ training and the evaluation tables.
 
 `artifacts/` and `models/` are not the same thing: `artifacts/` is regenerable
 cache, gitignored, wiped by `reproduce.py --stage clean`; `models/` is
-versioned. The multiclass multi-layer checkpoint is not committed (it is a
-25 MB optimiser state); `MANIFEST.json` names the script that regenerates it.
+versioned. **The multiclass multi-layer checkpoint is committed**, as
+`models/kan14_multiclass_multilayer.pkl` (41,507 B), and the two 10-class C
+headers are re-emitted from it byte for byte — see *Canonical state* below.
+Until v2.1-rc3 it was not, and this paragraph said so; that sentence outlived
+the file it described by one commit, which is the reason `MANIFEST.json` now
+records `versionato` per checkpoint and a test asks **git**, not the
+filesystem, whether each one is really tracked.
 
 **Dataset.** Download `train_test_network.csv` (TON_IoT, UNSW Canberra —
 see `data/README.md`) and place it in the repository root. It is not
@@ -467,32 +502,47 @@ fails if the README and the artifact disagree.
 | Cross-domain degradation, 4 directions | `crossdomain` | `results/crossdomain_degradation.csv` |
 | Paired significance between models | `crossdomain` | `results/crossdomain_significativita.csv` |
 | Final 7-column table | `joint` then `tabelle` | `results/tabella_finale.csv` |
-| Integer C headers, 10 classes | `multiclass-state` then `integer` | `mcu_pio/include/kan14_mc_coeff_int8.h`, `kan_mc_e2e_int.h` |
+| Integer C headers, 10 classes | `multiclass-state`, `export_models.py`, then `integer-10classi` | `mcu_pio/include/kan14_mc_coeff_int8.h`, `kan_mc_e2e_int.h` |
 
-**The two 10-class C headers are frozen artifacts, and here is the measured
-reason.** They are exported from `artifacts/mlcat_state.pkl`, a trained state
-that is not versioned (it is an optimiser state) and that was lost. It can be
-retrained — `reproduce.py --stage multiclass-state` does exactly that, and the
-training is full-batch with a fixed `RandomState(0)` and no shuffling, so it
-is deterministic *as an algorithm*. It is not deterministic *in floating
-point*: BLAS reduction order depends on thread count and library version, and
-300 Adam epochs amplify the last bits enough to move the decision on one
-sample of the smallest class. Retraining it here produced
+**Canonical state: the two 10-class C headers now derive from a versioned
+file.** Until the third revision they were *frozen artifacts*: exported from
+`artifacts/mlcat_state.pkl`, a trained state that is not versioned (it is an
+optimiser state) and that had been lost. They were verified bit-exactly by the
+host checks, but their **provenance** could not be reproduced: retraining
+gives an equivalent, not identical, model. The training is full-batch with a
+fixed `RandomState(0)` and no shuffling, so it is deterministic *as an
+algorithm*; it is not deterministic *in floating point*, because BLAS
+reduction order depends on thread count and library version and 300 Adam
+epochs amplify the last bits enough to move the decision on one sample of the
+smallest class. Retraining it produced
 
-| | archived state | retrained |
+| | lost state (until rc2) | retrained and committed (rc3) |
 |---|---|---|
-| macro-F1 | 0.9378 | 0.9384 |
+| macro-F1 | 0.9378 | **0.9384** |
 | weighted F1 | 0.9803 | 0.9803 |
 | parameters | 3,392 | 3,392 |
 
 The 0.0006 gap is one or two MITM samples out of 208 changing side — MITM
 carries 0.49 % of the test set, which is why the weighted F1 does not move at
-all. So `multiclass-state` and `integer-10classi` are deliberately **outside**
-`--stage all`: regenerating those headers inside a routine reproduction would
-silently replace a deployment artifact that the host checks verify bit-exactly
-with a different one, and would buy no reproducibility in exchange. The
-headers as committed are the artifacts of record; `kan14_mc_coeff_int8.h`
-carries a note saying so.
+all.
+
+That retrained state is now **committed**, as
+`models/kan14_multiclass_multilayer.pkl`, and the two headers were re-exported
+from it: `kan14_mc_coeff_int8.h` (integer-simulation macro-F1 0.9388 measured
+at export) and `kan_mc_e2e_int.h` (macro-F1 0.9362, 99.44 % argmax agreement).
+The difference this makes is not cosmetic. A frozen artifact is the only copy
+of something lost; these are now the deterministic function of a versioned
+file, and `tests/test_stato_multiclasse.py` re-runs the export and compares
+the result **byte for byte**. Both headers say so in their own first lines,
+and name the command that regenerates them.
+
+`multiclass-state` and `integer-10classi` stay deliberately **outside**
+`--stage all`, for two now-distinct reasons: retraining produces *another*
+state rather than the same one, and re-exporting rewrites two deployment
+artifacts through a LAPACK least-squares whose last digit can depend on the
+installed version. Whether that export really is deterministic is checked
+where a failure is informative — in that test — not inside a routine
+reproduction, where it would be a silent substitution.
 
 The `joint` stage runs three commands and their order is not
 interchangeable: the first picks the attack:normal ratio looking **only** at
@@ -752,7 +802,8 @@ Two things the 10-class task shows that the binary one hides:
 
 **MITM is where every model bottoms out.** With 1,043 flows (0.49 %), no model
 gets far on it — LightGBM 0.767, KAN multi-layer 0.541, MLP 0.386, KAN single-layer
-0.270, Decision Tree 0.151 — while every other class is above 0.88. Neither class
+0.270, Decision Tree 0.151 — while every other class is above 0.88 for every model
+except the depth-5 tree, which also drops ddos to 0.635 and xss to 0.649. Neither class
 weighting, focal loss nor SMOTENC moved it. That is consistent with a limit in the
 information this feature space carries, but it does not establish one: six
 architectures do not exhaust the space of architectures, and the spread across
@@ -775,18 +826,60 @@ nodes, leaves included, and occupies 285 B rather than 141. The rule now reads
 the headers PlatformIO compiles (`scripts/c_footprint.py`), and the correction
 is not cosmetic: it **reverses the size ordering** of the two smallest models.
 
-| Model | Bytes | Rule | F1 (TON_IoT, 5×3 CV) | Bal. acc. TON→BoT | Structure |
-|---|---|---|---|---|---|
-| **KAN single-layer + cat** | **254** | compiled | 0.9835 ± 0.0007 | **0.5573** | int8 spline coeffs + 4 tables |
-| Decision Tree (d=5) | 285 | compiled | **0.9944 ± 0.0004** | 0.5494 | 4 arrays × 57 nodes |
-| MLP (16) | 760 | compiled | 0.9964 ± 0.0009 | 0.4369 | int8 weights + categorical table + int32 biases |
-| KAN e2e integer (binary) | 1,334 | compiled | — | — | raw counters → decision, all tables |
-| **KAN multi-layer + cat** | **5,244** | compiled | **0.9976 ± 0.0002** | 0.4588 | int8, two spline layers |
-| KAN multiclass (10 classes) | 8,268 | compiled | — | — | int8, two layers, 10 outputs |
-| KAN LUT integer (default env) | 10,248 | compiled | — | — | int16 lookup table, 10 × 512 |
-| KAN e2e integer (10 classes) | 22,264 | compiled | — | — | raw values → argmax, knots stored twice |
-| XGBoost | 49,905 | *estimate* | 0.9989 ± 0.0001 | 0.5528 | 300 trees, 9,921 nodes |
-| LightGBM | 60,400 | *estimate* | 0.9991 ± 0.0001 | 0.4779 | 400 trees, 12,000 nodes |
+| Model | Bytes | Input | Rule | F1 (TON_IoT, 5×3 CV) | Bal. acc. TON→BoT | Structure |
+|---|---|---|---|---|---|---|
+| **KAN single-layer + cat** | **254** | preprocessed | compiled | 0.9835 ± 0.0007 | **0.5573** | int8 spline coeffs + 4 tables |
+| Decision Tree (d=5) | 285 | preprocessed | compiled | **0.9944 ± 0.0004** | 0.5494 | 4 arrays × 57 nodes |
+| MLP (16) | 760 | preprocessed | compiled | 0.9964 ± 0.0009 | 0.4369 | int8 weights + categorical table + int32 biases |
+| KAN e2e integer (binary) | 1,334 | raw counters | compiled | — | — | raw counters → decision, all tables |
+| KAN single-layer, sampled-LUT | 5,194 | preprocessed | compiled | — | — | same 10 learned functions, 257 int16 samples each |
+| **KAN multi-layer + cat** | **5,244** | preprocessed | compiled | **0.9976 ± 0.0002** | 0.4588 | int8, two spline layers |
+| KAN multiclass (10 classes) | 8,268 | preprocessed | compiled | — | — | int8, two layers, 10 outputs |
+| KAN LUT integer (default env) | 10,248 | z-scored | compiled | — | — | int16 lookup table, 10 × 512 |
+| KAN e2e integer (10 classes) | 22,264 | raw counters | compiled | — | — | raw values → argmax, knots stored twice |
+| XGBoost | 49,905 | preprocessed | *estimate* | 0.9989 ± 0.0001 | 0.5528 | 300 trees, 9,921 nodes |
+| LightGBM | 60,400 | preprocessed | *estimate* | 0.9991 ± 0.0001 | 0.4779 | 400 trees, 12,000 nodes |
+
+> **Sampled-LUT vs coefficients, measured on the same model.** The
+> `sampled-LUT` row is not another model: it is the deployed single-layer KAN
+> with its ten learned functions stored as 257 int16 samples per edge instead
+> of 19 int8 B-spline coefficients, generated from the committed header by
+> `scripts/export_kan14_lut_c.py`. The categorical edges are byte-identical,
+> so the ratio — **5,194 B against 254 B, ×20.4** — is attributable to the
+> representation alone. 257 samples is the smallest grid for which the
+> deviation bound (56,586 integer units, the sum of per-edge maxima over *all*
+> 8,193 possible Q12 inputs) falls below the smallest decision margin observed
+> on the 200 verification vectors (120,232): under that bound no verification
+> vector *can* change decision. The full byte/error curve is in
+> `results/lut_vs_coeff.csv`. Note the scale: sampling the single-layer model
+> costs about as much Flash as the whole multi-layer KAN (5,244 B), which is
+> more accurate. The older `KAN LUT integer (default env)` row is a *different*
+> model from the paper (ten z-scored features, no categorical edges, float
+> indexing) and is not a like-for-like comparator.
+>
+> Measured on the **whole test set**, not only on the 200 verification
+> vectors (`results/lut_vs_coeff_test.csv`): over 42,209 flows the two
+> representations take **identical decisions on all of them**, 0 differences,
+> and F1 agrees to six decimals (0.982584 both). Only 92 flows — 0.2 % — fall
+> inside the deviation bound at all, and none of them flips; the largest
+> deviation actually observed is 13,294 integer units against a bound of
+> 56,586. The sampled-LUT is therefore the same classifier at twenty times the
+> Flash, which is what makes the latency and energy numbers measured on the
+> boards a comparison of representations rather than of models.
+
+> **The `Input` column is the second thing the table has to say, and it used
+> to say nothing.** 254 B and 1,334 B are not two prices for the same job. The
+> single-layer KAN receives **ten numeric features already quantile-normalised,
+> clipped and quantised to Q12, plus four categorical codes**: the transform
+> that produces them runs off the device, its parameters are not in those 254 B,
+> and neither is the code that applies them. The end-to-end chain receives
+> **raw counters** — bytes, packets, duration — and does the whole feature
+> engineering on board: its 1,334 B include the ln lookup, the affine
+> constants and the quantisation that the 254 B model gets for free from
+> somebody else. Read down the column before reading across the row: the
+> comparison that means something is 254 B vs 285 B vs 760 B vs 5,194 B (all
+> `preprocessed`), or 1,334 B vs 22,264 B (both `raw counters`). The `z-scored`
+> row is a third case again, from the older paper model.
 
 **The two rules are not interchangeable, and the table says which applies
 where.** "Compiled" is a measurement: the sum of the `static const` arrays in
@@ -969,8 +1062,9 @@ this replaces:
    supports. It is not separable from XGBoost (Holm p = 1.00 — and XGBoost is
    actually ahead in 6 of the 10 seeds, so the mean is carried by a minority
    of them) nor from the depth-5 tree (Holm p = 0.72); the three head models
-   are mutually indistinguishable (all three within-head pairs at Holm
-   p = 1.00), and so are the three tail models. What *is* separable is the
+   are mutually indistinguishable (two of the three within-head pairs at Holm
+   p = 1.00, the third — tree vs single-layer — at 0.72), and so are the three
+   tail models. What *is* separable is the
    split between the two groups: all nine head-vs-tail comparisons survive
    Holm, the weakest at p = 0.019. So the
    defensible statement is **"a single-layer KAN, an ensemble of boosted
@@ -1019,7 +1113,8 @@ contradict it.
 
 What survives is a weaker and true statement: in 9 of 11 cross-domain cells
 the semantic state mapping carries transferable information, and in-domain it
-helps in all 12 cells (+0.004 to +0.108). The MLP exception is the largest
+helps in all 11 of them (+0.004 to +0.108) — 11 and not 12 because
+KAN(cat,ML) has no `nocat` in-domain run to compare against. The MLP exception is the largest
 single effect in either direction and is not explained here; the same model is
 also flagged elsewhere in this README as the least stable of the six.
 
@@ -1380,7 +1475,21 @@ fails if `shap`, `lime`, `captum` or `eli5` ever appear in the requirements.
 Ten spline edges over the numeric features (after the quantile-normal
 transform and the ±3.5 clip) and four lookup tables over the categorical
 ones, slot 0 being the never-seen-in-training `UNK`. The ordinate is the
-contribution to the logit in the kernel's integer units.
+contribution to the logit in the kernel's integer units, and the sign
+convention is printed on the figure itself: **positive pushes toward
+*attack*, negative toward *normal*, and the decision is the sign of the
+sum**.
+
+Under each curve, in grey, is where the data actually are: a histogram and a
+rug of the 200 verification flows. It is the visual form of the caveat below
+— a spline is a spline everywhere, but only over the observed range is it
+supported by anything. The categorical bars carry the **real category names**
+(`tcp`, `dns`, `SF`, …) read from `models/vocabolari_categorici.json`, which
+`scripts/export_vocabolari.py` exports from the training split and verifies by
+re-encoding the whole test set and requiring the preprocessor's own indices
+back, cell by cell. Without that file the figure falls back to indices and
+*says so on the axis*, rather than letting a `3` pass for the name of a
+protocol.
 
 **Read the values, not the wiggles.** The curves oscillate: degree 8 with no
 smoothness penalty, compiled to 16 B-spline segments, and nothing in the
@@ -1401,8 +1510,14 @@ toward *normal* and `dst_ip_bytes`, `src_pkts`, `dns_rejected` toward
 *attack*. A model that only emitted a score would say "attack, barely". This
 one says which four terms would have to move, and by how much.
 
-The numbers are in `results/interpretabilita_contributi.csv`, including the
-row where the addends are summed and the row with the resulting decision.
+Each panel states the model's **predicted** label and the flow's **true**
+label, and marks the pair as correct or wrong. This matters: the figure
+explains the decision the model took, which is a different thing from the
+right answer, and without both labels a reader takes the explanation as a
+justification. The numbers are in
+`results/interpretabilita_contributi.csv`, including the row where the
+addends are summed, the row with the resulting decision and the row with the
+true label.
 
 ### How much each edge can move the logit
 
@@ -1461,15 +1576,33 @@ can be measured on the two boards under the same benchmark protocol:
 
 | Model | Firmware | Environment | Input |
 |---|---|---|---|
-| KAN LUT integer | `main.cpp` | `megaatmega2560`, `esp32c3` | pre-normalised vectors |
+| KAN LUT integer | `main.cpp` | `megaatmega2560`, `esp32c3` | z-scored vectors |
 | KAN single-layer, spline coeffs | `main_coeff.cpp` | `*_coeff` | pre-normalised vectors |
+| **KAN single-layer, sampled-LUT** | `main_lut14.cpp` | `*_lut14` | pre-normalised vectors |
 | KAN multi-layer | `main_mlcoeff.cpp` | `*_mlcoeff` | pre-normalised vectors |
 | KAN multiclass | `main_mc.cpp` | `esp32c3_mc` | pre-normalised vectors |
 | **KAN end-to-end, binary** | `main_e2e.cpp` | `*_e2e` | **raw counters** |
 | **KAN end-to-end, 10 classes** | `main_mc_e2e.cpp` | `esp32c3_mc_e2e` | **raw values** |
 | **Decision Tree d=5** | `main_dt5.cpp` | `*_dt5` | same feature space as the KAN |
+| **MLP(16) dense** | `main_mlp.cpp` | `*_mlp` | same feature space as the KAN |
+| Energy harness (all of the above) | `main_energy.cpp` | `*_energy*` | as the variant it measures |
 
-The last one exists for a specific reason: the depth-5 tree is the model that
+`tests/test_firmware_size.py` requires this table to name **every**
+`mcu_pio/src/main_*.cpp` and every environment it cites to exist in
+`platformio.ini`. It was added because the table had silently fallen behind
+twice: it was missing `main_mlp.cpp` and `main_lut14.cpp` — the dense baseline
+and the sampled-LUT — while both were built, measured and listed elsewhere in
+this file.
+
+**Two variants exist only for the ESP32-C3**, `esp32c3_mc` and
+`esp32c3_mc_e2e` (and with them `esp32c3_energy_mc`). This is a gap, not a
+limit: both 10-class headers are entirely `PROGMEM`, so on AVR their tables
+would sit in Flash — 8,268 B and 22,264 B out of the Mega's 253,952 B — and
+`main_mc.cpp` compiles for the ATmega2560. They were simply never given a Mega
+environment, and the honest statement is that the 10-class results on the Mega
+2560 have not been measured, rather than that they cannot be.
+
+The Decision Tree exists for a specific reason: the depth-5 tree is the model that
 most threatens the premise of this work, being more accurate in-domain than the
 compiled single-layer KAN, and without a firmware that comparison could not be
 closed on the device. On parameter bytes it occupies 285 B against the KAN's
@@ -1491,14 +1624,25 @@ CSV over serial):
 
 ```bash
 cd mcu_pio
-pio run -e megaatmega2560 -t upload           # variant 1-2: LUT inference
-pio run -e megaatmega2560_coeff -t upload     # variant 3: 254 B binary (F1 0.983)
-pio run -e megaatmega2560_mlcoeff -t upload   # variant 4: 5 KB multi-layer (F1 0.9974)
-pio run -e esp32c3_mc -t upload               # variant 5: 8 KB multiclass (macro-F1 0.941)
+pio run -e megaatmega2560_coeff   -t upload   # KAN single-layer,   254 B
+pio run -e megaatmega2560_dt5     -t upload   # Decision Tree d=5,  285 B
+pio run -e megaatmega2560_mlp     -t upload   # MLP(16) dense,      760 B
+pio run -e megaatmega2560_e2e     -t upload   # end-to-end binary,  1,334 B
+pio run -e megaatmega2560_lut14   -t upload   # sampled-LUT,        5,194 B
+pio run -e megaatmega2560_mlcoeff -t upload   # KAN multi-layer,    5,244 B
+pio run -e megaatmega2560         -t upload   # KAN-LUT integer,    10,248 B
+pio run -e esp32c3_mc             -t upload   # 10 classes,         8,268 B
+pio run -e esp32c3_mc_e2e         -t upload   # 10 classes e2e,     22,264 B
 pio device monitor --baud 115200
 ```
 
-All five variants embed **real test vectors with expected predictions** from
+Replace the `megaatmega2560` prefix with `esp32c3` for the other board; the
+energy variants are the same names with `_energy` after the prefix, and are
+listed with their measured Flash and SRAM in *Flash and SRAM per variant*
+below. The bytes in the comments are **model** bytes from
+`results/footprint.csv`, not the size of the flashed binary.
+
+Every variant embeds **real test vectors with expected predictions** from
 the bit-exact reference simulation, so on-board correctness is verified
 automatically at every run.
 
@@ -1530,35 +1674,61 @@ inference.
 
 ### Flash and SRAM per variant, measured
 
-All twelve PlatformIO environments build. These are the figures the official
-toolchain reports for the binaries that get flashed — Arduino core included:
+<!-- firmware-size:inizio -->
 
-**Arduino Mega 2560** — 8,192 B SRAM, 253,952 B Flash
+All 29 PlatformIO environments in `mcu_pio/platformio.ini` build. These are the sizes of the **flashed binary**, Arduino core included, as PlatformIO reports them; they are written to `results/firmware_size.csv` by `scripts/firmware_size.py`, which also regenerates this block. They are a different quantity from the *model* bytes in the Pareto table above, which count only the parameter arrays.
 
-| Environment | Flash | SRAM | of SRAM |
-|---|---|---|---|
-| `megaatmega2560` (LUT) | 19,408 B | 298 B | 3.6 % |
-| `megaatmega2560_coeff` | 12,190 B | 208 B | 2.5 % |
-| `megaatmega2560_mlcoeff` | 18,156 B | 208 B | 2.5 % |
-| `megaatmega2560_e2e` | 17,964 B | 204 B | 2.5 % |
-| `megaatmega2560_dt5` | 11,662 B | 204 B | 2.5 % |
+**Mega 2560** — 8,192 B SRAM, 253,952 B Flash
 
-**ESP32-C3-DevKitM-1** — 327,680 B SRAM, 1,310,720 B Flash
+| Environment | Use | Flash | SRAM | of SRAM |
+|---|---|---|---|---|
+| `megaatmega2560_energy` | energy | 14,000 B | 701 B | 8.6 % |
+| `megaatmega2560_energy_dt5` | energy | 13,978 B | 777 B | 9.5 % |
+| `megaatmega2560_energy_e2e` | energy | 21,008 B | 617 B | 7.5 % |
+| `megaatmega2560_energy_lut14` | energy | 18,394 B | 701 B | 8.6 % |
+| `megaatmega2560_energy_mlcoeff` | energy | 19,968 B | 701 B | 8.6 % |
+| `megaatmega2560_energy_mlp` | energy | 13,974 B | 701 B | 8.6 % |
+| `megaatmega2560` | latency | 19,408 B | 298 B | 3.6 % |
+| `megaatmega2560_coeff` | latency | 12,036 B | 208 B | 2.5 % |
+| `megaatmega2560_dt5` | latency | 11,662 B | 204 B | 2.5 % |
+| `megaatmega2560_e2e` | latency | 17,964 B | 204 B | 2.5 % |
+| `megaatmega2560_lut14` | latency | 16,430 B | 208 B | 2.5 % |
+| `megaatmega2560_mlcoeff` | latency | 18,000 B | 208 B | 2.5 % |
+| `megaatmega2560_mlp` | latency | 12,010 B | 208 B | 2.5 % |
 
-| Environment | Flash | SRAM | of SRAM |
-|---|---|---|---|
-| `esp32c3` (LUT) | 263,778 B | 13,828 B | 4.2 % |
-| `esp32c3_coeff` | 255,756 B | 13,748 B | 4.2 % |
-| `esp32c3_mlcoeff` | 261,050 B | 13,748 B | 4.2 % |
-| `esp32c3_mc` | 264,120 B | 13,748 B | 4.2 % |
-| `esp32c3_e2e` | 260,804 B | 13,748 B | 4.2 % |
-| `esp32c3_dt5` | 256,166 B | 13,748 B | 4.2 % |
-| `esp32c3_mc_e2e` | 309,026 B | 13,748 B | 4.2 % |
+**ESP32-C3** — 327,680 B SRAM, 1,310,720 B Flash
+
+| Environment | Use | Flash | SRAM | of SRAM |
+|---|---|---|---|---|
+| `esp32c3_energy` | energy | 268,132 B | 14,500 B | 4.4 % |
+| `esp32c3_energy_dt5` | energy | 268,808 B | 14,580 B | 4.4 % |
+| `esp32c3_energy_e2e` | energy | 273,366 B | 14,420 B | 4.4 % |
+| `esp32c3_energy_lut14` | energy | 272,952 B | 14,500 B | 4.4 % |
+| `esp32c3_energy_mc` | energy | 276,538 B | 14,500 B | 4.4 % |
+| `esp32c3_energy_mlcoeff` | energy | 273,444 B | 14,500 B | 4.4 % |
+| `esp32c3_energy_mlp` | energy | 268,494 B | 14,500 B | 4.4 % |
+| `esp32c3` | latency | 263,778 B | 13,828 B | 4.2 % |
+| `esp32c3_coeff` | latency | 255,768 B | 13,748 B | 4.2 % |
+| `esp32c3_dt5` | latency | 256,166 B | 13,748 B | 4.2 % |
+| `esp32c3_e2e` | latency | 260,804 B | 13,748 B | 4.2 % |
+| `esp32c3_lut14` | latency | 260,576 B | 13,748 B | 4.2 % |
+| `esp32c3_mc` | latency | 264,140 B | 13,748 B | 4.2 % |
+| `esp32c3_mc_e2e` | latency | 309,026 B | 13,748 B | 4.2 % |
+| `esp32c3_mlcoeff` | latency | 261,074 B | 13,748 B | 4.2 % |
+| `esp32c3_mlp` | latency | 256,122 B | 13,748 B | 4.2 % |
+
+<!-- firmware-size:fine -->
 
 On the ESP32-C3 the SRAM figure is dominated by the Arduino core and barely
-moves between variants — 13,748 B for six of the seven — which is the useful
-observation: on that board the *model* is not what constrains memory. On the
-Mega it is, and that is where the next paragraph matters.
+moves between variants, which is the useful observation: on that board the
+*model* is not what constrains memory. On the Mega it is, and that is where
+the next paragraph matters.
+
+> This table used to be written by hand and said *"All twelve PlatformIO
+> environments build"*, listing twelve rows. The environments had become
+> twenty-nine, and the table still listed twelve — silently omitting half the
+> firmware, including every energy variant, which are exactly the ones being
+> measured on the boards. It is now generated from a real build.
 
 #### The defect this exposed
 
@@ -1607,7 +1777,9 @@ offline checks could: `main.cpp` called `esp_timer_get_time()` and
 relying on `Arduino.h` pulling them in transitively — true on this core
 version, not guaranteed on others; and three inference headers clamped with two
 `if` statements on one line, which `-Wmisleading-indentation` flags. Both are
-fixed, and all twelve builds are warning-free.
+fixed. Those two fixes were verified on the twelve environments that existed
+then; the current count is whatever `results/firmware_size.csv` holds, and
+every one of those builds succeeds — that is what produces the table above.
 
 `esp32c3_mc_e2e` has no AVR counterpart and cannot have one: its 200 golden
 vectors are ~35 KB as a single object, past the AVR 32 KB per-object limit.

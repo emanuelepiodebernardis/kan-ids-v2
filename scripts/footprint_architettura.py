@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -160,6 +161,26 @@ def _sezioni(testo: str) -> dict[str, int]:
     return fuori
 
 
+def dipendenze_locali(header: Path, viste: set[str] | None = None) -> list[str]:
+    """`header` e gli header locali che include, ricorsivamente.
+
+    Serve a copiare un kernel altrove senza spezzarlo. Si guardano solo gli
+    include fra virgolette (quelli di sistema non vanno copiati) e si
+    ignorano quelli che nella cartella di destinazione ci sono gia' per altra
+    via, cioe' quelli che non esistono accanto all'originale."""
+    viste = set() if viste is None else viste
+    if header.name in viste:
+        return []
+    viste.add(header.name)
+    fuori = [header.name]
+    for nome in re.findall(r'#include\s+"([^"]+)"',
+                           header.read_text(encoding="utf-8")):
+        vicino = header.parent / nome
+        if vicino.exists():
+            fuori += dipendenze_locali(vicino, viste)
+    return fuori
+
+
 def misura_avr(cartella: Path) -> dict:
     """Compila il kernel VERO per ATmega2560 contro l'header di `cartella` e
     legge le sezioni emesse dal compilatore.
@@ -172,7 +193,13 @@ def misura_avr(cartella: Path) -> dict:
     avr = trova("avr-g++")
     if avr is None:
         return {"nota_avr": motivo_assenza("avr-g++")}
-    shutil.copy2(INCLUDE / KERNEL, cartella / KERNEL)
+    # Il kernel e i suoi include locali: da quando la moltiplicazione Q15 sta
+    # in q15_mul.h, copiare il solo kernel lasciava la cartella incompleta e
+    # la compilazione falliva su un file mancante — cioe' la seconda misura
+    # spariva proprio per una modifica che con l'ingombro non c'entra nulla.
+    for nome in dipendenze_locali(INCLUDE / KERNEL):
+        if not (cartella / nome).exists():
+            shutil.copy2(INCLUDE / nome, cartella / nome)
     (cartella / "probe.cpp").write_text(
         "#include <stdint.h>\n"
         '#include "kan14_ml_coeff_int8.h"\n'

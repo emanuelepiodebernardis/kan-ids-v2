@@ -1,11 +1,12 @@
-modello,byte_parametri,regola,dettaglio,fonte,f1_cv,f1_std,kb
-"KAN(cat,1L)",254,array C compilati,coefficienti B-spline int8 + tabelle categoriche int8 + moltiplicatori Q15,mcu_pio/include/kan14_coeff_int8.h,0.9835,0.0007,0.25
-DecisionTree(d=5),285,array C compilati,"4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)",mcu_pio/include/dt5_model.h,0.9944,0.0004,0.28
-MLP(16),760,array C compilati,pesi int8 dei due layer + tabella categorica int8 (one-hot compilato) + bias int32,mcu_pio/include/mlp16_int8.h,0.9964,0.0009,0.74
-KAN e2e integer (binario),1334,array C compilati,"coefficienti int8 + LUT ln int32 + costanti affini, contatori grezzi -> decisione",mcu_pio/include/kan_e2e_int.h,,,1.3
-"KAN(cat,ML)",5244,array C compilati,due layer int8 + LUT tanh int16,mcu_pio/include/kan14_ml_coeff_int8.h,0.9976,0.0002,5.12
-"KAN(cat,MC) 10 classi",8268,array C compilati,"due layer int8, 10 uscite + LUT tanh int16",mcu_pio/include/kan14_mc_coeff_int8.h,,,8.07
-KAN-LUT integer (env default),10248,array C compilati,"tabella di lookup int16 pre-scalata, 10 edge x 512 punti",mcu_pio/include/kan_ids_layer_int.h,,,10.01
-KAN e2e integer (10 classi),22264,array C compilati,nodi int64 + nodi normalizzati int16 + due layer int8 + LUT tanh,mcu_pio/include/kan_mc_e2e_int.h,,,21.74
-XGBoost,49905,stima table-driven (nessun header C),"300 alberi, 9921 nodi interni + 10221 foglie",—,0.9989,0.0001,48.74
-LightGBM,60400,stima table-driven (nessun header C),"400 alberi, 12000 nodi interni + 12400 foglie",—,0.9991,0.0001,58.98
+modello,byte_parametri,regola,dettaglio,fonte,ingresso,f1_cv,f1_std,kb
+"KAN(cat,1L)",254,array C compilati,coefficienti B-spline int8 + tabelle categoriche int8 + moltiplicatori Q15,mcu_pio/include/kan14_coeff_int8.h,feature preprocessate fuori dalla scheda (Q12 + codici categorici),0.9835,0.0007,0.25
+DecisionTree(d=5),285,array C compilati,"4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)",mcu_pio/include/dt5_model.h,feature preprocessate fuori dalla scheda (Q12 + codici categorici),0.9944,0.0004,0.28
+MLP(16),760,array C compilati,pesi int8 dei due layer + tabella categorica int8 (one-hot compilato) + bias int32,mcu_pio/include/mlp16_int8.h,feature preprocessate fuori dalla scheda (Q12 + codici categorici),0.9964,0.0009,0.74
+KAN e2e integer (binario),1334,array C compilati,"coefficienti int8 + LUT ln int32 + costanti affini, contatori grezzi -> decisione",mcu_pio/include/kan_e2e_int.h,"contatori grezzi: feature engineering a bordo, dentro i byte dichiarati",,,1.3
+"KAN(cat,1L) sampled-LUT",5194,array C compilati,"stesse funzioni della KAN(cat,1L), campionate: 10 edge x 257 punti int16 + uno shift per edge; edge categorici invariati",mcu_pio/include/kan14_lut_int16.h,feature preprocessate fuori dalla scheda (Q12 + codici categorici),,,5.07
+"KAN(cat,ML)",5244,array C compilati,due layer int8 + LUT tanh int16,mcu_pio/include/kan14_ml_coeff_int8.h,feature preprocessate fuori dalla scheda (Q12 + codici categorici),0.9976,0.0002,5.12
+"KAN(cat,MC) 10 classi",8268,array C compilati,"due layer int8, 10 uscite + LUT tanh int16",mcu_pio/include/kan14_mc_coeff_int8.h,feature preprocessate fuori dalla scheda (Q12 + codici categorici),,,8.07
+KAN-LUT integer (env default),10248,array C compilati,"tabella di lookup int16 pre-scalata, 10 edge x 512 punti",mcu_pio/include/kan_ids_layer_int.h,"feature z-scored fuori dalla scheda (10 numeriche, niente categoriche)",,,10.01
+KAN e2e integer (10 classi),22264,array C compilati,nodi int64 + nodi normalizzati int16 + due layer int8 + LUT tanh,mcu_pio/include/kan_mc_e2e_int.h,"contatori grezzi: feature engineering a bordo, dentro i byte dichiarati",,,21.74
+XGBoost,49905,stima table-driven (nessun header C),"300 alberi, 9921 nodi interni + 10221 foglie",—,feature preprocessate fuori dalla scheda (Q12 + codici categorici),0.9989,0.0001,48.74
+LightGBM,60400,stima table-driven (nessun header C),"400 alberi, 12000 nodi interni + 12400 foglie",—,feature preprocessate fuori dalla scheda (Q12 + codici categorici),0.9991,0.0001,58.98

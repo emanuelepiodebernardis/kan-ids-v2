@@ -197,8 +197,108 @@ def test_il_csv_dei_contributi_somma_al_logit():
         pytest.skip("python scripts/interpretabilita.py")
     d = pd.read_csv(f)
     for vet, g in d.groupby("vettore"):
-        addendi = g[~g.edge.str.startswith(("SOMMA", "predizione"))]
+        addendi = g[~g.edge.str.startswith(("SOMMA", "predizione", "etichetta"))]
         somma = g[g.edge == "SOMMA = logit"].contributo.iloc[0]
         assert int(addendi.contributo.sum()) == int(somma), (
             f"vettore {vet}: gli addendi del CSV non sommano al logit")
         assert len(addendi) == 14
+
+        # predizione ed etichetta vera stanno entrambe nel CSV: la figura
+        # mostra la decisione del modello, che puo' essere sbagliata, e chi
+        # legge deve poterlo verificare senza aprire il PNG
+        pred = int(g[g.edge == "predizione (1 = attacco)"].contributo.iloc[0])
+        vera = g[g.edge == "etichetta vera (1 = attacco)"]
+        assert len(vera) == 1, f"vettore {vet}: manca l'etichetta vera"
+        assert pred == int(somma >= 0)
+
+
+# ─────────────────────────────────────────────────────────────
+# rc3 punto 5: cosa devono dire le figure
+# ─────────────────────────────────────────────────────────────
+def _script():
+    return (REPO / "scripts" / "interpretabilita.py").read_text(encoding="utf-8")
+
+
+def test_le_figure_dichiarano_la_convenzione_del_segno():
+    """"Contributo +0,7" non dice verso quale classe spinge. Il relatore ha
+    chiesto che la convenzione sia scritta sulla figura, non lasciata da
+    dedurre."""
+    s = _script()
+    assert "SEGNO = " in s, "la convenzione del segno non e' definita"
+    assert s.count("SEGNO") >= 3, (
+        "la convenzione e' definita ma non finisce su entrambe le figure")
+    for parola in ("ATTACCO", "NORMALE"):
+        assert parola in s, f"la convenzione non nomina {parola}"
+
+
+def test_i_contributi_locali_mostrano_etichetta_vera_e_predetta():
+    s = _script()
+    for atteso in ("etichetta vera", "predetta", "SBAGLIATA"):
+        assert atteso in s, (
+            f"la figura dei contributi non riporta {atteso!r}: una "
+            f"spiegazione senza etichetta vera si legge come se il modello "
+            f"avesse ragione per costruzione")
+
+
+def test_le_funzioni_apprese_mostrano_dove_stanno_i_dati():
+    """Densita' e rug dei 200 vettori sotto ogni curva: dove non ci sono
+    osservazioni la spline e' estrapolazione, e la figura deve farlo vedere."""
+    s = _script()
+    assert "np.histogram" in s and '"|"' in s, (
+        "mancano istogramma o rug sotto le curve")
+
+
+def test_le_categorie_usano_i_nomi_veri_quando_ci_sono(tmp_path, monkeypatch):
+    """Con il vocabolario esportato le barre portano il nome della categoria;
+    senza, portano l'indice e la figura lo DICHIARA invece di far passare un
+    numero per un nome."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "interp_script", REPO / "scripts" / "interpretabilita.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    senza = mod.etichette_categoria(None, 0, 4)
+    assert senza == ["UNK", "1", "2", "3"], senza
+
+    voc = {"proto": ["UNK", "tcp", "udp", "icmp"]}
+    assert mod.etichette_categoria(voc, 0, 4) == ["UNK", "tcp", "udp", "icmp"]
+
+    # un vocabolario di lunghezza sbagliata deve fermare la figura: le
+    # etichette scivolerebbero di una posizione rispetto ai contributi
+    with pytest.raises(AssertionError):
+        mod.etichette_categoria({"proto": ["UNK", "tcp"]}, 0, 4)
+
+
+def test_lo_script_dei_vocabolari_verifica_se_stesso():
+    """Non basta esportare quattro liste: l'ordine deve essere quello che il
+    preprocessore ha imparato, e un ordine sbagliato non produce errori — solo
+    una figura in cui due protocolli sono scambiati. Lo script ricodifica il
+    test set col vocabolario esportato e pretende gli stessi indici."""
+    s = (REPO / "scripts" / "export_vocabolari.py").read_text(encoding="utf-8")
+    assert "ricodificato != atteso" in s, (
+        "l'export dei vocabolari non si verifica contro la codifica del "
+        "preprocessore")
+    assert "cardinalita_dell_header" in s, (
+        "l'export non confronta le cardinalita' con l'header deployato")
+
+
+def test_i_vocabolari_se_presenti_combaciano_con_le_tabelle():
+    """Quando il file c'e' (macchina col dataset), la sua forma deve
+    corrispondere alle tabelle categoriche dell'header deployato."""
+    import json
+    f = REPO / "models" / "vocabolari_categorici.json"
+    if not f.exists():
+        pytest.skip("models/vocabolari_categorici.json assente: "
+                    "python scripts/export_vocabolari.py (serve il dataset)")
+    voc = json.loads(f.read_text(encoding="utf-8"))["vocabolari"]
+    from kanids.config import CATEGORICAL
+    from kanids.interpretabilita import leggi_modello
+    m = leggi_modello(REPO / "mcu_pio" / "include" / "kan14_coeff_int8.h")
+    off = list(m["CAT_OFF"]) + [len(m["CAT"])]
+    for j, c in enumerate(CATEGORICAL):
+        assert c in voc, f"manca il vocabolario di {c}"
+        assert len(voc[c]) == off[j + 1] - off[j], (
+            f"{c}: {len(voc[c])} categorie contro {off[j+1] - off[j]} righe "
+            f"nella tabella dell'header")
+        assert voc[c][0] == "UNK", f"{c}: l'indice 0 non e' UNK"

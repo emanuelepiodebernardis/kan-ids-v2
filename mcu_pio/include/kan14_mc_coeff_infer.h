@@ -5,6 +5,7 @@
 #pragma once
 #include <stdint.h>
 #include "kan14_mc_coeff_int8.h"
+#include "q15_mul.h"
 
 #ifdef __AVR__
   #define KMC_RD8(p)  ((int8_t)pgm_read_byte(&(p)))
@@ -39,7 +40,7 @@ static inline uint8_t kan14_mc_predict(const int16_t xq[10], const uint8_t cat[4
     for (uint8_t h = 0; h < KMC_HID; h++) {
       int32_t acc = b[0]*KMC_RD8(KMC_C1[i][h][seg])   + b[1]*KMC_RD8(KMC_C1[i][h][seg+1])
                   + b[2]*KMC_RD8(KMC_C1[i][h][seg+2]) + b[3]*KMC_RD8(KMC_C1[i][h][seg+3]);
-      H[h] += (int32_t)(((int64_t)acc * KMC_RD16(KMC_M1[i][h])) >> 15);
+      H[h] += q15_mul_shift(acc, KMC_RD16(KMC_M1[i][h]));
     }
   }
   for (uint8_t j = 0; j < 4; j++) {
@@ -51,7 +52,7 @@ static inline uint8_t kan14_mc_predict(const int16_t xq[10], const uint8_t cat[4
   int32_t Z[KMC_NCLS];
   for (uint8_t c = 0; c < KMC_NCLS; c++) Z[c] = 0;
   for (uint8_t h = 0; h < KMC_HID; h++) {
-    int32_t idx = (int32_t)(((int64_t)H[h] * KMC_IDX_MULT) >> 30) + KMC_TANH_N / 2;
+    int32_t idx = (q15_mul_shift(H[h], KMC_IDX_MULT) >> 15) + KMC_TANH_N / 2;
     if (idx < 0) idx = 0;
     if (idx > KMC_TANH_N - 1) idx = KMC_TANH_N - 1;
     int32_t a = KMC_RD16(KMC_TANH[idx]);
@@ -64,7 +65,7 @@ static inline uint8_t kan14_mc_predict(const int16_t xq[10], const uint8_t cat[4
     for (uint8_t c = 0; c < KMC_NCLS; c++) {
       int32_t acc = b[0]*KMC_RD8(KMC_C2[h][c][seg])   + b[1]*KMC_RD8(KMC_C2[h][c][seg+1])
                   + b[2]*KMC_RD8(KMC_C2[h][c][seg+2]) + b[3]*KMC_RD8(KMC_C2[h][c][seg+3]);
-      Z[c] += (int32_t)(((int64_t)acc * KMC_RD16(KMC_M2[h][c])) >> 15);
+      Z[c] += q15_mul_shift(acc, KMC_RD16(KMC_M2[h][c]));
     }
   }
   uint8_t best = 0;

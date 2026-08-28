@@ -2,10 +2,16 @@
 artifacts/
 *.meta.json
 
-# models/ e' versionata (vedi models/MANIFEST.json), ma non i checkpoint
-# grossi degli ottimizzatori: sono rigenerabili dallo script indicato nel
-# manifest e non hanno valore di deployment
-models/*multiclass*.pkl
+# models/ e' versionata (vedi models/MANIFEST.json). Qui c'era
+#
+#     models/*multiclass*.pkl
+#
+# con la motivazione "rigenerabile dallo script indicato nel manifest e senza
+# valore di deployment". Era falso su entrambi i punti: riaddestrare NON
+# rigenera quello stato (300 epoche di Adam amplificano l'ordine delle
+# riduzioni BLAS e spostano uno o due campioni MITM su 208), e da quello stato
+# derivano due header deployati. Finche' quella riga e' rimasta, i due header
+# a 10 classi sono stati artefatti di provenienza perduta. Sono 41 KB.
 
 # dati: non ridistribuiti (vedi data/README.md)
 data/*.csv
@@ -54,9 +60,21 @@ run_debug.log
 # output dell'audit: si rigenera, non si versiona
 audit.txt
 
-# Messaggi di commit e di tag scritti a parte, e la cartella in cui si estrae
-# il pacchetto per provarlo. `git add -A` li ha gia' tirati dentro una volta:
-# sono artefatti del processo, non del progetto.
-commit_*.txt
-tag_*.txt
+# File di appoggio della sessione scritti nella radice: messaggi di commit e
+# di tag, bozze di mail al relatore, appunti. Sono artefatti del processo, non
+# del progetto, e in un repository consegnato dicono solo che nessuno ha
+# guardato cosa stava committando.
+#
+# Qui c'era un elenco di prefissi — commit_*.txt e tag_*.txt — ed e' fallito
+# esattamente come falliscono gli elenchi di cose vietate: mail_rc3.txt non
+# cominciava per nessuno dei due ed e' finito nel commit di v2.1-rc3, insieme
+# al testo della lettera al relatore. La regola e' rovesciata: nella radice si
+# versionano i .txt nominati qui sotto, e nient'altro. Un file nuovo e'
+# escluso finche' qualcuno non decide il contrario, che e' il verso giusto per
+# un repository che si consegna.
+/*.txt
+!/requirements.txt
+!/requirements-lock.txt
+
+# cartella in cui si estrae il pacchetto per provarlo
 prova/

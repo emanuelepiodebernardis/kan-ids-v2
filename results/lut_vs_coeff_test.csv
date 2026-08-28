@@ -1,0 +1,2 @@
+n_test,L,decisioni_identiche,decisioni_diverse,flussi_entro_il_limite,limite_scostamento_logit,scostamento_max_osservato,f1_coefficienti,f1_lut
+42209,257,42209,0,92,56586,13294,0.982584,0.982584

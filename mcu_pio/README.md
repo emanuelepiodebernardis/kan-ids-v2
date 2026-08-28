@@ -16,8 +16,8 @@ Ogni sorgente in `src/` copre entrambi i target tramite `#ifdef`.
 
 ```
 mcu_pio/
-├── platformio.ini          # 13 env su 2 schede: megaatmega2560, esp32c3
-├── src/                    # 8 firmware, uno per variante di modello
+├── platformio.ini          # 29 env su 2 schede: megaatmega2560, esp32c3
+├── src/                    # 10 firmware, uno per variante di modello
 │   ├── main.cpp            # KAN-LUT integer (env di default)
 │   ├── main_coeff.cpp      # KAN single-layer a coefficienti (254 B)
 │   ├── main_mlcoeff.cpp    # KAN multi-layer (5,1 KB)
@@ -25,13 +25,14 @@ mcu_pio/
 │   ├── main_e2e.cpp        # catena end-to-end binaria dai contatori grezzi
 │   ├── main_mc_e2e.cpp     # catena end-to-end a 10 classi
 │   ├── main_dt5.cpp        # albero profondo 5, il concorrente sul Pareto
-│   └── main_mlp.cpp        # MLP piccolo 16 nascosti, la baseline densa
+│   ├── main_mlp.cpp        # MLP piccolo 16 nascosti, la baseline densa
+│   └── main_lut14.cpp      # la stessa KAN single-layer, campionata (5,2 KB)
 ├── include/                # header dei modelli + golden vector
 ├── host_check/             # verifica offline con g++ (no MCU necessario)
 │   ├── arduino_stub.h      # stub minimale di Arduino.h
 │   ├── avr/pgmspace.h      # stub PROGMEM (solo per il check host)
 │   ├── Wire.h              # stub I2C (solo per il check host)
-│   └── run_*_check.cpp     # 7 harness, uno per kernel
+│   └── run_*_check.cpp     # 8 harness, uno per kernel
 ├── wokwi.toml              # simulazione senza hardware (vedi §8)
 ├── diagram.json            # schema Wokwi: Arduino Mega 2560
 ├── diagram.esp32c3.json    # schema Wokwi: ESP32-C3-DevKitM-1
@@ -76,15 +77,20 @@ della variante float (stessa accuratezza, stessi mismatch — vedi §6).
 
 ## 3. Compilare
 
-> **Stato della verifica.** Tutti e dodici gli environment compilano con
-> PlatformIO: `2 succeeded` per i due di default e `10 succeeded` per gli
-> altri, senza warning. Le dimensioni riportate dalla toolchain ufficiale sono
-> nel README della radice, sezione *Flash and SRAM per variant*. Sono state
-> verificate anche, senza hardware: **cinque** kernel di inferenza contro il
-> riferimento Python, bit-esatti su 200 golden vector ciascuno (`coeff`,
-> `ml_coeff`, `mc_coeff`, `e2e`, `mc_e2e`). Il sesto harness,
-> `run_host_check`, e' di natura diversa: confronta le predizioni della
-> variante LUT con le **etichette reali** e da' 39/40, dove l'unico scarto e'
+> **Stato della verifica.** **Tutti** gli environment di `platformio.ini`
+> compilano con PlatformIO, senza warning, e le loro dimensioni di Flash e
+> SRAM stanno in `results/firmware_size.csv`: le misura
+> `python reproduce.py --stage firmware-size`, che le scrive anche nella
+> tabella del README della radice (sezione *Flash and SRAM per variant*). Il
+> numero degli environment non e' ripetuto qui apposta: era scritto a mano in
+> quattro punti e ne ha sbagliati tre. Sono state verificate anche, senza
+> hardware: **sei** kernel di inferenza contro il riferimento Python,
+> bit-esatti su 200 golden vector ciascuno (`coeff`, `ml_coeff`, `mc_coeff`,
+> `e2e`, `mc_e2e`, `lut`) piu' l'MLP. L'harness della LUT campionata verifica
+> in piu' che le sue decisioni coincidano con quelle della versione a
+> coefficienti su tutti e 200 i vettori. L'harness `run_host_check` e' invece
+> di natura diversa: confronta le predizioni della LUT **storica** del paper
+> (`kan_ids_layer_int.h`, un altro modello) con le **etichette reali** e da' 39/40, dove l'unico scarto e'
 > un errore del modello presente anche nella variante float (vedi §6), non un
 > difetto del kernel. Chiamarlo bit-esatto sarebbe scorretto. Verificata
 > inoltre la compilazione di tutti i firmware in entrambi i rami `#ifdef`
@@ -245,7 +251,7 @@ un riepilogo di accuratezza.
 
 ### 7a. Firmware dedicato — `src/main_energy.cpp` (da usare per l'articolo)
 
-Gli otto firmware di latenza cronometrano **una** inferenza per volta e fra
+I nove firmware di latenza cronometrano **una** inferenza per volta e fra
 una misura e la successiva stampano da cinque a nove valori su Serial. Per la
 latenza va bene: fra `t0` e `t1` c'è solo la chiamata al kernel. Per
 l'energia no. Uno strumento misura la corrente nel tempo, e in quel tempo la
@@ -257,41 +263,59 @@ l'energia della UART, non quella del modello.
 `main_energy.cpp` è costruito per essere misurato dall'esterno. Ogni
 ripetizione produce **due finestre adiacenti della stessa durata**:
 
-| pin di marcatura | contenuto |
+| marcatore | contenuto |
 |---|---|
-| **ALTO** | `EB_BATCH` inferenze consecutive e nient'altro: nessuna Serial, nessun Wire, nessun `delay`, nessun accesso a Flash (i vettori sono già in RAM) |
-| **BASSO** | riferimento: CPU sveglia che gira su `nop` per lo stesso numero di microsecondi, nessuna inferenza |
+| `EB_PIN` **alto** (22 / GPIO 3) | `EB_BATCH` inferenze consecutive e nient'altro: nessuna Serial, nessun Wire, nessun `delay`, nessun accesso a Flash (i vettori sono già in RAM), nessuna divisione (l'indice avanza con un confronto) |
+| `EB_PIN_REF` **alto** (24 / GPIO 4) | riferimento: CPU sveglia che gira su `nop` per lo stesso numero di microsecondi, nessuna inferenza |
 
-Sul pin esce quindi un'onda quadra al 50 %: semiperiodo alto = carico,
-semiperiodo basso = linea di base. L'energia per inferenza è
+I due marcatori sono **pin distinti**. Con un pin solo il livello basso
+significava due cose — la finestra di riferimento *e* tutto il resto: setup,
+calibrazione, intervalli fra le ripetizioni, stampe finali — e per ritagliare
+l'integrale giusto bisognava fidarsi dell'ordine invece di leggerlo dalla
+traccia. Ora ogni finestra ha il suo fronte e nessun campione entra
+nell'integrale sbagliato.
 
 ```
-E_inf = (P_alta − P_bassa) × T_finestra / EB_BATCH
+E_totale   per inferenza = P_alta × T_alta / EB_BATCH
+E_dinamica per inferenza = (P_alta − P_bassa) × T_alta / EB_BATCH
 ```
 
-Tutte le stampe stanno **prima** della prima finestra e **dopo** l'ultima.
+La prima include il consumo statico del core sveglio, la seconda è il solo
+costo del calcolo. Tutte le stampe stanno **prima** della prima finestra e
+**dopo** l'ultima.
 
 **Comandi.**
+
+Gli environment marcati **(grezzo)** partono dai contatori di flusso e fanno
+a bordo anche il feature engineering: i loro byte comprendono la LUT del
+logaritmo, le costanti affini e la quantizzazione. Gli altri ricevono feature
+gia' preprocessate fuori dalla scheda, e quel costo non e' nei loro byte. Le
+due famiglie non stanno sulla stessa scala e non vanno messe nella stessa
+colonna senza dirlo (richiesta del relatore, rc3 punto 6).
 
 ```bash
 pio run -e megaatmega2560_energy -t upload        # KAN single-layer, 254 B
 pio run -e esp32c3_energy        -t upload
 pio run -e megaatmega2560_energy_dt5   -t upload  # albero d=5, 285 B
-pio run -e megaatmega2560_energy_e2e   -t upload  # end-to-end integer, 1.334 B
+pio run -e megaatmega2560_energy_e2e   -t upload  # end-to-end integer, 1.334 B (grezzo)
 pio run -e megaatmega2560_energy_mlcoeff -t upload
 pio run -e megaatmega2560_energy_mlp   -t upload  # MLP(16) denso, 760 B
+pio run -e megaatmega2560_energy_lut14 -t upload  # KAN 1L campionata, 5.194 B
 pio run -e esp32c3_energy_mc     -t upload        # 10 classi, 8.268 B
 
 # batch e ripetizioni si cambiano senza toccare i file
 PLATFORMIO_BUILD_FLAGS="-DEB_BATCH=5000 -DEB_REPS=10" pio run -e esp32c3_energy
 ```
 
-**Collegamento del trigger.** Il pin di marcatura è il **22** sul Mega 2560 e
-il **GPIO 3** sull'ESP32-C3, e va collegato **solo** all'ingresso di trigger
-dello strumento, che è ad alta impedenza. Non è il pin del LED di bordo:
-il LED assorbirebbe corrente dentro la finestra misurata. Con `-DEB_NO_PIN`
-il pin non viene toccato affatto, per chi preferisce allineare le finestre
-sul gradino di corrente.
+**Collegamento del trigger.** I marcatori sono **22** (finestra attiva) e
+**24** (riferimento) sul Mega 2560, **GPIO 3** e **GPIO 4** sull'ESP32-C3, e
+vanno collegati **solo** agli ingressi di trigger dello strumento, che sono ad
+alta impedenza. Non sono pin di LED: un LED assorbirebbe corrente dentro la
+finestra misurata. Con un solo canale disponibile basta collegare il 22: le
+due finestre restano adiacenti e la seconda è quella fra un fronte di discesa
+e il successivo di salita. Con `-DEB_NO_PIN` nessun pin viene toccato, per chi
+preferisce allineare le finestre sul gradino di corrente; con
+`-DEB_PIN=n -DEB_PIN_REF=n` si scelgono altri due pin.
 
 **Verifica che le inferenze siano avvenute.** Tolta la Serial dalla finestra,
 sparisce l'unica cosa che consumava il risultato, e i kernel sono `static
@@ -300,7 +324,7 @@ ciclo, e una finestra vuota sembrerebbe soltanto un modello molto efficiente.
 Il risultato di ogni inferenza è perciò accumulato in un `volatile` e la
 somma viene confrontata con quella attesa dai golden vector. L'output finisce
 con `checksum_ok=1`; se dice `0`, il firmware stampa che **la misura non è
-valida**. `tests/test_energy_firmware.py` compila ed esegue le sei varianti
+valida**. `tests/test_energy_firmware.py` compila ed esegue le sette varianti
 sull'host pretendendo `checksum_ok=1`, e rilegge il sorgente per verificare
 che dentro la finestra non sia ricomparso dell'I/O.
 
@@ -309,11 +333,23 @@ entrano le routine soft-float in un firmware che misura un modello
 integer-only):
 
 ```
-# energy benchmark variant=coeff_int8 model_bytes=254 batch=2000 reps=5 vectors_in_ram=20 marker_pin=22
-variant,rep,batch,window_us,ns_per_inference,checksum,expected,ok
+# energy benchmark variant=coeff_int8 model_bytes=254 batch=2000 reps=5 vectors_in_ram=20 marker_pin_active=22 marker_pin_ref=24
+# due marcatori distinti: ALTO su marker_pin_active = finestra di inferenze, ALTO su marker_pin_ref = finestra di riferimento
+# E_totale per inferenza  = P_alta * T_alta / batch
+# E_dinamica per inferenza = (P_alta - P_bassa) * T_alta / batch
+variant,rep,batch,window_us,ref_us,ref_vs_active_permille,windows_match,ns_per_inference,checksum,expected,ok
 coeff_int8,0,2000,...
-SUMMARY variant=coeff_int8 model_bytes=254 mean_window_us=... mean_ns_per_inference=... checksum_ok=1
+SUMMARY variant=coeff_int8 model_bytes=254 mean_window_us=... mean_ref_us=... ref_vs_active_permille=... nop_per_us_q8=... calibration_ok=1 windows_ok=1 tolerance_permille=50 checksum_ok=1
 ```
+
+**Le tre bandiere da guardare prima di fidarsi di una misura.**
+`checksum_ok=1` dice che le inferenze sono avvenute (nessuna finestra vuota);
+`calibration_ok=1` che il ciclo di riferimento è stato calibrato e non è un
+valore di ripiego; `windows_ok=1` che le due finestre durano lo stesso entro
+`tolerance_permille` (50 ‰, cioè il 5 %). Se `windows_ok=0`, la differenza fra
+le due potenze **non** è l'energia dinamica: resta valida la sola finestra
+attiva, cioè `E_totale`. Lo scarto vero, riga per riga, è nella colonna
+`ref_vs_active_permille`: è un numero misurato, non una promessa.
 
 ### 7b. Hook INA219 dentro i firmware di latenza (storico, sconsigliato)
 
@@ -415,8 +451,9 @@ LUT (99.95% agreement col float) con 1/22 della memoria; latenza da misurare
 - `main_mlcoeff.cpp` — multi-layer binario F1 0.9974, full-integer (~5 KB):
   `pio run -e megaatmega2560_mlcoeff -t upload` (o `esp32c3_mlcoeff`)
 - `main_mc.cpp` — multiclass 10 classi, full-integer (8.268 B; macro-F1
-  0.9378 in `results/kan_ml_cat_mc_real.csv`; artefatto congelato, vedi
-  il paragrafo 9):
+  0.9384 dello stato in `results/kan_ml_cat_mc_real.csv`, 0.9388 misurato
+  all'export sulla simulazione intera; lo stato canonico e' committato in
+  `models/kan14_multiclass_multilayer.pkl`, vedi il paragrafo 9):
   `pio run -e esp32c3_mc -t upload`
 - Verifica offline: `g++ -O2 host_check/run_ml_coeff_check.cpp && ./a.out`
   (atteso 200/200) e idem con `run_mc_coeff_check.cpp`.
@@ -457,6 +494,19 @@ int32. Con l'accumulatore a 64 bit il kernel chiamerebbe `__adddi3`,
 quella di un tipo che il processore non ha. Lo shift è fissato dal bound
 calcolato all'export sui pesi quantizzati e su |xq| ≤ 2¹², non scelto sui
 dati, e costa pochi bit su ventitré.
+
+> **La stessa cura è arrivata dopo sui kernel KAN.** Quando questa nota è
+> stata scritta, i tre kernel a coefficienti chiudevano ancora ogni edge con
+> `((int64_t)acc * MULT) >> 15`: dieci chiamate a `__mulsidi3` + `__ashrdi3`
+> per inferenza nella single-layer, centosettantasei nel multi-layer. Il
+> confronto di latenza fra KAN e MLP sarebbe stato fra un kernel scritto per
+> il target e uno no. Ora la moltiplicazione Q15 passa da
+> `include/q15_mul.h`, che calcola `(a·m) >> 15` in solo int32 con
+> l'identità `(a>>15)·m + ((a & 32767)·m >> 15)`: **esatta**, non
+> approssimata — stesso intero su 200.000 ingressi casuali, verificato
+> confrontando i due kernel compilati. Sul programma di prova il firmware
+> linkato passa da 2.008 a 1.858 B di `.text`, perché le due routine a 64 bit
+> non vengono più linkate affatto.
 
 **Byte: 760, non 705.** La stima table-driven contava un byte per parametro.
 Il conteggio sull'header che il compilatore compila davvero è 760: i bias del

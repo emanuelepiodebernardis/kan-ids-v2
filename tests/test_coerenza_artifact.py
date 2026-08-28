@@ -45,7 +45,7 @@ def byte_misurati() -> dict[str, int]:
     if manca:
         pytest.skip("; ".join(motivo(h) for h in sorted(manca)))
     out = {}
-    for nome, header, prefisso, _descr in MODELS:
+    for nome, header, prefisso, _descr, _ingresso in MODELS:
         path = REPO / "mcu_pio" / "include" / header
         assert path.exists(), f"header mancante: {header}"
         out[nome] = scan(path, prefisso)[0]
@@ -117,6 +117,7 @@ NOMI_README = {
     "Decision Tree (d=5)": "DecisionTree(d=5)",
     "MLP (16)": "MLP(16)",
     "KAN e2e integer (binary)": "KAN e2e integer (binario)",
+    "KAN single-layer, sampled-LUT": "KAN(cat,1L) sampled-LUT",
     "KAN multi-layer + cat": "KAN(cat,ML)",
     "KAN multiclass (10 classes)": "KAN(cat,MC) 10 classi",
     "KAN LUT integer (default env)": "KAN-LUT integer (env default)",
@@ -126,18 +127,31 @@ NOMI_README = {
 }
 
 
-def _tabella_footprint_del_readme() -> dict[str, tuple[int, str]]:
-    """Estrae la tabella dei byte dal README: nome -> (byte, regola)."""
+# Forma breve della colonna "Input" del README <-> testo esteso di
+# results/footprint.csv. La distinzione e' del punto 6 della rc3: i byte di un
+# modello che riceve feature gia' preprocessate e quelli di una catena che
+# parte dai contatori grezzi non stanno sulla stessa scala.
+INGRESSI_README = {
+    "preprocessed": "feature preprocessate fuori dalla scheda (Q12 + codici categorici)",
+    "raw counters": "contatori grezzi: feature engineering a bordo, dentro i byte dichiarati",
+    "z-scored": "feature z-scored fuori dalla scheda (10 numeriche, niente categoriche)",
+}
+
+
+def _tabella_footprint_del_readme() -> dict[str, tuple[int, str, str]]:
+    """Estrae la tabella dei byte dal README: nome -> (byte, ingresso, regola)."""
     righe = (REPO / "README.md").read_text(encoding="utf-8").splitlines()
     inizio = next(i for i, r in enumerate(righe)
-                  if r.startswith("| Model | Bytes | Rule |"))
+                  if r.startswith("| Model | Bytes | Input | Rule |"))
     out = {}
     for r in righe[inizio + 2:]:
         if not r.startswith("|"):
             break
         celle = [c.strip().strip("*").strip() for c in r.strip("|").split("|")]
-        nome, byte, regola = celle[0], celle[1].strip("*").replace(",", ""), celle[2]
-        out[nome] = (int(byte), regola.strip("*").strip())
+        nome = celle[0]
+        byte = celle[1].strip("*").replace(",", "")
+        out[nome] = (int(byte), celle[2].strip("*").strip(),
+                     celle[3].strip("*").strip())
     return out
 
 
@@ -151,7 +165,7 @@ def test_tabella_del_readme_coincide_con_footprint_csv():
         f"la tabella del README non ha piu' le righe attese; "
         f"in piu': {set(readme) - set(NOMI_README)}; "
         f"mancanti: {set(NOMI_README) - set(readme)}")
-    for nome_readme, (byte, regola) in readme.items():
+    for nome_readme, (byte, ingresso, regola) in readme.items():
         riga = csv.loc[NOMI_README[nome_readme]]
         assert byte == int(riga["byte_parametri"]), (
             f"README dice {byte} B per {nome_readme}, footprint.csv "
@@ -160,6 +174,13 @@ def test_tabella_del_readme_coincide_con_footprint_csv():
         assert (regola == "compiled") == misurato, (
             f"{nome_readme}: il README lo marca {regola!r} ma footprint.csv "
             f"dice {riga['regola']!r}")
+        assert ingresso in INGRESSI_README, (
+            f"{nome_readme}: ingresso {ingresso!r} sconosciuto")
+        assert INGRESSI_README[ingresso] == riga["ingresso"], (
+            f"{nome_readme}: il README dice che parte da {ingresso!r}, "
+            f"footprint.csv dice {riga['ingresso']!r}. I byte di un modello a "
+            f"feature preprocessate e quelli di una catena dai contatori "
+            f"grezzi non sono la stessa quantita'.")
 
 
 def test_colonna_crossdomain_del_readme_e_a_dieci_seed():
@@ -175,13 +196,18 @@ def test_colonna_crossdomain_del_readme_e_a_dieci_seed():
 
     readme = (REPO / "README.md").read_text(encoding="utf-8").splitlines()
     inizio = next(i for i, r in enumerate(readme)
-                  if r.startswith("| Model | Bytes | Rule |"))
+                  if r.startswith("| Model | Bytes | Input | Rule |"))
+    # la colonna si cerca per intestazione: quando ne e' stata inserita una
+    # nuova ("Input"), un indice fisso avrebbe letto in silenzio la colonna
+    # sbagliata invece di fallire
+    intestazione = [c.strip() for c in readme[inizio].strip("|").split("|")]
+    col = intestazione.index("Bal. acc. TON→BoT")
     visti = 0
     for r in readme[inizio + 2:]:
         if not r.startswith("|"):
             break
         celle = [c.strip().strip("*").strip() for c in r.strip("|").split("|")]
-        nome, cella = celle[0], celle[4].strip("*").strip()
+        nome, cella = celle[0], celle[col].strip("*").strip()
         if cella == "—":
             continue
         modello = NOMI_README[nome]
@@ -614,7 +640,17 @@ def test_i_conteggi_di_firmware_e_environment_sono_quelli_veri():
 
     parole = {1: "un", 2: "due", 3: "tre", 4: "quattro", 5: "cinque",
               6: "sei", 7: "sette", 8: "otto", 9: "nove", 10: "dieci",
-              11: "undici", 12: "dodici"}
+              11: "undici", 12: "dodici", 13: "tredici", 14: "quattordici",
+              15: "quindici", 16: "sedici", 17: "diciassette", 18: "diciotto",
+              19: "diciannove", 20: "venti"}
+    # La tabella si e' fermata a dodici finche' gli environment di energia
+    # erano undici: al tredicesimo il confronto diventava contro "?" e
+    # qualunque parola risultava sbagliata, compresa quella giusta. Un
+    # controllo che invecchia con cio' che controlla e' peggio di nessun
+    # controllo, quindi qui si pretende che la tabella copra i conteggi veri.
+    assert n_firmware in parole and n_energia in parole, (
+        f"la tabella dei numeri in lettere non arriva a {max(n_firmware, n_energia)}: "
+        f"estenderla, altrimenti il confronto sotto e' contro un punto interrogativo")
     testi = {n: (REPO / n).read_text(encoding="utf-8")
              for n in ("mcu_pio/README.md", "mcu_pio/src/main_energy.cpp",
                        "scripts/pacchetto_finale.py")}
@@ -637,11 +673,12 @@ def test_i_conteggi_di_firmware_e_environment_sono_quelli_veri():
 
 
 def test_la_lista_dei_firmware_del_pacchetto_e_completa():
-    """Gia' verificato altrove per gli environment di energia; qui si
-    controlla che il conteggio dichiarato nel docstring coincida."""
+    """Gia' verificato altrove; qui si controlla dal lato opposto, cioe' che
+    nessun environment di platformio.ini resti fuori dal pacchetto — latenza
+    compresa, non solo energia."""
     import re
     ini = (REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
-    attesi = set(re.findall(r"^\[env:(\S*_energy\S*)\]", ini, re.M))
+    attesi = set(re.findall(r"^\[env:([^\]]+)\]", ini, re.M))
     import importlib.util
     spec = importlib.util.spec_from_file_location(
         "pacchetto", REPO / "scripts" / "pacchetto_finale.py")
@@ -650,3 +687,67 @@ def test_la_lista_dei_firmware_del_pacchetto_e_completa():
     assert set(mod.FIRMWARE) == attesi, (
         f"in piu': {set(mod.FIRMWARE) - attesi}; "
         f"mancanti: {attesi - set(mod.FIRMWARE)}")
+
+
+# --------------------------------------------------------------------------
+# Tabella "Hybrid compilation" contro results/kan14_compile_real.csv
+# --------------------------------------------------------------------------
+# Il README la attribuiva esplicitamente a quel CSV e non ci coincideva:
+# dichiarava l'int16 "lossless, 100.000 %" dove il CSV dice 99,995 %, e ΔF1
+# -0.0002 dove dice -0.0006. I valori "lossless" erano quelli del protocollo
+# v1 (420 B, modello 0,9672) incollati sulle righe v2. Fra tutti i modi di
+# sbagliare un numero, incollare quello di un altro modello e' il peggiore:
+# resta plausibile.
+
+INIZIO_COMP = "<!-- tabella-compilazione:inizio -->"
+FINE_COMP = "<!-- tabella-compilazione:fine -->"
+
+#: riga del README -> riga del CSV
+COMPILAZIONI = {
+    "Spline coefficients, int16": "coeff int16 (float eval)",
+    "Spline coefficients, int8": "coeff int8 (float eval)",
+    "Spline coefficients, int8, full-integer": "FULL-INTEGER int8",
+}
+
+
+def _tabella_compilazione():
+    t = (REPO / "README.md").read_text(encoding="utf-8")
+    assert INIZIO_COMP in t and FINE_COMP in t, (
+        "il README non delimita piu' la tabella di compilazione")
+    blocco = t[t.index(INIZIO_COMP):t.index(FINE_COMP)]
+    righe = {}
+    for r in blocco.splitlines():
+        c = [x.strip().replace("**", "") for x in r.split("|")[1:-1]]
+        if len(c) != 4 or c[0].startswith("---") or c[0] == "Compilation":
+            continue
+        byte = int(c[1].replace(",", "").replace(" B", ""))
+        delta = float(c[2].replace("−", "-").replace(",", "."))
+        agree = float(c[3].replace(" %", ""))
+        righe[c[0]] = (byte, delta, agree)
+    return righe
+
+
+def test_la_tabella_di_compilazione_coincide_con_il_csv():
+    readme = _tabella_compilazione()
+    csv = pd.read_csv(RESULTS / "kan14_compile_real.csv").set_index("compilazione")
+    assert set(readme) == set(COMPILAZIONI), (
+        f"righe inattese: {set(readme) ^ set(COMPILAZIONI)}")
+    for nome, (byte, delta, agree) in readme.items():
+        riga = csv.loc[COMPILAZIONI[nome]]
+        assert byte == int(riga.mem_bytes), (
+            f"{nome}: README {byte} B, CSV {riga.mem_bytes} B")
+        assert abs(delta - float(riga.delta_f1)) < 5e-5, (
+            f"{nome}: README ΔF1 {delta}, CSV {riga.delta_f1}")
+        assert abs(agree - float(riga.agreement_pct)) < 5e-4, (
+            f"{nome}: README agreement {agree} %, CSV {riga.agreement_pct} %. "
+            f"Il valore 100.000 % che stava qui veniva dal protocollo v1, su "
+            f"un modello diverso.")
+
+
+def test_il_readme_non_dichiara_piu_lossless_la_compilazione_int16():
+    """Non basta correggere la cifra: la parola diceva la stessa cosa sbagliata."""
+    blocco = (REPO / "README.md").read_text(encoding="utf-8")
+    blocco = blocco[blocco.index(INIZIO_COMP):blocco.index(FINE_COMP)]
+    assert "lossless" not in blocco.lower(), (
+        "la tabella di compilazione dichiara di nuovo una riga 'lossless': "
+        "l'agreement misurato e' 99,995 %, non 100 %")

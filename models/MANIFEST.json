@@ -7,7 +7,7 @@
     43,
     44
   ],
-  "data_export": "2026-08-27",
+  "data_export": "2026-08-28",
   "spazio_feature": {
     "feature_numeriche": [
       "src_ip_bytes",
@@ -71,8 +71,8 @@
       "descrizione": "KAN multi-layer multiclass [14 -> 16 hidden -> 10]",
       "prodotto_da": "scripts/kan_ml_cat_mc.py",
       "byte": 41507,
-      "versionato": false,
-      "nota": "non committato per dimensione: rigenerabile con lo script indicato"
+      "versionato": true,
+      "nota": ""
     }
   ],
   "header_c_deployabili": [
@@ -82,19 +82,27 @@
     },
     {
       "file": "mcu_pio/include/kan14_coeff_infer.h",
-      "byte": 2184
+      "byte": 2191
     },
     {
       "file": "mcu_pio/include/kan14_coeff_int8.h",
       "byte": 2002
     },
     {
+      "file": "mcu_pio/include/kan14_lut_infer.h",
+      "byte": 3316
+    },
+    {
+      "file": "mcu_pio/include/kan14_lut_int16.h",
+      "byte": 19348
+    },
+    {
       "file": "mcu_pio/include/kan14_mc_coeff_infer.h",
-      "byte": 2771
+      "byte": 2758
     },
     {
       "file": "mcu_pio/include/kan14_mc_coeff_int8.h",
-      "byte": 35743
+      "byte": 35627
     },
     {
       "file": "mcu_pio/include/kan14_mc_test_vectors.h",
@@ -102,7 +110,7 @@
     },
     {
       "file": "mcu_pio/include/kan14_ml_coeff_infer.h",
-      "byte": 3044
+      "byte": 3031
     },
     {
       "file": "mcu_pio/include/kan14_ml_coeff_int8.h",
@@ -142,7 +150,7 @@
     },
     {
       "file": "mcu_pio/include/kan_mc_e2e_int.h",
-      "byte": 97647
+      "byte": 97952
     },
     {
       "file": "mcu_pio/include/mlp16_infer.h",
@@ -157,6 +165,10 @@
       "byte": 18212
     },
     {
+      "file": "mcu_pio/include/q15_mul.h",
+      "byte": 2599
+    },
+    {
       "file": "mcu_pio/include/test_vectors.h",
       "byte": 4848
     }
@@ -165,6 +177,7 @@
     "mcu_pio/host_check/run_coeff_check.cpp",
     "mcu_pio/host_check/run_e2e_check.cpp",
     "mcu_pio/host_check/run_host_check.cpp",
+    "mcu_pio/host_check/run_lut_check.cpp",
     "mcu_pio/host_check/run_mc_coeff_check.cpp",
     "mcu_pio/host_check/run_mc_e2e_check.cpp",
     "mcu_pio/host_check/run_ml_coeff_check.cpp",
@@ -237,7 +250,7 @@
     "F1 multiclass multi-layer": [
       {
         "modello": "KAN ml num10+cat4 (16h)",
-        "macro_f1": 0.9378,
+        "macro_f1": 0.9384,
         "weighted_f1": 0.9803,
         "parametri": 3392,
         "riferimento_lgbm": 0.9675
@@ -255,11 +268,11 @@
     ],
     "catena integer end-to-end 10 classi": [
       {
-        "macro_f1_float": 0.9378,
-        "macro_f1_e2e_int": 0.9352,
-        "delta": -0.0026,
-        "weighted_f1": 0.9785,
-        "agreement_pct": 99.42,
+        "macro_f1_float": 0.9384,
+        "macro_f1_e2e_int": 0.9362,
+        "delta": -0.0022,
+        "weighted_f1": 0.9786,
+        "agreement_pct": 99.44,
         "mem_bytes": 22264,
         "mem_kb": 21.74,
         "n_golden": 200

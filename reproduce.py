@@ -94,6 +94,12 @@ STAGES = {
         [[PY, "scripts/export_e2e_int_c.py"],
          [PY, "scripts/e2e_int_pipeline.py"]],
     ),
+    "firmware-size": (
+        "compila ogni environment con PlatformIO e misura Flash e SRAM del "
+        "binario flashato (results/firmware_size.csv + il blocco del README). "
+        "FUORI da 'all': richiede PlatformIO e le sue toolchain",
+        [[PY, "scripts/firmware_size.py", "--readme"]],
+    ),
     "integer-10classi": (
         "rigenera i due header C a 10 classi. FUORI da 'all', e da usare solo "
         "sapendo che sovrascrive artefatti congelati con versioni equivalenti "
@@ -119,6 +125,13 @@ STAGES = {
         # e' il modello con cui la KAN viene confrontata piu' spesso.
         [[PY, "scripts/export_tree_c.py"],
          [PY, "scripts/export_mlp_int_c.py"]],
+    ),
+    "lut": (
+        "campiona la KAN single-layer deployata in una LUT int16 e misura il "
+        "compromesso rispetto ai coefficienti (byte, limite di scostamento del "
+        "logit, decisioni). Sta PRIMA di 'footprint' perche' i suoi byte si "
+        "leggono dall'header prodotto qui",
+        [[PY, "scripts/export_kan14_lut_c.py"]],
     ),
     "footprint": (
         "ingombro dei parametri di tutti i modelli, regola di conteggio unica",
@@ -202,7 +215,7 @@ STAGES = {
 ORDER = ["tests", "audit", "leakage-audit", "features", "architettura",
          "cv-binary", "cv-multiclass",
          "crossdomain", "joint", "statistica", "tabelle", "compile", "integer", "conformal",
-         "nested-cv", "models", "baseline-c", "footprint",
+         "nested-cv", "models", "baseline-c", "lut", "footprint",
          "footprint-architettura", "interpretabilita", "figures", "report"]
 
 # Due stage restano FUORI da ORDER di proposito: "multiclass-state" e
@@ -213,6 +226,22 @@ ORDER = ["tests", "audit", "leakage-audit", "features", "architettura",
 # congelati, verificati bit-esatti dai check host; rigenerarli dentro
 # `--stage all` sostituirebbe in silenzio un artefatto di deployment
 # verificato con uno diverso, senza guadagnare riproducibilita'.
+#
+# Il relatore ha chiesto (rc3, punto 7) di salvare lo stato canonico da cui
+# quegli header si rigenerano esattamente. La via e' questa, e va percorsa
+# UNA volta, di proposito:
+#
+#     python reproduce.py --stage multiclass-state    # riaddestra
+#     python scripts/export_models.py                 # copia in models/
+#     python reproduce.py --stage integer-10classi    # riemette i due header
+#
+# Da li' in poi la differenza e' sostanziale: l'header smette di essere
+# l'unica copia di una cosa perduta e diventa la funzione deterministica di
+# un file versionato, che tests/test_stato_multiclasse.py riemette e
+# confronta byte per byte. Il riaddestramento resta fuori da `all` — rifarlo
+# darebbe un altro stato, non lo stesso — mentre l'export da quello stato e'
+# deterministico. Il prezzo, da dichiarare quando si fa: le cifre del
+# modello a 10 classi si spostano di 6 decimillesimi di macro-F1.
 
 
 def env_report() -> str:

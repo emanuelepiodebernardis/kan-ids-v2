@@ -5,6 +5,7 @@
 #pragma once
 #include <stdint.h>
 #include "kan14_ml_coeff_int8.h"
+#include "q15_mul.h"
 
 #ifdef __AVR__
   #define KML_RD8(p)  ((int8_t)pgm_read_byte(&(p)))
@@ -42,7 +43,7 @@ static inline int32_t kan14_ml_logit(const int16_t xq[10], const uint8_t cat[4])
     for (uint8_t h = 0; h < KML_HID; h++) {
       int32_t acc = b[0]*KML_RD8(KML_C1[i][h][seg])   + b[1]*KML_RD8(KML_C1[i][h][seg+1])
                   + b[2]*KML_RD8(KML_C1[i][h][seg+2]) + b[3]*KML_RD8(KML_C1[i][h][seg+3]);
-      H[h] += (int32_t)(((int64_t)acc * KML_RD16(KML_M1[i][h])) >> 15);
+      H[h] += q15_mul_shift(acc, KML_RD16(KML_M1[i][h]));
     }
   }
   /* ---- edge categorici tabellari nel layer 1 ---- */
@@ -55,7 +56,7 @@ static inline int32_t kan14_ml_logit(const int16_t xq[10], const uint8_t cat[4])
   /* ---- tanh LUT + layer 2 ---- */
   int32_t z = 0;
   for (uint8_t h = 0; h < KML_HID; h++) {
-    int32_t idx = (int32_t)(((int64_t)H[h] * KML_IDX_MULT) >> 30) + KML_TANH_N / 2;
+    int32_t idx = (q15_mul_shift(H[h], KML_IDX_MULT) >> 15) + KML_TANH_N / 2;
     if (idx < 0) idx = 0;
     if (idx > KML_TANH_N - 1) idx = KML_TANH_N - 1;
     int32_t a = KML_RD16(KML_TANH[idx]);                /* Q15 in [-1,1]  */
@@ -67,7 +68,7 @@ static inline int32_t kan14_ml_logit(const int16_t xq[10], const uint8_t cat[4])
     int32_t b[4]; kml_bases(t, b);
     int32_t acc = b[0]*KML_RD8(KML_C2[h][seg])   + b[1]*KML_RD8(KML_C2[h][seg+1])
                 + b[2]*KML_RD8(KML_C2[h][seg+2]) + b[3]*KML_RD8(KML_C2[h][seg+3]);
-    z += (int32_t)(((int64_t)acc * KML_RD16(KML_M2[h])) >> 15);
+    z += q15_mul_shift(acc, KML_RD16(KML_M2[h]));
   }
   return z;
 }

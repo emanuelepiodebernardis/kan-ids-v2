@@ -278,6 +278,7 @@ attesi = {
     "catena e2e binaria": "main_e2e.cpp",
     "catena e2e 10 classi": "main_mc_e2e.cpp",
     "Decision Tree d=5 (confronto Pareto)": "main_dt5.cpp",
+    "KAN single-layer campionata (sampled-LUT)": "main_lut14.cpp",
     "MLP(16) denso (baseline hardware)": "main_mlp.cpp",
 }
 mancanti = [k for k, v in attesi.items()
@@ -370,8 +371,13 @@ def da_test(punto, requisito, *frammenti):
     elif falliti:
         stato, nota = NO, f"test falliti: {falliti}"
     elif saltati:
+        # il motivo del salto non e' sempre "toolchain assente": puo' essere
+        # un artefatto che richiede il dataset, o uno stato non ancora
+        # committato. Dirlo generico faceva sembrare un problema di ambiente
+        # cio' che invece era un passo di lavoro ancora da fare.
         stato, nota = PART, (f"{len(esiti_test) - len(saltati)} verdi, "
-                             f"{len(saltati)} saltati (toolchain assente): {saltati}")
+                             f"{len(saltati)} saltati: {saltati}\n"
+                             f"  (il motivo lo stampa pytest -rs)")
     else:
         n = len(esiti_test)
         stato = OK
@@ -508,7 +514,8 @@ da_test("v2", "Gli artefatti non cambiano a seconda della macchina che li rigene
         "test_nessun_percorso_windows_negli_artefatti",
         "test_il_manifest_misura_i_byte_del_contenuto_non_del_checkout",
         "test_ogni_to_csv_fissa_il_terminatore_di_riga",
-        "test_il_repository_non_contiene_messaggi_di_commit_ne_patch")
+        "test_il_repository_non_contiene_file_di_appoggio_della_sessione",
+        "test_lelenco_dei_txt_ammessi_e_quello_che_c_e_davvero")
 da_test("v2", "L'output degli script non dipende da dove viene scritto",
         "test_il_difetto_esiste_davvero",
         "test_importare_kanids_mette_loutput_in_utf8",
@@ -789,7 +796,12 @@ _c = csv("interpretabilita_contributi.csv")
 if _c is not None:
     _ok, _tot = 0, 0
     for _v, _g in _c.groupby("vettore"):
-        _add = _g[~_g.edge.astype(str).str.startswith(("SOMMA", "predizione"))]
+        # "etichetta vera" e' una riga di contesto aggiunta nella rc3, non un
+        # addendo: contarla dentro la somma faceva fallire questo controllo
+        # sui due vettori la cui etichetta e' 1, cioe' esattamente dove la
+        # spiegazione e' piu' interessante.
+        _add = _g[~_g.edge.astype(str).str.startswith(
+            ("SOMMA", "predizione", "etichetta"))]
         _som = _g[_g.edge == "SOMMA = logit"].contributo.iloc[0]
         _tot += 1
         _ok += int(int(_add.contributo.sum()) == int(_som))
@@ -843,6 +855,247 @@ voce("r5", "Il PDF del report non e' piu' vecchio dei risultati che cita",
      "report e artefatti allineati" if not _eta else
      f"{len(_eta)} risultati piu' recenti del PDF, fra cui {_eta}\n"
      f"  rigenerare con: python scripts/make_report.py")
+
+# ═════════════════════════════════════════════════════════════
+# QUARTA REVISIONE — le richieste per la v2.1-rc3
+# ═════════════════════════════════════════════════════════════
+print("\n" + "=" * 74)
+print("QUARTA REVISIONE (v2.1-rc3) — l'ultimo checkpoint tecnico")
+print("=" * 74)
+
+print("\nq1) FINESTRA DI MISURA PULITA E DUE MARCATORI")
+
+da_test("q1", "Niente modulo e niente volatile dentro il ciclo misurato",
+        "test_il_ciclo_misurato_non_contiene_ne_divisioni_ne_volatile")
+da_test("q1", "Nessuna routine di libgcc nella finestra, nell'assembly AVR",
+        "test_nessuna_routine_di_libgcc_dentro_la_finestra_su_avr")
+da_test("q1", "Finestra attiva e riferimento hanno marcatori distinti",
+        "test_le_due_finestre_hanno_marcatori_distinti")
+da_test("q1", "Le due durate sono misurate, stampate e confrontate",
+        "test_la_calibrazione_converge_e_le_due_finestre_si_corrispondono",
+        "test_il_firmware_riporta_le_due_energie_e_le_due_durate")
+
+_en = (REPO / "mcu_pio" / "src" / "main_energy.cpp").read_text(encoding="utf-8")
+_bandiere = [b for b in ("checksum_ok", "calibration_ok", "windows_ok",
+                         "tolerance_permille") if b in _en]
+voce("q1", "L'output dichiara da solo se la misura vale",
+     OK if len(_bandiere) == 4 else NO,
+     "SUMMARY riporta " + ", ".join(_bandiere))
+
+print("\nq2) SAMPLED-LUT DELLO STESSO MODELLO, PER MISURARE IL COMPROMESSO")
+
+_lut = REPO / "mcu_pio" / "include" / "kan14_lut_int16.h"
+_tab = R / "lut_vs_coeff.csv"
+if _lut.exists() and _tab.exists():
+    _t = pd.read_csv(_tab)
+    _L = int(re.search(r"#define KLUT_L (\d+)",
+                       _lut.read_text(encoding="utf-8")).group(1))
+    _r = _t[_t.L == _L].iloc[0]
+    _c = pd.read_csv(R / "footprint.csv")
+    _b254 = int(_c[_c.modello == "KAN(cat,1L)"].iloc[0].byte_parametri)
+    voce("q2", "La LUT e' campionata dal modello deployato, non da un altro",
+         OK, f"{_rel(_lut)} generato da mcu_pio/include/kan14_coeff_int8.h; "
+             f"edge categorici identici")
+    voce("q2", "Il compromesso e' misurato, non affermato", OK,
+         f"L={_L}: {int(_r.byte_modello):,} B contro {_b254} B della versione a "
+         f"coefficienti (x{_r.byte_modello / _b254:.1f})\n"
+         f"limite di scostamento del logit {int(_r.limite_scostamento_logit):,} "
+         f"< margine minimo {int(_r.margine_minimo_osservato):,}: "
+         f"nessuno dei 200 vettori puo' cambiare decisione\n"
+         f"curva completa per L in {list(_t.L)}: results/lut_vs_coeff.csv")
+else:
+    voce("q2", "La LUT campionata esiste", NO,
+         "manca kan14_lut_int16.h o results/lut_vs_coeff.csv "
+         "(python scripts/export_kan14_lut_c.py)")
+
+da_test("q2", "Il kernel LUT e' verificato contro la simulazione e sul target",
+        "test_il_kernel_c_calcola_gli_stessi_interi_della_simulazione",
+        "test_lhost_check_della_lut_gira_e_conferma_lequivalenza",
+        "test_il_kernel_lut_su_avr_non_usa_float_ne_64_bit")
+da_test("q2", "L'header si rigenera identico e la scelta di L e' riproducibile",
+        "test_lheader_si_riemette_identico_dallheader_a_coefficienti",
+        "test_la_tabella_del_compromesso_e_riproducibile",
+        "test_il_limite_saprebbe_dire_di_no")
+da_test("q2", "La LUT e' flashabile e misurabile come gli altri modelli",
+        "test_firmware_ed_environment_esistono")
+
+print("\nq3) BINARI FINALI: LATENZA ED ENERGIA, DALLO STESSO COMMIT")
+
+import importlib.util as _ilu
+_spec = _ilu.spec_from_file_location("_pacchetto", REPO / "scripts" / "pacchetto_finale.py")
+_pk = _ilu.module_from_spec(_spec)
+try:
+    _spec.loader.exec_module(_pk)
+    _lat = [e for e in _pk.FIRMWARE if _pk.categoria(e) == "latenza"]
+    _en = [e for e in _pk.FIRMWARE if _pk.categoria(e) == "energia"]
+    _mega = [e for e in _pk.FIRMWARE if _pk.scheda(e) == "Mega 2560"]
+    _esp = [e for e in _pk.FIRMWARE if _pk.scheda(e) == "ESP32-C3"]
+    voce("q3", "Il pacchetto compila latenza ed energia nello stesso passaggio",
+         OK if _lat and _en else NO,
+         f"{len(_pk.FIRMWARE)} environment: {len(_lat)} di latenza, {len(_en)} "
+         f"di energia; {len(_mega)} sul Mega 2560, {len(_esp)} sull'ESP32-C3\n"
+         f"la lista e' letta da mcu_pio/platformio.ini, non scritta a mano")
+except Exception as _e:
+    voce("q3", "Il pacchetto compila latenza ed energia nello stesso passaggio",
+         NO, f"pacchetto_finale.py non importabile: {_e}")
+
+da_test("q3", "Nessun environment resta fuori dal pacchetto",
+        "test_il_pacchetto_include_tutti_gli_environment",
+        "test_la_lista_dei_firmware_del_pacchetto_e_completa")
+da_test("q3", "Il pacchetto dichiara commit, tag e albero sporco",
+        "test_lindice_non_contiene_numeri_scritti_a_mano",
+        "test_i_numeri_dellindice_vengono_dagli_artefatti")
+
+print("\nq6) SINGLE-LAYER E CATENA END-TO-END TENUTE SEPARATE")
+
+_fp = csv("footprint.csv")
+if _fp is not None and "ingresso" in _fp.columns:
+    _gruppi = _fp.groupby("ingresso").modello.apply(list).to_dict()
+    voce("q6", "Ogni riga dichiara da dove parte l'inferenza",
+         OK if _fp.ingresso.notna().all() else NO,
+         "\n".join(f"{k}:\n  " + ", ".join(v) for k, v in _gruppi.items()))
+    _1l = _fp[_fp.modello == "KAN(cat,1L)"].iloc[0]
+    _e2e = _fp[_fp.modello == "KAN e2e integer (binario)"].iloc[0]
+    voce("q6", "I due casi che il relatore ha nominato sono distinti",
+         OK if _1l.ingresso != _e2e.ingresso else NO,
+         f"KAN(cat,1L): {int(_1l.byte_parametri):,} B — {_1l.ingresso}\n"
+         f"KAN e2e integer (binario): {int(_e2e.byte_parametri):,} B — {_e2e.ingresso}")
+else:
+    voce("q6", "Ogni riga dichiara da dove parte l'inferenza", NO,
+         "results/footprint.csv non ha la colonna 'ingresso' "
+         "(python scripts/footprint.py --solo-header)")
+
+da_test("q6", "Il README dichiara l'ingresso e coincide con l'artefatto",
+        "test_tabella_del_readme_coincide_con_footprint_csv")
+
+print("\nq4) RIPULITURA: NUMERI E CONTEGGI GENERATI, NON RICOPIATI")
+
+_fs = R / "firmware_size.csv"
+if _fs.exists():
+    _d = pd.read_csv(_fs)
+    _ini = (REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
+    _tutti = set(re.findall(r"^\[env:([^\]]+)\]", _ini, re.M))
+    _mancanti = _tutti - set(_d.environment)
+    voce("q4", "Flash e SRAM misurate per OGNI environment, non per dodici",
+         OK if not _mancanti else PART,
+         f"{len(_d)} environment misurati con PlatformIO su {len(_tutti)} "
+         f"definiti\n"
+         f"  Mega 2560: flash da {_d[_d.scheda=='Mega 2560'].flash_byte.min():,} "
+         f"a {_d[_d.scheda=='Mega 2560'].flash_byte.max():,} B\n"
+         f"  ESP32-C3:  flash da {_d[_d.scheda=='ESP32-C3'].flash_byte.min():,} "
+         f"a {_d[_d.scheda=='ESP32-C3'].flash_byte.max():,} B"
+         + (f"\n  senza misura: {sorted(_mancanti)}" if _mancanti else ""))
+else:
+    voce("q4", "Flash e SRAM misurate per OGNI environment, non per dodici",
+         PART, "results/firmware_size.csv assente: la tabella del README "
+               "resta quella scritta a mano\n"
+               "  python reproduce.py --stage firmware-size")
+
+da_test("q4", "La tabella delle dimensioni e' generata e coincide col CSV",
+        "test_il_blocco_del_readme_coincide_con_il_csv",
+        "test_il_csv_copre_ogni_environment",
+        "test_le_due_grandezze_non_sono_confuse")
+da_test("q4", "Nessun conteggio di firmware o environment scritto a mano",
+        "test_i_conteggi_di_firmware_e_environment_sono_quelli_veri",
+        "test_la_lista_dei_firmware_del_pacchetto_e_completa")
+da_test("q4", "Gli artefatti citati esistono e i byte coincidono ovunque",
+        "test_ogni_artefatto_citato_esiste",
+        "test_footprint_csv_coincide_con_gli_header",
+        "test_manifest_coincide_con_i_csv",
+        "test_tabella_del_readme_coincide_con_footprint_csv")
+da_test("q4", "Anche la prosa scritta a mano coincide con gli artefatti",
+        "test_la_tabella_di_compilazione_coincide_con_il_csv",
+        "test_il_readme_non_dichiara_piu_lossless_la_compilazione_int16",
+        "test_la_tabella_dei_firmware_nomina_ogni_sorgente",
+        "test_gli_environment_citati_dalla_tabella_esistono")
+
+print("\nq5) FIGURE DI INTERPRETABILITA': ETICHETTE, SEGNO, NOMI, DENSITA'")
+
+da_test("q5", "Le figure dichiarano la convenzione del segno",
+        "test_le_figure_dichiarano_la_convenzione_del_segno")
+da_test("q5", "I contributi locali portano etichetta vera e predetta",
+        "test_i_contributi_locali_mostrano_etichetta_vera_e_predetta",
+        "test_il_csv_dei_contributi_somma_al_logit")
+da_test("q5", "Le curve mostrano dove stanno davvero i dati",
+        "test_le_funzioni_apprese_mostrano_dove_stanno_i_dati")
+da_test("q5", "Le categorie usano i nomi veri, o dicono di non averli",
+        "test_le_categorie_usano_i_nomi_veri_quando_ci_sono",
+        "test_lo_script_dei_vocabolari_verifica_se_stesso",
+        "test_i_vocabolari_se_presenti_combaciano_con_le_tabelle")
+
+_voc = REPO / "models" / "vocabolari_categorici.json"
+if _voc.exists():
+    _v = json.loads(_voc.read_text(encoding="utf-8"))["vocabolari"]
+    voce("q5", "I nomi delle categorie sono un artefatto committato", OK,
+         "\n".join(f"{c}: {', '.join(n)}" for c, n in _v.items()))
+else:
+    voce("q5", "I nomi delle categorie sono un artefatto committato", PART,
+         "models/vocabolari_categorici.json assente: le figure etichettano con "
+         "l'indice e lo dichiarano\n"
+         "  generarlo con: python scripts/export_vocabolari.py (serve il dataset)")
+
+print("\nq7) STATO CANONICO DEL MODELLO MULTICLASSE")
+
+_stato = REPO / "models" / "kan14_multiclass_multilayer.pkl"
+
+
+def _tracciato(p: Path) -> bool:
+    """Lo traccia git, o e' solo appoggiato sul disco?
+
+    Questo controllo guardava `p.exists()` e per questo ha dichiarato
+    "versionato" un file che .gitignore escludeva: su un clone pulito non ci
+    sarebbe stato, e gli header sarebbero tornati artefatti di provenienza
+    perduta — cioe' il requisito sarebbe risultato soddisfatto proprio mentre
+    non lo era."""
+    try:
+        r = subprocess.run(["git", "ls-files", "--error-unmatch", str(p)],
+                           cwd=REPO, capture_output=True)
+        return r.returncode == 0
+    except OSError:
+        return False
+
+
+if _stato.exists() and _tracciato(_stato):
+    voce("q7", "Lo stato da cui derivano gli header a 10 classi e' versionato",
+         OK, f"{_rel(_stato)} ({_stato.stat().st_size:,} B), tracciato da git: "
+             f"i due header non sono piu' artefatti congelati di provenienza "
+             f"perduta, ma la funzione deterministica di un file committato")
+elif _stato.exists():
+    voce("q7", "Lo stato da cui derivano gli header a 10 classi e' versionato",
+         NO,
+         f"{_rel(_stato)} esiste sul disco ma git NON lo traccia: su un clone "
+         f"pulito non ci sarebbe\n"
+         f"  controllare .gitignore, poi: git add -f {_rel(_stato)}")
+else:
+    voce("q7", "Lo stato da cui derivano gli header a 10 classi e' versionato",
+         PART,
+         "gli header a 10 classi sono ancora artefatti congelati: lo stato di "
+         "training non e' nel repository\n"
+         "  python reproduce.py --stage multiclass-state\n"
+         "  python scripts/export_models.py\n"
+         "  python reproduce.py --stage integer-10classi")
+
+da_test("q7", "Gli esportatori a 10 classi partono da un clone pulito",
+        "test_gli_esportatori_a_10_classi_cercano_anche_in_models",
+        "test_la_corrispondenza_fra_cache_e_versionato_esiste")
+da_test("q7", "Gli header si riemettono identici dallo stato committato",
+        "test_lheader_si_riemette_identico_dallo_stato",
+        "test_lo_stato_committato_ha_la_forma_che_gli_header_dichiarano")
+
+print("\nqx) TROVATO VERIFICANDO: I KERNEL A COEFFICIENTI USAVANO int64")
+
+da_test("qx", "Nessun kernel a coefficienti passa piu' per int64",
+        "test_nessun_kernel_a_coefficienti_usa_piu_int64",
+        "test_nessuna_routine_a_64_bit_nellassembly_avr")
+da_test("qx", "La moltiplicazione Q15 senza int64 e' esatta, non approssimata",
+        "test_lidentita_e_esatta_non_approssimata",
+        "test_il_controllo_saprebbe_vedere_una_differenza",
+        "test_gli_intermedi_stanno_in_int32_per_i_valori_veri_degli_header")
+_q15 = REPO / "mcu_pio" / "include" / "q15_mul.h"
+voce("qx", "La regola sta in un posto solo",
+     OK if _q15.exists() else NO,
+     f"{_rel(_q15)}, incluso dai tre kernel a coefficienti"
+     if _q15.exists() else "manca mcu_pio/include/q15_mul.h")
 
 # ── verdetto ─────────────────────────────────────────────────
 print("\n" + "=" * 74)

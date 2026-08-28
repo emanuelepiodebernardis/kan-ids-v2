@@ -2,7 +2,7 @@
  *
  * Perche' serve un firmware separato
  * ----------------------------------
- * Gli otto firmware di latenza cronometrano UNA inferenza per volta e fra una
+ * I nove firmware di latenza cronometrano UNA inferenza per volta e fra una
  * misura e la successiva stampano 5-9 valori su Serial. Per la latenza va
  * bene: fra t0 e t1 c'e' solo la chiamata al kernel. Per l'energia no: uno
  * strumento misura la corrente assorbita nel tempo, e in quel tempo la UART
@@ -15,17 +15,22 @@
  * ----------------------------------------------------------
  * Ogni ripetizione produce due finestre della STESSA durata, adiacenti:
  *
- *     pin ALTO   finestra ATTIVA: EB_BATCH inferenze consecutive, e nulla
- *                altro. Nessuna Serial, nessun Wire, nessun delay, nessun
- *                accesso a PROGMEM: i vettori di ingresso sono gia' in RAM.
- *     pin BASSO  finestra di RIFERIMENTO: la CPU gira a vuoto su `nop` per
- *                un numero di giri calibrato in modo da durare quanto la
- *                finestra attiva. Stesso clock, stesse periferiche, stessa
- *                durata, nessuna inferenza.
+ *     EB_PIN alto      finestra ATTIVA: EB_BATCH inferenze consecutive, e
+ *                      nulla altro. Nessuna Serial, nessun Wire, nessun
+ *                      delay, nessun accesso a PROGMEM: i vettori di
+ *                      ingresso sono gia' in RAM, e l'indice avanza con un
+ *                      confronto (niente divisioni nel ciclo misurato).
+ *     EB_PIN_REF alto  finestra di RIFERIMENTO: la CPU gira a vuoto su `nop`
+ *                      per un numero di giri calibrato in modo da durare
+ *                      quanto la finestra attiva. Stesso clock, stesse
+ *                      periferiche, stessa durata, nessuna inferenza.
  *
- * Sul pin di marcatura esce quindi un'onda quadra al 50%: il semiperiodo
- * alto e' il carico, quello basso e' la linea di base. L'energia per
- * inferenza si ricava come
+ * I due marcatori sono pin DISTINTI (rc3): con un pin solo il livello basso
+ * significava sia "finestra di riferimento" sia "tutto il resto" — setup,
+ * intervalli fra le ripetizioni, stampe finali — e chi integra la corrente
+ * doveva fidarsi dell'ordine invece di leggerlo dalla traccia. Adesso ogni
+ * finestra ha il suo fronte, e nessun campione entra nell'integrale
+ * sbagliato. L'energia per inferenza si ricava come
  *
  *     E_inf = (P_attiva - P_riferimento) * T_finestra / EB_BATCH
  *
@@ -62,14 +67,24 @@
  *   -DEB_E2E              catena integer end-to-end binaria, 1.334 B
  *   -DEB_DT5              albero di decisione profondo 5, 285 B
  *   -DEB_MLP              MLP piccolo, 16 nascosti ReLU, 760 B
+ *   -DEB_LUT14            KAN single-layer campionata (sampled-LUT), 5.194 B
  *
  * Altri parametri: -DEB_BATCH=n (inferenze per finestra), -DEB_REPS=n
- * (ripetizioni), -DEB_PIN=n (pin di marcatura), -DEB_NO_PIN (nessun pin).
+ * (ripetizioni), -DEB_PIN=n e -DEB_PIN_REF=n (i due marcatori),
+ * -DEB_TOLL_PERMILLE=n (quanto le due finestre possono discostarsi),
+ * -DEB_NO_PIN (nessun pin).
  *
- * Il pin di marcatura va collegato SOLO all'ingresso di trigger dello
- * strumento, che e' ad alta impedenza. Non usare il pin del LED di bordo:
+ * I pin di marcatura vanno collegati SOLO agli ingressi di trigger dello
+ * strumento, che sono ad alta impedenza. Non usare il pin del LED di bordo:
  * il LED assorbe corrente e finirebbe dentro la misura. Per questo il
  * default non e' LED_BUILTIN.
+ *
+ * Che cosa controllare nell'output prima di fidarsi di una misura:
+ *   checksum_ok=1        le inferenze sono avvenute (nessuna finestra vuota)
+ *   calibration_ok=1     la calibrazione del ciclo di riferimento e' riuscita
+ *   windows_ok=1         le due finestre durano lo stesso entro tolleranza
+ * Le due durate misurate e il loro scarto in parti per mille sono su ogni
+ * riga: sono numeri, non promesse.
  */
 #ifdef HOST_CHECK
   #include "arduino_stub.h"
@@ -81,7 +96,8 @@
 
 /* ── selezione della variante ─────────────────────────────────────── */
 #if !defined(EB_COEFF) && !defined(EB_MLCOEFF) && !defined(EB_MC) && \
-    !defined(EB_E2E) && !defined(EB_DT5) && !defined(EB_MLP)
+    !defined(EB_E2E) && !defined(EB_DT5) && !defined(EB_MLP) && \
+    !defined(EB_LUT14)
   #define EB_COEFF
 #endif
 
@@ -114,6 +130,14 @@
   #include "mlp16_test_vectors.h"
   #define EB_NAME       "mlp16_int8"
   #define EB_MODEL_BYTES 760
+#elif defined(EB_LUT14)
+  /* Stessa KAN single-layer di EB_COEFF, funzioni campionate invece che a
+   * coefficienti: gli ingressi e le predizioni attese sono gli stessi, quindi
+   * la differenza misurata e' quella della sola rappresentazione. */
+  #include "kan14_lut_infer.h"
+  #include "kan14_test_vectors.h"
+  #define EB_NAME       "lut_int16"
+  #define EB_MODEL_BYTES 5194
 #endif
 
 /* ── parametri ────────────────────────────────────────────────────── */
@@ -131,6 +155,20 @@
     #define EB_PIN 22              /* pin digitale libero sul Mega, NON il LED */
   #else
     #define EB_PIN 3               /* GPIO libero su ESP32-C3 DevKitM-1 */
+  #endif
+#endif
+/* Marcatore della finestra di RIFERIMENTO, separato da quello della finestra
+ * attiva. Con un pin solo il livello basso significa due cose diverse — la
+ * finestra di riferimento E tutto il resto (setup, intervalli fra le
+ * ripetizioni, stampe finali) — e chi integra la corrente deve fidarsi
+ * dell'ordine invece di leggerlo. Con due pin ogni finestra ha il suo
+ * marcatore alto, e le due integrazioni si ritagliano dalla traccia senza
+ * ambiguita'. */
+#ifndef EB_PIN_REF
+  #if defined(__AVR__)
+    #define EB_PIN_REF 24          /* adiacente al 22 sullo stesso header */
+  #else
+    #define EB_PIN_REF 4           /* GPIO libero accanto al 3 */
   #endif
 #endif
 
@@ -185,6 +223,11 @@ static void eb_load(void) {
     #define EB_TVC KMLTV_CAT
     #define EB_TVE KMLTV_EXPECTED
     #define EB_TVN KMLTV_N
+  #elif defined(EB_LUT14)
+    #define EB_TVX KTV_X
+    #define EB_TVC KTV_CAT
+    #define EB_TVE KTV_EXPECTED
+    #define EB_TVN KTV_N
   #elif defined(EB_MLP)
     #define EB_TVX MLPTV_X
     #define EB_TVC MLPTV_CAT
@@ -219,11 +262,67 @@ static inline uint8_t eb_one(uint8_t i) {
   return dt5_predict(eb_x[i]);
 #elif defined(EB_MLP)
   return mlp16_predict(eb_x[i], eb_c[i]);
+#elif defined(EB_LUT14)
+  return kan14_lut_predict(eb_x[i], eb_c[i]);
 #endif
 }
 
 /* ── accumulatore volatile: senza, il ciclo puo' sparire ──────────── */
 static volatile uint32_t eb_acc = 0;
+
+/* LA FINESTRA MISURATA, e nient'altro (richiesta del Prof. Kuznetsov, rc3).
+ *
+ * La versione precedente scriveva
+ *
+ *     for (uint32_t k = 0; k < EB_BATCH; k++) eb_acc += eb_one(k % EB_CACHE);
+ *
+ * e dentro la finestra pagava due costi estranei al modello. Il primo e'
+ * `k % EB_CACHE`: k e' un uint32 e EB_CACHE non e' una potenza di due,
+ * quindi su AVR ogni giro chiamava __udivmodsi4 — una routine di libgcc da
+ * qualche centinaio di cicli, contro le poche centinaia dell'inferenza
+ * intera che si vuole misurare. Il secondo e' `eb_acc +=` su un volatile:
+ * quattro byte riletti dalla RAM, sommati e riscritti a ogni giro, e
+ * l'accumulatore escluso dai registri per definizione.
+ *
+ * Adesso l'indice avanza con un confronto e un azzeramento (la sequenza
+ * degli ingressi e' identica: 0,1,...,EB_CACHE-1,0,1,...), la somma vive in
+ * un registro, e il volatile viene scritto UNA volta alla fine del batch.
+ * Scriverlo alla fine basta a impedire l'eliminazione del ciclo, perche' il
+ * valore osservabile dipende da tutte le inferenze.
+ *
+ * Il ciclo resta piatto di proposito. Scriverlo annidato — EB_BATCH/EB_CACHE
+ * giri esterni su EB_CACHE vettori — avrebbe tolto anche il confronto, ma il
+ * ciclo interno sarebbe stato invariante rispetto a quello esterno: un
+ * compilatore autorizzato a sollevarlo eseguirebbe EB_CACHE inferenze e
+ * moltiplicherebbe per il resto, e il checksum tornerebbe lo stesso. Sarebbe
+ * la finestra vuota che questo firmware esiste per rendere impossibile.
+ *
+ * E' una funzione a se' perche' cosi' la si puo' ispezionare nell'assembly
+ * emesso per ATmega2560: un test pretende che il suo corpo non contenga
+ * NESSUNA chiamata a libgcc (niente __udivmodsi4, niente soft-float, niente
+ * helper a 64 bit). La finestra misurata e' un oggetto con un nome. */
+#if defined(__GNUC__)
+  #define EB_NOINLINE __attribute__((noinline))
+#else
+  #define EB_NOINLINE
+#endif
+
+/* `noinline` di proposito: cinque chiamate in tutto (una per ripetizione,
+ * fuori dal conteggio delle inferenze) in cambio di una funzione che esiste
+ * nell'assembly con un nome e dei confini. Senza, il compilatore la fonde
+ * dentro setup() e la finestra misurata non e' piu' un oggetto che si possa
+ * ispezionare: il test che pretende zero chiamate a libgcc nel ciclo non
+ * saprebbe dove guardare. */
+static EB_NOINLINE uint32_t eb_finestra_attiva(uint32_t giri) {
+  uint32_t acc = 0;
+  uint8_t  i   = 0;
+  while (giri--) {
+    acc += eb_one(i);
+    if (++i == (uint8_t)EB_CACHE) i = 0;
+  }
+  eb_acc = acc;                    /* unico accesso al volatile del batch */
+  return acc;
+}
 
 /* Quanti giri del ciclo di riferimento stanno in un microsecondo, in Q8.
  *
@@ -259,8 +358,15 @@ static void eb_nop_loop(uint32_t giri) {
 }
 
 static void eb_calibra(void) {
+  /* Venti raddoppi, non dodici. Dodici bastano su un AVR a 16 MHz, dove il
+   * ciclo di riferimento e' lento; su un core veloce — ESP32-C3, o l'host su
+   * cui gira la verifica — 20000<<11 giri stanno sotto i 50 ms e la
+   * calibrazione finiva i tentativi, ripiegando su un valore arbitrario e
+   * dichiarando calibration_ok=0. Il ripiego funzionava come previsto, ma
+   * una calibrazione che non converge sulla macchina piu' comune non e' una
+   * calibrazione. Il limite superiore evita di far traboccare `giri`. */
   uint32_t giri = 20000UL;
-  for (uint8_t tent = 0; tent < 12; tent++) {
+  for (uint8_t tent = 0; tent < 20 && giri < (1UL << 31); tent++) {
     const uint32_t t0 = micros();
     eb_nop_loop(giri);
     const uint32_t dt = (uint32_t)(micros() - t0);
@@ -287,10 +393,34 @@ static void eb_calibra(void) {
 static uint32_t eb_riferimento(uint32_t durata_us) {
   const uint32_t giri =
       (uint32_t)(((uint64_t)eb_nop_per_us_q8 * durata_us) >> 8);
+#ifndef EB_NO_PIN
+  digitalWrite(EB_PIN_REF, HIGH);
+#endif
   const uint32_t t0 = micros();
   eb_nop_loop(giri);
-  return (uint32_t)(micros() - t0);
+  const uint32_t dt = (uint32_t)(micros() - t0);
+#ifndef EB_NO_PIN
+  digitalWrite(EB_PIN_REF, LOW);
+#endif
+  return dt;
 }
+
+/* Scarto fra le due finestre in parti per mille, con segno. E' il numero che
+ * rende verificabile la frase "stessa durata": se non e' piccolo, sottrarre
+ * la potenza di riferimento da quella attiva non produce un'energia. */
+static int32_t eb_permille(uint32_t attiva, uint32_t riferimento) {
+  if (attiva == 0) return 0;
+  return (int32_t)(((int64_t)riferimento - (int64_t)attiva) * 1000
+                   / (int64_t)attiva);
+}
+
+/* Quanto puo' discostarsi la finestra di riferimento prima che la misura non
+ * valga piu'. Il 5% e' largo per una calibrazione in Q8 su un ciclo di soli
+ * nop e stretto abbastanza da intercettare il difetto vero trovato prima
+ * (finestra di riferimento un SEDICESIMO di quella attiva, cioe' -937). */
+#ifndef EB_TOLL_PERMILLE
+  #define EB_TOLL_PERMILLE 50
+#endif
 
 void setup() {
   Serial.begin(115200);
@@ -312,6 +442,8 @@ void setup() {
 #ifndef EB_NO_PIN
   pinMode(EB_PIN, OUTPUT);
   digitalWrite(EB_PIN, LOW);
+  pinMode(EB_PIN_REF, OUTPUT);
+  digitalWrite(EB_PIN_REF, LOW);
 #endif
 
   Serial.print(F("# energy benchmark variant=")); Serial.print(F(EB_NAME));
@@ -320,13 +452,15 @@ void setup() {
   Serial.print(F(" reps="));  Serial.print((uint32_t)EB_REPS);
   Serial.print(F(" vectors_in_ram=")); Serial.print((uint32_t)EB_CACHE);
 #ifndef EB_NO_PIN
-  Serial.print(F(" marker_pin=")); Serial.print((uint32_t)EB_PIN);
+  Serial.print(F(" marker_pin_active=")); Serial.print((uint32_t)EB_PIN);
+  Serial.print(F(" marker_pin_ref="));    Serial.print((uint32_t)EB_PIN_REF);
 #else
   Serial.print(F(" marker_pin=none"));
 #endif
   Serial.println();
-  Serial.println(F("# finestra ALTA = inferenze, finestra BASSA = riferimento, "
-                   "stessa durata; nessun I/O fra le due"));
+  Serial.println(F("# due marcatori distinti: ALTO su marker_pin_active = "
+                   "finestra di inferenze, ALTO su marker_pin_ref = finestra "
+                   "di riferimento; nessun I/O dentro nessuna delle due"));
   Serial.println(F("# E_totale per inferenza  = P_alta * T_alta / batch"));
   Serial.println(F("# E_dinamica per inferenza = (P_alta - P_bassa) * T_alta / batch"));
   Serial.println(F("# la prima include il consumo statico del core sveglio, la "
@@ -346,8 +480,7 @@ void setup() {
     digitalWrite(EB_PIN, HIGH);
 #endif
     const uint32_t t0 = micros();
-    for (uint32_t k = 0; k < (uint32_t)EB_BATCH; k++)
-      eb_acc += eb_one((uint8_t)(k % EB_CACHE));
+    const uint32_t somma_rep = eb_finestra_attiva((uint32_t)EB_BATCH);
     const uint32_t t1 = micros();
 #ifndef EB_NO_PIN
     digitalWrite(EB_PIN, LOW);
@@ -355,23 +488,29 @@ void setup() {
     /* ---------- fine finestra ATTIVA ---------- */
 
     durata[rep] = t1 - t0;
-    somma[rep]  = eb_acc;
+    somma[rep]  = somma_rep;
 
     durata_rif[rep] = eb_riferimento(durata[rep]);   /* finestra BASSA */
   }
 
   /* Da qui in poi si puo' tornare a parlare. */
-  uint8_t tutte_ok = 1;
-  Serial.println(F("variant,rep,batch,window_us,ref_us,ns_per_inference,"
-                   "checksum,expected,ok"));
+  uint8_t tutte_ok = 1, finestre_ok = 1;
+  Serial.println(F("variant,rep,batch,window_us,ref_us,ref_vs_active_permille,"
+                   "windows_match,ns_per_inference,checksum,expected,ok"));
   for (uint8_t rep = 0; rep < EB_REPS; rep++) {
     const uint8_t ok = (somma[rep] == attesa_per_batch);
     if (!ok) tutte_ok = 0;
+    const int32_t pm = eb_permille(durata[rep], durata_rif[rep]);
+    const uint8_t pari = (pm <= (int32_t)EB_TOLL_PERMILLE &&
+                          pm >= -(int32_t)EB_TOLL_PERMILLE);
+    if (!pari) finestre_ok = 0;
     Serial.print(F(EB_NAME));     Serial.print(',');
     Serial.print(rep);            Serial.print(',');
     Serial.print((uint32_t)EB_BATCH); Serial.print(',');
     Serial.print(durata[rep]);    Serial.print(',');
     Serial.print(durata_rif[rep]); Serial.print(',');
+    Serial.print(pm);             Serial.print(',');
+    Serial.print(pari ? 1 : 0);   Serial.print(',');
     /* niente virgola mobile nemmeno qui: su AVR tirerebbe dentro le
      * routine soft-float di libgcc in un firmware che esiste per
      * misurare un modello integer-only. Nanosecondi in interi. */
@@ -395,12 +534,19 @@ void setup() {
   /* scarto fra le due finestre in parti per mille: se non e' piccolo, la
    * sottrazione del baseline non ha senso e va detto qui, non scoperto dopo. */
   Serial.print(F(" ref_vs_active_permille="));
-  Serial.print((int32_t)(((int64_t)tot_rif - (int64_t)tot) * 1000
-                         / (int64_t)(tot ? tot : 1)));
+  Serial.print(eb_permille(tot, tot_rif));
   Serial.print(F(" nop_per_us_q8=")); Serial.print(eb_nop_per_us_q8);
   Serial.print(F(" calibration_ok=")); Serial.print(eb_calibrazione_ok ? 1 : 0);
+  Serial.print(F(" windows_ok=")); Serial.print(finestre_ok ? 1 : 0);
+  Serial.print(F(" tolerance_permille=")); Serial.print((int32_t)EB_TOLL_PERMILLE);
   Serial.print(F(" checksum_ok=")); Serial.print(tutte_ok ? 1 : 0);
   Serial.println();
+  if (!finestre_ok) {
+    Serial.println(F("ATTENZIONE: le due finestre non hanno la stessa durata "
+                     "entro la tolleranza. La differenza fra le due potenze "
+                     "NON e' l'energia dinamica dell'inferenza: usare la sola "
+                     "finestra attiva, oppure ricalibrare."));
+  }
   if (!tutte_ok) {
     Serial.println(F("ATTENZIONE: il checksum non torna. Le inferenze nella "
                      "finestra potrebbero essere state eliminate dal "

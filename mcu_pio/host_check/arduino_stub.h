@@ -10,6 +10,23 @@
  * per entrambe le varianti #ifdef (AVR ed ESP32), simulate via -D.
  */
 #pragma once
+
+/* Un compile-check per il TARGET usa l'altro stub.
+ *
+ * Questo file esiste per l'host: usa <cstdint>, <cstdio> e std::printf, che
+ * avr-g++ non ha (niente libstdc++). Compilare un firmware con avr-g++ e
+ * -DHOST_CHECK e' pero' esattamente cio' che serve per leggere l'assembly
+ * emesso per ATmega2560, quindi qui si delega ad avr_stub.h invece di
+ * fallire su <cstdint>.
+ *
+ * La condizione e' __AVR_ARCH__, non __AVR__: __AVR__ lo definisce anche il
+ * test che compila sull'host il ramo #ifdef AVR del firmware (g++ -D__AVR__),
+ * e li' <avr/pgmspace.h> non esiste. __AVR_ARCH__ lo definisce soltanto
+ * avr-gcc vero. */
+#if defined(__AVR_ARCH__)
+#include "avr_stub.h"
+#else
+
 #include <cstdint>
 #include <cstdio>
 #include <cstdarg>
@@ -120,3 +137,5 @@ static SerialStub Serial;
 /* setup()/loop() dichiarati dallo sketch */
 void setup();
 void loop();
+
+#endif  /* !__AVR_ARCH__ */

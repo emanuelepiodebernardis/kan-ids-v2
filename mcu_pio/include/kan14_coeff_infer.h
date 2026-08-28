@@ -9,6 +9,7 @@
 #pragma once
 #include <stdint.h>
 #include "kan14_coeff_int8.h"
+#include "q15_mul.h"
 
 #ifdef __AVR__
   #define KC_RD8(p)  ((int8_t)pgm_read_byte(&(p)))
@@ -40,7 +41,7 @@ static inline int32_t kan14_coeff_logit(const int16_t xq[10], const uint8_t cat[
     int32_t c2 = KC_RD8(KC_COEF[i][seg + 2]);
     int32_t c3 = KC_RD8(KC_COEF[i][seg + 3]);
     int32_t acc = b0 * c0 + b1 * c1 + b2 * c2 + b3 * c3;
-    z += (int32_t)(((int64_t)acc * KC_RD16(KC_MULT[i])) >> 15);
+    z += q15_mul_shift(acc, KC_RD16(KC_MULT[i]));
   }
   for (uint8_t j = 0; j < KC_NCAT; j++) {
     int32_t cv = KC_RD8(KC_CAT[KC_CAT_OFF[j] + cat[j]]);

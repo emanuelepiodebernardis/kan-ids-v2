@@ -106,9 +106,16 @@ def test_i_numeri_dellindice_vengono_dagli_artefatti():
     if "footprint" not in n:
         pytest.skip("results/footprint.csv non presente")
     csv = pd.read_csv(REPO / "results" / "footprint.csv")
-    letti = {nome: byte for nome, byte, _ in n["footprint"]}
+    letti = {nome: (byte, ingresso) for nome, byte, _, ingresso in n["footprint"]}
     for r in csv.itertuples():
-        assert letti[r.modello] == int(r.byte_parametri)
+        byte, ingresso = letti[r.modello]
+        assert byte == int(r.byte_parametri)
+        # l'ingresso viaggia con i byte: separarli rimetterebbe nella stessa
+        # colonna un modello a feature preprocessate e una catena che parte
+        # dai contatori grezzi
+        assert ingresso == r.ingresso, (
+            f"{r.modello}: l'indice dice {ingresso!r}, footprint.csv "
+            f"{r.ingresso!r}")
 
 
 def test_lindice_spiega_come_aprire_i_file_su_windows(tmp_path):
@@ -160,24 +167,28 @@ def test_lindice_avverte_se_il_commit_non_ha_un_tag():
         "l'indice avverte anche quando il tag c'e'")
 
 
-def test_il_pacchetto_include_tutti_gli_environment_di_energia():
-    """La lista era scritta a mano e ne ometteva tre, fra cui la KAN
-    multi-layer — il modello che il relatore considera il miglior compromesso
-    in accuratezza. Gli environment esistevano in platformio.ini da sempre:
-    a mancare era solo la riga che li mette nel pacchetto, ed e' il tipo di
-    omissione che nessuno nota perche' non produce nessun errore."""
+def test_il_pacchetto_include_tutti_gli_environment():
+    """Latenza ED energia, per entrambe le schede, dallo stesso commit.
+
+    La lista era scritta a mano e ne ometteva tre, fra cui la KAN multi-layer;
+    poi e' rimasta ai soli environment di energia, e i binari di latenza
+    andavano ricompilati a parte — cioe' da un albero che nessuno garantiva
+    fosse lo stesso (richiesta del relatore, rc3 punto 3). Adesso la lista e'
+    letta da platformio.ini, che e' lo stesso file che PlatformIO legge."""
     import re
     m = _modulo()
     ini = (REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
-    definiti = {n for n in re.findall(r"^\[env:([^\]]+)\]", ini, re.M)
-                if "_energy" in n}
-    mancanti = definiti - set(m.FIRMWARE)
-    assert not mancanti, (
-        f"environment di energia definiti in platformio.ini ma non inclusi nel "
-        f"pacchetto: {sorted(mancanti)}")
-    inventati = set(m.FIRMWARE) - definiti
-    assert not inventati, (
-        f"il pacchetto elenca environment che non esistono: {sorted(inventati)}")
+    definiti = set(re.findall(r"^\[env:([^\]]+)\]", ini, re.M))
+    assert set(m.FIRMWARE) == definiti, (
+        f"mancanti: {sorted(definiti - set(m.FIRMWARE))}; "
+        f"inventati: {sorted(set(m.FIRMWARE) - definiti)}")
+
+    categorie = {m.categoria(e) for e in m.FIRMWARE}
+    assert categorie == {"latenza", "energia"}, categorie
+    for cat in ("latenza", "energia"):
+        schede = {m.scheda(e) for e in m.FIRMWARE if m.categoria(e) == cat}
+        assert schede == {"Mega 2560", "ESP32-C3"}, (
+            f"{cat}: manca una delle due schede, ci sono {schede}")
 
 
 # ─────────────────────────────────────────────────────────────

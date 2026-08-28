@@ -195,6 +195,25 @@ def main():
         "dmax": deg["delta_ton->bot"].max() * 100,
     }
     cd["best_tb_val"] = deg.loc[cd["best_tb"], "ton->bot"]
+
+    # BoT->TON: dispersione per modello e quanti confronti restano separabili
+    # dopo Holm. Una versione precedente di questo report dichiarava l'intera
+    # direzione "rumore", cioe' nessun ordinamento leggibile; a 10 seed non e'
+    # vero, e la differenza fra "alcuni modelli hanno varianza alta" e "nessun
+    # ordinamento e' leggibile" e' esattamente cio' che il relatore ha chiesto
+    # di non lasciare scritto a mano. Questi numeri vengono dagli artefatti.
+    _run_bt = pd.read_csv(RESULTS / "crossdomain_runs_cat.csv")
+    _run_bt = _run_bt[_run_bt.exp == "bot->ton"].groupby("model").f1
+    _mu, _sd = _run_bt.mean(), _run_bt.std()
+    cd["bt_peggiore"] = _sd.index[_mu.argmin()] if len(_mu) else "-"
+    cd["bt_peggiore_mu"] = _mu.min() if len(_mu) else float("nan")
+    cd["bt_peggiore_sd"] = _sd.loc[cd["bt_peggiore"]] if len(_mu) else float("nan")
+    cd["bt_1l_mu"] = _mu.get("KAN(cat,1L)", float("nan"))
+    cd["bt_1l_sd"] = _sd.get("KAN(cat,1L)", float("nan"))
+    _sig = pd.read_csv(RESULTS / "crossdomain_significativita.csv")
+    _sig = _sig[_sig.exp == "bot->ton"]
+    cd["bt_separabili"] = int((_sig.p_holm < 0.05).sum())
+    cd["bt_confronti"] = len(_sig)
     _somm = pd.read_csv(RESULTS / "crossdomain_summary_cat.csv")
     cd["n_in_domain"] = int(_somm[_somm.exp == "ton->ton"].n_runs.iloc[0])
     cd["n_cross"] = int(_somm[_somm.exp == "ton->bot"].n_runs.iloc[0])
@@ -331,11 +350,17 @@ def main():
         f"modello che trasferisce peggio non è però la KAN profonda ma {cd['worst_tb']} "
         f"({n(cd['min_tb'])}): a 3 seed sembrava il contrario, ed è una delle affermazioni "
         f"che i 10 seed hanno ritirato. E la direzione "
-        "BoT→TON non è degradata ma <b>indeterminata</b> — con 477 flussi normali in "
-        "training la varianza fra seed supera la differenza fra modelli, quindi qualunque "
-        "classifica in quella direzione sarebbe rumore."))
+        f"BoT→TON è <b>instabile</b>, non semplicemente degradata: con 477 flussi normali "
+        f"in training la KAN single-layer ha F1 media {n(cd['bt_1l_mu'])} con deviazione "
+        f"<b>{n(cd['bt_1l_sd'])}</b> fra i dieci seed. Questo però non rende l'intera "
+        f"direzione indeterminata, come una versione precedente di questo paragrafo "
+        f"affermava: a 10 seed {cd['bt_peggiore']} ne è il peggiore in modo <b>stabile</b> "
+        f"(media {n(cd['bt_peggiore_mu'])}, deviazione {n(cd['bt_peggiore_sd'])}), e "
+        f"{cd['bt_separabili']} confronti appaiati su {cd['bt_confronti']} restano "
+        f"separabili dopo Holm. È la varianza di alcuni modelli a essere alta, non "
+        f"l'ordinamento a essere rumore."))
     story.append(P(
-        "La causa è visibile prima di addestrare qualsiasi cosa: le marginali non si "
+        "Il meccanismo è visibile prima di addestrare qualsiasi cosa — le marginali non si "
         "sovrappongono (byte_rate 0,085, duration 0,106). TON_IoT ha flussi brevi e "
         "bidirezionali, il 5% di BoT-IoT è dominato da flood UDP lunghi e unidirezionali. "
         "Il 21,3% dei flussi di TON_IoT porta uno stato di connessione mai visto "
@@ -366,8 +391,8 @@ def main():
         "sulle soglie per-feature → z in Q12 → primo strato di spline int8 con tabelle "
         "categoriche → LUT tanh → secondo strato → argmax, tutto intero. "
         "<b>200 golden vector su 200 con tutti e dieci gli accumulatori bit-identici</b> al "
-        "riferimento, argmax identico, macro-F1 0,9352 contro 0,9378 della pipeline float "
-        "(agreement 99,42%), 21,7 KB di tabelle. Le soglie restano a 64 bit perche' su "
+        "riferimento, argmax identico, macro-F1 0,9362 contro 0,9384 della pipeline float "
+        "(agreement 99,44%), 21,7 KB di tabelle. Le soglie restano a 64 bit perche' su "
         "TON_IoT <i>src_bytes</i> e <i>dst_bytes</i> arrivano a 3,9·10<super>9</super>: "
         "sono i contatori di byte a imporre i 64 bit, non la durata."))
 
