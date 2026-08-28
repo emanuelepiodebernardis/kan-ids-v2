@@ -77,6 +77,10 @@ BYTES_NODE = 4      # feature idx + soglia int16 + figlio
 BYTES_LEAF = 1
 
 REGOLA_C = "array C compilati"
+# I due modelli mai esportati in C ricevono comunque feature preprocessate:
+# la stima conta i nodi degli alberi, non il preprocessing.
+INGRESSO_STIMATO = ("feature preprocessate fuori dalla scheda "
+                    "(Q12 + codici categorici)")
 REGOLA_STIMA = "stima table-driven (nessun header C)"
 
 
@@ -138,23 +142,32 @@ def main():
     ap.add_argument("--aggiorna-stime", action="store_true",
                     help="adotta le stime di QUESTO ambiente al posto di quelle "
                          "gia' nel CSV (poi va aggiornata la tabella del README)")
+    ap.add_argument("--solo-header", action="store_true",
+                    help="aggiorna solo le righe MISURATE su header C, senza "
+                         "riaddestrare niente e senza dataset; le righe stimate "
+                         "restano quelle committate")
     args = ap.parse_args()
 
-    set_global_seed(42)
-    df = load_ton_iot()
-    yb, ym, _ = encode_targets(df)
-    sp = next(iter(cv_splits(ym, seeds=(42,))))
-    tr, va = sp["train_idx"], sp["val_idx"]
-
-    prep = LeakageFreePreprocessor(k_numeric=K_NUMERIC, random_state=42,
-                                   selection_target="binary").fit(df.iloc[tr], yb[tr])
-    Xtr, Ctr = prep.transform(df.iloc[tr])
-    models = get_baselines("binary", prep.cardinalities_, seed=42)
-
+    # Le righe misurate si leggono da un header e non dipendono dai dati; le
+    # stimate richiedono di riaddestrare LightGBM e XGBoost, cioe' il dataset.
+    # Quando si aggiunge una variante che esiste solo come header C — la
+    # sampled-LUT, per dire — rifare i fit non cambierebbe una virgola delle
+    # righe stimate ma richiederebbe la macchina giusta. --solo-header separa
+    # le due cose, e le stime restano quelle del lock per costruzione.
     rows = []
-
-    # ── byte letti dagli header C effettivamente compilati ───
     cmap = {r["modello"]: r for r in c_collect()}
+    models = {}
+    if not args.solo_header:
+        set_global_seed(42)
+        df = load_ton_iot()
+        yb, ym, _ = encode_targets(df)
+        sp = next(iter(cv_splits(ym, seeds=(42,))))
+        tr, va = sp["train_idx"], sp["val_idx"]
+
+        prep = LeakageFreePreprocessor(k_numeric=K_NUMERIC, random_state=42,
+                                       selection_target="binary").fit(df.iloc[tr], yb[tr])
+        Xtr, Ctr = prep.transform(df.iloc[tr])
+        models = get_baselines("binary", prep.cardinalities_, seed=42)
 
     # ── baseline: strutture reali, contate dopo il fit ───────
     for name, wrapper in models.items():
@@ -203,11 +216,11 @@ def main():
                       f"({c['header']})")
             rows.append({"modello": name, "byte_parametri": c["byte_parametri"],
                          "regola": REGOLA_C, "dettaglio": c["dettaglio"],
-                         "fonte": c["header"]})
+                         "fonte": c["header"], "ingresso": c["ingresso"]})
         else:
             rows.append({"modello": name, "byte_parametri": int(b),
                          "regola": REGOLA_STIMA, "dettaglio": detail,
-                         "fonte": "—"})
+                         "fonte": "—", "ingresso": INGRESSO_STIMATO})
 
     # ── varianti che esistono solo come header C ─────────────
     gia = {r["modello"] for r in rows}
@@ -216,11 +229,22 @@ def main():
             continue
         rows.append({"modello": label, "byte_parametri": c["byte_parametri"],
                      "regola": REGOLA_C, "dettaglio": c["dettaglio"],
-                     "fonte": c["header"]})
+                     "fonte": c["header"], "ingresso": c["ingresso"]})
 
     csv_committato = None
     if (RESULTS_DIR / "footprint.csv").exists():
         csv_committato = pd.read_csv(RESULTS_DIR / "footprint.csv")
+    if args.solo_header and csv_committato is not None:
+        # nessun fit e' stato fatto: le righe stimate sono quelle committate,
+        # riprese cosi' come sono invece di sparire dal CSV
+        gia = {r["modello"] for r in rows}
+        for _, r in csv_committato.iterrows():
+            if r["modello"] not in gia and r["regola"] != REGOLA_C:
+                rows.append({"modello": r["modello"],
+                             "byte_parametri": int(r["byte_parametri"]),
+                             "regola": r["regola"], "dettaglio": r["dettaglio"],
+                             "fonte": r["fonte"],
+                             "ingresso": r.get("ingresso", INGRESSO_STIMATO)})
     rows, note = unisci_stime(rows, csv_committato, args.aggiorna_stime)
     for n in note:
         print(n)

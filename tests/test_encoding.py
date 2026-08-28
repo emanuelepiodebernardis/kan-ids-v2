@@ -416,22 +416,55 @@ def test_il_difetto_di_to_csv_e_ancora_riproducibile():
         "inutile e va rivisto")
 
 
-def test_il_repository_non_contiene_messaggi_di_commit_ne_patch():
+#: gli unici .txt che stanno legittimamente nella radice del repository.
+#: L'elenco e' corto di proposito: se un file nuovo merita di stare qui,
+#: qualcuno lo aggiunge e in quel momento lo sta decidendo.
+TXT_LEGITTIMI_IN_RADICE = frozenset({"requirements.txt",
+                                     "requirements-lock.txt"})
+
+
+def test_il_repository_non_contiene_file_di_appoggio_della_sessione():
     """`git add -A` prima di un commit tira dentro tutto quello che sta nella
     cartella, e i file di appoggio della sessione ci finiscono: i messaggi di
-    commit e di tag, e le patch applicate. Sono artefatti del processo, non
-    del progetto, e in un repository consegnato a un revisore dicono solo che
-    nessuno ha guardato cosa stava committando."""
+    commit e di tag, le patch applicate, le bozze di mail al relatore. Sono
+    artefatti del processo, non del progetto, e in un repository consegnato a
+    un revisore dicono solo che nessuno ha guardato cosa stava committando.
+
+    La prima versione di questo test elencava i prefissi vietati — commit_,
+    tag_ — ed e' fallita nel modo in cui falliscono gli elenchi di cose
+    vietate: mail_rc3.txt non cominciava per nessuno dei due ed e' entrato nel
+    commit di v2.1-rc3. Adesso l'elenco e' quello dei .txt AMMESSI nella
+    radice, che sono due e non cambiano mai. Un nome nuovo fa fallire il test
+    invece di passare inosservato: e' l'unico verso in cui il controllo si
+    accorge di qualcosa che nessuno aveva previsto."""
     import subprocess
     r = subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True,
                        text=True)
     if r.returncode != 0:                                  # pragma: no cover
         pytest.skip("git non disponibile")
-    import re
-    schemi = (re.compile(r"^[^/]*\.patch$"),
-              re.compile(r"^(commit|tag)_[^/]*\.txt$"))
-    colpevoli = [n for n in r.stdout.split()
-                 if any(s.match(n) for s in schemi)]
+    tracciati = [n for n in r.stdout.splitlines() if n]
+    colpevoli = [n for n in tracciati
+                 if n.endswith(".patch")
+                 or ("/" not in n and n.endswith(".txt")
+                     and n not in TXT_LEGITTIMI_IN_RADICE)]
     assert not colpevoli, (
         f"file di appoggio della sessione dentro il repository: {colpevoli}.\n"
-        f"Rimuoverli con `git rm --cached <file>` e aggiungerli a .gitignore.")
+        f"Rimuoverli con `git rm --cached <file>` e verificare che .gitignore "
+        f"li escluda. Se invece uno di questi appartiene davvero al progetto, "
+        f"aggiungerlo a TXT_LEGITTIMI_IN_RADICE dichiarando perche'.")
+
+
+def test_lelenco_dei_txt_ammessi_e_quello_che_c_e_davvero():
+    """Un elenco di ammessi che nomina file inesistenti smette di essere una
+    decisione e diventa un residuo: il test sopra continuerebbe a passare
+    lasciando aperta una casella che nessuno usa piu'."""
+    import subprocess
+    r = subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True,
+                       text=True)
+    if r.returncode != 0:                                  # pragma: no cover
+        pytest.skip("git non disponibile")
+    tracciati = {n for n in r.stdout.splitlines() if n}
+    fantasmi = TXT_LEGITTIMI_IN_RADICE - tracciati
+    assert not fantasmi, (
+        f"TXT_LEGITTIMI_IN_RADICE ammette file che non esistono piu': "
+        f"{sorted(fantasmi)}")

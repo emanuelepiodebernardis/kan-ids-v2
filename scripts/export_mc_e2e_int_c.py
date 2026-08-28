@@ -92,7 +92,14 @@ def main():
     Xtr_p, Xte_p = d["Xtr"], d["Xte"]
     classes = [str(c) for c in d["classes"]]
 
-    st = pickle.load(open(artifact_path("mlcat_state.pkl"), "rb"))
+    # come sopra: cache, poi models/, poi un messaggio che dice quale script
+    # produce lo stato invece di un FileNotFoundError su un percorso
+    from kanids.checkpoint import motivo as _motivo, trova as _trova
+    _stato = _trova("mlcat_state.pkl")
+    if _stato is None:
+        raise SystemExit(_motivo("mlcat_state.pkl"))
+    print(f"[stato] {_stato}")
+    st = pickle.load(open(_stato, "rb"))
     C1 = st["p"][0].astype(np.float64)
     C2 = st["p"][1].astype(np.float64)
     tabs = [t.astype(np.float64) for t in st["p"][2:]]
@@ -268,6 +275,11 @@ def main():
         "// Generato da scripts/export_mc_e2e_int_c.py - NON modificare a mano.",
         "// Catena integer-only end-to-end a 10 classi: grezzi -> argmax.",
         "// Nessun tipo in virgola mobile: tutte le costanti sono intere.",
+        "// STATO CANONICO: models/kan14_multiclass_multilayer.pkl. Questo header",
+        "// e' la funzione deterministica di quel file versionato, non un",
+        "// artefatto congelato: si riemette con",
+        "//     python reproduce.py --stage integer-10classi",
+        "// e tests/test_stato_multiclasse.py lo confronta byte per byte.",
         "#ifndef KAN_MC_E2E_INT_H", "#define KAN_MC_E2E_INT_H",
         "#include <stdint.h>",
         "#ifdef __AVR__",

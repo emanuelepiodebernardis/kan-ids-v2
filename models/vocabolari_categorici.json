@@ -1,0 +1,46 @@
+{
+  "seed": 42,
+  "nota": "indice 0 = UNK, categoria mai vista in training. L'ordine e' quello imparato dal preprocessore sul training split ed e' lo stesso delle righe delle tabelle categoriche negli header C.",
+  "vocabolari": {
+    "proto": [
+      "UNK",
+      "icmp",
+      "tcp",
+      "udp"
+    ],
+    "service": [
+      "UNK",
+      "-",
+      "dce_rpc",
+      "dns",
+      "ftp",
+      "gssapi",
+      "http",
+      "smb",
+      "smb;gssapi",
+      "ssl"
+    ],
+    "conn_state": [
+      "UNK",
+      "OTH",
+      "REJ",
+      "RSTO",
+      "RSTOS0",
+      "RSTR",
+      "RSTRH",
+      "S0",
+      "S1",
+      "S2",
+      "S3",
+      "SF",
+      "SH",
+      "SHR"
+    ],
+    "dns_rejected": [
+      "UNK",
+      "-",
+      "F",
+      "T"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+environment,scheda,categoria,flash_byte,flash_totale,sram_byte,sram_totale
+esp32c3_energy,ESP32-C3,energia,268132,1310720,14500,327680
+esp32c3_energy_dt5,ESP32-C3,energia,268808,1310720,14580,327680
+esp32c3_energy_e2e,ESP32-C3,energia,273366,1310720,14420,327680
+esp32c3_energy_lut14,ESP32-C3,energia,272952,1310720,14500,327680
+esp32c3_energy_mc,ESP32-C3,energia,276538,1310720,14500,327680
+esp32c3_energy_mlcoeff,ESP32-C3,energia,273444,1310720,14500,327680
+esp32c3_energy_mlp,ESP32-C3,energia,268494,1310720,14500,327680
+esp32c3,ESP32-C3,latenza,263778,1310720,13828,327680
+esp32c3_coeff,ESP32-C3,latenza,255768,1310720,13748,327680
+esp32c3_dt5,ESP32-C3,latenza,256166,1310720,13748,327680
+esp32c3_e2e,ESP32-C3,latenza,260804,1310720,13748,327680
+esp32c3_lut14,ESP32-C3,latenza,260576,1310720,13748,327680
+esp32c3_mc,ESP32-C3,latenza,264140,1310720,13748,327680
+esp32c3_mc_e2e,ESP32-C3,latenza,309026,1310720,13748,327680
+esp32c3_mlcoeff,ESP32-C3,latenza,261074,1310720,13748,327680
+esp32c3_mlp,ESP32-C3,latenza,256122,1310720,13748,327680
+megaatmega2560_energy,Mega 2560,energia,14000,253952,701,8192
+megaatmega2560_energy_dt5,Mega 2560,energia,13978,253952,777,8192
+megaatmega2560_energy_e2e,Mega 2560,energia,21008,253952,617,8192
+megaatmega2560_energy_lut14,Mega 2560,energia,18394,253952,701,8192
+megaatmega2560_energy_mlcoeff,Mega 2560,energia,19968,253952,701,8192
+megaatmega2560_energy_mlp,Mega 2560,energia,13974,253952,701,8192
+megaatmega2560,Mega 2560,latenza,19408,253952,298,8192
+megaatmega2560_coeff,Mega 2560,latenza,12036,253952,208,8192
+megaatmega2560_dt5,Mega 2560,latenza,11662,253952,204,8192
+megaatmega2560_e2e,Mega 2560,latenza,17964,253952,204,8192
+megaatmega2560_lut14,Mega 2560,latenza,16430,253952,208,8192
+megaatmega2560_mlcoeff,Mega 2560,latenza,18000,253952,208,8192
+megaatmega2560_mlp,Mega 2560,latenza,12010,253952,208,8192

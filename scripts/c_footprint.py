@@ -68,16 +68,29 @@ DECL = re.compile(
 SCALAR = re.compile(
     r"static\s+const\s+(\w+)\s+(\w+)\s*(?:PROGMEM\s*)?=", )
 
-# modello -> (header, prefisso dei simboli, descrizione della variante)
+# Da dove parte l'inferenza. Distinzione chiesta dal Prof. Kuznetsov (rc3,
+# punto 6): i byte di un modello che riceve feature GIA' preprocessate non
+# sono confrontabili con quelli di una catena che parte dai contatori grezzi
+# e fa a bordo anche il feature engineering. Mettere 254 e 1.334 nella stessa
+# colonna senza dirlo fa sembrare la seconda cinque volte piu' cara della
+# prima, mentre le due fanno lavori diversi: nel primo caso la trasformazione
+# quantile-normale, il clip e la codifica delle categoriche restano fuori
+# dalla scheda, e i loro byte non sono contati da nessuna parte.
+PREPROCESSATO = "feature preprocessate fuori dalla scheda (Q12 + codici categorici)"
+GREZZO = "contatori grezzi: feature engineering a bordo, dentro i byte dichiarati"
+ZSCORE = "feature z-scored fuori dalla scheda (10 numeriche, niente categoriche)"
+
+# modello -> (header, prefisso dei simboli, descrizione della variante, ingresso)
 MODELS = [
-    ("DecisionTree(d=5)",           "dt5_model.h",            "DT5_",  "4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)"),
-    ("KAN(cat,1L)",                 "kan14_coeff_int8.h",     "KC_",   "coefficienti B-spline int8 + tabelle categoriche int8 + moltiplicatori Q15"),
-    ("KAN(cat,ML)",                 "kan14_ml_coeff_int8.h",  "KML_",  "due layer int8 + LUT tanh int16"),
-    ("KAN(cat,MC) 10 classi",       "kan14_mc_coeff_int8.h",  "KMC_",  "due layer int8, 10 uscite + LUT tanh int16"),
-    ("KAN e2e integer (binario)",   "kan_e2e_int.h",          "E2E_",  "coefficienti int8 + LUT ln int32 + costanti affini, contatori grezzi -> decisione"),
-    ("KAN e2e integer (10 classi)", "kan_mc_e2e_int.h",       "MC_",   "nodi int64 + nodi normalizzati int16 + due layer int8 + LUT tanh"),
-    ("KAN-LUT integer (env default)", "kan_ids_layer_int.h",  "KANI_", "tabella di lookup int16 pre-scalata, 10 edge x 512 punti"),
-    ("MLP(16)",                     "mlp16_int8.h",           "MLP16_", "pesi int8 dei due layer + tabella categorica int8 (one-hot compilato) + bias int32"),
+    ("DecisionTree(d=5)",           "dt5_model.h",            "DT5_",  "4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)", PREPROCESSATO),
+    ("KAN(cat,1L)",                 "kan14_coeff_int8.h",     "KC_",   "coefficienti B-spline int8 + tabelle categoriche int8 + moltiplicatori Q15", PREPROCESSATO),
+    ("KAN(cat,ML)",                 "kan14_ml_coeff_int8.h",  "KML_",  "due layer int8 + LUT tanh int16", PREPROCESSATO),
+    ("KAN(cat,MC) 10 classi",       "kan14_mc_coeff_int8.h",  "KMC_",  "due layer int8, 10 uscite + LUT tanh int16", PREPROCESSATO),
+    ("KAN e2e integer (binario)",   "kan_e2e_int.h",          "E2E_",  "coefficienti int8 + LUT ln int32 + costanti affini, contatori grezzi -> decisione", GREZZO),
+    ("KAN e2e integer (10 classi)", "kan_mc_e2e_int.h",       "MC_",   "nodi int64 + nodi normalizzati int16 + due layer int8 + LUT tanh", GREZZO),
+    ("KAN-LUT integer (env default)", "kan_ids_layer_int.h",  "KANI_", "tabella di lookup int16 pre-scalata, 10 edge x 512 punti", ZSCORE),
+    ("KAN(cat,1L) sampled-LUT",     "kan14_lut_int16.h",      "KLUT_", "stesse funzioni della KAN(cat,1L), campionate: 10 edge x 257 punti int16 + uno shift per edge; edge categorici invariati", PREPROCESSATO),
+    ("MLP(16)",                     "mlp16_int8.h",           "MLP16_", "pesi int8 dei due layer + tabella categorica int8 (one-hot compilato) + bias int32", PREPROCESSATO),
 ]
 
 
@@ -152,7 +165,7 @@ def scan(header: Path, prefix: str) -> tuple[int, list[tuple[str, str, int, int]
 
 def collect() -> list[dict]:
     out = []
-    for label, fname, prefix, nota in MODELS:
+    for label, fname, prefix, nota, ingresso in MODELS:
         path = INCLUDE / fname
         if not path.exists():
             print(f"[skip] {fname} assente", file=sys.stderr)
@@ -165,6 +178,7 @@ def collect() -> list[dict]:
             "header": f"mcu_pio/include/{fname}",
             "regola": "array C compilati",
             "dettaglio": nota,
+            "ingresso": ingresso,
             "array": rows,
         })
     return sorted(out, key=lambda r: r["byte_parametri"])
@@ -180,10 +194,11 @@ def main() -> None:
     if args.csv:
         import csv
         w = csv.writer(sys.stdout, lineterminator="\n")
-        w.writerow(["modello", "byte_parametri", "kb", "header", "regola", "dettaglio"])
+        w.writerow(["modello", "byte_parametri", "kb", "header", "regola",
+                    "dettaglio", "ingresso"])
         for r in rows:
             w.writerow([r["modello"], r["byte_parametri"], r["kb"],
-                        r["header"], r["regola"], r["dettaglio"]])
+                        r["header"], r["regola"], r["dettaglio"], r["ingresso"]])
         return
 
     for r in rows:

@@ -27,9 +27,13 @@ COSA CONTIENE
     report/                il PDF, il MANIFEST, l'audit
     protocollo/            selezione del rapporto e dell'architettura
 
-Il firmware si costruisce solo con --firmware: sono undici environment e non
-tutti servono a tutti. Senza, il pacchetto si fa lo stesso e l'indice dice
-che mancano invece di far finta di niente.
+Il firmware si costruisce solo con --firmware, e allora si compilano TUTTI
+gli environment di platformio.ini — latenza ed energia, Mega 2560 ed
+ESP32-C3 — dallo stesso commit e nello stesso passaggio (richiesta del Prof.
+Kuznetsov, rc3 punto 3). Prima ne finivano nel pacchetto solo quelli di
+energia: i binari di latenza andavano ricompilati a parte, cioe' da un albero
+che nessuno garantiva fosse lo stesso. Senza --firmware il pacchetto si fa lo
+stesso e l'indice dice che mancano, invece di far finta di niente.
 
 USO
 ===
@@ -41,6 +45,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -59,6 +64,7 @@ TABELLE = [
     ("tabella_finale.csv", "tabella a 7 colonne dell'articolo"),
     ("tabella_finale_meta.json", "metrica, rapporto e run per cella"),
     ("footprint.csv", "byte di ogni modello, regola di conteggio unica"),
+    ("firmware_size.csv", "Flash e SRAM del binario flashato, per environment"),
     ("crossdomain_summary_cat.csv", "degrado cross-domain, 4 direzioni"),
     ("crossdomain_significativita.csv", "30 confronti appaiati per seed, con Holm"),
     ("indomain_significativita.csv", "confronti in-domain, con Nadeau-Bengio"),
@@ -88,12 +94,28 @@ PROTOCOLLO = [
 # mano che seleziona un sottoinsieme e' un posto dove le cose spariscono in
 # silenzio: adesso ci sono tutti gli environment di energia, e un test
 # verifica che questa lista e platformio.ini coincidano.
-FIRMWARE = ["megaatmega2560_energy", "esp32c3_energy",
-            "megaatmega2560_energy_mlcoeff", "esp32c3_energy_mlcoeff",
-            "megaatmega2560_energy_e2e", "esp32c3_energy_e2e",
-            "megaatmega2560_energy_dt5", "esp32c3_energy_dt5",
-            "megaatmega2560_energy_mlp", "esp32c3_energy_mlp",
-            "esp32c3_energy_mc"]
+def environment_di_platformio() -> list[str]:
+    """Tutti gli environment definiti in platformio.ini, nell'ordine in cui
+    ci stanno.
+
+    Letti, non elencati. La lista scritta a mano che c'era prima ne ometteva
+    tre — fra cui la KAN multi-layer — e l'omissione non produceva nessun
+    errore: il pacchetto si costruiva, semplicemente senza quei binari. Ora
+    l'unica fonte e' il file che PlatformIO stesso legge.
+    """
+    ini = (_REPO / "mcu_pio" / "platformio.ini").read_text(encoding="utf-8")
+    return re.findall(r"^\[env:([^\]]+)\]", ini, re.M)
+
+
+FIRMWARE = environment_di_platformio()
+
+
+def categoria(env: str) -> str:
+    return "energia" if "_energy" in env else "latenza"
+
+
+def scheda(env: str) -> str:
+    return "Mega 2560" if env.startswith("megaatmega2560") else "ESP32-C3"
 
 
 def sha256(path: Path) -> str:
@@ -123,8 +145,14 @@ def numeri_chiave() -> dict:
     fp = RESULTS_DIR / "footprint.csv"
     if fp.exists():
         d = pd.read_csv(fp)
-        n["footprint"] = [(r.modello, int(r.byte_parametri), r.regola)
+        n["footprint"] = [(r.modello, int(r.byte_parametri), r.regola,
+                           getattr(r, "ingresso", "—"))
                           for r in d.itertuples()]
+    fs = RESULTS_DIR / "firmware_size.csv"
+    if fs.exists():
+        d = pd.read_csv(fs)
+        n["firmware_size"] = {r.environment: (int(r.flash_byte), int(r.sram_byte))
+                              for r in d.itertuples()}
     af = RESULTS_DIR / "arch_footprint.csv"
     if af.exists():
         d = pd.read_csv(af)
@@ -244,8 +272,13 @@ def scrivi_indice(dest: Path, n: dict, fw: list, ver: dict, mancanti: list):
 
     if "footprint" in n:
         r += ["## Byte dei modelli", "",
-              "| modello | byte | regola |", "|---|---|---|"]
-        r += [f"| {m} | {b:,} | {reg} |" for m, b, reg in n["footprint"]]
+              "La colonna *ingresso* dice da dove parte l'inferenza, ed e' la "
+              "condizione perche' i byte siano confrontabili: un modello che "
+              "riceve feature gia' preprocessate non porta a bordo la "
+              "trasformazione che le produce, una catena end-to-end si'.", "",
+              "| modello | byte | regola | ingresso |", "|---|---|---|---|"]
+        r += [f"| {m} | {b:,} | {reg} | {ing} |"
+              for m, b, reg, ing in n["footprint"]]
         r += [""]
 
     if "rapporto" in n:
@@ -279,12 +312,38 @@ def scrivi_indice(dest: Path, n: dict, fw: list, ver: dict, mancanti: list):
             r += [""]
 
     if fw:
-        r += ["## Firmware inclusi", "", "| environment | file | byte |",
-              "|---|---|---|"]
-        r += [f"| {e} | `{f}` | {b:,} |" for e, f, b in fw]
+        r += ["## Firmware inclusi", "",
+              "Compilati tutti nello stesso passaggio, dal commit qui sopra: "
+              "quelli di **latenza** cronometrano una inferenza per volta, "
+              "quelli di **energia** eseguono finestre di inferenze marcate "
+              "sui due pin. Le due famiglie coprono entrambe le schede.", ""]
+        for cat in ("latenza", "energia"):
+            righe = [(e, f, b) for e, f, b in fw if categoria(e) == cat]
+            if not righe:
+                continue
+            misure = n.get("firmware_size", {})
+            r += [f"### {cat.capitalize()}", "",
+                  "| environment | scheda | file | byte del file | Flash | SRAM |",
+                  "|---|---|---|---|---|---|"]
+            for e, f, b in righe:
+                fl, sr = misure.get(e, (None, None))
+                # i byte del file .hex non sono la Flash occupata: l'Intel HEX
+                # e' testo, e pesa quasi il triplo del binario. Finche' questa
+                # colonna e' stata sola, il pacchetto dichiarava per ogni
+                # firmware un numero che non era ne' il modello ne' la memoria.
+                r.append(f"| {e} | {scheda(e)} | `{f}` | {b:,} | "
+                         + (f"{fl:,} B | {sr:,} B |" if fl else "— | — |"))
+            r += ["",
+                  "*Byte del file*: dimensione dell'archivio `.hex`/`.bin`, che "
+                  "per l'Intel HEX e' testo e pesa piu' del binario. *Flash* e "
+                  "*SRAM*: quello che la toolchain riporta come occupato sulla "
+                  "scheda (`protocollo/firmware_size.csv`); i byte del "
+                  "**modello** sono un'altra cosa ancora, nella tabella sopra.",
+                  ""]
         r += ["",
-              "Il pin di marcatura e' il **22** sul Mega 2560 e il **GPIO 3** "
-              "sull'ESP32-C3, da collegare al solo trigger dello strumento. "
+              "I pin di marcatura sono il **22** (finestra attiva) e il **24** "
+              "(riferimento) sul Mega 2560, il **GPIO 3** e il **GPIO 4** "
+              "sull'ESP32-C3, da collegare ai soli trigger dello strumento. "
               "La procedura e' nel paragrafo 7a di `mcu_pio/README.md` nel "
               "repository.", ""]
 

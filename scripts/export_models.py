@@ -18,6 +18,7 @@ from __future__ import annotations
 import json
 import pickle
 import shutil
+import subprocess
 import sys
 from datetime import date
 from pathlib import Path
@@ -81,6 +82,23 @@ def main():
     # per caso nella cache: se un checkpoint e' gia' stato salvato in una
     # sessione precedente deve restare elencato anche se artifacts/ e' vuoto.
     saved, missing = [], []
+
+    def ignorato_da_git(path: Path) -> bool:
+        """Lo chiede a git, non lo indovina dal nome del file.
+
+        Questa riga diceva `"multiclass" in dst and dst.endswith(".pkl")`:
+        una copia a mano di una regola che vive in .gitignore, e che quando
+        .gitignore e' cambiato ha continuato a rispondere il vecchio valore.
+        Peggio: la stessa informazione serviva per dire "versionato" nel
+        manifest, quindi il manifest poteva dichiarare versionato un file che
+        git non traccia — cioe' un file che su un clone pulito non esiste.
+        """
+        try:
+            r = subprocess.run(["git", "check-ignore", "-q", str(path)],
+                               cwd=_REPO, capture_output=True)
+            return r.returncode == 0
+        except OSError:
+            return False
     for src, dst, desc, script in SOURCES:
         cached = artifact_path(src)
         target = MODELS_DIR / dst
@@ -89,7 +107,7 @@ def main():
         if not target.exists():
             missing.append((src, script))
             continue
-        gitignored = "multiclass" in dst and dst.endswith(".pkl")
+        gitignored = ignorato_da_git(target)
         saved.append({"file": dst, "descrizione": desc,
                       "prodotto_da": script,
                       "byte": target.stat().st_size,
@@ -156,8 +174,17 @@ def main():
 
     print(f"models/: {len(saved)} checkpoint di training")
     for s in saved:
-        tag = "" if s["versionato"] else "  (non versionato)"
+        tag = "" if s["versionato"] else "  (IGNORATO DA GIT)"
         print(f"  {s['file']:<38} {s['byte']:>9,} B{tag}")
+    non_tracciati = [s["file"] for s in saved if not s["versionato"]]
+    if non_tracciati:
+        print("\n[!] questi checkpoint sono su disco ma git non li traccia:")
+        for f in non_tracciati:
+            print(f"      models/{f}")
+        print("    Su un clone pulito non ci sarebbero, e gli header che ne "
+              "derivano\n    tornerebbero artefatti di provenienza perduta. "
+              "O si toglie la riga\n    da .gitignore, o si smette di "
+              "dichiararli versionati nel manifest.")
     print(f"\nheader C deployabili (in mcu_pio/include/): {len(headers)}")
     for h in headers:
         print(f"  {h['file']:<44} {h['byte']:>9,} B")

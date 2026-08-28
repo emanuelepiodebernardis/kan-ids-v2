@@ -1,5 +1,107 @@
 # Changelog
 
+## Quarta revisione: v2.1-rc3 (agosto 2026)
+
+Ultimo checkpoint tecnico chiesto dal Prof. Kuznetsov prima delle misure sulle
+schede: nessun dataset nuovo, nessun modello nuovo, nessun esperimento ML.
+
+**Finestra di energia.** Il ciclo misurato pagava due costi che non
+appartengono al modello: `k % EB_CACHE` con `k` a 32 bit ed `EB_CACHE` non
+potenza di due — su AVR una chiamata a `__udivmodsi4` per inferenza, letta
+nell'assembly — e `eb_acc +=` su un volatile, quattro byte riletti e riscritti
+a ogni giro. Ora l'indice avanza con un confronto, la somma vive in un
+registro e il volatile si scrive una volta a fine batch. Il ciclo resta piatto
+di proposito: annidarlo avrebbe reso il ciclo interno invariante rispetto
+all'esterno, e un compilatore autorizzato a sollevarlo eseguirebbe venti
+inferenze moltiplicando per il resto, col checksum che tornerebbe identico. La
+finestra e' una funzione con un nome perche' un test possa ispezionarne
+l'assembly emesso per ATmega2560 e pretendere zero chiamate a libgcc.
+Marcatori distinti per la finestra attiva (pin 22 / GPIO 3) e per quella di
+riferimento (24 / GPIO 4). Ogni riga porta le due durate misurate e il loro
+scarto in parti per mille; il SUMMARY aggiunge `windows_ok`. Trovato
+verificando: la calibrazione si fermava dopo dodici raddoppi e su un core
+veloce non arrivava mai ai 50 ms richiesti, dichiarando `calibration_ok=0`
+proprio dove la suite gira. Ora sono venti.
+
+**Sampled-LUT dello stesso modello.** La LUT che c'era (`kan_ids_layer_int.h`,
+10.248 B) viene da un altro addestramento, su dieci feature z-scored senza
+edge categorici, e indicizza in virgola mobile: confrontarla con i 254 B della
+KAN a coefficienti avrebbe cambiato insieme modello, spazio delle feature e
+aritmetica. La nuova e' campionata DAL modello deployato leggendo l'header
+committato: stesse funzioni apprese, edge categorici identici byte per byte,
+stessi 200 vettori. 5.194 B contro 254, x20,4, attribuibili alla sola
+rappresentazione. Il numero di campioni non e' scelto sul piu' piccolo che si
+accorda — con nove l'accordo e' ancora 200/200 pur sbagliando il logit di
+oltre un milione — ma sul piu' piccolo il cui LIMITE di deviazione, somma dei
+massimi per edge su tutti gli 8.193 ingressi possibili, sta sotto il margine
+minimo osservato: 56.586 contro 120.232. Sull'intero test set: 42.209 flussi,
+zero decisioni diverse.
+
+**Binari finali.** La lista degli environment non e' piu' scritta a mano: e'
+letta da `platformio.ini`. Ventinove environment, sedici di latenza e tredici
+di energia, entrambe le schede, un solo passaggio e un solo commit.
+
+**Ripulitura.** La tabella "Flash and SRAM per variant" diceva "All twelve
+PlatformIO environments build" ed elencava dodici righe su ventinove,
+omettendo in silenzio tutti i firmware di energia. Ora quel blocco lo genera
+`scripts/firmware_size.py` da un `pio run` vero, e un test pretende che README
+e CSV coincidano. Nell'indice del pacchetto la colonna "byte" dei firmware era
+la dimensione del file `.hex`, che essendo testo pesa quasi il triplo del
+binario.
+
+Una seconda passata, rileggendo l'intero README contro gli artefatti, ha
+trovato che la prosa scritta a mano era rimasta indietro dove i blocchi
+generati erano gia' corretti:
+
+- il riquadro di testa dichiarava i risultati principali «being regenerated
+  under v2» quando erano gia' tutti v2;
+- la tabella di compilazione dichiarava l'int16 «lossless, 100.000 %» — un
+  numero v1 (420 B, modello 0,9672) incollato sulla riga v2, dove
+  `kan14_compile_real.csv` dice 99,995 % — e usava come baseline una LUT presa
+  da un addestramento diverso, cioe' proprio l'errore che il punto 2 esiste
+  per evitare;
+- la sezione su `models/` dichiarava lo stato del multiclasse NON committato
+  mentre il punto 7 lo aveva appena committato;
+- la tabella "What can actually be flashed" ometteva `main_mlp.cpp` e
+  `main_lut14.cpp`, cioe' la baseline densa e la sampled-LUT, e il blocco
+  `pio run` sotto elencava quattro comandi dicendo «all five variants», con un
+  macro-F1 del protocollo v1;
+- «560 byte» per le tabelle categoriche non era sostenuto da alcun artefatto
+  (nell'header deployato sono 32), «all 12 cells» erano 11, «ogni altra classe
+  sopra 0,88» era falso per l'albero d=5, e un'attribuzione causale a
+  numpy/scipy non aveva alcun esperimento che isolasse la variabile.
+
+Il report PDF conteneva ancora un'affermazione che i 10 seed avevano ritirato:
+che in direzione BoT→TON «qualunque classifica sarebbe rumore». Non lo e':
+l'albero d=5 e' il peggiore in modo stabile (media 0,162, deviazione 0,033) e
+otto confronti appaiati su quindici restano separabili dopo Holm. Quel
+paragrafo ora legge i numeri dagli artefatti invece di affermarli.
+
+Due environment esistono solo per l'ESP32-C3, `esp32c3_mc` e `esp32c3_mc_e2e`.
+Il README ora lo dichiara come lacuna e non come limite: entrambi gli header a
+10 classi sono interamente `PROGMEM` e starebbero in Flash sul Mega 2560
+(8.268 B e 22.264 B su 253.952).
+
+**Stato canonico del multiclasse.** I due header a 10 classi erano artefatti
+congelati: verificati bit per bit, ma di provenienza perduta. Lo stato e'
+stato riaddestrato una volta, committato in `models/` e i due header riemessi
+da li'; un test rilancia l'export e li confronta byte per byte. Il prezzo
+dichiarato: macro-F1 da 0,9378 a 0,9384 sullo stato float, da 0,9352 a 0,9362
+sulla catena e2e, uno o due campioni MITM su 208.
+
+**Trovati verificando, e piu' gravi di cio' che li ha fatti emergere.** I tre
+kernel KAN a coefficienti chiudevano ogni edge con `((int64_t)acc * MULT) >>
+15`: su ATmega2560 int64 non esiste, e nell'assembly comparivano `__mulsidi3`
+e `__ashrdi3`, dieci coppie per inferenza nella single-layer e
+centosettantasei nel multi-layer — lo stesso difetto tolto dall'MLP quando la
+baseline densa e' stata scritta. Il confronto di latenza fra KAN e MLP sarebbe
+stato fra un kernel scritto per il target e uno no. La sostituzione e'
+un'identita' esatta, `(a>>15)*m + ((a & 32767)*m >> 15)`, verificata sui logit
+interi di 200.000 ingressi casuali. E `.gitignore` escludeva
+`models/*multiclass*.pkl` con la motivazione «rigenerabile e senza valore di
+deployment», falsa su entrambi i punti; il controllo che avrebbe dovuto
+accorgersene guardava `Path.exists()` invece di chiedere a git.
+
 ## Terza revisione: verso v2.1-rc2 (agosto 2026)
 
 Sette richieste del Prof. Kuznetsov prima delle misure sulle schede. Questa

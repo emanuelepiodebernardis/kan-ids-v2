@@ -36,7 +36,16 @@ def cheb_T(x, deg=8):
 d = prepare14_dict()
 Xtr = (d["Xtr"]/3.5).astype(np.float64); Xte = (d["Xte"]/3.5).astype(np.float64)
 ymte = d["ymte"]; CTtr, CTte = d["CTtr"], d["CTte"]; cards = list(d["cards"])
-st = pickle.load(open(_ART("mlcat_state.pkl"), "rb"))
+# Lo stato di training si cerca prima nella cache e poi in models/, che e'
+# versionata: senza, questo export non parte da un clone pulito, e l'header a
+# 10 classi resta un artefatto di cui nessuno puo' rifare la provenienza
+# (richiesta del Prof. Kuznetsov, rc3 punto 7).
+from kanids.checkpoint import motivo as _motivo, trova as _trova  # noqa: E402
+_stato = _trova("mlcat_state.pkl")
+if _stato is None:
+    raise SystemExit(_motivo("mlcat_state.pkl"))
+print(f"[stato] {_stato}")
+st = pickle.load(open(_stato, "rb"))
 C1, C2 = st["p"][0].astype(np.float64), st["p"][1].astype(np.float64)
 tabs = [t.astype(np.float64) for t in st["p"][2:]]
 K, HID = C1.shape[0], C1.shape[1]; C = C2.shape[1]; J = len(tabs)
@@ -118,7 +127,16 @@ with open("mcu_pio/include/kan14_mc_coeff_int8.h", "w", encoding="utf-8", newlin
             f"(macro-F1 {MACRO_F1:.4f}, misurato all'export),\n"
             " * coefficienti B-spline FULL-INTEGER int8 (~8 KB). Generato da\n"
             " * export_kan14_mc_coeff_c.py. Classi (LabelEncoder alfabetico):\n"
-            " * backdoor,ddos,dos,injection,mitm,normal,password,ransomware,scanning,xss */\n"
+            " * backdoor,ddos,dos,injection,mitm,normal,password,ransomware,scanning,xss\n"
+            " *\n"
+            " * STATO CANONICO: models/kan14_multiclass_multilayer.pkl.\n"
+            " * Questo header non e' piu' un artefatto congelato di provenienza\n"
+            " * perduta: e' la funzione deterministica di quel file versionato, e\n"
+            " * tests/test_stato_multiclasse.py lo riemette e lo confronta byte per\n"
+            " * byte. Rigenerarlo: python reproduce.py --stage integer-10classi.\n"
+            " * RIADDESTRARE lo stato (--stage multiclass-state) ne produce invece\n"
+            " * uno diverso: 300 epoche di Adam amplificano l'ordine delle riduzioni\n"
+            " * BLAS fino a spostare uno o due campioni MITM su 208. */\n"
             "#pragma once\n#include <stdint.h>\n"
             "#ifdef __AVR__\n#include <avr/pgmspace.h>\n#else\n#ifndef PROGMEM\n#define PROGMEM\n#endif\n#endif\n\n")
     f.write(f"#define KMC_HID {HID}\n#define KMC_NCLS {C}\n#define KMC_NSEG {N_INT}\n"

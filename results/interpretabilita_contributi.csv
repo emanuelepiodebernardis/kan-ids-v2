@@ -15,6 +15,7 @@ vettore,caso,edge,contributo
 7,"attacco, logit alto",dns_rejected (cat),181440
 7,"attacco, logit alto",SOMMA = logit,12042992
 7,"attacco, logit alto",predizione (1 = attacco),1
+7,"attacco, logit alto",etichetta vera (1 = attacco),1
 140,"normale, logit basso",src_ip_bytes,787221
 140,"normale, logit basso",dst_port,-1479009
 140,"normale, logit basso",dst_ip_bytes,-2136592
@@ -31,6 +32,7 @@ vettore,caso,edge,contributo
 140,"normale, logit basso",dns_rejected (cat),-1152144
 140,"normale, logit basso",SOMMA = logit,-11561249
 140,"normale, logit basso",predizione (1 = attacco),0
+140,"normale, logit basso",etichetta vera (1 = attacco),0
 29,il piu' vicino alla soglia,src_ip_bytes,-37801
 29,il piu' vicino alla soglia,dst_port,274596
 29,il piu' vicino alla soglia,dst_ip_bytes,1401193
@@ -47,3 +49,4 @@ vettore,caso,edge,contributo
 29,il piu' vicino alla soglia,dns_rejected (cat),743904
 29,il piu' vicino alla soglia,SOMMA = logit,120232
 29,il piu' vicino alla soglia,predizione (1 = attacco),1
+29,il piu' vicino alla soglia,etichetta vera (1 = attacco),1
