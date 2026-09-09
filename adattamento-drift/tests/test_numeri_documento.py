@@ -71,8 +71,28 @@ CASI_TRE_DOMINI = [
 ]
 
 
+CASI_GRADUALE = [
+    (f"sez. 7 · {exp} · {pol}",
+     float(pd.read_csv(_ROOT / "results" / "drift_graduale_runs.csv")
+           .query("exp == @exp and politica == @pol").bal_acc.mean()))
+    for exp, pol in [("ton->bot", "statico"), ("ton->bot", "ogni_batch"),
+                     ("bot->ton", "ogni_batch"), ("unsw->bot", "ogni_batch"),
+                     ("ton->unsw", "statico")]
+]
+
+CASI_GRADUALE_INT = [
+    (f"sez. 13 · {exp} · {pol}",
+     float(pd.read_csv(_ROOT / "results" / "drift_graduale_int_runs.csv")
+           .query("exp == @exp and politica == @pol")
+           .groupby("seed").bal_acc.mean().mean()))
+    for exp, pol in [("unsw->bot", "ogni_batch_int"), ("ton->bot", "ogni_batch_int"),
+                     ("bot->ton", "ogni_batch_int"), ("unsw->bot", "statico")]
+]
+
+
 @pytest.mark.parametrize("etichetta,valore",
-                         CASI_SAMPLING + CASI_DIAGNOSI + CASI_TRE_DOMINI)
+                         CASI_SAMPLING + CASI_DIAGNOSI + CASI_TRE_DOMINI
+                         + CASI_GRADUALE + CASI_GRADUALE_INT)
 def test_il_valore_compare_nel_documento(etichetta, valore):
     atteso = _it(valore)
     assert atteso in DOC, (
@@ -113,3 +133,28 @@ def test_nessun_numero_a_tre_seed_nelle_sezioni_riscritte():
     for n in ("1", "4", "5", "11"):
         sez = DOC.split(f"## {n}.")[1].split("\n## ")[0]
         assert "media su 3 seed" not in sez, f"la sezione {n} dichiara ancora una media su 3 seed"
+
+
+def test_la_martingala_intera_non_scatta_mai_in_ton_unsw():
+    """La riga 0/10 della sezione 13 è il limite aperto più netto del lavoro:
+    se un run futuro la facesse scattare, il documento non potrebbe più dire
+    «mai» e questo test lo segnala."""
+    d = pd.read_csv(_ROOT / "results" / "drift_graduale_int_runs.csv")
+    per_seed = (d[(d.exp == "ton->unsw") & (d.politica == "martingala_int")]
+                .groupby("seed").adattamenti.max())
+    assert int((per_seed > 0).sum()) == 0, (
+        "la martingala intera ora scatta in ton->unsw: la sezione 13 va riscritta")
+    assert "| **ton→unsw** | **0/10** |" in DOC
+
+
+def test_il_riadattamento_continuo_batte_lo_statico_in_tutte_le_direzioni():
+    """L'affermazione più forte del lavoro, verificata sui dati invece che
+    riletta: se una direzione smettesse di reggere, la build fallisce."""
+    d = pd.read_csv(_ROOT / "results" / "drift_graduale_int_runs.csv")
+    for exp in d.exp.unique():
+        s_ = d[d.exp == exp]
+        a = s_[s_.politica == "ogni_batch_int"].groupby("seed").bal_acc.mean()
+        b = s_[s_.politica == "statico"].groupby("seed").bal_acc.mean()
+        j = a.index.intersection(b.index)
+        assert (a[j] - b[j]).mean() > 0, f"{exp}: il riadattamento continuo non batte più lo statico"
+    assert "Sei direzioni su sei, tutte significative dopo Holm" in DOC

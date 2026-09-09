@@ -369,36 +369,54 @@ la perdita era nella selezione.
 ## 7. Deriva graduale
 
 Lo stream parte dal dominio sorgente e ci mescola una frazione crescente di
-flussi target, 20 batch da 20 000 flussi. Quattro politiche.
+flussi target, 20 batch da 20 000 flussi. La valutazione è **prequenziale**:
+ogni batch è prima valutato con il modello corrente e poi usato per
+adattarlo, quindi nessuna riga entra nella valutazione dopo aver contribuito
+all'aggiornamento. Sei direzioni, 10 seed, sette politiche.
 
 **Quando si rompe.** Il modello statico degrada in modo regolare: in TON→BoT
-scende sotto 0,95 al **10% di contaminazione**, sotto 0,90 al 26%, sotto 0,85
-al 42%, fino a 0,51 a contaminazione piena.
+scende sotto 0,95 al **10 % di contaminazione**, sotto 0,90 al 26 %, sotto
+0,85 al 42 %, fino a 0,5369 a contaminazione piena.
 
-| Politica | TON→BoT | BoT→TON | adattamenti | etichette |
-|---|---|---|---|---|
-| statico | 0,8169 | 0,8467 | 0 | 0 |
-| **ogni batch, buffer 256** | **0,9433** | 0,8501 | 19 | 608 |
-| su innesco conformal | 0,8326 | 0,8535 | 5 / 16 | 160 / 512 |
-| oracolo (etichette bilanciate) | 0,9402 | **0,9256** | 19 | 608 |
+Balanced accuracy media sui 20 batch e sui 10 seed:
+
+| Politica | ton→bot | bot→ton | ton→unsw | unsw→ton | bot→unsw | unsw→bot |
+|---|---|---|---|---|---|---|
+| statico | 0,8184 | 0,8179 | 0,5766 | 0,5626 | 0,7177 | 0,7751 |
+| su innesco conformal | 0,8497 | 0,8982 | 0,5766 | 0,5626 | 0,7976 | 0,7751 |
+| innesco a martingala | 0,9451 | 0,8906 | 0,5985 | 0,7099 | 0,8311 | 0,7751 |
+| **ogni batch, buffer 256** | **0,9459** | 0,8881 | **0,7235** | **0,7099** | 0,8207 | 0,8594 |
+| minimi quadrati ricorsivi | 0,9247 | 0,7434 | 0,6970 | 0,6939 | 0,7099 | 0,8188 |
+| oracolo *(etichette bilanciate)* | 0,9475 | 0,9252 | 0,7220 | 0,7092 | 0,8636 | 0,8675 |
+
+**Il riadattamento continuo generalizza: batte lo statico in 6 direzioni su
+6**, e raggiunge l'oracolo in quattro di esse. È l'affermazione più solida
+del lavoro, e la sezione 13 la conferma sulla catena intera con un test
+appaiato.
 
 **Il buffer è tutto.** Nella prima versione ogni riadattamento rifaceva i
 guadagni da zero sulle 32 etichette del batch corrente: media 0,8134, cioè
-**peggio del modello statico**, con oscillazioni fra 0,44 e 0,96. Conservando
-le ultime 256 etichette e rifittando sull'intero buffer si passa a 0,9433,
-sopra l'oracolo. Un dispositivo che adatta senza memoria fa danno.
+peggio del modello statico, con oscillazioni fra 0,44 e 0,96. ⚠ *(quel
+confronto viene da una politica poi rimossa dagli script e non è oggi
+rigenerabile: la cifra va rimisurata o l'affermazione va riformulata senza
+numero prima di andare nell'articolo.)* Il meccanismo però non dipende da
+quel numero: stimare 13 coefficienti da 32 osservazioni è una stima ad alta
+varianza, e il buffer non aggiunge informazione — riduce la varianza dello
+stimatore mediando su più batch. Un dispositivo che adatta senza memoria fa
+danno.
 
-**L'innesco conformal ha la sensibilità invertita.** Scatta 5 volte su 20 in
-TON→BoT, dove l'adattamento vale 12 punti, e 16 volte su 20 in BoT→TON, dove
-ne vale meno di uno. Come rilevatore di deriva su questo segnale non funziona:
-serve una statistica diversa, e per ora l'affermazione "la conformal fornisce
-il segnale di innesco" va tolta dal report.
+**L'innesco ha la sensibilità invertita, e con sei direzioni si vede meglio.**
+La soglia conformal scatta 5,3 volte su 19 in TON→BoT, dove l'adattamento
+vale 13 punti, e 15,6 volte in BoT→TON, dove ne vale 7. In tre direzioni su
+sei — `ton→unsw`, `unsw→ton`, `unsw→bot` — **non scatta mai**, e infatti la
+sua riga coincide con quella del modello statico. La martingala corregge in
+parte: scatta 17-18 volte su 19 in quattro direzioni, ma resta a 2,8 in
+`ton→unsw` e a zero in `unsw→bot`.
 
 **Una trappola metodologica.** A contaminazione piena tutte le politiche
-calano di colpo (0,9672 → 0,8682). La balanced accuracy su uno stream misto è
-ottimista, perché la parte sorgente resta facile: misurare la deriva su una
-miscela e riportare un numero solo nasconde il caso peggiore.
-
+calano di colpo. La balanced accuracy su uno stream misto è ottimista,
+perché la parte sorgente resta facile: misurare la deriva su una miscela e
+riportare un numero solo nasconde il caso peggiore.
 ## 8. Si può fare a meno delle etichette? Quattro metodi dalla letteratura
 
 Il limite più serio del risultato è che l'aggiornamento richiede etichette del
@@ -736,55 +754,73 @@ candidato misurato per sbloccare `unsw→bot`, ed è per questo che va
 riconfermato per primo fra le tabelle rimaste indietro: il confronto con la
 regola adattiva sull'accuratezza è meno interessante della sua capacità di
 trovare la classe rara dove nient'altro ci riesce.
-## 13. Le sezioni 6 e 7 rifatte su sei direzioni
+## 13. Le sezioni 6 e 7 sulla catena intera
 
 Sono le due che sostengono le affermazioni sul dispositivo, quindi le più
 importanti da non lasciare su due direzioni.
 
-### 6 rifatta — regge, e meglio di prima
+### 6 — l'aritmetica intera non costa accuratezza
 
-Balanced accuracy, tutto in interi, 3 seed:
+Balanced accuracy, 10 seed, sei direzioni:
 
 | | ton→bot | bot→ton | ton→unsw | unsw→ton | bot→unsw | unsw→bot |
 |---|---|---|---|---|---|---|
-| intero, non adattato | 0,4622 | 0,7037 | 0,2981 | 0,4153 | 0,4369 | 0,4136 |
-| + guadagni stimati in float | 0,8328 | 0,8609 | 0,5759 | 0,7607 | 0,6694 | 0,5757 |
-| **+ guadagni stimati in interi** | 0,7321 | **0,8602** | **0,6434** | 0,7204 | 0,6200 | **0,6715** |
+| float, non adattato | 0,5575 | 0,6112 | 0,2243 | 0,2940 | 0,4613 | 0,7248 |
+| intero, non adattato | 0,4811 | 0,7098 | 0,3062 | 0,4280 | 0,4332 | 0,4140 |
+| + guadagni stimati in float, n=128 | 0,8129 | **0,8203** | 0,5550 | **0,7639** | 0,6274 | 0,5713 |
+| **+ guadagni stimati in interi, n=128** | 0,7532 | 0,8174 | 0,5483 | 0,7289 | **0,6320** | **0,6294** |
 
-**Sei direzioni su sei migliorano.** E la stima intera batte quella in virgola
-mobile in 2 direzioni su 6, restando entro pochi punti nelle altre tranne
-`ton→bot`. L'affermazione "l'aritmetica intera non costa accuratezza" regge.
+**Sei direzioni su sei migliorano** rispetto al non adattato. La stima intera
+batte quella in virgola mobile in 2 direzioni su 6 e resta entro pochi punti
+nelle altre: l'affermazione «l'aritmetica intera non costa accuratezza»
+regge.
 
-Il risultato inatteso: **la catena intera funziona in `unsw→bot`, dove quella
-float falliva del tutto** (0,4136 → 0,6715). Il motivo non è l'aritmetica ma
-la selezione: la pipeline intera deduplica sui contributi — uguaglianza esatta
-fra interi — e quella deduplicazione trova normali dove la regola adattiva sui
-punteggi float ne trovava zero. Un dettaglio implementativo nato per risparmiare
-etichette si è rivelato la cosa che sblocca la direzione più difficile.
+Il risultato inatteso, confermato: **la catena intera funziona in
+`unsw→bot`, dove quella float è la peggiore** (0,6294 contro 0,5713). Il
+motivo non è l'aritmetica ma la selezione — la pipeline intera deduplica sui
+contributi, uguaglianza esatta fra interi, e quella deduplicazione trova
+normali dove la regola sui punteggi float ne trova meno. Un dettaglio
+implementativo nato per risparmiare etichette si è rivelato un criterio di
+selezione (`MECCANISMI.md`, sezione 6).
 
-### 7 rifatta — il riadattamento regge, l'innesco no
+### 7 — il riadattamento continuo regge; l'innesco no
 
-| Politica | direzioni in cui batte lo statico | note |
+Riadattamento continuo **interamente in aritmetica intera** contro il modello
+statico, delta appaiato per seed, correzione di Holm sulle sei direzioni:
+
+| direzione | continuo | statico | delta | t | p (Holm) |
+|---|---|---|---|---|---|
+| unsw→bot | 0,8594 | 0,5987 | **+0,2607** | +91,5 | **<0,0001** |
+| ton→unsw | 0,7287 | 0,5876 | +0,1411 | +17,1 | **<0,0001** |
+| ton→bot | 0,9076 | 0,7683 | +0,1393 | +12,6 | **<0,0001** |
+| bot→unsw | 0,8360 | 0,7040 | +0,1319 | +25,3 | **<0,0001** |
+| unsw→ton | 0,7057 | 0,6227 | +0,0830 | +16,1 | **<0,0001** |
+| bot→ton | 0,8819 | 0,8417 | +0,0402 | +3,3 | **0,0094** |
+
+**Sei direzioni su sei, tutte significative dopo Holm**, con |t| da 3,3 a
+91,5 e guadagni da +0,04 a +0,26. Nessun float in nessun passaggio:
+punteggio, selezione, stima dei guadagni e riscrittura sono tutti interi.
+È il risultato più solido del lavoro, e l'unico che sopravvive a ogni
+verifica fatta finora senza qualifiche.
+
+**L'innesco no.** La martingala in aritmetica intera, misurata per quanti
+seed su 10 la fanno scattare almeno una volta:
+
+| direzione | seed in cui scatta | adattamenti medi |
 |---|---|---|
-| **ogni batch, buffer 256** | **6 su 6** (+0,03…+0,14) | pari all'oracolo |
-| oracolo (etichette bilanciate) | 6 su 6 | tetto |
-| martingala conformal | 4 su 6 | non scatta mai in 2 direzioni |
-| minimi quadrati ricorsivi | 4 su 6 | crolla in `bot→ton` (−0,16) |
-| innesco a soglia conformal | 3 su 6 | non scatta mai in 3 direzioni |
+| bot→ton | 10/10 | 17,5 |
+| bot→unsw | 10/10 | 17,8 |
+| unsw→ton | 10/10 | 18,0 |
+| unsw→bot | 8/10 | 8,5 |
+| ton→bot | 8/10 | 7,6 |
+| **ton→unsw** | **0/10** | **0,0** |
 
-**Il riadattamento continuo con buffer generalizza**: 6 direzioni su 6, e
-raggiunge l'oracolo. È l'affermazione più solida di tutto il lavoro.
-
-**L'innesco no.** La martingala migliora sulla soglia conformal (4/6 contro
-3/6) ma in `ton→unsw` e `unsw→bot` **non scatta mai**: zero adattamenti in 20
-batch, mentre l'adattamento continuo lì guadagna 14 e 9 punti. Rilevare la
-deriva resta un problema aperto, e con sei direzioni si vede che è più grave di
-quanto sembrasse.
-
-**I minimi quadrati ricorsivi restano inaffidabili**: 4 su 6, con un crollo di
-16 punti in `bot→ton`. Confermato che sono la cosa da sistemare prima di
-qualunque misura su hardware.
-
+In `ton→unsw` non scatta **mai**, in nessuno dei 10 seed, mentre lì
+l'adattamento continuo guadagna 14 punti. Rilevare la deriva resta il
+problema aperto, e con sei direzioni si vede che è più grave di quanto
+sembrasse: il segnale di conformità |z − mediana| non è quello giusto, e la
+sezione 4 di `MECCANISMI.md` mostra che per questa famiglia di inneschi il
+limite è dimostrabile, non solo constatato.
 ## 14. La terna del professore, misurata
 
 Il dataset caricato è **CICIoMT2024** (Internet of Medical Things), non

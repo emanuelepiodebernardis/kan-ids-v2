@@ -17,8 +17,9 @@ procedura che l'ha misurato e' quella corretta.
 
 I numeri senza marcatore vengono dai CSV rigenerati sotto il protocollo
 corretto, 10 seed. Quelli marcati **⚠** vengono da script non ancora
-rigenerati (`drift_graduale.py`, `drift_trasferimenti.py`, e le sei
-direzioni di `drift_senza_etichette.py`): il meccanismo che spiegano non
+rigenerati (`drift_trasferimenti.py` e le sei direzioni di
+`drift_senza_etichette.py`), o da una politica non piu' presente negli
+script: il meccanismo che spiegano non
 cambia, ma la cifra va riconfermata prima di finire in una tabella
 dell'articolo.
 
@@ -257,9 +258,10 @@ fra selezione e stima resta confusa.
 guadagni da zero sulle 32 etichette del batch corrente — la media e' 0,8134
 con oscillazioni fra 0,44 e 0,96: **peggio del modello statico**.
 Conservando le ultime 256 etichette e rifittando sull'intero buffer si passa
-a 0,9433. ⚠ (`drift_graduale.py` gira su 10 seed ma con la valutazione
-prequenziale, non toccata dalla partizione: i numeri restano quelli del
-protocollo precedente e vanno riverificati prima di andare in tabella.)
+a 0,9433. ⚠ *(il confronto «senza buffer» viene da una politica poi rimossa dagli
+script: non e' oggi rigenerabile, e quel numero va rimisurato o
+l'affermazione riformulata senza cifra. Il resto della sezione 7 e' invece
+verificato sui CSV a 10 seed e sei direzioni.)*
 
 **Meccanismo.** Stimare 13 coefficienti da 32 osservazioni e' una stima ad
 alta varianza; ripeterla da zero a ogni batch fa oscillare il modello

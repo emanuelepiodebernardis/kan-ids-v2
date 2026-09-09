@@ -413,3 +413,90 @@ quando il sondaggio non restituisce entrambe le classi.
 Firth vince in 20 casi su 49 con mediana −0,0004. È esattamente una moneta:
 va tolto.
 
+
+
+<!-- SEZIONE 13 (numeri non aggiornati dai CSV) -->
+## 13. Le sezioni 6 e 7 rifatte su sei direzioni
+
+Sono le due che sostengono le affermazioni sul dispositivo, quindi le più
+importanti da non lasciare su due direzioni.
+
+### 6 rifatta — regge, e meglio di prima
+
+Balanced accuracy, tutto in interi, 3 seed:
+
+| | ton→bot | bot→ton | ton→unsw | unsw→ton | bot→unsw | unsw→bot |
+|---|---|---|---|---|---|---|
+| intero, non adattato | 0,4622 | 0,7037 | 0,2981 | 0,4153 | 0,4369 | 0,4136 |
+| + guadagni stimati in float | 0,8328 | 0,8609 | 0,5759 | 0,7607 | 0,6694 | 0,5757 |
+| **+ guadagni stimati in interi** | 0,7321 | **0,8602** | **0,6434** | 0,7204 | 0,6200 | **0,6715** |
+
+**Sei direzioni su sei migliorano.** E la stima intera batte quella in virgola
+mobile in 2 direzioni su 6, restando entro pochi punti nelle altre tranne
+`ton→bot`. L'affermazione "l'aritmetica intera non costa accuratezza" regge.
+
+Il risultato inatteso: **la catena intera funziona in `unsw→bot`, dove quella
+float falliva del tutto** (0,4136 → 0,6715). Il motivo non è l'aritmetica ma
+la selezione: la pipeline intera deduplica sui contributi — uguaglianza esatta
+fra interi — e quella deduplicazione trova normali dove la regola adattiva sui
+punteggi float ne trovava zero. Un dettaglio implementativo nato per risparmiare
+etichette si è rivelato la cosa che sblocca la direzione più difficile.
+
+### 7 rifatta — il riadattamento regge, l'innesco no
+
+| Politica | direzioni in cui batte lo statico | note |
+|---|---|---|
+| **ogni batch, buffer 256** | **6 su 6** (+0,03…+0,14) | pari all'oracolo |
+| oracolo (etichette bilanciate) | 6 su 6 | tetto |
+| martingala conformal | 4 su 6 | non scatta mai in 2 direzioni |
+| minimi quadrati ricorsivi | 4 su 6 | crolla in `bot→ton` (−0,16) |
+| innesco a soglia conformal | 3 su 6 | non scatta mai in 3 direzioni |
+
+**Il riadattamento continuo con buffer generalizza**: 6 direzioni su 6, e
+raggiunge l'oracolo. È l'affermazione più solida di tutto il lavoro.
+
+**L'innesco no.** La martingala migliora sulla soglia conformal (4/6 contro
+3/6) ma in `ton→unsw` e `unsw→bot` **non scatta mai**: zero adattamenti in 20
+batch, mentre l'adattamento continuo lì guadagna 14 e 9 punti. Rilevare la
+deriva resta un problema aperto, e con sei direzioni si vede che è più grave di
+quanto sembrasse.
+
+**I minimi quadrati ricorsivi restano inaffidabili**: 4 su 6, con un crollo di
+16 punti in `bot→ton`. Confermato che sono la cosa da sistemare prima di
+qualunque misura su hardware.
+
+
+<!-- SEZIONE 7 (numeri non aggiornati dai CSV) -->
+## 7. Deriva graduale
+
+Lo stream parte dal dominio sorgente e ci mescola una frazione crescente di
+flussi target, 20 batch da 20 000 flussi. Quattro politiche.
+
+**Quando si rompe.** Il modello statico degrada in modo regolare: in TON→BoT
+scende sotto 0,95 al **10% di contaminazione**, sotto 0,90 al 26%, sotto 0,85
+al 42%, fino a 0,51 a contaminazione piena.
+
+| Politica | TON→BoT | BoT→TON | adattamenti | etichette |
+|---|---|---|---|---|
+| statico | 0,8169 | 0,8467 | 0 | 0 |
+| **ogni batch, buffer 256** | **0,9433** | 0,8501 | 19 | 608 |
+| su innesco conformal | 0,8326 | 0,8535 | 5 / 16 | 160 / 512 |
+| oracolo (etichette bilanciate) | 0,9402 | **0,9256** | 19 | 608 |
+
+**Il buffer è tutto.** Nella prima versione ogni riadattamento rifaceva i
+guadagni da zero sulle 32 etichette del batch corrente: media 0,8134, cioè
+**peggio del modello statico**, con oscillazioni fra 0,44 e 0,96. Conservando
+le ultime 256 etichette e rifittando sull'intero buffer si passa a 0,9433,
+sopra l'oracolo. Un dispositivo che adatta senza memoria fa danno.
+
+**L'innesco conformal ha la sensibilità invertita.** Scatta 5 volte su 20 in
+TON→BoT, dove l'adattamento vale 12 punti, e 16 volte su 20 in BoT→TON, dove
+ne vale meno di uno. Come rilevatore di deriva su questo segnale non funziona:
+serve una statistica diversa, e per ora l'affermazione "la conformal fornisce
+il segnale di innesco" va tolta dal report.
+
+**Una trappola metodologica.** A contaminazione piena tutte le politiche
+calano di colpo (0,9672 → 0,8682). La balanced accuracy su uno stream misto è
+ottimista, perché la parte sorgente resta facile: misurare la deriva su una
+miscela e riportare un numero solo nasconde il caso peggiore.
+
