@@ -43,6 +43,25 @@ QUI = Path(__file__).resolve().parent
 SEED = "42,43,44,45,46,47,48,49,50,51"
 SEI = "ton->bot,bot->ton,ton->unsw,unsw->ton,bot->unsw,unsw->bot"
 
+PROTOCOLLO = Path(__file__).resolve().parent / "kanids" / "valutazione.py"
+
+
+def checkpoint_obsoleto(argomenti) -> Path | None:
+    """Un checkpoint scritto prima del cambio di protocollo contiene numeri
+    che non sono confrontabili con quelli nuovi, e -- peggio -- verrebbe
+    riusato in silenzio, perche' gli script saltano cio' che e' gia' fatto.
+    E' esattamente il modo in cui un risultato vecchio rientra da una porta
+    laterale, quindi qui si controlla invece di sperare."""
+    script = Path(argomenti[0]).stem
+    base = script.replace("drift_", "drift_") if script != "tre_domini" else "tre_domini"
+    for ckpt in (Path(__file__).resolve().parent / "artifacts").glob(f"{base}*.jsonl"):
+        if "ratio" in ckpt.stem or "iters" in ckpt.stem or "adaptive" in ckpt.stem:
+            continue          # varianti con nome proprio, non toccate da questi stage
+        if ckpt.stat().st_mtime < PROTOCOLLO.stat().st_mtime:
+            return ckpt
+    return None
+
+
 # (nome, argomenti, nel_paper, cosa produce)
 STAGE = [
     ("spazio_ridotto", ["scripts/spazio_ridotto.py", "--seeds", SEED], True,
@@ -136,6 +155,18 @@ def main() -> int:
         print("controlla che sia la cartella giusta.", file=sys.stderr)
         return 2
     print(f"dataset: {dati}")
+
+    obsoleti = [(n, c) for n, a, _, _ in scelti
+                if (c := checkpoint_obsoleto(a)) is not None]
+    if obsoleti:
+        print("Questi stage hanno un checkpoint scritto PRIMA del cambio di\n"
+              "protocollo. Rilanciandoli verrebbe riusato in silenzio, e i\n"
+              "numeri vecchi rientrerebbero mescolati ai nuovi:\n", file=sys.stderr)
+        for nome, ckpt in obsoleti:
+            print(f"  {nome:<24} {ckpt.relative_to(QUI)}", file=sys.stderr)
+        print("\nSpostali in artifacts/protocollo_v1/ (insieme ai loro CSV in\n"
+              "results/) e rilancia.", file=sys.stderr)
+        return 2
 
     print(f"{len(scelti)} stage, seed {SEED}")
     print("gli script sono checkpointati: Ctrl-C e rilancio riprendono da qui.\n")
