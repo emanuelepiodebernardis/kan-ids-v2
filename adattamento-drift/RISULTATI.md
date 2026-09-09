@@ -482,8 +482,15 @@ punteggio già adattato da IM, poi si fitta sui contributi originali. In
 `unsw→bot` porta a **0,8031 con 32 etichette contro 0,7258 non adattato**
 (delta +0,0773, t=+3,52, p=0,0065 appaiato su 10 seed), dove la regola
 adattiva non produce nulla. Il guadagno rispetto alla regola adattiva è
-+0,3031, e dopo correzione di Holm sui 12 confronti è l'unico significativo
-insieme al suo omologo a n=8 (+0,2424, p=0,0052).
++0,3031, e dopo correzione di Holm è l'unico significativo insieme al suo
+omologo a n=8 (+0,2424, p=0,0047).
+
+La famiglia ha **11 confronti e non 12**: in `ton→unsw` a 32 etichette i due
+metodi danno lo stesso identico risultato in tutti e 10 i seed, quindi le
+differenze appaiate sono tutte esattamente zero e non c'è un test da fare —
+IM sceglie le stesse righe della regola adattiva. Un confronto senza varianza
+non è un confronto non significativo: è un'identità, e va escluso dalla
+famiglia invece che contato come fallimento.
 
 **E non costa niente nelle altre cinque direzioni**: i dieci confronti
 restanti hanno tutti p corretto pari a 1,00, con delta fra −0,08 e +0,04. È

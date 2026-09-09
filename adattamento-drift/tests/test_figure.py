@@ -48,3 +48,25 @@ def test_nessuna_figura_disegna_numeri_scritti_a_mano():
             continue
         assert "pd.read_csv(RES" in corpo, (
             f"{f.name} non legge da results/: sta disegnando numeri fissi")
+
+
+def test_holm_esclude_i_confronti_senza_varianza():
+    """Un p vale NaN quando le differenze appaiate sono tutte esattamente
+    zero: i due metodi coincidono, non c'e' un test. Lasciarlo nella
+    famiglia gonfia m e -- peggio -- `max(prec, nan)` propaga il NaN ai
+    confronti successivi, seppellendo un p genuinamente piccolo. E'
+    successo davvero: nella prima versione di fig7 il confronto piu'
+    significativo del lavoro (p=1,4e-07) veniva disegnato come «non
+    distinguibile»."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("fig", _ROOT / "scripts" / "figure.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    pv = {"identici": float("nan"), "forte": 1.4e-07,
+          "debole": 0.30, "medio": 0.04}
+    h = mod.holm(pv)
+    assert h["forte"] < 1e-6, f"il p piccolo e' stato seppellito: {h['forte']}"
+    assert h["identici"] != h["identici"], "il confronto senza varianza deve restare NaN"
+    # famiglia di 3, non di 4: il piu' piccolo si moltiplica per 3
+    assert abs(h["forte"] - 3 * 1.4e-07) < 1e-12

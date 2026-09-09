@@ -17,6 +17,7 @@ PDF vettoriale per l'articolo, PNG a 300 dpi per il README.
 | `fig4_selezione` | 4 | normali raccolte (meccanismo) accanto alla balanced accuracy (effetto), per regola di selezione e regime di rarita' |
 | `fig5_coeff_vs_rifit` | 11 | delta appaiato per seed con intervallo di confidenza, correzione di Holm su 15 confronti |
 | `fig6_costo` | 17c | calcolo e RAM per aggiornamento, con la soglia di SRAM dell'ATmega2560; la texture distingue misurato da proiettato |
+| `fig7_collo_di_bottiglia` | 9 | la direzione che fallisce con ogni regola normale e i due selettori che la sbloccano, accanto alla prova che altrove non servono |
 
 ## Scelte di resa, dichiarate
 
@@ -30,6 +31,14 @@ PDF vettoriale per l'articolo, PNG a 300 dpi per il README.
 - **Un solo asse per pannello.** Due grandezze di scala diversa — MAC e
   RAM, normali raccolte e accuratezza — vanno in due pannelli affiancati,
   mai su due scale y sovrapposte.
+- **Un confronto senza varianza non è un confronto non significativo.**
+  Quando due metodi danno lo stesso identico risultato in ogni seed, il
+  p-value non è definito: quel caso viene escluso dalla famiglia di Holm e
+  dichiarato per quello che è, invece di essere disegnato come un test
+  fallito. Trattarlo come un p qualsiasi non solo gonfia la famiglia — con
+  `max(prec, nan)` propaga il NaN e può seppellire il confronto più
+  significativo, che è esattamente ciò che è successo nella prima versione
+  di `fig7`.
 - **Gli zeri non si disegnano su scala logaritmica.** Le regole che non
   raccolgono nulla sono dichiarate in nota, non appiattite a un valore
   piccolo che sembrerebbe un dato.

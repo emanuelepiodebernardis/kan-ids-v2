@@ -93,10 +93,22 @@ def salva(fig, nome: str):
 
 
 def holm(pv: dict) -> dict:
-    m, prec, out = len(pv), 0.0, {}
-    for r, (k, v) in enumerate(sorted(pv.items(), key=lambda kv: kv[1])):
+    """Correzione di Holm, robusta ai p non definiti.
+
+    Un p vale NaN quando le differenze appaiate sono tutte esattamente zero:
+    i due metodi non si distinguono perche' **sono lo stesso risultato**, non
+    perche' il test non riesca a separarli. Non e' un confronto, quindi non
+    entra nella famiglia -- lasciarlo dentro non solo gonfia `m`, ma con
+    `max(prec, nan)` propaga il NaN a tutti i confronti successivi e puo'
+    seppellire un p genuinamente piccolo. E' successo, ed e' il motivo per
+    cui questa funzione ha una docstring."""
+    validi = {k: v for k, v in pv.items() if v == v}
+    m, prec, out = len(validi), 0.0, {}
+    for r, (k, v) in enumerate(sorted(validi.items(), key=lambda kv: kv[1])):
         prec = min(1.0, max(prec, (m - r) * v))
         out[k] = prec
+    for k in pv:
+        out.setdefault(k, float("nan"))      # identici: nessun test
     return out
 
 
@@ -443,7 +455,107 @@ def fig6():
     salva(fig, "fig6_costo")
 
 
-FIGURE = {1: fig1, 2: fig2, 3: fig3, 4: fig4, 5: fig5, 6: fig6}
+# ── 7 · il collo di bottiglia e i suoi due rimedi ────────────────────
+def fig7():
+    """La direzione che fallisce con ogni regola normale, e i due selettori
+    che la sbloccano — accanto alla prova che altrove non servono a niente.
+    Due pannelli perche' sono due affermazioni diverse: che funzioni li', e
+    che non costi altrove."""
+    e = pd.read_csv(RES / "drift_senza_etichette_runs.csv")
+    t = pd.read_csv(RES / "drift_trasferimenti_runs.csv")
+    budget = [8, 32]
+    fig, assi = plt.subplots(1, 2, figsize=(7.8, 3.7),
+                             gridspec_kw={"width_ratios": [1, 1.3], "wspace": 0.36})
+
+    # — A · unsw->bot: chi produce un numero —
+    ax = assi[0]
+    su = e[e.exp == "unsw->bot"]
+    base = su[su.metodo == "non adattato"].bal_acc.mean()
+    ax.axhline(base, color=TENUE, lw=1.2, ls=(0, (4, 3)), zorder=2)
+    ax.annotate(f"modello non adattato  {base:.3f}".replace(".", ","),
+                (budget[0], base), xytext=(0, -13), textcoords="offset points",
+                ha="left", fontsize=7.4, color=INK2)
+
+    serie = [
+        ("IM come selettore", BLU, MARK[0],
+         [su[su.metodo == f"IM seleziona + {n} etichette"].bal_acc for n in budget]),
+        ("k-center", VERDE, MARK[2],
+         [t[(t.exp == "unsw->bot") & (t.selezione == "kcenter")
+            & (t.stima == "L2") & (t.budget == n)].bal_acc for n in budget]),
+    ]
+    for nome, c, m, vals in serie:
+        mu = [v.mean() for v in vals]
+        sd = [v.std() for v in vals]
+        ax.errorbar(budget, mu, yerr=sd, color=c, lw=2.0, marker=m, ms=6.5,
+                    mfc="white", mew=1.5, ecolor=c, elinewidth=1.0,
+                    capsize=2.5, zorder=4)
+        ax.annotate(nome, (budget[-1], mu[-1]), xytext=(-6, 13),
+                    textcoords="offset points", fontsize=8, color=c,
+                    ha="right", va="bottom")
+    # la regola normale non produce nulla: si dichiara, non si disegna a 0,5
+    ax.scatter(budget, [0.5] * len(budget), s=46, marker="X", color=ARANCIO, zorder=5)
+    ax.annotate("regola adattiva — zero normali\nraccolte in 10 seed su 10",
+                (budget[0], 0.5), xytext=(2, -26), textcoords="offset points",
+                fontsize=7.4, color=ARANCIO, linespacing=1.4)
+    ax.set_xscale("log", base=2); ax.set_xticks(budget)
+    ax.set_xticklabels([str(b) for b in budget])
+    ax.set_xlim(6.5, 40); ax.set_ylim(0.40, 0.94)
+    ax.set_xlabel("budget di etichette"); ax.set_ylabel("balanced accuracy sul target")
+    ax.set_title("UNSW→BoT — la direzione che fallisce", loc="left")
+    ordina(ax)
+
+    # — B · e altrove non serve: delta contro la regola adattiva, n=32 —
+    ax = assi[1]
+    voci, pv = [], {}
+    for d in DIREZIONI:
+        se = e[e.exp == d]
+        a = se[se.metodo == "IM seleziona + 32 etichette"].set_index("seed").bal_acc
+        b = se[se.metodo == "32 etichette"].set_index("seed").bal_acc
+        j = a.dropna().index.intersection(b.dropna().index)
+        if len(j) < 3:
+            continue
+        dl = (a[j] - b[j]).values
+        tt, p = stats.ttest_rel(a[j], b[j]); pv[d] = p
+        ic = stats.t.ppf(0.975, len(dl) - 1) * dl.std(ddof=1) / np.sqrt(len(dl))
+        voci.append((d, dl.mean(), ic))
+    h = holm(pv)
+    voci.sort(key=lambda v: v[1])
+    y = np.arange(len(voci))
+    ax.axvline(0, color=INK2, lw=1.0, zorder=2)
+    for yi, (d, mu, ic) in zip(y, voci):
+        sig = h[d] < 0.05
+        c = BLU if sig else TENUE
+        ax.errorbar(mu, yi, xerr=ic, fmt="o", ms=6.5 if sig else 5,
+                    color=c, ecolor=c, elinewidth=1.2, capsize=2.5,
+                    mfc=c if sig else "white", mew=1.4, zorder=4)
+        if sig:
+            testo = ("p < 0,0001" if h[d] < 1e-4
+                     else f"p = {h[d]:.4f}".replace(".", ","))
+            ax.annotate(testo, (mu + ic, yi), xytext=(7, 0),
+                        textcoords="offset points", fontsize=7.2,
+                        color=c, va="center")
+        elif h[d] != h[d]:      # NaN: nessuna varianza, i due metodi coincidono
+            ax.annotate("stesse righe selezionate in ogni seed",
+                        (mu, yi), xytext=(9, 0), textcoords="offset points",
+                        fontsize=7.0, color=TENUE, va="center")
+    ax.set_yticks(y); ax.set_yticklabels([etichetta(d) for d, _, _ in voci])
+    ax.set_xlim(-0.12, 0.46)
+    ax.set_xlabel("differenza  (IM come selettore − regola adattiva)")
+    ax.set_title("Nelle altre cinque direzioni non cambia niente", loc="left")
+    ordina(ax, griglia="x")
+    legenda = [Line2D([], [], marker="o", ls="", ms=6.5, color=BLU,
+                      label="significativo dopo Holm"),
+               Line2D([], [], marker="o", ls="", ms=5, mfc="white", mec=TENUE,
+                      mew=1.4, label="non distinguibile")]
+    ax.legend(handles=legenda, loc="lower right", borderpad=0.5)
+
+    fig.suptitle("Il collo di bottiglia non è l'adattamento: è trovare cosa etichettare\n"
+                 "barre: ±1 dev.std a sinistra, intervallo di confidenza al 95 % a destra · 10 seed",
+                 x=0.005, ha="left", fontsize=9, y=1.06, color=INK2)
+    salva(fig, "fig7_collo_di_bottiglia")
+
+
+FIGURE = {1: fig1, 2: fig2, 3: fig3, 4: fig4, 5: fig5, 6: fig6, 7: fig7}
 
 
 def main() -> int:
