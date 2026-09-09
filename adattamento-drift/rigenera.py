@@ -13,8 +13,14 @@ comando riprende da dove si era fermato, senza ricalcolare nulla.
 
 Uso:
 
-    set KANIDS_DATA=C:\\percorso\\ai\\dataset      (Windows)
-    export KANIDS_DATA=/percorso/ai/dataset        (Linux/macOS)
+    python rigenera.py --dati "C:\\Users\\...\\kanids-data" --lista
+
+oppure impostando la variabile d'ambiente, con la sintassi della shell in
+uso -- in PowerShell `set` NON imposta una variabile d'ambiente:
+
+    $env:KANIDS_DATA = "C:\\percorso\\ai\\dataset"   (PowerShell)
+    set KANIDS_DATA=C:\\percorso\\ai\\dataset         (cmd.exe)
+    export KANIDS_DATA=/percorso/ai/dataset       (bash/zsh)
 
     python rigenera.py --lista            # cosa farebbe, senza fare nulla
     python rigenera.py                    # gli stage del paper, in ordine
@@ -82,6 +88,10 @@ def main() -> int:
                     help="includi anche gli stage secondari")
     ap.add_argument("--lista", action="store_true",
                     help="stampa cosa verrebbe eseguito e termina")
+    ap.add_argument("--dati", metavar="CARTELLA",
+                    help="cartella dei dataset; alternativa a KANIDS_DATA, "
+                         "utile perche' la sintassi per impostare una "
+                         "variabile d'ambiente cambia fra cmd e PowerShell")
     args = ap.parse_args()
 
     if args.stage:
@@ -102,11 +112,30 @@ def main() -> int:
         print("selezionati ora:", ", ".join(s[0] for s in scelti))
         return 0
 
-    if not os.environ.get("KANIDS_DATA"):
-        print("KANIDS_DATA non e' impostata: deve puntare alla cartella con i\n"
-              "quattro dataset (train_test_network.csv, UNSW_2018_IoT_Botnet_*,\n"
-              "UNSW_NB15_*, test.csv). Vedi README.md.", file=sys.stderr)
+    if args.dati:
+        os.environ["KANIDS_DATA"] = str(Path(args.dati).expanduser().resolve())
+    dati = os.environ.get("KANIDS_DATA")
+    if not dati:
+        print("Non so dove sono i dataset. Passa --dati, oppure imposta\n"
+              "KANIDS_DATA con la sintassi della tua shell:\n\n"
+              '  PowerShell   $env:KANIDS_DATA = "C:\\percorso\\ai\\dataset"\n'
+              "  cmd.exe      set KANIDS_DATA=C:\\percorso\\ai\\dataset\n"
+              "  bash/zsh     export KANIDS_DATA=/percorso/ai/dataset\n\n"
+              "Servono i quattro dataset: train_test_network.csv,\n"
+              "UNSW_2018_IoT_Botnet_Full5pc_1..4.csv, UNSW_NB15_*-set.csv,\n"
+              "test.csv. Vedi README.md.", file=sys.stderr)
         return 2
+    if not Path(dati).is_dir():
+        print(f"la cartella dei dataset non esiste: {dati}", file=sys.stderr)
+        return 2
+    attesi = ["train_test_network.csv", "UNSW_NB15_training-set.csv",
+              "UNSW_2018_IoT_Botnet_Full5pc_1.csv"]
+    mancanti = [f for f in attesi if not (Path(dati) / f).exists()]
+    if mancanti:
+        print(f"in {dati} mancano: {', '.join(mancanti)}", file=sys.stderr)
+        print("controlla che sia la cartella giusta.", file=sys.stderr)
+        return 2
+    print(f"dataset: {dati}")
 
     print(f"{len(scelti)} stage, seed {SEED}")
     print("gli script sono checkpointati: Ctrl-C e rilancio riprendono da qui.\n")

@@ -82,10 +82,16 @@ rifacendo la scelta onestamente, e' in
 
 ## Rigenerare i risultati
 
-    export KANIDS_DATA=/percorso/ai/dataset     # set KANIDS_DATA=... su Windows
-    python rigenera.py --lista                  # cosa farebbe
-    python rigenera.py                          # gli stage del paper
-    python rigenera.py --tutto                  # anche i secondari
+    python rigenera.py --dati /percorso/ai/dataset --lista   # cosa farebbe
+    python rigenera.py --dati /percorso/ai/dataset           # stage del paper
+    python rigenera.py --dati /percorso/ai/dataset --tutto   # anche i secondari
+
+In alternativa a `--dati`, la variabile `KANIDS_DATA` -- con la sintassi
+della shell in uso, che su Windows non e' la stessa fra le due:
+
+    $env:KANIDS_DATA = "C:\percorso\ai\dataset"   # PowerShell (`set` non basta)
+    set KANIDS_DATA=C:\percorso\ai\dataset         # cmd.exe
+    export KANIDS_DATA=/percorso/ai/dataset       # bash/zsh
 
 Gli stage sono ordinati dal piu' economico al piu' caro e gli script sono
 checkpointati: interrompere e rilanciare riprende senza ricalcolare.
