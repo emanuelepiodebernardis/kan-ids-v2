@@ -55,6 +55,50 @@ si riconosce dagli attacchi MQTT e dai nomi `*_test.pcap.csv`, non ce l'ha.
 senza durata) e quello ridotto (6+2, con `flow_duration`) di conseguenza:
 verificare quale dei due file si ha in mano prima di interpretare i numeri.
 
+## Protocollo di valutazione
+
+`kanids/valutazione.py` divide il target in **validation (30 %)** e **test
+(70 %)**, e da entrambe toglie le righe spese per l'adattamento. La
+partizione dipende dal solo seed, non da quali righe la regola ha
+selezionato: dentro uno stesso seed ogni metodo e ogni budget vedono lo
+stesso test set, quindi i confronti appaiati sono davvero appaiati.
+
+**Le costanti si scelgono sulla validation, mai sul test.** Chi esegue uno
+sweep gira in modo selezione (`KANIDS_MODO=selezione`) e leggere il test
+solleva `AccessoAlTestVietato`: e' un errore di esecuzione, non una
+convenzione da ricordare. Dove non esiste un complemento da ritagliare --
+`drift_graduale.py` valuta in modo prequenziale, ogni batch prima valutato
+e poi usato per adattare, quindi l'intero stream e' il test -- la scelta si
+fa su **seed di calibrazione** (90-99) disgiunti dai seed di riporto
+(42-51), e lo sweep si ferma se gli si passano questi ultimi.
+
+I risultati prodotti prima di questa correzione sono in
+`results/protocollo_v1/` e `artifacts/protocollo_v1/`. Restano validi come
+valutazione -- il complemento delle righe selezionate non era contaminato --
+ma stanno su un test set diverso, quindi non vanno mescolati con i numeri
+nuovi. Cosa era stato scelto guardando i numeri sbagliati, e cosa succede
+rifacendo la scelta onestamente, e' in
+`results/RISELEZIONE_IPERPARAMETRI.md`.
+
+## Rigenerare i risultati
+
+    export KANIDS_DATA=/percorso/ai/dataset     # set KANIDS_DATA=... su Windows
+    python rigenera.py --lista                  # cosa farebbe
+    python rigenera.py                          # gli stage del paper
+    python rigenera.py --tutto                  # anche i secondari
+
+Gli stage sono ordinati dal piu' economico al piu' caro e gli script sono
+checkpointati: interrompere e rilanciare riprende senza ricalcolare.
+
+## Test
+
+    python -m pytest tests/ -q
+
+Fra questi, le regressioni che impediscono al difetto di rientrare: la build
+fallisce se uno script torna a usare un complemento unico come insieme di
+valutazione, se lo sweep esce dal modo selezione, o se la guardia sulla
+scrittura dell'header C perde una delle sue condizioni.
+
 ## Verifica dell'header C
 
     g++ -O2 -I mcu -o /tmp/check mcu/run_int_adapt_check.cpp && /tmp/check
