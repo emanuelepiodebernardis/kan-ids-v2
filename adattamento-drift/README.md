@@ -36,6 +36,7 @@ quelli riusciti. Se leggi una cosa sola, leggi quello.
 | `mcu/kan_int_adapt.h` | tabelle Q15 e 200 golden vector |
 | `mcu/run_int_adapt_check.cpp` | verifica di bit-esattezza contro il riferimento Python |
 | `results/*.csv` | un file riassuntivo e uno `*_runs.csv` con un record per run |
+| `scripts/figure.py`, `figures/` | le sei figure dell'articolo, rigenerate dai CSV |
 
 Gli script sono checkpointati e riprendibili: interrompere e rilanciare non
 ricalcola quello che è già in `artifacts/*.jsonl`.
