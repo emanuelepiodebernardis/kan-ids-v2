@@ -90,9 +90,20 @@ CASI_GRADUALE_INT = [
 ]
 
 
+CASI_SENZA_ETICHETTE = [
+    (f"sez. 8 · {exp} · {met}",
+     float(pd.read_csv(_ROOT / "results" / "drift_senza_etichette_runs.csv")
+           .query("exp == @exp and metodo == @met").bal_acc.mean()))
+    for exp, met in [("ton->bot", "IM (SHOT)"), ("bot->ton", "IM (SHOT)"),
+                     ("bot->unsw", "IM (SHOT)"), ("unsw->bot", "non adattato"),
+                     ("unsw->ton", "EM sul prior"), ("ton->unsw", "32 etichette"),
+                     ("unsw->bot", "IM seleziona + 32 etichette")]
+]
+
+
 @pytest.mark.parametrize("etichetta,valore",
                          CASI_SAMPLING + CASI_DIAGNOSI + CASI_TRE_DOMINI
-                         + CASI_GRADUALE + CASI_GRADUALE_INT)
+                         + CASI_GRADUALE + CASI_GRADUALE_INT + CASI_SENZA_ETICHETTE)
 def test_il_valore_compare_nel_documento(etichetta, valore):
     atteso = _it(valore)
     assert atteso in DOC, (
@@ -158,3 +169,28 @@ def test_il_riadattamento_continuo_batte_lo_statico_in_tutte_le_direzioni():
         j = a.index.intersection(b.index)
         assert (a[j] - b[j]).mean() > 0, f"{exp}: il riadattamento continuo non batte più lo statico"
     assert "Sei direzioni su sei, tutte significative dopo Holm" in DOC
+
+
+def test_im_come_selettore_sblocca_unsw_bot():
+    """Il risultato nuovo della sezione 9: l'unica direzione che fallisce con
+    ogni altra regola produce un numero quando le etichette si scelgono sul
+    punteggio adattato da IM. Se smettesse di reggere, la sezione va
+    riscritta."""
+    d = pd.read_csv(_ROOT / "results" / "drift_senza_etichette_runs.csv")
+    s_ = d[d.exp == "unsw->bot"]
+    base = s_[s_.metodo == "32 etichette"].bal_acc
+    im = s_[s_.metodo == "IM seleziona + 32 etichette"].bal_acc
+    assert (base == 0.5).all(), "la regola adattiva ora trova etichette in unsw->bot"
+    assert im.mean() > base.mean() + 0.2, (
+        f"IM come selettore non sblocca piu' unsw->bot: {im.mean():.4f}")
+    assert "IM come selettore è il risultato nuovo" in DOC
+
+
+def test_la_regola_adattiva_raccoglie_zero_normali_in_unsw_bot():
+    """La riga «0,0 normali» della sezione 9: e' il numero che spiega tutti
+    gli altri fallimenti di quella direzione."""
+    t = pd.read_csv(_ROOT / "results" / "drift_trasferimenti_runs.csv")
+    n = t[(t.exp == "unsw->bot") & (t.selezione == "adattiva")].normali
+    assert (n == 0).all(), "la regola adattiva ora raccoglie normali in unsw->bot"
+    kc = t[(t.exp == "unsw->bot") & (t.selezione == "kcenter")].normali
+    assert kc.mean() > 0, "il k-center non raccoglie piu' normali in unsw->bot"

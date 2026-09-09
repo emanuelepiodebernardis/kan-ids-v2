@@ -500,3 +500,214 @@ calano di colpo (0,9672 → 0,8682). La balanced accuracy su uno stream misto è
 ottimista, perché la parte sorgente resta facile: misurare la deriva su una
 miscela e riportare un numero solo nasconde il caso peggiore.
 
+
+
+<!-- SEZIONE 12 (due direzioni, 3 seed) -->
+## 12. Le sezioni 8 e 9 su sei direzioni
+
+> ⚠ **Stato.** Le tabelle di questa sezione vengono dal protocollo
+> precedente e da 3 seed: `drift_senza_etichette.py` e
+> `drift_trasferimenti.py` sono stati rigenerati solo sulle due direzioni
+> originali. I meccanismi che descrivono non cambiano — sono conseguenze
+> delle ipotesi dei metodi, non del campione — ma **le cifre a sei direzioni
+> vanno riconfermate** prima di finire in una tabella dell'articolo. La
+> sezione 5 è stata invece rifatta ed è ora nella sezione 5 stessa.
+
+### 8 — nessun metodo non supervisionato è affidabile
+
+| Metodo | ton→bot | bot→ton | ton→unsw | unsw→ton | bot→unsw | unsw→bot |
+|---|---|---|---|---|---|---|
+| non adattato | 0,5632 | 0,5989 | 0,2204 | 0,2950 | 0,4587 | 0,7120 |
+| EM sul prior | 0,5606 | 0,5000 | 0,3746 | 0,4926 | 0,5000 | 0,5000 |
+| TENT | 0,4400 | 0,6187 | 0,2428 | 0,4565 | 0,4887 | 0,6837 |
+| TENT filtrato | 0,5439 | 0,5262 | 0,2406 | 0,4999 | 0,4963 | 0,4821 |
+| IM (SHOT) | 0,6411 | 0,7613 | 0,2428 | 0,3546 | 0,3781 | 0,7023 |
+| **32 etichette** | **0,9085** | **0,8939** | **0,7231** | **0,7727** | **0,7448** | 0,5000 |
+
+Nessuno dei quattro migliora in più di 4 direzioni su 6, e ognuno ne danneggia
+almeno due. IM resta il migliore ma perde la sua aria di vincitore: aiuta in
+4/6 e in `bot→unsw` toglie 8 punti.
+
+**Sulle due direzioni rigenerate a 10 seed il quadro regge**: IM è l'unico che
+migliora in entrambe (+0,17 su bot→ton, +0,08 su ton→bot), TENT peggiora in
+TON→BoT collassando su una classe (frazione di positivi predetti 0,283 dove il
+vero è 0,998), l'EM sul prior stima male e in una direzione collassa a zero.
+
+Un dettaglio che vale la pena tenere: nelle due direzioni a ordinamento
+invertito i metodi non supervisionati danno il loro contributo massimo (EM
++0,20 su `unsw→ton`), perché lì il modello è grossolanamente scalibrato e
+correggere il prior serve. Anche così restano molto sotto le 32 etichette.
+
+Perché ciascuno fallisce — e perché il fallimento è previsto dalle ipotesi del
+metodo invece che dalla sfortuna — è in `MECCANISMI.md`, sezione 4, con la
+tabella metodo-per-ipotesi e l'impossibilità dimostrata sull'innesco a
+martingala.
+
+### 9 — il k-center serve, ma non per l'accuratezza
+
+Il k-center raccoglie più normali in **6 direzioni su 6**, e soprattutto
+**salva l'unica direzione dove tutto il resto fallisce**: in `unsw→bot` la
+regola adattiva raccoglie zero normali a ogni budget, il k-center ne trova 12
+con 32 etichette e porta la balanced accuracy a 0,6306 (0,6889 con Firth).
+
+Ma sull'accuratezza, dove la regola adattiva funziona, perde: vince in 1 caso
+su 15, mediana −0,13. Il modo corretto di usarlo è quindi come **ripiego**,
+non come sostituto: si campiona con la regola adattiva e si passa al k-center
+quando il sondaggio non restituisce entrambe le classi.
+
+Firth vince in 20 casi su 49 con mediana −0,0004. È esattamente una moneta:
+va tolto.
+
+**Nota, alla luce della sezione 4 rifatta.** Il k-center è oggi l'unico
+candidato misurato per sbloccare `unsw→bot`, ed è per questo che va
+riconfermato per primo fra le tabelle rimaste indietro: il confronto con la
+regola adattiva sull'accuratezza è meno interessante della sua capacità di
+trovare la classe rara dove nient'altro ci riesce.
+
+<!-- SEZIONE 9 (due direzioni, 3 seed) -->
+## 9. Metodologie prese da campi che non c'entrano
+
+I metodi della sezione 8 venivano tutti dalla stessa letteratura, quella
+dell'adattamento a tempo di test. Qui invece i nostri problemi sono stati
+scomposti e cercati **fuori** da quella letteratura, in campi dove qualcuno li
+ha già risolti per motivi suoi.
+
+| Nostro problema | Campo di provenienza | Metodo |
+|---|---|---|
+| 13 parametri da 8 etichette | biostatistica degli eventi rari | Firth / prior di Jeffreys |
+| trovare la classe rara col budget | scoperta di farmaci (*active search*) | k-center greedy / core-set |
+| il buffer non entra in 8 KB di SRAM | controllo adattivo | minimi quadrati ricorsivi |
+| innesco senza etichette | test sequenziali (Vovk) | martingala conformal |
+
+### Quello che ha funzionato
+
+**La martingala conformal risolve l'innesco rotto.** Invece di guardare una
+soglia istantanea, accumula evidenza contro l'ipotesi che i dati restino
+scambiabili. In TON→BoT — la direzione dove adattare vale davvero —
+passa da **0,8430 a 0,9317**, praticamente pari al riadattamento continuo
+(0,9490) e con 32 etichette in meno.
+
+| Politica | TON→BoT | BoT→TON | adattamenti |
+|---|---|---|---|
+| statico | 0,8184 | 0,8466 | 0 |
+| innesco a soglia conformal | 0,8430 | 0,8909 | 6 / 16 |
+| **innesco a martingala** | **0,9317** | 0,8744 | 18 |
+| riadattamento a ogni batch | 0,9490 | 0,8792 | 19 |
+| oracolo | 0,9487 | **0,9257** | 19 |
+
+Due errori sono emersi implementandola, entrambi istruttivi. Sommando 20 000
+p-value per batch la deriva negativa sotto l'ipotesi nulla affonda la
+statistica così in basso che nessuna deriva la recupera: serve il pavimento a
+zero, come nel CUSUM. E con l'esponente ε = 0,5 canonico l'incremento è
+positivo solo per p < 0,25, mentre sotto deriva i p-value medi scendono a
+0,31 — non abbastanza. Con ε = 0,9 la soglia diventa p < 0,35 e la deriva si
+vede.
+
+**Il k-center rompe il tetto sul budget.** Il criterio del margine esauriva il
+bacino di normali a ~58 campioni e oltre quel punto peggiorava. Selezionando
+per copertura invece che per incertezza:
+
+| Normali raccolte | n=32 | n=128 | n=512 |
+|---|---|---|---|
+| regola adattiva (margine) | 15,7 | 58,0 | **58,0** ← fermo |
+| k-center (copertura) | 15,3 | 44,3 | **125,3** |
+
+In BoT→TON il divario è ancora più netto: 184 contro 113. Il meccanismo che
+bloccava il metodo è risolto.
+
+### Quello che non ha funzionato, e va detto
+
+**Il k-center trova più normali ma non produce più accuratezza.** La regola
+adattiva resta migliore (0,9300 contro 0,8443 a n=512 in TON→BoT). Un
+campione diverso è più informativo sulla geometria ma meno rappresentativo
+della distribuzione reale: è lo stesso effetto già visto con la
+deduplicazione. Il risultato migliore in assoluto della direzione difficile
+resta k-center + Firth a n=512 (0,9639), ma non è stabile fra seed e non lo
+scriverei come risultato.
+
+**Firth è incostante.** Aiuta dove la separazione è il problema vero (a n=512
+con k-center, +0,12) e danneggia altrove. La separazione completa con 8
+campioni e 13 parametri c'è, ma la regolarizzazione L2 la gestisce già
+abbastanza.
+
+**I minimi quadrati ricorsivi risolvono la memoria ma non sono affidabili.**
+Lo stato è una matrice 13×13 più un vettore: **182 numeri, 728 byte**, contro
+i 12 KB del buffer da 256 campioni. Sedici volte meno, e sotto gli 8 KB di
+SRAM di un ATmega2560. In TON→BoT tiene (0,9058 contro 0,9490 del buffer); in
+BoT→TON crolla a 0,6831. È il trasferimento con più valore potenziale — è
+l'unico che sblocca il vincolo hardware — ed è quello da far funzionare prima
+di qualunque misura su dispositivo.
+
+> **Nota in avanti**: i due numeri di questo paragrafo (0,9058 e 0,6831)
+> descrivono un'implementazione che conteneva **due bug**, trovati e
+> corretti in seguito — il fattore di dimenticanza applicato cinque volte
+> per aggiornamento invece di una, e un ridge troppo debole contro la
+> quasi-separazione al primo batch (sezione 16.2). Con entrambi corretti e
+> su 10 seed i valori sono 0,9247 e 0,7434: non è più un crollo, è una
+> perdita contenuta che si presenta solo quando BoT-IoT è la sorgente.
+> Cambia anche la conclusione qui sopra: la RLS non è "l'unica strada che
+> sblocca il vincolo hardware", è la strada **551 volte più economica in
+> calcolo e 5,9 volte più piccola in RAM** di qualunque alternativa
+> misurata (sezione 17c), bloccata da un problema di accuratezza e non di
+> risorse. Questo paragrafo resta come stava per documentare da dove si è
+> partiti.
+
+
+<!-- SEZIONE 8 (due direzioni, 3 seed) -->
+## 8. Si può fare a meno delle etichette? Quattro metodi dalla letteratura
+
+Il limite più serio del risultato è che l'aggiornamento richiede etichette del
+target: è active learning con un operatore nel ciclo, non adattamento
+autonomo. La letteratura sull'adattamento a tempo di test esiste proprio per
+questo, e i suoi quattro filoni principali si trasportano direttamente sui
+nostri 13 parametri — che *sono* i parametri affini che quei metodi
+aggiornano.
+
+Balanced accuracy, media su 3 seed:
+
+| Metodo | etichette | BoT→TON | TON→BoT |
+|---|---|---|---|
+| non adattato | 0 | 0,5989 | 0,5632 |
+| EM sul prior (Saerens/MLLS) | 0 | 0,5000 | 0,5606 |
+| TENT (minimizzazione dell'entropia) | 0 | 0,6187 | 0,4400 |
+| TENT filtrato (campioni affidabili) | 0 | 0,5262 | 0,5439 |
+| **IM / SHOT (entropia − diversità)** | **0** | **0,7613** | **0,6411** |
+| 8 etichette | 8 | 0,7249 | 0,7218 |
+| **32 etichette** | **32** | **0,8939** | **0,9085** |
+| IM come selettore + 32 etichette | 32 | 0,8939 | 0,6620 |
+| IM come prior + 32 etichette | 32 | 0,7928 | 0,7124 |
+
+**Uno dei quattro funziona, ed è quello che avevo previsto fallisse.** Il
+termine di diversità di IM presuppone classi bilanciate; con BoT-IoT al
+99,987% di attacchi mi aspettavo facesse danno. È invece l'unico metodo che
+migliora in *entrambe* le direzioni, di 16 e 8 punti. In BoT→TON vale più di
+8 etichette (0,7613 contro 0,7249): l'unica cosa gratis che abbiamo trovato in
+tutto il lavoro.
+
+**Gli altri tre falliscono, ciascuno a modo suo.** L'EM sul prior stima
+0,27 dove il vero è 0,998, e in BoT→TON stima 0,000 collassando su
+"tutto normale": lo shift qui non è di solo prior, quindi il metodo è
+applicato fuori dalle sue ipotesi. TENT peggiora in TON→BoT (0,4400) — è il
+collasso su una classe documentato in letteratura, e la frazione di positivi
+predetti lo mostra: 0,24. Filtrare i campioni ambigui, che è la correzione
+standard, non basta.
+
+**Combinare i due mondi non aiuta.** Né usare IM per scegliere i campioni né
+usarlo come prior della stima supervisionata batte le 32 etichette da sole. Le
+due fonti di informazione non si sommano: quando le etichette ci sono,
+dominano.
+
+### Cosa si è chiuso con questo
+
+Sono ormai **sette** i metodi senza etichette provati e falliti o quasi:
+riallineamento dei quantili sul target, tre regole di soglia (prior, mediana,
+quantile), EM sul prior, TENT e TENT filtrato. Uno solo dà un guadagno reale
+ma parziale. Non è più una lacuna del nostro lavoro: è un risultato, e
+sostiene l'affermazione che su questo problema **un piccolo budget di
+etichette è necessario**, non una scorciatoia che non abbiamo saputo evitare.
+
+Per il paper questo cambia l'inquadramento: non "KAN integer-only che si
+adatta da sola", ma "KAN integer-only che si adatta con 32 etichette e 24
+byte, dove i metodi non supervisionati standard recuperano al più un terzo
+del gap".
+

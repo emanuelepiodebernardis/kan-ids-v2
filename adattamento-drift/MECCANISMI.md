@@ -154,7 +154,7 @@ problema le etichette servono.
 | riallineamento dei quantili | il drift e' una **traslazione** delle marginali, annullabile riallineandole | il drift non e' una traslazione: riallineare peggiora il modello di partenza in entrambe le direzioni |
 | TENT (entropia) | il minimo di entropia coincide con la decisione giusta | con prior estremo il minimo di entropia e' il **collasso su una classe**: frazione di positivi predetti 0,283 dove il vero e' 0,998 |
 | TENT filtrato | filtrare i campioni ambigui evita il collasso | la correzione standard non basta: il collasso resta |
-| IM / SHOT | entropia **piu'** un termine di diversita' che impedisce il collasso | il termine di diversita' presuppone classi bilanciate: e' l'unico che migliora in entrambe le direzioni misurate (+0,17 e +0,08), ma il quadro a sei direzioni — dove aiuta in 4 su 6 e danneggia in una di 8 punti — viene ancora dal protocollo precedente ⚠ |
+| IM / SHOT | entropia **piu'** un termine di diversita' che impedisce il collasso | il termine di diversita' presuppone classi bilanciate: e' il migliore dei quattro e l'unico che aiuta piu' spesso di quanto danneggi (4 direzioni su 6), ma in `bot->unsw` toglie 9 punti |
 | soglia da prior / mediana / quantile | esiste una soglia che ripara | dove l'ordinamento e' invertito nessuna soglia ripara (sezione 2) |
 
 **Il caso piu' forte e' un'impossibilita' dimostrata, non constatata.**
@@ -165,6 +165,14 @@ segnale di conformita'**: non e' che non abbiamo trovato il valore giusto,
 e' che non esiste. Questo trasforma un parametro non tarato in un limite
 strutturale del segnale scelto, e indica anche il rimedio — cambiare
 segnale, non cambiare ε.
+
+**Un'osservazione che la misura a sei direzioni rende netta.** EM, TENT e
+TENT filtrato migliorano in 3 direzioni su 6 e peggiorano nelle altre 3:
+sono monete. E il loro contributo massimo cade dove il modello e' piu'
+scalibrato — le due direzioni a ordinamento invertito — perche' li'
+correggere il prior serve comunque, pur restando 25-30 punti sotto le 32
+etichette. Un metodo che aiuta solo dove il modello e' rotto in modo
+grossolano non e' un metodo di adattamento: e' una ricalibrazione.
 
 **Cosa autorizza a scrivere.** Che su questo problema **un piccolo budget di
 etichette e' necessario**, con undici metodi a sostenerlo e le ragioni di
@@ -240,8 +248,17 @@ criterio di **selezione**. Piu' in generale: dove il modello in virgola
 mobile e quello quantizzato differiscono, differiscono sui casi al limite —
 cioe' proprio quelli informativi. Due modelli che si discostano sono un
 segnale di difficolta' disponibile a costo quasi nullo, e qui e' stato usato
-di fatto senza essere nominato. E' anche la direzione piu' promettente per
-il collo di bottiglia rimasto (`unsw->bot`, 0 seed su 10) `[rif.]`.
+di fatto senza essere nominato `[rif.]`.
+
+**E la misura a sei direzioni conferma il principio per una via
+indipendente.** Scegliere le etichette sul punteggio gia' adattato da IM —
+cioe' su un secondo modello che differisce dal primo — sblocca `unsw->bot`,
+l'unica direzione dove ogni altra regola raccoglie zero normali: 0,8031 con
+32 etichette contro 0,7258 non adattato, e +0,3031 sulla regola adattiva,
+significativo dopo correzione. Nelle altre cinque direzioni non cambia
+niente (tutti i p corretti a 1,00). Un secondo punto di vista sul punteggio
+non serve a decidere meglio: serve a **dire dove guardare**, ed e' la stessa
+cosa che fa la deduplicazione intera.
 
 **Prova che la quantizzazione non e' il problema.** Con gli **stessi**
 campioni, l'adattamento sui contributi interi fa 0,8981 contro 0,8136 del
@@ -401,7 +418,14 @@ Le prove convergono da cinque sezioni diverse:
   tutte con lo stesso meccanismo: la selezione trova piu' spesso una sola
   classe.
 
+**E ha due rimedi misurati, non solo una direzione indicata.** Su
+`unsw->bot`, dove la regola normale raccoglie zero normali in tutti e 10 i
+seed, il k-center ne raccoglie 12,4 con 32 etichette e porta a 0,7222, e IM
+come selettore porta a **0,8031** — sopra il modello non adattato, con
+p=0,0065. Entrambi sono inutili dove la regola normale funziona: e' il
+profilo del ripiego, non del sostituto.
+
 **Perche' e' un buon modo di chiudere il lavoro e non una debolezza.**
 Un limite diagnosticato in modo convergente da cinque misure indipendenti,
-con il meccanismo identificato e la direzione del rimedio indicata, e' un
-risultato. Un limite scoperto da un revisore non lo e'.
+con il meccanismo identificato e **due rimedi misurati**, e' un risultato.
+Un limite scoperto da un revisore non lo e'.
