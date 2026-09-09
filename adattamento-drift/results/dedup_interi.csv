@@ -1,0 +1,4 @@
+exp,seed,ratio,righe,pattern_distinti,quota_pattern,normali_totali,normali_fra_i_distinti,frazione_normali_prima,frazione_normali_dopo,arricchimento
+unsw->bot,42,50.0,200477,43677,0.2179,477,350,0.002379,0.008013,3.368
+unsw->bot,43,50.0,200477,43797,0.2185,477,348,0.002379,0.007946,3.339
+unsw->bot,44,50.0,200477,43587,0.2174,477,348,0.002379,0.007984,3.356

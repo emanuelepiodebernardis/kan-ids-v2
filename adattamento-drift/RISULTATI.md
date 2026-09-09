@@ -218,8 +218,9 @@ il budget aggiuntivo raccoglie solo attacchi. Due regimi opposti, stessi due
 dataset, stessa regola. Il dettaglio è in `MECCANISMI.md`, sezione 5.
 
 **Confermato invece, e non è un artefatto del campione piccolo:** su TON→BoT
-prelievo casuale, conformal e `strat_z` raccolgono **zero normali in tutti e
-10 i seed**. Il campionamento conformal non funziona per una ragione
+prelievo casuale e conformal raccolgono **zero normali in tutti e 10 i seed,
+a ogni budget**, e `strat_z` fa lo stesso fino a n=128: la prima normale
+compare solo a n=512, in 2 seed su 10 (media 0,2 normali). Il campionamento conformal non funziona per una ragione
 istruttiva: gli insiemi di predizione anomali selezionano flussi anomali, ma
 su BoT-IoT gli anomali sono *attacchi* anomali. La conformal resta valida
 come **innesco** del riaddestramento, non come selettore.
@@ -396,10 +397,14 @@ appaiato.
 
 **Il buffer è tutto.** Nella prima versione ogni riadattamento rifaceva i
 guadagni da zero sulle 32 etichette del batch corrente: media 0,8134, cioè
-peggio del modello statico, con oscillazioni fra 0,44 e 0,96. ⚠ *(quel
-confronto viene da una politica poi rimossa dagli script e non è oggi
-rigenerabile: la cifra va rimisurata o l'affermazione va riformulata senza
-numero prima di andare nell'articolo.)* Il meccanismo però non dipende da
+peggio del modello statico, con oscillazioni fra 0,44 e 0,96. ⚠ *(quelle
+cifre vengono da una politica poi rimossa dagli script. La politica è stata
+**rimessa** come `ogni_batch_senza_buffer`, nona colonna di
+`drift_graduale.py`, quindi il confronto torna rigenerabile su 10 seed e sei
+direzioni con `python rigenera.py --guardia`; l'unica misura attuale è un
+seed solo — `bot->ton`, seed 42: 0,8099 senza buffer contro 0,9004 con —
+che conferma segno e ordine di grandezza ma non sostituisce le cifre
+sopra.)* Il meccanismo però non dipende da
 quel numero: stimare 13 coefficienti da 32 osservazioni è una stima ad alta
 varianza, e il buffer non aggiunge informazione — riduce la varianza dello
 stimatore mediando su più batch. Un dispositivo che adatta senza memoria fa
@@ -1357,6 +1362,16 @@ iterazioni sistemano la non convergenza sulla direzione per cui sono state
 scelte, e sulle altre non fanno né bene né male in modo distinguibile** —
 confermata, non indebolita, dal passaggio a 10 seed.
 
+**Una precisazione arrivata dopo, dalla sezione 18.5**, che ricalcola
+questi stessi delta con il test appaiato per seed invece che sulle sole
+medie: dei cinque, **`unsw→ton` (−0,0350) e' l'unico con p sotto 0,05**
+(t appaiato, p=0,043) — gli altri quattro stanno fra p=0,24 e p=0,85. Non
+cambia il bilancio ("sostanzialmente nullo"), ma la formulazione
+difendibile e' *nessun costo sistematico*, non *nessun costo*: dopo Holm
+sulla famiglia delle sei direzioni quel p sale a 0,16 e non regge da solo,
+eppure e' l'unica cella che si avvicina alla soglia, ed e' sempre la stessa
+direzione.
+
 Verificato con 200 golden vector rigenerati (`mcu/kan_int_adapt.h`,
 28 965 B) e **riverificato bit-esatto**: `mcu/run_int_adapt_check.cpp`
 compilato con g++ 13.3.0 a `-O2` restituisce `logit diversi: 0, decisioni
@@ -1481,8 +1496,18 @@ frazione di classe minoritaria del primo batch, non ancora provato).
 > griglia 20-100, non una proprieta' del meccanismo. La diagnosi
 > (quasi-separazione al primo aggiornamento IRLS con pochi normali nel
 > training) resta plausibile come un fattore, ma non spiega da sola perche'
-> le due direzioni BoT-sorgente divergano fra loro cambiando ratio — la
-> spiegazione completa resta da trovare (vedi "Cosa resta da fare").
+> le due direzioni BoT-sorgente divergano fra loro cambiando ratio.
+>
+> **Trovata: sezione 19.** Il meccanismo non era nei numeri ma nel codice —
+> `stat_13x13` aggiorna anche quando le 32 etichette pescate sono di una
+> classe sola, mentre le politiche a buffer hanno una guardia esplicita che
+> in quel caso salta. Il primo batch e' quello che fa il danno (stream ancora
+> puro sorgente, `A` ancora vuota) e costa mezzo punto di balanced accuracy
+> in un colpo. Con la guardia le perdite si riducono di 0,05-0,07,
+> `bot->unsw` a ratio 3 cambia segno e `unsw->bot` a ratio 1 torna
+> esattamente allo statico. La diagnosi di questa sezione era giusta sul
+> *quando* (primo aggiornamento, quasi-separazione) e incompleta sul
+> *perche' proprio li'*.
 
 ### 16.3 — L'innesco a martingala in aritmetica intera: portato, con un bug trovato per strada
 
@@ -1942,6 +1967,29 @@ attraverso la base spline che il gain-fit evita del tutto).
 
 ## 18. Sensibilita' al rapporto di undersampling (1:50 contro 1:1, 1:3, 1:20 e 1:100)
 
+> **Rigenerata sotto il protocollo validation/test** (32m48s di calcolo,
+> 9 stage, `python rigenera.py --sezione18`). Non e' stata rifatta la
+> griglia intera: solo le 14 combinazioni direzione-rapporto in cui
+> `undersample()` morde davvero, per `tre_domini.py` e
+> `drift_int_adapt.py`. `drift_graduale.py` e `drift_graduale_int.py` sono
+> prequenziali -- valutano ogni batch prima di addestrarci sopra, non
+> usano la partizione -- quindi la sottosezione 18.2 e le affermazioni 2 e
+> 3 restano valide come misurate. Il conto, e cosa e' stato escluso e
+> perche', sono in `results/RIGENERAZIONE_SEZIONE_18.md`; i numeri di
+> questa sezione si ricalcolano dai CSV con
+> `python scripts/analisi_sezione18.py`.
+>
+> **Cosa ha spostato il cambio di protocollo: quasi nulla.** Sulle celle
+> rifatte le medie si muovono nella terza-quarta cifra decimale
+> (`bot->ton` non adattato a ratio 20: 0,5900 prima e dopo; il delta
+> 13 coeff. contro rifit a ratio 1 passa da -0,0341 a -0,0331), nessun
+> verdetto cambia segno e nessuna significativita' attraversa la soglia.
+> Il confronto era gia' su un complemento non contaminato: restringerlo al
+> test set toglie circa il 15% delle righe di valutazione e sposta le
+> medie meno della loro dispersione fra seed. **Una cosa e' cambiata**: i
+> conteggi di seed riusciti della tabella 18.1, che erano sbagliati --
+> vedi sotto.
+
 Ultima voce aperta della lista "Cosa resta aperto" della fase 2 che potesse
 ancora incrinare i risultati nuovi: il rapporto era fissato a 1:50 da prima
 di questo lavoro, mai testato, ed ereditato da ogni script di
@@ -2073,15 +2121,27 @@ Balanced accuracy, media sui 10 seed (n riusciti/10 dove rilevante):
 
 | | non adattato | 32 etichette | 128 etichette |
 |---|---|---|---|
-| `bot->ton`, ratio 20 | 0,5900 | 0,8449 (10/10) | 0,8273 (10/10) |
-| `bot->ton`, ratio 50 | 0,6340 | 0,8003 (9/10) | 0,8623 (9/10) |
-| `bot->ton`, ratio 100 | 0,6496 | 0,8681 (9/10) | 0,8538 (9/10) |
-| `bot->unsw`, ratio 20 | 0,4671 | 0,7155 (10/10) | 0,7562 (10/10) |
-| `bot->unsw`, ratio 50 | 0,4551 | 0,7381 (9/10) | 0,7552 (10/10) |
-| `bot->unsw`, ratio 100 | 0,4645 | 0,7075 (10/10) | 0,7582 (10/10) |
-| `bot->bot` *(in-domain)*, ratio 20 | 0,9949 | — | — |
+| `bot->ton`, ratio 20 | 0,5900 | 0,8451 (8/10) | 0,8275 (10/10) |
+| `bot->ton`, ratio 50 | 0,6340 | 0,8004 (9/10) | 0,8624 (9/10) |
+| `bot->ton`, ratio 100 | 0,6496 | 0,8681 (8/10) | 0,8538 (9/10) |
+| `bot->unsw`, ratio 20 | 0,4671 | 0,7156 (10/10) | 0,7562 (10/10) |
+| `bot->unsw`, ratio 50 | 0,4551 | 0,7381 (9/10) | 0,7551 (10/10) |
+| `bot->unsw`, ratio 100 | 0,4645 | 0,7076 (10/10) | 0,7582 (10/10) |
+| `bot->bot` *(in-domain)*, ratio 20 | 0,9949±0,0010 | — | — |
 | `bot->bot` *(in-domain)*, ratio 50 | 0,9931±0,0009 | — | — |
-| `bot->bot` *(in-domain)*, ratio 100 | 0,9945 | — | — |
+| `bot->bot` *(in-domain)*, ratio 100 | 0,9945±0,0011 | — | — |
+
+**I conteggi fra parentesi erano sbagliati nella stesura precedente**, e
+la rigenerazione lo ha fatto emergere. La colonna "32 etichette" dava
+10/10 per `bot->ton` a ratio 20 e 9/10 a ratio 100, mentre i seed con un
+numero sono 8 in entrambi i casi: nei seed 50 e 51 la selezione a 32
+etichette raccoglie zero normali, a ratio 20 come a ratio 100. Le medie
+erano gia' calcolate sui seed giusti — sono infatti invariate a meno della
+quarta cifra — ma il conteggio accanto veniva da un'altra cella. E' la
+stessa categoria di difetto che la sottosezione 18.4 documenta per
+l'aggregato: un n dichiarato che non corrisponde ai dati che
+accompagna. Ora ogni conteggio e' ricalcolato dalla cella a cui appartiene
+da `scripts/analisi_sezione18.py`, e un test lo verifica.
 
 **Un effetto reale ma piccolo sul modello non adattato, che l'adattamento
 assorbe.** Test t appaiati per seed (SEM, non dev.std) fra ciascun rapporto
@@ -2091,8 +2151,8 @@ e il basale a 50:
 |---|---|---|---|---|---|---|---|
 | `bot->ton` | non adattato | −0,0440 | −2,76 | **0,022** | +0,0156 | 0,51 | 0,62 |
 | `bot->unsw` | non adattato | +0,0120 | 4,17 | **0,0024** | +0,0094 | 2,83 | **0,020** |
-| `bot->ton` | 128 etichette | −0,0171 | −0,57 | 0,59 | −0,0085 | −1,40 | 0,20 |
-| `bot->unsw` | 128 etichette | +0,0010 | 0,23 | 0,82 | +0,0030 | 0,36 | 0,72 |
+| `bot->ton` | 128 etichette | −0,0170 | −0,56 | 0,59 | −0,0086 | −1,41 | 0,20 |
+| `bot->unsw` | 128 etichette | +0,0012 | 0,27 | 0,79 | +0,0031 | 0,38 | 0,71 |
 
 Il rapporto di undersampling **sposta davvero, in modo statisticamente
 distinguibile, il modello non adattato** addestrato su BoT-IoT (3 celle su
@@ -2138,9 +2198,9 @@ e' quella di sezione 18.4, non questa:
 
 | ratio | delta medio (5 direzioni, seed disponibili) | t appaiato per seed (SEM) | p | n metodo B (tutte e 5 disponibili) |
 |---|---|---|---|---|
-| 20 | −0,0055 | −0,43 | 0,68 | 9/10 |
-| 50 (originale) | −0,0050 | −0,58 | 0,58 | 8/10 |
-| 100 | −0,0066 | −0,70 | 0,50 | 8/10 |
+| 20 | −0,0050 | −0,40 | 0,70 | 9/10 |
+| 50 (originale) | −0,0045 | −0,53 | 0,61 | 8/10 |
+| 100 | −0,0061 | −0,66 | 0,53 | 8/10 |
 
 Pareggio non distinguibile da zero a tutti e tre (|t|<1, p>0,5) sia
 nell'aggregato sia direzione per direzione (sezione 18.4): il numero
@@ -2431,11 +2491,11 @@ n=128 — risultato primario:**
 
 | direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 (orig.) | ratio 100 |
 |---|---|---|---|---|---|
-| `bot→ton` | n=8, **−0,0546, t=−4,01, p=0,0051** | n=10, −0,0249, t=−1,20, p=0,26 | n=10, −0,0412, t=−1,22, p=0,25 | n=9, −0,0380, t=−2,93, p=0,019 | n=9, −0,0465, t=−2,89, p=0,020 |
-| `ton→bot` | n=7, **−0,0053, t=−0,18, p=0,86** | n=10, **+0,1232, t=13,18, p<0,0001** | n=9, +0,1347, t=13,91, p<0,0001 | n=9, +0,1347, t=13,91, p<0,0001 | n=9, +0,1347, t=13,91, p<0,0001 |
-| `bot→unsw` | n=10, **−0,0229, t=−3,48, p=0,0070** | n=10, −0,0033, t=−0,32, p=0,76 | n=10, −0,0110, t=−1,60, p=0,14 | n=10, −0,0165, t=−2,92, p=0,017 | n=10, −0,0162, t=−1,70, p=0,12 |
-| `unsw→ton` | n=10, **−0,0585, t=−3,36, p=0,0083** | n=10, −0,0710, t=−2,45, p=0,037 | n=10, −0,0710, t=−2,45, p=0,037 | n=10, −0,0710, t=−2,45, p=0,037 | n=10, −0,0710, t=−2,45, p=0,037 |
-| `ton→unsw` | n=10, **−0,0237, t=−4,29, p=0,0020** | n=10, −0,0230, t=−3,97, p=0,0032 | n=10, −0,0198, t=−3,20, p=0,011 | n=10, −0,0198, t=−3,20, p=0,011 | n=10, −0,0198, t=−3,20, p=0,011 |
+| `bot→ton` | n=8, **−0,0546, t=−4,02, p=0,0051** | n=10, −0,0247, t=−1,20, p=0,26 | n=10, −0,0409, t=−1,21, p=0,26 | n=9, −0,0378, t=−2,92, p=0,019 | n=9, −0,0464, t=−2,88, p=0,021 |
+| `ton→bot` | n=7, **−0,0007, t=−0,03, p=0,98** | n=10, **+0,1258, t=13,43, p<0,0001** | n=9, +0,1372, t=14,95, p<0,0001 | n=9, +0,1372, t=14,95, p<0,0001 | n=9, +0,1372, t=14,95, p<0,0001 |
+| `bot→unsw` | n=10, **−0,0230, t=−3,52, p=0,0065** | n=10, −0,0033, t=−0,31, p=0,76 | n=10, −0,0109, t=−1,59, p=0,15 | n=10, −0,0166, t=−2,94, p=0,017 | n=10, −0,0164, t=−1,72, p=0,12 |
+| `unsw→ton` | n=10, **−0,0587, t=−3,38, p=0,0082** | n=10, −0,0710, t=−2,43, p=0,038 | n=10, −0,0710, t=−2,43, p=0,038 | n=10, −0,0710, t=−2,43, p=0,038 | n=10, −0,0710, t=−2,43, p=0,038 |
+| `ton→unsw` | n=10, **−0,0237, t=−4,27, p=0,0021** | n=10, −0,0228, t=−3,94, p=0,0034 | n=10, −0,0198, t=−3,21, p=0,011 | n=10, −0,0198, t=−3,21, p=0,011 | n=10, −0,0198, t=−3,21, p=0,011 |
 
 (`unsw→ton` e `ton→unsw` a ratio 20/50/100, e `ton→bot`/`unsw→ton`/
 `ton→unsw` a ratio=3, vengono dall'identita' di sezione 18.3 — stesso dato
@@ -2443,8 +2503,8 @@ di ratio=50, non ricalcolato, quindi stesso n.)
 
 **Il risultato che conta e' il conteggio dei segni, non l'aggregato: a
 ratio=1 tutte e cinque le direzioni sono negative, e quattro delle cinque
-in modo significativo** (`ton→bot`, l'unica non significativa, e' anche
-quella con meno seed disponibili, n=7). A ratio 3-100 il quadro e' misto:
+in modo significativo** (`ton→bot`, l'unica non significativa — e ora praticamente
+nulla, −0,0007 — e' anche quella con meno seed disponibili, n=7). A ratio 3-100 il quadro e' misto:
 `ton→bot` vince sempre in modo netto e significativo, le altre quattro
 perdono, ma quasi mai in modo significativo con n~9-10 (l'eccezione e'
 `bot→ton` a ratio 50/100, dove perde in modo significativo anche li'). Il
@@ -2461,16 +2521,16 @@ conteggio di seed completi qui non e' una misura pura per quelle celle):
 
 | ratio | n seed completi (metodo B) | delta medio | t | p |
 |---|---|---|---|---|
-| **1** | **6/10** | **−0,0341** | **−5,04** | **0,0040** |
-| 3 | 10/10 (4 direzioni misurate + 1 da identita') | +0,0002 | 0,02 | 0,98 |
-| 20 | 9/10 (2 misurate + 3 da identita') | +0,0002 | 0,01 | 0,99 |
-| 50 (originale) | 8/10 | −0,0001 | −0,01 | 0,99 |
-| 100 | 8/10 | −0,0014 | −0,15 | 0,88 |
+| **1** | **6/10** | **−0,0331** | **−4,96** | **0,0043** |
+| 3 | 10/10 (4 direzioni misurate + 1 da identita') | +0,0008 | 0,09 | 0,93 |
+| 20 | 9/10 (2 misurate + 3 da identita') | +0,0007 | 0,06 | 0,95 |
+| 50 (originale) | 8/10 | +0,0000 | 0,01 | 1,00 |
+| 100 | 8/10 | −0,0012 | −0,14 | 0,89 |
 
 A ratio=1 anche l'aggregato via metodo B, su un n piu' piccolo ma
 genuino (6 seed dove **tutte e cinque le direzioni erano effettivamente
 misurate**, nessuna identita' coinvolta a questo rapporto), conferma il
-segno e la significativita' del conteggio per direzione: −0,034, p=0,004.
+segno e la significativita' del conteggio per direzione: −0,033, p=0,004.
 **Questa e' la cifra da citare per l'affermazione 5**, non quella con
 n=10 apparente della prima stesura, che mescolava seed con copertura
 diversa senza dirlo.
@@ -2562,13 +2622,52 @@ interi − guadagni float) a n=128, t appaiato per seed:
 
 | direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 | ratio 100 |
 |---|---|---|---|---|---|
-| `bot->ton` | +0,0048, p=0,75 | −0,0004, p=0,91 | −0,0183, p=0,17 | −0,0028, p=0,85 | −0,0065, p=0,31 |
-| `bot->unsw` | +0,0324, p=0,43 | −0,0099, p=0,64 | +0,0616, p=0,065 | +0,0045, p=0,83 | +0,0359, p=0,14 |
+| `bot->ton` | +0,0048, p=0,76 | −0,0004, p=0,91 | −0,0182, p=0,18 | −0,0029, p=0,85 | −0,0066, p=0,31 |
+| `bot->unsw` | +0,0326, p=0,42 | −0,0100, p=0,64 | +0,0617, p=0,064 | +0,0046, p=0,83 | +0,0361, p=0,14 |
+| `ton->bot` | −0,0141, p=0,34 (n=9) | **−0,1525, p=0,007** (n=10) | −0,0597, p=0,24 (n=9) | −0,0597, p=0,24 | −0,0597, p=0,24 |
+| `ton->unsw` | −0,0022, p=0,33 | −0,0142, p=0,48 | −0,0067, p=0,77 | −0,0067, p=0,77 | −0,0067, p=0,77 |
+| `unsw->bot` | +0,0172, p=0,69 (n=6) | +0,0581, p=0,21 (n=5) | +0,0581, p=0,21 | +0,0581, p=0,21 | +0,0581, p=0,21 |
+| `unsw->ton` | **−0,0386, p=0,027** | **−0,0349, p=0,043** | −0,0349, p=0,043 | −0,0349, p=0,043 | −0,0349, p=0,043 |
 
-Nessuna cella e' significativa (p sempre >0,06, contro la soglia 0,05):
-l'affermazione "l'aritmetica intera non costa" non solo regge, e' quella
-di questo lavoro che si allontana di piu' dalla soglia di significativita'
-su tutta la griglia — nessun segno di cedimento nemmeno a ratio=1.
+**La stesura precedente si fermava alle due righe con BoT-IoT come
+sorgente e concludeva "nessuna cella e' significativa, p sempre >0,06".
+Sulle due righe e' ancora vero; sulle sei non lo e'**, e la rigenerazione
+lo ha reso visibile perche' ora tutte e sei le direzioni sono state
+misurate a ratio 1 e 3 con lo stesso protocollo. Due celle scendono sotto
+0,05, e vanno lette diversamente:
+
+- **`unsw->ton`, −0,035, p=0,043.** Non e' un fatto della sezione 18: e' il
+  valore a ratio 50, ereditato per identita' a ogni rapporto (UNSW-NB15
+  sorgente). Cioe' e' una perdita della quantizzazione **gia' presente
+  nella misura principale** della sezione 13, non qualcosa che il rapporto
+  provoca. E' piccola (3,5 punti su un recupero di ~48) e non
+  sopravviverebbe a una correzione per confronti multipli su sei
+  direzioni — Holm su questa famiglia porta il p piu' basso (0,027) a
+  0,16 — ma la formulazione "l'aritmetica intera non costa **niente**" e'
+  piu' forte di quanto i dati sostengano: la formulazione difendibile e'
+  che il costo, quando c'e', e' di pochi punti e non sopravvive alla
+  correzione per confronti multipli. Holm sulla famiglia delle sei
+  direzioni a ratio 1 porta questo p da 0,027 a **0,16**: la cella non
+  regge da sola.
+- **`ton->bot` a ratio 3, −0,153, p=0,007.** Questa si' e' un effetto del
+  rapporto, ed e' la piu' grande della tabella: a ratio 3 la stima intera
+  dei guadagni perde 15 punti contro la stessa stima in virgola mobile,
+  mentre a ratio 1 e a ratio 20-100 la stessa direzione e' entro il
+  rumore. Non e' un cedimento della catena intera in generale — e' una
+  singola cella, in una direzione dove il target e' BoT-IoT (0,013% di
+  normali) e i guadagni stimati sono quindi molto grandi: e' esattamente
+  il regime in cui la saturazione Q15 dei guadagni interi puo' mordere,
+  perche' il guadagno richiesto si avvicina al fondo scala. A differenza
+  della cella precedente **questa sopravvive alla correzione**: Holm sulla
+  famiglia delle sei direzioni a ratio 3 la lascia a p=0,042, mentre porta
+  tutte le altre sopra 0,2. **Osservazione, non spiegazione verificata**:
+  servirebbe contare quanti guadagni saturano in quei run, e non e' stato
+  fatto.
+
+Al netto di queste due celle il quadro resta quello dichiarato: **su 30
+celle, 28 sono entro il rumore**, e nessuna delle due eccezioni tocca le
+direzioni con BoT-IoT come sorgente, che sono quelle su cui il blocco (c)
+era stato aperto.
 
 **Un dettaglio interessante, in direzione opposta a tutto il resto di
 questa sezione.** La selezione per `unsw->bot` in questo script non usa
@@ -2583,9 +2682,62 @@ sembra meno sensibile, o sensibile in verso diverso, al ribilanciamento
 estremo della sorgente rispetto alla selezione per margine sui punteggi
 float. Non investigato oltre — un'osservazione, non una spiegazione.
 
-**Verdetto del blocco (c): l'unica affermazione che testa (parita'
-intero-float) e' la piu' robusta misurata in questo lavoro, stabile su
-tutta la griglia da ratio=1 a ratio=100.**
+**Verdetto del blocco (c): la parita' intero-float regge su tutta la
+griglia da ratio=1 a ratio=100 — ma "regge" va inteso come 28 celle su 30
+entro il rumore, non come identita'.** Sulle due direzioni per cui il
+blocco era stato aperto (BoT-IoT sorgente) non c'e' nessuna cella
+significativa a nessun rapporto; sulle altre quattro, misurate qui per la
+prima volta a ratio 1 e 3, ne compaiono due — una ereditata da ratio 50 e
+che non sopravvive alla correzione, una vera e specifica di `ton->bot` a
+ratio 3. La forma corretta dell'affermazione e' **"la quantizzazione dei
+guadagni non costa accuratezza in modo sistematico"**, non "non costa
+niente".
+
+### 18.6 — La rigenerazione sotto il protocollo validation/test
+
+Questa sezione e' stata l'ultima a passare al protocollo della partizione
+validation/test, e vale la pena riportare cosa e' costato e cosa ha
+cambiato, perche' la risposta a entrambe le domande e' istruttiva.
+
+**Costo: 32m48s**, contro le ~45 stimate prima di lanciare. Non e' la
+griglia intera: 14 combinazioni direzione-rapporto invece delle 48
+nominali, e due script invece di quattro. Le esclusioni non sono
+scorciatoie ma conseguenze gia' dimostrate altrove in questa sezione —
+l'identita' di `undersample()` (18.3) per le celle non ricalcolate, e la
+natura prequenziale di `drift_graduale.py`/`drift_graduale_int.py`, che
+valutano ogni batch prima di addestrarci sopra e quindi non usano
+`kanids/valutazione.py` affatto. Il conto completo e' in
+`results/RIGENERAZIONE_SEZIONE_18.md`.
+
+**Cosa e' cambiato nei numeri: niente di sostanziale.** Le medie si
+spostano nella terza-quarta cifra, i verdetti restano gli stessi, nessuna
+significativita' attraversa la soglia:
+
+| cella | protocollo v1 | protocollo attuale |
+|---|---|---|
+| aff. 5, aggregato a ratio 1 | −0,0341, p=0,0040 | **−0,0331, p=0,0043** |
+| aff. 5, `ton→bot` a ratio 3 | +0,1232, t=13,18 | **+0,1258, t=13,43** |
+| aff. 5, `ton→bot` a ratio 1 | −0,0053, p=0,86 | **−0,0007, p=0,98** |
+| 18.1, `bot->ton` non adattato a ratio 20 | 0,5900 | **0,5900** |
+| aff. 1, seed riusciti (tutte le celle) | invariati | **invariati** |
+
+Il motivo e' che la correzione del protocollo non toglieva contaminazione
+qui — il complemento delle righe selezionate non era contaminato nemmeno
+prima — ma restringeva il test set di circa il 15%, e su decine di
+migliaia di righe di valutazione questo sposta una media molto meno della
+sua dispersione fra seed. **E' un risultato, non un non-risultato**: dice
+che le conclusioni di questa sezione non poggiavano sulla particolare
+partizione usata, che e' la proprieta' che si vuole da una sezione di
+sensibilita'.
+
+**Quello che invece e' cambiato e' un conteggio sbagliato**, trovato
+proprio perche' i numeri sono stati ricalcolati da uno script unico invece
+che raccolti a mano da CSV diversi: i seed riusciti della colonna "32
+etichette" in 18.1 (dettaglio nella sottosezione). E' la terza volta in
+questo lavoro che un numero scritto a mano accanto a una tabella diverge
+dalla tabella; da qui in avanti i numeri della sezione escono tutti da
+`scripts/analisi_sezione18.py`, e i test confrontano il documento con
+quello che lo script calcola.
 
 ### Verdetto finale delle cinque affermazioni, sulla griglia completa {1, 3, 20, 50, 100}
 
@@ -2618,12 +2770,199 @@ le cinque affermazioni non cedono tutte nello stesso punto:
   altre quattro (`bot->unsw` cambia segno mentre `bot->ton`, la stessa
   sorgente, no: non e' spiegabile solo dalla selezione delle etichette).
   La diagnosi esistente in sezione 16.2 (quasi-separazione) resta un
-  fattore plausibile ma dimostrabilmente incompleta.
+  fattore plausibile ma dimostrabilmente incompleta. **Completata in
+  sezione 19**: l'RLS aggiorna anche sui batch a una classe sola, cosa che
+  le altre politiche non fanno, e il primo aggiornamento — sempre su un
+  batch monoclasse nelle direzioni che perdono — costa mezzo punto in un
+  colpo. Chi perde non dipende dal dominio sorgente ma da quanto quel colpo
+  e' recuperabile nei batch che restano, il che spiega perche' la regola
+  "BoT-IoT sorgente" descrivesse bene la sola zona 20-100.
 
 Nessuna delle due letture sostituisce l'altra: il rapporto storico (50) e'
 dentro la zona sicura per tutte e cinque, ma "sicura fra 1:3 e 1:100" —
 l'affermazione che ci si aspetterebbe di poter scrivere dopo questo lavoro
 — e' vera per quattro affermazioni su cinque e falsa per la quinta.
+
+## 19. Perche' i minimi quadrati ricorsivi perdono: il meccanismo, trovato
+
+La sezione 18.4 lasciava aperto l'unico punto in cui questo lavoro
+dichiarava di non aver capito il proprio risultato: **l'affermazione 3**
+("RLS perde esattamente e solo quando BoT-IoT e' la sorgente") si rompe gia'
+a ratio 3, dove `bot->unsw` cambia segno e vince mentre `bot->ton`, stessa
+sorgente, continua a perdere, e a ratio 1 perde `unsw->bot`, che di
+BoT-IoT non ha nulla. La diagnosi esistente — quasi-separazione al primo
+aggiornamento IRLS — restava plausibile ma non spiegava l'asimmetria.
+
+**Il meccanismo non era nei numeri, era nel codice.** Le politiche a buffer
+(`ogni_batch`, `su_innesco`, `martingala`, `oracolo`) hanno una guardia
+esplicita prima di riaddestrare:
+
+    if len(np.unique(Y)) < 2:
+        continue
+
+`stat_13x13` — la politica RLS — **non ce l'ha**: chiama
+`StatSufficienti.aggiorna()` a ogni batch, comprese le volte in cui le 32
+etichette pescate sono tutte della stessa classe. Su un batch a una classe
+sola la verosimiglianza logistica e' monotona nella direzione dei parametri
+(separazione completa nel senso di Albert-Anderson): la stima non ha un
+massimo finito, e cinque iterazioni IRLS su 32 punti con `ridge=0,1`
+spingono i guadagni verso l'estremo invece di lasciarli dove sono. Il
+confronto RLS-contro-buffer non era quindi "stato compatto contro buffer",
+era **"stato compatto senza guardia contro buffer con guardia"**: due
+differenze in una.
+
+### L'esperimento
+
+`scripts/diagnosi_rls.py` esegue lo stesso stream con cinque politiche
+affiancate — `statico`, l'RLS pubblicata, e tre varianti che accendono un
+interruttore alla volta:
+
+| variante | cosa cambia |
+|---|---|
+| `rls_guardia` | salta l'aggiornamento se le etichette pescate sono di una classe sola |
+| `rls_prossimale` | risolve `(A + ridge·I)θ = c + ridge·θ_corrente` invece di `… = c`: il prior tira verso la stima corrente invece che verso zero |
+| `rls_guardia_prossimale` | entrambe |
+
+La seconda variante e' la seconda ipotesi che il codice suggeriva: il ridge
+di `StatSufficienti` e' centrato su **zero**, cioe' sul punteggio
+identicamente nullo — il classificatore costante — non sul modello che gia'
+c'e'. Dove il modello sorgente e' buono, un prior centrato a zero lavora
+contro di lui a ogni aggiornamento.
+
+Sei celle (direzione × rapporto), 5 seed (42-46), scelte per coprire i tre
+comportamenti da spiegare piu' un controllo dove l'RLS vince. Balanced
+accuracy media sui 20 batch:
+
+| direzione | ratio | statico | RLS | +guardia | +prossimale | entrambe |
+|---|---|---|---|---|---|---|
+| `bot->ton` | 50 | 0,8309 | 0,7662 | **0,8181** | 0,7469 | 0,7935 |
+| `bot->ton` | 3 | 0,8053 | 0,7060 | **0,7733** | 0,7399 | 0,7759 |
+| `bot->unsw` | 50 | 0,7180 | 0,7233 | 0,7190 | 0,7250 | 0,7307 |
+| `bot->unsw` | 3 | 0,6998 | 0,6785 | **0,7455** | 0,6614 | 0,7480 |
+| `unsw->bot` | 1 | 0,7572 | 0,7033 | **0,7572** | 0,7083 | 0,7572 |
+| `ton->bot` *(controllo: qui l'RLS vince)* | 50 | 0,8148 | 0,8947 | 0,8912 | 0,9072 | 0,8955 |
+
+Delta contro lo statico, t appaiato per seed (n=5):
+
+| direzione | ratio | RLS pubblicata | con la guardia |
+|---|---|---|---|
+| `bot->ton` | 50 | −0,0647 (p=0,093) | **−0,0129 (p=0,72)** |
+| `bot->ton` | 3 | **−0,0993 (p=0,017)** | −0,0320 (p=0,12) |
+| `bot->unsw` | 50 | +0,0053 (p=0,75) | +0,0010 (p=0,97) |
+| `bot->unsw` | 3 | −0,0213 (p=0,28) | **+0,0456 (p=0,14)** |
+| `unsw->bot` | 1 | −0,0539 (p=0,27) | **0,0000 (esatto)** |
+| `ton->bot` | 50 | +0,0799 (p=0,018) | +0,0764 (p=0,019) |
+
+**La guardia da sola spiega quasi tutta la perdita, e non costa nulla dove
+l'RLS gia' vinceva.** Le tre celle che perdevano in modo visibile
+recuperano fra +0,052 e +0,067; `bot->unsw` a ratio 3 cambia segno;
+`unsw->bot` a ratio 1 torna **esattamente** allo statico, perche' la
+guardia salta tutti e 20 i batch (in quella cella nessun batch, in nessun
+seed, raccoglie mai entrambe le classi — lo stesso pareggio bit per bit
+gia' misurato per l'affermazione 2). Nel controllo `ton->bot`, dove l'RLS
+vince, la guardia costa 0,0035: irrilevante.
+
+**La seconda ipotesi e' falsificata.** Il prior prossimale da solo non
+aiuta e a volte peggiora (`bot->ton` a ratio 50: −0,084 contro i −0,065
+della versione pubblicata), e aggiunto alla guardia non aggiunge niente di
+distinguibile. Il ridge centrato a zero e' concettualmente sbagliato — la
+forma corretta e' quella della RLS bayesiana, con il prior centrato
+sull'iterata precedente — ma **non e' il motivo per cui l'RLS perdeva**.
+Vale la pena riportarlo: era l'ipotesi piu' elegante delle due, e i dati
+dicono di no.
+
+### Perche' colpisce alcune direzioni e non altre
+
+Il conteggio dei batch a una classe sola non basta da solo a predire la
+perdita (correlazione −0,28 sulle sei celle). Quello che la predice e'
+**quando** capita il primo:
+
+| direzione | ratio | batch monoclasse su 20 | primo batch monoclasse | caduta di bal_acc fra batch 0 e 1 |
+|---|---|---|---|---|
+| `bot->ton` | 50 | 1,6 | 100% dei seed | **−0,467** |
+| `bot->ton` | 3 | 2,0 | 100% | **−0,490** |
+| `bot->unsw` | 50 | 1,2 | 100% | **−0,470** |
+| `bot->unsw` | 3 | 2,0 | 100% | **−0,490** |
+| `unsw->bot` | 1 | 17,6 | 100% | +0,074 |
+| `ton->bot` *(controllo)* | 50 | 0,8 | 20% | −0,144 |
+
+Sullo stesso stream, negli stessi batch, lo **statico** perde fra 0,036 e
+0,133: la caduta di mezzo punto di balanced accuracy non e' la deriva, e'
+l'aggiornamento.
+
+Il primo batch e' il caso peggiore possibile, e per costruzione: a `k=0`
+la frazione di target e' **zero**, quindi lo stream e' puro dominio
+sorgente e il modello ci sta sopra bene. Le 32 etichette scelte per
+incertezza vengono tutte dalla stessa parte del confine — nelle cinque
+celle che perdono, in **tutti** i seed — e arrivano quando `A` vale ancora
+`ridge·I`, cioe' quando non c'e' nessuna informazione accumulata a fare da
+contrappeso. E' esattamente la quasi-separazione con prior quasi vuoto che
+la sezione 16.2 aveva diagnosticato: quella diagnosi era giusta sul
+*quando*. Quello che mancava e' il *perche' proprio li'*, ed e' che
+l'aggiornamento a una classe sola non veniva mai saltato.
+
+Il resto della corsa e' recupero da quel colpo, e questo spiega anche
+l'asimmetria che aveva fatto cadere l'affermazione 3: non dipende dal
+dominio sorgente, dipende da quanto il colpo iniziale e' recuperabile nei
+19 batch che restano, che e' una proprieta' della coppia
+sorgente-target e del rapporto insieme — non della sola sorgente. E'
+per questo che "BoT-IoT sorgente ⇒ perde" descriveva bene la zona 20-100 e
+si rompeva altrove: era una correlazione, non il meccanismo.
+
+### Cosa resta non spiegato, e cosa questo comporta
+
+Con la guardia `bot->ton` resta a −0,032 (p=0,12 a 5 seed) mentre
+`bot->unsw` passa a +0,046: **l'asimmetria fra le due direzioni
+BoT-sorgente si riduce molto ma non sparisce**. La guardia spiega la
+maggior parte della perdita e il cambio di segno, non l'ultimo terzo.
+
+**Cosa comporta, e come e' stato impostato.** La guardia e' una riga, ed e'
+la stessa riga che le altre quattro politiche hanno gia'. Sostituirla dentro
+`stat_13x13` avrebbe reso non piu' verificabile tutto cio' che quella
+colonna sostiene (sezioni 9, 13, 16.2, e i blocchi di 18 sull'affermazione
+3), quindi e' stata **aggiunta come ottava politica**,
+`stat_13x13_guardia`, esattamente come `stat_13x13_adaptive` in 17b.
+
+L'aggiunta e' innocua per costruzione, e la costruzione e' verificabile:
+nessuna politica consuma il generatore casuale condiviso — `adaptive_pick`
+e `balanced_draw` ricevono `seed + k`, mentre `rng` e' usato solo da
+`batch_indices` e `p_conformali` — quindi lo stream visto dalle altre sette
+non cambia di un bit. **Verificato prima di lanciare qualunque cosa**, su
+`bot->ton` seed 42 a ratio 50: 140 celle su 140 identiche, e su quel seed la
+guardia porta l'RLS da 0,7509 a 0,8101 (statico 0,8822). I file precedenti
+sono copiati in `results/prima_della_guardia/` e
+`artifacts/prima_della_guardia/`, e un test confronta cella per cella le
+sette colonne vecchie con quelle nuove: se una si muove, l'aggiunta non era
+innocua e il confronto va rifatto.
+
+**Costo del run, misurato**: 8-18 s per (direzione, seed), media ~14,5 s su
+12 combinazioni cronometrate; 200 unita' (6 direzioni x 10 seed a ratio 1 e
+50, 4 a ratio 3, 2 a ratio 20 e 100) — **circa 50 minuti**, con
+`python rigenera.py --guardia`. `drift_graduale_int.py` non e' toccato: non
+ha una politica RLS.
+
+Finche' quel run non c'e', **i numeri pubblicati restano quelli della
+versione senza guardia** — questa sezione, su 5 seed e 6 celle, dice cosa
+c'e' da aspettarsi — e l'affermazione 3 resta scritta com'e'. Dopo, andra'
+riscritta: non "l'RLS e' fragile" ma "l'RLS era implementata senza la
+guardia che le altre politiche avevano", con entrambe le colonne misurate
+sugli stessi 10 seed.
+
+### Onesta' della replica
+
+`diagnosi_rls.py` ricostruisce il ciclo di `drift_graduale.py` senza la
+parte conformal (martingala e innesco), che consuma numeri casuali: gli
+stream non sono percio' bit-identici. La verifica e' sullo `statico`, che
+non dipende dagli aggiornamenti: **replica contro pubblicato, stessi 5
+seed, 0,8309/0,8310, 0,7180/0,7177, 0,8148/0,8152, 0,8053/0,8057,
+0,6998/0,7001, 0,7572/0,7544** — quarta cifra decimale. L'RLS invece
+differisce fra 0,006 e 0,041 sulle stesse celle, ed e' esso stesso un dato:
+**la stessa politica, su stream che si distinguono alla quarta cifra, si
+sposta di tre centesimi.** Un metodo stabile non lo fa. Tutti i confronti
+di questa sezione sono interni a una singola esecuzione, dove le cinque
+politiche vedono lo stesso identico stream.
+
+---
 
 ---
 
@@ -2796,15 +3135,52 @@ l'affermazione che ci si aspetterebbe di poter scrivere dopo questo lavoro
    lavoro). Il meccanismo comune ai cedimenti (tranne per l'affermazione 3):
    a ratio=1 la selezione delle etichette sul target trova piu' spesso una
    sola classe, perche' il punteggio del modello sorgente ribilanciato 1:1
-   cambia. **Non spiegato**: perche' l'affermazione 3 si rompe gia' a
-   ratio=3 e in modo asimmetrico fra le due direzioni BoT-sorgente
-   (`bot→unsw` cambia segno, `bot→ton` no) — la diagnosi esistente
-   (quasi-separazione IRLS) non basta da sola. Un bug reale trovato per
+   cambia. ~~**Non spiegato**: perche' l'affermazione 3 si rompe gia' a
+   ratio=3 e in modo asimmetrico fra le due direzioni BoT-sorgente~~ —
+   **spiegato in sezione 19**: `stat_13x13` e' l'unica politica che
+   aggiorna anche sui batch a una classe sola, e il primo aggiornamento
+   (stream ancora puro sorgente, matrice di informazione ancora vuota) e'
+   monoclasse in tutti i seed delle direzioni che perdono e costa mezzo
+   punto di balanced accuracy in un colpo. Chi perde non dipende dalla
+   sorgente ma da quanto quel colpo si recupera nei 19 batch che restano.
+   Con la guardia che le altre politiche hanno gia', le perdite si
+   riducono di 0,05-0,07 e `bot→unsw` a ratio 3 cambia segno.
+   L'ipotesi alternativa (ridge centrato su zero invece che sulla stima
+   corrente) e' stata misurata e **falsificata**. Un bug reale trovato per
    strada e corretto: il checkpoint di `drift_graduale.py` troncava 6
    politiche su 7 su disco (mai nei CSV pubblicati, generati da run continui
    in memoria) da quando sezione 17b aveva aggiunto una settima politica
    senza aggiornare la costante di scrittura — sistemato rendendo la
    costante dipendente dal numero di politiche invece che fissa.
+
+9. **Applicare la guardia sui batch monoclasse a `stat_13x13`** — aperta
+   dalla sezione 19, ed e' l'unica voce nuova di questa lista. La riga
+   esiste gia' nelle altre quattro politiche; metterla nell'RLS significa
+   pero' rimisurare tutto cio' che ne dipende (sezioni 9, 13, 16.2 e i
+   blocchi di 18 sull'affermazione 3) e riscrivere quell'affermazione, che
+   diventerebbe "l'RLS era implementata senza la guardia che le altre
+   politiche avevano" invece di "l'RLS e' fragile". **Fatto a meta'**: la politica
+   `stat_13x13_guardia` e' scritta e affiancata a `stat_13x13` (non la
+   sostituisce), gli stage sono in `rigenera.py --guardia`, i file
+   precedenti sono in `prima_della_guardia/` e i test sono pronti; **manca
+   il run**. **Costo misurato**: 8-18 s per
+   (direzione, seed), media ~14,5 s su 12 combinazioni cronometrate, e
+   servono 200 unita' (6 direzioni x 10 seed a ratio 1 e 50, 4 a ratio 3, 2
+   a ratio 20 e 100, per la stessa identita' di `undersample()` della
+   sezione 18) — **circa 50 minuti**. `drift_graduale_int.py` non e'
+   toccato: non ha una politica RLS.
+
+   **Come e' stato fatto**: politica affiancata, non sostituita. Nessuna
+   politica consuma il generatore casuale condiviso (`adaptive_pick` e
+   `balanced_draw` ricevono `seed + k`), quindi aggiungerne una **non
+   perturba lo stream**: le sette colonne esistenti devono uscire
+   identiche — verificato su `bot->ton` seed 42, 140 celle su 140 — ed e'
+   un controllo di regressione gratuito sull'intera catena. Niente di
+   pubblicato diventa falso, e l'affermazione 3 si potra' riscrivere
+   avendo entrambe le colonne misurate sugli stessi 10 seed invece che 5.
+
+   Finche' non e' fatto, i numeri pubblicati restano quelli della versione
+   senza guardia, e la sezione 19 dichiara che tipo di numeri sono.
 
 ---
 
@@ -2821,7 +3197,12 @@ l'affermazione che ci si aspetterebbe di poter scrivere dopo questo lavoro
   e `--ratio` incluso nel nome di checkpoint/CSV (vuoto a ratio=50 — sezione
   18); l'header C canonico si scrive solo a `iters=6000, ratio=50`
 - `scripts/drift_graduale.py` — deriva progressiva e politiche di
-  riadattamento; `StatSufficienti` ora supporta `adaptive_ridge` con
+  riadattamento; **nove politiche** dalla sezione 19:
+  `stat_13x13_guardia` (la stessa RLS con la guardia sui batch a una classe
+  sola, affiancata alla versione senza) e `ogni_batch_senza_buffer`
+  (riadattamento continuo che rifa' i guadagni da zero sul solo batch
+  corrente, rimessa perche' il confronto «il buffer e' tutto» della sezione
+  7 torni rigenerabile); `StatSufficienti` ora supporta `adaptive_ridge` con
   `ridge_mode="per_batch"` (falsificato) o `"warmup"` (non ha battuto il
   ridge fisso — sezione 17b), politica aggiuntiva `stat_13x13_adaptive`;
   `--ratio` incluso nel nome di checkpoint/CSV (sezione 18); bug corretto
@@ -2832,6 +3213,13 @@ l'affermazione che ci si aspetterebbe di poter scrivere dopo questo lavoro
 - `scripts/drift_senza_etichette.py` — EM sul prior, TENT, TENT filtrato, IM
 - `scripts/drift_trasferimenti.py` — Firth e k-center da altri campi
 - `scripts/spazio_ridotto.py` — costo della riduzione dello spazio armonizzato
+- `scripts/conta_dedup.py` — **nuovo**: quanto comprime la deduplicazione
+  sui contributi interi e di quanto arricchisce la classe rara, sezione 6 di
+  `MECCANISMI.md` (`results/dedup_interi.csv`)
+- `scripts/diagnosi_rls.py` — **nuovo**: le due ipotesi sul cedimento
+  dell'RLS (guardia sui batch monoclasse, prior del ridge centrato sulla
+  stima corrente) misurate una contro l'altra sullo stesso stream, sezione
+  19 (`results/diagnosi_rls.csv`)
 - `scripts/sweep_iperparametri.py` — **nuovo**: rigenera gli sweep di
   calibrazione delle sezioni 16.1 e 16.2 (`iters`, `ridge`) sulla sola
   direzione `ton->bot`. Prima queste tabelle venivano da script ad-hoc mai

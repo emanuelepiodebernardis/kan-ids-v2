@@ -265,8 +265,8 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
                      "n_lab": 0, "bufX": [], "bufy": [], "logM": 0.0,
                      "rls": StatSufficienti(Phi_s.shape[1], ridge=RLS_RIDGE,
                                            clip_theta=RLS_CLIP)}
-                 for p in ("statico", "ogni_batch", "su_innesco", "oracolo",
-                           "stat_13x13", "martingala")}
+                 for p in ("statico", "ogni_batch", "ogni_batch_senza_buffer",
+                           "su_innesco", "oracolo", "stat_13x13", "martingala")}
     # COMPITO 3b: stessa politica di stat_13x13 ma con ridge scelto dal
     # conteggio della classe minoritaria nel batch appena arrivato invece
     # che fisso a 0,1 -- affiancata, non sostituita, per il confronto diretto
@@ -274,6 +274,20 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
         "w": np.ones(Phi_s.shape[1]), "b": 0.0, "n_ad": 0, "n_lab": 0,
         "bufX": [], "bufy": [], "logM": 0.0,
         "rls": StatSufficienti(Phi_s.shape[1], adaptive_ridge=True)}
+    # SEZIONE 19: identica a stat_13x13 tranne per la guardia sui batch a
+    # una classe sola -- la stessa che le politiche a buffer hanno da
+    # sempre (`if len(np.unique(Y)) < 2: continue`) e che a questa mancava.
+    # Affiancata invece che sostituita, per lo stesso motivo di
+    # stat_13x13_adaptive: cosi' le due versioni si confrontano sullo
+    # stesso stream, negli stessi seed, e la colonna gia' pubblicata resta
+    # verificabile. Nessuna politica consuma il generatore condiviso
+    # (adaptive_pick e balanced_draw ricevono `seed + k`), quindi
+    # aggiungerne una non sposta di un bit lo stream delle altre.
+    politiche["stat_13x13_guardia"] = {
+        "w": np.ones(Phi_s.shape[1]), "b": 0.0, "n_ad": 0, "n_lab": 0,
+        "bufX": [], "bufy": [], "logM": 0.0,
+        "rls": StatSufficienti(Phi_s.shape[1], ridge=RLS_RIDGE,
+                               clip_theta=RLS_CLIP)}
     for k in range(N_BATCH):
         alpha = k / (N_BATCH - 1)
         i_s, i_t = batch_indices(len(y_s), len(y_t), alpha, BATCH, rng)
@@ -302,8 +316,9 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
                 # sotto scambiabilita' (20 000 p-value per batch) affonda la
                 # statistica cosi' in basso che nessuna deriva la recupera.
                 st["logM"] = max(0.0, st["logM"] + d_logM)
-            aggiorna = (nome in ("ogni_batch", "oracolo", "stat_13x13",
-                                "stat_13x13_adaptive")
+            aggiorna = (nome in ("ogni_batch", "ogni_batch_senza_buffer",
+                                "oracolo", "stat_13x13",
+                                "stat_13x13_adaptive", "stat_13x13_guardia")
                         or (nome == "su_innesco" and innesco)
                         or (nome == "martingala" and st["logM"] > SOGLIA_MART))
             if not aggiorna:
@@ -312,16 +327,34 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
                    else adaptive_pick(z, yb, BUDGET, seed + k))
             st["n_ad"] += 1
             st["n_lab"] += len(idx)
-            if nome in ("stat_13x13", "stat_13x13_adaptive"):
+            if nome.startswith("stat_13x13"):
                 # nessun buffer: solo 13x13 numeri di stato
+                if (nome == "stat_13x13_guardia"
+                        and len(np.unique(yb[idx])) < 2):
+                    # su un campione a una classe sola la verosimiglianza
+                    # logistica non ha massimo finito: aggiornare qui non e'
+                    # un aggiornamento debole, e' un aggiornamento verso
+                    # l'infinito (sezione 19). Il contatore `n_ad` e' gia'
+                    # stato incrementato sopra, come nelle politiche a
+                    # buffer: la politica ha tentato, non ha aggiornato.
+                    continue
                 st["w"], st["b"] = st["rls"].aggiorna(Phi[idx], yb[idx])
                 continue
             if nome == "martingala":
                 st["logM"] = 0.0        # azzerata dopo l'intervento
             st["bufX"].append(Phi[idx])
             st["bufy"].append(yb[idx])
-            X = np.vstack(st["bufX"])[-BUFFER:]
-            Y = np.concatenate(st["bufy"])[-BUFFER:]
+            # "ogni_batch_senza_buffer" e' la versione senza memoria del
+            # riadattamento continuo: rifa' i guadagni da zero sulle sole
+            # etichette del batch corrente. Esisteva nella prima stesura,
+            # e' stata rimossa, e il numero che sosteneva "il buffer e'
+            # tutto" (sezione 7 di MECCANISMI.md) e' rimasto senza codice
+            # che lo rigenerasse. Rimessa qui perche' quel confronto sia
+            # misurato invece che ricordato -- costa una colonna in piu'
+            # nella stessa corsa.
+            tetto = BUDGET if nome == "ogni_batch_senza_buffer" else BUFFER
+            X = np.vstack(st["bufX"])[-tetto:]
+            Y = np.concatenate(st["bufy"])[-tetto:]
             st["bufX"], st["bufy"] = [X], [Y]
             if len(np.unique(Y)) < 2:
                 continue

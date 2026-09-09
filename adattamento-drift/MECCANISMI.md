@@ -16,12 +16,12 @@ Convenzione: **osservazione** e' cio' che i dati dicono, con il numero;
 procedura che l'ha misurato e' quella corretta.
 
 I numeri senza marcatore vengono dai CSV rigenerati sotto il protocollo
-corretto, 10 seed. Quelli marcati **⚠** vengono da script non ancora
-rigenerati (`drift_trasferimenti.py` e le sei direzioni di
-`drift_senza_etichette.py`), o da una politica non piu' presente negli
-script: il meccanismo che spiegano non
-cambia, ma la cifra va riconfermata prima di finire in una tabella
-dell'articolo.
+corretto, 10 seed. Restano marcati **⚠** solo i due che dipendono da un run
+gia' preparato ma non ancora eseguito (`python rigenera.py --guardia`, ~50
+minuti): il confronto con e senza buffer della sezione 7 e quello con e
+senza la guardia sui batch monoclasse della sezione 12. Il meccanismo che
+spiegano non cambia; la cifra va letta come provvisoria — un seed, non
+dieci — finche' quel run non c'e'.
 
 ---
 
@@ -235,12 +235,24 @@ virgola mobile fallisce del tutto. Il motivo non e' l'aritmetica: e' la
 selezione.
 
 **Meccanismo.** Dopo la quantizzazione i flood di BoT-IoT collassano su
-pattern identici: 200.477 righe si riducono a 32.118 pattern distinti, il
-16%. ⚠ (conteggio dal protocollo precedente, da riconfermare.) Spendere etichette su duplicati esatti e' spreco puro, ma il punto e'
-piu' fine di cosi': la ridondanza non e' uniforme sulle due classi, e
-rimuoverla **riespone la coda**. Deduplicando sui contributi interi —
-uguaglianza esatta, che in aritmetica intera costa nulla — e tenendo la
-molteplicita' come peso, la resa passa da 1 a 10 normali su 32 etichette.
+pattern identici: **200.477 righe si riducono a ~43.700 pattern distinti, il
+21,8%** (43.587, 43.677 e 43.797 sui seed 42, 43 e 44 — la quantizzazione
+dipende dal modello, quindi dal seed, ma di un decimo di punto).
+
+Spendere etichette su duplicati esatti sarebbe spreco puro, ma il punto e'
+piu' fine di cosi': **la ridondanza non e' uniforme sulle due classi**, e
+rimuoverla riespone la coda. Il numero che lo dimostra e' questo: dei 477
+normali del target, dopo la deduplicazione ne sopravvivono **348-350**,
+cioe' quasi tutti, mentre le righe scendono del 78%. La frazione di normali
+fra i pattern distinti passa cosi' da **0,24% a 0,80%: un arricchimento di
+3,4 volte, gratis**, senza guardare una sola etichetta. Deduplicando sui
+contributi interi — uguaglianza esatta, che in aritmetica intera costa nulla
+— e tenendo la molteplicita' di ciascun pattern come peso, la resa passa da
+1 a 10 normali su 32 etichette.
+
+(Il conteggio precedente riportato qui, 32.118 pattern e 16%, veniva da una
+versione anteriore della catena e non e' piu' quello che il codice produce:
+ricalcolato da `scripts/conta_dedup.py` su tre seed, in `results/dedup_interi.csv`.)
 
 **L'osservazione da valorizzare, che il documento non aveva riconosciuto.**
 La deduplicazione era nata per risparmiare etichette e si e' rivelata un
@@ -260,12 +272,27 @@ niente (tutti i p corretti a 1,00). Un secondo punto di vista sul punteggio
 non serve a decidere meglio: serve a **dire dove guardare**, ed e' la stessa
 cosa che fa la deduplicazione intera.
 
-**Prova che la quantizzazione non e' il problema.** Con gli **stessi**
-campioni, l'adattamento sui contributi interi fa 0,8981 contro 0,8136 del
-float ⚠ (misura dal protocollo precedente). Il confronto a campioni identici e' la giustificazione procedurale
-che rende l'affermazione «l'aritmetica intera non costa accuratezza»
-verificabile invece che asserita: senza fissare i campioni, la differenza
-fra selezione e stima resta confusa.
+**Prova che la quantizzazione non e' il problema — ridimensionata.** Il
+confronto giusto e' a campioni identici: `select_int` sceglie gli indici una
+volta sola, e su quegli stessi indici si stimano i guadagni in virgola
+mobile e in intero. La differenza che resta e' quindi la stima, non la
+selezione, ed e' la giustificazione procedurale che rende l'affermazione
+«l'aritmetica intera non costa accuratezza» verificabile invece che
+asserita.
+
+Sui numeri, pero', questa direzione da sola non la sostiene. A 32 etichette
+gli interi fanno **0,9005 contro 0,6573** del float — ma in **un solo seed su
+dieci**, l'unico in cui la selezione trova entrambe le classi a quel budget:
+non e' una misura, e' un aneddoto. A 128 etichette i seed utilizzabili sono
+5 e il confronto e' **0,6294 contro 0,5713, +0,058 a favore degli interi,
+p=0,21**: stesso segno, nessuna significativita'. (La cifra riportata prima
+qui, 0,8981 contro 0,8136, veniva dal protocollo precedente e da quello
+stesso singolo seed.)
+
+**L'affermazione va appoggiata dove i dati ci sono**: la parita'
+intero-float e' misurata su 30 celle in sezione 18.5 di `RISULTATI.md`, 28
+delle quali entro il rumore. `unsw->bot` e' la direzione dove serve di piu'
+e dove se ne puo' dire di meno, ed e' onesto dirlo cosi'.
 
 ---
 
@@ -275,10 +302,15 @@ fra selezione e stima resta confusa.
 guadagni da zero sulle 32 etichette del batch corrente — la media e' 0,8134
 con oscillazioni fra 0,44 e 0,96: **peggio del modello statico**.
 Conservando le ultime 256 etichette e rifittando sull'intero buffer si passa
-a 0,9433. ⚠ *(il confronto «senza buffer» viene da una politica poi rimossa dagli
-script: non e' oggi rigenerabile, e quel numero va rimisurato o
-l'affermazione riformulata senza cifra. Il resto della sezione 7 e' invece
-verificato sui CSV a 10 seed e sei direzioni.)*
+a 0,9433. ⚠ *(quelle due cifre venivano da una politica poi rimossa dagli
+script. La politica e' stata **rimessa** come `ogni_batch_senza_buffer`
+(nona colonna di `drift_graduale.py`), quindi il confronto torna
+rigenerabile su 10 seed e sei direzioni con `python rigenera.py --guardia`;
+finche' quel run non c'e', l'unica misura attuale e' un singolo seed —
+`bot->ton`, seed 42, ratio 50: **0,8099 senza buffer contro 0,9004 con** —
+che conferma il segno e l'ordine di grandezza ma non sostituisce le cifre
+sopra. Il resto della sezione 7 e' verificato sui CSV a 10 seed e sei
+direzioni.)*
 
 **Meccanismo.** Stimare 13 coefficienti da 32 osservazioni e' una stima ad
 alta varianza; ripeterla da zero a ogni batch fa oscillare il modello
@@ -429,3 +461,66 @@ profilo del ripiego, non del sostituto.
 Un limite diagnosticato in modo convergente da cinque misure indipendenti,
 con il meccanismo identificato e **due rimedi misurati**, e' un risultato.
 Un limite scoperto da un revisore non lo e'.
+
+---
+
+## 12. Un aggiornamento a una classe sola non e' un aggiornamento debole: e' un aggiornamento sbagliato
+
+**Osservazione.** La politica a stato compatto (`stat_13x13`, i minimi
+quadrati ricorsivi) perde contro il modello statico in alcune direzioni e
+non in altre, e quali siano cambia col rapporto di undersampling — cosa che
+la regola "perde quando BoT-IoT e' la sorgente" non prevedeva. Misurando
+l'accuratezza batch per batch si vede dove va la perdita: **fra il batch 0
+e il batch 1 la balanced accuracy cade di 0,47-0,49**, sullo stesso stream
+in cui il modello statico perde 0,04-0,13. Il danno e' concentrato nel
+primo aggiornamento. In tutte le direzioni che perdono, in tutti i seed,
+le 32 etichette pescate a quel primo batch sono **di una classe sola**.
+
+**Meccanismo.** Su un campione a una classe sola la verosimiglianza
+logistica e' monotona nella direzione dei parametri: non ha un massimo
+finito, e la stima "corretta" e' all'infinito. E' la separazione completa
+nel senso classico, lo stesso fenomeno che rende necessaria una penalita'
+alla Firth (sezione 9 di `RISULTATI.md`) — qui pero' non arriva come caso
+raro, arriva **per costruzione**. Al primo batch la frazione di target e'
+zero: lo stream e' puro dominio sorgente, il modello ci sta sopra bene, e
+una selezione per incertezza pesca 32 punti tutti dallo stesso lato del
+confine. Nello stesso istante la matrice di informazione vale ancora
+`ridge·I`: non c'e' storia accumulata a fare da contrappeso, e cinque
+iterazioni IRLS su quei 32 punti spostano i guadagni verso l'estremo. Il
+resto della corsa e' recupero da quel colpo, e quanto se ne recupera nei 19
+batch rimanenti dipende dalla coppia sorgente-target e dal rapporto
+insieme: **e' per questo che chi perde sembrava dipendere dal dominio
+sorgente senza dipenderne davvero.**
+
+La differenza fra questa politica e quelle a buffer non era solo lo stato
+compatto: quelle **saltano** l'aggiornamento quando le etichette raccolte
+non contengono entrambe le classi. L'RLS no. Il confronto pubblicato era
+quindi fra "stato compatto senza guardia" e "buffer con guardia": due
+differenze in una, attribuite a una sola.
+
+**Un'ipotesi alternativa, misurata e falsificata.** Lo stesso codice ha un
+secondo difetto leggibile: il ridge e' centrato su **zero**, cioe' sul
+punteggio identicamente nullo, non sulla stima corrente — la forma corretta
+sarebbe quella della stima ricorsiva bayesiana, dove il prior di ogni passo
+e' l'iterata precedente. Dove il modello di partenza e' buono un prior
+centrato a zero lavora contro di lui a ogni aggiornamento, ed era l'ipotesi
+piu' elegante delle due. **Non e' la causa**: correggerla da sola non
+recupera nulla, e in una cella peggiora. Vale la pena tenerla scritta:
+delle due spiegazioni plausibili, quella giusta era la meno interessante.
+
+**Cosa autorizza a scrivere.** Non che i minimi quadrati ricorsivi siano
+fragili — che era la lettura precedente — ma che **un aggiornamento
+sequenziale su budget di etichette scelte per incertezza deve controllare
+di avere entrambe le classi prima di aggiornare**, e che il momento in cui
+questo controllo conta di piu' e' il primo, quando non c'e' ancora storia
+accumulata. E' un'affermazione di progetto, come quella sul buffer della
+sezione 7 e per la stessa ragione di fondo: con 13 parametri e 32
+osservazioni per passo, tutto sta nel non buttare via lo stato che si ha.
+Il numero preciso di quanto si recupera mettendo la guardia (0,05-0,07
+nelle direzioni che perdono, un cambio di segno in una) e' in sezione 19 di
+`RISULTATI.md`, su 5 seed e 6 celle. ⚠ *(la guardia e' ora negli script
+come politica **affiancata** — `stat_13x13_guardia` — non come sostituzione:
+le colonne pubblicate restano quelle della versione senza guardia finche'
+`python rigenera.py --guardia` non e' stato eseguito, e a quel punto le due
+versioni saranno misurate sugli stessi 10 seed. Vedi voce 9 di "Cosa resta
+da fare".)*

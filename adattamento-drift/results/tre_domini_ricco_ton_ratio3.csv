@@ -1,0 +1,4 @@
+exp,non adattato,8 etichette,32 etichette,128 etichette,rifit completo n=8,rifit completo n=32,rifit completo n=128
+ton->bot,0.5573,0.7951,0.8302,0.8972,0.7864,0.7787,0.7714
+ton->ton,0.9703,,,,,,
+ton->unsw,0.2233,0.6589,0.7129,0.7479,0.6626,0.736,0.7707

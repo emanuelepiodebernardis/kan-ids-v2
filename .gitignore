@@ -78,3 +78,6 @@ audit.txt
 
 # cartella in cui si estrae il pacchetto per provarlo
 prova/
+
+# cartella dei dataset dell'ultimo run (percorso locale, non condivisibile)
+.ultima_cartella_dati

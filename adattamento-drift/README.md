@@ -37,6 +37,7 @@ quelli riusciti. Se leggi una cosa sola, leggi quello.
 | `mcu/run_int_adapt_check.cpp` | verifica di bit-esattezza contro il riferimento Python |
 | `results/*.csv` | un file riassuntivo e uno `*_runs.csv` con un record per run |
 | `scripts/figure.py`, `figures/` | le sei figure dell'articolo, rigenerate dai CSV |
+| `scripts/analisi_sezione18.py` | i numeri della sezione 18 ricalcolati dai CSV (identita' di `undersample()` inclusa) |
 
 Gli script sono checkpointati e riprendibili: interrompere e rilanciare non
 ricalcola quello che è già in `artifacts/*.jsonl`.
@@ -54,7 +55,7 @@ I dataset non sono versionati (~1,3 GB). Servono quattro fonti:
 
 Vanno messi in una cartella indicata da `KANIDS_DATA`:
 
-    export KANIDS_DATA=/percorso/ai/dataset
+    export KANIDS_DATA=<cartella dei dataset>
     python scripts/cross_domain.py
 
 **Attenzione a `test.csv`.** Nella famiglia CIC la colonna `Duration` è il
@@ -93,16 +94,22 @@ rifacendo la scelta onestamente, e' in
 
 ## Rigenerare i risultati
 
-    python rigenera.py --dati /percorso/ai/dataset --lista   # cosa farebbe
-    python rigenera.py --dati /percorso/ai/dataset           # stage del paper
-    python rigenera.py --dati /percorso/ai/dataset --tutto   # anche i secondari
+    python rigenera.py --lista       # cosa farebbe, senza fare nulla
+    python rigenera.py               # gli stage del paper
+    python rigenera.py --tutto       # anche i secondari e la sezione 18
+    python rigenera.py --sezione18   # solo la griglia dei rapporti
+    python rigenera.py --guardia     # deriva graduale con l'ottava politica
+
+I quattro CSV vengono cercati in `kanids-data/` accanto al repo. Se stanno
+altrove, `--dati <cartella>` la passa una volta sola: viene ricordata in
+`.ultima_cartella_dati` (non versionato, e' un percorso locale).
 
 In alternativa a `--dati`, la variabile `KANIDS_DATA` -- con la sintassi
 della shell in uso, che su Windows non e' la stessa fra le due:
 
-    $env:KANIDS_DATA = "C:\percorso\ai\dataset"   # PowerShell (`set` non basta)
-    set KANIDS_DATA=C:\percorso\ai\dataset         # cmd.exe
-    export KANIDS_DATA=/percorso/ai/dataset       # bash/zsh
+    $env:KANIDS_DATA = "<cartella dei dataset>"   # PowerShell (`set` non basta)
+    set KANIDS_DATA=<cartella dei dataset>         # cmd.exe
+    export KANIDS_DATA=<cartella dei dataset>       # bash/zsh
 
 Gli stage sono ordinati dal piu' economico al piu' caro e gli script sono
 checkpointati: interrompere e rilanciare riprende senza ricalcolare.

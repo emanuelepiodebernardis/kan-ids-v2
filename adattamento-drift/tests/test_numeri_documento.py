@@ -194,3 +194,26 @@ def test_la_regola_adattiva_raccoglie_zero_normali_in_unsw_bot():
     assert (n == 0).all(), "la regola adattiva ora raccoglie normali in unsw->bot"
     kc = t[(t.exp == "unsw->bot") & (t.selezione == "kcenter")].normali
     assert kc.mean() > 0, "il k-center non raccoglie piu' normali in unsw->bot"
+
+
+def test_chi_raccoglie_zero_normali_in_ton_bot():
+    """La sezione 4 afferma che in TON->BoT casuale e conformal restano a
+    zero normali a ogni budget, mentre strat_z trova la prima normale solo a
+    n=512 e in 2 seed su 10. E' un'affermazione derivata: se il campionamento
+    cambia, il testo deve cambiare con lui."""
+    d = pd.read_csv(_ROOT / "results" / "drift_sampling_normali.csv")
+    d = d[d.exp == "ton->bot"].set_index("regola")
+    budget = ["8", "32", "128", "512"]
+    for regola in ("casuale", "conformal"):
+        assert (d.loc[regola, budget] == 0).all(), (
+            f"{regola} non e' piu' a zero normali in ton->bot"
+        )
+    assert (d.loc["strat_z", ["8", "32", "128"]] == 0).all()
+    assert d.loc["strat_z", "512"] == pytest.approx(0.2), (
+        "strat_z a n=512 non raccoglie piu' 0,2 normali in media"
+    )
+    r = pd.read_csv(_ROOT / "results" / "drift_sampling_runs.csv")
+    r = r[(r.exp == "ton->bot") & (r.regola == "strat_z") & (r.budget == 512)]
+    riusciti = int((r.esito == "ok").sum())
+    assert riusciti == 2, f"strat_z a n=512 riesce ora in {riusciti} seed"
+    assert "in 2 seed su 10 (media 0,2 normali)" in DOC

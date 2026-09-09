@@ -45,9 +45,10 @@ etichette entra comunque nel training. E' anche l'unica eseguibile a bordo
 senza sapere in che regime ci si trova, che era il punto di partenza della
 sezione.
 
-**Confermato, invece:** su `ton->bot` prelievo casuale, conformal e
-`strat_z` raccolgono **zero normali in tutti e 10 i seed** — non e' un
-artefatto del campione piccolo.
+**Confermato, invece:** su `ton->bot` prelievo casuale e conformal
+raccolgono **zero normali in tutti e 10 i seed, a ogni budget**, e
+`strat_z` fa lo stesso fino a n=128 (la prima normale compare a n=512, in 2
+seed su 10) — non e' un artefatto del campione piccolo.
 
 ---
 
