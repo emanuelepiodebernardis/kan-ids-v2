@@ -12,7 +12,13 @@ qui verso la radice, non il contrario.
 
 ## Cosa c'è dentro
 
-`RISULTATI.md` è il documento principale, ed è scritto per essere leggibile
+`MECCANISMI.md` è il livello interpretativo: per ogni risultato dice il
+**meccanismo** che lo produce e la **giustificazione** della procedura che
+l'ha misurato. È il documento da cui si scrive l'articolo, e i punti dove il
+meccanismo è già noto in letteratura sono marcati `[rif.]` perché le
+citazioni si innestino senza riscrivere il testo.
+
+`RISULTATI.md` è il registro dei numeri, ed è scritto per essere leggibile
 senza il codice: ogni numero ha accanto il metodo che l'ha prodotto, ogni
 conclusione la sua misura, e i tentativi falliti sono riportati insieme a
 quelli riusciti. Se leggi una cosa sola, leggi quello.
