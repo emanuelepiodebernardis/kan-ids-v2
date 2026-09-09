@@ -1,0 +1,16 @@
+exp,model,n_parametri,8,32,128,512
+bot->ton,DecisionTree(d=5),13,0.7225,0.8075,0.6939,0.693
+bot->ton,DecisionTree(d=5),14,0.7918,0.7595,0.675,0.678
+bot->ton,DecisionTree(d=5),15,0.768,0.8315,0.8192,0.832
+bot->ton,DecisionTree(d=5),16,,0.8235,0.8247,0.8249
+bot->ton,"KAN(cat,1L)",13,0.7436,0.8541,0.8788,0.9137
+bot->ton,LightGBM,401,0.6624,0.8365,0.8485,0.8749
+bot->ton,MLP(16),17,0.7236,0.8456,0.8788,0.9292
+bot->ton,XGBoost,301,0.6792,0.7713,0.8349,0.8474
+ton->bot,DecisionTree(d=5),15,0.521,0.5031,0.9223,0.6786
+ton->bot,DecisionTree(d=5),16,0.5279,0.5069,0.9294,0.7536
+ton->bot,DecisionTree(d=5),17,,0.51,0.934,0.7213
+ton->bot,"KAN(cat,1L)",13,0.7814,0.8517,0.8838,0.8845
+ton->bot,LightGBM,401,0.5621,0.56,0.67,0.6211
+ton->bot,MLP(16),17,0.607,0.6351,0.7103,0.6927
+ton->bot,XGBoost,301,,0.5886,0.7256,0.6871

@@ -1,0 +1,14 @@
+,,bal_acc,bal_acc,frazione_positivi,frazione_positivi
+exp,,bot->ton,ton->bot,bot->ton,ton->bot
+metodo,etichette,,,,
+32 etichette,32,0.7833,0.7813,0.5601,0.7489
+8 etichette,8,0.6462,0.697,0.4307,0.5911
+EM sul prior,0,0.5,0.559,0.0,0.2342
+IM (SHOT),0,0.7779,0.6415,0.7254,0.453
+IM come prior + 32 etichette,32,0.794,0.6821,0.6908,0.5991
+IM come prior + 8 etichette,8,0.7733,0.625,0.7133,0.47
+IM seleziona + 32 etichette,32,0.814,0.6997,0.7345,0.9208
+IM seleziona + 8 etichette,8,0.653,0.8064,0.8229,0.9452
+TENT,0,0.5314,0.4834,0.1005,0.2834
+TENT filtrato,0,0.5126,0.5221,0.034,0.2534
+non adattato,0,0.6112,0.5602,0.2683,0.4402

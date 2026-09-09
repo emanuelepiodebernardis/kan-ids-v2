@@ -1,0 +1,11 @@
+exp,model,8,32,128,512
+bot->ton,DecisionTree(d=5),0.7166,0.8849,0.8643,0.8975
+bot->ton,"KAN(cat,1L)",0.633,0.8584,0.9512,0.9131
+bot->ton,LightGBM,0.5,0.5,0.851,0.8787
+bot->ton,MLP(16),,0.5338,0.5613,0.6362
+bot->ton,XGBoost,0.5,0.8072,0.898,0.92
+ton->bot,DecisionTree(d=5),0.6009,0.6105,0.8673,0.8058
+ton->bot,"KAN(cat,1L)",0.7491,0.7549,0.7519,0.7429
+ton->bot,LightGBM,0.5,0.5,0.702,0.7733
+ton->bot,MLP(16),,0.5042,0.4236,0.5296
+ton->bot,XGBoost,,0.5,0.8008,0.6523

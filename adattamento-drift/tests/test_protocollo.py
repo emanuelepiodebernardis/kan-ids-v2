@@ -180,3 +180,16 @@ def test_header_c_solo_dalla_configurazione_canonica():
         assert condizione in testo, (
             f"la guardia sulla scrittura dell'header ha perso «{condizione}»: "
             "un rilancio esplorativo puo' di nuovo sovrascrivere l'header C")
+
+
+def test_header_c_scritto_con_terminatori_lf():
+    """`Path.write_text` su Windows traduce \\n in \\r\\n: l'header rigenerato
+    differirebbe da quello committato per i soli terminatori, contro
+    .gitattributes (eol=lf). Difetto gia' corretto una volta nel primo
+    lavoro, rientrato qui."""
+    testo = (_ROOT / "scripts" / "drift_int_adapt.py").read_text(encoding="utf-8")
+    assert 'newline="\\n"' in testo, (
+        "il generatore dell'header C non forza i terminatori LF: su Windows "
+        "produrra' CRLF e l'artefatto risultera' modificato senza esserlo")
+    for h in ("mcu/kan_int_adapt.h", "mcu_pio/include/kan_int_adapt.h"):
+        assert b"\r\n" not in (_ROOT / h).read_bytes(), f"{h} contiene CRLF"

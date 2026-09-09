@@ -1,0 +1,7 @@
+exp,metodo,ricco (13+2),ridotto (6+2),costo
+bot->ton,128 etichette,0.8788,0.8443,-0.0345
+bot->ton,32 etichette,0.8541,0.814,-0.0401
+bot->ton,non adattato,0.6112,0.5341,-0.0771
+ton->bot,128 etichette,0.8838,0.6569,-0.2269
+ton->bot,32 etichette,0.8517,0.6131,-0.2386
+ton->bot,non adattato,0.5575,0.6225,0.065

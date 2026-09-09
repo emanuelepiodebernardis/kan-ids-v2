@@ -1,0 +1,15 @@
+exp,regola,8,32,128,512
+bot->ton,adattiva,0.7083,0.8141,0.8737,0.9299
+bot->ton,bilanciato,0.7837,0.8576,0.9126,0.9297
+bot->ton,casuale,0.6862,0.8583,0.9242,0.9323
+bot->ton,conformal,0.6433,0.662,0.7492,0.8191
+bot->ton,conformal_top,0.6039,0.6147,0.5517,0.5293
+bot->ton,margine,0.6039,0.6147,0.5517,0.5293
+bot->ton,misto,0.7172,0.7686,0.8671,0.9204
+bot->ton,strat_z,0.6715,0.8499,0.9268,0.9239
+ton->bot,adattiva,0.8061,0.8754,0.8917,0.9027
+ton->bot,bilanciato,0.9041,0.9206,0.9515,0.9672
+ton->bot,conformal_top,0.7135,0.8485,0.7998,0.8034
+ton->bot,margine,0.7135,0.8485,0.7998,0.8034
+ton->bot,misto,0.756,0.8112,0.8641,0.7809
+ton->bot,strat_z,,,,0.7556

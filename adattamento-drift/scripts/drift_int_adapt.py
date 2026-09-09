@@ -300,7 +300,7 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, write_header=False, iters=6000,
                        + f"{int(zz)}LL, {int(zz >= 0)}}},")
         hdr += ["};", "", "#endif /* KAN_INT_ADAPT_H */"]
         out = _REPO / "mcu_pio" / "include" / "kan_int_adapt.h"
-        out.write_text("\n".join(hdr) + "\n")
+        # newline="\n" esplicito: senza, su Windows Python traduce ogni \n\n        # in CRLF e l'header rigenerato differisce da quello committato\n        # per i soli terminatori -- lo stesso difetto di igiene gia'\n        # corretto una volta nel primo lavoro. .gitattributes impone eol=lf.\n        out.write_text("\n".join(hdr) + "\n", encoding="utf-8", newline="\n")
         print(f"  header scritto: {out.relative_to(_REPO)} ({out.stat().st_size} B)")
 
 
