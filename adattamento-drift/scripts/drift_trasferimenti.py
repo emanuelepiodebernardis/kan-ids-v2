@@ -42,6 +42,7 @@ from kanids import (ARTIFACTS_DIR, CLIP, K_NUMERIC, RESULTS_DIR, SEEDS,  # noqa:
 from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # noqa: E402
                                HARMONIZED_SKEWED)
 from kanids.models import CategoricalKANBinary  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_adapt import edge_matrix, fit_gains  # noqa: E402
@@ -166,18 +167,21 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
     for sel in ("adattiva", "kcenter", "margine+kcenter"):
         for n in BUDGETS:
             idx = seleziona(sel, Phi, z0, y_tgt, n, seed)
-            mask = np.ones(len(y_tgt), bool)
-            mask[idx] = False
+            # Partizione unica per tutto il sottoprogetto: validation (30 %) e
+            # test (70 %) disgiunti, dipendenti dal solo seed. Qui si valuta sul
+            # test; la validation esiste comunque, cosi' ogni scelta futura ha
+            # dove essere fatta senza toccarlo (kanids/valutazione.py).
+            ev = dividi_target(y_tgt, idx, seed).test
             yl = y_tgt[idx]
             if len(np.unique(yl)) < 2:
                 add(sel, "—", n, idx, np.nan)
                 continue
             w, b = fit_gains(Phi[idx], yl, seed)
             add(sel, "L2", n, idx,
-                balanced_accuracy_score(y_tgt[mask], ((Phi[mask] @ w + b) >= 0)))
+                balanced_accuracy_score(y_tgt[ev], ((Phi[ev] @ w + b) >= 0)))
             w, b = fit_firth(Phi[idx], yl)
             add(sel, "Firth", n, idx,
-                balanced_accuracy_score(y_tgt[mask], ((Phi[mask] @ w + b) >= 0)))
+                balanced_accuracy_score(y_tgt[ev], ((Phi[ev] @ w + b) >= 0)))
 
 
 def main():

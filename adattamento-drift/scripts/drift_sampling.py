@@ -49,6 +49,7 @@ from kanids import (ARTIFACTS_DIR, CLIP, K_NUMERIC, RESULTS_DIR, SEEDS,  # noqa:
 from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # noqa: E402
                                HARMONIZED_SKEWED)
 from kanids.models import CategoricalKANBinary  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_adapt import (balanced_draw, edge_matrix, fit_gains)  # noqa: E402
@@ -196,8 +197,11 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
         for regola, idx in selectors(z_tgt, y_tgt, q, n, seed).items():
             yl = y_tgt[idx]
             n_norm = int((yl == 0).sum())
-            mask = np.ones(len(y_tgt), bool)
-            mask[idx] = False
+            # Partizione unica per tutto il sottoprogetto: validation (30 %) e
+            # test (70 %) disgiunti, dipendenti dal solo seed. Qui si valuta sul
+            # test; la validation esiste comunque, cosi' ogni scelta futura ha
+            # dove essere fatta senza toccarlo (kanids/valutazione.py).
+            ev = dividi_target(y_tgt, idx, seed).test
             rec = {"exp": exp, "seed": seed, "regola": regola, "budget": n,
                    "normali_selezionate": n_norm, "q_conformal": q,
                    "bal_partenza": base}
@@ -208,7 +212,7 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
             else:
                 w, b = fit_gains(Phi[idx].astype(np.float64), yl, seed)
                 rec.update({"bal_acc": float(balanced_accuracy_score(
-                    y_tgt[mask], ((Phi[mask] @ w + b) >= 0).astype(int))),
+                    y_tgt[ev], ((Phi[ev] @ w + b) >= 0).astype(int))),
                     "esito": "ok"})
             rows.append(rec)
             with ckpt.open("a") as fh:

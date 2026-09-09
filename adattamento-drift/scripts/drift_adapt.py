@@ -52,6 +52,7 @@ from kanids import (ARTIFACTS_DIR, CLIP, K_NUMERIC, RESULTS_DIR, SEEDS,  # noqa:
 from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # noqa: E402
                                HARMONIZED_SKEWED)
 from kanids.models import CategoricalKANBinary, chebyshev_basis  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 
@@ -198,17 +199,20 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
     # ── budget crescente di etichette del target ──
     for n in BUDGETS:
         idx = balanced_draw(y_tgt, n, seed)
-        mask = np.ones(len(y_tgt), bool)
-        mask[idx] = False
+        # Partizione unica per tutto il sottoprogetto: validation (30 %) e
+        # test (70 %) disgiunti, dipendenti dal solo seed. Qui si valuta sul
+        # test; la validation esiste comunque, cosi' ogni scelta futura ha
+        # dove essere fatta senza toccarlo (kanids/valutazione.py).
+        ev = dividi_target(y_tgt, idx, seed).test
         Pl, yl = Phi[idx].astype(np.float64), y_tgt[idx]
-        ye = y_tgt[mask]
+        ye = y_tgt[ev]
         if len(np.unique(yl)) < 2:
             continue
         w, b = fit_gains(Pl, yl, seed, only_bias=True)
-        add(f"soglia_da_{n}_etichette", 1, len(idx), (Phi @ w + b)[mask], ye, 0.0)
+        add(f"soglia_da_{n}_etichette", 1, len(idx), (Phi @ w + b)[ev], ye, 0.0)
         w, b = fit_gains(Pl, yl, seed)
         add(f"gain_per_edge_{n}_etichette", Phi.shape[1] + 1, len(idx),
-            (Phi @ w + b)[mask], ye, 0.0)
+            (Phi @ w + b)[ev], ye, 0.0)
 
         # rifit completo con lo STESSO budget: il termine di paragone che dice
         # se limitarsi a pochi coefficienti costi qualcosa
@@ -216,7 +220,7 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
                                   degree=8, clip=CLIP, seed=seed).fit(
             Xte[idx], Cte[idx], yl)
         add(f"rifit_completo_{n}_etichette", m2.n_parameters, len(idx),
-            m2.decision_function(Xte, Cte)[mask], ye, 0.0)
+            m2.decision_function(Xte, Cte)[ev], ye, 0.0)
 
 
 def main():

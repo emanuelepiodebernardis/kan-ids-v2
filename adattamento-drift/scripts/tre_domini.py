@@ -45,6 +45,7 @@ from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # no
                                MINIMO_SKEWED, RIDOTTO_NUMERIC, RIDOTTO_SKEWED,
                                build_minimo_da_ricco, build_ridotto_da_ricco)
 from kanids.models import CategoricalKANBinary  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_adapt import edge_matrix, fit_gains  # noqa: E402
@@ -126,15 +127,18 @@ def run_unit(H, src, seed, ratio, rows, ckpt, spazio="ricco", domini=None):
 
         for n in BUDGETS:
             idx = adaptive_pick(z0, y_tgt, n, seed)
-            mask = np.ones(len(y_tgt), bool)
-            mask[idx] = False
+            # Partizione unica per tutto il sottoprogetto: validation (30 %) e
+            # test (70 %) disgiunti, dipendenti dal solo seed. Qui si valuta sul
+            # test; la validation esiste comunque, cosi' ogni scelta futura ha
+            # dove essere fatta senza toccarlo (kanids/valutazione.py).
+            ev = dividi_target(y_tgt, idx, seed).test
             yl = y_tgt[idx]
             if len(np.unique(yl)) < 2:
                 add(f"{n} etichette", np.nan, {"budget": n, "normali": 0})
                 continue
             w, b = fit_gains(Phi[idx], yl, seed)
             add(f"{n} etichette",
-                balanced_accuracy_score(y_tgt[mask], ((Phi[mask] @ w + b) >= 0)),
+                balanced_accuracy_score(y_tgt[ev], ((Phi[ev] @ w + b) >= 0)),
                 {"budget": n, "normali": int((yl == 0).sum())})
             # il termine di paragone: riaddestrare tutto con lo stesso budget
             m2 = CategoricalKANBinary(in_dim=prep.k_numeric, degree=8, clip=CLIP,
@@ -143,7 +147,7 @@ def run_unit(H, src, seed, ratio, rows, ckpt, spazio="ricco", domini=None):
             m2.fit(Xte[idx], Cte[idx], yl)
             add(f"rifit completo n={n}",
                 balanced_accuracy_score(
-                    y_tgt[mask], m2.decision_function(Xte[mask], Cte[mask]) >= 0),
+                    y_tgt[ev], m2.decision_function(Xte[ev], Cte[ev]) >= 0),
                 {"budget": n})
 
 

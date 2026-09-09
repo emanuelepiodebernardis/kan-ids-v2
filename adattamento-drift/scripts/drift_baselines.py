@@ -55,6 +55,7 @@ from kanids import (ARTIFACTS_DIR, CLIP, K_NUMERIC, RESULTS_DIR, SEEDS,  # noqa:
 from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # noqa: E402
                                HARMONIZED_SKEWED)
 from kanids.models import CategoricalKANBinary, get_baselines  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_adapt import edge_matrix  # noqa: E402
@@ -223,8 +224,11 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, done=(), deadline=None):
 
         for n in BUDGETS:
             idx = adaptive_pick(z, y_tgt, n, seed)
-            mask = np.ones(len(y_tgt), bool)
-            mask[idx] = False
+            # Partizione unica per tutto il sottoprogetto: validation (30 %) e
+            # test (70 %) disgiunti, dipendenti dal solo seed. Qui si valuta sul
+            # test; la validation esiste comunque, cosi' ogni scelta futura ha
+            # dove essere fatta senza toccarlo (kanids/valutazione.py).
+            ev = dividi_target(y_tgt, idx, seed).test
             yl = y_tgt[idx]
             rec = {"exp": exp, "seed": seed, "model": name, "budget": n,
                    "aggiornamento": etichetta, "n_parametri": n_par,
@@ -235,9 +239,9 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, done=(), deadline=None):
             else:
                 lr = LogisticRegression(max_iter=3000, class_weight="balanced")
                 lr.fit(P[idx].astype(np.float64), yl)
-                zz = P[mask] @ lr.coef_[0].astype(P.dtype) + lr.intercept_[0]
+                zz = P[ev] @ lr.coef_[0].astype(P.dtype) + lr.intercept_[0]
                 rec["bal_minimo"] = float(balanced_accuracy_score(
-                    y_tgt[mask], (zz >= 0).astype(int)))
+                    y_tgt[ev], (zz >= 0).astype(int)))
                 # rifit completo dello stesso modello con lo stesso budget
                 m2 = (CategoricalKANBinary(in_dim=K_NUMERIC, degree=8, clip=CLIP,
                                            seed=seed, cardinalities=prep.cardinalities_)
@@ -246,7 +250,7 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, done=(), deadline=None):
                 try:
                     m2.fit(Xte[idx], Cte[idx], yl)
                     rec["bal_rifit"] = float(balanced_accuracy_score(
-                        y_tgt[mask], score_of(m2, Xte[mask], Cte[mask]) >= 0))
+                        y_tgt[ev], score_of(m2, Xte[ev], Cte[ev]) >= 0))
                 except Exception as e:
                     rec["bal_rifit"] = np.nan
                     rec["nota_rifit"] = str(e)[:80]

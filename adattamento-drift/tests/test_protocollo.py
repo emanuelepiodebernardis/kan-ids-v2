@@ -73,6 +73,33 @@ def test_la_partizione_dipende_solo_dal_seed(seed):
     assert not np.array_equal(a._idx_test, c._idx_test)
 
 
+@pytest.mark.parametrize("seed", [42, 47])
+def test_la_partizione_non_dipende_dalla_selezione(seed):
+    """La proprieta' che rende confrontabili budget diversi: cambiando le
+    righe selezionate, il test resta lo stesso insieme meno quelle righe --
+    non un insieme ridisegnato."""
+    y = _target(seed=1)
+    rng = np.random.RandomState(seed)
+    sel_a = rng.choice(len(y), 8, replace=False)
+    sel_b = rng.choice(len(y), 512, replace=False)
+    a, b = dividi_target(y, sel_a, seed), dividi_target(y, sel_b, seed)
+    base = dividi_target(y, np.array([], int), seed)
+    assert np.array_equal(a._idx_test, np.setdiff1d(base._idx_test, sel_a))
+    assert np.array_equal(b._idx_test, np.setdiff1d(base._idx_test, sel_b))
+    # e nessuna riga etichettata finisce nella valutazione
+    assert not np.intersect1d(a._idx_test, sel_a).size
+    assert not np.intersect1d(b.idx_validation, sel_b).size
+
+
+def test_senza_etichette_non_valuta_sulle_righe_etichettate():
+    """Il difetto trovato in drift_senza_etichette.py: i metodi
+    supervisionati di confronto venivano valutati anche sulle righe le cui
+    etichette avevano usato."""
+    testo = (_ROOT / "scripts" / "drift_senza_etichette.py").read_text(encoding="utf-8")
+    assert "dividi_target(y_tgt, idx_usati" in testo
+    assert "balanced_accuracy_score(y_tgt[ev], pred[ev])" in testo
+
+
 # ── il guardiano ─────────────────────────────────────────────────────
 def test_il_test_set_e_inaccessibile_in_modo_selezione():
     y = _target()
@@ -93,7 +120,14 @@ def test_il_repr_non_rivela_la_dimensione_del_test():
 
 
 # ── regressione: il difetto non deve poter rientrare ─────────────────
-SCRIPT_CON_SELEZIONE = ["drift_int_adapt.py", "sweep_iperparametri.py"]
+# Tutti gli script che valutano su un complemento delle righe selezionate.
+# Devono passare dalla partizione unica, cosi' che ogni numero del documento
+# stia sullo stesso test set e le sezioni siano confrontabili fra loro.
+SCRIPT_CON_SELEZIONE = [
+    "drift_int_adapt.py", "sweep_iperparametri.py", "drift_adapt.py",
+    "drift_baselines.py", "drift_sampling.py", "drift_trasferimenti.py",
+    "spazio_ridotto.py", "tre_domini.py",
+]
 
 
 @pytest.mark.parametrize("nome", SCRIPT_CON_SELEZIONE)

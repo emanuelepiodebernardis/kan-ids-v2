@@ -33,6 +33,7 @@ from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # no
                                HARMONIZED_SKEWED, RIDOTTO_NUMERIC,
                                RIDOTTO_SKEWED, build_ridotto_da_ricco)
 from kanids.models import CategoricalKANBinary, get_baselines  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_adapt import edge_matrix, fit_gains  # noqa: E402
@@ -103,14 +104,17 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, done=()):
             {"roc_auc": float(roc_auc_score(y_tgt, z0))})
         for n in BUDGETS:
             idx = adaptive_pick(z0, y_tgt, n, seed)
-            mask = np.ones(len(y_tgt), bool)
-            mask[idx] = False
+            # Partizione unica per tutto il sottoprogetto: validation (30 %) e
+            # test (70 %) disgiunti, dipendenti dal solo seed. Qui si valuta sul
+            # test; la validation esiste comunque, cosi' ogni scelta futura ha
+            # dove essere fatta senza toccarlo (kanids/valutazione.py).
+            ev = dividi_target(y_tgt, idx, seed).test
             if len(np.unique(y_tgt[idx])) < 2:
                 add(f"{n} etichette", np.nan)
                 continue
             w, b = fit_gains(Phi[idx], y_tgt[idx], seed)
             add(f"{n} etichette", balanced_accuracy_score(
-                y_tgt[mask], ((Phi[mask] @ w + b) >= 0).astype(int)))
+                y_tgt[ev], ((Phi[ev] @ w + b) >= 0).astype(int)))
 
 
 def main():

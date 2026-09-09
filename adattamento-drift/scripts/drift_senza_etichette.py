@@ -56,6 +56,7 @@ from kanids import (ARTIFACTS_DIR, CLIP, K_NUMERIC, RESULTS_DIR, SEEDS,  # noqa:
 from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # noqa: E402
                                HARMONIZED_SKEWED)
 from kanids.models import CategoricalKANBinary  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_adapt import edge_matrix, fit_gains  # noqa: E402
@@ -180,10 +181,18 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
     Phi = edge_matrix(model, Xte, Cte).astype(np.float64)
     z0 = Phi.sum(1)
 
-    def add(metodo, pred, etich=0, nota=""):
+    # Stessa partizione di ogni altro script: si valuta sul test, e le
+    # righe spese per l'adattamento ne sono fuori. Prima le righe
+    # etichettate dai metodi supervisionati di confronto ("8 etichette",
+    # "32 etichette", le due combinazioni con IM) restavano dentro
+    # l'insieme di valutazione: 32 righe su ~400 000, effetto trascurabile
+    # ma protocollo diverso da quello delle altre sezioni.
+    def add(metodo, pred, etich=0, nota="", idx_usati=None):
+        ev = dividi_target(y_tgt, idx_usati if idx_usati is not None
+                           else np.array([], int), seed).test
         rec = {"exp": exp, "seed": seed, "metodo": metodo,
-               "bal_acc": float(balanced_accuracy_score(y_tgt, pred)),
-               "frazione_positivi": float(pred.mean()),
+               "bal_acc": float(balanced_accuracy_score(y_tgt[ev], pred[ev])),
+               "frazione_positivi": float(pred[ev].mean()),
                "etichette": etich, "nota": nota}
         rows.append(rec)
         with ckpt.open("a") as fh:
@@ -212,10 +221,10 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
     for n in BUDGETS:
         idx = adaptive_pick(z0, y_tgt, n, seed)
         if len(np.unique(y_tgt[idx])) < 2:
-            add(f"{n} etichette", np.zeros(len(y_tgt), int), n, "una sola classe")
+            add(f"{n} etichette", np.zeros(len(y_tgt), int), n, "una sola classe", idx)
         else:
             w, b = fit_gains(Phi[idx], y_tgt[idx], seed)
-            add(f"{n} etichette", ((Phi @ w + b) >= 0).astype(int), n)
+            add(f"{n} etichette", ((Phi @ w + b) >= 0).astype(int), n, "", idx)
 
         # (a) IM come selettore: le etichette si scelgono sul punteggio gia'
         #     adattato, che e' migliore, poi si fitta sui contributi originali
@@ -223,14 +232,14 @@ def run_unit(H, exp, seed, ratio, rows, ckpt):
         if len(np.unique(y_tgt[idx2])) >= 2:
             w, b = fit_gains(Phi[idx2], y_tgt[idx2], seed)
             add(f"IM seleziona + {n} etichette",
-                ((Phi @ w + b) >= 0).astype(int), n)
+                ((Phi @ w + b) >= 0).astype(int), n, "", idx2)
 
         # (b) IM come prior: stima supervisionata tirata verso la soluzione
         #     non supervisionata invece che verso zero
         if len(np.unique(y_tgt[idx])) >= 2:
             w, b = fit_gains_prior(Phi[idx], y_tgt[idx], a_im, b_im, seed)
             add(f"IM come prior + {n} etichette",
-                ((Phi @ w + b) >= 0).astype(int), n)
+                ((Phi @ w + b) >= 0).astype(int), n, "", idx)
 
 
 def main():

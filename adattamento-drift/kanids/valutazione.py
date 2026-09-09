@@ -12,10 +12,12 @@ della selezione delle etichette -- che e' il collo di bottiglia centrale
 del lavoro e non va toccata:
 
     target ricampionato
-      |-- righe SELEZIONATE dalla regola  -> adattamento (budget di n etichette)
-      `-- resto
-            |-- VALIDATION (30 %)  -> qui, e solo qui, si scelgono le costanti
-            `-- TEST       (70 %)  -> letto una volta, alla fine
+      |-- VALIDATION (30 %)  -> qui, e solo qui, si scelgono le costanti
+      `-- TEST       (70 %)  -> letto una volta, alla fine
+
+    e da entrambe si tolgono le righe spese per l'adattamento. La
+    partizione dipende dal solo seed, non dalla selezione: dentro uno stesso
+    seed ogni metodo e ogni budget vedono lo stesso test set.
 
 La regola di selezione continua a vedere tutto il target, esattamente come
 prima: un dispositivo in campo sceglie dallo stream che gli passa davanti.
@@ -97,30 +99,39 @@ class SplitValutazione:
 def dividi_target(y_target: np.ndarray, idx_selezionati: np.ndarray, seed: int,
                   frazione_validation: float = FRAZIONE_VALIDATION
                   ) -> SplitValutazione:
-    """Divide il complemento delle righe selezionate in validation e test.
+    """Partiziona il target in validation e test, e toglie da entrambe le
+    righe spese per l'adattamento.
 
-    Stratificato sull'etichetta: con BoT-IoT come target i normali sono lo
+    La partizione dipende **solo** da `(y_target, seed)`, non da quali righe
+    la regola ha selezionato. E' la proprieta' che rende confrontabili fra
+    loro numeri prodotti da script, metodi e budget diversi: dentro uno
+    stesso seed il test set e' lo stesso insieme di righe per tutti, e le
+    righe etichettate vengono sottratte dopo. Se la partizione si calcolasse
+    sul complemento della selezione, ogni budget avrebbe un test diverso e i
+    confronti appaiati fra budget non sarebbero appaiati.
+
+    Stratificata sull'etichetta: con BoT-IoT come target i normali sono lo
     0,013 %, quindi una divisione non stratificata puo' lasciarne zero da
     una delle due parti e produrre una balanced accuracy indefinita per
     ragioni di campionamento invece che di metodo.
     """
     n = len(y_target)
-    resto = np.ones(n, bool)
-    resto[idx_selezionati] = False
-    idx_resto = np.flatnonzero(resto)
-
     rng = np.random.RandomState(1000 + int(seed))
+
     val_parts = []
-    for classe in np.unique(y_target[idx_resto]):
-        della_classe = idx_resto[y_target[idx_resto] == classe]
+    for classe in np.unique(y_target):
+        della_classe = np.flatnonzero(y_target == classe)
         k = int(round(len(della_classe) * frazione_validation))
         k = min(max(k, 1), len(della_classe) - 1) if len(della_classe) > 1 else 0
         if k:
             val_parts.append(rng.choice(della_classe, k, replace=False))
-    idx_val = np.sort(np.concatenate(val_parts)) if val_parts else np.array([], int)
-
     in_val = np.zeros(n, bool)
-    in_val[idx_val] = True
-    idx_test = idx_resto[~in_val[idx_resto]]
+    if val_parts:
+        in_val[np.concatenate(val_parts)] = True
 
+    scelte = np.zeros(n, bool)
+    scelte[np.asarray(idx_selezionati, dtype=int)] = True
+
+    idx_val = np.flatnonzero(in_val & ~scelte)
+    idx_test = np.flatnonzero(~in_val & ~scelte)
     return SplitValutazione(np.asarray(idx_selezionati), idx_val, idx_test)
