@@ -1,8 +1,23 @@
-# Colmare il gap cross-domain — primi risultati
+# Colmare il gap cross-domain
 
-Due esperimenti, entrambi su 3 seed, entrambi con il vincolo del punto 3
-rispettato: il modello deployato è addestrato **solo** sul source, e ogni riga
-del target usata per adattarlo è esclusa dalla valutazione.
+Il modello deployato è addestrato **solo** sul source, e ogni riga del target
+usata per adattarlo è esclusa dalla valutazione. La valutazione avviene sul
+**test**, disgiunto dalla validation su cui si scelgono le costanti: il
+protocollo è descritto in `README.md`, e cosa cambia rifacendo onestamente le
+scelte che prima guardavano i numeri riportati è in
+`results/RISELEZIONE_IPERPARAMETRI.md`.
+
+Tre documenti compagni, per non mescolare tre cose diverse:
+
+| | |
+|---|---|
+| `RISULTATI.md` *(questo)* | lo **stato corrente**: ogni affermazione una volta sola, nella sua versione finale, con la sua misura |
+| `MECCANISMI.md` | il **perché**: per ogni risultato il meccanismo che lo produce e la giustificazione della procedura che l'ha misurato |
+| `CRONOLOGIA.md` | le versioni **superate** delle sezioni riscritte, e perché sono cadute |
+
+Le sezioni 1, 4, 5, 11 e 12 sono state riscritte su 10 seed sotto il
+protocollo corretto. Le altre riportano ancora misure precedenti dove
+indicato: `results/RIGENERAZIONE_PROTOCOLLO.md` dice quali.
 
 ---
 
@@ -13,32 +28,54 @@ crollo è rappresentazione rotta e quanto è solo soglia mal posizionata?** È l
 differenza fra una correzione da un byte e una da 250, e decide quali metodi
 della letteratura valga la pena testare.
 
-Balanced accuracy sul target (0,50 = caso):
+Sei modelli, 10 seed, media. La "soglia oracolo" usa le etichette del target:
+non è una tecnica, è il **tetto superiore** di qualunque metodo che si limiti
+a spostare la soglia.
 
-| Direzione | Modello | oggi | soglia oracolo | ROC-AUC target |
+### BoT→TON — problema di calibrazione
+
+| Modello | oggi | soglia oracolo | ROC-AUC target | ROC-AUC source |
 |---|---|---|---|---|
-| TON→BoT | KAN 1L | 0,5563 | 0,6294 | **0,5451** |
-| TON→BoT | LightGBM | 0,4797 | 0,6269 | 0,5414 |
-| TON→BoT | DecisionTree | 0,5466 | 0,6073 | 0,4339 |
-| BoT→TON | KAN 1L | 0,5989 | **0,8280** | **0,8200** |
-| BoT→TON | LightGBM | 0,7171 | 0,8107 | 0,7660 |
-| BoT→TON | MLP(16) | 0,7343 | 0,7397 | 0,6053 |
+| **KAN(cat,1L)** | 0,6112 | **0,8284** | **0,8265 ± 0,0355** | 0,9993 |
+| LightGBM | 0,6964 | 0,8066 | 0,7680 ± 0,0305 | 1,0000 |
+| KAN(cat,ML) | 0,6855 | 0,7647 | 0,7635 ± 0,0957 | 1,0000 |
+| XGBoost | 0,6487 | 0,7165 | 0,6959 ± 0,0516 | 1,0000 |
+| DecisionTree(d=5) | 0,4597 | 0,7280 | 0,6604 ± 0,0528 | 0,9997 |
+| MLP(16) | 0,7343 | 0,7411 | 0,6046 ± 0,0092 | 0,9995 |
 
-La "soglia oracolo" usa le etichette del target: non è una tecnica, è il
-**tetto superiore** di qualunque metodo che si limiti a spostare la soglia.
+L'ordinamento sopravvive: la sola soglia porterebbe la KAN da 0,611 a 0,828.
 
-**Le due direzioni sono problemi diversi, e il report attuale li tratta come
-uno solo.**
+### TON→BoT — problema di rappresentazione
 
-- **BoT→TON** conserva l'ordinamento: ROC-AUC 0,82 e la sola soglia porterebbe
-  da 0,599 a 0,828. È un problema di calibrazione.
-- **TON→BoT** ha ROC-AUC 0,54, cioè **al caso**. Anche la soglia perfetta si
-  ferma a 0,62. Nessuna ricalibrazione della soglia salva questa direzione.
+| Modello | oggi | soglia oracolo | ROC-AUC target | ROC-AUC source |
+|---|---|---|---|---|
+| LightGBM | 0,4779 | 0,6337 | **0,5516 ± 0,0356** | 1,0000 |
+| KAN(cat,1L) | 0,5573 | 0,6186 | 0,5171 ± 0,0424 | 0,9931 |
+| XGBoost | 0,5528 | 0,5704 | 0,4582 ± 0,0332 | 0,9999 |
+| DecisionTree(d=5) | 0,5494 | 0,6064 | 0,4338 ± 0,0004 | 0,9916 |
+| KAN(cat,ML) | 0,4588 | 0,5674 | 0,4185 ± 0,0805 | 0,9997 |
+| MLP(16) | 0,4369 | 0,5753 | 0,3817 ± 0,0604 | 0,9986 |
 
-Nota per il paper: la KAN single-layer ha il **miglior ROC-AUC sul target in
-entrambe le direzioni**, pur essendo ultima in-domain. È un secondo argomento,
-indipendente da quello già nel report, a favore della struttura additiva.
+**Tutti e sei i modelli stanno fra 0,38 e 0,55**, cioè al caso o sotto, pur
+avendo ROC-AUC ≥ 0,99 sul proprio dominio. Anche la soglia perfetta si ferma
+a 0,63. Nessuna ricalibrazione salva questa direzione.
 
+**Le due direzioni sono problemi diversi e vanno trattati come tali.** È il
+risultato che decide il resto del lavoro: dove l'ordinamento regge basta una
+soglia, dove è distrutto serve un intervento che tocchi i coefficienti.
+
+**Un'affermazione ritirata.** La versione a 3 seed di questa sezione
+concludeva che *la KAN single-layer ha il miglior ROC-AUC sul target in
+entrambe le direzioni*, e la marcava come nota per il paper — un secondo
+argomento, indipendente, a favore della struttura additiva. **A 10 seed regge
+in una direzione sola**: in TON→BoT LightGBM sta davanti (0,5516 contro
+0,5171), e il divario non è significativo (t=−1,80, p=0,11 appaiato). La
+formulazione corretta è che lì **le due non si distinguono**. In BoT→TON il
+vantaggio della KAN resta netto e su tutti e cinque i concorrenti.
+
+Che il degrado colpisca tutti e sei i modelli non indebolisce la diagnosi:
+la rafforza, perché mostra che è una proprietà della coppia di domini e non
+dell'architettura. Il meccanismo è in `MECCANISMI.md`, sezioni 1 e 2.
 ## 2. Quello che non funziona: l'adattamento senza etichette
 
 Testate tre regole di soglia non supervisionate (allineamento del prior, delle
@@ -127,79 +164,91 @@ la controparte è il rifit completo. Il confronto con le baseline su questo asse
 
 ## 4. Chi sceglie le etichette
 
-L'adattamento sopra usa **etichette bilanciate**, cioè metà per classe: un'
-informazione che il dispositivo non ha. Su BoT-IoT le normali sono lo 0,013%,
-quindi in 32 flussi presi a caso ce ne sono 0,004 attese. Finché il prelievo è
-bilanciato, il risultato resta da laboratorio.
+L'adattamento della sezione 3 usa **etichette bilanciate**, cioè metà per
+classe: un'informazione che il dispositivo non ha. Su BoT-IoT le normali sono
+lo 0,013%, quindi in 32 flussi presi a caso ce ne sono 0,004 attese. Finché il
+prelievo è bilanciato, il risultato resta da laboratorio.
 
-Confrontate sei regole di selezione, tutte applicabili in campo perché
-guardano solo il punteggio del modello, mai le etichette. Balanced accuracy
-dopo l'aggiornamento, media su 3 seed:
+Otto regole di selezione, 10 seed, tutte applicabili in campo tranne
+`bilanciato`. Fra parentesi i seed su 10 in cui la regola trova entrambe le
+classi e produce un numero; `—` significa mai.
 
-| Regola | TON→BoT (0,013% normali) | | BoT→TON (23,7% normali) | |
-|---|---|---|---|---|
-| | n=8 | n=32 | n=8 | n=32 |
-| casuale | *impossibile* | *impossibile* | 0,6852 | 0,8912 |
-| conformal (insiemi anomali) | *impossibile* | *impossibile* | 0,6649 | 0,7049 |
-| margine (\|z\| minimo) | **0,9002** | **0,9056** | 0,5717 | 0,7851 |
-| metà margine metà casuale | 0,7575 | 0,8448 | 0,7496 | 0,6863 |
-| **adattiva** | 0,7990 | **0,8954** | **0,7627** | 0,8465 |
-| bilanciato *(non applicabile)* | 0,9191 | 0,9218 | 0,7562 | 0,8684 |
+### TON→BoT — 0,013% di normali
 
-*impossibile* = la regola raccoglie **zero** normali, quindi il dispositivo non
-ha due classi e non può aggiornare nulla.
+| Regola | n=8 | n=32 | n=128 | n=512 | normali a n=32 |
+|---|---|---|---|---|---|
+| casuale | — | — | — | — | 0,0 |
+| conformal | — | — | — | — | 0,0 |
+| strat_z | — | — | — | 0,7556 (2) | 0,0 |
+| margine | 0,7135 (4) | 0,8485 (10) | 0,7998 (10) | 0,8034 (10) | 11,4 |
+| misto | 0,7560 (9) | 0,8112 (9) | 0,8641 (10) | 0,7809 (10) | 9,0 |
+| **adattiva** | **0,8061** (9) | **0,8754** (10) | **0,8917** (10) | **0,9027** (10) | 10,6 |
+| bilanciato *(non applicabile)* | 0,9041 | 0,9206 | 0,9515 | 0,9672 | 16,0 |
 
-**Cautela da dichiarare, non ancora verificata**: le sezioni 15 e 11 hanno
-misurato che "impossibile"/"fallisce" su un campione di 3 seed puo' essere
-un artefatto del campione (raro ma non zero con piu' seed) oppure un
-risultato genuino, e le due cose vanno distinte rimisurando, non
-assumendole. Questa tabella viene da `scripts/drift_sampling.py`, che **non
-e' stato rilanciato a 10 seed** in quel lavoro (erano in scope
-`drift_int_adapt`, `drift_graduale`/`drift_graduale_int` e
-`cross_domain`/`tre_domini`, non `drift_sampling`): il verdetto
-*impossibile* per `casuale` e `conformal` su TON→BoT qui sopra e' quindi
-ancora un risultato a 3 seed, non riverificato.
+### BoT→TON — 23,7% di normali
 
-**Il campionamento conformal non funziona, ed è istruttivo il perché.** Gli
-insiemi di predizione anomali selezionano flussi anomali, ma su BoT-IoT gli
-anomali sono *attacchi* anomali: zero normali raccolte, esattamente come il
-prelievo casuale. La conformal resta valida come **innesco** del
-riaddestramento — non come selettore.
+| Regola | n=8 | n=32 | n=128 | n=512 | normali a n=32 |
+|---|---|---|---|---|---|
+| margine | 0,6039 (3) | 0,6147 (4) | 0,5517 (6) | 0,5293 (8) | **0,9** |
+| conformal | 0,6433 (6) | 0,6620 (9) | 0,7492 (10) | 0,8191 (10) | 2,8 |
+| strat_z | 0,6715 (9) | 0,8499 (10) | 0,9268 (10) | 0,9239 (10) | 7,9 |
+| misto | 0,7172 (9) | 0,7686 (10) | 0,8671 (10) | 0,9204 (10) | 4,0 |
+| casuale | 0,6862 (8) | 0,8583 (10) | 0,9242 (10) | **0,9323** (10) | 6,7 |
+| **adattiva** | **0,7083** (8) | 0,8141 (10) | 0,8737 (10) | 0,9299 (10) | 7,3 |
+| bilanciato *(non applicabile)* | 0,7837 | 0,8576 | 0,9126 | 0,9297 | 16,0 |
 
-**Funziona la regola più banale**: gli n flussi più vicini al confine di
-decisione. Con 8 etichette ne pesca 6,7 normali su 477 presenti in 3,67 M di
-righe: un arricchimento di tre ordini di grandezza. Ma è anche la peggiore
-nell'altra direzione, dove le normali abbondano e il confine è una fetta non
-rappresentativa.
+### La regola a margine non è la risposta — affermazione ritirata
+
+La versione a 3 seed di questa sezione concludeva: *funziona la regola più
+banale, gli n flussi più vicini al confine*, con 0,9002 a 8 etichette e
+0,9056 a 32 su TON→BoT. **A 10 seed non regge, e cade due volte.**
+
+In TON→BoT la regola adattiva la batte **a ogni budget**, e il margine
+produce un numero solo in 4 seed su 10 con 8 etichette. In BoT→TON il margine
+è **la peggiore di tutte le regole**, sotto il prelievo casuale a ogni
+budget, e riesce solo in 3-8 seed su 10.
+
+Il meccanismo si legge nell'ultima colonna: **0,9 normali su 32 etichette**
+contro i 6,7 del prelievo casuale. Selezionare per incertezza ottimizza
+l'informatività locale, non la rappresentatività: il confine di decisione è
+una fetta sottile della distribuzione, e dove la classe rara non ci abita il
+margine non la trova. Dove invece ci abita (TON→BoT) il margine funziona ma
+**esaurisce il bacino**: oltre le ~28 normali disponibili vicino al confine
+il budget aggiuntivo raccoglie solo attacchi. Due regimi opposti, stessi due
+dataset, stessa regola. Il dettaglio è in `MECCANISMI.md`, sezione 5.
+
+**Confermato invece, e non è un artefatto del campione piccolo:** su TON→BoT
+prelievo casuale, conformal e `strat_z` raccolgono **zero normali in tutti e
+10 i seed**. Il campionamento conformal non funziona per una ragione
+istruttiva: gli insiemi di predizione anomali selezionano flussi anomali, ma
+su BoT-IoT gli anomali sono *attacchi* anomali. La conformal resta valida
+come **innesco** del riaddestramento, non come selettore.
 
 ### La regola adattiva
 
 Il dispositivo non sa in quale regime si trova. Il primo tentativo — dedurlo
-dalla frazione di positivi predetti — **fallisce**, e vale la pena riportarlo:
-su BoT-IoT il modello predice il 44% di attacchi dove la verità è il 99,987%.
-Essendo scalibrato sul target non si accorge di essere nel regime estremo.
+dalla frazione di positivi predetti — **fallisce**, e vale la pena
+riportarlo: il modello predice il 44,0% di attacchi dove la verità sul target
+valutato è il 99,76%. Essendo scalibrato non si accorge di essere nel regime
+estremo, ed è proprio la scalibrazione il problema da risolvere.
 
-Quello che osserva davvero sono le etichette che sta già raccogliendo:
+Quello che osserva senza scalibrazione sono le etichette che sta già
+raccogliendo:
 
 > preleva a caso; se le prime 8 ricadono tutte nella stessa classe, passa al
 > margine. Il campione di sondaggio entra comunque nel training.
 
-Costo aggiuntivo: **zero etichette**. Con n=32 arriva a 0,8954 (TON→BoT) e
-0,8465 (BoT→TON), cioè **entro 2-3 punti dal prelievo bilanciato in entrambe
-le direzioni**, senza usarne l'informazione. È la prima versione del metodo
-interamente eseguibile su dispositivo.
+Costo aggiuntivo: **zero etichette**. È l'unica regola che sta fra le
+migliori in **entrambe** le direzioni, ed è l'unica interamente eseguibile
+sul dispositivo.
 
 ### Due limiti da dichiarare
 
-- Oltre le ~32 etichette il margine **peggiora** (0,9056 → 0,7805 a 512): il
-  bacino di normali vicino al confine si esaurisce a ~21 campioni e il resto
-  del budget aggiunge solo attacchi. Il budget va limitato, non massimizzato —
-  controintuitivo e da verificare su un terzo dominio.
-- La dispersione fra seed della regola adattiva è alta a budget piccolo
-  (dev.std 0,086 a n=8, TON→BoT): con 8 etichette l'esito dipende da quali.
-
----
-
+- Il tetto del margine oltre le ~32 etichette resta, ma è più piccolo di
+  quanto la versione a 3 seed riportasse: 0,8485 → 0,8034 su TON→BoT invece
+  di 0,9056 → 0,7805.
+- La dispersione fra seed a budget piccolo resta alta: con 8 etichette
+  l'esito dipende da quali.
 ## 5. È la struttura o è il budget?
 
 Il claim implicito era: 13 coefficienti bastano *perché* la KAN è additiva. Se
@@ -209,20 +258,21 @@ piccolo, il merito sarebbe delle etichette e non dell'architettura.
 A ogni modello si è dato lo stesso budget, le etichette scelte dalla regola
 adattiva usando il **suo** punteggio, e il **suo** aggiornamento minimo
 strutturale — non il rifit completo. Il numero di parametri non è arbitrario:
-è quanti pezzi additivi indipendenti ha quell'architettura.
+è quanti pezzi additivi indipendenti ha quell'architettura. 10 seed, fra
+parentesi i seed che producono un numero.
 
 | Direzione | Modello | par. | n=8 | n=32 | n=128 | n=512 |
 |---|---|---|---|---|---|---|
-| **TON→BoT** | **KAN single-layer** | **13** | **0,8318** | **0,9067** | **0,9163** | **0,9300** |
-| | MLP(16), ultimo strato | 17 | 0,7857 | 0,6541 | 0,7716 | 0,7281 |
-| | LightGBM, un peso per albero | 401 | — | 0,6601 | 0,7021 | 0,6845 |
-| | XGBoost, un peso per albero | 301 | 0,5084 | 0,5697 | 0,7187 | 0,6915 |
-| | Albero d=5, valori delle foglie | 16 | 0,5263 | 0,5058 | 0,9293 | 0,7654 |
-| **BoT→TON** | KAN single-layer | 13 | **0,7249** | **0,8938** | 0,9180 | 0,9374 |
-| | MLP(16), ultimo strato | 17 | 0,6725 | 0,8792 | **0,9245** | **0,9411** |
-| | LightGBM, un peso per albero | 401 | 0,5424 | 0,8849 | 0,9226 | 0,9385 |
-| | XGBoost, un peso per albero | 301 | 0,6753 | 0,8433 | 0,9001 | 0,9186 |
-| | Albero d=5, valori delle foglie | 14 | 0,7047 | 0,8273 | 0,8232 | 0,8307 |
+| **TON→BoT** | **KAN single-layer** | **13** | **0,7814** (7) | **0,8517** (8) | **0,8838** (8) | **0,8845** (8) |
+| | MLP(16), ultimo strato | 17 | 0,6070 (3) | 0,6351 (4) | 0,7103 (6) | 0,6927 (8) |
+| | LightGBM, un peso per albero | 401 | 0,5621 (2) | 0,5600 (5) | 0,6700 (7) | 0,6211 (8) |
+| | XGBoost, un peso per albero | 301 | — | 0,5886 (1) | 0,7256 (1) | 0,6871 (2) |
+| | Albero d=5, valori delle foglie | 15-17 | 0,5279 (7) | 0,5069 (7) | 0,9294 (7) | 0,7536 (7) |
+| **BoT→TON** | KAN single-layer | 13 | **0,7436** (6) | 0,8541 (8) | 0,8788 (8) | 0,9137 (9) |
+| | MLP(16), ultimo strato | 17 | 0,7236 (7) | **0,8456** (10) | **0,8788** (10) | **0,9292** (10) |
+| | LightGBM, un peso per albero | 401 | 0,6624 (7) | 0,8365 (9) | 0,8485 (10) | 0,8749 (10) |
+| | XGBoost, un peso per albero | 301 | 0,6792 (6) | 0,7713 (10) | 0,8349 (10) | 0,8474 (10) |
+| | Albero d=5, valori delle foglie | 13-16 | 0,7225 (3) | 0,8075 (3) | 0,6939 (4) | 0,6930 (4) |
 
 La decomposizione per albero è esatta: la somma delle colonne riproduce il
 punteggio grezzo a meno di 1e-14 su LightGBM. Si era valutata anche la
@@ -230,25 +280,51 @@ decomposizione per feature degli ensemble (contributi tipo SHAP, 14 numeri),
 ma costa 1,7 ms per riga e richiede comunque l'intero ensemble a runtime: non
 è un aggiornamento da 14 coefficienti riscrivibili, è un ricalcolo.
 
-**La risposta è: dipende dalla direzione, e va detto così.**
+### Il confronto che conta, e quello che autorizza a scrivere
 
-Nella direzione difficile (TON→BoT) la KAN vince a ogni budget, con il numero
-di parametri più basso: 0,9067 con 32 etichette contro 0,6601 di LightGBM che
-ne aggiorna 401. Lì il vantaggio è strutturale.
+Contro l'MLP(16) — 17 parametri, quanto i nostri 13 — il test appaiato per
+seed con correzione di Holm su sette confronti **non produce nessuna
+differenza significativa**. Le entità però sono asimmetriche di un ordine di
+grandezza:
 
-Nella direzione facile (BoT→TON) tutti convergono: a 512 etichette MLP 0,9411,
-LightGBM 0,9385, KAN 0,9374 — differenze dentro il rumore fra seed. Il claim
-si riduce a **stessa accuratezza con 30 volte meno coefficienti da riscrivere**,
-che per un MCU resta l'argomento decisivo ma è un'affermazione diversa, e più
-debole, di quella che verrebbe voglia di scrivere.
+| Direzione | budget | KAN | MLP | delta | p (Holm) | n |
+|---|---|---|---|---|---|---|
+| TON→BoT | 128 | 0,8727 | 0,6771 | **+0,1956** | 0,059 | 5 |
+| TON→BoT | 512 | 0,8749 | 0,6699 | **+0,2050** | 0,055 | 7 |
+| BoT→TON | 128 | 0,8788 | 0,9351 | −0,0563 | 0,43 | 8 |
+| BoT→TON | 512 | 0,9137 | 0,9310 | −0,0173 | 0,43 | 9 |
+
+**Dove la KAN vince, vince di 0,20; dove perde, perde di 0,02-0,06.** Con
+questi dati non si può dire né che domini né che sia alla pari: si può dire
+che nella direzione dove l'adattamento serve davvero la differenza è grande,
+nella direzione dove tutti convergono è trascurabile, e che il campione non
+basta a stabilirlo — i seed utilizzabili sono 5-9 perché la selezione
+fallisce proprio dove il problema è difficile.
+
+**Contro gli ensemble ad albero il vantaggio è invece reale**: 13 parametri
+contro 401, e in TON→BoT LightGBM non recupera (0,5600 a 32 etichette contro
+0,8517). XGBoost in quella direzione produce un numero in 1-2 seed su 10.
+
+**Un'osservazione che il conteggio dei seed rende visibile.** I modelli con
+il ROC-AUC peggiore sul target (sezione 1) sono anche quelli che più spesso
+non trovano entrambe le classi, perché la selezione usa il loro punteggio:
+il collo di bottiglia si compone con la qualità del modello invece di essere
+indipendente da essa.
+
+**Cosa va scritto.** L'argomento è di **costo** — 24 byte contro 250, nessun
+riaddestramento sul dispositivo — non di accuratezza; e il fatto che non ci
+sia nemmeno uno svantaggio di accuratezza da compensare è ciò che lo rende
+difendibile. La ragione per cui l'MLP tiene il passo è la stessa per cui la
+KAN funziona, ed è in `MECCANISMI.md`, sezioni 3 e 8: il meccanismo non è
+esclusivo della KAN, vale per ogni architettura con una combinazione lineare
+piccola sopra la rappresentazione. Ciò che distingue la KAN è la **forma**
+dell'aggiornamento — una tabella di moltiplicatori Q15 che il kernel intero
+già usa, quindi riscriverla non richiede di toccare il firmware.
 
 Un risultato collaterale utile: per la KAN l'aggiornamento a 13 parametri
-**batte il proprio rifit completo** in TON→BoT a ogni budget (0,9300 contro
-0,7508 a n=512). Il rifit completo su poche righe del target dimentica il
-source; ripesare gli edge lo conserva.
-
----
-
+**batte il proprio rifit completo** in TON→BoT a ogni budget. Il rifit
+completo su poche righe del target dimentica il source; ripesare gli edge lo
+conserva.
 ## 6. Aggiornamento integer-only: 24 byte, bit-esatto
 
 Il kernel intero già deployato calcola `z = Σ (acc_i · MULT[i]) >> 15`, dove
@@ -518,158 +594,99 @@ sei direzioni cross più tre riferimenti in-domain. Per ogni sorgente il
 modello si addestra **una volta** e si valuta su tutti e tre i domini, quindi
 il degrado è confrontabile.
 
-**Rilanciato su 10 seed (42-51), spazio ricco (13+2)**: nessun checkpoint a 3
-seed esisteva in questo ambiente per questa combinazione esatta di script e
-spazio, quindi questa e' la prima misura completa, non un'estensione. Media
-± dev.std:
+10 seed (42-51), spazio ricco (13+2). Fra parentesi i seed su 10 in cui la
+selezione trova entrambe le classi.
 
 | Direzione | non adattato | ROC-AUC target | 8 etich. | 32 | 128 |
 |---|---|---|---|---|---|
-| ton→ton *(in-domain)* | 0,9705±0,0009 | 0,9930±0,0004 | — | — | — |
-| bot→bot *(in-domain)* | 0,9931±0,0009 | 0,9992±0,0002 | — | — | — |
-| unsw→unsw *(in-domain)* | 0,8184±0,0020 | 0,9285±0,0008 | — | — | — |
-| unsw→bot | 0,7368±0,0222 | 0,7689±0,0044 | *fallita (0/10)* | *fallita (0/10)* | *fallita (0/10)* |
-| bot→ton | 0,6340±0,0619 | 0,8185±0,0272 | 0,7751 (6/10) | 0,8003 (9/10) | 0,8623 (9/10) |
-| ton→bot | 0,5554±0,0084 | 0,5257±0,0156 | 0,7724 (6/10) | 0,8657 (8/10) | 0,9018 (9/10) |
-| bot→unsw | 0,4551±0,0091 | 0,4164±0,0184 | 0,6488 (8/10) | 0,7381 (9/10) | 0,7552 (10/10) |
-| unsw→ton | 0,2984±0,0335 | **0,2569±0,0117** | 0,6093 (8/10) | 0,7065 (10/10) | 0,8365 (10/10) |
-| ton→unsw | 0,2237±0,0074 | **0,2734±0,0026** | 0,6433 (10/10) | 0,7158 (10/10) | 0,7494 (10/10) |
-
-(n/10 = quanti seed su 10 trovano entrambe le classi a quel budget. La
-sezione 15 aveva mostrato che "impossibile" nello spazio ridotto e' spesso
-"raro" con piu' seed — qui, nello spazio ricco, **la distinzione fra le due
-letture regge**: si vede sotto.)
-
-### Cosa e' confermato, non un artefatto
-
-**`unsw→bot` fallisce davvero, non solo nel campione a 3 seed usato in
-origine — genuinamente 0 su 10.** A differenza di `ton->bot`,
-`cic->bot` e `unsw->bot` **nello spazio ridotto** (sezione 15, dove lo
-stesso tipo di direzione riesce in 1-7 casi su 10), qui **nello spazio
-ricco** `unsw→bot` non trova mai le due classi in nessuno dei 10 seed. Le
-due misure non si estrapolano l'una dall'altra — sono spazi di feature
-diversi (6+2 contro 13+2) e producono risultati diversi per la stessa
-coppia di domini — ed e' esattamente per questo che andava rimisurato
-invece di assunto. Il meccanismo resta quello gia' diagnosticato: BoT-IoT
-ha 477 normali su 3,67 M e la regola a margine, partendo da UNSW-NB15 come
-sorgente, non li intercetta mai.
-
-**Le altre cinque direzioni cross hanno un tasso di successo per seed che
-varia (6-10 su 10), non 3/3 o 0/3 come un campione piccolo lascia credere**,
-ma le medie restano vicine a quelle del campione a 3 seed originale (es.
-`ton->bot` a 128 etichette: 0,9117 allora, 0,9018 ora) — qui la revisione a
-10 seed conferma piu' che corregge.
+| ton→ton *(in-domain)* | 0,9705 | 0,9930 | — | — | — |
+| bot→bot *(in-domain)* | 0,9931 | 0,9992 | — | — | — |
+| unsw→unsw *(in-domain)* | 0,8184 | 0,9285 | — | — | — |
+| unsw→bot | 0,7368 | 0,7689 | *fallita (0/10)* | *fallita (0/10)* | *fallita (0/10)* |
+| bot→ton | 0,6340 | 0,8185 | 0,7750 (6) | 0,8004 (9) | 0,8624 (9) |
+| ton→bot | 0,5554 | 0,5257 | 0,7698 (6) | 0,8623 (8) | 0,9029 (9) |
+| bot→unsw | 0,4551 | 0,4164 | 0,6489 (8) | 0,7381 (9) | 0,7551 (10) |
+| unsw→ton | 0,2984 | **0,2569** | 0,6095 (8) | 0,7069 (10) | 0,8364 (10) |
+| ton→unsw | 0,2237 | **0,2734** | 0,6434 (10) | 0,7161 (10) | 0,7495 (10) |
 
 ### Cosa tiene
 
-**Il collasso è generale, e peggiore di quanto sapevamo.** Sei direzioni su
-sei, da 0,22 a 0,74 di balanced accuracy contro 0,82–0,99 in-domain. Non è una
-peculiarità della coppia TON/BoT.
+**Il collasso è generale.** Sei direzioni su sei, da 0,22 a 0,74 di balanced
+accuracy contro 0,82-0,99 in-domain. Non è una peculiarità della coppia
+TON/BoT.
 
 **L'adattamento a 13 coefficienti recupera in 5 direzioni su 6**, con guadagni
-da +0,2 a +0,4. Con 32 etichette e 24 byte. `unsw→bot` resta l'eccezione
-strutturale: non c'e' adattamento possibile se non si raccoglie nemmeno
+da +0,2 a +0,5, con 32 etichette e 24 byte. `unsw→bot` resta l'eccezione
+strutturale: non c'è adattamento possibile se non si raccoglie nemmeno
 un'etichetta della classe minoritaria.
 
-> **Nota in avanti (sezione 18.4)**: l'entita' del recupero regge su tutta
-> la griglia di rapporti provata (1, 3, 20, 50, 100), ma la sua
-> **affidabilita'** no. A ratio=1 (sorgente ribilanciata 1:1) `bot→ton`
-> trova entrambe le classi solo in 8 seed su 10 e `ton→bot` in 7/10,
-> contro 9-10/10 a ogni altro rapporto: la selezione delle etichette sul
-> target, non l'adattamento in se', diventa meno affidabile quando la
-> sorgente e' ribilanciata all'estremo. E lo stesso rapporto estremo rende
-> `unsw→bot` — l'eccezione di questo paragrafo — **non piu' assoluta**:
-> vedi la nota alla frase "zero normali" piu' sotto.
+**Un fenomeno invisibile con due domini: il transfer invertito.** `unsw→ton` e
+`ton→unsw` hanno ROC-AUC 0,26 e 0,27 — **sotto il caso**, con dev.std piccola
+(0,012 e 0,003). Il modello non ha perso l'informazione, la usa col segno
+sbagliato: se non ce ne fosse, il valore starebbe *a* 0,50. Nessuna soglia e
+nessun metodo non supervisionato può rimediare a un ordinamento invertito,
+mentre ripesare gli edge — che può cambiare segno — lo raddrizza. Ed è
+esattamente ciò che si osserva: sono fra le direzioni che recuperano di più,
+da 0,2237 a 0,7495 e da 0,2984 a 0,8364.
 
-**Un fenomeno nuovo, invisibile con due domini: il transfer invertito.**
-`unsw→ton` e `ton→unsw` hanno ROC-AUC 0,26 e 0,27 — sotto il caso, cioè
-l'ordinamento è *sistematicamente rovesciato*, confermato a 10 seed con
-dev.std piccola (0,012 e 0,003). Il modello non ha perso l'informazione, la
-usa col segno sbagliato. È la conferma più forte della diagnosi della
-sezione 1: nessuna soglia e nessun metodo non supervisionato può rimediare
-a un ordinamento invertito, mentre ripesare gli edge — che può cambiare
-segno — lo raddrizza.
+**`unsw→bot` fallisce davvero: 0 seed su 10.** BoT-IoT ha 477 normali su
+3,67 M e, partendo da UNSW-NB15, la regola non li intercetta mai. Il collo di
+bottiglia non è l'adattamento, è trovare cosa etichettare.
 
-### Cosa non tiene
+**Un tetto del dominio di arrivo.** Con UNSW-NB15 come target l'adattamento si
+ferma a 0,75-0,76, mentre altrove arriva a 0,90. Non è un limite del metodo:
+UNSW-NB15 fa 0,8184 anche **in-domain** nel nostro spazio a sette quantità
+grezze, perché la sua capacità discriminante sta nelle 38 feature che
+escludiamo. L'adattamento non può superare il soffitto del dominio di arrivo,
+e questo va detto prima delle tabelle.
 
-**"Aggiornare poco batte riaddestrare tutto" non generalizza — confermato,
-e ora con un test invece di un conteggio.** Delta (13 coefficienti − rifit
-completo) appaiato per seed, test t a un campione, sulle cinque direzioni
-cross dove la selezione riesce (esclusa `unsw→bot`):
+### 13 coefficienti contro rifit completo: pareggio, ora con un test corretto
 
-| budget | vince in media | vince in modo significativo (p<0,05) | perde in modo significativo |
-|---|---|---|---|
-| n=8 | 2/5 | 1/5 (`bot→ton`, p=0,029) | 0/5 |
-| n=32 | 1/5 | 1/5 (`ton→bot`, p=0,007) | 2/5 (`ton→unsw` p=0,025, `unsw→ton` p=0,001) |
-| n=128 | 1/5 | 1/5 (`ton→bot`, p<0,0001) | 4/5 (tutte tranne `ton→bot`) |
+Delta (13 coefficienti − rifit completo) appaiato per seed sulle cinque
+direzioni dove la selezione riesce, con correzione di Holm sulla famiglia dei
+15 confronti (5 direzioni × 3 budget):
 
-**`ton→bot` e' l'unica direzione dove i 13 coefficienti battono il rifit
-completo in modo significativo a tutti e tre i budget** (t=+13,9 a n=128).
-Nelle altre quattro il rifit completo vince in modo significativo a n=128 —
-ma **i conteggi nascondono le entita', e le entita' cambiano la
-conclusione**. A n=128 le quattro sconfitte sono piccole (−0,038, −0,017,
-−0,020, −0,071; somma −0,146) e la sola vittoria (`ton→bot`, +0,135) vale
-quasi altrettanto da sola; il delta medio sulle cinque direzioni e'
-**−0,002 — un pareggio**, non uno sbilanciamento verso il rifit completo.
-La lettura corretta e': **il rifit completo vince piu' spesso e di poco, i
-13 coefficienti vincono raramente e di molto, e in media si annullano** —
-non "il rifit completo vince chiaramente tranne in una direzione", che e'
-vero contando le direzioni ma suggerisce un vantaggio che in valore atteso
-non esiste. Il vantaggio dei 13 coefficienti e' quindi di costo — 24 byte
-contro 250 e nessun riaddestramento sul dispositivo — **non di
-accuratezza, e nemmeno di svantaggio in accuratezza**: sul valore atteso
-sono alla pari.
+| direzione | budget | 13 coeff | rifit | delta | t | p (Holm) |
+|---|---|---|---|---|---|---|
+| **ton→bot** | 128 | **0,9029** | 0,7657 | **+0,1372** | +14,95 | **<0,0001** |
+| **unsw→ton** | 32 | 0,7069 | **0,8145** | **−0,1076** | −4,74 | **0,015** |
+| bot→ton | 8 | 0,7750 | 0,6318 | +0,1433 | +3,02 | 0,236 |
+| bot→ton | 128 | 0,8624 | 0,9002 | −0,0378 | −2,92 | 0,192 |
+| ton→bot | 32 | 0,8623 | 0,7788 | +0,0835 | +3,60 | 0,113 |
+| bot→unsw | 128 | 0,7551 | 0,7717 | −0,0166 | −2,94 | 0,182 |
+| ton→unsw | 128 | 0,7495 | 0,7693 | −0,0198 | −3,21 | 0,128 |
+| *(altre otto celle)* | | | | −0,11 … +0,01 | | > 0,23 |
 
-> **Nota in avanti (sezione 18.4) — questo pareggio non regge dappertutto,
-> e va corretto, non solo qualificato.** Misurato anche a ratio 1, 3, 20 e
-> 100 (oltre al 50 originale): il pareggio **regge da ratio=3 in su**
-> (delta fra +0,0002 e −0,0066, sempre p>0,5) ma **cade nettamente a
-> ratio=1**: delta −0,033, t=−6,22, **p=0,0002**, e — a differenza di
-> ratio 3-100, dove la media vicino a zero nasce da `ton→bot` fortemente
-> positivo contro quattro direzioni leggermente negative — a ratio=1
-> **tutte e cinque le direzioni sono negative**, `ton→bot` incluso (che
-> scende da +0,135 a −0,005). Non e' un outlier che sposta la media, e'
-> un peggioramento diffuso: con la sorgente ribilanciata 1:1 il rifit
-> completo usa meglio il budget di etichette in ogni direzione, non solo
-> in quattro su cinque. "Pareggio in valore atteso" va riscritto come
-> "pareggio da ratio 3 in su; a ratio 1 i 13 coefficienti perdono in modo
-> diffuso e significativo".
+**Il delta medio a n=128 sulle cinque direzioni è −0,0016: un pareggio.**
 
-**Una direzione fallisce del tutto — confermato a 10 seed, non un artefatto
-del campione piccolo (vedi sopra).** In `unsw→bot` la regola di selezione
-raccoglie **zero normali** a ogni budget, in tutti i 10 seed: BoT-IoT ha 477
-normali su 3,67 M e da questa sorgente il margine non li intercetta mai. Il
-collo di bottiglia non è l'adattamento, è trovare cosa etichettare —
-esattamente il punto già emerso nella sezione 4, qui in forma terminale (la
-sezione 4 usa pero' uno script diverso, `drift_sampling.py`, non ancora
-rilanciato a 10 seed in questo lavoro: la stessa cautela vale ma non e'
-stata verificata).
+Due confronti su quindici sopravvivono alla correzione, uno per parte:
+`ton→bot` a 128 etichette in favore dei 13 coefficienti, `unsw→ton` a 32 in
+favore del rifit. Negli altri tredici non c'è evidenza che i due metodi si
+distinguano.
 
-> **Nota in avanti (sezione 18.4)**: "zero normali in tutti i 10 seed"
-> regge a ratio 3, 20, 50 e 100 (0/10 ovunque), ma **non a ratio=1**, dove
-> **un seed su dieci** trova abbastanza normali da produrre un numero
-> (balanced accuracy 0,76, contro 0,74 non adattato — un recupero modesto
-> anche quando riesce). "Fallisce in tutti i seed" va corretto in
-> "fallisce in tutti i seed per ogni rapporto da 3 in su; al rapporto piu'
-> estremo provato (1:1) fallisce in nove seed su dieci, non dieci su
-> dieci" — resta il collo di bottiglia piu' severo del lavoro, ma non e'
-> piu' letteralmente assoluto.
+**Un'affermazione ritirata.** La versione precedente di questa tabella
+riportava che *il rifit completo vince in modo significativo in 4 direzioni su
+5 a n=128*. Quei p-value non erano corretti per la famiglia di confronti: con
+Holm nessuna di quelle quattro sconfitte sopravvive. La lettura corretta è più
+semplice di quella che aveva sostituito: **fuori da `ton→bot`, dove i 13
+coefficienti vincono di molto, i due metodi non si distinguono.**
 
-**Un tetto che non avevamo visto — confermato, stesso numero.** Con
-UNSW-NB15 come target l'adattamento si ferma a 0,75–0,76 (`bot→unsw`
-0,7552, `ton→unsw` 0,7494 a 128 etichette), mentre altrove arriva a 0,90.
-Non è un limite del metodo: UNSW-NB15 fa 0,8184 anche **in-domain** nel
-nostro spazio a sette quantità grezze (invariato dal campione a 3 seed,
-0,8188), perché la sua capacità discriminante sta nelle 38 feature che
-escludiamo. L'adattamento non può superare il soffitto del dominio di
-arrivo, e questo va detto prima delle tabelle.
+Il vantaggio dei 13 coefficienti resta quindi di **costo** — 24 byte contro
+250, nessun riaddestramento sul dispositivo — e non c'è svantaggio di
+accuratezza da compensare. Perché il rifit completo non debba vincere è
+spiegato in `MECCANISMI.md`, sezione 3: nei coefficienti spline non c'è
+informazione in più da recuperare, sono già giusti.
+## 12. Le sezioni 8 e 9 su sei direzioni
 
-## 12. Le sezioni 5, 8 e 9 rifatte su sei direzioni
+> ⚠ **Stato.** Le tabelle di questa sezione vengono dal protocollo
+> precedente e da 3 seed: `drift_senza_etichette.py` e
+> `drift_trasferimenti.py` sono stati rigenerati solo sulle due direzioni
+> originali. I meccanismi che descrivono non cambiano — sono conseguenze
+> delle ipotesi dei metodi, non del campione — ma **le cifre a sei direzioni
+> vanno riconfermate** prima di finire in una tabella dell'articolo. La
+> sezione 5 è stata invece rifatta ed è ora nella sezione 5 stessa.
 
-Le tre sezioni misurate su due sole direzioni sono state rieseguite su tutte e
-sei. **Una regge, una va indebolita, una cade.**
-
-### 8 rifatta — regge: nessun metodo non supervisionato è affidabile
+### 8 — nessun metodo non supervisionato è affidabile
 
 | Metodo | ton→bot | bot→ton | ton→unsw | unsw→ton | bot→unsw | unsw→bot |
 |---|---|---|---|---|---|---|
@@ -682,51 +699,43 @@ sei. **Una regge, una va indebolita, una cade.**
 
 Nessuno dei quattro migliora in più di 4 direzioni su 6, e ognuno ne danneggia
 almeno due. IM resta il migliore ma perde la sua aria di vincitore: aiuta in
-4/6 e in `bot→unsw` toglie 8 punti. Un dettaglio interessante: nelle due
-direzioni a ordinamento invertito i metodi non supervisionati danno il loro
-contributo massimo (EM +0,20 su `unsw→ton`), perché lì il modello è
-grossolanamente scalibrato e correggere il prior serve. Anche così restano
-molto sotto le 32 etichette.
+4/6 e in `bot→unsw` toglie 8 punti.
 
-### 5 rifatta — cade: il vantaggio non è architetturale
+**Sulle due direzioni rigenerate a 10 seed il quadro regge**: IM è l'unico che
+migliora in entrambe (+0,17 su bot→ton, +0,08 su ton→bot), TENT peggiora in
+TON→BoT collassando su una classe (frazione di positivi predetti 0,283 dove il
+vero è 0,998), l'EM sul prior stima male e in una direzione collassa a zero.
 
-Su due direzioni la KAN dominava. Su sei, l'**ultimo strato di una MLP(16) —
-17 parametri, quanto i nostri 13** — vince più spesso:
+Un dettaglio che vale la pena tenere: nelle due direzioni a ordinamento
+invertito i metodi non supervisionati danno il loro contributo massimo (EM
++0,20 su `unsw→ton`), perché lì il modello è grossolanamente scalibrato e
+correggere il prior serve. Anche così restano molto sotto le 32 etichette.
 
-| Direzione | vincitore a n=32 | KAN |
-|---|---|---|
-| ton→bot | **KAN** 0,9067 | 0,9067 |
-| bot→ton | **KAN** 0,8938 | 0,8938 |
-| ton→unsw | LightGBM 0,7874 | 0,7231 |
-| bot→unsw | MLP(16) 0,7605 | 0,7448 |
-| unsw→ton | MLP(16) 0,8565 | 0,7727 |
-| unsw→bot | MLP(16) 0,7824 | *fallita* |
+Perché ciascuno fallisce — e perché il fallimento è previsto dalle ipotesi del
+metodo invece che dalla sfortuna — è in `MECCANISMI.md`, sezione 4, con la
+tabella metodo-per-ipotesi e l'impossibilità dimostrata sull'innesco a
+martingala.
 
-La KAN vince nelle due direzioni della coppia originale e perde nelle quattro
-che coinvolgono UNSW-NB15. Quello che va scritto adesso è: **contro gli
-ensemble ad albero il vantaggio è reale** — 13 parametri contro 401, e
-LightGBM crolla a 0,6601 in `ton→bot` — **ma contro una piccola MLP non c'è
-vantaggio di accuratezza**, perché anche lei ha un aggiornamento minimo da 17
-numeri. Resta il vantaggio di deployment: la KAN gira già integer-only su
-MCU con 250 byte, e l'aggiornamento è una tabella di moltiplicatori Q15 che il
-firmware ha già. Non è un'affermazione sull'accuratezza, ed è sbagliato
-presentarla come tale.
-
-### 9 rifatta — da indebolire: il k-center serve, ma non per l'accuratezza
+### 9 — il k-center serve, ma non per l'accuratezza
 
 Il k-center raccoglie più normali in **6 direzioni su 6**, e soprattutto
 **salva l'unica direzione dove tutto il resto fallisce**: in `unsw→bot` la
 regola adattiva raccoglie zero normali a ogni budget, il k-center ne trova 12
 con 32 etichette e porta la balanced accuracy a 0,6306 (0,6889 con Firth).
 
-Ma sull'accuratezza, dove la regola adattiva funziona, perde: vince in **1 caso
-su 15**, mediana −0,13. Il modo corretto di usarlo è quindi come **ripiego**,
+Ma sull'accuratezza, dove la regola adattiva funziona, perde: vince in 1 caso
+su 15, mediana −0,13. Il modo corretto di usarlo è quindi come **ripiego**,
 non come sostituto: si campiona con la regola adattiva e si passa al k-center
 quando il sondaggio non restituisce entrambe le classi.
 
 Firth vince in 20 casi su 49 con mediana −0,0004. È esattamente una moneta:
 va tolto.
 
+**Nota, alla luce della sezione 4 rifatta.** Il k-center è oggi l'unico
+candidato misurato per sbloccare `unsw→bot`, ed è per questo che va
+riconfermato per primo fra le tabelle rimaste indietro: il confronto con la
+regola adattiva sull'accuratezza è meno interessante della sua capacità di
+trovare la classe rara dove nient'altro ci riesce.
 ## 13. Le sezioni 6 e 7 rifatte su sei direzioni
 
 Sono le due che sostengono le affermazioni sul dispositivo, quindi le più

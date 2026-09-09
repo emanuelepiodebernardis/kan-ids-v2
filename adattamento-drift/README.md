@@ -18,8 +18,12 @@ l'ha misurato. È il documento da cui si scrive l'articolo, e i punti dove il
 meccanismo è già noto in letteratura sono marcati `[rif.]` perché le
 citazioni si innestino senza riscrivere il testo.
 
-`RISULTATI.md` è il registro dei numeri, ed è scritto per essere leggibile
-senza il codice: ogni numero ha accanto il metodo che l'ha prodotto, ogni
+`CRONOLOGIA.md` conserva le versioni superate delle sezioni riscritte e
+perché sono cadute: è il materiale della sezione «limiti» dell'articolo, e
+serve perché si possa verificare che nulla è sparito in silenzio.
+
+`RISULTATI.md` è il registro dei numeri — stato corrente, ogni affermazione
+una volta sola — ed è scritto per essere leggibile senza il codice: ogni numero ha accanto il metodo che l'ha prodotto, ogni
 conclusione la sua misura, e i tentativi falliti sono riportati insieme a
 quelli riusciti. Se leggi una cosa sola, leggi quello.
 
