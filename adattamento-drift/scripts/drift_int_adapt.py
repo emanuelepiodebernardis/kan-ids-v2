@@ -50,12 +50,14 @@ from kanids.int_adapt import (Q15, fit_gains_int, gains_to_mult,  # noqa: E402
                               int_forward)
 from kanids.integer import N_SEG, Q16, SHIFT, affine_params  # noqa: E402
 from kanids.models import CategoricalKANBinary, chebyshev_basis  # noqa: E402
+from kanids.valutazione import dividi_target  # noqa: E402
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_baselines import subsample_target  # noqa: E402
 
 DEG_S = 3
 BUDGETS = [8, 32, 128]
+EXP_CANONICO = "ton->bot"   # la direzione da cui si genera l'header C
 N_GOLDEN = 200
 
 
@@ -210,8 +212,12 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, write_header=False, iters=6000,
     Pm = (P * mult[None, :]) >> 15
     for n in BUDGETS:
         idx, molt = select_int(Pm, z_int0, y_tgt, n, seed)
-        mask = np.ones(len(y_tgt), bool)
-        mask[idx] = False
+        # Il complemento delle righe selezionate non e' piu' un insieme solo:
+        # validation (dove si scelgono le costanti) e test (letto una volta,
+        # alla fine) sono disgiunti. La selezione continua a vedere tutto il
+        # target, quindi la statistica delle etichette raccolte non cambia.
+        sp = dividi_target(y_tgt, idx, seed)
+        ev, ev_val = sp.test, sp.validation
         yl = y_tgt[idx]
         if len(np.unique(yl)) < 2:
             add(f"intero + guadagni interi n={n}", np.nan, {"budget": n})
@@ -222,10 +228,14 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, write_header=False, iters=6000,
         sc = np.maximum(np.abs(Xl).max(0), 1.0)
         lr = LogisticRegression(max_iter=5000, class_weight="balanced")
         lr.fit(Xl / sc, yl, sample_weight=molt.astype(np.float64))
-        zf = Pm[mask] @ (lr.coef_[0] / sc) + lr.intercept_[0]
+        coef = lr.coef_[0] / sc
+        zf = Pm[ev] @ coef + lr.intercept_[0]
+        zf_val = Pm[ev_val] @ coef + lr.intercept_[0]
         add(f"intero + guadagni float  n={n}",
-            balanced_accuracy_score(y_tgt[mask], (zf >= 0).astype(int)),
-            {"budget": n, "normali": int((yl == 0).sum())})
+            balanced_accuracy_score(y_tgt[ev], (zf >= 0).astype(int)),
+            {"budget": n, "normali": int((yl == 0).sum()),
+             "bal_val": float(balanced_accuracy_score(
+                 y_tgt[ev_val], (zf_val >= 0).astype(int)))})
 
         # guadagni stimati in interi: nessun float in nessun passaggio.
         # iters=6000 invece di 2000: misurato (sezione 16.1) che il divario
@@ -243,11 +253,14 @@ def run_unit(H, exp, seed, ratio, rows, ckpt, write_header=False, iters=6000,
         else:
             g_q15, bias = fit_gains_int(Pm[idx], yl, mult=molt, iters=iters)
             n_iters_used = iters
-        z_ad = int_forward(Pm[mask], g_q15, bias)
-        bal = balanced_accuracy_score(y_tgt[mask], (z_ad >= 0).astype(int))
+        z_ad = int_forward(Pm[ev], g_q15, bias)
+        bal = balanced_accuracy_score(y_tgt[ev], (z_ad >= 0).astype(int))
+        z_ad_val = int_forward(Pm[ev_val], g_q15, bias)
         add(f"intero + guadagni interi n={n}", bal,
             {"budget": n, "guadagni_q15": [int(v) for v in g_q15], "bias": int(bias),
-             "iters_used": int(n_iters_used)})
+             "iters_used": int(n_iters_used),
+             "bal_val": float(balanced_accuracy_score(
+                 y_tgt[ev_val], (z_ad_val >= 0).astype(int)))})
         if n == 32:
             best = (g_q15, bias, idx)
 
@@ -328,13 +341,20 @@ def main():
             if args.max_seconds and time.time() - t0 > args.max_seconds:
                 print("[ckpt] fermato per tempo: rilancia lo stesso comando")
                 return finalize(rows, suffix)
-            # l'header C va scritto solo dalla configurazione canonica
-            # (iters=6000, ratio=50): un rilancio a --iters o --ratio
-            # diverso (confronto, sezioni 16.1 e 18) non deve sovrascrivere
-            # mcu/kan_int_adapt.h
+            # L'header C va scritto solo dalla configurazione canonica.
+            # `first` da solo non basta: e' vero anche per il primo seed di
+            # QUALUNQUE rilancio, quindi una prova esplorativa
+            # (`--seeds 90`) sovrascriveva in silenzio un artefatto
+            # committato e verificato bit per bit. Servono anche la
+            # direzione e il seed canonici.
+            canonica = (first
+                        and exp == EXP_CANONICO
+                        and seed == SEEDS[0]
+                        and args.iters == 6000
+                        and not args.adaptive
+                        and args.ratio == 50.0)
             run_unit(H, exp, seed, args.ratio, rows, ckpt,
-                     write_header=(first and args.iters == 6000
-                                  and not args.adaptive and args.ratio == 50.0),
+                     write_header=canonica,
                      iters=args.iters, adaptive=args.adaptive)
             first = False
     return finalize(rows, suffix)

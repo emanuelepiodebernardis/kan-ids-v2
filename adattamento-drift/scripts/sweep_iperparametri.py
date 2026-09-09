@@ -50,11 +50,21 @@ from kanids.harmonized import (HARMONIZED_CATEGORICAL, HARMONIZED_NUMERIC,  # no
                                HARMONIZED_SKEWED)
 from kanids.int_adapt import fit_gains_int, int_forward  # noqa: E402
 from kanids.models import CategoricalKANBinary  # noqa: E402
+from kanids.valutazione import (MODO_SELEZIONE, dividi_target,  # noqa: E402
+                                imposta_modo)
 
 from cross_domain import load_harmonized, undersample  # noqa: E402
 from drift_baselines import subsample_target  # noqa: E402
 from drift_int_adapt import edge_parts_int, quantize_edges, select_int  # noqa: E402
 import drift_graduale as dg  # noqa: E402
+
+# Seed di CALIBRAZIONE, disgiunti dai seed su cui si riportano i risultati
+# (42-51). Servono per lo sweep del ridge, che gira sulla simulazione
+# prequenziale di drift_graduale: li' non c'e' un complemento da ritagliare,
+# perche' ogni batch e' prima valutato e poi usato per adattare -- l'intero
+# stream e' il test. L'unico modo di scegliere una costante senza guardarlo
+# e' sceglierla su repliche che non entrano in nessuna tabella.
+SEEDS_CALIBRAZIONE = (90, 91, 92, 93, 94)
 
 EXP = "ton->bot"
 BUDGET = 128
@@ -99,19 +109,23 @@ def sweep_iters(seeds, ckpt, rows, done):
         Pm = (P * mult[None, :]) >> 15
 
         idx, molt = select_int(Pm, z_int0, y_tgt, BUDGET, seed)
-        mask = np.ones(len(y_tgt), bool)
-        mask[idx] = False
+        # Uno sweep e' una SCELTA: si legge solo la validation. Il test set
+        # e' inaccessibile qui -- `imposta_modo(MODO_SELEZIONE)` in main()
+        # fa sollevare AccessoAlTestVietato a chiunque provi a leggerlo.
+        sp = dividi_target(y_tgt, idx, seed)
+        ev_val = sp.validation
         yl = y_tgt[idx]
 
         for iters in pending:
             g_q15, bias = fit_gains_int(Pm[idx], yl, mult=molt, iters=iters)
-            z_ad = int_forward(Pm[mask], g_q15, bias)
-            bal = balanced_accuracy_score(y_tgt[mask], (z_ad >= 0).astype(int))
-            rec = {"kind": "iters", "param": iters, "seed": seed, "bal_acc": float(bal)}
+            z_ad = int_forward(Pm[ev_val], g_q15, bias)
+            bal = balanced_accuracy_score(y_tgt[ev_val], (z_ad >= 0).astype(int))
+            rec = {"kind": "iters", "param": iters, "seed": seed,
+                   "bal_acc_validation": float(bal)}
             rows.append(rec)
             with ckpt.open("a") as fh:
                 fh.write(json.dumps(rec, default=float) + "\n")
-            print(f"  iters={iters:<6d} seed={seed}  bal={bal:.4f}", flush=True)
+            print(f"  iters={iters:<6d} seed={seed}  bal_val={bal:.4f}", flush=True)
             done.add(("iters", iters, seed))
 
 
@@ -137,22 +151,36 @@ def sweep_ridge(seeds, ckpt, rows, done):
             dg.run_unit(H, EXP, seed, 50.0, unit_rows, unit_ckpt)
             stat = [r["bal_acc"] for r in unit_rows if r["politica"] == "stat_13x13"]
             bal = float(np.mean(stat))
-            rec = {"kind": "ridge", "param": param, "seed": seed, "bal_acc": bal}
+            rec = {"kind": "ridge", "param": param, "seed": seed,
+                   "bal_acc_calibrazione": bal}
             rows.append(rec)
             with ckpt.open("a") as fh:
                 fh.write(json.dumps(rec, default=float) + "\n")
-            print(f"  ridge={param:<12s} seed={seed}  bal={bal:.4f}", flush=True)
+            print(f"  ridge={param:<12s} seed={seed}  bal_cal={bal:.4f}", flush=True)
             done.add(("ridge", param, seed))
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--seeds", default=",".join(map(str, SEEDS)))
+    ap.add_argument("--seeds", default=",".join(map(str, SEEDS_CALIBRAZIONE)),
+                    help="seed di calibrazione; NON possono essere quelli "
+                         "su cui si riportano i risultati")
     ap.add_argument("--solo", choices=["iters", "ridge"], default=None,
                     help="esegui solo uno dei due sweep")
     args = ap.parse_args()
     seeds = [int(s) for s in args.seeds.split(",")]
+
+    # Da qui in poi il test set non e' leggibile da nessun punto del processo.
+    imposta_modo(MODO_SELEZIONE)
+
+    sovrapposti = sorted(set(seeds) & set(SEEDS))
+    if sovrapposti:
+        raise SystemExit(
+            f"i seed {sovrapposti} sono seed di riporto (SEEDS={list(SEEDS)}): "
+            "scegliere un iperparametro su di essi significa sceglierlo "
+            "guardando i numeri che finiranno in tabella. Usa i seed di "
+            f"calibrazione {list(SEEDS_CALIBRAZIONE)}.")
 
     ckpt = ARTIFACTS_DIR / "sweep_iperparametri.jsonl"
     rows, done = [], set()
@@ -176,8 +204,15 @@ def finalize(rows):
     d = pd.DataFrame(rows)
     if d.empty:
         return
+    # Una colonna sola per il punteggio di scelta, e il suo nome dice su
+    # cosa e' stato calcolato: mai su test.
+    d["punteggio_scelta"] = d.get("bal_acc_validation")
+    if "bal_acc_calibrazione" in d:
+        d["punteggio_scelta"] = d["punteggio_scelta"].combine_first(
+            d["bal_acc_calibrazione"])
     d.to_csv(RESULTS_DIR / "sweep_iperparametri_runs.csv", index=False)
-    g = d.groupby(["kind", "param"])["bal_acc"].agg(["mean", "std", "count"]).round(4)
+    g = (d.groupby(["kind", "param"])["punteggio_scelta"]
+          .agg(["mean", "std", "count"]).round(4))
     g = g.rename(columns={"count": "n_seed"})
     g.to_csv(RESULTS_DIR / "sweep_iperparametri.csv")
     print("\n" + "=" * 72)
