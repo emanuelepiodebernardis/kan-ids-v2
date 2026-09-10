@@ -15,13 +15,12 @@ Convenzione: **osservazione** e' cio' che i dati dicono, con il numero;
 **meccanismo** e' perche' lo dicono; **giustificazione** e' perche' la
 procedura che l'ha misurato e' quella corretta.
 
-I numeri senza marcatore vengono dai CSV rigenerati sotto il protocollo
-corretto, 10 seed. Restano marcati **⚠** solo i due che dipendono da un run
-gia' preparato ma non ancora eseguito (`python rigenera.py --guardia`, ~50
-minuti): il confronto con e senza buffer della sezione 7 e quello con e
-senza la guardia sui batch monoclasse della sezione 12. Il meccanismo che
-spiegano non cambia; la cifra va letta come provvisoria — un seed, non
-dieci — finche' quel run non c'e'.
+Tutti i numeri vengono dai CSV rigenerati sotto il protocollo corretto, 10
+seed. Non ci sono piu' marcatori **⚠**: gli ultimi due — il confronto con e
+senza buffer della sezione 7 e quello con e senza la guardia sui batch
+monoclasse della sezione 12 — sono stati misurati con
+`python rigenera.py --guardia`, che ha rimesso in gioco le due politiche
+mancanti.
 
 ---
 
@@ -299,18 +298,20 @@ e dove se ne puo' dire di meno, ed e' onesto dirlo cosi'.
 ## 7. Perche' il buffer e' tutto nel riadattamento continuo
 
 **Osservazione.** Riadattando a ogni batch **senza memoria** — rifacendo i
-guadagni da zero sulle 32 etichette del batch corrente — la media e' 0,8134
-con oscillazioni fra 0,44 e 0,96: **peggio del modello statico**.
-Conservando le ultime 256 etichette e rifittando sull'intero buffer si passa
-a 0,9433. ⚠ *(quelle due cifre venivano da una politica poi rimossa dagli
-script. La politica e' stata **rimessa** come `ogni_batch_senza_buffer`
-(nona colonna di `drift_graduale.py`), quindi il confronto torna
-rigenerabile su 10 seed e sei direzioni con `python rigenera.py --guardia`;
-finche' quel run non c'e', l'unica misura attuale e' un singolo seed —
-`bot->ton`, seed 42, ratio 50: **0,8099 senza buffer contro 0,9004 con** —
-che conferma il segno e l'ordine di grandezza ma non sostituisce le cifre
-sopra. Il resto della sezione 7 e' verificato sui CSV a 10 seed e sei
-direzioni.)*
+guadagni da zero sulle 32 etichette del batch corrente — su `bot->ton` la
+media e' **0,8136 contro 0,8179 del modello statico**: riadattare fa
+leggermente peggio che non fare niente, con oscillazioni fra 0,38 e 0,99 da
+un batch all'altro. Conservando le ultime 256 etichette e rifittando
+sull'intero buffer si passa a **0,8881**.
+
+Il confronto regge su tutte e sei le direzioni, 10 seed, test appaiato per
+seed: il buffer vale **+0,069 in media** (da +0,022 su `ton->unsw` a +0,135
+su `ton->bot`), **6 direzioni su 6 significative**, aggregato t=13,3 su 60
+coppie. Le due cifre che questa sezione riportava prima (0,8134 e 0,9433)
+venivano da una politica poi rimossa dagli script; e' stata rimessa come
+`ogni_batch_senza_buffer`, nona colonna di `drift_graduale.py`, e la misura
+nuova le conferma alla terza cifra — 0,8136 contro 0,8134 — su un campione
+dieci volte piu' grande.
 
 **Meccanismo.** Stimare 13 coefficienti da 32 osservazioni e' una stima ad
 alta varianza; ripeterla da zero a ogni batch fa oscillare il modello
@@ -325,6 +326,10 @@ raccomandazione operativa che vale piu' del numero, perche' la memoria e'
 esattamente la risorsa che un microcontrollore non ha — ed e' la ragione
 per cui i minimi quadrati ricorsivi, che tengono lo stesso effetto in 728
 byte invece che in 12 KB, valgono lo sforzo di essere resi affidabili.
+**Sforzo che si e' rivelato una riga** (sezione 12), e il conto finale e'
+questo: 12 KB di buffer, 728 byte di stato compatto con la guardia, o
+niente memoria. Il primo e' il migliore, il secondo costa 1,4-7,1 punti a
+seconda della direzione, il terzo fa peggio del non adattare affatto.
 
 ---
 
@@ -516,11 +521,16 @@ questo controllo conta di piu' e' il primo, quando non c'e' ancora storia
 accumulata. E' un'affermazione di progetto, come quella sul buffer della
 sezione 7 e per la stessa ragione di fondo: con 13 parametri e 32
 osservazioni per passo, tutto sta nel non buttare via lo stato che si ha.
-Il numero preciso di quanto si recupera mettendo la guardia (0,05-0,07
-nelle direzioni che perdono, un cambio di segno in una) e' in sezione 19 di
-`RISULTATI.md`, su 5 seed e 6 celle. ⚠ *(la guardia e' ora negli script
-come politica **affiancata** — `stat_13x13_guardia` — non come sostituzione:
-le colonne pubblicate restano quelle della versione senza guardia finche'
-`python rigenera.py --guardia` non e' stato eseguito, e a quel punto le due
-versioni saranno misurate sugli stessi 10 seed. Vedi voce 9 di "Cosa resta
-da fare".)*
+
+**Misurato su 10 seed, sei direzioni e cinque rapporti** (`stat_13x13`
+contro `stat_13x13_guardia`, affiancate nella stessa corsa): le celle in cui
+lo stato compatto perde in modo significativo contro il modello statico
+passano da **7 su 20 a 0 su 20**. Dove il primo batch non e' monoclasse le
+due politiche danno risultati identici cella per cella — la guardia non
+scatta mai — e dove scatta il recupero e' fra +0,04 e +0,08. Il caso limite
+e' quello che qualifica l'affermazione: a ratio 1 su `ton->bot` la guardia
+salta **tutti** i 20 batch di **tutti** i 10 seed, e la politica coincide
+esattamente con lo statico. **Il peggio che puo' fare e' non fare niente**,
+ed e' esattamente la garanzia che serve a bordo. Il dettaglio, incluso quanto
+resta indietro rispetto al buffer da 12 KB (1,4-7,1 punti, sei direzioni su
+sei significative dopo Holm), e' in sezione 19 di `RISULTATI.md`.

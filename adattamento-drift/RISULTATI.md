@@ -1508,6 +1508,14 @@ frazione di classe minoritaria del primo batch, non ancora provato).
 > esattamente allo statico. La diagnosi di questa sezione era giusta sul
 > *quando* (primo aggiornamento, quasi-separazione) e incompleta sul
 > *perche' proprio li'*.
+>
+> **Misurato poi su 10 seed e su tutta la griglia** (`stat_13x13_guardia`,
+> ottava politica): le celle in cui l'RLS perde in modo significativo contro
+> lo statico passano da **7 su 20 a 0 su 20**. La tabella di questa sezione
+> resta valida — descrive `stat_13x13`, che non e' cambiata — ma va letta
+> sapendo che le due perdite (BoT→TON −0,075, BoT→UNSW −0,008) sono un
+> difetto di implementazione, non una proprieta' del metodo: con la guardia
+> diventano −0,001 e +0,034.
 
 ### 16.3 — L'innesco a martingala in aritmetica intera: portato, con un bug trovato per strada
 
@@ -2771,7 +2779,10 @@ le cinque affermazioni non cedono tutte nello stesso punto:
   sorgente, no: non e' spiegabile solo dalla selezione delle etichette).
   La diagnosi esistente in sezione 16.2 (quasi-separazione) resta un
   fattore plausibile ma dimostrabilmente incompleta. **Completata in
-  sezione 19**: l'RLS aggiorna anche sui batch a una classe sola, cosa che
+  sezione 19, e l'affermazione va ritirata piuttosto che corretta**: con la
+  guardia sui batch monoclasse l'RLS non perde in modo significativo in
+  nessuna delle 20 celle misurate, contro le 7 di prima. Non c'era un
+  pattern da spiegare, c'era un aggiornamento da non fare. l'RLS aggiorna anche sui batch a una classe sola, cosa che
   le altre politiche non fanno, e il primo aggiornamento — sempre su un
   batch monoclasse nelle direzioni che perdono — costa mezzo punto in un
   colpo. Chi perde non dipende dal dominio sorgente ma da quanto quel colpo
@@ -2935,18 +2946,113 @@ sono copiati in `results/prima_della_guardia/` e
 sette colonne vecchie con quelle nuove: se una si muove, l'aggiunta non era
 innocua e il confronto va rifatto.
 
-**Costo del run, misurato**: 8-18 s per (direzione, seed), media ~14,5 s su
-12 combinazioni cronometrate; 200 unita' (6 direzioni x 10 seed a ratio 1 e
-50, 4 a ratio 3, 2 a ratio 20 e 100) — **circa 50 minuti**, con
-`python rigenera.py --guardia`. `drift_graduale_int.py` non e' toccato: non
-ha una politica RLS.
+**Costo del run**: stimato ~50 minuti (8-18 s per direzione-seed su 200
+unita'), **misurato 1h05m** — la stima era bassa del 30%, avendo
+cronometrato `run_unit` con sette politiche invece delle nove finali.
+`drift_graduale_int.py` non e' toccato: non ha una politica RLS.
 
-Finche' quel run non c'e', **i numeri pubblicati restano quelli della
-versione senza guardia** — questa sezione, su 5 seed e 6 celle, dice cosa
-c'e' da aspettarsi — e l'affermazione 3 resta scritta com'e'. Dopo, andra'
-riscritta: non "l'RLS e' fragile" ma "l'RLS era implementata senza la
-guardia che le altre politiche avevano", con entrambe le colonne misurate
-sugli stessi 10 seed.
+**Il run e' stato fatto**, e la sottosezione seguente ne riporta l'esito su
+10 seed e su tutta la griglia. Le colonne pubblicate di `stat_13x13`
+restano quelle che erano — verificate identiche bit per bit — e accanto ora
+c'e' la versione con la guardia.
+
+### La misura completa: 10 seed, sei direzioni, cinque rapporti
+
+La sezione sopra e' la diagnosi, fatta su 5 seed e 6 celle con una replica
+del ciclo. Questa e' la misura vera: `stat_13x13_guardia` affiancata a
+`stat_13x13` dentro `drift_graduale.py`, stessa corsa, 10 seed, 20 batch,
+tutta la griglia dei rapporti — 1h05m di calcolo.
+
+**Prima di guardare i risultati, il controllo che li rende leggibili.**
+Aggiungere politiche non deve spostare le altre. Confronto cella per cella
+con `results/prima_della_guardia/`, su tutti e cinque i rapporti:
+**28.000 celle, differenza massima 0,0** — non "trascurabile": zero. Le
+sette colonne pubblicate sono le stesse, bit per bit, e le due nuove sono
+misurate sullo stesso identico stream.
+
+**Il risultato principale, in una riga: le celle in cui l'RLS perde in modo
+significativo contro il modello statico passano da 7 su 20 a 0 su 20.**
+
+Delta contro lo statico, media per seed sui 20 batch (n=10), `*` = ereditata
+per identita' dal rapporto 50:
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 | ratio 100 |
+|---|---|---|---|---|---|
+| **`stat_13x13` (senza guardia)** | | | | | |
+| `bot->ton` | −0,0523 **p=0,001** | −0,0863 **p=0,003** | −0,0979 **p=0,005** | −0,0745 **p=0,001** | −0,0652 **p=0,020** |
+| `bot->unsw` | +0,0590 p=0,001 | +0,0292 p=0,035 | −0,0053 p=0,73 | −0,0079 p=0,63 | −0,0413 **p=0,036** |
+| `ton->bot` | −0,0024 p=0,93 | +0,1118 p<0,001 | +0,1063 p<0,001* | +0,1063 p<0,001 | +0,1063 p<0,001* |
+| `ton->unsw` | +0,1887 p<0,001 | +0,1091 p<0,001 | +0,1204 p<0,001* | +0,1204 p<0,001 | +0,1204 p<0,001* |
+| `unsw->bot` | −0,0579 **p=0,038** | +0,0437 p<0,001* | +0,0437 p<0,001* | +0,0437 p<0,001 | +0,0437 p<0,001* |
+| `unsw->ton` | +0,0975 p=0,001 | +0,1313 p<0,001* | +0,1313 p<0,001* | +0,1313 p<0,001 | +0,1313 p<0,001* |
+| **`stat_13x13_guardia`** | | | | | |
+| `bot->ton` | −0,0037 p=0,83 | −0,0020 p=0,91 | −0,0163 p=0,42 | −0,0012 p=0,95 | +0,0089 p=0,70 |
+| `bot->unsw` | +0,1023 p<0,001 | +0,0787 p<0,001 | +0,0310 p=0,13 | +0,0341 p=0,013 | +0,0307 p=0,089 |
+| `ton->bot` | 0,0000 (mai aggiornata) | +0,1100 p<0,001 | +0,1113 p<0,001* | +0,1113 p<0,001 | +0,1113 p<0,001* |
+| `ton->unsw` | +0,1674 p<0,001 | +0,1117 p<0,001 | +0,1204 p<0,001* | +0,1204 p<0,001 | +0,1204 p<0,001* |
+| `unsw->bot` | +0,0038 p=0,34 | +0,0436 p<0,001* | +0,0436 p<0,001* | +0,0436 p<0,001 | +0,0436 p<0,001* |
+| `unsw->ton` | +0,1456 p<0,001 | +0,1313 p<0,001* | +0,1313 p<0,001* | +0,1313 p<0,001 | +0,1313 p<0,001* |
+
+Le sette celle in grassetto nella meta' superiore — tutte e cinque quelle di
+`bot->ton`, `bot->unsw` a ratio 100, `unsw->bot` a ratio 1 — sono le perdite
+significative che avevano prodotto l'affermazione 3 e poi l'avevano
+falsificata. **Nella meta' inferiore non ne resta nessuna**: il delta piu'
+negativo con la guardia e' −0,016 (`bot->ton` a ratio 20, p=0,42).
+
+**Dove agisce la guardia, e dove non serve.** Differenza fra le due
+versioni, con Holm sulla famiglia delle sei direzioni a ciascun rapporto:
+
+| direzione | ratio 1 | ratio 3 | ratio 20 | ratio 50 | ratio 100 |
+|---|---|---|---|---|---|
+| `bot->ton` | +0,0486 (Holm 0,087) | +0,0844 **(0,005)** | +0,0816 **(0,008)** | +0,0733 **(<0,001)** | +0,0741 **(<0,001)** |
+| `bot->unsw` | +0,0433 **(0,020)** | +0,0495 **(0,003)** | +0,0363 (0,46) | +0,0420 (0,10) | +0,0720 **(0,008)** |
+| `ton->bot` | +0,0024 (0,93) | −0,0018 (0,69) | +0,0050 (0,17) | +0,0050 (0,11) | +0,0050 (0,11) |
+| `ton->unsw` | −0,0214 (0,087) | +0,0025 (0,67) | 0,0000 | 0,0000 | 0,0000 |
+| `unsw->bot` | +0,0617 (0,087) | −0,0001 (0,69) | −0,0001 (0,46) | −0,0001 (0,34) | −0,0001 (0,34) |
+| `unsw->ton` | +0,0481 (0,087) | 0,0000 | 0,0000 | 0,0000 | 0,0000 |
+
+Gli zeri esatti sono la conferma piu' pulita della diagnosi: dove il primo
+batch **non** e' monoclasse la guardia non scatta mai e le due politiche
+sono la stessa cosa, cella per cella. Dove scatta, il recupero e' fra +0,04
+e +0,08. `bot->ton` — la direzione che perdeva a tutti e cinque i rapporti —
+recupera a ogni rapporto, e a quattro su cinque il recupero sopravvive a
+Holm.
+
+**Un caso limite che vale la pena dichiarare.** A ratio 1, `ton->bot` con la
+guardia fa **esattamente** 0,0000 di differenza contro lo statico: in nessuno
+dei 20 batch, in nessuno dei 10 seed, le etichette raccolte contengono
+entrambe le classi, quindi la politica non aggiorna mai. Non e' un pareggio
+statistico, e' la stessa identita' bit per bit gia' vista per
+l'affermazione 2. La guardia trasforma un aggiornamento dannoso in nessun
+aggiornamento: **il peggio che puo' fare e' non fare niente**, che e'
+esattamente la proprieta' che si vuole a bordo di un dispositivo.
+
+**Quello che la guardia NON fa: raggiungere il buffer.** A ratio 50, stato
+compatto con guardia contro buffer da 256 etichette, per direzione:
+
+| direzione | 728 byte (con guardia) | 12 KB (buffer) | delta | Holm |
+|---|---|---|---|---|
+| `bot->ton` | 0,8167 | 0,8881 | −0,0714 | 0,0001 |
+| `bot->unsw` | 0,7518 | 0,8207 | −0,0688 | 0,0001 |
+| `ton->bot` | 0,9297 | 0,9459 | −0,0162 | 0,0003 |
+| `ton->unsw` | 0,6970 | 0,7235 | −0,0265 | 0,0024 |
+| `unsw->bot` | 0,8186 | 0,8594 | −0,0408 | <0,0001 |
+| `unsw->ton` | 0,6939 | 0,7083 | −0,0144 | 0,0098 |
+
+**Sei direzioni su sei, tutte significative dopo Holm.** Il buffer resta
+davanti, di 0,014-0,071 a seconda della direzione. La riformulazione onesta
+dell'affermazione 3 e' quindi questa:
+
+> Lo stato compatto da 728 byte, **una volta che non aggiorna su batch a una
+> classe sola**, non peggiora mai il modello statico in nessuna delle sei
+> direzioni ne' a nessuno dei cinque rapporti, e resta fra 1,4 e 7,1 punti
+> sotto il buffer da 12 KB che non entrerebbe nella SRAM del dispositivo.
+
+Non e' piu' "l'RLS e' fragile e perde quando BoT-IoT e' la sorgente", che
+era una descrizione di un difetto di implementazione scambiato per una
+proprieta' del metodo. Ed e' un'affermazione piu' utile: dice che il
+compromesso fra 728 byte e 12 KB si paga in punti di accuratezza noti e
+misurati, non in rischio di peggiorare le cose.
 
 ### Onesta' della replica
 
@@ -3153,22 +3259,19 @@ politiche vedono lo stesso identico stream.
    senza aggiornare la costante di scrittura — sistemato rendendo la
    costante dipendente dal numero di politiche invece che fissa.
 
-9. **Applicare la guardia sui batch monoclasse a `stat_13x13`** — aperta
-   dalla sezione 19, ed e' l'unica voce nuova di questa lista. La riga
-   esiste gia' nelle altre quattro politiche; metterla nell'RLS significa
-   pero' rimisurare tutto cio' che ne dipende (sezioni 9, 13, 16.2 e i
-   blocchi di 18 sull'affermazione 3) e riscrivere quell'affermazione, che
-   diventerebbe "l'RLS era implementata senza la guardia che le altre
-   politiche avevano" invece di "l'RLS e' fragile". **Fatto a meta'**: la politica
-   `stat_13x13_guardia` e' scritta e affiancata a `stat_13x13` (non la
-   sostituisce), gli stage sono in `rigenera.py --guardia`, i file
-   precedenti sono in `prima_della_guardia/` e i test sono pronti; **manca
-   il run**. **Costo misurato**: 8-18 s per
-   (direzione, seed), media ~14,5 s su 12 combinazioni cronometrate, e
-   servono 200 unita' (6 direzioni x 10 seed a ratio 1 e 50, 4 a ratio 3, 2
-   a ratio 20 e 100, per la stessa identita' di `undersample()` della
-   sezione 18) — **circa 50 minuti**. `drift_graduale_int.py` non e'
-   toccato: non ha una politica RLS.
+9. ~~**Applicare la guardia sui batch monoclasse a `stat_13x13`**~~ —
+   **fatto**, sezione 19. La politica
+   `stat_13x13_guardia` e' affiancata a `stat_13x13`, non la sostituisce, e
+   il run (`rigenera.py --guardia`, 1h05m, 200 unita') e' stato eseguito.
+   **Le celle in cui l'RLS perde in modo significativo contro lo statico
+   passano da 7 su 20 a 0 su 20**, e le sette colonne preesistenti sono
+   uscite identiche a `prima_della_guardia/` su 28.000 celle, differenza
+   massima 0,0. Resta aperto solo cosa farne nell'articolo: l'affermazione 3
+   va riscritta (non "l'RLS e' fragile" ma "lo stato compatto non peggiora
+   mai lo statico, e resta 1,4-7,1 punti sotto il buffer"), e le sezioni 9,
+   13 e 16.2 vanno rilette alla luce della colonna nuova — i loro numeri
+   pero' non cambiano, perche' descrivono `stat_13x13`, che e' rimasta
+   quella.
 
    **Come e' stato fatto**: politica affiancata, non sostituita. Nessuna
    politica consuma il generatore casuale condiviso (`adaptive_pick` e
