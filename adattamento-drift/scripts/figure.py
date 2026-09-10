@@ -555,7 +555,154 @@ def fig7():
     salva(fig, "fig7_collo_di_bottiglia")
 
 
-FIGURE = {1: fig1, 2: fig2, 3: fig3, 4: fig4, 5: fig5, 6: fig6, 7: fig7}
+# ── 8 · la guardia sui batch a una classe sola ───────────────────────
+NATURALE_SRC = {"ton": 3.22, "bot": 7689.8, "unsw": 1.77}
+RAPPORTI8 = [1, 3, 20, 50, 100]
+
+
+def _graduale(ratio):
+    suff = "" if ratio == 50 else f"_ratio{ratio}"
+    return pd.read_csv(RES / f"drift_graduale_runs{suff}.csv")
+
+
+def _per_seed(exp, ratio):
+    """Media per seed sui 20 batch, con la regola di identita' della
+    sezione 18: se il rapporto non vincola la sorgente, la cella E' quella
+    di ratio 50, non una sua approssimazione."""
+    misurata = ratio == 50 or ratio < NATURALE_SRC[exp.split("->")[0]]
+    d = _graduale(ratio if misurata else 50)
+    d = d[d.exp == exp]
+    return d.groupby(["politica", "seed"]).bal_acc.mean().unstack(0), misurata
+
+
+def fig8():
+    """Le celle in cui lo stato compatto perde contro il modello statico
+    passano da 7 su 20 a 0 su 20; e cosa costa, in accuratezza, scendere da
+    12 KB di buffer a 728 byte di stato."""
+    ordine = ["bot->ton", "bot->unsw", "ton->bot", "ton->unsw", "unsw->bot",
+              "unsw->ton"]
+    dati = {}
+    for pol in ("stat_13x13", "stat_13x13_guardia"):
+        griglia = np.full((len(ordine), len(RAPPORTI8)), np.nan)
+        signif = np.zeros_like(griglia, dtype=bool)
+        eredit = np.zeros_like(griglia, dtype=bool)
+        for i, exp in enumerate(ordine):
+            for j, r in enumerate(RAPPORTI8):
+                m, misurata = _per_seed(exp, r)
+                x = m[pol] - m["statico"]
+                griglia[i, j] = x.mean()
+                eredit[i, j] = not misurata
+                if x.std(ddof=1) > 0:
+                    signif[i, j] = (stats.ttest_1samp(x, 0).pvalue < 0.05
+                                    and x.mean() < 0)
+        dati[pol] = (griglia, signif, eredit)
+
+    lim = float(np.nanmax(np.abs([g for g, _, _ in dati.values()])))
+    mappa = matplotlib.colors.LinearSegmentedColormap.from_list(
+        "polarita", [CALDO, "#F4F1EE", FREDDO])
+
+    fig = plt.figure(figsize=(7.6, 6.8))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1.05, 1.0], hspace=0.46,
+                          wspace=0.13, bottom=0.10)
+    assi = [fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])]
+    titoli = ["(a)  senza guardia — la versione pubblicata",
+              "(b)  con la guardia sui batch a una classe sola"]
+
+    for ax, pol, titolo in zip(assi, dati, titoli):
+        g, sig, er = dati[pol]
+        ax.imshow(g, cmap=mappa, vmin=-lim, vmax=lim, aspect="auto")
+        for i in range(len(ordine)):
+            for j in range(len(RAPPORTI8)):
+                v = g[i, j]
+                scuro = abs(v) / lim > 0.55
+                ax.text(j, i, f"{v:+.3f}".replace("-", "−").replace(".", ","),
+                        ha="center", va="center", fontsize=6.6,
+                        color="white" if scuro else INK,
+                        fontweight="bold" if sig[i, j] else "normal")
+                if sig[i, j]:
+                    ax.add_patch(plt.Rectangle((j - .5, i - .5), 1, 1,
+                                               fill=False, ec=INK, lw=1.6,
+                                               zorder=3))
+                if er[i, j]:
+                    ax.add_patch(plt.Rectangle((j - .5, i - .5), 1, 1,
+                                               fill=False, ec="white",
+                                               lw=0, hatch="///", zorder=2,
+                                               alpha=0.28))
+        ax.set_xticks(range(len(RAPPORTI8)),
+                      [f"1:{r}" for r in RAPPORTI8], fontsize=7.5)
+        ax.set_yticks(range(len(ordine)), [etichetta(e) for e in ordine],
+                      fontsize=7.5)
+        ax.set_xlabel("rapporto di sotto-campionamento", labelpad=3)
+        ax.set_title(titolo, loc="left", pad=7)
+        for lato in ax.spines.values():
+            lato.set_visible(False)
+        ax.tick_params(length=0)
+        n = int(sig.sum())
+        ax.text(0.5, -0.235, f"{n} celle su 20 perdono in modo significativo",
+                transform=ax.transAxes, ha="center", fontsize=8,
+                color=CALDO if n else VERDE, fontweight="bold")
+    assi[1].set_yticklabels([])
+
+    cb = fig.colorbar(matplotlib.cm.ScalarMappable(
+        norm=matplotlib.colors.Normalize(-lim, lim), cmap=mappa),
+        ax=assi, fraction=0.028, pad=0.02)
+    cb.set_label("stato compatto − statico", fontsize=7.5)
+    cb.outline.set_visible(False)
+    cb.ax.tick_params(length=2, labelsize=7)
+
+    # ── (c) il compromesso di memoria, a rapporto 1:50
+    ax = fig.add_subplot(gs[1, :])
+    politiche = [("ogni_batch_senza_buffer", "nessuna memoria", TENUE, ".."),
+                 ("stat_13x13_guardia", "728 byte di stato\n(con guardia)",
+                  AZZURRO, None),
+                 ("ogni_batch", "12 KB di buffer\n(256 etichette)", BLU, None)]
+    larg, x = 0.26, np.arange(len(ordine))
+    for k, (pol, nome, col, tex) in enumerate(politiche):
+        vals, err = [], []
+        for exp in ordine:
+            m, _ = _per_seed(exp, 50)
+            d = m[pol] - m["statico"]
+            vals.append(d.mean())
+            err.append(d.std(ddof=1) / np.sqrt(len(d)))
+        ax.bar(x + (k - 1) * larg, vals, larg * 0.9, yerr=err, capsize=2,
+               color=col, edgecolor="white", linewidth=0.8, hatch=tex,
+               error_kw=dict(lw=0.8, ecolor=INK2), zorder=2,
+               label=nome.replace("\n", " "))
+        # niente un numero su ogni barra: le cifre esatte stanno nella
+        # griglia sopra, qui conta il confronto fra i tre livelli. Solo le
+        # barre che scendono sotto lo zero sono etichettate, perche' e'
+        # l'osservazione che il pannello esiste per fare.
+        if pol == "ogni_batch_senza_buffer":
+            for xi, v in zip(x + (k - 1) * larg, vals):
+                if v < 0:
+                    ax.annotate(f"{v:+.3f}".replace("-", "−").replace(".", ","),
+                                xy=(xi, v), xytext=(xi, -0.030),
+                                ha="center", va="top", fontsize=6.8,
+                                color=CALDO,
+                                arrowprops=dict(arrowstyle="-", lw=0.6,
+                                                color=CALDO))
+    ax.axhline(0, color=INK, lw=0.9, zorder=3)
+    ax.set_xlim(-0.62, len(ordine) - 0.38)
+    ax.set_xticks(x, [etichetta(e) for e in ordine], fontsize=8)
+    ax.set_ylabel("guadagno sul modello statico\n(zero = non adattare)")
+    ax.set_title("(c)  cosa costa la memoria che il dispositivo non ha "
+                 "— rapporto 1:50, 10 seed", loc="left", pad=7)
+    ax.legend(ncols=3, loc="upper left", bbox_to_anchor=(0, 1.0),
+              handlelength=1.4, columnspacing=1.4)
+    ax.set_ylim(-0.045, 0.185)
+    ordina(ax)
+
+    fig.text(0.5, 0.008,
+             "(a, b)  bordo spesso e grassetto: perdita significativa contro "
+             "lo statico (t appaiato per seed, p<0,05, n=10).\n"
+             "Tratteggio: cella ereditata per identità dal rapporto 1:50 "
+             "(la sorgente non è vincolata a quel rapporto), non ricalcolata.",
+             ha="center", va="top", fontsize=6.8, color=INK2, linespacing=1.5)
+    salva(fig, "fig8_guardia")
+    print("[8] Da 7 celle perdenti a 0, e il prezzo dei 728 byte")
+
+
+FIGURE = {1: fig1, 2: fig2, 3: fig3, 4: fig4, 5: fig5, 6: fig6, 7: fig7, 8: fig8}
 
 
 def main() -> int:

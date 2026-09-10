@@ -13,7 +13,8 @@ import pytest
 
 _ROOT = Path(__file__).resolve().parents[1]
 ATTESE = ["fig1_diagnosi", "fig2_recupero", "fig3_transfer_invertito",
-          "fig4_selezione", "fig5_coeff_vs_rifit", "fig6_costo"]
+          "fig4_selezione", "fig5_coeff_vs_rifit", "fig6_costo",
+          "fig7_collo_di_bottiglia", "fig8_guardia"]
 
 
 @pytest.mark.parametrize("nome", ATTESE)
@@ -40,14 +41,30 @@ def test_nessuna_figura_disegna_numeri_scritti_a_mano():
     testo = (_ROOT / "scripts" / "figure.py").read_text(encoding="utf-8")
     albero = ast.parse(testo)
     for f in [n for n in albero.body
-              if isinstance(n, ast.FunctionDef) and n.name.startswith("fig")]:
+              if isinstance(n, ast.FunctionDef) and n.name.startswith("fig")
+              and n.name[3:].isdigit()]:
         corpo = ast.get_source_segment(testo, f)
         if f.name == "fig6":
             assert "mac_iter" in corpo and "d_rls" in corpo, (
                 "fig6 deve ricalcolare il modello di costo dalle formule")
             continue
+        if f.name == "fig8":
+            assert "_per_seed(" in corpo, (
+                "fig8 deve leggere dai CSV tramite _per_seed")
+            continue
         assert "pd.read_csv(RES" in corpo, (
             f"{f.name} non legge da results/: sta disegnando numeri fissi")
+
+
+def test_fig8_dichiara_le_celle_ereditate():
+    """Un terzo delle celle di fig8 non e' una misura indipendente: viene
+    per identita' dal rapporto 1:50. Disegnarle come le altre sarebbe una
+    copertura sovradichiarata."""
+    testo = (_ROOT / "scripts" / "figure.py").read_text(encoding="utf-8")
+    corpo = testo[testo.index("def fig8("):]
+    assert "hatch" in corpo and "NATURALE_SRC" in testo
+    readme = (_ROOT / "figures" / "README.md").read_text(encoding="utf-8")
+    assert "ereditat" in readme
 
 
 def test_holm_esclude_i_confronti_senza_varianza():

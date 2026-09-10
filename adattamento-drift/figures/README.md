@@ -18,6 +18,7 @@ PDF vettoriale per l'articolo, PNG a 300 dpi per il README.
 | `fig5_coeff_vs_rifit` | 11 | delta appaiato per seed con intervallo di confidenza, correzione di Holm su 15 confronti |
 | `fig6_costo` | 17c | calcolo e RAM per aggiornamento, con la soglia di SRAM dell'ATmega2560; la texture distingue misurato da proiettato |
 | `fig7_collo_di_bottiglia` | 9 | la direzione che fallisce con ogni regola normale e i due selettori che la sbloccano, accanto alla prova che altrove non servono |
+| `fig8_guardia` | 19 | la griglia direzione x rapporto del guadagno sul modello statico, con e senza la guardia sui batch a una classe sola (7 celle perdenti su 20 contro 0), e il costo in accuratezza dei tre livelli di memoria: nessuna, 728 byte, 12 KB |
 
 ## Scelte di resa, dichiarate
 
@@ -39,6 +40,11 @@ PDF vettoriale per l'articolo, PNG a 300 dpi per il README.
   `max(prec, nan)` propaga il NaN e può seppellire il confronto più
   significativo, che è esattamente ciò che è successo nella prima versione
   di `fig7`.
+- **Le celle ereditate si dichiarano.** In `fig8` un terzo delle celle non
+  e' una misura indipendente: viene per identita' dal rapporto 1:50, perche'
+  a quel rapporto il sotto-campionamento non vincola quella sorgente.
+  Disegnarle come le altre sarebbe una copertura sovradichiarata; portano un
+  tratteggio e una nota.
 - **Gli zeri non si disegnano su scala logaritmica.** Le regole che non
   raccolgono nulla sono dichiarate in nota, non appiattite a un valore
   piccolo che sembrerebbe un dato.

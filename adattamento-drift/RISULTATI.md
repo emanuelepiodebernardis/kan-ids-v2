@@ -2972,6 +2972,8 @@ misurate sullo stesso identico stream.
 
 **Il risultato principale, in una riga: le celle in cui l'RLS perde in modo
 significativo contro il modello statico passano da 7 su 20 a 0 su 20.**
+La figura `figures/fig8_guardia` mostra le due griglie affiancate e, sotto,
+il costo dei tre livelli di memoria.
 
 Delta contro lo statico, media per seed sui 20 batch (n=10), `*` = ereditata
 per identita' dal rapporto 50:
@@ -3039,7 +3041,11 @@ compatto con guardia contro buffer da 256 etichette, per direzione:
 | `unsw->bot` | 0,8186 | 0,8594 | −0,0408 | <0,0001 |
 | `unsw->ton` | 0,6939 | 0,7083 | −0,0144 | 0,0098 |
 
-**Sei direzioni su sei, tutte significative dopo Holm.** Il buffer resta
+**Sei direzioni su sei, tutte significative dopo Holm.** Il pannello (c) di
+`fig8_guardia` mette i tre livelli sullo stesso asse — nessuna memoria, 728
+byte, 12 KB — con lo zero che vale "non adattare": si legge in un colpo che
+il primo sta sotto lo zero in due direzioni, il secondo non ci va mai, il
+terzo e' sempre il piu' alto. Il buffer resta
 davanti, di 0,014-0,071 a seconda della direzione. La riformulazione onesta
 dell'affermazione 3 e' quindi questa:
 
