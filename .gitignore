@@ -78,3 +78,7 @@ audit.txt
 
 # cartella in cui si estrae il pacchetto per provarlo
 prova/
+
+# ricevute e backup di tools/apply_integration.py: evidenza del
+# processo di integrazione, non contenuto del progetto
+_integration_receipts/

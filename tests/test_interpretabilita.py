@@ -152,17 +152,17 @@ def test_supporto_train_rifiuta_test_e_id_alterati(tmp_path, m, v):
     np.savez(p, Xq=v["X"], CAT=v["CAT"], row_ids=ids)
     meta = {"source_split": "train", "source_csv_sha256": "a" * 64,
             "row_ids_sha256": hashlib.sha256(ids.tobytes()).hexdigest()}
-    meta_path.write_text(json.dumps(meta))
+    meta_path.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
     support, _ = mod.leggi_supporto_train(p, meta_path, m)
     assert len(support["X"]) == len(ids)
 
     meta["source_split"] = "test"
-    meta_path.write_text(json.dumps(meta))
+    meta_path.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
     with pytest.raises(ValueError, match="source_split"):
         mod.leggi_supporto_train(p, meta_path, m)
 
     meta["source_split"] = "train"
-    meta_path.write_text(json.dumps(meta))
+    meta_path.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
     np.savez(p, Xq=v["X"], CAT=v["CAT"], row_ids=ids + 1)
     with pytest.raises(ValueError, match="sha256 mismatch"):
         mod.leggi_supporto_train(p, meta_path, m)

@@ -41,10 +41,10 @@ def main():
               'physical_measurements': False, 'status': 'BUILD_STARTED',
               'target_note': 'ESP32-C3 uses inherited devkitm-1 definition; actual board and power setup require confirmation.'}
     record_path = a.out / 'build_record.json'
-    record_path.write_text(json.dumps(record, indent=2) + '\n')
+    record_path.write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
     version = subprocess.run([sys.executable, '-m', 'platformio', '--version'], capture_output=True, text=True)
     record['platformio_version_output'] = version.stdout + version.stderr
-    with (a.out / 'build.log').open('w', encoding='utf-8') as log:
+    with (a.out / 'build.log').open('w', encoding='utf-8', newline='\n') as log:
         result = subprocess.run(command, stdout=log, stderr=subprocess.STDOUT, text=True)
     record['returncode'] = result.returncode
     record['source_unchanged_during_build'] = before == source_identity()
@@ -58,7 +58,7 @@ def main():
     record['status'] = 'BUILD_PASS_NOT_FLASHED' if ok else 'BUILD_FAILED_OR_INCOMPLETE'
     record['completed_utc'] = datetime.now(timezone.utc).isoformat()
     record['size_note'] = 'file_bytes is file length. Linked Flash/static RAM must be read from build.log; neither is peak runtime RAM.'
-    record_path.write_text(json.dumps(record, indent=2) + '\n')
+    record_path.write_text(json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
     print(record['status']); print(record_path)
     return 0 if ok else 1
 

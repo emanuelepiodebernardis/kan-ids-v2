@@ -48,6 +48,35 @@ serve_header = pytest.mark.skipif(
     reason="kan14_lut_int16.h non generato: python scripts/export_kan14_lut_c.py")
 
 
+def _ubsan_disponibile() -> bool:
+    """Se il runtime del sanitizzatore c'e' davvero, non solo l'opzione.
+
+    `-fsanitize=undefined` e' accettato dal driver anche quando `libubsan`
+    manca: l'errore arriva dal linker, come `cannot find -lubsan`. w64devkit,
+    che e' il g++ usato su Windows in questo progetto, non la include. Senza
+    questa distinzione il test fallisce dove dovrebbe saltare, e un
+    fallimento che dipende dalla macchina invece che dal codice logora la
+    fiducia nella suite: si impara a ignorarlo, e il giorno in cui segnala
+    un problema vero nessuno lo guarda.
+    """
+    if GPP is None:
+        return False
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        c = Path(d) / "p.cpp"
+        c.write_text("int main(){return 0;}\n", encoding="utf-8", newline="\n")
+        r = subprocess.run([GPP, "-fsanitize=undefined", str(c),
+                            "-o", str(Path(d) / "p")],
+                           capture_output=True, text=True, env=ambiente("g++"))
+        return r.returncode == 0
+
+
+ubsan = pytest.mark.skipif(
+    not _ubsan_disponibile(),
+    reason="il g++ presente accetta -fsanitize=undefined ma libubsan non "
+           "e' installata: il controllo non e' eseguibile su questa macchina")
+
+
 def _L_dell_header() -> int:
     return int(re.search(r"#define KLUT_L (\d+)",
                          HEADER.read_text(encoding="utf-8")).group(1))
@@ -248,9 +277,9 @@ def test_postfreeze_test_evidence_references_the_unchanged_selection():
     f = REPO / 'results/lut_postfreeze_test_protocol.json'
     if not f.exists():
         pytest.skip('Post-freeze test evaluation has not yet been run')
-    r = json.loads(f.read_text())
+    r = json.loads(f.read_text(encoding="utf-8"))
     selection = REPO / 'results/lut_selection_protocol.json'
-    p = json.loads(selection.read_text())
+    p = json.loads(selection.read_text(encoding="utf-8"))
     assert r['selection_protocol_sha256'] == exp.sha256(selection)
     assert r['selected_L_changed'] is False
     assert r['results']['L'] == p['selected_L'] == _L_dell_header()
@@ -261,6 +290,7 @@ def test_postfreeze_test_evidence_references_the_unchanged_selection():
 
 
 @gpp
+@ubsan
 @serve_header
 def test_lut_q12_grid_c_python_equality_and_undefined_behavior(tmp_path):
     """Exercise every Q12 value for every edge under UBSan, including both endpoints."""
@@ -273,7 +303,7 @@ def test_lut_q12_grid_c_python_equality_and_undefined_behavior(tmp_path):
         '  for(int i=0;i<10;i++) x[i]=(q+137*i)%8193-4096;\n'
         '  for(int j=0;j<4;j++) c[j]=q%cards[j];\n'
         '  printf("%ld\\n",(long)kan14_lut_logit(x,c)); } }\n',
-        encoding='utf-8')
+        encoding='utf-8', newline="\n")
     exe = tmp_path / 'grid'
     cmd = [GPP, '-O2', '-fsanitize=undefined', '-fno-sanitize-recover=undefined',
            '-I', str(INCLUDE), str(src), '-o', str(exe)]

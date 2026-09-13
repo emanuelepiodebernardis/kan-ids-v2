@@ -121,7 +121,7 @@ class JointPoolingIntegrityTests(unittest.TestCase):
             root = Path(tmp)
             path = execute_production_output([], rows, root)
             matrix_path = root / confusion_filename("_ratio5_cat", "unsw", "DecisionTree(d=5)")
-            matrix_path.write_text(",normal,attack\nnormal,397341,439659\nattack,988086,493971\n", encoding="utf-8")
+            matrix_path.write_text(",normal,attack\nnormal,397341,439659\nattack,988086,493971\n", encoding="utf-8", newline="\n")
             result = check_family(path, "_ratio5_cat", expected_destinations=("ton", "bot", "unsw"))
             self.assertFalse(result["ok"])
             self.assertTrue(any("counts differ from merged runs" in error for error in result["errors"]))

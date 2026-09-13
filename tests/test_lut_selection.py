@@ -25,7 +25,7 @@ def _calibration(tmp_path: Path):
                 'row_ids_sha256': hashlib.sha256(ids.astype('<i8').tobytes()).hexdigest(),
                 'preprocessing': {'kind': 'synthetic Q12 inputs for regression test'}}
     meta = tmp_path / 'train.json'
-    meta.write_text(json.dumps(metadata), encoding='utf-8')
+    meta.write_text(json.dumps(metadata), encoding='utf-8', newline='\n')
     return npz, meta, d
 
 
@@ -33,7 +33,7 @@ def test_selection_ignores_replaced_and_unreadable_test_inputs(tmp_path, monkeyp
     """Actual select pipeline, with poisoned test readers and replaced test bytes."""
     train, metadata, _ = _calibration(tmp_path)
     fake_test = tmp_path / 'kan14_test_vectors.h'
-    fake_test.write_text('arbitrary first test content')
+    fake_test.write_text('arbitrary first test content', encoding='utf-8', newline='\n')
     monkeypatch.setattr(exp, 'VETTORI', fake_test)
 
     def forbidden(*args, **kwargs):
@@ -41,7 +41,7 @@ def test_selection_ignores_replaced_and_unreadable_test_inputs(tmp_path, monkeyp
 
     monkeypatch.setattr(exp, 'leggi_vettori', forbidden)
     first = exp.select(train, metadata, header_path=tmp_path / 'a.h', output_dir=tmp_path / 'a')
-    fake_test.write_text('DIFFERENT input values, margins, predictions, and labels')
+    fake_test.write_text('DIFFERENT input values, margins, predictions, and labels', encoding='utf-8', newline='\n')
     second = exp.select(train, metadata, header_path=tmp_path / 'b.h', output_dir=tmp_path / 'b')
     fake_test.unlink()
     third = exp.select(train, metadata, header_path=tmp_path / 'c.h', output_dir=tmp_path / 'c')
@@ -53,14 +53,14 @@ def test_selection_ignores_replaced_and_unreadable_test_inputs(tmp_path, monkeyp
 
 def test_selection_rejects_test_split_and_bad_row_provenance(tmp_path):
     train, metadata, _ = _calibration(tmp_path)
-    meta = json.loads(metadata.read_text())
+    meta = json.loads(metadata.read_text(encoding='utf-8'))
     meta['source_split'] = 'test'
-    metadata.write_text(json.dumps(meta))
+    metadata.write_text(json.dumps(meta), encoding='utf-8', newline='\n')
     with pytest.raises(ValueError, match='test is forbidden'):
         exp.select(train, metadata, header_path=tmp_path / 'out.h', output_dir=tmp_path / 'out')
     meta['source_split'] = 'train'
     meta['row_ids_sha256'] = '0' * 64
-    metadata.write_text(json.dumps(meta))
+    metadata.write_text(json.dumps(meta), encoding='utf-8', newline='\n')
     with pytest.raises(ValueError, match='row_ids hash mismatch'):
         exp.select(train, metadata, header_path=tmp_path / 'out.h', output_dir=tmp_path / 'out')
     assert not (tmp_path / 'out.h').exists()
@@ -88,7 +88,7 @@ def test_test_evaluation_cannot_mutate_frozen_selection(tmp_path):
         exp.select(train, metadata, header_path=tmp_path / 'out.h', output_dir=out)
     with pytest.raises(FileExistsError, match='Post-freeze result exists'):
         exp.evaluate(protocol, test, output_dir=tmp_path / 'eval1')
-    (tmp_path / 'out.h').write_text(frozen_header.decode() + '\n/* tampered */\n')
+    (tmp_path / 'out.h').write_text(frozen_header.decode() + '\n/* tampered */\n', encoding='utf-8', newline='\n')
     with pytest.raises(ValueError, match='hash mismatch'):
         exp.evaluate(protocol, test, output_dir=tmp_path / 'eval3')
 

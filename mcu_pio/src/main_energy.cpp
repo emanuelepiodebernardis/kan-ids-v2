@@ -500,7 +500,9 @@ void setup() {
   Serial.println();
 #endif
   Serial.print(F("# energy benchmark variant=")); Serial.print(F(EB_NAME));
-  Serial.print(F(" model_bytes=")); Serial.print(EB_MODEL_BYTES);
+  Serial.print(F(" model_bytes=")); Serial.print((uint32_t)EB_MODEL_BYTES);  /* il cast non e' cosmetico: per la variante LUT EB_MODEL_BYTES e'
+     una somma di sizeof, quindi size_t, che su Windows a 64 bit e'
+     unsigned long long e non combacia con nessun overload di print */
   Serial.print(F(" batch=")); Serial.print((uint32_t)EB_BATCH);
   Serial.print(F(" reps="));  Serial.print((uint32_t)EB_REPS);
   Serial.print(F(" vectors_in_ram=")); Serial.print((uint32_t)EB_CACHE);
@@ -578,7 +580,7 @@ void setup() {
   uint64_t tot = 0;
   for (uint8_t rep = 0; rep < EB_REPS; rep++) tot += durata[rep];
   Serial.print(F("SUMMARY variant=")); Serial.print(F(EB_NAME));
-  Serial.print(F(" model_bytes=")); Serial.print(EB_MODEL_BYTES);
+  Serial.print(F(" model_bytes=")); Serial.print((uint32_t)EB_MODEL_BYTES);
   Serial.print(F(" mean_window_us=")); Serial.print((uint32_t)(tot / EB_REPS));
   Serial.print(F(" mean_ns_per_inference="));
   Serial.print((uint32_t)((tot * 1000ULL) / ((uint64_t)EB_REPS * (uint32_t)EB_BATCH)));

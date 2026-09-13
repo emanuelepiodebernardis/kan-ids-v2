@@ -44,7 +44,7 @@ def main():
     args=p.parse_args()
     compiler=shutil.which("g++") or shutil.which("c++")
     if compiler is None: p.error("Host C++ compiler unavailable")
-    exported=json.loads(args.export_report.read_text())
+    exported=json.loads(args.export_report.read_text(encoding="utf-8"))
     check_saved_inputs(args.cohort,exported)
     with np.load(args.cohort,allow_pickle=False) as d:
         ids=d["row_ids"].astype(int).tolist(); truth=d["y_true"].astype(int).tolist()
@@ -54,7 +54,7 @@ def main():
              "cohort_sha256":sha(args.cohort),"checks":[],"all_passed":False}
     with tempfile.TemporaryDirectory(prefix="kan_common_host_") as tmp:
         path=Path(tmp)
-        (path/"main.cpp").write_text("void setup(); int main(){setup();return 0;}\n")
+        (path/"main.cpp").write_text("void setup(); int main(){setup();return 0;}\n", encoding="utf-8", newline="\n")
         for arch,opt in [("__AVR__","-Os"),("ARDUINO_ARCH_ESP32","-O2")]:
             for variant, flag in VARIANTS.items():
                 for mode in ("latency","energy"):
@@ -65,10 +65,10 @@ def main():
                          "-I",str(ROOT/"mcu_pio/include"),"-I",str(ROOT/"mcu_pio/host_check"),*defines,
                          str(ROOT/"mcu_pio/src"/source),str(path/"main.cpp"),"-o",str(path/name)]
                     build=subprocess.run(cmd,capture_output=True,text=True)
-                    (args.out/(name+".build.log")).write_text("HOST NATIVE COMPILER ONLY\n"+" ".join(cmd)+"\n"+build.stdout+build.stderr)
+                    (args.out/(name+".build.log")).write_text("HOST NATIVE COMPILER ONLY\n"+" ".join(cmd)+"\n"+build.stdout+build.stderr, encoding="utf-8", newline="\n")
                     if build.returncode: raise RuntimeError(f"Host compilation failed: {name}; see build log")
                     run=subprocess.run([str(path/name)],capture_output=True,text=True,check=True,timeout=30)
-                    (args.out/(name+".host_serial.log")).write_text(run.stdout+run.stderr)
+                    (args.out/(name+".host_serial.log")).write_text(run.stdout+run.stderr, encoding="utf-8", newline="\n")
                     if "execution=HOST_REPLAY_CHECK" not in run.stdout: raise AssertionError(name)
                     if exported["cohort_sha256"] not in run.stdout: raise AssertionError("Missing cohort identity")
                     if mode=="latency":
@@ -96,6 +96,6 @@ def main():
     check_saved_inputs(args.cohort,exported)
     summary["all_passed"]=True
     summary["source_sha256"]={str(path.relative_to(ROOT)):sha(path) for path in [ROOT/"mcu_pio/src/main_common_latency.cpp",ROOT/"mcu_pio/src/main_energy.cpp",ROOT/"mcu_pio/include/hardware_cohort_select.h",ROOT/"scripts/export_hardware_cohort.py",ROOT/"scripts/check_hardware_cohort_host.py"]}
-    (args.out/"summary.json").write_text(json.dumps(summary,indent=2)+"\n")
+    (args.out/"summary.json").write_text(json.dumps(summary,indent=2)+"\n", encoding="utf-8", newline="\n")
     print(json.dumps({"all_passed":True,"checks":len(summary["checks"]),"hardware_measurements_performed":False}))
 if __name__=="__main__": main()

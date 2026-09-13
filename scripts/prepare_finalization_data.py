@@ -32,7 +32,7 @@ def ids_sha(a):
 
 
 def dump(path, obj):
-    Path(path).write_text(json.dumps(obj, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    Path(path).write_text(json.dumps(obj, indent=2, ensure_ascii=False) + '\n', encoding='utf-8', newline='\n')
 
 
 def quantize(x):
@@ -55,7 +55,7 @@ def prepare_train(csv, out):
     fs = np.load(ROOT / 'models/feature_space.npz')
     if prep.numeric_features_ != fs['feats'].tolist() or prep.cardinalities_ != fs['cards'].tolist():
         raise ValueError('Recovered KAN feature order/cardinalities differ from RC3.')
-    saved_vocab = json.loads((ROOT / 'models/vocabolari_categorici.json').read_text())['vocabolari']
+    saved_vocab = json.loads((ROOT / 'models/vocabolari_categorici.json').read_text(encoding='utf-8'))['vocabolari']
     if vocab(prep) != saved_vocab:
         raise ValueError('Recovered KAN category vocabulary differs from RC3.')
     X, C = prep.transform(df.iloc[tr])
@@ -99,7 +99,7 @@ def golden_selection(labels, seed):
 
 
 def validate_freeze(protocol, out):
-    frozen = json.loads(protocol.read_text())
+    frozen = json.loads(protocol.read_text(encoding='utf-8'))
     if (frozen.get('status') != 'FROZEN_BEFORE_TEST_EVALUATION'
             or frozen.get('source_split') != 'train'
             or frozen.get('selection_reads_test') is not False
@@ -117,12 +117,12 @@ def validate_freeze(protocol, out):
         paths[name] = p
     if paths['calibration_npz'] != (out / 'train_calibration.npz').resolve() or paths['calibration_metadata'] != (out / 'train_calibration.json').resolve():
         raise ValueError('Freeze is bound to a different calibration preparation.')
-    meta = json.loads(paths['calibration_metadata'].read_text())
+    meta = json.loads(paths['calibration_metadata'].read_text(encoding='utf-8'))
     if frozen['source_csv_sha256'] != meta['source_csv_sha256'] or frozen['row_ids_sha256'] != meta['row_ids_sha256']:
         raise ValueError('Freeze/calibration source identity mismatch.')
     if sha(paths['coefficient_header']) != meta['model_header_sha256']:
         raise ValueError('Freeze uses a different coefficient model.')
-    actual_L = int(re.search(r'#define\s+KLUT_L\s+(\d+)', paths['lut_header'].read_text()).group(1))
+    actual_L = int(re.search(r'#define\s+KLUT_L\s+(\d+)', paths['lut_header'].read_text(encoding='utf-8')).group(1))
     if actual_L != frozen['selected_L']:
         raise ValueError('Freeze and generated LUT length differ.')
     return frozen
@@ -133,7 +133,7 @@ def prepare_evaluation(csv, out, protocol):
     if not protocol or not protocol.is_file():
         raise ValueError('A written LUT selection protocol is required before evaluation preparation.')
     frozen = validate_freeze(protocol, out)
-    meta = json.loads((out / 'train_calibration.json').read_text())
+    meta = json.loads((out / 'train_calibration.json').read_text(encoding='utf-8'))
     if sha(csv) != meta['source_csv_sha256']:
         raise ValueError('CSV changed since calibration.')
     for name, h in meta['preprocessing_hashes'].items():
@@ -149,7 +149,7 @@ def prepare_evaluation(csv, out, protocol):
     exclude = []
     for stem, prefix, seed in [('kan14', 'KTV', 1), ('kan14_ml', 'KMLTV', 2)]:
         idx = golden_selection(yb[te], seed)
-        txt = (ROOT / f'mcu_pio/include/{stem}_test_vectors.h').read_text()
+        txt = (ROOT / f'mcu_pio/include/{stem}_test_vectors.h').read_text(encoding='utf-8')
         expected_x = np.array(_interi(_blocco(txt, prefix + '_X'))).reshape(200, 10)
         expected_c = np.array(_interi(_blocco(txt, prefix + '_CAT'))).reshape(200, 4)
         expected_y = np.array(_interi(_blocco(txt, prefix + '_LABEL')))
@@ -170,13 +170,13 @@ def prepare_evaluation(csv, out, protocol):
     bi = np.random.RandomState(42).choice(len(bva), 200, replace=False)
     exclude.extend(bva[bi].tolist())
     bx, bc = bp.transform(df.iloc[bva[bi]])
-    txt = (ROOT / 'mcu_pio/include/mlp16_test_vectors.h').read_text()
+    txt = (ROOT / 'mcu_pio/include/mlp16_test_vectors.h').read_text(encoding='utf-8')
     checks['mlp16'] = {
         'x_equal': bool(np.array_equal(quantize(bx), np.array(_interi(_blocco(txt, 'MLPTV_X'))).reshape(200, 10))),
         'categories_equal': bool(np.array_equal(bc, np.array(_interi(_blocco(txt, 'MLPTV_CAT'))).reshape(200, 4))),
         'labels_equal': bool(np.array_equal(yb[bva[bi]], np.array(_interi(_blocco(txt, 'MLPTV_LABEL'))))),
     }
-    txt = (ROOT / 'mcu_pio/include/dt5_model.h').read_text()
+    txt = (ROOT / 'mcu_pio/include/dt5_model.h').read_text(encoding='utf-8')
     dg = np.array(_interi(_blocco(txt, 'DT5_GOLDEN'))).reshape(200, 16)
     checks['dt5'] = {'x_equal': bool(np.array_equal(np.rint(np.c_[bx, bc] * 128).astype(np.int64), dg[:, :14])),
                      'labels_equal': bool(np.array_equal(yb[bva[bi]], dg[:, 15]))}
@@ -194,11 +194,11 @@ def prepare_evaluation(csv, out, protocol):
                         baseline_Xq=quantize(bx), baseline_CAT=bc,
                         dt_Xq=np.rint(np.c_[bx, bc] * 128).astype(np.int64))
     pd.DataFrame({'order': np.arange(500), 'raw_row_id': cohort, 'label': yb[cohort],
-                  'type': df.iloc[cohort]['type'].to_numpy()}).to_csv(out / 'hardware_flow_ids.csv', index=False)
+                  'type': df.iloc[cohort]['type'].to_numpy()}).to_csv(out / 'hardware_flow_ids.csv', index=False, lineterminator='\n')
     raw = df.iloc[cohort].copy()
     raw.insert(0, 'raw_row_id', cohort)
     raw.insert(0, 'order', np.arange(500))
-    raw.to_csv(out / 'hardware_raw_flows.csv', index=False)
+    raw.to_csv(out / 'hardware_raw_flows.csv', index=False, lineterminator='\n')
     cohort_meta = {
         'source_csv_sha256': sha(csv), 'source_rows': len(df), 'n_unique_flows': 500,
         'row_id_definition': meta['row_id_definition'], 'row_ids_sha256': ids_sha(cohort),

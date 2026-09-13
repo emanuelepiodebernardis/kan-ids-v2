@@ -172,7 +172,7 @@ def collect() -> list[dict]:
             continue
         total, rows = scan(path, prefix)
         if prefix == 'KLUT_':
-            length = int(re.search(r'#define\s+KLUT_L\s+(\d+)', path.read_text()).group(1))
+            length = int(re.search(r'#define\s+KLUT_L\s+(\d+)', path.read_text(encoding="utf-8")).group(1))
             nota = (f'stesse funzioni della KAN(cat,1L), campionate: 10 edge x {length} punti int16 '
                     '+ uno shift per edge; edge categorici invariati')
         out.append({

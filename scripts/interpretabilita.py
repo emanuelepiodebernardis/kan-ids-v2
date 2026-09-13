@@ -398,7 +398,7 @@ def main() -> None:
             RESULTS_DIR / "interpretabilita_contributi.csv", RESULTS_DIR / "interpretabilita_escursione.csv")},
     }
     (RESULTS_DIR / "interpretabilita_provenance.json").write_text(
-        json.dumps(provenance, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        json.dumps(provenance, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

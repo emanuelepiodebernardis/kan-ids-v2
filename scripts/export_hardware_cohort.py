@@ -48,7 +48,7 @@ def validate(data):
 
 def validate_provenance(cohort, metadata_path, source_csv, data):
     """Bind exported inputs to the recorded source and frozen cohort manifest."""
-    meta = json.loads(metadata_path.read_text())
+    meta = json.loads(metadata_path.read_text(encoding="utf-8"))
     if sha(cohort) != meta["npz_sha256"]:
         raise ValueError("Cohort NPZ differs from its companion manifest; refusing new reference values")
     row_sha = hashlib.sha256(np.asarray(data["row_ids"], dtype="<i8").tobytes()).hexdigest()
@@ -96,7 +96,7 @@ int main() {
     matrix = np.concatenate([data[k] for k in ("kan_Xq","kan_CAT","baseline_Xq","baseline_CAT","dt_Xq")], axis=1)
     stdin = "\n".join(" ".join(map(str,row)) for row in matrix.astype(np.int32))+"\n"
     with tempfile.TemporaryDirectory(prefix="kan_hw_ref_") as tmp:
-        path=Path(tmp); (path/"reference.cpp").write_text(source)
+        path=Path(tmp); (path/"reference.cpp").write_text(source, encoding="utf-8", newline="\n")
         cmd=[compiler,"-std=c++11","-O2","-I",str(ROOT/"mcu_pio/include"),str(path/"reference.cpp"),"-o",str(path/"reference")]
         subprocess.run(cmd, check=True, capture_output=True, text=True)
         result=subprocess.run([str(path/"reference")], input=stdin, check=True, capture_output=True, text=True)
@@ -158,6 +158,6 @@ def main():
         "generated_header_sha256":{name:sha(args.out/name) for name in outputs},
         "models":{name:{"expected_attack_decisions":int(pred[:,j].sum()),"energy20_expected_attack_decisions":int(pred[:20,j].sum()),"cohort_errors_descriptive_only":int((pred[:,j]!=data["y_true"]).sum())} for j,name in enumerate(MODELS)},
         "coeff_vs_lut14_cohort_disagreements_descriptive_only":int((pred[:,0]!=pred[:,1]).sum())}
-    args.report.write_text(json.dumps(report,indent=2)+"\n")
+    args.report.write_text(json.dumps(report,indent=2)+"\n", encoding="utf-8", newline="\n")
     print(json.dumps({"generated_headers":len(outputs),"rows":500,"report":str(args.report),"hardware_measurements_performed":False}))
 if __name__ == "__main__": main()

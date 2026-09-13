@@ -3,6 +3,14 @@
  * kernels; replay agreement is not an independent inference equivalence test.
  */
 #pragma once
+/* Nessun flag: si assume HB_COEFF, come fa main_energy.cpp con EB_COEFF.
+ * Serve al controllo su host, che compila ogni sorgente di src/ senza
+ * flag per verificare che esista e sia valido senza toolchain AVR: con
+ * un #error incondizionato quel controllo non puo' passare. La verifica
+ * che ne sia selezionato esattamente uno resta, subito sotto. */
+#if (defined(HB_COEFF) + defined(HB_LUT14) + defined(HB_MLCOEFF) + defined(HB_MLP) + defined(HB_DT5)) == 0
+  #define HB_COEFF
+#endif
 #if (defined(HB_COEFF) + defined(HB_LUT14) + defined(HB_MLCOEFF) + defined(HB_MLP) + defined(HB_DT5)) != 1
 #error "Select exactly one HB_COEFF/HB_LUT14/HB_MLCOEFF/HB_MLP/HB_DT5"
 #endif

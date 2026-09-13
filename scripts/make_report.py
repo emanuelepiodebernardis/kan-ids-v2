@@ -412,9 +412,9 @@ def main():
     story.append(P("6. Stato delle evidenze", "h1"))
     rows = [[P("Blocco", "cell"), P("Provenienza e stato", "cell")]]
     validation_log = REPO / "evidence/finalization/combined_patch_gate_final.log"
-    validation_match = re.search(r"(\d+) passed, (\d+) skipped", validation_log.read_text()) if validation_log.exists() else None
+    validation_match = re.search(r"(\d+) passed, (\d+) skipped", validation_log.read_text(encoding="utf-8")) if validation_log.exists() else None
     host_file = REPO / "artifacts/finalization/host_hardware_cohort_checks/summary.json"
-    host_summary = json.loads(host_file.read_text()) if host_file.exists() else {}
+    host_summary = json.loads(host_file.read_text(encoding="utf-8")) if host_file.exists() else {}
     software_status = (f"{validation_match.group(1)} test superati, {validation_match.group(2)} skip nel run registrato; "
                        if validation_match else "Consultare i log del run; conteggi non disponibili. ")
     software_status += (f"{len(host_summary['checks'])} integrazioni host superate. "

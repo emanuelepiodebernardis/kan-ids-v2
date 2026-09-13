@@ -12,7 +12,7 @@ spec.loader.exec_module(prep)
 
 def test_rejects_nonempty_unrelated_json(tmp_path):
     p = tmp_path / 'protocol.json'
-    p.write_text('{"ready": true}')
+    p.write_text('{"ready": true}', encoding='utf-8', newline='\n')
     with pytest.raises(ValueError, match='Not a valid frozen'):
         prep.validate_freeze(p, tmp_path)
 
@@ -21,6 +21,6 @@ def test_rejects_incomplete_frozen_binding(tmp_path):
     p = tmp_path / 'protocol.json'
     p.write_text(json.dumps({'status': 'FROZEN_BEFORE_TEST_EVALUATION',
                             'source_split': 'train', 'selection_reads_test': False,
-                            'selected_L': 1025, 'candidate_grid': [1025]}))
+                            'selected_L': 1025, 'candidate_grid': [1025]}), encoding='utf-8', newline='\n')
     with pytest.raises(ValueError, match='Incomplete frozen'):
         prep.validate_freeze(p, tmp_path)

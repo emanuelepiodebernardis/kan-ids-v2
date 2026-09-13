@@ -171,7 +171,7 @@ def main():
     payload = json.dumps(report, indent=2) + "\n"
     if args.output:
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_text(payload, encoding="utf-8")
+        args.output.write_text(payload, encoding="utf-8", newline="\n")
     print(f"JOINT_POOLING_{'PASS' if report['ok'] else 'FAIL'}: "
           f"{sum(r['ok'] for r in results)}/{len(results)} families, "
           f"{sum(len(r.get('matrices', [])) for r in results)} matrices")

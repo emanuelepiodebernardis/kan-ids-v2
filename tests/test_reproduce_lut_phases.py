@@ -38,8 +38,8 @@ def test_lut_stage_real_cli_preserves_frozen_files(tmp_path, monkeypatch):
     before = _frozen_hashes()
     output = tmp_path / "replay"
     _main(monkeypatch, output)
-    selection = json.loads((output / "lut_selection_protocol.json").read_text())
-    evaluation = json.loads((output / "lut_postfreeze_test_protocol.json").read_text())
+    selection = json.loads((output / "lut_selection_protocol.json").read_text(encoding="utf-8"))
+    evaluation = json.loads((output / "lut_postfreeze_test_protocol.json").read_text(encoding="utf-8"))
     assert selection["source_split"] == "train"
     assert selection["selection_reads_test"] is False
     assert evaluation["selected_L_changed"] is False
@@ -79,7 +79,7 @@ def test_lut_evaluation_is_not_started_for_different_header(tmp_path, monkeypatc
     def mismatched_selection(cmd):
         executed.append(cmd)
         output.mkdir()
-        (output / rep.LUT_FROZEN_HEADER.name).write_text("different generated model")
+        (output / rep.LUT_FROZEN_HEADER.name).write_text("different generated model", encoding="utf-8", newline="\n")
         return 0
 
     monkeypatch.setattr(rep, "run", mismatched_selection)

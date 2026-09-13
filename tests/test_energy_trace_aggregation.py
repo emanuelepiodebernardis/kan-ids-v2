@@ -31,14 +31,14 @@ def acquisition(tmp_path):
         "variant,rep,batch,window_us,ref_us,ref_vs_active_permille,windows_match,ns_per_inference,checksum,expected,ok\n"
         "coeff_int8,0,10,1000000,1040000,40,1,100000000,5,5,1\n"
         "SUMMARY variant=coeff_int8 calibration_ok=1 windows_ok=1 checksum_ok=1 tolerance_permille=50\n",
-        encoding="utf-8")
+        encoding="utf-8", newline="\n")
     metadata = json.loads((ROOT / "templates/energy_acquisition.json").read_text(encoding="utf-8"))
     metadata["evidence_kind"] = "synthetic"
     metadata["run_id"] = "analytical-linear-power"
     metadata["firmware"].update(variant="coeff_int8", batch=10, reps=1)
     metadata["analysis"]["min_intervals_per_window"] = 2
     record = tmp_path / "synthetic_acquisition.json"
-    record.write_text(json.dumps(metadata), encoding="utf-8")
+    record.write_text(json.dumps(metadata), encoding="utf-8", newline="\n")
     return trace, serial, record
 
 
@@ -61,7 +61,7 @@ def test_analytic_integral_and_duration_adjustment_keep_negative_increment(acqui
 @pytest.mark.parametrize("defect", ["overlap", "nonmonotone", "nonfinite", "truncated"])
 def test_invalid_physical_trace_is_rejected(acquisition, defect):
     trace, _, _ = acquisition
-    lines = trace.read_text().splitlines()
+    lines = trace.read_text(encoding="utf-8").splitlines()
     index = 3
     row = lines[index].split(",")
     if defect == "overlap":
@@ -75,14 +75,14 @@ def test_invalid_physical_trace_is_rejected(acquisition, defect):
         index = len(lines) - 1
         row = lines[index].split(",")
     lines[index] = ",".join(row)
-    trace.write_text("\n".join(lines) + "\n")
+    trace.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
     with pytest.raises(ValueError):
         ENERGY.aggregate(*acquisition)
 
 
 def test_uart_checksum_failure_invalidates_per_inference_values(acquisition):
     _, serial, _ = acquisition
-    serial.write_text(serial.read_text().replace(",5,5,1", ",4,5,0").replace("checksum_ok=1", "checksum_ok=0"))
+    serial.write_text(serial.read_text(encoding="utf-8").replace(",5,5,1", ",4,5,0").replace("checksum_ok=1", "checksum_ok=0"), encoding="utf-8", newline="\n")
     pair = ENERGY.aggregate(*acquisition)["pairs"][0]
     assert "checksum_failed" in pair["quality_flags"]
     assert pair["total_active_board_j_per_inference"] is None
@@ -92,7 +92,7 @@ def test_uart_checksum_failure_invalidates_per_inference_values(acquisition):
 
 def test_reference_calibration_failure_retains_total_but_withholds_increment(acquisition):
     _, serial, _ = acquisition
-    serial.write_text(serial.read_text().replace("calibration_ok=1", "calibration_ok=0"))
+    serial.write_text(serial.read_text(encoding="utf-8").replace("calibration_ok=1", "calibration_ok=0"), encoding="utf-8", newline="\n")
     pair = ENERGY.aggregate(*acquisition)["pairs"][0]
     assert pair["total_active_board_j_per_inference"] == pytest.approx(0.35)
     assert pair["incremental_vs_busy_reference_j_per_inference"] is None
@@ -100,9 +100,9 @@ def test_reference_calibration_failure_retains_total_but_withholds_increment(acq
 
 def test_insufficient_sampling_does_not_report_valid_per_inference_energy(acquisition):
     _, _, record = acquisition
-    meta = json.loads(record.read_text())
+    meta = json.loads(record.read_text(encoding="utf-8"))
     meta["analysis"]["min_intervals_per_window"] = 100
-    record.write_text(json.dumps(meta))
+    record.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
     pair = ENERGY.aggregate(*acquisition)["pairs"][0]
     assert "active_undersampled" in pair["quality_flags"]
     assert pair["total_active_board_j_per_inference"] is None
@@ -110,15 +110,15 @@ def test_insufficient_sampling_does_not_report_valid_per_inference_energy(acquis
 
 def test_mismatched_metadata_is_rejected(acquisition):
     _, _, record = acquisition
-    meta = json.loads(record.read_text())
+    meta = json.loads(record.read_text(encoding="utf-8"))
     meta["firmware"]["batch"] = 2000
-    record.write_text(json.dumps(meta))
+    record.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
     with pytest.raises(ValueError, match="batch"):
         ENERGY.aggregate(*acquisition)
 
 
 def test_multiple_boots_cannot_be_silently_pooled(acquisition):
     _, serial, _ = acquisition
-    serial.write_text(serial.read_text() * 2)
+    serial.write_text(serial.read_text(encoding="utf-8") * 2, encoding="utf-8", newline="\n")
     with pytest.raises(ValueError, match="one complete"):
         ENERGY.aggregate(*acquisition)

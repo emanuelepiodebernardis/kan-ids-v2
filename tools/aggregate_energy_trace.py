@@ -208,7 +208,7 @@ def main():
         parser.error("Output must not overwrite a raw evidence input")
     result = aggregate(args.trace, args.serial_log, args.acquisition)
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    args.out.write_text(json.dumps(result, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
     print(f"{args.out}: {len(result['pairs'])} pairs, evidence={result['evidence_kind']}, "
           f"ready_for_hardware_review={result['ready_for_hardware_review']}")
 
