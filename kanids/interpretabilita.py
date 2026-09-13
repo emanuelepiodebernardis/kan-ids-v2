@@ -1,35 +1,26 @@
-"""La KAN single-layer spiega le proprie decisioni per costruzione.
+"""Scomposizione computazionale esatta del logit della KAN single-layer.
 
-La richiesta (Prof. Kuznetsov, punto 7)
-=======================================
-"Sfruttare l'interpretabilita' della KAN single-layer: una figura semplice con
-le funzioni apprese per feature e due o tre esempi di contributi locali al
-logit — una spiegazione diretta, non post-hoc. Mantenere una formulazione piu'
-prudente per il multi-layer."
-
-Perche' qui "diretta" si puo' dire davvero
-==========================================
-Il kernel deployato, `mcu_pio/include/kan14_coeff_infer.h`, calcola
+Il kernel `mcu_pio/include/kan14_coeff_infer.h` calcola
 
     logit = somma_i  ((acc_i * KC_MULT[i]) >> 15)          10 edge numerici
           + somma_j  (KC_CAT[off_j + c_j] * KC_CAT_MULT[j] * 6)   4 categorici
 
-e non c'e' nient'altro: nessun termine di interazione, nessun bias residuo.
-La scomposizione per feature non e' una *stima* del contributo — come sono
-SHAP, LIME o le mappe di salienza, che approssimano una funzione opaca con un
-modello locale — ma sono **gli addendi stessi della somma che il
-microcontrollore esegue**. Sommandoli si riottiene il logit bit per bit, e
-`tests/test_interpretabilita.py` lo verifica sui 200 vettori reali
-confrontando con il kernel C compilato.
+senza un ulteriore bias o termine di interazione. Questi addendi descrivono
+il calcolo del modello fissato: non sono effetti causali, valori SHAP o
+controfattuali necessariamente realizzabili. Non sono centrati rispetto a
+una distribuzione di riferimento; il loro valore assoluto non definisce
+un'importanza univoca delle feature. Questo modulo non usa un explainer
+esterno; la sua presenza fra le dipendenze non sarebbe una prova contraria.
 
-E' questa la differenza fra "spiegazione diretta" e "post-hoc", ed e' anche il
-motivo per cui la stessa cosa NON si puo' dire del multi-layer: li' il secondo
-strato vede combinazioni delle unita' nascoste, quindi il contributo di una
-feature dipende dalle altre e una scomposizione additiva esatta non esiste.
-Per quel modello questo file non produce niente, di proposito.
+Il confronto con il kernel C compilato in `tests/test_interpretabilita.py`
+controlla l'uguaglianza dei logit sugli ingressi verificati. E' un controllo
+host, non una misura su scheda. Il multi-layer non ammette in generale questa
+stessa somma di funzioni univariate delle feature originali.
 
-Tutto quello che serve sta negli header committati: i coefficienti e i 200
-vettori di verifica. Non serve il dataset.
+Il calcolo degli addendi richiede solo gli header. Le figure del supporto
+empirico richiedono invece gli ingressi del training e la loro provenienza.
+Per porte, codici DNS e altri campi discreti, la curva nello spazio
+trasformato non implica valori intermedi semanticamente validi.
 """
 from __future__ import annotations
 
@@ -110,8 +101,9 @@ def contributo_numerico(m: dict, i: int, xq) -> np.ndarray:
     """Il termine dell'edge numerico `i`, con l'aritmetica del kernel C.
 
     Riga per riga la traduzione di `kan14_coeff_logit`. Gli spostamenti a
-    destra su interi Python sono aritmetici come in C, quindi il risultato e'
-    lo stesso anche sui negativi.
+    destra su interi Python sono aritmetici; il confronto compilato verifica
+    che la toolchain usata abbia il medesimo comportamento sui negativi.
+    L'equivalenza presuppone che gli intermedi del kernel non trabocchino.
     """
     xq = np.asarray(xq, dtype=np.int64)
     xi = np.clip(xq + 4096, 0, 8192)
@@ -176,11 +168,11 @@ def tabella_categorica(m: dict, j: int) -> np.ndarray:
 
 
 def escursione(m: dict, xq, cat) -> list[dict]:
-    """Quanto ciascun edge puo' muovere il logit sui dati osservati.
+    """Minimo, massimo e media degli addendi sui soli campioni indicati.
 
-    Non e' una "feature importance" stimata: e' l'escursione effettiva del
-    termine additivo su quei campioni. Ordina gli edge per quanto contano
-    davvero nella somma, e si legge senza scomodare alcun modello surrogato.
+    L'escursione dipende dal supporto osservato e non e' una classifica
+    causale o un'importanza univoca. Gli addendi restano non centrati per
+    preservare la somma esatta del kernel; non si introduce un intercept.
     """
     num, ctg = contributi(m, xq, cat)
     fuori = []

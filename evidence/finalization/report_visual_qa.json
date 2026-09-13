@@ -1,0 +1,8 @@
+{
+  "pdf_sha256": "cbe008c59d6494a53bbf45bb5744ff415f1a17c5b13197a4de5e990abe4de5b6",
+  "generator_sha256": "402728d27f8b17205d743c8ea75a4731fd8ff186626e5c851f5e49fcc3e9a46c",
+  "pages": 5,
+  "all_pages_visually_inspected": true,
+  "status": "PASS",
+  "corrections": "Embedded fonts, table header contrast, removed blank pages, kept figures/captions and postfreeze block together."
+}

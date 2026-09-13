@@ -1,0 +1,66 @@
+{
+  "schema_version": "kan-ids-energy-acquisition-1",
+  "evidence_kind": "hardware",
+  "run_id": null,
+  "utc_started": null,
+  "operator": "Oleksandr Kuznetsov",
+  "board": {
+    "model": null,
+    "revision": null,
+    "identifier": null,
+    "clock_hz": null,
+    "radio_state": null,
+    "supply_connection": null,
+    "usb_connection_during_acquisition": null,
+    "measurement_scope": null,
+    "ambient_temperature_c": null
+  },
+  "instrument": {
+    "model": null,
+    "serial_number": null,
+    "firmware_version": null,
+    "export_software_version": null,
+    "current_range_a": null,
+    "shunt_ohm": null,
+    "sample_rate_hz": null,
+    "bandwidth_hz": null,
+    "calibration_and_accuracy": null,
+    "current_sign_convention": "positive current enters measured board",
+    "trigger_inputs": null,
+    "marker_voltage_compatibility": null,
+    "analog_digital_synchronization": null,
+    "native_trace_file": null,
+    "native_trace_sha256": null,
+    "normalization_script_and_version": null
+  },
+  "firmware": {
+    "platformio_environment": null,
+    "build_flags": null,
+    "binary_sha256": null,
+    "source_sha256": null,
+    "toolchain_versions": null,
+    "variant": null,
+    "batch": 2000,
+    "reps": 5,
+    "cache": 20,
+    "marker_pin_active": null,
+    "marker_pin_reference": null
+  },
+  "workload": {
+    "flow_set_sha256": null,
+    "ordered_flow_ids_sha256": null,
+    "expected_predictions_sha256": null,
+    "boundary": null,
+    "warmup_inferences": 64,
+    "run_order": null
+  },
+  "analysis": {
+    "marker_semantics": "left-continuous-sampled-digital",
+    "power_integration": "trapezoid-of-sampled-voltage-times-current",
+    "min_intervals_per_window": 100,
+    "max_duration_relative_error": 0.02,
+    "thresholds_status": "provisional-until-instrument-is-known",
+    "uncertainty_budget": null
+  },
+  "notes": "Template only. No acquisition, flashing, publication or measured values are implied. Preserve native trace and complete UART log."
+}

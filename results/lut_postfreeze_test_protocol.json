@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "phase": "postfreeze_test_evaluation",
+  "evaluated_utc": "2026-09-08T12:24:21.184207+00:00",
+  "selection_protocol_sha256": "357126549ddd10f08f801ad67df44aa6369637254ab28cb98be73884a1024090",
+  "test_npz_sha256": "31e3740cfd49ef4ff4d6ed13aeb1b6457b813a703f6f9d2d81ce6bf0d9de11dc",
+  "test_row_ids_sha256": "e34368ec683d827080b3185b94caa8d1fe4c5df2945e7ef89deb0c1e00d59b53",
+  "selected_L_changed": false,
+  "results": {
+    "n_test": 42209,
+    "L": 1025,
+    "decisioni_identiche": 42209,
+    "decisioni_diverse": 0,
+    "flussi_entro_il_limite": 4,
+    "limite_scostamento_logit": 4271,
+    "scostamento_max_osservato": 1262,
+    "f1_coefficienti": 0.9825844106941132,
+    "f1_lut": 0.9825844106941132
+  },
+  "results_csv_sha256": "6740283313ec6d6b41641b2a6f5c5983bbee7d115ce5d1639f30fada813ca538",
+  "measurement_scope": "host integer simulation; not MCU timing or energy"
+}

@@ -64,7 +64,6 @@ from kanids.harmonized import (  # noqa: E402
     build_harmonized_bot, build_harmonized_ton, build_ridotto_da_ricco,
     coverage_report,
 )
-from kanids.metrics import confusion_frame  # noqa: E402
 from kanids.models import (  # noqa: E402
     CategoricalKANBinary, MultiLayerKANBinary, get_baselines,
 )
@@ -459,6 +458,22 @@ def finalize_selection(rows, suffix_spazio):
     return scelto
 
 
+def pooled_confusions_from_runs(df):
+    """Sum complete merged per-fit records, including earlier invocations.
+
+    Call after de-duplication by (seed, model, dst). A resume may execute
+    only a subset of seeds, so invocation-local prediction arrays cannot
+    define the pooled matrix published alongside the merged run table.
+    """
+    out = {}
+    for (dst, model), group in df.groupby(["dst", "model"], sort=True):
+        counts = group[["tn", "fp", "fn", "tp"]].astype(np.int64).sum()
+        out[(dst, model)] = np.array(
+            [[counts["tn"], counts["fp"]], [counts["fn"], counts["tp"]]],
+            dtype=np.int64)
+    return out
+
+
 # ─────────────────────────────────────────────────────────────
 def main():
     ap = argparse.ArgumentParser(description=__doc__,
@@ -567,7 +582,6 @@ def main():
         print(f"[ckpt] {len(rows)} run gia' completati")
 
     t0 = time.time()
-    confusions = {}
     balance_info_per_seed = {}
     for seed in seeds:
         model_names = list(build_models([1, 1], seed, args.models, not args.no_multilayer))
@@ -620,9 +634,6 @@ def main():
             with ckpt.open("a", encoding="utf-8", newline="\n") as fh:
                 fh.write(json.dumps({k: (float(v) if isinstance(v, (np.floating,)) else v)
                                      for k, v in m.items()}) + "\n")
-            confusions.setdefault((m["dst"], m["model"]), []).append(
-                confusion_frame(yte, pred, labels=[0, 1],
-                                class_names=["normal", "attack"]).values)
             print(f"  seed={seed} dst={m['dst']:<4} {m['model']:<18} "
                   f"F1={m['f1']:.4f} bal_acc={m['balanced_accuracy']:.4f} "
                   f"PR-AUC={m['pr_auc']:.4f} n_train={m['n_train']} "
@@ -646,8 +657,7 @@ def main():
     summ = aggregate(df.to_dict("records"), by=("dst", "model"))
     summ.to_csv(RESULTS_DIR / f"joint_training_summary{suffix}.csv", index=False, lineterminator="\n")
 
-    for (dst, model), mats in confusions.items():
-        cm = np.sum(mats, axis=0)
+    for (dst, model), cm in pooled_confusions_from_runs(df).items():
         pd.DataFrame(cm, index=["normal", "attack"], columns=["normal", "attack"]).to_csv(
             RESULTS_DIR / f"confusion_joint{suffix}_{dst}_"
             f"{model.replace('(','_').replace(')','').replace(',','_')}.csv", lineterminator="\n")

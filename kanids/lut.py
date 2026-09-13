@@ -26,23 +26,22 @@ int16 interpolati linearmente dall'altra. Il rapporto che ne esce e'
 attribuibile alla sola rappresentazione, che e' cio' che il relatore ha
 chiesto di misurare.
 
-Come si sceglie L, e perche' non "quanti ne bastano per accordarsi"
-===================================================================
-La tentazione e' prendere il piu' piccolo L che dia 200/200 di accordo sui
-vettori di verifica. Sarebbe una misura debole: i logit di quei 200 flussi
-sono grandi (mediana 5,9 milioni di unita' intere) e restano dello stesso
-segno anche con errori enormi — con L=9, che sbaglia di oltre un milione,
-l'accordo e' ancora 200/200.
+Selection and scope of the bound
+===============================
+The exporter selects L only from explicitly identified training-calibration
+rows. The fixed grid and selection evidence are frozen in
+results/lut_selection_protocol.json before any post-freeze test evaluation.
+Historical RC3 L=257 was selected using test-vector margins; its results
+remain historical and are not silently reclassified as train-only selection.
 
-Il criterio qui e' un limite, non un campione. Per ogni edge si calcola la
-deviazione massima **su tutti gli 8.193 ingressi Q12 possibili** — non su un
-campione, su tutti — e si sommano: si ottiene un limite superiore su quanto
-la LUT puo' spostare il logit, per QUALUNQUE ingresso. Quando quel limite e'
-piu' piccolo del margine minimo osservato, nessun vettore di verifica puo'
-cambiare decisione, e non perche' non l'abbia fatto: perche' non puo'.
-
-`results/lut_vs_coeff.csv` riporta la curva completa (byte, limite, margini a
-rischio) per ogni L, cosi' la scelta si legge invece di doverla credere.
+For each numeric edge, exhaustive enumeration of all 8,193 admissible Q12
+inputs gives its maximum absolute representation error. The sum B bounds
+the logit difference provided categorical terms are identical and the
+specified integer arithmetic has no overflow or undefined behavior.
+Decision agreement follows only for inputs with abs(z_coeff)>B. This is
+neither a classification-correctness guarantee nor agreement for all future
+flows. Calibration coverage is reported even when the largest fixed
+candidate cannot certify every calibration row.
 """
 from __future__ import annotations
 
@@ -124,11 +123,13 @@ def logit(lut: dict, m: dict, xq, cat) -> np.ndarray:
 
 
 def deviazione_esaustiva(lut: dict, m: dict) -> np.ndarray:
-    """Per ogni edge, la deviazione massima su TUTTI gli ingressi possibili.
+    """Per ogni edge, la deviazione massima su tutti gli ingressi numerici Q12 ammissibili.
 
     Sono 8.193 valori di Q12 per edge: si enumerano. Non e' una stima su un
     campione — e' il massimo, e la loro somma limita superiormente lo
-    scostamento del logit per qualunque ingresso.
+    scostamento del logit quando gli edge categorici coincidono e
+    l'aritmetica intera specificata non va in overflow. La decisione e'
+    certificata soltanto per ingressi con abs(z_coeff) > somma(deviazioni).
     """
     xq = np.arange(-4096, 4097, dtype=np.int64)
     return np.array([int(np.abs(contributo_lut(lut, i, xq)
@@ -160,15 +161,11 @@ def _riga(valori, per_riga=16) -> str:
 
 
 def header(lut: dict, m: dict, intestazione: str) -> str:
-    """Il file kan14_lut_int16.h, generato dai soli numeri dell'header
-    committato della KAN a coefficienti.
+    """Emit the sampled frozen model, without test-dependent selection or labels.
 
-    Non emette predizioni attese proprie: usa quelle della versione a
-    coefficienti (`KTV_EXPECTED`). Non e' pigrizia, e' l'affermazione stessa
-    che questa rappresentazione va verificata contro — se un giorno la LUT
-    decidesse diversamente su uno dei 200 vettori, l'esportatore si
-    fermerebbe e gli host check fallirebbero, invece di emettere in silenzio
-    una nuova verita' su misura."""
+    Golden coefficient predictions remain separate reference evidence.
+    Their agreement is evaluated after freeze and never changes selected L.
+    """
     r = [intestazione, "#pragma once", "#include <stdint.h>",
          "#ifdef __AVR__", "#include <avr/pgmspace.h>", "#else",
          "#ifndef PROGMEM", "#define PROGMEM", "#endif", "#endif", "",

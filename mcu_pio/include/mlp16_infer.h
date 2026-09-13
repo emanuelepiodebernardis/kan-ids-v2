@@ -67,7 +67,9 @@ static inline int32_t mlp16_logit(const int16_t xq[MLP16_NUM],
     /* ---- ingressi categorici: una riga per feature, nessun one-hot ---- */
     for (uint8_t j = 0; j < MLP16_NCAT; j++) {
       const uint8_t row = (uint8_t)(MLP16_CAT_OFF[j] + cat[j]);
-      acc += (int32_t)MLP16_RD8(MLP16_CAT[row][h]) << MLP16_QX;
+      /* Multiplication is defined for negative coefficients; signed left
+       * shift would be undefined in the C++11 target builds. */
+      acc += (int32_t)MLP16_RD8(MLP16_CAT[row][h]) * (int32_t)(1L << MLP16_QX);
     }
 
     /* ---- ReLU: esatta sugli interi, perche' la scala s1[h] e' positiva ---- */

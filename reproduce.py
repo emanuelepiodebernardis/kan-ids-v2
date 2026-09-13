@@ -10,6 +10,9 @@ Da un clone pulito:
 Ogni stage e' idempotente, scrive in results/ e non dipende da file
 temporanei fuori dal repository: gli artefatti intermedi vivono in
 artifacts/, ricostruibili e cancellabili con --stage clean.
+Eccezione: 'lut' rigioca gli input congelati in una nuova directory di
+artifacts/lut_reproduction/ (oppure --lut-output-dir), senza sovrascrivere
+header o risultati misurati. Non riaddestra il modello o il preprocessing.
 
 I seed sono fissati in kanids/config.py (SEEDS = 42, 43, 44) e stampati
 all'inizio di ogni run insieme alle versioni delle librerie, cosi' il log
@@ -44,6 +47,23 @@ from kanids import ARTIFACTS_DIR, RESULTS_DIR, SEEDS, describe_protocol  # noqa:
 from kanids.cache import PIPELINE_VERSION, clean as clean_artifacts  # noqa: E402
 
 PY = sys.executable
+LUT_FROZEN_HEADER = Path("mcu_pio/include/kan14_lut_int16.h")
+LUT_OUTPUT_DIR = Path("artifacts/lut_reproduction") / f"run_{time.time_ns()}"
+
+
+def lut_commands(output_dir: Path) -> list[list[str]]:
+    """Replay train-only selection, then evaluate the resulting frozen protocol."""
+    exporter = "scripts/export_kan14_lut_c.py"
+    return [
+        [PY, exporter, "select", "--calibration", "artifacts/finalization/train_calibration.npz",
+         "--metadata", "artifacts/finalization/train_calibration.json",
+         "--model", "mcu_pio/include/kan14_coeff_int8.h",
+         "--header", str(output_dir / LUT_FROZEN_HEADER.name),
+         "--output-dir", str(output_dir)],
+        [PY, exporter, "evaluate", "--protocol", str(output_dir / "lut_selection_protocol.json"),
+         "--test-data", "artifacts/finalization/test_evaluation.npz",
+         "--output-dir", str(output_dir)],
+    ]
 
 STAGES = {
     "smoke": (
@@ -127,11 +147,10 @@ STAGES = {
          [PY, "scripts/export_mlp_int_c.py"]],
     ),
     "lut": (
-        "campiona la KAN single-layer deployata in una LUT int16 e misura il "
-        "compromesso rispetto ai coefficienti (byte, limite di scostamento del "
-        "logit, decisioni). Sta PRIMA di 'footprint' perche' i suoi byte si "
-        "leggono dall'header prodotto qui",
-        [[PY, "scripts/export_kan14_lut_c.py"]],
+        "rigioca select sul training congelato, verifica l'header contro quello "
+        "misurato, poi evaluate sul test. Scrive una nuova directory; 'footprint' "
+        "continua a leggere l'header congelato, che non viene sovrascritto",
+        lut_commands(LUT_OUTPUT_DIR),
     ),
     "footprint": (
         "ingombro dei parametri di tutti i modelli, regola di conteggio unica",
@@ -289,6 +308,8 @@ def main():
                     help="uno stage, 'all', o 'clean'. --list per l'elenco")
     ap.add_argument("--list", action="store_true", help="elenca gli stage")
     ap.add_argument("--dry-run", action="store_true", help="stampa i comandi senza eseguirli")
+    ap.add_argument("--lut-output-dir", type=Path, default=LUT_OUTPUT_DIR,
+                    help="directory nuova per la riproduzione LUT; non riusare risultati congelati")
     args = ap.parse_args()
 
     if args.list:
@@ -324,6 +345,13 @@ def main():
     failed = []
     for s in stages:
         desc, cmds = STAGES[s]
+        if s == "lut":
+            cmds = lut_commands(args.lut_output_dir)
+            print(f"LUT_REPRODUCTION_DIRECTORY: {REPO / args.lut_output_dir}")
+            if not args.dry_run and (REPO / args.lut_output_dir).exists():
+                failed.append((s, "LUT output directory already exists; choose a new directory"))
+                print("!! LUT output already exists; preserving it", file=sys.stderr)
+                continue
         print(f"\n{'─' * 74}\nSTAGE {s} — {desc}\n{'─' * 74}")
         for cmd in cmds:
             if args.dry_run:
@@ -332,6 +360,16 @@ def main():
             if run(cmd) != 0:
                 failed.append((s, " ".join(cmd)))
                 print(f"!! stage {s} fallito", file=sys.stderr)
+                if s == "lut":
+                    break  # Do not read test data after failed train selection.
+            elif s == "lut" and cmd[2] == "select":
+                replay_header = REPO / args.lut_output_dir / LUT_FROZEN_HEADER.name
+                if (not replay_header.is_file() or
+                        replay_header.read_bytes() != (REPO / LUT_FROZEN_HEADER).read_bytes()):
+                    failed.append((s, "LUT replay header differs from the frozen measured header"))
+                    print("!! LUT header mismatch; test evaluation skipped", file=sys.stderr)
+                    break
+                print("LUT_FROZEN_HEADER_BYTE_MATCH: PASS")
 
     print(f"\n{'=' * 74}\ncompletato in {time.time() - t0:.0f}s")
     if failed:
@@ -339,7 +377,10 @@ def main():
         for s, c in failed:
             print(f"  {s}: {c}")
         sys.exit(1)
-    print(f"risultati in {RESULTS_DIR}")
+    if args.stage == "lut":
+        print(f"risultati LUT in {REPO / args.lut_output_dir}")
+    else:
+        print(f"risultati in {RESULTS_DIR}")
 
 
 if __name__ == "__main__":

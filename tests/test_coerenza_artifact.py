@@ -133,6 +133,7 @@ NOMI_README = {
 # parte dai contatori grezzi non stanno sulla stessa scala.
 INGRESSI_README = {
     "preprocessed": "feature preprocessate fuori dalla scheda (Q12 + codici categorici)",
+    "preprocessed Q7": "feature preprocessate fuori dalla scheda (14 valori Q7: numeriche e codici categorici)",
     "raw counters": "contatori grezzi: feature engineering a bordo, dentro i byte dichiarati",
     "z-scored": "feature z-scored fuori dalla scheda (10 numeriche, niente categoriche)",
 }
@@ -642,7 +643,8 @@ def test_i_conteggi_di_firmware_e_environment_sono_quelli_veri():
               6: "sei", 7: "sette", 8: "otto", 9: "nove", 10: "dieci",
               11: "undici", 12: "dodici", 13: "tredici", 14: "quattordici",
               15: "quindici", 16: "sedici", 17: "diciassette", 18: "diciotto",
-              19: "diciannove", 20: "venti"}
+              19: "diciannove", 20: "venti", 21: "ventuno",
+              22: "ventidue", 23: "ventitre"}
     # La tabella si e' fermata a dodici finche' gli environment di energia
     # erano undici: al tredicesimo il confronto diventava contro "?" e
     # qualunque parola risultava sbagliata, compresa quella giusta. Un

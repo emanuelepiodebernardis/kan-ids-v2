@@ -29,9 +29,10 @@
  * confronto che serve a contarli.
  *
  * Limiti dell'aritmetica, con i valori veri di questo header:
- *   |t1 - t0| <= 65534, frac <= 2^KLUT_SH - 1 = 31   -> prodotto <= 2.0e6
- *   il risultato riscalato <= 65534 << 7 = 8.4e6      -> int32 (2.1e9) largo
- * tests/test_lut.py ricava questi limiti dall'header invece di crederci.
+ *   frac is in [0, 2^KLUT_SH], including the right endpoint.
+ *   Bounds depend on the selected L and per-edge scale; validate the
+ *   generated header and integer intermediates before deployment.
+ *   Signed negative values are scaled by multiplication, not left shift.
  */
 #pragma once
 #include <stdint.h>
@@ -59,7 +60,8 @@ static inline int32_t kan14_lut_logit(const int16_t xq[10], const uint8_t cat[4]
     int32_t t0 = KLUT_RD16(KLUT_TAB[i][seg]);
     int32_t t1 = KLUT_RD16(KLUT_TAB[i][seg + 1]);
     uint8_t s = KLUT_RDU8(KLUT_SHIFT[i]);
-    z += (t0 << s) + (((((int32_t)(t1 - t0)) * frac) >> KLUT_SH) << s);
+    const int32_t scale = (int32_t)1 << s;
+    z += t0 * scale + ((((t1 - t0) * frac) >> KLUT_SH) * scale);
   }
   for (uint8_t j = 0; j < KLUT_NCAT; j++) {
     int32_t cv = KLUT_RD8(KLUT_CAT[KLUT_CAT_OFF[j] + cat[j]]);
