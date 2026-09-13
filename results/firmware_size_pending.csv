@@ -1,0 +1,21 @@
+environment,scheda,categoria,stato_build,stato_energia,motivo
+megaatmega2560_common_coeff,Mega 2560,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+megaatmega2560_common_energy_coeff,Mega 2560,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+megaatmega2560_common_lut14,Mega 2560,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+megaatmega2560_common_energy_lut14,Mega 2560,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+megaatmega2560_common_mlcoeff,Mega 2560,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+megaatmega2560_common_energy_mlcoeff,Mega 2560,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+megaatmega2560_common_mlp,Mega 2560,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+megaatmega2560_common_energy_mlp,Mega 2560,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+megaatmega2560_common_dt5,Mega 2560,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+megaatmega2560_common_energy_dt5,Mega 2560,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+esp32c3_common_coeff,ESP32-C3,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+esp32c3_common_energy_coeff,ESP32-C3,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+esp32c3_common_lut14,ESP32-C3,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+esp32c3_common_energy_lut14,ESP32-C3,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+esp32c3_common_mlcoeff,ESP32-C3,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+esp32c3_common_energy_mlcoeff,ESP32-C3,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+esp32c3_common_mlp,ESP32-C3,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+esp32c3_common_energy_mlp,ESP32-C3,energia,non_compilato,non_misurata,nessuna build verificata per questo environment
+esp32c3_common_dt5,ESP32-C3,latenza,non_compilato,non_applicabile,nessuna build verificata per questo environment
+esp32c3_common_energy_dt5,ESP32-C3,energia,non_compilato,non_misurata,nessuna build verificata per questo environment

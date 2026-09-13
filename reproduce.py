@@ -10,9 +10,17 @@ Da un clone pulito:
 Ogni stage e' idempotente, scrive in results/ e non dipende da file
 temporanei fuori dal repository: gli artefatti intermedi vivono in
 artifacts/, ricostruibili e cancellabili con --stage clean.
-Eccezione: 'lut' rigioca gli input congelati in una nuova directory di
-artifacts/lut_reproduction/ (oppure --lut-output-dir), senza sovrascrivere
-header o risultati misurati. Non riaddestra il modello o il preprocessing.
+Eccezione: 'lut' non rigioca artefatti gia' pronti, li RICOSTRUISCE dal CSV
+di TON_IoT in cinque fasi legate — prepara il solo training, seleziona la LUT
+e scrive il protocollo, confronta l'header rigenerato con quello misurato,
+prepara il test vincolato a quel protocollo, valuta — e scrive tutto in una
+directory nuova sotto artifacts/lut_reproduction/ (oppure --lut-output-dir).
+Serve quindi il dataset: percorso predefinito del progetto, oppure --csv. Non
+sovrascrive header, artefatti consegnati o risultati misurati, e ricostruisce
+il preprocessing senza riaddestrare i classificatori. Si ferma al primo
+errore di preparazione, selezione o confronto, senza valutare il test.
+
+    python reproduce.py --stage lut --csv data/train_test_network.csv
 
 I seed sono fissati in kanids/config.py (SEEDS = 42, 43, 44) e stampati
 all'inizio di ogni run insieme alle versioni delle librerie, cosi' il log
@@ -45,24 +53,66 @@ sys.path.insert(0, str(REPO))
 
 from kanids import ARTIFACTS_DIR, RESULTS_DIR, SEEDS, describe_protocol  # noqa: E402
 from kanids.cache import PIPELINE_VERSION, clean as clean_artifacts  # noqa: E402
+from kanids.datasets import ton_iot_path                            # noqa: E402
+
+
+def sha256_file(percorso: Path) -> str:
+    """SHA-256 del CSV sorgente: identifica i dati su cui la catena ha girato."""
+    import hashlib
+    h = hashlib.sha256()
+    with percorso.open("rb") as f:
+        for blocco in iter(lambda: f.read(1 << 20), b""):
+            h.update(blocco)
+    return h.hexdigest()
 
 PY = sys.executable
 LUT_FROZEN_HEADER = Path("mcu_pio/include/kan14_lut_int16.h")
 LUT_OUTPUT_DIR = Path("artifacts/lut_reproduction") / f"run_{time.time_ns()}"
 
 
-def lut_commands(output_dir: Path) -> list[list[str]]:
-    """Replay train-only selection, then evaluate the resulting frozen protocol."""
+def lut_commands(output_dir: Path, csv: Path) -> list[tuple[str, list[str]]]:
+    """Le cinque fasi del replay LUT, nell'ordine che le lega l'una all'altra.
+
+    1. preparazione dei SOLI ingressi di training, dal CSV di TON_IoT;
+    2. selezione della LUT su quella calibrazione, e scrittura del protocollo;
+    3. confronto byte per byte dell'header rigenerato con quello misurato
+       (lo fa il chiamante, subito dopo la fase 2: se differisce ci si ferma);
+    4. preparazione degli ingressi di test, vincolata a quel protocollo;
+    5. valutazione sul test.
+
+    L'ordine non e' una convenzione di questo file: lo impone
+    `prepare_finalization_data.py`, che in fase `evaluation` rifiuta di
+    partire senza un protocollo gia' scritto e ne verifica gli hash contro la
+    calibrazione. Invertire due fasi non produce un risultato sbagliato,
+    produce un errore.
+
+    Tutto, calibrazione compresa, viene scritto DENTRO `output_dir`, che e'
+    nuova a ogni esecuzione. Cosi' la ricostruzione non tocca
+    `artifacts/finalization/`: un nuovo run ha una provenienza nuova, e gli
+    artefatti consegnati restano quelli consegnati. Il preprocessing viene
+    ricostruito, i classificatori non vengono riaddestrati.
+    """
     exporter = "scripts/export_kan14_lut_c.py"
+    prep = "scripts/prepare_finalization_data.py"
+    dati = output_dir / "finalization"
+    protocollo = output_dir / "lut_selection_protocol.json"
     return [
-        [PY, exporter, "select", "--calibration", "artifacts/finalization/train_calibration.npz",
-         "--metadata", "artifacts/finalization/train_calibration.json",
-         "--model", "mcu_pio/include/kan14_coeff_int8.h",
-         "--header", str(output_dir / LUT_FROZEN_HEADER.name),
-         "--output-dir", str(output_dir)],
-        [PY, exporter, "evaluate", "--protocol", str(output_dir / "lut_selection_protocol.json"),
-         "--test-data", "artifacts/finalization/test_evaluation.npz",
-         "--output-dir", str(output_dir)],
+        ("prepara-train",
+         [PY, prep, "train", "--csv", str(csv), "--out", str(dati)]),
+        ("select",
+         [PY, exporter, "select",
+          "--calibration", str(dati / "train_calibration.npz"),
+          "--metadata", str(dati / "train_calibration.json"),
+          "--model", "mcu_pio/include/kan14_coeff_int8.h",
+          "--header", str(output_dir / LUT_FROZEN_HEADER.name),
+          "--output-dir", str(output_dir)]),
+        ("prepara-test",
+         [PY, prep, "evaluation", "--csv", str(csv), "--out", str(dati),
+          "--lut-protocol", str(protocollo)]),
+        ("evaluate",
+         [PY, exporter, "evaluate", "--protocol", str(protocollo),
+          "--test-data", str(dati / "test_evaluation.npz"),
+          "--output-dir", str(output_dir)]),
     ]
 
 STAGES = {
@@ -147,10 +197,14 @@ STAGES = {
          [PY, "scripts/export_mlp_int_c.py"]],
     ),
     "lut": (
-        "rigioca select sul training congelato, verifica l'header contro quello "
-        "misurato, poi evaluate sul test. Scrive una nuova directory; 'footprint' "
-        "continua a leggere l'header congelato, che non viene sovrascritto",
-        lut_commands(LUT_OUTPUT_DIR),
+        "cinque fasi legate: prepara il solo training dal CSV, seleziona la LUT "
+        "e scrive il protocollo, confronta l'header rigenerato con quello "
+        "misurato, prepara il test vincolandolo a quel protocollo, valuta. "
+        "Scrive tutto in una directory nuova: 'footprint' continua a leggere "
+        "l'header congelato, che non viene mai sovrascritto. Ricostruisce il "
+        "preprocessing, non riaddestra i classificatori. Serve il CSV di "
+        "TON_IoT: percorso predefinito del progetto, oppure --csv",
+        [],   # i comandi dipendono da --lut-output-dir e --csv: li costruisce main()
     ),
     "footprint": (
         "ingombro dei parametri di tutti i modelli, regola di conteggio unica",
@@ -308,6 +362,10 @@ def main():
                     help="uno stage, 'all', o 'clean'. --list per l'elenco")
     ap.add_argument("--list", action="store_true", help="elenca gli stage")
     ap.add_argument("--dry-run", action="store_true", help="stampa i comandi senza eseguirli")
+    ap.add_argument("--csv", type=Path, default=None,
+                    help="CSV di TON_IoT per lo stage 'lut'. Senza questa "
+                         "opzione si usa il percorso predefinito del progetto "
+                         "(KANIDS_DATA o data/train_test_network.csv)")
     ap.add_argument("--lut-output-dir", type=Path, default=LUT_OUTPUT_DIR,
                     help="directory nuova per la riproduzione LUT; non riusare risultati congelati")
     args = ap.parse_args()
@@ -345,15 +403,35 @@ def main():
     failed = []
     for s in stages:
         desc, cmds = STAGES[s]
+        etichette = None
         if s == "lut":
-            cmds = lut_commands(args.lut_output_dir)
+            # `ton_iot_path` solleva se il file non c'e', e il suo messaggio
+            # dice gia' dove metterlo: lo si riporta come fallimento dello
+            # stage invece che come traccia di eccezione, perche' un
+            # prerequisito mancante non e' un errore di programmazione.
+            try:
+                csv = Path(args.csv) if args.csv else ton_iot_path()
+            except FileNotFoundError as e:
+                failed.append((s, str(e)))
+                print(f"!! {e}", file=sys.stderr)
+                continue
+            if not csv.is_file():
+                failed.append((s, f"CSV di TON_IoT non trovato: {csv}"))
+                print(f"!! CSV di TON_IoT non trovato: {csv}", file=sys.stderr)
+                continue
+            passi = lut_commands(args.lut_output_dir, csv)
+            etichette = [e for e, _ in passi]
+            cmds = [c for _, c in passi]
             print(f"LUT_REPRODUCTION_DIRECTORY: {REPO / args.lut_output_dir}")
+            print(f"LUT_SOURCE_CSV: {csv}")
+            if not args.dry_run:
+                print(f"LUT_SOURCE_CSV_SHA256: {sha256_file(csv)}")
             if not args.dry_run and (REPO / args.lut_output_dir).exists():
                 failed.append((s, "LUT output directory already exists; choose a new directory"))
                 print("!! LUT output already exists; preserving it", file=sys.stderr)
                 continue
         print(f"\n{'─' * 74}\nSTAGE {s} — {desc}\n{'─' * 74}")
-        for cmd in cmds:
+        for i, cmd in enumerate(cmds):
             if args.dry_run:
                 print(f"$ {' '.join(cmd)}")
                 continue
@@ -361,8 +439,11 @@ def main():
                 failed.append((s, " ".join(cmd)))
                 print(f"!! stage {s} fallito", file=sys.stderr)
                 if s == "lut":
-                    break  # Do not read test data after failed train selection.
-            elif s == "lut" and cmd[2] == "select":
+                    # Ci si ferma qui: nessuna fase successiva, e in
+                    # particolare nessuna lettura dei dati di test dopo una
+                    # preparazione, una selezione o un confronto falliti.
+                    break
+            elif s == "lut" and etichette[i] == "select":
                 replay_header = REPO / args.lut_output_dir / LUT_FROZEN_HEADER.name
                 if (not replay_header.is_file() or
                         replay_header.read_bytes() != (REPO / LUT_FROZEN_HEADER).read_bytes()):

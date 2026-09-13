@@ -420,10 +420,28 @@ def main():
     software_status += (f"{len(host_summary['checks'])} integrazioni host superate. "
                         if host_summary.get('all_passed') else "Integrazioni host non confermate. ")
     software_status += "Log in evidence/finalization e artifacts/finalization."
+    # Quattro voci, non tre: la riga unica "Misure fisiche" metteva insieme la
+    # latenza, che e' misurata su entrambe le schede, con energia e peak RAM,
+    # che non lo sono. Una tabella di stato che dichiara da fare qualcosa di
+    # fatto dice al lettore di non cercare, ed e' il difetto che il test su
+    # questo file esiste per impedire. La dicitura NOT_HARDWARE_MEASURED resta,
+    # ma datata e circoscritta a cio' a cui si riferiva.
     entries = [
-        ("Risultati dell'autore", "CV, transfer, CIC, architettura e linker sizes RC3: salvati; nessun nuovo training."),
+        ("Risultati ML salvati",
+         "CV, transfer, CIC, architettura e linker sizes RC3: salvati; "
+         "nessun nuovo training in questa revisione."),
         ("Verifiche software", software_status),
-        ("Misure fisiche", "NOT_HARDWARE_MEASURED. Strumenti, target build, latenza, energia e peak RAM ancora da completare."),
+        ("Latenza", "Misurata: 500 flussi comuni su Mega 2560 ed ESP32-C3, "
+                    "cinque passate separate da reset, piu' l'esperimento "
+                    "fattoriale a otto condizioni su ESP32-C3. Registrata "
+                    "negli archivi hardware con i log seriali."),
+        ("Energia e peak RAM",
+         "Non misurate. Servono strumento e build target; le dimensioni del "
+         "linker dei venti environment aggiunti con la coorte comune "
+         "attendono una build verificata (results/firmware_size_pending.csv). "
+         "La dicitura generale NOT_HARDWARE_MEASURED dell'8 settembre 2026 "
+         "resta come stato storico di quella data, non come stato attuale "
+         "della latenza."),
     ]
     for name, state in entries:
         rows.append([P(name, "cell"), P(state, "cell")])

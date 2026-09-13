@@ -43,11 +43,50 @@ e del batch deve essere registrata secondo
 
 ## Esportazione e verifica senza flash
 
+La rigenerazione scrive in una directory separata e **non** sovrascrive nulla:
+
 ```bash
-python scripts/export_hardware_cohort.py --source-csv /path/to/train_test_network.csv
-python scripts/check_hardware_cohort_host.py
+python scripts/export_hardware_cohort.py \
+  --source-csv /percorso/di/train_test_network.csv \
+  --out artifacts/hardware_cohort_replay/include \
+  --report artifacts/hardware_cohort_replay/hardware_cohort_export.json
+python scripts/check_hardware_cohort_host.py \
+  --export-report artifacts/hardware_cohort_replay/hardware_cohort_export.json \
+  --out artifacts/hardware_cohort_replay/host_checks
 python -m pytest -q tests/test_hardware_cohort_export_gate.py
 ```
+
+I due reindirizzamenti non sono facoltativi. Senza `--out`, l'esportazione
+scrive in `mcu_pio/include/hardware_cohort/`, cioè sopra i cinque header
+versionati che sono quelli usati per i controlli host già eseguiti; senza
+`--report` scrive sopra `artifacts/finalization/hardware_cohort_export.json`,
+che è uno dei quattordici file consegnati con il pacchetto di finalizzazione.
+Una rigenerazione con i valori predefiniti cancellerebbe quindi il termine di
+paragone insieme al suo referto, e non resterebbe modo di accorgersi di una
+differenza.
+
+Il confronto degli header non va fatto a mano: lo fa
+`check_hardware_cohort_host.py`, che legge il referto del replay e verifica
+ogni hash in `generated_header_sha256` contro il file omonimo in
+`mcu_pio/include/hardware_cohort/`. Se anche un solo byte differisce si ferma
+con `Generated cohort header changed after export` prima di compilare
+qualunque cosa. Il replay ha quindi successo solo se riproduce esattamente gli
+header versionati.
+
+Serve il CSV originale, identificato dallo SHA256 registrato in
+`artifacts/finalization/hardware_cohort.json`: l'esportazione rifiuta un
+sorgente diverso. Questo percorso è indipendente dal replay LUT di
+`reproduce.py --stage lut`, che non legge né produce
+`hardware_cohort_export.json`.
+
+Serve anche un compilatore C++ per l'host, e qui c'è un dettaglio pratico:
+entrambi gli script lo cercano con `shutil.which`, cioè **solo nel PATH**. Il
+resto della suite usa `kanids/toolchain.py`, che guarda anche `$CXX` e i
+pacchetti PlatformIO, ed è il motivo per cui su Windows i test compilano
+mentre questi due script si fermano dicendo che un compilatore non c'è.
+All'esportazione lo si indica aggiungendo `--compiler "$CXX"` al comando qui
+sopra. `check_hardware_cohort_host.py` non ha l'opzione corrispondente: se
+`g++` non è nel PATH, va messo nel PATH per quella sola invocazione.
 
 Prima di generare il riferimento C, l'esportazione confronta con il manifest
 di accompagnamento gli SHA256 di NPZ, raw ID ordinati, CSV originale,

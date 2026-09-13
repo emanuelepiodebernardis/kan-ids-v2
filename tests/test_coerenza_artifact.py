@@ -20,6 +20,7 @@ a mano, il test cade prima che il numero finisca nell'articolo.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -614,16 +615,47 @@ def test_il_report_non_dichiara_come_da_fare_cose_gia_fatte():
     su CIC erano gia' otto file in results/. Una tabella di stato sbagliata
     e' peggio di nessuna tabella: dice al lettore di non cercare."""
     testo = (REPO / "scripts" / "make_report.py").read_text(encoding="utf-8")
-    i = testo.index("Benchmark fisici")
-    blocco = testo[max(0, i - 3000):i + 3000]
+    # L'ancora non e' piu' la stringa "Benchmark fisici": la tabella di stato
+    # e' stata riscritta e quella voce non esiste. Si ancora invece alla
+    # struttura, cioe' alla lista `entries`, e si controllano gli stati che
+    # contiene. Cambiare l'ancora di un controllo e' il modo tipico di
+    # disattivarlo per sbaglio, quindi qui le asserzioni sul merito non si
+    # sono indebolite: sono aumentate.
+    assert "entries = [" in testo, (
+        "la tabella di stato del report non ha piu' una lista `entries`: "
+        "questo controllo non sa piu' dove guardare")
+    i = testo.index("entries = [")
+    blocco = testo[i:testo.index("]", i) + 1]
+
     assert "non iniziato" not in blocco, (
         "la tabella di stato del report dichiara qualcosa come non iniziato: "
         "verificare che sia ancora vero")
+
+    #: Le quattro categorie che il report deve tenere separate. Metterle in una
+    #: riga sola aveva prodotto una tabella che dichiarava da fare la latenza,
+    #: che e' misurata su entrambe le schede.
+    for voce in ("Risultati ML salvati", "Verifiche software", "Latenza",
+                 "Energia e peak RAM"):
+        assert voce in blocco, (
+            f"la tabella di stato non distingue «{voce}»: le misure "
+            f"disponibili e quelle mancanti finiscono nella stessa riga")
+
+    i_lat = blocco.index("Latenza")
+    i_mancanti = blocco.index("Energia e peak RAM")
+    assert "Misurata" in blocco[i_lat:i_mancanti], (
+        "la latenza non e' dichiarata misurata, ma lo e'")
+    assert "Non misurate" in blocco[i_mancanti:], (
+        "energia e peak RAM non sono dichiarate mancanti")
+    if "NOT_HARDWARE_MEASURED" in blocco:
+        assert re.search(r"NOT_HARDWARE_MEASURED[^\"]{0,200}?\d{4}", blocco), (
+            "NOT_HARDWARE_MEASURED compare senza una data: come stato "
+            "generale non e' piu' vero, come stato storico va datato")
+
     fatti = ("results/confusion_joint_ratio5_ridotto_cat_cic_KAN_cat_1L.csv",
              "results/mlp16_export.csv", "results/arch_footprint.csv")
     esistono = [f for f in fatti if (REPO / f).exists()]
     if esistono:
-        assert "completat" in blocco, (
+        assert "salvati" in blocco or "completat" in blocco, (
             "gli artefatti esistono ma la tabella di stato non lo dice")
 
 

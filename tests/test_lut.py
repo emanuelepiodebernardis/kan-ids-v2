@@ -47,34 +47,57 @@ serve_header = pytest.mark.skipif(
     not HEADER.exists(),
     reason="kan14_lut_int16.h non generato: python scripts/export_kan14_lut_c.py")
 
+#: Le verifiche di integrazione leggono la calibrazione consegnata col
+#: pacchetto. Da un clone pulito, e dopo `--stage clean`, quella cartella non
+#: c'e': senza questa guardia il test fallisce per un ingresso mancante invece
+#: di dichiarare il prerequisito, e `--stage all`, che comincia dai test, si
+#: ferma prima ancora di poterlo produrre.
+CALIBRAZIONE = REPO / "artifacts" / "finalization" / "train_calibration.npz"
+serve_calibrazione = pytest.mark.skipif(
+    not CALIBRAZIONE.exists(),
+    reason="artifacts/finalization/ assente: e' un prerequisito, non un fallimento. Lo producono le fasi di preparazione di `python reproduce.py --stage lut` (oppure, a mano, `python scripts/prepare_finalization_data.py train --csv <TON.csv> --out artifacts/finalization`), e serve il CSV di TON_IoT")
 
-def _ubsan_disponibile() -> bool:
-    """Se il runtime del sanitizzatore c'e' davvero, non solo l'opzione.
 
-    `-fsanitize=undefined` e' accettato dal driver anche quando `libubsan`
-    manca: l'errore arriva dal linker, come `cannot find -lubsan`. w64devkit,
-    che e' il g++ usato su Windows in questo progetto, non la include. Senza
-    questa distinzione il test fallisce dove dovrebbe saltare, e un
-    fallimento che dipende dalla macchina invece che dal codice logora la
-    fiducia nella suite: si impara a ignorarlo, e il giorno in cui segnala
-    un problema vero nessuno lo guarda.
+def _diagnosi_ubsan() -> tuple[bool, str]:
+    """Se il sanitizzatore e' utilizzabile, e se non lo e' PERCHE'.
+
+    Tre esiti distinti, e tenerli distinti e' il punto. `-fsanitize=undefined`
+    e' accettato dal driver anche quando `libubsan` manca: l'errore arriva dal
+    linker. Ma un compilatore rotto, o un ambiente senza intestazioni, fallisce
+    allo stesso modo — e presentare quel caso come «libubsan assente» sarebbe
+    una diagnosi inventata, che nasconde un problema vero dietro uno skip
+    plausibile. Quindi si compila prima senza sanitizzatore: se gia' quello non
+    passa, il probe non dice nulla su libubsan e lo si dichiara.
     """
     if GPP is None:
-        return False
+        return False, motivo_assenza("g++")
     import tempfile
     with tempfile.TemporaryDirectory() as d:
-        c = Path(d) / "p.cpp"
+        c = Path(d) / "probe.cpp"
         c.write_text("int main(){return 0;}\n", encoding="utf-8", newline="\n")
-        r = subprocess.run([GPP, "-fsanitize=undefined", str(c),
-                            "-o", str(Path(d) / "p")],
-                           capture_output=True, text=True, env=ambiente("g++"))
-        return r.returncode == 0
+
+        base = subprocess.run([GPP, str(c), "-o", str(Path(d) / "base")],
+                              capture_output=True, text=True, env=ambiente("g++"))
+        if base.returncode != 0:
+            return False, ("il compilatore non produce un eseguibile nemmeno da "
+                           "un programma vuoto, quindi il probe non dice nulla "
+                           "su libubsan: " + base.stderr.strip()[-300:])
+
+        san = subprocess.run([GPP, "-fsanitize=undefined", str(c),
+                              "-o", str(Path(d) / "san")],
+                             capture_output=True, text=True, env=ambiente("g++"))
+        if san.returncode == 0:
+            return True, ""
+        err = san.stderr.strip()
+        if "ubsan" in err or "sanitiz" in err.lower():
+            return False, ("il compilatore accetta -fsanitize=undefined ma il "
+                           "runtime non e' installato: " + err[-300:])
+        return False, ("compilazione con -fsanitize=undefined fallita per una "
+                       "ragione che non riguarda libubsan: " + err[-300:])
 
 
-ubsan = pytest.mark.skipif(
-    not _ubsan_disponibile(),
-    reason="il g++ presente accetta -fsanitize=undefined ma libubsan non "
-           "e' installata: il controllo non e' eseguibile su questa macchina")
+_UBSAN_OK, _UBSAN_MOTIVO = _diagnosi_ubsan()
+ubsan = pytest.mark.skipif(not _UBSAN_OK, reason=_UBSAN_MOTIVO)
 
 
 def _L_dell_header() -> int:
@@ -163,6 +186,7 @@ def test_i_byte_dichiarati_sono_quelli_che_il_compilatore_mette_in_flash():
 
 
 @serve_header
+@serve_calibrazione
 def test_la_tabella_del_compromesso_e_riproducibile():
     """Recompute the current TRAIN sweep; keep RC3's test-informed table historical."""
     import scripts.export_kan14_lut_c as exp
@@ -289,11 +313,8 @@ def test_postfreeze_test_evidence_references_the_unchanged_selection():
     pd.testing.assert_frame_equal(table, pd.DataFrame([r['results']]), check_dtype=False)
 
 
-@gpp
-@ubsan
-@serve_header
-def test_lut_q12_grid_c_python_equality_and_undefined_behavior(tmp_path):
-    """Exercise every Q12 value for every edge under UBSan, including both endpoints."""
+def _sorgente_griglia(tmp_path):
+    """Il programma che percorre tutti gli 8.193 ingressi Q12 per ogni edge."""
     src = tmp_path / 'grid.cpp'
     src.write_text(
         '#include <cstdio>\n#include <cstdint>\n'
@@ -304,14 +325,26 @@ def test_lut_q12_grid_c_python_equality_and_undefined_behavior(tmp_path):
         '  for(int j=0;j<4;j++) c[j]=q%cards[j];\n'
         '  printf("%ld\\n",(long)kan14_lut_logit(x,c)); } }\n',
         encoding='utf-8', newline="\n")
+    return src
+
+
+@gpp
+@serve_header
+def test_lut_q12_grid_c_python_equality(tmp_path):
+    """Il kernel C e la simulazione numpy su tutta la griglia Q12.
+
+    Separato dal controllo UBSan di proposito: il confronto C/Python non ha
+    bisogno del sanitizzatore, e legarli faceva sparire anche questo dove
+    libubsan non e' installata. Un errore di compilazione del codice non deve
+    diventare uno skip.
+    """
+    src = _sorgente_griglia(tmp_path)
     exe = tmp_path / 'grid'
-    cmd = [GPP, '-O2', '-fsanitize=undefined', '-fno-sanitize-recover=undefined',
-           '-I', str(INCLUDE), str(src), '-o', str(exe)]
-    build = subprocess.run(cmd, capture_output=True, text=True, env=ambiente('g++'))
+    build = subprocess.run([GPP, '-O2', '-I', str(INCLUDE), str(src), '-o', str(exe)],
+                           capture_output=True, text=True, env=ambiente('g++'))
     assert build.returncode == 0, build.stderr
     run = subprocess.run([str(exe)], capture_output=True, text=True, timeout=120)
     assert run.returncode == 0, run.stderr
-    assert not run.stderr, run.stderr
     m = leggi_modello(SORGENTE)
     lu = klut.campiona(m, _L_dell_header())
     q = np.arange(8193, dtype=np.int64)
@@ -325,3 +358,19 @@ def test_lut_q12_grid_c_python_equality_and_undefined_behavior(tmp_path):
     maxima += [int(np.abs(m['CAT'][off:off+card] * m['CAT_MULT'][j] * 6).max())
                for j, (off, card) in enumerate(zip(m['CAT_OFF'], cards))]
     assert sum(maxima) < np.iinfo(np.int32).max
+
+
+@gpp
+@ubsan
+@serve_header
+def test_lut_q12_grid_undefined_behavior(tmp_path):
+    """La stessa griglia sotto UBSan: nessun comportamento indefinito."""
+    src = _sorgente_griglia(tmp_path)
+    exe = tmp_path / 'grid_ubsan'
+    cmd = [GPP, '-O2', '-fsanitize=undefined', '-fno-sanitize-recover=undefined',
+           '-I', str(INCLUDE), str(src), '-o', str(exe)]
+    build = subprocess.run(cmd, capture_output=True, text=True, env=ambiente('g++'))
+    assert build.returncode == 0, build.stderr
+    run = subprocess.run([str(exe)], capture_output=True, text=True, timeout=120)
+    assert run.returncode == 0, run.stderr
+    assert not run.stderr, run.stderr

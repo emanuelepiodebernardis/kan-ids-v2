@@ -321,7 +321,10 @@ def test_la_tabella_cross_domain_nel_readme_viene_dallartefatto():
     d = pd.read_csv(f)
     tb = d[d.exp == "ton->bot"]
     kan = "KAN(cat,1L)"
-    sez = _sezione("**What replaces the ranking claim")
+    # L'ancora non e' piu' il vecchio titolo, che il relatore ha chiesto di non
+    # ripristinare: si ancora al passaggio che riporta le differenze, e si
+    # continua a pretendere i numeri e il chiarimento sul significato del test.
+    sez = _sezione("**Descriptive pairwise differences, TON→BoT.**", quanto=2600)
 
     mancanti = []
     for _i, r in tb.iterrows():

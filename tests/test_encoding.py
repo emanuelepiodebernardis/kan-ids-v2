@@ -420,7 +420,11 @@ def test_il_difetto_di_to_csv_e_ancora_riproducibile():
 #: L'elenco e' corto di proposito: se un file nuovo merita di stare qui,
 #: qualcuno lo aggiunge e in quel momento lo sta decidendo.
 TXT_LEGITTIMI_IN_RADICE = frozenset({"requirements.txt",
-                                     "requirements-lock.txt"})
+                                     "requirements-lock.txt",
+                                     #: ambiente dei controlli di
+                                     #: finalizzazione, distinto da
+                                     #: quello storico di addestramento
+                                     "requirements-finalization.txt"})
 
 
 def test_il_repository_non_contiene_file_di_appoggio_della_sessione():

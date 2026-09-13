@@ -692,10 +692,20 @@ The result does not confirm the deployed architecture:
 | **deployed** | **16** | **8** | **0.99602** | **1,648** |
 
 The top two configurations have the same reported validation mean to six
-decimals. The 1-SE rule selects 32 / 6; 16 / 8 falls below its threshold.
-The project deliberately retains h = 16, g = 8 as a deployment preference,
-not as the architecture selected by that rule. Five seeds describe training
-variability on one fixed validation split; non-significance is not equivalence.
+decimals. The rule's threshold, read from
+`results/arch_selection_scelta.json`, is **0.99617**: the best mean 0.99631
+minus one standard error of 0.00014 over five seeds. The 1-SE rule therefore
+selects **32 / 6**, the smaller of the two configurations at or above that
+threshold; the deployed **16 / 8**, at 0.99602, falls **0.00015** below it and
+is a deployment preference, not the architecture the rule selects. Note that
+the threshold uses the standard error, not the standard deviation: with the
+standard deviation in its place 16 / 8 would appear to qualify, which is the
+mistake this sentence now states the number to prevent.
+
+Each seed generates its own validation split, shared by all the candidates
+compared within that seed; the five seeds therefore describe training and
+split variability together, not repeated draws on one fixed partition.
+Non-significance is not equivalence.
 
 **The project keeps 16 / 8, and that is not a result of the selection.**
 Nothing in this repository claims the architecture was selected on validation
@@ -1006,6 +1016,21 @@ TON→BoT mean balanced accuracy ranges from 0.4369 to 0.5573. The
 single-layer KAN has the highest mean in this fixed direction; XGBoost and
 the shallow tree have nearby means. In BoT→TON the ranking differs. This is
 an observed reversal, not a general superiority or causal capacity claim.
+
+**Descriptive pairwise differences, TON→BoT.** Read from
+`results/crossdomain_significativita.csv`, with the single-layer KAN as the
+reference and the sign in its favour. Against MLP(16) the gap is **0.1205**,
+against the multi-layer KAN **0.0985**, against LightGBM **0.0795**, against
+the depth-five tree **0.0079**, against XGBoost **0.0046**. These are
+differences of means over ten retraining seeds, reported because they are
+descriptive: the last two are of the same order as the seed-to-seed spread,
+and no pairwise test here licenses a ranking claim.
+
+The evaluation sets are fixed across all ten seeds — **211,043** TON_IoT flows
+and **3,668,522** BoT-IoT flows, the whole of each — so the paired statistic
+measures variability of retraining on fixed data, not generalization to new
+data. This is also why the Nadeau–Bengio correction does not apply here, as
+the artifact records in its own `correzione` column.
 
 The ten cross-domain seeds reuse the same source and target observations.
 They measure training stochasticity, not ten independently sampled networks.
@@ -1490,6 +1515,7 @@ can be measured on the two boards under the same benchmark protocol:
 | **KAN end-to-end, 10 classes** | `main_mc_e2e.cpp` | `esp32c3_mc_e2e` | **raw values** |
 | **Decision Tree d=5** | `main_dt5.cpp` | `*_dt5` | same feature space as the KAN |
 | **MLP(16) dense** | `main_mlp.cpp` | `*_mlp` | same feature space as the KAN |
+| Common-cohort latency replay | `main_common_latency.cpp` | `*_common_*` | prepared-feature boundary, one model per build |
 | Energy harness (all of the above) | `main_energy.cpp` | `*_energy*` | as the variant it measures |
 
 `tests/test_firmware_size.py` requires this table to name **every**
@@ -1582,6 +1608,8 @@ and must not supply article energy values; use the external marker protocol.
 <!-- firmware-size:inizio -->
 
 The author saved 29 RC3 PlatformIO linker results. These are **compiled binary sizes**, Arduino core included, not proof that a board was flashed or measured; they are written to `results/firmware_size.csv` by `scripts/firmware_size.py`, which also regenerates this block. They are a different quantity from the *model* bytes in the Pareto table above, which count only the parameter arrays.
+
+The remaining 20 environments in `mcu_pio/platformio.ini` have no verified build yet and are listed in `results/firmware_size_pending.csv`, with no sizes copied from any other configuration. Of those, 10 are energy environments whose physical measurement is also still missing: not compiled and not measured are recorded as two separate states, because compiling them would not complete the second.
 
 **Mega 2560** — 8,192 B SRAM, 253,952 B Flash
 

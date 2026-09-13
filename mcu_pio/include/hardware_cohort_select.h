@@ -3,12 +3,15 @@
  * kernels; replay agreement is not an independent inference equivalence test.
  */
 #pragma once
-/* Nessun flag: si assume HB_COEFF, come fa main_energy.cpp con EB_COEFF.
- * Serve al controllo su host, che compila ogni sorgente di src/ senza
- * flag per verificare che esista e sia valido senza toolchain AVR: con
- * un #error incondizionato quel controllo non puo' passare. La verifica
- * che ne sia selezionato esattamente uno resta, subito sotto. */
-#if (defined(HB_COEFF) + defined(HB_LUT14) + defined(HB_MLCOEFF) + defined(HB_MLP) + defined(HB_DT5)) == 0
+/* Il default vale SOLO sotto HOST_CHECK, cioe' nel controllo che compila
+ * ogni sorgente di src/ senza flag per verificare che esista e sia valido
+ * senza toolchain AVR. Nelle build per le schede la scelta resta
+ * obbligatoria: un default incondizionato trasformerebbe un errore di
+ * compilazione in un firmware che imbarca il modello sbagliato in
+ * silenzio, che e' precisamente cio' che questo #error impedisce. */
+#if defined(HOST_CHECK) \
+    && (defined(HB_COEFF) + defined(HB_LUT14) + defined(HB_MLCOEFF) \
+        + defined(HB_MLP) + defined(HB_DT5)) == 0
   #define HB_COEFF
 #endif
 #if (defined(HB_COEFF) + defined(HB_LUT14) + defined(HB_MLCOEFF) + defined(HB_MLP) + defined(HB_DT5)) != 1
