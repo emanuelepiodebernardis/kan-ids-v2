@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "version": "0.12.0",
+  "energy_full_precision_cells": 30,
+  "subgroups": 3,
+  "certificate_rows": 6,
+  "rich_auc_rows": 6,
+  "legacy_numeric_table_rows_retained": 95,
+  "photo_bytes_match": true,
+  "author_order": [
+    "Oleksandr Kuznetsov",
+    "Emanuele Pio De Bernardis",
+    "Emanuele Frontoni"
+  ],
+  "scope": "Table consistency and asset integrity; no new fitting, physical runs or absolute calibration"
+}

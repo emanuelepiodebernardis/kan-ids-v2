@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "version": "0.12.0",
+  "scientific_scope": "Exact integer-export agreement, frozen-model sensitivity, saved-metric aggregation and physical microcontroller case study",
+  "content_receipt": "CONTENT_QA_V012.json",
+  "visual_receipt": "VISUAL_QA_V012.json",
+  "legacy_results_preserved": "All 95 pre-existing numeric table rows; original C3 LUT7.58% slowdown remains explicit in main and appendix",
+  "main_pdf_sha256": "55d7013f8be4111a54c3526592e4f6ecaa97504598e181fb8fae3dd5f1ba8550",
+  "changes_without_new_training_or_hardware": true,
+  "no_general_KAN_superiority_claim": true,
+  "no_raw_flow_pipeline_claim": true,
+  "manuscript_proposed_author_order_retained": true
+}

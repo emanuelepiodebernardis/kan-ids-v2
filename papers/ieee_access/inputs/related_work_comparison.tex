@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\caption{Scope relative to the closest compilation and verification work. The present study adds implementation-specific evidence rather than a general new verification theory.}
+\label{tab:related-work}
+\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.25cm}p{3.35cm}p{3.3cm}p{2.75cm}p{4.85cm}}
+\toprule
+Work & Starting representation and tabulation & Agreement or quality evidence & Model / application & Hardware placement and energy scope\\
+\midrule
+LUT-KAN~\cite{kuznetsov2026lutkan} & PyKAN-style spline or full-edge functions; segment-wise int8/uint8 tables with interpolation & Empirical error and prediction preservation; explicit boundary policies & Controlled KAN layers and CICIDS2017 DoS & Desktop CPU; spline/LUT comparisons matched within NumPy and Numba backends.\\
+LUT-compiled DoS~\cite{kuznetsov2026lutdos} & Multilayer B-spline KAN; quantized sampled tables with interpolation & Empirical accuracy--memory--latency trade-off & CICIDS2017 binary DoS & Desktop CPU (NumPy/Numba); energy discussed through a latency proxy, without direct power measurements.\\
+KANEL\'{E}~\cite{Hoang2025KANELE} & Complete learned univariate functions mapped to LUTs & Hardware mapping and empirical prediction quality & MNIST, jet classification, tabular and audio benchmarks & FPGA mapping with quantization/pruning; contrasts with sampled interpolation and integer-reference agreement on the measured MCUs.\\
+QuantKAN / KANtize~\cite{fuad2025quantkan,errabii2026kantize} & Low-bit KAN quantization; B-spline and complete-spline tabulation & Quantized accuracy and implementation cost & Quantized KANs & Context for low-bit deployment; different from this frozen evaluator's exhaustive signed-error check.\\
+QEBVerif~\cite{zhang2023qebverif} & Neural network and quantized counterpart & Bounds on quantization error & Quantized neural networks & Formal-verification context; additive finite-domain enumeration here exploits the particular exported score.\\
+This study & Frozen integer coefficients; sampled LUT with interpolation & Exact signed edge intervals; sufficient threshold-agreement certificates & One additive native TON\_IoT score & Mega 2560 and ESP32-C3; matched code/parameter placement; separate physical whole-board USB-energy pilot.\\
+\bottomrule
+\end{tabular}
+\end{table*}

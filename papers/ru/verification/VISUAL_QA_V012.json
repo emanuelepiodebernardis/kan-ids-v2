@@ -1,0 +1,21 @@
+{
+  "version": "0.12.0",
+  "status": "PASS",
+  "pdf_sha256": "0fe6959fd2d7974a5ef95d3a4d14ff2df6ba329a2ae7d80bcca21b89a7ec66ef",
+  "pages": 41,
+  "all_pages_contact_sheet_inspected": true,
+  "detailed_pages_inspected": [
+    4,
+    26
+  ],
+  "checks": [
+    "Complete abstract; visible final scope sentences",
+    "Protocol and energy tables legible; photos byte-identical and side by side",
+    "No overlaps or clipped content observed",
+    "Original results remain in appendix",
+    "Bibliography has no mostly empty trailing page; all unchanged biographies fit one final page"
+  ],
+  "renders": "rendered_v012/",
+  "scope": "Visual QA of this final PDF; previous render/QA folders are historical",
+  "prior_full_review": "Other pages previously accepted; final full contact sheet reinspected after last three-row related-work parity correction and byte-identical shared energy figure update."
+}

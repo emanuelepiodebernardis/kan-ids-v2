@@ -1,3 +1,14 @@
+# v0.12.0 — 15 September 2026
+
+- Reframed the paper around exact integer-export agreement and a physical microcontroller case study; added KANELÉ and methodological energy references and a concise closest-work comparison.
+- Made the matched ESP32-C3 factorial the primary hardware comparison, added a four-protocol map, and retained the original 7.58% slowdown, five-model timing table/figure and intermediate diagnostic in an explicit appendix.
+- Added a no-fit exact-row-overlap sensitivity analysis with class counts, FPR/TPR, BA/F1 and subgroup decision certificates; it creates no independent or host/time-disjoint holdout.
+- Added checked historical UNSW AUROC aggregation, corrected stage-specific MI targets and global cross-seed ratio dependence, and removed the unsupported p-value and unmeasured federation digression.
+- Added the exact corrected integer-basis range, clarified XAI histogram normalization, and retained the absent runtime guard and peak-RAM limits.
+- Described physical USB measurements as whole-board engineering estimates, quantified addressed LUT cells, rounded presentation values while preserving full numerical tables/CSV, and standardized the energy-plot model order.
+- Retained all original setup-photo bytes, author details and scientific numerical tables. Updated the appendix float layout and inspected every final page.
+- No classifier fit, new device acquisition, model selection change, public push or submission is part of this revision.
+
 # v0.11.0 — 15 September 2026
 
 - Integrated five-model, two-acquisition USB-energy pilots on Mega 2560 and ESP32-C3, separately from all historical short-kernel and placement experiments.

@@ -1,8 +1,10 @@
-# Paper 1 manuscripts, v0.11.0
+# Paper 1 manuscripts, v0.12.0
 
 - [English IEEE Access source](ieee_access/README.md), built with pdfLaTeX.
 - [Russian author-review version](ru/README_RU.md), built with XeLaTeX.
 - [Accepted physical energy evidence](../experiments/hardware_energy_20260915/README.md).
+
+The review now includes signed-certificate and exact-row-overlap diagnostics, stage-specific preprocessing scopes, UNSW AUROC checks and a clearer hardware protocol map. The executable evidence index is [evidence/review_v012/ARTIFACT_MAP.md](../evidence/review_v012/ARTIFACT_MAP.md). No new training or device measurements were performed.
 
 The manuscript sources and input figures are versioned. Compiled manuscript
 PDFs, compilation logs and page renders belong to the separately delivered

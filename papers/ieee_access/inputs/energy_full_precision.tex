@@ -1,0 +1,18 @@
+\begin{table*}[p]
+\caption{Full retained numerical precision for the separate USB-energy pilot: equal-weight means of two acquisitions per implementation and board. Time is complete active-batch duration divided by call count; power is the central-window USB mean; energy uses~\eqref{eq:energy-estimator}. Each acquisition repeatedly cycles twenty prepared inputs. These descriptive means are not pooled with the 500-flow kernel or placement experiments; displayed digits support reproducibility rather than a stated measurement uncertainty.}
+\label{tab:energy-pilots-full}
+\centering\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{3}{c}{Mega 2560, 16 MHz} & \multicolumn{3}{c}{ESP32-C3, 160 MHz}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Implementation & Time ($\mu$s) & Power (mW) & Energy ($\mu$J) & Time ($\mu$s) & Power (mW) & Energy ($\mu$J)\\
+\midrule
+KAN coefficients & 1395.188 & 353.09 & 492.6227 & 5.2133 & 167.78 & 0.8747\\
+KAN sampled LUT & 224.842 & 354.19 & 79.6365 & 3.3268 & 165.79 & 0.5516\\
+Multilayer KAN & 12223.856 & 355.20 & 4341.9740 & 54.1865 & 173.87 & 9.4216\\
+MLP16 & 1340.680 & 356.01 & 477.2986 & 19.8211 & 169.83 & 3.3662\\
+DT5 & 15.733 & 358.05 & 5.6332 & 0.7386 & 168.81 & 0.1247\\
+\bottomrule
+\end{tabular}
+\end{table*}

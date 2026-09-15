@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import LogLocator, LogFormatterMathtext, NullFormatter
 
 ROOT = Path(__file__).resolve().parent
-MODELS = ["coeff", "lut", "mlp", "kanml", "dt5"]
+MODELS = ["coeff", "lut", "kanml", "mlp", "dt5"]
 
 def main():
     with (ROOT / "board_model_means.csv").open(encoding="utf-8", newline="") as stream:
@@ -38,7 +38,7 @@ def main():
         ax.grid(axis="x", which="major", color="#D5DDE2", linewidth=.55)
         ax.grid(axis="y", color="#EAEDEF", linewidth=.55)
         ax.set_ylim(4.6, -.65)
-        ax.set_yticks(range(5), ["KAN coefficients", "KAN LUT", "MLP", "Multilayer KAN", "DT5"])
+        ax.set_yticks(range(5), ["KAN coefficients", "KAN sampled LUT", "Multilayer KAN", "MLP16", "DT5"])
         ax.set_xlabel(xlabel)
         ax.set_title(title, loc="left", fontsize=9, fontweight="bold", pad=8)
         ax.tick_params(axis="y", length=0)

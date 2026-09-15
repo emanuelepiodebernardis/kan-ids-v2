@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\caption{Four distinct ESP32-C3 protocols. All use one physical board at 160 MHz and prepared native TON\_IoT inputs; no row is pooled with another. Placement denotes the inference kernel and model parameters. Retained records establish build settings and observed execution, not hardware-wide guarantees.}
+\label{tab:protocol-map}
+\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{p{2.0cm}p{3.2cm}p{2.5cm}p{3.5cm}p{5.3cm}}
+\toprule
+Experiment & Timer and measured endpoint & Code / parameters & Inputs and repeat structure & Warmup, harness and interpretation\\
+\midrule
+Original five models (Appendix~\ref{app:historical-hardware}) & \texttt{micros()}, 1-$\mu$s grid; one call through binary decision & Original application placement; parameters in Flash & 500 flows; five reset-separated passes per model & 64 warmup calls per pass; prepared input copy and serial/reference checks excluded. LUT mean is 7.58\% higher than coefficients.\\
+Intermediate diagnostic (Appendix~\ref{app:historical-hardware}) & Cycle counter; integer logit, or amortized 32-call block with loop and stores & IRAM / Flash or DRAM & 500 flows; five ordered passes in one boot & 2,000 warmup calls per block, balanced four-condition order; interrupts enabled. \texttt{same32} repeats one input within each block.\\
+Matched factorial (primary; Section~\ref{sec:c3followup}) & Cycle counter; one call and binary threshold & Flash or IRAM / Flash or DRAM & 500 flows; eight reset-separated passes; eight conditions & Full 500-flow warmup per condition; Williams order; interrupts enabled, serial outside blocks, \texttt{-Os}, LTO disabled. Flash-code/DRAM-parameter LUT speedup: $1.706\times$.\\
+USB-energy pilot (Section~\ref{sec:energy-pilots}) & Complete MCU batch duration / call count; central-window USB power & Original pilot Flash parameters; separate linked applications & First 20 flows repeatedly cycled; two acquisitions per model, one boot per C3 pair & Warmup and count calibration before roughly 120 s of active loop; inference, indexing, checksums and interrupts included. Wi-Fi/Bluetooth not initialized; no explicit yield. Coefficient/LUT time ratio: $1.567\times$.\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The matched-factorial upload command specifies DIO, 80 MHz and 4 MB Flash. These are recorded upload settings, not an independent runtime Flash-clock measurement. The archived build pins espressif32 6.12.0, Arduino package 3.20017.241212, a 160-MHz CPU, \texttt{-Os}, \texttt{-fno-lto}, \texttt{-fno-jump-tables} and \texttt{-fno-tree-}\allowbreak\texttt{switch-conversion}. A corresponding \texttt{sdkconfig} was not retained, so cache-line and RTOS-tick settings are not inferred. Delays in the harness occur outside timed blocks.

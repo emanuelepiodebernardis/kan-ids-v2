@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "scope": "Independent source-level subgroup number and certificate-endpoint audit; no claim about PDF bytes or final typesetting.",
+  "checks": [
+    "Every EN integer subgroup metric, class count and confusion cell matches JSON/CSV at displayed rounding.",
+    "Every RU integer subgroup metric, class count and appendix confusion cell matches JSON/CSV at displayed rounding.",
+    "RU floating subgroup F1/BA and non-overlapping confusion counts match combined results. Reconstructed-transform limitation is explicit.",
+    "Signed LUT-score guard reports12/3 uncertified test rows; signed reference is separately9/2. No count conflation found.",
+    "Historical signed LUT-score training counts64/26 match archived certificate receipt.",
+    "Positive endpoints use >= threshold; negative endpoints use < threshold, consistent with decision score>=0. Score0 and both boundary equalities checked.",
+    "Exact44-column non-overlap is not presented as a newly independent or host/time-disjoint holdout."
+  ],
+  "source_sha256": {
+    "en/main.tex": "55c5c0eac90a04f71528d0c9047ad880f5e84f4986f7a7a49d55956fc9094ff7",
+    "en/inputs/duplicate_sensitivity.tex": "ca30746a55e39c85d5a5a7511e7a2e266d0b742a2de0f384e112874f186b943b",
+    "en/inputs/duplicate_certificates.tex": "0506530cc064d0e7058d106f5763161a3e03a4bcfaf8061b2ea75251551f1b72",
+    "en/inputs/signed_certificate.tex": "668eba13cf5d9418983ea0b563c3b15fb231e13070d7b18b9c408d540d935464",
+    "ru/inputs/duplicate_sensitivity.tex": "f8dc00c37a8524a497c6f88dd8ed961b090745593003b27ce48c8e857b5f3fef",
+    "ru/inputs/extra_validation.tex": "a759231fe0ac9c2883d10fc2ca1e8c445860fe92f0aeb7b4ef6e161fe038c8c7",
+    "ru/inputs/signed_certificate.tex": "5a60e98216bc74f58b4a3eb7fe366c94c4118e4586c528f173e18889eb2479d9",
+    "ru/parts/b_ru.tex": "3c4e35e83fff3203d497d063fc5d84d9495830ea0deadc84a7b754d8c80c1720",
+    "analysis/results/overlap_subgroup_results.json": "3807af18c6c2c2f46e1780bf3f5a484ba9822f848da554a30c1ed26c8244d2ce",
+    "analysis/results/subgroup_metrics.csv": "ee681d129ed6f77a3558360f1e828687e213874654830e4e286117dedea15dd2",
+    "analysis/results/subgroup_certificates.csv": "b0466e4a84b5c5b07c6c72300859c72a626ca49bf6751b81cd4ab3c6008237bf",
+    "analysis/analyze_overlap_subgroups.py": "a3066fe8d217fd721c0faa0af025d2d31c44623cf87f97534577096d01f13c00"
+  },
+  "no_manuscript_edits": true,
+  "pdf_bytes_verified": false,
+  "historical_native_cache_note": "Original native-cache assertions were initially outside the subgroup audit; separate fresh author replay subsequently reproduced the archived pre-Q12 receipt exactly."
+}

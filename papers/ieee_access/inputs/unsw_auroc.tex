@@ -1,0 +1,17 @@
+\begin{table}[t]
+\caption{Historical rich-space UNSW AUROC, mean and sample SD across ten saved seed records per model. Aggregation was rechecked; absent row-level scores prevent independent recomputation of each AUROC.}
+\label{tab:unsw-auroc}
+\centering\footnotesize
+\begin{tabular}{lcc}
+\toprule
+Model & AUROC & Runs below 0.5\\
+\midrule
+Additive KAN & $0.3242\pm0.0567$ & 10/10\\
+Multilayer KAN & $0.3301\pm0.0555$ & 10/10\\
+MLP16 & $0.2777\pm0.0388$ & 10/10\\
+DT5 & $0.3714\pm0.0698$ & 10/10\\
+LightGBM & $0.3702\pm0.0723$ & 9/10\\
+XGBoost & $0.4140\pm0.0749$ & 8/10\\
+\bottomrule
+\end{tabular}
+\end{table}
