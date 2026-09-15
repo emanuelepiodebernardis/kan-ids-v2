@@ -1,0 +1,175 @@
+{
+  "schema": "kanids-mega-fnb58-pilot-sources-v1",
+  "files": [
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 1915,
+      "sha256": "f7dabef1f34a9b4e5eabbf07430772bd73dbcf0f9ab7a8e581a986c2454fda23"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 14575,
+      "sha256": "94f1aa2c7e09091e0f16c39db8c5c21e9eaef7042612e139fadd0f58e2c53b62"
+    },
+    {
+      "path": "VALIDATION.json",
+      "bytes": 1774,
+      "sha256": "9133061b81776435cfb4e6c2fdcdd149a05294026f4644e7a652ea087cacb5df"
+    },
+    {
+      "path": "analysis/COMPARISON_RU.md",
+      "bytes": 6358,
+      "sha256": "92fd7555fe76bf8a907535f05231a17a78ac695ab835d78b36371b7abf05e111"
+    },
+    {
+      "path": "analysis/cfn_decoder.py",
+      "bytes": 8765,
+      "sha256": "6c96be9059d51b88685f5d6b229c13cd7a6fbf9eaf530c21381f3abc14d42504"
+    },
+    {
+      "path": "analysis/compare_connection_tests.py",
+      "bytes": 5048,
+      "sha256": "da8d02748d6d6e065401a533ff6cd76be04fc61fcbaf57b8400f6641cbe6fd03"
+    },
+    {
+      "path": "analysis/comparison.json",
+      "bytes": 2621,
+      "sha256": "e47140ac6a0f9e20368dfae3b57350b2d105a919d8a42c7a7b04a1f84e3f8bd1"
+    },
+    {
+      "path": "analysis/mega_connection_test_100sps_01.csv",
+      "bytes": 504014,
+      "sha256": "5f598fba78ad58936cb09988e0a2ed36de172ecef6e902f2884b0ea3084d20ee"
+    },
+    {
+      "path": "analysis/mega_connection_test_100sps_01_summary.json",
+      "bytes": 4906,
+      "sha256": "521c3319ba1c8d3c1b04282db1cea2b4e10cdcaf74ad963f695ea35f4f242f90"
+    },
+    {
+      "path": "analysis/mega_connection_test_10sps_01.csv",
+      "bytes": 51456,
+      "sha256": "3f34a2e65f163f700119c3c3b8d82cafafd91383e06cbc08198f85af1f68839b"
+    },
+    {
+      "path": "analysis/mega_connection_test_10sps_01_summary.json",
+      "bytes": 5019,
+      "sha256": "04edfaba43aa1c4edf5db03d8ce20d8a320e45e5c967f4f5c21525ffb000f721"
+    },
+    {
+      "path": "analysis/raw/mega_connection_test_100sps_01.cfn",
+      "bytes": 291181,
+      "sha256": "f4cbb414db444ff28d623cd700745c4f35f47f55a4c9efdca72105b7332ed747"
+    },
+    {
+      "path": "analysis/raw/mega_connection_test_10sps_01.cfn",
+      "bytes": 29005,
+      "sha256": "0b69738a942770b281ac86246eea47edd81a10fc13759e9e70486393cabfdf86"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 451,
+      "sha256": "b4464b306fb285a6e54cfd1d98162024e789aa61d94ee7766d246318e3dd7bce"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 10033,
+      "sha256": "a868f00c4340f56cf699cd0339592fd3bdc4e18d73d961d2a1d53c6e826cd493"
+    },
+    {
+      "path": "project/tests/arduino_stub.h",
+      "bytes": 1927,
+      "sha256": "f8567eb4f06f21db06f5d1d4575f1878338eba71ac53ea7d60126ee7ce804e39"
+    },
+    {
+      "path": "project/tests/host_harness.cpp",
+      "bytes": 2358,
+      "sha256": "7ea1648dddbcea4be0e63e630fe1c7703689e8dac248b924d9bb7131a71293f9"
+    },
+    {
+      "path": "project/tests/host_simulation_example.txt",
+      "bytes": 1322,
+      "sha256": "19c2caff62cce310023d72c55abef5dc2caf220f89a46a14e68b8a2b50202135"
+    },
+    {
+      "path": "project/tests/host_test_result.txt",
+      "bytes": 1062,
+      "sha256": "16c11f7dc2b90c0eb92d3d7a5a8b01ac2481e10e7a5810d67b80e1ad2e023ee0"
+    },
+    {
+      "path": "project/tests/test_host_pilot.py",
+      "bytes": 5275,
+      "sha256": "898e35989af9db2224b7ce9d39d1d01e8e9f486d23b14f65c179ab92430382e6"
+    },
+    {
+      "path": "run_mega_energy_pilot.py",
+      "bytes": 20626,
+      "sha256": "78b91930af5db222b0d2241fb23e4d592b072e3339d61a6d524d3a66ddd3c0eb"
+    },
+    {
+      "path": "tests/test_runner.py",
+      "bytes": 8393,
+      "sha256": "0f9b8c1c303cb97b040f2266e88f2b825716f1ca3232d1a854b23f25a924015d"
+    },
+    {
+      "path": "validation/direct_avr/BUILD_RECORD.json",
+      "bytes": 254646,
+      "sha256": "6dbc4b7a56fe9ff8ba847ca5c6bd67063c8fb3abc1a9f643624de72c0d70ce33"
+    },
+    {
+      "path": "validation/direct_avr/firmware.disassembly.txt",
+      "bytes": 205813,
+      "sha256": "dcc037e2b145fa07857335883fd4d6afbc89ea4e0e109c3d495cd1bf96fb7bb1"
+    },
+    {
+      "path": "validation/direct_avr/firmware.elf",
+      "bytes": 45008,
+      "sha256": "c9aca2655622b62f0427b6c1bcdb4da53b946c320e34a2d4298bdfbf7d12d2f5"
+    },
+    {
+      "path": "validation/direct_avr/firmware.hex",
+      "bytes": 62748,
+      "sha256": "79a74315f3c1a7c1b109356eccce0700a86ec56620e79a41d5d2b53bf089cc3e"
+    },
+    {
+      "path": "validation/platformio_download_attempt.log",
+      "bytes": 2750,
+      "sha256": "76273b4e588e6144107255f60106091bd20eab4ed52ce3fba7669880ca45a438"
+    },
+    {
+      "path": "validation/runner_tests.log",
+      "bytes": 1854,
+      "sha256": "475f309cd56fc09aa50aa80069a3735971902ac2ee69567f76f69c1f479cc9fb"
+    }
+  ]
+}

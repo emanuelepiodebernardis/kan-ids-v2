@@ -1,0 +1,364 @@
+{
+  "status": "KANML_PILOT_02_TRACE_USABLE; TWO_PHYSICAL_KANML_RUNS",
+  "inputs": {
+    "raw/mega_kanml_pilot_02.cfn": "f697c5049327919af2f932b9d8a42a127e78618c67de3b23ee490cc0f60b771b",
+    "raw/RUN_RECORD.json": "f3d0822a6a8e7dc0a6a32ab9aa506580a657067606b7c2f244c6109751a2a4de",
+    "baseline/analysis_coeff_01.json": "de0f06174a4c77f1fa656fef1ad2ba638ee8f0412e9146a4e61ed3cb0745c8a7",
+    "baseline/analysis_coeff_02.json": "96a41df58ae576803fde3ffe7a0c7437f59efdcead8a165f86fcc981a255258c",
+    "baseline/analysis_lut_01.json": "28ee301346c1c5b2d2e86143a35c394d4faeed0bcff3dabc221ddeb6c142e349",
+    "baseline/analysis_lut_02.json": "59444e2375438c7f35d344abfc4bf2e7d1686592a9654a4a829214f9c9a10f1b",
+    "baseline/analysis_mlp_01.json": "82b8f99b35b2ad7decfa27d11d46ae056433c339e855e5ea677f93eda0ef2355",
+    "baseline/analysis_mlp_02.json": "6c572b72df6b8cee892c73c06f8bf99be97188949ffc2839f3081a340ea6130f",
+    "baseline/analysis_kanml_01.json": "4f40b30f8473c398e43a622418d82cf94547ceb78ef2dcdb47b765fa2f581874",
+    "baseline/mega_coeff_pilot_01.csv": "799e3644132ebbaf370eedb923534830cd2af0298aa5ee2423e8bfe3b7b204d9",
+    "baseline/mega_coeff_pilot_02.csv": "479f4a6fefcd2e3d66860faa8b5290c97c4f9fd6ebf99365cfa1bf443d1d0de4",
+    "baseline/mega_kanml_pilot_01.csv": "73a58ceb3341ae2fe39f7c7bad95f5e4379a9ce88c6b53bb25f567f03167d2d7",
+    "baseline/mega_lut_pilot_01.csv": "3fd6e43682820e003f583cc3efc9a93a3a3ad8696bfe92563cf225f825a17761",
+    "baseline/mega_lut_pilot_02.csv": "e8b7dc5f0561ac9c3e2b1cc2f6d533db6c921e2f2876a09dc3f5448a588f2921",
+    "baseline/mega_mlp_pilot_01.csv": "cc56ddc8d0b36509548c9e2d79502f260c3ca1a0caa47fb2c358190d852dd0ff",
+    "baseline/mega_mlp_pilot_02.csv": "e52d3cd83b29a91fb7546164a25058fec0cca6d71a22903de09ef48f7e7e04b6"
+  },
+  "protocol": {
+    "variant": "ml_coeff_int8",
+    "board": "Arduino Mega 2560",
+    "count": 9800,
+    "active_seconds_MCU": 119.793784,
+    "mean_call_us": 12223.855510204081,
+    "calls_per_MCU_second": 81.80724969836498,
+    "prepared_distinct_vectors": 20,
+    "repetitions_per_vector": 490,
+    "recorded_checksum": 4900,
+    "recorded_correct": 1,
+    "physical_runs_this_variant": 2
+  },
+  "model_boundary": "Multilayer KAN is a separate model using the same frozen KAN input arrays. All variants use the same 20 raw flow identities. MLP uses its own frozen ordering and preprocessing. Each variant repeatedly reads prepared inputs from RAM.",
+  "central_window_rule": "Prespecified middle 60 MCU seconds, mapped using 12 free empirical LED edge centers independently detected in this CFN.",
+  "mean_method": "Trapezoidal time average, linearly interpolated endpoints; saved PBUS equals VBUS*IBUS at every recorded point.",
+  "central_window": {
+    "cfn_bounds_s": [
+      56.02922073258367,
+      115.97988692265217
+    ],
+    "stored_points_strictly_inside": 599,
+    "mean_voltage_V": 4.993863347825379,
+    "mean_current_A": 0.07113070805562746,
+    "mean_power_W": 0.35521708963826265
+  },
+  "three_20_MCU_second_segments": [
+    {
+      "cfn_bounds_s": [
+        56.02922073258367,
+        76.01277612927316
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.9949881230131625,
+      "mean_current_A": 0.07116690319627185,
+      "mean_power_W": 0.3554778453170667
+    },
+    {
+      "cfn_bounds_s": [
+        76.01277612927316,
+        95.99633152596266
+      ],
+      "stored_points_strictly_inside": 199,
+      "mean_voltage_V": 4.993854574749571,
+      "mean_current_A": 0.07113539008541338,
+      "mean_power_W": 0.3552398461581337
+    },
+    {
+      "cfn_bounds_s": [
+        95.99633152596266,
+        115.97988692265218
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.9927473457134015,
+      "mean_current_A": 0.07108983088519719,
+      "mean_power_W": 0.3549335774395876
+    }
+  ],
+  "segment_mean_range_percent": 0.15322119722150485,
+  "window_shift_sensitivity": [
+    {
+      "shift_CFN_s": -2,
+      "cfn_bounds_s": [
+        54.02922073258367,
+        113.97988692265217
+      ],
+      "stored_points_strictly_inside": 599,
+      "mean_voltage_V": 4.993976480679914,
+      "mean_current_A": 0.07113365849466123,
+      "mean_power_W": 0.35523987035863125
+    },
+    {
+      "shift_CFN_s": -1,
+      "cfn_bounds_s": [
+        55.02922073258367,
+        114.97988692265217
+      ],
+      "stored_points_strictly_inside": 599,
+      "mean_voltage_V": 4.993910256084366,
+      "mean_current_A": 0.07113184092505959,
+      "mean_power_W": 0.3552260834852995
+    },
+    {
+      "shift_CFN_s": 0,
+      "cfn_bounds_s": [
+        56.02922073258367,
+        115.97988692265217
+      ],
+      "stored_points_strictly_inside": 599,
+      "mean_voltage_V": 4.993863347825379,
+      "mean_current_A": 0.07113070805562746,
+      "mean_power_W": 0.35521708963826265
+    },
+    {
+      "shift_CFN_s": 1,
+      "cfn_bounds_s": [
+        57.02922073258367,
+        116.97988692265217
+      ],
+      "stored_points_strictly_inside": 599,
+      "mean_voltage_V": 4.993832512728971,
+      "mean_current_A": 0.07113055391865986,
+      "mean_power_W": 0.35521412656658635
+    },
+    {
+      "shift_CFN_s": 2,
+      "cfn_bounds_s": [
+        58.02922073258367,
+        117.97988692265217
+      ],
+      "stored_points_strictly_inside": 599,
+      "mean_voltage_V": 4.993803578296407,
+      "mean_current_A": 0.07113022999243139,
+      "mean_power_W": 0.35521045025374776
+    }
+  ],
+  "max_abs_power_change_for_2s_shifts_percent": 0.006413182539105031,
+  "energy_estimate": {
+    "method": "central stationary mean(V*I) * active_MCU_seconds / inference_count",
+    "mJ_per_call": 4.342122378493334,
+    "J_per_call": 0.004342122378493334,
+    "estimated_full_batch_J": 42.55279930923467,
+    "exact_synchronized_active_integral": false,
+    "scope": "USB measurement point; whole board and downstream cable losses, prepared inputs in RAM, active-loop overhead, no idle subtraction"
+  },
+  "NRG_used": false,
+  "NRG_ratio_to_full_record_VI_integral": 0.25000203539853433,
+  "recording_integrity": {
+    "exact_EOF_and_header_extrema_valid": true,
+    "missing_saved_nominal_time_slots": 0,
+    "both_LED_patterns_detected_in_this_recording": true,
+    "central_window_fully_covered": true,
+    "conclusion": "No structural interruption or missing marker found in supplied recording. CFN does not expose hardware acquisition timestamps, so saved-grid integrity alone is not proof of acquisition jitter."
+  },
+  "sync": {
+    "marker_detection": {
+      "threshold_mA": 72.86500000000001,
+      "candidate_groups": [
+        [
+          [
+            6.1000000000000005,
+            8.200000000000001
+          ],
+          [
+            9.1,
+            13.3
+          ],
+          [
+            14.100000000000001,
+            16.2
+          ]
+        ],
+        [
+          [
+            155.70000000000002,
+            157.9
+          ],
+          [
+            158.8,
+            163.0
+          ],
+          [
+            163.8,
+            165.9
+          ]
+        ]
+      ],
+      "fit_windows_cfn_s": [
+        [
+          4.800000000000001,
+          17.5
+        ],
+        [
+          154.4,
+          167.20000000000002
+        ]
+      ]
+    },
+    "source_sha256": "f697c5049327919af2f932b9d8a42a127e78618c67de3b23ee490cc0f60b771b",
+    "records": 1763,
+    "recorded_grid_step_s": 0.1,
+    "recorded_span_s": 176.20000000000002,
+    "sync_assessment": "ACCEPTED_FOR_PILOT_INTERIOR_IDENTIFICATION; absolute acquisition latency not calibrated",
+    "observations": {
+      "two_2_4_2_patterns_visible": true,
+      "ramps_approximately_one_second": true,
+      "fourfold_recorded_timescale_error_rejected_by_marker_separation": true
+    },
+    "descriptive_joint_fit": {
+      "model": "CFN apparent ramp onset = offset + scale * MCU event time, followed by shared clipped linear ramp; separate local baselines/drifts/amplitudes. Empirical model only.",
+      "offset_s": 5.680446000369502,
+      "recorded_seconds_per_MCU_second": 0.9992587769109582,
+      "linear_ramp_width_s": 0.9792949897528953,
+      "median_abs_residual_mA": 0.05774476740883472,
+      "rms_residual_mA": 0.10030250211285259,
+      "pre_baseline_mA": 71.84744462478838,
+      "pre_slope_mA_per_s": 0.010328416175543994,
+      "pre_LED_amplitude_mA": 2.6740941726194185,
+      "post_baseline_mA": 71.82864582737635,
+      "post_slope_mA_per_s": -0.010373530435185735,
+      "post_LED_amplitude_mA": 2.842998291462576,
+      "active_apparent_ramp_onsets_s": [
+        25.665753440747217,
+        145.37074352212272
+      ],
+      "active_half_height_coordinates_s": [
+        26.155400935623664,
+        145.86039101699916
+      ]
+    },
+    "independent_observed_pattern_comparison": {
+      "best_lag_s": 149.6700000000061,
+      "Pearson_correlation_after_shift": 0.9940300373904364,
+      "MCU_marker_separation_s": 149.79394,
+      "ratio": 0.9991725967018833
+    },
+    "conservative_interior": {
+      "CFN_bounds_s": [
+        31.155400935623664,
+        140.86039101699916
+      ],
+      "samples": 1097,
+      "mean_current_mA": 71.11519598906108,
+      "mean_VI_power_W": 0.3551096505690975
+    },
+    "limits": [
+      "No CFN hardware acquisition timestamps or GPIO channels.",
+      "Observed transition width is about 1 s, so 0.1 s storage grid is not 0.1 s edge resolution.",
+      "An unknown common filter/transport delay is inseparable from recording start offset.",
+      "Fit precision is descriptive, not a confidence interval or calibration uncertainty.",
+      "Do not use post-WAIT_DONE current as the same idle/reference state as the firmware guard; these states differ.",
+      "No energy-per-inference estimate is made by this synchronization audit."
+    ],
+    "independent_edge_centers": {
+      "method": "12 independently movable edge centers, shared empirical ramp width; then unweighted least squares affine map. No individual event time tied to MCU during waveform fit.",
+      "affine_center_offset_s": 6.173223570886403,
+      "affine_scale": 0.9991777698344748,
+      "edge_center_residual_rms_s": 0.04179707227953044,
+      "edge_center_residual_max_abs_s": 0.09114209788779704,
+      "descriptive_shared_ramp_width_s": 0.9762713490919096,
+      "individual_edge_centers_s": [
+        6.2153269791696335,
+        8.107500175926075,
+        9.187910317002927,
+        13.174978523760974,
+        14.169998093464926,
+        16.159768192561454,
+        155.84928425775058,
+        157.75123989356425,
+        158.896858494707,
+        162.8767204564685,
+        163.86334187647472,
+        165.8017986047854
+      ],
+      "central_60_mcu_bounds_s": [
+        49.897023999999995,
+        109.897024
+      ],
+      "central_60_cfn_bounds_s": [
+        56.02922073258367,
+        115.97988692265217
+      ],
+      "uncertainty_note": "Residual scatter is fit consistency, not a calibrated absolute time uncertainty. Unknown common latency remains confounded with offset; moving-average-like broadening is about 1 s."
+    }
+  },
+  "limits": [
+    "Two multilayer KAN, two MLP, two coefficient and two LUT runs: descriptive pilot comparison, not a publication-level repeatability claim.",
+    "These eight runs were sequential and grouped by model/representation, not randomized. Small power differences cannot be attributed exclusively to the algorithms.",
+    "MLP is a different model with its own frozen preprocessing and feature order. These energy numbers do not establish equivalent dataset-level detection performance.",
+    "Each run repeats the same 20 raw flow identities using the corresponding prepared model inputs; not 9,800 distinct network flows or end-to-end IDS operation.",
+    "Meter absolute power accuracy and MCU clock accuracy have not been calibrated; fit residuals are not calibration uncertainty.",
+    "Observed LED edge broadening is about one second; 0.1 s saved grid does not prove independent samples or high temporal resolution.",
+    "No idle or bare-chip energy has been isolated. USB board energy includes downstream cable losses and loop overhead.",
+    "Trace analysis does not by itself validate model training, dataset-level accuracy, firmware provenance, or peak RAM."
+  ],
+  "next_experiment": "Next model: DT5 on the same Mega, using a separately validated package. Keep present supply and cables.",
+  "analysis_dependencies": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "matplotlib": "3.10.8"
+  },
+  "repeat_02_vs_01_percent": {
+    "mean_call_us": 0.0,
+    "mean_power_W": 0.006833595871280629,
+    "energy_mJ_per_call": 0.006833595871258424
+  },
+  "equal_weight_variant_means": [
+    {
+      "variant": "coefficient",
+      "physical_runs": 2,
+      "aggregation": "Equal arithmetic weight for each physical run",
+      "mean_call_us": 1395.187604651163,
+      "mean_power_W": 0.35308706238883525,
+      "energy_mJ_per_call": 0.49262269279449356
+    },
+    {
+      "variant": "LUT",
+      "physical_runs": 2,
+      "aggregation": "Equal arithmetic weight for each physical run",
+      "mean_call_us": 224.84151424287856,
+      "mean_power_W": 0.35418970260004157,
+      "energy_mJ_per_call": 0.07963654906182815
+    },
+    {
+      "variant": "MLP16",
+      "physical_runs": 2,
+      "aggregation": "Equal arithmetic weight for each physical run",
+      "mean_call_us": 1340.6797094972067,
+      "mean_power_W": 0.3560124236925739,
+      "energy_mJ_per_call": 0.4772986327821865
+    },
+    {
+      "variant": "Multilayer KAN",
+      "physical_runs": 2,
+      "aggregation": "Equal arithmetic weight for each physical run",
+      "mean_call_us": 12223.855510204081,
+      "mean_power_W": 0.35520495341741715,
+      "energy_mJ_per_call": 4.341974027083279
+    }
+  ],
+  "KANML_comparisons": [
+    {
+      "reference": "coefficient",
+      "reference_physical_runs": 2,
+      "KANML_time_factor": 8.761442166955316,
+      "KANML_energy_factor": 8.813995154085628,
+      "KANML_power_change_percent": 0.599821192612704
+    },
+    {
+      "reference": "LUT",
+      "reference_physical_runs": 2,
+      "KANML_time_factor": 54.366541478632875,
+      "KANML_energy_factor": 54.52237795628564,
+      "KANML_power_change_percent": 0.286640410470107
+    },
+    {
+      "reference": "MLP16",
+      "reference_physical_runs": 2,
+      "KANML_time_factor": 9.117655338267465,
+      "KANML_energy_factor": 9.09697562252336,
+      "KANML_power_change_percent": -0.22680957781799904
+    }
+  ]
+}

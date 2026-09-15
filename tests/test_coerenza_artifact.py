@@ -631,21 +631,31 @@ def test_il_report_non_dichiara_come_da_fare_cose_gia_fatte():
         "la tabella di stato del report dichiara qualcosa come non iniziato: "
         "verificare che sia ancora vero")
 
-    #: Le quattro categorie che il report deve tenere separate. Metterle in una
+    #: Le cinque categorie che il report deve tenere separate. Metterle in una
     #: riga sola aveva prodotto una tabella che dichiarava da fare la latenza,
     #: che e' misurata su entrambe le schede.
     for voce in ("Risultati ML salvati", "Verifiche software", "Latenza",
-                 "Energia e peak RAM"):
+                 "Energia", "Peak RAM"):
         assert voce in blocco, (
             f"la tabella di stato non distingue «{voce}»: le misure "
             f"disponibili e quelle mancanti finiscono nella stessa riga")
 
     i_lat = blocco.index("Latenza")
-    i_mancanti = blocco.index("Energia e peak RAM")
-    assert "Misurata" in blocco[i_lat:i_mancanti], (
+    i_energia = blocco.index("Energia")
+    i_mancanti = blocco.index("Peak RAM")
+    assert "Misurata" in blocco[i_lat:i_energia], (
         "la latenza non e' dichiarata misurata, ma lo e'")
-    assert "Non misurate" in blocco[i_mancanti:], (
-        "energia e peak RAM non sono dichiarate mancanti")
+    assert "energy_status" in blocco[i_energia:i_mancanti]
+    assert 'energy_runs = pd.read_csv' in testo
+    assert 'energy_means = pd.read_csv' in testo
+    assert 'len(energy_runs)' in testo and 'len(energy_means)' in testo
+    energy_root = REPO / "experiments/hardware_energy_20260915/results"
+    energy_runs = pd.read_csv(energy_root / "all_20_acquisitions.csv")
+    energy_means = pd.read_csv(energy_root / "board_model_means.csv")
+    assert len(energy_runs) == 20 and len(energy_means) == 10
+    assert set(energy_runs["board"]) == {"Mega 2560", "ESP32-C3"}
+    assert "Non misurata" in blocco[i_mancanti:], (
+        "il peak RAM non e' dichiarato mancante")
     if "NOT_HARDWARE_MEASURED" in blocco:
         assert re.search(r"NOT_HARDWARE_MEASURED[^\"]{0,200}?\d{4}", blocco), (
             "NOT_HARDWARE_MEASURED compare senza una data: come stato "

@@ -1,0 +1,231 @@
+{
+  "schema": "kanids-pilot-source-manifest-v1",
+  "created_utc": "2026-09-15T16:35:47.190162+00:00",
+  "files": [
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 1639,
+      "sha256": "a6e198462efd51826b7800fc20db0afb6da77b5cb220675449e78b9f3b5e6412"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 10454,
+      "sha256": "fc5c30be9505b6974fe32dc035ad2b81a9d48176befb6c429d0a84e295b4c1b7"
+    },
+    {
+      "path": "VALIDATION.json",
+      "bytes": 1630,
+      "sha256": "4cab3646710bdb428d7a9cde001f5789209db7e62f294d9dbd467013835c6450"
+    },
+    {
+      "path": "previous_results/coeff_01_02/CFN_AUDIT.json",
+      "bytes": 4763,
+      "sha256": "e3da094bfa8925a06dbc305a5ff089bec2c36e3dda0387b6b24b2cb903eb5bf4"
+    },
+    {
+      "path": "previous_results/coeff_01_02/MANIFEST.json",
+      "bytes": 3444,
+      "sha256": "c0dda83764dda0b0013b0fd3b0601bf6addb38d1089f0f478b77f09595f8e10b"
+    },
+    {
+      "path": "previous_results/coeff_01_02/REPORT_RU.md",
+      "bytes": 12151,
+      "sha256": "4bdaef186691458425282ee350266712403270952223f0bed7a5111f7181e710"
+    },
+    {
+      "path": "previous_results/coeff_01_02/RUN_RECORD.json",
+      "bytes": 4924,
+      "sha256": "127b5ed52412753dc74c4dfc76a9eb8883b1fe9584e932d0f940280be3c5141c"
+    },
+    {
+      "path": "previous_results/coeff_01_02/analyse_comparison.py",
+      "bytes": 10493,
+      "sha256": "ec4d602489708efc7c65f5a6b815c3b393e2ab3d62152311eb3c61dd3362f774"
+    },
+    {
+      "path": "previous_results/coeff_01_02/analyse_sync.py",
+      "bytes": 8990,
+      "sha256": "0fe36d3ca658587c98818dab2dcd177feb053620c3a39daf687b60f99a930e3a"
+    },
+    {
+      "path": "previous_results/coeff_01_02/analysis.json",
+      "bytes": 10604,
+      "sha256": "96a41df58ae576803fde3ffe7a0c7437f59efdcead8a165f86fcc981a255258c"
+    },
+    {
+      "path": "previous_results/coeff_01_02/audit_provenance.py",
+      "bytes": 14855,
+      "sha256": "a5c82b001788936afbe9974dca54d113579230d6a36546826a9a831364e1dee7"
+    },
+    {
+      "path": "previous_results/coeff_01_02/baseline/RUN_RECORD_01.json",
+      "bytes": 4925,
+      "sha256": "e5a9cc8547be67725f5c91b73db97cd8e673630bfc2dd675f1b7c53962d3292f"
+    },
+    {
+      "path": "previous_results/coeff_01_02/baseline/analysis_01.json",
+      "bytes": 8537,
+      "sha256": "de0f06174a4c77f1fa656fef1ad2ba638ee8f0412e9146a4e61ed3cb0745c8a7"
+    },
+    {
+      "path": "previous_results/coeff_01_02/baseline/mega_coeff_pilot_01.csv",
+      "bytes": 370932,
+      "sha256": "799e3644132ebbaf370eedb923534830cd2af0298aa5ee2423e8bfe3b7b204d9"
+    },
+    {
+      "path": "previous_results/coeff_01_02/cfn_decoder.py",
+      "bytes": 8765,
+      "sha256": "6c96be9059d51b88685f5d6b229c13cd7a6fbf9eaf530c21381f3abc14d42504"
+    },
+    {
+      "path": "previous_results/coeff_01_02/comparison.csv",
+      "bytes": 321,
+      "sha256": "9e884612b2380786bf5fa932ba4001d600009c877720f60ba803fb3e50cdfcfd"
+    },
+    {
+      "path": "previous_results/coeff_01_02/mega_coeff_pilot_02.csv",
+      "bytes": 144131,
+      "sha256": "479f4a6fefcd2e3d66860faa8b5290c97c4f9fd6ebf99365cfa1bf443d1d0de4"
+    },
+    {
+      "path": "previous_results/coeff_01_02/mega_coeff_pilots_01_02.png",
+      "bytes": 383728,
+      "sha256": "d891249aa947f456438423faf07476edc9f211ba51b70a5e20e6d99f68797503"
+    },
+    {
+      "path": "previous_results/coeff_01_02/provenance/actual_firmware_active_batch_disassembly.txt",
+      "bytes": 2879,
+      "sha256": "99307c996d5ed4f6a78ba2183d2b588b49d9fa7845d8080737cec4254ff434a9"
+    },
+    {
+      "path": "previous_results/coeff_01_02/provenance/provenance_audit.json",
+      "bytes": 15328,
+      "sha256": "676a669509f95ab348222376d622b6882739fbe5e0764efa559d088d4b6f2f0b"
+    },
+    {
+      "path": "previous_results/coeff_01_02/raw/MEGA_PILOT_20260915T162011Z_dc2d64c7.zip",
+      "bytes": 511993,
+      "sha256": "900c9895492350f21a518dde0330d1dde33ff317c73aa844e55557521d230eb7"
+    },
+    {
+      "path": "previous_results/coeff_01_02/raw/mega_coeff_pilot_02.cfn",
+      "bytes": 81613,
+      "sha256": "c7439cd7c65787841de101bcfead6f8cac05a8fab9f57de593c53842676fbe7d"
+    },
+    {
+      "path": "previous_results/coeff_01_02/sync/independent_marker_centers.csv",
+      "bytes": 1065,
+      "sha256": "97ebaad0f2d828c0e5e9167eefb68a27d282430ecd5e8d285582f756c86402b7"
+    },
+    {
+      "path": "previous_results/coeff_01_02/sync/independent_sync_summary.json",
+      "bytes": 4281,
+      "sha256": "09477e5754365643417e69adc65b5312b97f01aca4f1dfbdca4611abcbf9dd87"
+    },
+    {
+      "path": "previous_results/coeff_01_02/sync/marker_alignment.png",
+      "bytes": 215837,
+      "sha256": "4279e01442647d6c8622aabc997fc211085b3bd2a521a17c84d1f0e3c27b6098"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/include/kan14_lut_infer.h",
+      "bytes": 3398,
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d"
+    },
+    {
+      "path": "project/include/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 447,
+      "sha256": "8776f1dd4656846cde3fc098474ec04b4e3ba8832301c85679785c4f5945e1c1"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 10089,
+      "sha256": "fd6eed8666b4a6f825548e02d7109b62360afed1325c7a94b349078501c180ec"
+    },
+    {
+      "path": "project/tests/HOST_SIMULATION_SAMPLE.txt",
+      "bytes": 1473,
+      "sha256": "b72957fbd2b40e004721bb34f0675660268a2bffcd1b87e090679d0496e4d157"
+    },
+    {
+      "path": "project/tests/HOST_VALIDATION.json",
+      "bytes": 2288,
+      "sha256": "995c6895079272f01ec6130b579b42ab66acbd85b13a8db5d2a7dfffb1118e46"
+    },
+    {
+      "path": "project/tests/arduino_stub.h",
+      "bytes": 1927,
+      "sha256": "f8567eb4f06f21db06f5d1d4575f1878338eba71ac53ea7d60126ee7ce804e39"
+    },
+    {
+      "path": "project/tests/host_harness.cpp",
+      "bytes": 2352,
+      "sha256": "e5ab3292219f44bd73cb2eff73f5c68d7b75c416104b3115d867870e8f33d3c9"
+    },
+    {
+      "path": "project/tests/test_host_pilot.py",
+      "bytes": 6450,
+      "sha256": "6af8437de129fa834d145186d38d6099e9ba22eecd5ca93b3681d80793980c5d"
+    },
+    {
+      "path": "run_mega_energy_pilot.py",
+      "bytes": 20883,
+      "sha256": "7de5b098348cfa7005ac84e1e8b3dcf608b9d9947ed4cfe20af8843615c3afd6"
+    },
+    {
+      "path": "runner_tests.log",
+      "bytes": 2295,
+      "sha256": "3dc95e2ae0a4490a0f838f914d13bea716595992959e366cb0e28982c91c83c4"
+    },
+    {
+      "path": "tests/test_runner.py",
+      "bytes": 10032,
+      "sha256": "82d7fb08c0116636587cddeca169208f75341a62502405542a1b111e8bd382de"
+    },
+    {
+      "path": "validation/coeff_to_lut_source.diff",
+      "bytes": 3048,
+      "sha256": "3147045617b0b36538d89e1ecf5ec4873e308923bd44d84e00b832ecd8c8bded"
+    },
+    {
+      "path": "validation/direct_avr/BUILD_RECORD.json",
+      "bytes": 346378,
+      "sha256": "3d2cd1a81038e0adf1aae7892894594118712dca426344892a46d287597fa91b"
+    },
+    {
+      "path": "validation/direct_avr/firmware.disassembly.txt",
+      "bytes": 295883,
+      "sha256": "49e8cdebf7147f124b594a45a4a76e4354e74f2216f7d5df3fa28cedea6042c9"
+    },
+    {
+      "path": "validation/direct_avr/firmware.elf",
+      "bytes": 64380,
+      "sha256": "4ca3d425e37c7481a2e1733c3281cfdb6079ca29310d679637d58a114b32c095"
+    },
+    {
+      "path": "validation/direct_avr/firmware.hex",
+      "bytes": 118323,
+      "sha256": "5455800cf591e264f74e52fa00a7fc6aa8fa3b89d1652b0a1d9f263653f15ec9"
+    }
+  ]
+}

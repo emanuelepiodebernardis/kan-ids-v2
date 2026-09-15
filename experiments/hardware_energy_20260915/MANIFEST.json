@@ -1,0 +1,1215 @@
+{
+  "schema": "compact-hardware-evidence-manifest-v1",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 298,
+      "sha256": "4d85314ea8568e421e03ec8f63559ec658fb56bc94b095eed496d39d9956d7f6"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 31,
+      "sha256": "bcca457cca4a9cc5704d09b987be726bbfc85d6be51ce93c050e518bdc56e533"
+    },
+    {
+      "path": "CHECKPOINT_REFERENCE.json",
+      "bytes": 674,
+      "sha256": "5d30ea76a463b188adfa1466d409aa76bf326123c31a39b3ec611619fed944a3"
+    },
+    {
+      "path": "IMPORTED_FILES.json",
+      "bytes": 70305,
+      "sha256": "c2c4928ef6d5da62fcdcb9293f8127280c1d63e63b5d95e0d395f811af5a300e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6530,
+      "sha256": "5ace0dda58f8ba4bd2011eedf084f7fef61fb220f2657ee35bc2fe0980fafa95"
+    },
+    {
+      "path": "RUN_INDEX.json",
+      "bytes": 9805,
+      "sha256": "b9b6af96533602dc3716ad05c7c700fb29e4ebb11ac82c6aae86692faca2c557"
+    },
+    {
+      "path": "analysis/cfn_decoder.py",
+      "bytes": 8765,
+      "sha256": "6c96be9059d51b88685f5d6b229c13cd7a6fbf9eaf530c21381f3abc14d42504"
+    },
+    {
+      "path": "firmware/c3/BOARD_TARGET.json",
+      "bytes": 737,
+      "sha256": "0fccba929fab602ef70630390b8c64be1a0f1dd9d3441eccf3e1ec0a4b51a645"
+    },
+    {
+      "path": "firmware/c3/FROZEN_PROVENANCE.json",
+      "bytes": 8830,
+      "sha256": "95e61ca45b78794d1fe7ff30d09b378e11aefdb480d1c4a249b3812641255703"
+    },
+    {
+      "path": "firmware/c3/PROTOCOL_RU.md",
+      "bytes": 9223,
+      "sha256": "0681192d4860bacbf6ac261ce9bd903387e1610319af1a234b9955ea40e8ac97"
+    },
+    {
+      "path": "firmware/c3/SOURCE_MANIFEST.json",
+      "bytes": 6638,
+      "sha256": "d7b6250fd5095ffcc3d97a2163ea9a8ae12ba132bd322d3d12b19b10068912f5"
+    },
+    {
+      "path": "firmware/c3/cfn_decoder.py",
+      "bytes": 8765,
+      "sha256": "6c96be9059d51b88685f5d6b229c13cd7a6fbf9eaf530c21381f3abc14d42504"
+    },
+    {
+      "path": "firmware/c3/project/PROTOCOL.md",
+      "bytes": 5102,
+      "sha256": "13e12ed9fee11ce9c015e7300c29feacd19223a9d2dc0da3efaac081fac20b0b"
+    },
+    {
+      "path": "firmware/c3/project/include/dt5_model.h",
+      "bytes": 19409,
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0"
+    },
+    {
+      "path": "firmware/c3/project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "firmware/c3/project/include/hardware_cohort/dt.h",
+      "bytes": 39825,
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f"
+    },
+    {
+      "path": "firmware/c3/project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "firmware/c3/project/include/hardware_cohort/kan_ml.h",
+      "bytes": 1740,
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b"
+    },
+    {
+      "path": "firmware/c3/project/include/hardware_cohort/mlp.h",
+      "bytes": 42646,
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9"
+    },
+    {
+      "path": "firmware/c3/project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_lut_infer.h",
+      "bytes": 3398,
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_mc_coeff_infer.h",
+      "bytes": 2758,
+      "sha256": "4fbe973e7ba97a8b7943f38740e83bb1f6147fac47729c7c184f01d1c2ba227f"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_mc_coeff_int8.h",
+      "bytes": 35627,
+      "sha256": "4ef43af769d9055f0bd2b286332c62b81931a6588c8a1915745edffbf1dc3c5b"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_mc_test_vectors.h",
+      "bytes": 17689,
+      "sha256": "d05c7239dbbb6fce79b7b8da404cf3c52aab1b5ffa5ecaee814e9090dedc8648"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_ml_coeff_infer.h",
+      "bytes": 3031,
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_ml_coeff_int8.h",
+      "bytes": 22321,
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_ml_test_vectors.h",
+      "bytes": 17992,
+      "sha256": "dc17cbcd6f0a01c18bbe8d153af7868a61794c660183e42f674544202f4dfe3b"
+    },
+    {
+      "path": "firmware/c3/project/include/kan14_test_vectors.h",
+      "bytes": 17995,
+      "sha256": "405c477d7484fe8775bc7f2a1941197901e619aedbb61e0a22830c34f03ed7eb"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_e2e_infer.h",
+      "bytes": 4340,
+      "sha256": "b9d3e807a71d2ce85cb332229b247229f89ac42096624bbb4d28dbe526d60fbc"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_e2e_int.h",
+      "bytes": 11839,
+      "sha256": "6bdccc90afee53a9a8fdda9bd7861c8338d6b3b7f0ca2f25fe202cf76b79209d"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_ids_layer.h",
+      "bytes": 21200,
+      "sha256": "22b9f4e842278c8be72b0a272f4cef7f07961a4e7a5f73ac18b21b38f73bf6b9"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_ids_layer_int.h",
+      "bytes": 23234,
+      "sha256": "5f55f1e8fe2a90c6f4c201aa5ae29ea2b97fce267f74f36968f6f3bead254982"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_infer.h",
+      "bytes": 3725,
+      "sha256": "7827863db566c03596e5f61ac24f7c0290a65e4a77e5cae533e68e7b019535ac"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_mc_e2e_infer.h",
+      "bytes": 5145,
+      "sha256": "4908489819fa269bbc16eab66af068fef8a4990e63d9a34b957e876e84b6aadb"
+    },
+    {
+      "path": "firmware/c3/project/include/kan_mc_e2e_int.h",
+      "bytes": 97952,
+      "sha256": "c557bf09a1c6b497b52f40d4afd1f457a5745ca9c4133f2ce6ce731db47d1a96"
+    },
+    {
+      "path": "firmware/c3/project/include/mlp16_infer.h",
+      "bytes": 3748,
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a"
+    },
+    {
+      "path": "firmware/c3/project/include/mlp16_int8.h",
+      "bytes": 4955,
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f"
+    },
+    {
+      "path": "firmware/c3/project/include/mlp16_test_vectors.h",
+      "bytes": 18212,
+      "sha256": "63811b762e204babfcfc176ff31c05250e22c6b9bd025db3a422fface0dbcc23"
+    },
+    {
+      "path": "firmware/c3/project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "firmware/c3/project/include/test_vectors.h",
+      "bytes": 4848,
+      "sha256": "d9124627c7c133016deee12fcbc99f3ce0fd1f644eb6c466c382c61d40e849c1"
+    },
+    {
+      "path": "firmware/c3/project/platformio.ini",
+      "bytes": 1065,
+      "sha256": "665b89412d14cb25ffdc427042a29ac7c30a2d218a45ce9d71de59d5bcfca668"
+    },
+    {
+      "path": "firmware/c3/project/src/main.cpp",
+      "bytes": 16199,
+      "sha256": "1d30d5f596cf3656ff2bfdb65cc611cd473ca3cf49faf9ae84be622c56d5f7a8"
+    },
+    {
+      "path": "firmware/c3/run_c3_energy_suite.py",
+      "bytes": 33333,
+      "sha256": "93f8b9def80ea0ff08b1c37ffa0c9c8858da7e2951860fe2513a83cfad196bfc"
+    },
+    {
+      "path": "firmware/mega/coeff/FROZEN_PROVENANCE.json",
+      "bytes": 1915,
+      "sha256": "f7dabef1f34a9b4e5eabbf07430772bd73dbcf0f9ab7a8e581a986c2454fda23"
+    },
+    {
+      "path": "firmware/mega/coeff/SOURCE_MANIFEST.json",
+      "bytes": 1970,
+      "sha256": "6e41d88b3bd1b4e4fe67c4c3b23ca1d5eed2a8e68c645e9a00bc75d5a1fec6e5"
+    },
+    {
+      "path": "firmware/mega/coeff/project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "firmware/mega/coeff/project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "firmware/mega/coeff/project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "firmware/mega/coeff/project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "firmware/mega/coeff/project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "firmware/mega/coeff/project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "firmware/mega/coeff/project/platformio.ini",
+      "bytes": 451,
+      "sha256": "b4464b306fb285a6e54cfd1d98162024e789aa61d94ee7766d246318e3dd7bce"
+    },
+    {
+      "path": "firmware/mega/coeff/project/src/main.cpp",
+      "bytes": 10033,
+      "sha256": "a868f00c4340f56cf699cd0339592fd3bdc4e18d73d961d2a1d53c6e826cd493"
+    },
+    {
+      "path": "firmware/mega/coeff/run_mega_energy_pilot.py",
+      "bytes": 20626,
+      "sha256": "78b91930af5db222b0d2241fb23e4d592b072e3339d61a6d524d3a66ddd3c0eb"
+    },
+    {
+      "path": "firmware/mega/dt5/FROZEN_PROVENANCE.json",
+      "bytes": 1338,
+      "sha256": "c7fe63914d5bbc2522d9b04168f378b06f5d6ac8087cedc7de90097f477ec667"
+    },
+    {
+      "path": "firmware/mega/dt5/SOURCE_MANIFEST.json",
+      "bytes": 1633,
+      "sha256": "9970c116196facb5a4584b25a2e3cdc8d5e3f967c47d279a397b93472f1208ff"
+    },
+    {
+      "path": "firmware/mega/dt5/project/include/dt5_model.h",
+      "bytes": 19409,
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0"
+    },
+    {
+      "path": "firmware/mega/dt5/project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "firmware/mega/dt5/project/include/hardware_cohort/dt.h",
+      "bytes": 39825,
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f"
+    },
+    {
+      "path": "firmware/mega/dt5/project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "firmware/mega/dt5/project/platformio.ini",
+      "bytes": 445,
+      "sha256": "9eb3982dad804f1c7e7e33ffa97c6d151b88c13a20f44aef3b79f9fa8debc463"
+    },
+    {
+      "path": "firmware/mega/dt5/project/src/main.cpp",
+      "bytes": 10338,
+      "sha256": "6c40ad6076f23b08ef127592bb64a235fb4718f8a18cde54d2d111e73a7cc56a"
+    },
+    {
+      "path": "firmware/mega/dt5/run_mega_energy_pilot.py",
+      "bytes": 20876,
+      "sha256": "bb1c37f67708609eb386a0e104273179f95d53737b8e951ecd8c3756a543ae49"
+    },
+    {
+      "path": "firmware/mega/kanml/FROZEN_PROVENANCE.json",
+      "bytes": 2229,
+      "sha256": "ae5bd9e1a214f5889faafa074c12876272cb062d5befff04bf368076a9b68d29"
+    },
+    {
+      "path": "firmware/mega/kanml/SOURCE_MANIFEST.json",
+      "bytes": 2152,
+      "sha256": "fde5db7390506a6ab65f414d7e20778c3389750aa28d14f129288ff086ea75c5"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/hardware_cohort/kan_ml.h",
+      "bytes": 1740,
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/kan14_ml_coeff_infer.h",
+      "bytes": 3031,
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/kan14_ml_coeff_int8.h",
+      "bytes": 22321,
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344"
+    },
+    {
+      "path": "firmware/mega/kanml/project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "firmware/mega/kanml/project/platformio.ini",
+      "bytes": 453,
+      "sha256": "c8caef2a11541ef64cbf0716615e1564a96334b1eb6c0152389eac6a3331eb58"
+    },
+    {
+      "path": "firmware/mega/kanml/project/src/main.cpp",
+      "bytes": 10123,
+      "sha256": "b20bdd7099bf9ed7cdd05ef629d9b8c0de56d0792246ac53213c88481e241208"
+    },
+    {
+      "path": "firmware/mega/kanml/run_mega_energy_pilot.py",
+      "bytes": 20896,
+      "sha256": "8216441a4e4d98d63eecdf53ebe7c6a6914c9e5e756fe70d2830b0a80e167d1a"
+    },
+    {
+      "path": "firmware/mega/lut/FROZEN_PROVENANCE.json",
+      "bytes": 1639,
+      "sha256": "a6e198462efd51826b7800fc20db0afb6da77b5cb220675449e78b9f3b5e6412"
+    },
+    {
+      "path": "firmware/mega/lut/SOURCE_MANIFEST.json",
+      "bytes": 1808,
+      "sha256": "7c91dccf37069ff15046bd1b778b21e677bed67b1e5c72a3b96ad5fabeb7799a"
+    },
+    {
+      "path": "firmware/mega/lut/project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "firmware/mega/lut/project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "firmware/mega/lut/project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "firmware/mega/lut/project/include/kan14_lut_infer.h",
+      "bytes": 3398,
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d"
+    },
+    {
+      "path": "firmware/mega/lut/project/include/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "firmware/mega/lut/project/platformio.ini",
+      "bytes": 447,
+      "sha256": "8776f1dd4656846cde3fc098474ec04b4e3ba8832301c85679785c4f5945e1c1"
+    },
+    {
+      "path": "firmware/mega/lut/project/src/main.cpp",
+      "bytes": 10089,
+      "sha256": "fd6eed8666b4a6f825548e02d7109b62360afed1325c7a94b349078501c180ec"
+    },
+    {
+      "path": "firmware/mega/lut/run_mega_energy_pilot.py",
+      "bytes": 20883,
+      "sha256": "7de5b098348cfa7005ac84e1e8b3dcf608b9d9947ed4cfe20af8843615c3afd6"
+    },
+    {
+      "path": "firmware/mega/mlp/FROZEN_PROVENANCE.json",
+      "bytes": 1620,
+      "sha256": "fa6655d298d74e7b9e2418c0237025bf0b80ec6eb408d082d0468d1c71d1d614"
+    },
+    {
+      "path": "firmware/mega/mlp/SOURCE_MANIFEST.json",
+      "bytes": 1798,
+      "sha256": "acef21639942cfae5248cb16e9b24c37b3eb9b4ebd77a44bf7dc5ebe0180a800"
+    },
+    {
+      "path": "firmware/mega/mlp/project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "firmware/mega/mlp/project/include/hardware_cohort/mlp.h",
+      "bytes": 42646,
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9"
+    },
+    {
+      "path": "firmware/mega/mlp/project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "firmware/mega/mlp/project/include/mlp16_infer.h",
+      "bytes": 3748,
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a"
+    },
+    {
+      "path": "firmware/mega/mlp/project/include/mlp16_int8.h",
+      "bytes": 4955,
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f"
+    },
+    {
+      "path": "firmware/mega/mlp/project/platformio.ini",
+      "bytes": 445,
+      "sha256": "9c1d098af4673eab194eb9a4dd8be3c585b2e0c8a7d6535241bb0340771d1979"
+    },
+    {
+      "path": "firmware/mega/mlp/project/src/main.cpp",
+      "bytes": 10070,
+      "sha256": "3f8c2f391ae36918f79fdf5d7cab9f4c043f5280aeb2394d8d4fb0258cee7ad7"
+    },
+    {
+      "path": "firmware/mega/mlp/run_mega_energy_pilot.py",
+      "bytes": 20882,
+      "sha256": "5d8ca45c80d40d6f6c70a2caf49e1871227cd4f97537cae8ef318e9bb31a3456"
+    },
+    {
+      "path": "measurements/c3_coeff_01/CFN_RECEIPT.json",
+      "bytes": 1769,
+      "sha256": "d416a27ca2e832c91d20b3e9d20ac488c5de3c96d37b29bc9d3b80804691f1a7"
+    },
+    {
+      "path": "measurements/c3_coeff_01/RUN_RECORD.json",
+      "bytes": 6274,
+      "sha256": "f5ae749d8a7e8c25bfcc44a0e54cede78f4663a278bf00a58a4349b8f55905e4"
+    },
+    {
+      "path": "measurements/c3_coeff_01/accepted_analysis.json",
+      "bytes": 10512,
+      "sha256": "b4aa8b66432788a6ed327007927bced1d1e6ad5f66e0db5de21ee57d2089e111"
+    },
+    {
+      "path": "measurements/c3_coeff_01/recording.cfn",
+      "bytes": 92509,
+      "sha256": "e591019618675b736b6ae5244fc9dbab5be4ae638c4eed018918324fbd864591"
+    },
+    {
+      "path": "measurements/c3_coeff_01/serial.jsonl",
+      "bytes": 5545,
+      "sha256": "2747c5ecd74182e33d2e42df0535f4c12d406935de078bf0c96125751de48c49"
+    },
+    {
+      "path": "measurements/c3_coeff_01/serial_raw.bin",
+      "bytes": 1724,
+      "sha256": "2e4af9d7d091730dd7de265af9ce664d95159cf92ab18f6a3adacb5777473499"
+    },
+    {
+      "path": "measurements/c3_coeff_02/CFN_RECEIPT.json",
+      "bytes": 1768,
+      "sha256": "d46ebdb48d2663d9f728f97ee835e1f536ea3eeef121391c240dbcc39ff52077"
+    },
+    {
+      "path": "measurements/c3_coeff_02/RUN_RECORD.json",
+      "bytes": 6273,
+      "sha256": "020dbcacab83e15e03d812c3b069dc9c3ac3df7ee61f0c288d3c75b85e01831b"
+    },
+    {
+      "path": "measurements/c3_coeff_02/accepted_analysis.json",
+      "bytes": 10476,
+      "sha256": "94ee2969a3d7bb28a949bfa145d3c46d021e7f04466786881f1e9a0a8c8b37e8"
+    },
+    {
+      "path": "measurements/c3_coeff_02/recording.cfn",
+      "bytes": 86269,
+      "sha256": "467632f9205e9e9fe6caf71eab7aa0981282f9592e9a2218957cf7f3196960ed"
+    },
+    {
+      "path": "measurements/c3_coeff_02/serial.jsonl",
+      "bytes": 5763,
+      "sha256": "72dd5ca46a24a6fb54bba9869547853c6e78edde215111ff189cb8f18be1254f"
+    },
+    {
+      "path": "measurements/c3_coeff_02/serial_raw.bin",
+      "bytes": 1724,
+      "sha256": "7afa4282f22f270ceb31d226d312fa64aa0b60b07e03738bc5b1767366ecb7b8"
+    },
+    {
+      "path": "measurements/c3_dt5_01/CFN_RECEIPT.json",
+      "bytes": 1783,
+      "sha256": "867f7c2d9d881805e05deb3c8bfcc9bef859ee4ea05887eedb5d60e8efa225b1"
+    },
+    {
+      "path": "measurements/c3_dt5_01/RUN_RECORD.json",
+      "bytes": 6281,
+      "sha256": "1f58eebbe5adabeff0018401e0209fe716b3e279cc42a1d20f0a148b8a92bf76"
+    },
+    {
+      "path": "measurements/c3_dt5_01/accepted_analysis.json",
+      "bytes": 10618,
+      "sha256": "076eefe705c857f021254e86d73c2cfb43e3c5bf53ccfdbc08e571b465d07923"
+    },
+    {
+      "path": "measurements/c3_dt5_01/recording.cfn",
+      "bytes": 80893,
+      "sha256": "99eb7948ec0dcbd828d2f3280a301883fd39606e2aea75bff83440c0f8e80606"
+    },
+    {
+      "path": "measurements/c3_dt5_01/serial.jsonl",
+      "bytes": 6201,
+      "sha256": "8af9bb6b49afc3d468803cac78b78ce65c0e4587fab32343b9cab4f60c4394c7"
+    },
+    {
+      "path": "measurements/c3_dt5_01/serial_raw.bin",
+      "bytes": 1725,
+      "sha256": "c82bbd791c1b16286a8a91142a7ddcd320b8900acc8c9e1ce009a4b0ccdde4c7"
+    },
+    {
+      "path": "measurements/c3_dt5_02/CFN_RECEIPT.json",
+      "bytes": 1754,
+      "sha256": "cf6290375f8e9b816b345ef2337d66c9db2fa1e3b82b82f7c4670ed2edbbb1c3"
+    },
+    {
+      "path": "measurements/c3_dt5_02/RUN_RECORD.json",
+      "bytes": 6252,
+      "sha256": "4045e584d44445636aa847cab777c24186bee10c74eb2148fa5e65255ca385e2"
+    },
+    {
+      "path": "measurements/c3_dt5_02/accepted_analysis.json",
+      "bytes": 10505,
+      "sha256": "a20b1264e59982c29aa40b57332ab746d84d41c5c8b720d0b74e66d83ae74894"
+    },
+    {
+      "path": "measurements/c3_dt5_02/recording.cfn",
+      "bytes": 81037,
+      "sha256": "bfba7f8c081b116a5695203df8780fa246f33d857ddbebcf79fd557b74074b44"
+    },
+    {
+      "path": "measurements/c3_dt5_02/serial.jsonl",
+      "bytes": 5656,
+      "sha256": "1e844958b90d4097a37030ac401e4277c4a9158dad75b45deebba1c8edd67426"
+    },
+    {
+      "path": "measurements/c3_dt5_02/serial_raw.bin",
+      "bytes": 1725,
+      "sha256": "90b1ecc4b807dbf17403bceddbfcc4de19e8345e8e99e119de4e2a68301916d7"
+    },
+    {
+      "path": "measurements/c3_kanml_01/CFN_RECEIPT.json",
+      "bytes": 1776,
+      "sha256": "581bf45274092b2ff5ee70394b28561377dd56375316edcfeb9fc5582d090019"
+    },
+    {
+      "path": "measurements/c3_kanml_01/RUN_RECORD.json",
+      "bytes": 6277,
+      "sha256": "980b34b5b2872e403ecbc9846993f636e235cb4b16fbbf24bb9d418a3d9cb4fe"
+    },
+    {
+      "path": "measurements/c3_kanml_01/accepted_analysis.json",
+      "bytes": 10491,
+      "sha256": "6796198f997484661820d0940cb44de431e5773140e75e2f9474e0ba1246a5ef"
+    },
+    {
+      "path": "measurements/c3_kanml_01/recording.cfn",
+      "bytes": 80989,
+      "sha256": "823c90ac0ce01cfd51492807aee20aa8da27180805cbe7dafd1d83e3daa8cc66"
+    },
+    {
+      "path": "measurements/c3_kanml_01/serial.jsonl",
+      "bytes": 5646,
+      "sha256": "87a08ce318f2ce6f410a812ae726eefed46ded9238c8a5e93c8c341cf4682156"
+    },
+    {
+      "path": "measurements/c3_kanml_01/serial_raw.bin",
+      "bytes": 1720,
+      "sha256": "fe03ee32948cee75e8e78d5c0a7ad02b1e15dcb09263cd37f570ad9b41c16bd3"
+    },
+    {
+      "path": "measurements/c3_kanml_02/CFN_RECEIPT.json",
+      "bytes": 1781,
+      "sha256": "63cb24fbf4325ea750099f329e05042d027fd82c8aa3c6e556c7dec5449eeb70"
+    },
+    {
+      "path": "measurements/c3_kanml_02/RUN_RECORD.json",
+      "bytes": 6282,
+      "sha256": "e7a492b755355e3419b7f6180ccb62195915e34b2634b891ace1d5a8a318688e"
+    },
+    {
+      "path": "measurements/c3_kanml_02/accepted_analysis.json",
+      "bytes": 10479,
+      "sha256": "36f6038957fbc22fdb0774e66858ee04b0b707e2db7ab77419972d8cf9b9fa53"
+    },
+    {
+      "path": "measurements/c3_kanml_02/recording.cfn",
+      "bytes": 82525,
+      "sha256": "7f728b9c3f28ab6b497ed99efbb88f0030bf5601d712bd16d473eba6e7656006"
+    },
+    {
+      "path": "measurements/c3_kanml_02/serial.jsonl",
+      "bytes": 6082,
+      "sha256": "9c34c9db3e2249e592e7e651ba98f4f3506d0212a63dad94553c7977d002f542"
+    },
+    {
+      "path": "measurements/c3_kanml_02/serial_raw.bin",
+      "bytes": 1720,
+      "sha256": "2647d885d59220e9d484efdc72687d9b6303cfa5dc2669f14ebcb0933124aedd"
+    },
+    {
+      "path": "measurements/c3_lut_01/CFN_RECEIPT.json",
+      "bytes": 1769,
+      "sha256": "9bcd9519931b3474755440ebd0b210617b4379f78d4ac71ad45522eb50df78a8"
+    },
+    {
+      "path": "measurements/c3_lut_01/RUN_RECORD.json",
+      "bytes": 6267,
+      "sha256": "dd65e1b2bc919a710bdecf3049b44f6981d7d47a2805bb52083ac2bef58360bb"
+    },
+    {
+      "path": "measurements/c3_lut_01/accepted_analysis.json",
+      "bytes": 10563,
+      "sha256": "476465ffdd9ebef421f0df283b2a0e1899630e7d754c2843b2d0e8d14cb8b67f"
+    },
+    {
+      "path": "measurements/c3_lut_01/recording.cfn",
+      "bytes": 87133,
+      "sha256": "9378dd085cda60f27f2ad7d45b86a0757b36a65342bd4a5bf61e51a1ecf921e4"
+    },
+    {
+      "path": "measurements/c3_lut_01/serial.jsonl",
+      "bytes": 5438,
+      "sha256": "93e47ef157f28678b66f4f95013eaf0d905e49eea85013c63d7b21e4f9c8af18"
+    },
+    {
+      "path": "measurements/c3_lut_01/serial_raw.bin",
+      "bytes": 1725,
+      "sha256": "ac2edf76346b72a07ade0280f75dc0c5507c4d9502be65c7cf8f3108ec452fde"
+    },
+    {
+      "path": "measurements/c3_lut_02/CFN_RECEIPT.json",
+      "bytes": 1767,
+      "sha256": "ff7dca474c6f819f9809914f143aadb2ca8e73e5dd9ea626e9d561c76c34fcde"
+    },
+    {
+      "path": "measurements/c3_lut_02/RUN_RECORD.json",
+      "bytes": 6265,
+      "sha256": "c74a97c9097f7ea187da05469604aa9059f97d5978ede21531cb61057a8cc218"
+    },
+    {
+      "path": "measurements/c3_lut_02/accepted_analysis.json",
+      "bytes": 10547,
+      "sha256": "b6723e7a226f017a60ce220204e6d626727dd7b17030b92629beb68571e6e5d1"
+    },
+    {
+      "path": "measurements/c3_lut_02/recording.cfn",
+      "bytes": 80893,
+      "sha256": "0b045ff02c9d8c86c443903f1fefe80edf9f0a291721304bfd216fae1743a434"
+    },
+    {
+      "path": "measurements/c3_lut_02/serial.jsonl",
+      "bytes": 5438,
+      "sha256": "2b3cfd7d14b74b87835a1266ce4c3bebf8239c87a6726891b559f694b736df99"
+    },
+    {
+      "path": "measurements/c3_lut_02/serial_raw.bin",
+      "bytes": 1725,
+      "sha256": "7130c2f84b2613cd4f53aba3519ab1c28e74ed65267ad3b112a3daaa117e69af"
+    },
+    {
+      "path": "measurements/c3_mlp_01/CFN_RECEIPT.json",
+      "bytes": 1770,
+      "sha256": "9b6afa30c493daf281a15b4dfdd1c4a8047ce3202685125b30e47d0798183921"
+    },
+    {
+      "path": "measurements/c3_mlp_01/RUN_RECORD.json",
+      "bytes": 6260,
+      "sha256": "9bd2fc75517114903cea2022ce4828f5c8017750fba26a6ae857dcee7f3e8237"
+    },
+    {
+      "path": "measurements/c3_mlp_01/accepted_analysis.json",
+      "bytes": 10544,
+      "sha256": "fbbfd423996fd84baeb886b72b6697f031893e2e15dd25612ea75c7dca2b5dfe"
+    },
+    {
+      "path": "measurements/c3_mlp_01/recording.cfn",
+      "bytes": 81565,
+      "sha256": "648d61f4ed8c9e7e141c5f5679344e97a04da2046891bbeb1416cfcdbf392c44"
+    },
+    {
+      "path": "measurements/c3_mlp_01/serial.jsonl",
+      "bytes": 5531,
+      "sha256": "bbc4e2f29e2a60e34a32e14ddc8ffb8ac873f28d46853c29a22c071c60ac9c18"
+    },
+    {
+      "path": "measurements/c3_mlp_01/serial_raw.bin",
+      "bytes": 1717,
+      "sha256": "dd84c071c0cb686d8840c9a1583647ada1c43972aed84868b45bf55392ce33e9"
+    },
+    {
+      "path": "measurements/c3_mlp_02/CFN_RECEIPT.json",
+      "bytes": 1768,
+      "sha256": "28bd89c7adeaa88ae45b88689c3955a3d3293921170a137d8d6519906fb1b36d"
+    },
+    {
+      "path": "measurements/c3_mlp_02/RUN_RECORD.json",
+      "bytes": 6258,
+      "sha256": "250997353d85640c43a25365f80b2e913b695ec382cb20601ebcdbf69faa28de"
+    },
+    {
+      "path": "measurements/c3_mlp_02/accepted_analysis.json",
+      "bytes": 10530,
+      "sha256": "832d32e9b0e8599b5b7d3f1ab313f0b652bf4a141aaaf3747ff4f659ec25288f"
+    },
+    {
+      "path": "measurements/c3_mlp_02/recording.cfn",
+      "bytes": 80893,
+      "sha256": "4a29c8320790e53aa65842f88d317c0f192cfd87c044786ce14614461f9cfe00"
+    },
+    {
+      "path": "measurements/c3_mlp_02/serial.jsonl",
+      "bytes": 5749,
+      "sha256": "318605d9b89462dce58e19a181dcf0951d517c213fe3026305bb9ee6051ef903"
+    },
+    {
+      "path": "measurements/c3_mlp_02/serial_raw.bin",
+      "bytes": 1717,
+      "sha256": "d224159629c3582db4e965ed6f98f31fd2d6009d08eead39a8da0dd5b198a940"
+    },
+    {
+      "path": "measurements/mega_coeff_01/RUN_RECORD.json",
+      "bytes": 4925,
+      "sha256": "e5a9cc8547be67725f5c91b73db97cd8e673630bfc2dd675f1b7c53962d3292f"
+    },
+    {
+      "path": "measurements/mega_coeff_01/accepted_analysis.json",
+      "bytes": 8537,
+      "sha256": "de0f06174a4c77f1fa656fef1ad2ba638ee8f0412e9146a4e61ed3cb0745c8a7"
+    },
+    {
+      "path": "measurements/mega_coeff_01/recording.cfn",
+      "bytes": 210637,
+      "sha256": "e7de23ff34cf6eec55435acb52b17eecd59f2520085392d5df41aa314e22a2f8"
+    },
+    {
+      "path": "measurements/mega_coeff_01/serial.jsonl",
+      "bytes": 9285,
+      "sha256": "caf3bf8f445163f02fb32697f8ebcc649f237fc4c245aa778bc56da06d283538"
+    },
+    {
+      "path": "measurements/mega_coeff_01/serial_raw.bin",
+      "bytes": 1205,
+      "sha256": "66a041d6d87d60f5f4fd0334442027fec7e1824d07e4485f03a0cf67b505c4ef"
+    },
+    {
+      "path": "measurements/mega_coeff_01/source_manifest_original.json",
+      "bytes": 5797,
+      "sha256": "76fb3cc4e1cac97816a97e5ed9d67cc185832e1b1796f6419a9b0484cc6e4cea"
+    },
+    {
+      "path": "measurements/mega_coeff_02/RUN_RECORD.json",
+      "bytes": 4924,
+      "sha256": "127b5ed52412753dc74c4dfc76a9eb8883b1fe9584e932d0f940280be3c5141c"
+    },
+    {
+      "path": "measurements/mega_coeff_02/accepted_analysis.json",
+      "bytes": 10604,
+      "sha256": "96a41df58ae576803fde3ffe7a0c7437f59efdcead8a165f86fcc981a255258c"
+    },
+    {
+      "path": "measurements/mega_coeff_02/recording.cfn",
+      "bytes": 81613,
+      "sha256": "c7439cd7c65787841de101bcfead6f8cac05a8fab9f57de593c53842676fbe7d"
+    },
+    {
+      "path": "measurements/mega_coeff_02/serial.jsonl",
+      "bytes": 8847,
+      "sha256": "b69275aba264f0b171163bd24efe6dd770e3e496da459443d719cfc972588ad3"
+    },
+    {
+      "path": "measurements/mega_coeff_02/serial_raw.bin",
+      "bytes": 1204,
+      "sha256": "7b2063d747db77b96f6934d81d8581cd75cbbb5dd765e210f9e09e0239b22056"
+    },
+    {
+      "path": "measurements/mega_coeff_02/source_manifest_original.json",
+      "bytes": 5797,
+      "sha256": "76fb3cc4e1cac97816a97e5ed9d67cc185832e1b1796f6419a9b0484cc6e4cea"
+    },
+    {
+      "path": "measurements/mega_dt5_01/RUN_RECORD.json",
+      "bytes": 5070,
+      "sha256": "3f3e9d999190fcf3dfdba20c31c346ebc2c6cf8bdd51078d17a58a760c2e385c"
+    },
+    {
+      "path": "measurements/mega_dt5_01/accepted_analysis.json",
+      "bytes": 10754,
+      "sha256": "c2fccb3a7c057c1c4c6fddea8ab99b887a5172e49a4fdf8a9b20b827d157e4ca"
+    },
+    {
+      "path": "measurements/mega_dt5_01/recording.cfn",
+      "bytes": 81565,
+      "sha256": "99b221e80a4307d4ea22453995e94ab9188acac72902f0f454de6b1f7b1580e8"
+    },
+    {
+      "path": "measurements/mega_dt5_01/serial.jsonl",
+      "bytes": 8310,
+      "sha256": "e26bf3d237f08855dcd5759bcb1d154dcbc10bab0bdab45bffc1044605d3de3f"
+    },
+    {
+      "path": "measurements/mega_dt5_01/serial_raw.bin",
+      "bytes": 1208,
+      "sha256": "19d4ca2ea2ffc0f606aa586d2e1194bbfd3b58f25f0f45f65200722997222a00"
+    },
+    {
+      "path": "measurements/mega_dt5_01/source_manifest_original.json",
+      "bytes": 5637,
+      "sha256": "9f156c45c5c525308d196c48ffd9c09f98cd020b49d818f5598eea38661d7bde"
+    },
+    {
+      "path": "measurements/mega_dt5_02/RUN_RECORD.json",
+      "bytes": 5069,
+      "sha256": "9f3faac75af8d52bf3ffc67869642be01035ac60c377ee3b44c66cfa661574c7"
+    },
+    {
+      "path": "measurements/mega_dt5_02/accepted_analysis.json",
+      "bytes": 10726,
+      "sha256": "fb2a9e4044dfbd69c02e5d53b0bf4891e1347d7c9b9e4dc427fef320f15382e5"
+    },
+    {
+      "path": "measurements/mega_dt5_02/recording.cfn",
+      "bytes": 84301,
+      "sha256": "54cbcad55cda88a8c9cba80cfb9f697475a96c27762a21b0f07a0b38899d906b"
+    },
+    {
+      "path": "measurements/mega_dt5_02/serial.jsonl",
+      "bytes": 9071,
+      "sha256": "3bda051adefc5a7e83c16e164d744eea97afc73ab67208d7d1af8177f00a80e5"
+    },
+    {
+      "path": "measurements/mega_dt5_02/serial_raw.bin",
+      "bytes": 1207,
+      "sha256": "4fc246271bf78513e6f849963b5fe8ccb69570c66ba3bc7591a98a42e93286f7"
+    },
+    {
+      "path": "measurements/mega_dt5_02/source_manifest_original.json",
+      "bytes": 5637,
+      "sha256": "9f156c45c5c525308d196c48ffd9c09f98cd020b49d818f5598eea38661d7bde"
+    },
+    {
+      "path": "measurements/mega_kanml_01/RUN_RECORD.json",
+      "bytes": 5075,
+      "sha256": "4515c4b7c8e8c3c8802237a65452ce4a67551e9d1f66445829251d43e4bd02be"
+    },
+    {
+      "path": "measurements/mega_kanml_01/accepted_analysis.json",
+      "bytes": 14033,
+      "sha256": "4f40b30f8473c398e43a622418d82cf94547ceb78ef2dcdb47b765fa2f581874"
+    },
+    {
+      "path": "measurements/mega_kanml_01/recording.cfn",
+      "bytes": 82141,
+      "sha256": "6a9bd768640ed46d479500e927ac30db56f0eb67c7d0d2be4e9c16b6c62a205f"
+    },
+    {
+      "path": "measurements/mega_kanml_01/serial.jsonl",
+      "bytes": 8754,
+      "sha256": "e637dfb261561ab5619ab116fa672a68b76215d70a7afa92254dc15278bfcef9"
+    },
+    {
+      "path": "measurements/mega_kanml_01/serial_raw.bin",
+      "bytes": 1212,
+      "sha256": "0a5ece9ac7110c47e60f1b631c8e53c8bfbc29e4d4e835b2230f090d1b28e126"
+    },
+    {
+      "path": "measurements/mega_kanml_01/source_manifest_original.json",
+      "bytes": 5577,
+      "sha256": "bd5d4680f30d4b3463cb87940908a09f72f1ab104b6b1b230e15f24a782d3b64"
+    },
+    {
+      "path": "measurements/mega_kanml_02/RUN_RECORD.json",
+      "bytes": 5074,
+      "sha256": "f3d0822a6a8e7dc0a6a32ab9aa506580a657067606b7c2f244c6109751a2a4de"
+    },
+    {
+      "path": "measurements/mega_kanml_02/accepted_analysis.json",
+      "bytes": 14382,
+      "sha256": "8e600d41c38837c78f3c8efe689bbd13ba9703a0248dca7920c26e6b90eb7ffe"
+    },
+    {
+      "path": "measurements/mega_kanml_02/recording.cfn",
+      "bytes": 84733,
+      "sha256": "f697c5049327919af2f932b9d8a42a127e78618c67de3b23ee490cc0f60b771b"
+    },
+    {
+      "path": "measurements/mega_kanml_02/serial.jsonl",
+      "bytes": 9406,
+      "sha256": "ab15fb67b73ae056eeed077d697240b6ceda21e38ad7135e46a12174a5fe7f7a"
+    },
+    {
+      "path": "measurements/mega_kanml_02/serial_raw.bin",
+      "bytes": 1211,
+      "sha256": "c18dee2a0eaf577b388f49f0d065fe7670e34e49a03297fc46102804708cc7ad"
+    },
+    {
+      "path": "measurements/mega_kanml_02/source_manifest_original.json",
+      "bytes": 5577,
+      "sha256": "bd5d4680f30d4b3463cb87940908a09f72f1ab104b6b1b230e15f24a782d3b64"
+    },
+    {
+      "path": "measurements/mega_lut_01/RUN_RECORD.json",
+      "bytes": 5068,
+      "sha256": "43277f4992b72095c00f6dd9416103aae17ca12d4f75848a45786a5189a16d3a"
+    },
+    {
+      "path": "measurements/mega_lut_01/accepted_analysis.json",
+      "bytes": 11450,
+      "sha256": "28ee301346c1c5b2d2e86143a35c394d4faeed0bcff3dabc221ddeb6c142e349"
+    },
+    {
+      "path": "measurements/mega_lut_01/recording.cfn",
+      "bytes": 80557,
+      "sha256": "9dc7713be07f5ff48fa8ac188e7d9294965406ad126ced31195c1943da21670f"
+    },
+    {
+      "path": "measurements/mega_lut_01/serial.jsonl",
+      "bytes": 8865,
+      "sha256": "b8e4a69baf9537422fee28b2395f1e60fa65e95c05887f30d58638b7092a4d61"
+    },
+    {
+      "path": "measurements/mega_lut_01/serial_raw.bin",
+      "bytes": 1213,
+      "sha256": "96253d647254b41aa3d9c03df3995391596caf590538edfb8b98a6e531b7a77d"
+    },
+    {
+      "path": "measurements/mega_lut_01/source_manifest_original.json",
+      "bytes": 8082,
+      "sha256": "0c3958f1a2cf8e983843be8c5b424d65236d76fc425356b5d3337e46db951cd2"
+    },
+    {
+      "path": "measurements/mega_lut_02/RUN_RECORD.json",
+      "bytes": 5067,
+      "sha256": "edff537a6d48376c9b7644e58161faa98e997e08cfe1027c47f918e2539738ef"
+    },
+    {
+      "path": "measurements/mega_lut_02/accepted_analysis.json",
+      "bytes": 12975,
+      "sha256": "59444e2375438c7f35d344abfc4bf2e7d1686592a9654a4a829214f9c9a10f1b"
+    },
+    {
+      "path": "measurements/mega_lut_02/recording.cfn",
+      "bytes": 82141,
+      "sha256": "348a793338b313357c491bb5324ddba9ba576bedf505a943d90e7e406f2595a5"
+    },
+    {
+      "path": "measurements/mega_lut_02/serial.jsonl",
+      "bytes": 9299,
+      "sha256": "594d1ed5d766097ef68613dcdc7c191a46885ff06acc1d91b1c752d26b00cdf4"
+    },
+    {
+      "path": "measurements/mega_lut_02/serial_raw.bin",
+      "bytes": 1212,
+      "sha256": "9225213f38b6ae532d89d18aba9fbc5be67eae5f3aac269cde8df8e1f2970840"
+    },
+    {
+      "path": "measurements/mega_lut_02/source_manifest_original.json",
+      "bytes": 8082,
+      "sha256": "0c3958f1a2cf8e983843be8c5b424d65236d76fc425356b5d3337e46db951cd2"
+    },
+    {
+      "path": "measurements/mega_mlp_01/RUN_RECORD.json",
+      "bytes": 5063,
+      "sha256": "a3c2817d94b37091c706246ec4a8fc7ebf543369137911ae46fe9df323af85d8"
+    },
+    {
+      "path": "measurements/mega_mlp_01/accepted_analysis.json",
+      "bytes": 13292,
+      "sha256": "82b8f99b35b2ad7decfa27d11d46ae056433c339e855e5ea677f93eda0ef2355"
+    },
+    {
+      "path": "measurements/mega_mlp_01/recording.cfn",
+      "bytes": 82045,
+      "sha256": "3ac640cf39475b7ad2b1040a192517e6add0dfac07e389c4dbae8977d9b52253"
+    },
+    {
+      "path": "measurements/mega_mlp_01/serial.jsonl",
+      "bytes": 8637,
+      "sha256": "f1369e67a05dffa73617b97b4c1ce6b9a23c8c42f067736f523185243e3bd7b5"
+    },
+    {
+      "path": "measurements/mega_mlp_01/serial_raw.bin",
+      "bytes": 1208,
+      "sha256": "26e790780f4329cafa26834eb6cfcbd1590c7fbc9dd376163a2f7efd025198ed"
+    },
+    {
+      "path": "measurements/mega_mlp_01/source_manifest_original.json",
+      "bytes": 4706,
+      "sha256": "d96011f9b097e426b4b15274c4bacddfac7bf93bdc102c0cce7b7024646efada"
+    },
+    {
+      "path": "measurements/mega_mlp_02/RUN_RECORD.json",
+      "bytes": 5064,
+      "sha256": "e3a6a471fdc076140fd04875e77dee4d9921b16b580a620c994a845e4b10a241"
+    },
+    {
+      "path": "measurements/mega_mlp_02/accepted_analysis.json",
+      "bytes": 13722,
+      "sha256": "6c572b72df6b8cee892c73c06f8bf99be97188949ffc2839f3081a340ea6130f"
+    },
+    {
+      "path": "measurements/mega_mlp_02/recording.cfn",
+      "bytes": 81421,
+      "sha256": "405491ebc5279566f093d675e9897184d95fee417666c2144a087d05fe1f727d"
+    },
+    {
+      "path": "measurements/mega_mlp_02/serial.jsonl",
+      "bytes": 8530,
+      "sha256": "b6da0b0f7a5ed0ba979a710361213971f6fd5ce033f60a5319a00daedf094a19"
+    },
+    {
+      "path": "measurements/mega_mlp_02/serial_raw.bin",
+      "bytes": 1209,
+      "sha256": "637b19b805f07c83df520b248917eec317a64ac741a5dfe64c623483389c0008"
+    },
+    {
+      "path": "measurements/mega_mlp_02/source_manifest_original.json",
+      "bytes": 4706,
+      "sha256": "d96011f9b097e426b4b15274c4bacddfac7bf93bdc102c0cce7b7024646efada"
+    },
+    {
+      "path": "provenance/C3_SUITE_RECORD.json",
+      "bytes": 99581,
+      "sha256": "bdd1186269bd338400e49010b4f30c3906a97c654da108c0cd75d3b926536089"
+    },
+    {
+      "path": "provenance/builds/c3_coeff.txt",
+      "bytes": 6028,
+      "sha256": "1689493e64bc8244e4a0513aff4befb9160a73274ad281ad81379ac53caabe6d"
+    },
+    {
+      "path": "provenance/builds/c3_dt5.txt",
+      "bytes": 5912,
+      "sha256": "d02a819c3b994384715394192a194d1be98912e9025eb9a49f2f97b2a75301c6"
+    },
+    {
+      "path": "provenance/builds/c3_kanml.txt",
+      "bytes": 6028,
+      "sha256": "91c5d1b453dc0b06a10873fa6b1010a0b8260c869783230c7b6f3fb4a08f6696"
+    },
+    {
+      "path": "provenance/builds/c3_lut.txt",
+      "bytes": 5912,
+      "sha256": "a85983bd0b7f6abc6c4369b23f699902a5c406f9c1f82ff8850148fe0d62e0ab"
+    },
+    {
+      "path": "provenance/builds/c3_mlp.txt",
+      "bytes": 5912,
+      "sha256": "f6a4f3b456662834a5e521c162ea8f0b1fc696972b981a096f3c57622c2936fd"
+    },
+    {
+      "path": "provenance/builds/mega_coeff.txt",
+      "bytes": 1201,
+      "sha256": "1686aa9ccf96bc6c48bb8c9650cf39ace416061bd1bcc38b7d355bd5bc314b37"
+    },
+    {
+      "path": "provenance/builds/mega_dt5.txt",
+      "bytes": 3388,
+      "sha256": "0aef44704fcbaed96abb039cca7164562344cb023f22aa1f962273a44957a4cd"
+    },
+    {
+      "path": "provenance/builds/mega_kanml.txt",
+      "bytes": 3452,
+      "sha256": "aeafd92c401619326f82f328e205a0fbf3fc40bfc756367188f570bc93834da7"
+    },
+    {
+      "path": "provenance/builds/mega_lut.txt",
+      "bytes": 3388,
+      "sha256": "41505a7972c34501f494a836aa23328d493047e4d5131514549aec93b074f957"
+    },
+    {
+      "path": "provenance/builds/mega_mlp.txt",
+      "bytes": 1228,
+      "sha256": "e47e997f375d480690113157b679f923a32dca734f45116027266abbf9d1cf50"
+    },
+    {
+      "path": "provenance/c3_AUDIT.json",
+      "bytes": 123802,
+      "sha256": "3e719677f18b92fdc451cde1c6c7acff7f24b15a3c9c3fd7584708c186ee4a94"
+    },
+    {
+      "path": "provenance/c3_BINARY_AUDIT.json",
+      "bytes": 38284,
+      "sha256": "3f1b34b5ca24afff395911369958f4659c0f4edac9e5147392dbf139b462d7fa"
+    },
+    {
+      "path": "provenance/c3_REVIEW.json",
+      "bytes": 684,
+      "sha256": "060a1a50a604aaf2209fccc023db11b064af46bd6abf7077411afc3d1f2a4bfd"
+    },
+    {
+      "path": "provenance/c3_SOURCE_IDENTITY.json",
+      "bytes": 10088,
+      "sha256": "66e65d503a0ed74d478b03d36265184b70f0867bc49fdd805139f33ff32f21c3"
+    },
+    {
+      "path": "provenance/c3_VALIDATION.json",
+      "bytes": 18001,
+      "sha256": "5ff7579523539acf56b0a7b0d6d50aece6fcb1a83e2686daa45dfbe83c804860"
+    },
+    {
+      "path": "provenance/c3_VISUAL_QA.json",
+      "bytes": 2138,
+      "sha256": "bcce8b621ffde848e243f2fbf56d14e37691b42be707828f022fc5e6192ed0ce"
+    },
+    {
+      "path": "provenance/c3_source_manifest_original.json",
+      "bytes": 10036,
+      "sha256": "160b5beece5fc5e8b60531c1c69b1509a8457cc06fbccb33b32dad7311e90da6"
+    },
+    {
+      "path": "results/all_20_acquisitions.csv",
+      "bytes": 1926,
+      "sha256": "09df5564672a931105ec36174afd37f483c6225da1c742a9a387982454daea77"
+    },
+    {
+      "path": "results/board_model_means.csv",
+      "bytes": 798,
+      "sha256": "ca7a978abb8c78d8733492b763bcc0642028ba32c15252c19fac71f75db7366e"
+    },
+    {
+      "path": "results/cross_board_ratios.csv",
+      "bytes": 254,
+      "sha256": "9d251b7efe2fae88d94e0690f57bbe6919eb397f51b8c75d8344a7a4452af859"
+    },
+    {
+      "path": "results/firmware_build_sizes.csv",
+      "bytes": 1971,
+      "sha256": "272323a34c93868ceba984d7175b8a1485af0691660ca3e179c6f4fb6332a2a2"
+    },
+    {
+      "path": "results/lut_vs_coeff.csv",
+      "bytes": 268,
+      "sha256": "23b3337227e93d929d43254f9cb19fb2ba8c7b53ef36464abd5229fafe0951b4"
+    },
+    {
+      "path": "verify_measurements.py",
+      "bytes": 7429,
+      "sha256": "f830e4d58b198d8e5d28569b1788978608fb04967024458a60d2aeadbc66e37d"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+# Native instrument records and imported acquisition snapshots are byte evidence.
+*.cfn binary
+*.bin binary
+measurements/** -text
+firmware/** -text
+provenance/** -text
+analysis/cfn_decoder.py -text
+# Preserve original tool output, including its trailing spaces.
+provenance/builds/*.txt -whitespace

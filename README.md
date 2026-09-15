@@ -1,3 +1,5 @@
+> **Hardware update, 15 September 2026:** the [physical energy campaign](experiments/hardware_energy_20260915/README.md) contains 20 accepted acquisitions on Mega 2560 and ESP32-C3, native CFNs, exact firmware sources and a standard-library reproduction command. Energy is estimated at the whole-board USB input for repeated prepared-feature inference; physical peak RAM remains unmeasured. The historical entries below retain their original dates and protocols.
+
 > **Paper 1, integrazione privata v0.9.1 (2026-09-12):** stato corrente, perimetro rispetto a `df72c7764874`, comandi verificati e limiti in [docs/INTEGRATION_20260912_IT.md](docs/INTEGRATION_20260912_IT.md). I blocchi storici sotto restano evidenza delle versioni precedenti.
 
 # KAN-IDS: Kolmogorov–Arnold Networks for Embedded Intrusion Detection
@@ -17,21 +19,23 @@ generalization sections add **BoT-IoT**, **UNSW-NB15** and **CIC-IoT-2023**,
 and each states its own protocol. Source CSVs are preserved in `results/`;
 their existence does not mean the experiments have been independently rerun.
 
-> **Paper 1 finalization, 8 September 2026 — NOT_HARDWARE_MEASURED.**
+> **Historical Paper 1 finalization state, 8 September 2026 — NOT_HARDWARE_MEASURED.**
 > This working copy preserves the RC3 model states and author results. The
 > original snapshot and reports remain unchanged. Current evidence and open
 > gates are indexed in [docs/DOCUMENT_STATUS.md](docs/DOCUMENT_STATUS.md) and
 > [docs/CLAIM_EVIDENCE_MAP.csv](docs/CLAIM_EVIDENCE_MAP.csv). Fresh software
 > checks belong under `artifacts/finalization/`; author CV, transfer and linker
-> results must retain their provenance. No new physical latency, energy or
-> peak-RAM measurements are available. Host checks and Wokwi are not physical
+> results must retain their provenance. At that checkpoint no new physical
+> latency, energy or peak-RAM measurements were available. Host checks and Wokwi are not physical
 > measurements. Hardware-ready freeze requires the exact boards, instruments,
 > current toolchain builds and source/binary hashes.
 >
 > The common-cohort design is
 > [docs/HARDWARE_COMMON_COHORT_IT.md](docs/HARDWARE_COMMON_COHORT_IT.md).
-> The active measurement protocol is
+> The initial proposed measurement protocol was
 > [docs/HARDWARE_ENERGY_PROTOCOL_IT.md](docs/HARDWARE_ENERGY_PROTOCOL_IT.md).
+> The executed FNB58 protocol and its different energy estimator are documented
+> in [the 15 September campaign](experiments/hardware_energy_20260915/README.md).
 > The new `_common_` environments use a shared raw-flow cohort transformed
 > with each model's fixed preprocessor; historical golden-vector environments
 > are retained for functional regression. Do not use historical INA219 hook

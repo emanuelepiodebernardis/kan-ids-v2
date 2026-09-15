@@ -1,0 +1,304 @@
+{
+  "original_delivery_sha256": "8b142f3a59e6bc586352bffe2cbab41eed681a29d7bd10d5feda86abe9a8a824",
+  "manifest": {
+    "bytes": 10036,
+    "sha256": "160b5beece5fc5e8b60531c1c69b1509a8457cc06fbccb33b32dad7311e90da6"
+  },
+  "files": [
+    {
+      "path": "BOARD_TARGET.json",
+      "bytes": 737,
+      "sha256": "0fccba929fab602ef70630390b8c64be1a0f1dd9d3441eccf3e1ec0a4b51a645"
+    },
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 8830,
+      "sha256": "95e61ca45b78794d1fe7ff30d09b378e11aefdb480d1c4a249b3812641255703"
+    },
+    {
+      "path": "PROTOCOL_RU.md",
+      "bytes": 9223,
+      "sha256": "0681192d4860bacbf6ac261ce9bd903387e1610319af1a234b9955ea40e8ac97"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 9107,
+      "sha256": "feddbc651cbebd880a407f9e8670f8e1399ec6bc1e697dae2b0c41e830e999f7"
+    },
+    {
+      "path": "VALIDATION.json",
+      "bytes": 1974,
+      "sha256": "6a27c5c4c1884ef0643a7fa894de6a201d97dfd07720f720742e49288b3a113a"
+    },
+    {
+      "path": "cfn_decoder.py",
+      "bytes": 8765,
+      "sha256": "6c96be9059d51b88685f5d6b229c13cd7a6fbf9eaf530c21381f3abc14d42504"
+    },
+    {
+      "path": "project/PROTOCOL.md",
+      "bytes": 5102,
+      "sha256": "13e12ed9fee11ce9c015e7300c29feacd19223a9d2dc0da3efaac081fac20b0b"
+    },
+    {
+      "path": "project/include/dt5_model.h",
+      "bytes": 19409,
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/dt.h",
+      "bytes": 39825,
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan_ml.h",
+      "bytes": 1740,
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b"
+    },
+    {
+      "path": "project/include/hardware_cohort/mlp.h",
+      "bytes": 42646,
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "project/include/kan14_lut_infer.h",
+      "bytes": 3398,
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d"
+    },
+    {
+      "path": "project/include/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "project/include/kan14_mc_coeff_infer.h",
+      "bytes": 2758,
+      "sha256": "4fbe973e7ba97a8b7943f38740e83bb1f6147fac47729c7c184f01d1c2ba227f"
+    },
+    {
+      "path": "project/include/kan14_mc_coeff_int8.h",
+      "bytes": 35627,
+      "sha256": "4ef43af769d9055f0bd2b286332c62b81931a6588c8a1915745edffbf1dc3c5b"
+    },
+    {
+      "path": "project/include/kan14_mc_test_vectors.h",
+      "bytes": 17689,
+      "sha256": "d05c7239dbbb6fce79b7b8da404cf3c52aab1b5ffa5ecaee814e9090dedc8648"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_infer.h",
+      "bytes": 3031,
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_int8.h",
+      "bytes": 22321,
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344"
+    },
+    {
+      "path": "project/include/kan14_ml_test_vectors.h",
+      "bytes": 17992,
+      "sha256": "dc17cbcd6f0a01c18bbe8d153af7868a61794c660183e42f674544202f4dfe3b"
+    },
+    {
+      "path": "project/include/kan14_test_vectors.h",
+      "bytes": 17995,
+      "sha256": "405c477d7484fe8775bc7f2a1941197901e619aedbb61e0a22830c34f03ed7eb"
+    },
+    {
+      "path": "project/include/kan_e2e_infer.h",
+      "bytes": 4340,
+      "sha256": "b9d3e807a71d2ce85cb332229b247229f89ac42096624bbb4d28dbe526d60fbc"
+    },
+    {
+      "path": "project/include/kan_e2e_int.h",
+      "bytes": 11839,
+      "sha256": "6bdccc90afee53a9a8fdda9bd7861c8338d6b3b7f0ca2f25fe202cf76b79209d"
+    },
+    {
+      "path": "project/include/kan_ids_layer.h",
+      "bytes": 21200,
+      "sha256": "22b9f4e842278c8be72b0a272f4cef7f07961a4e7a5f73ac18b21b38f73bf6b9"
+    },
+    {
+      "path": "project/include/kan_ids_layer_int.h",
+      "bytes": 23234,
+      "sha256": "5f55f1e8fe2a90c6f4c201aa5ae29ea2b97fce267f74f36968f6f3bead254982"
+    },
+    {
+      "path": "project/include/kan_infer.h",
+      "bytes": 3725,
+      "sha256": "7827863db566c03596e5f61ac24f7c0290a65e4a77e5cae533e68e7b019535ac"
+    },
+    {
+      "path": "project/include/kan_mc_e2e_infer.h",
+      "bytes": 5145,
+      "sha256": "4908489819fa269bbc16eab66af068fef8a4990e63d9a34b957e876e84b6aadb"
+    },
+    {
+      "path": "project/include/kan_mc_e2e_int.h",
+      "bytes": 97952,
+      "sha256": "c557bf09a1c6b497b52f40d4afd1f457a5745ca9c4133f2ce6ce731db47d1a96"
+    },
+    {
+      "path": "project/include/mlp16_infer.h",
+      "bytes": 3748,
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a"
+    },
+    {
+      "path": "project/include/mlp16_int8.h",
+      "bytes": 4955,
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f"
+    },
+    {
+      "path": "project/include/mlp16_test_vectors.h",
+      "bytes": 18212,
+      "sha256": "63811b762e204babfcfc176ff31c05250e22c6b9bd025db3a422fface0dbcc23"
+    },
+    {
+      "path": "project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "project/include/test_vectors.h",
+      "bytes": 4848,
+      "sha256": "d9124627c7c133016deee12fcbc99f3ce0fd1f644eb6c466c382c61d40e849c1"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 1065,
+      "sha256": "665b89412d14cb25ffdc427042a29ac7c30a2d218a45ce9d71de59d5bcfca668"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 16199,
+      "sha256": "1d30d5f596cf3656ff2bfdb65cc611cd473ca3cf49faf9ae84be622c56d5f7a8"
+    },
+    {
+      "path": "project/tests/ACTUAL_PROTOCOL_FIXTURES.json",
+      "bytes": 22502,
+      "sha256": "a11957a6cff547737c832333d7922f1ddf19ababc44c1004728c2a8e7553e88e"
+    },
+    {
+      "path": "project/tests/HOST_VALIDATION.json",
+      "bytes": 1296,
+      "sha256": "fb41bc62a9477d710ef3b222abae121452cb999902a947f19559eb4efbc12d1e"
+    },
+    {
+      "path": "project/tests/c3_host_stub.h",
+      "bytes": 3104,
+      "sha256": "9dffe64fe45c506009f1f2e77e14abad4b63a76a574bffc8cf456c118cea8c6b"
+    },
+    {
+      "path": "project/tests/host_harness.cpp",
+      "bytes": 4951,
+      "sha256": "ec0ff52aaed573feb22802fb0f100f9a03eaca1781767429a066a62b9679e373"
+    },
+    {
+      "path": "project/tests/make_protocol_fixtures.py",
+      "bytes": 2162,
+      "sha256": "57c3e6b2152ed4a62199cbdb8161ef24f8ffcf43364b1ab8015c128a7d34f020"
+    },
+    {
+      "path": "project/tests/test_firmware_host.py",
+      "bytes": 1588,
+      "sha256": "4c7213c2b0badfe16f1934e46b515148d23c18f705d01919ff8cea417b66bae0"
+    },
+    {
+      "path": "run_c3_energy_suite.py",
+      "bytes": 33333,
+      "sha256": "93f8b9def80ea0ff08b1c37ffa0c9c8858da7e2951860fe2513a83cfad196bfc"
+    },
+    {
+      "path": "tests/test_runner.py",
+      "bytes": 10974,
+      "sha256": "38ca000bc9c8a6d8889a03e840aa0f0726b0208142d4fdb6280198d985a094f6"
+    },
+    {
+      "path": "validation/REFERENCE_APIS.md",
+      "bytes": 2573,
+      "sha256": "d5f5e32f229c2723adfbdaf672ecb093fab1a41804151c45a439730478ecbc4e"
+    },
+    {
+      "path": "validation/build/01_platform_install.log",
+      "bytes": 228,
+      "sha256": "51a92983f21c2db791c1a77c6df4bb6f2cee57adcb3a082de0906a9547857d46"
+    },
+    {
+      "path": "validation/build/02_tools_install.log",
+      "bytes": 821,
+      "sha256": "761941d05ff99e684bb1488982b2a28eb1f89b4d7bf522589ce80fad29032482"
+    },
+    {
+      "path": "validation/build/README.md",
+      "bytes": 834,
+      "sha256": "f458b18fd69cdf43bcdb538946a5689ff603711b1122f8c0302a03a059066e0f"
+    },
+    {
+      "path": "validation/build/check_frozen_models_host.py",
+      "bytes": 2629,
+      "sha256": "41d914b8cd8cf62001373755fcbf3bc3593075e69c56c8c8ba878cc4ca8f9717"
+    },
+    {
+      "path": "validation/build/frozen_models_host.json",
+      "bytes": 2202,
+      "sha256": "d30c4de98fbd7e76ffab75fcf443deeb2f8739b984f93c5a27ea424a7ec5147c"
+    },
+    {
+      "path": "validation/build/target_build_status.json",
+      "bytes": 1544,
+      "sha256": "d5afb3e1e9b2e651e265d300b8c3dd76699e0f2893ef0891ee0acd1a6c5eeac5"
+    },
+    {
+      "path": "validation/final_runner_tests.log",
+      "bytes": 779,
+      "sha256": "c38e002d1d1de87140a39e1a2932e741cb3b9ee518a5415c8842a9871a60be18"
+    },
+    {
+      "path": "validation/historical_board/chip_id.log",
+      "bytes": 408,
+      "sha256": "a015d314d58ccb569fbc7444d2de76d9b66af4390bf7acf297aef4c2fb40fdcc"
+    },
+    {
+      "path": "validation/historical_board/flash_id.log",
+      "bytes": 386,
+      "sha256": "0347ab7f202aea9f0d83bcd73ad71e2761ae060cef69d65b2e620f60d819bea2"
+    },
+    {
+      "path": "validation/historical_board/platformio.ini",
+      "bytes": 608,
+      "sha256": "9aa7e6305cf325cc5bc00c46014279a7daa0accc3f10142130cf54a6878df202"
+    },
+    {
+      "path": "validation/runner_validation.json",
+      "bytes": 3530,
+      "sha256": "ed26ce6582f7d96317c7be39c44b70769589e77292a0a722ab8b403683554262"
+    }
+  ]
+}

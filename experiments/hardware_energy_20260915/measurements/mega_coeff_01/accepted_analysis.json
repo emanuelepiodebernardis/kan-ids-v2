@@ -1,0 +1,231 @@
+{
+  "status": "PILOT_01_USABLE_FOR_METHOD_DEVELOPMENT_REPEATABILITY_PENDING",
+  "inputs": {
+    "mega_coeff_pilot_01.cfn": "e7de23ff34cf6eec55435acb52b17eecd59f2520085392d5df41aa314e22a2f8",
+    "MEGA_PILOT_20260915T155739Z_1ec1cd0b.zip": "614e62f76958406b583c57af8db52ebe3bd256b02d3cfb183a9d685c3c667c41"
+  },
+  "protocol": {
+    "variant": "coeff_int8",
+    "board": "same Arduino Mega 2560",
+    "count": 86000,
+    "active_seconds_MCU": 119.986132,
+    "mean_call_us": 1395.1875813953488,
+    "calls_per_MCU_second": 716.7494990171031,
+    "individual_inputs_checked": 20,
+    "checksum": 43000,
+    "reference": "frozen compiled-C predictions",
+    "physical_runs_analyzed": 1
+  },
+  "central_window": {
+    "cfn_bounds_s": [
+      60.09158638301975,
+      120.054677582905
+    ],
+    "stored_points_strictly_inside": 600,
+    "mean_voltage_V": 4.995643334081099,
+    "mean_current_A": 0.07079176089477686,
+    "mean_power_W": 0.35365041393745456
+  },
+  "central_window_rule": "Middle 60 MCU seconds of active interval; mapped using 12 independently fitted LED edge centers. Rule specified in delivered README before pilot.",
+  "mean_method": "Trapezoidal time average with linear interpolation only at window endpoints; PBUS equals V*I at every stored point.",
+  "three_20_MCU_second_segments": [
+    {
+      "cfn_bounds_s": [
+        60.09158638301975,
+        80.07928344964817
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.995203298817941,
+      "mean_current_A": 0.07077702753158677,
+      "mean_power_W": 0.353545660614646
+    },
+    {
+      "cfn_bounds_s": [
+        80.07928344964817,
+        100.06698051627659
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.995959465236697,
+      "mean_current_A": 0.07080103833579543,
+      "mean_power_W": 0.35371913205104544
+    },
+    {
+      "cfn_bounds_s": [
+        100.06698051627659,
+        120.054677582905
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.99576723818866,
+      "mean_current_A": 0.07079721681694841,
+      "mean_power_W": 0.3536864491466721
+    }
+  ],
+  "segment_mean_range_percent": 0.04905167067898083,
+  "window_shift_sensitivity": [
+    {
+      "shift_s": -2,
+      "cfn_bounds_s": [
+        58.09158638301975,
+        118.054677582905
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.995602156756949,
+      "mean_current_A": 0.07078826914416257,
+      "mean_power_W": 0.353630059930799
+    },
+    {
+      "shift_s": -1,
+      "cfn_bounds_s": [
+        59.09158638301975,
+        119.054677582905
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.99564213132153,
+      "mean_current_A": 0.07079129374683167,
+      "mean_power_W": 0.35364799530362506
+    },
+    {
+      "shift_s": 0,
+      "cfn_bounds_s": [
+        60.09158638301975,
+        120.054677582905
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.995643334081099,
+      "mean_current_A": 0.07079176089477686,
+      "mean_power_W": 0.35365041393745456
+    },
+    {
+      "shift_s": 1,
+      "cfn_bounds_s": [
+        61.09158638301975,
+        121.054677582905
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.995653752143313,
+      "mean_current_A": 0.07079168442849469,
+      "mean_power_W": 0.35365076935106377
+    },
+    {
+      "shift_s": 2,
+      "cfn_bounds_s": [
+        62.09158638301975,
+        122.054677582905
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.99568128592178,
+      "mean_current_A": 0.07079186672220353,
+      "mean_power_W": 0.35365362924389915
+    }
+  ],
+  "max_abs_power_change_for_2s_shifts_percent": 0.005755403034581189,
+  "energy_estimate": {
+    "method": "central stationary mean(V*I) * active_MCU_seconds / inference_count",
+    "J_per_call": 0.0004934086656808612,
+    "mJ_per_call": 0.4934086656808612,
+    "estimated_full_batch_J": 42.43314524855406,
+    "exact_synchronized_active_integral": false,
+    "scope": "USB measurement point: whole board, downstream cable losses and loop overhead; prepared inputs already in RAM; no idle subtraction"
+  },
+  "sync": {
+    "source_sha256": "e7de23ff34cf6eec55435acb52b17eecd59f2520085392d5df41aa314e22a2f8",
+    "records": 4386,
+    "recorded_grid_step_s": 0.1,
+    "recorded_span_s": 438.5,
+    "sync_assessment": "ACCEPTED_FOR_PILOT_INTERIOR_IDENTIFICATION; absolute acquisition latency not calibrated",
+    "observations": {
+      "two_2_4_2_patterns_visible": true,
+      "ramps_approximately_one_second": true,
+      "fourfold_recorded_timescale_error_rejected_by_marker_separation": true
+    },
+    "descriptive_joint_fit": {
+      "model": "CFN apparent ramp onset = offset + scale * MCU event time, followed by shared clipped linear ramp; separate local baselines/drifts/amplitudes. Empirical model only.",
+      "offset_s": 9.640415740147919,
+      "recorded_seconds_per_MCU_second": 0.9994294955185287,
+      "linear_ramp_width_s": 0.9710587087664729,
+      "median_abs_residual_mA": 0.05378208271064011,
+      "rms_residual_mA": 0.08207030510071898,
+      "pre_baseline_mA": 72.01758805824353,
+      "pre_slope_mA_per_s": 0.0022365038975869916,
+      "pre_LED_amplitude_mA": 2.607260093063724,
+      "post_baseline_mA": 72.1225801127135,
+      "post_slope_mA_per_s": -0.009400986179595972,
+      "post_LED_amplitude_mA": 2.8543563604600495,
+      "active_apparent_ramp_onsets_s": [
+        29.629141572929885,
+        149.54682094690946
+      ],
+      "active_half_height_coordinates_s": [
+        30.11467092731312,
+        150.0323503012927
+      ]
+    },
+    "independent_observed_pattern_comparison": {
+      "best_lag_s": 149.89200000000523,
+      "Pearson_correlation_after_shift": 0.9960089321546639,
+      "MCU_marker_separation_s": 149.98628,
+      "ratio": 0.9993714091715937
+    },
+    "conservative_interior": {
+      "CFN_bounds_s": [
+        33.0,
+        147.0
+      ],
+      "samples": 1141,
+      "mean_current_mA": 70.77236634531113,
+      "mean_VI_power_W": 0.35353892582769497
+    },
+    "limits": [
+      "No CFN hardware acquisition timestamps or GPIO channels.",
+      "Observed transition width is about 1 s, so 0.1 s storage grid is not 0.1 s edge resolution.",
+      "An unknown common filter/transport delay is inseparable from recording start offset.",
+      "Fit precision is descriptive, not a confidence interval or calibration uncertainty.",
+      "Do not use post-WAIT_DONE current as the same idle/reference state as the firmware guard; these states differ.",
+      "No energy-per-inference estimate is made by this synchronization audit."
+    ],
+    "independent_edge_centers": {
+      "method": "12 independently movable edge centers, shared empirical ramp width; then unweighted least squares affine map. No individual event time tied to MCU during waveform fit.",
+      "affine_center_offset_s": 10.12913753468166,
+      "affine_scale": 0.9993848533314208,
+      "edge_center_residual_rms_s": 0.03119743970747971,
+      "edge_center_residual_max_abs_s": 0.06300494818276547,
+      "descriptive_shared_ramp_width_s": 0.971167355530352,
+      "individual_edge_centers_s": [
+        10.130243910008119,
+        12.099712075056425,
+        13.16523434903259,
+        17.150699101383402,
+        18.07700734863445,
+        20.13385034479291,
+        160.03739350699715,
+        161.95895071300245,
+        163.0559397570304,
+        167.04472407973356,
+        168.02532233844232,
+        169.99854224928973
+      ],
+      "central_60_mcu_bounds_s": [
+        49.993202,
+        109.993202
+      ],
+      "central_60_cfn_bounds_s": [
+        60.09158638301975,
+        120.054677582905
+      ],
+      "uncertainty_note": "Residual scatter is fit consistency, not a calibrated absolute time uncertainty. Unknown common latency remains confounded with offset; moving-average-like broadening is about 1 s."
+    }
+  },
+  "NRG_used": false,
+  "NRG_ratio_to_full_record_VI_integral": 0.2500008641032631,
+  "limits": [
+    "Single exploratory pilot; no between-run dispersion or confidence interval.",
+    "Meter absolute accuracy and MCU clock calibration not established.",
+    "About 1 s observed edge broadening; 0.1 s storage grid does not establish temporal resolution or independent samples.",
+    "No bare-chip energy, preprocessing/network energy, peak RAM, or identical idle-reference subtraction measured."
+  ],
+  "analysis_dependencies": {
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "matplotlib": "3.10.8"
+  }
+}

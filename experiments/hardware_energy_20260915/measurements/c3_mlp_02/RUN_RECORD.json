@@ -1,0 +1,243 @@
+{
+  "run_id": "C3_MLP_02_ba9ad428",
+  "suite_id": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258",
+  "model": "mlp",
+  "repeat": 2,
+  "started_utc": "2026-09-15T19:25:02.438+00:00",
+  "status": "software_and_cfn_structure_pass_alignment_pending",
+  "board": {
+    "port": "COM10",
+    "vid": 12346,
+    "pid": 4097,
+    "serial_number": "10:00:3B:CB:8D:70",
+    "description": "Устройство с последовательным интерфейсом USB (COM10)"
+  },
+  "source_manifest": {
+    "bytes": 10036,
+    "sha256": "160b5beece5fc5e8b60531c1c69b1509a8457cc06fbccb33b32dad7311e90da6"
+  },
+  "binaries": {
+    "firmware.elf": {
+      "bytes": 6238140,
+      "sha256": "59f41dc17cfbf53b267a79ee970f0fa3c7cc3bca2ce09ec57970093df4907d7a"
+    },
+    "firmware.bin": {
+      "bytes": 283728,
+      "sha256": "7d3cee6204ccc4cd79f8316ddb753385066981f6afb26881b53c8252de067fdd"
+    },
+    "partitions.bin": {
+      "bytes": 3072,
+      "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+    },
+    "bootloader.bin": {
+      "bytes": 13248,
+      "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+    }
+  },
+  "setup_path": "setup/mlp",
+  "build_path": "builds/mlp",
+  "sources_path": "sources",
+  "energy_result_available": false,
+  "info": {
+    "HELLO": {
+      "protocol": "kanids-c3-fnb58-suite-v1"
+    },
+    "MODEL": {
+      "variant": "mlp",
+      "model_bytes": "760",
+      "cohort_sha256": "20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f"
+    },
+    "COHORT": {
+      "rows": "first20",
+      "order": "attack_normal_interleaved",
+      "boundary": "prepared_features_in_RAM",
+      "model_placement": "flash"
+    },
+    "RAW_IDS": {
+      "values": "57978,126454,49019,94298,183174,127803,12386,91098,14299,116321,148681,119000,150843,98347,80922,124992,204398,82285,25406,123258"
+    },
+    "SYSTEM": {
+      "chip": "ESP32-C3",
+      "mac": "10:00:3b:cb:8d:70",
+      "cpu_mhz": "160",
+      "flash_bytes": "4194304",
+      "timer": "esp_timer_get_time",
+      "timer_bits": "64",
+      "interrupts": "enabled",
+      "active_yield": "0",
+      "led_gpio": "8",
+      "led_active": "LOW",
+      "led_confirmed": "1",
+      "wifi": "not_initialized",
+      "bt": "not_initialized"
+    },
+    "WDT": {
+      "policy": "idle0_subscription_temporarily_suspended",
+      "idle_before": "0",
+      "loop_before": "0"
+    },
+    "INFO_DONE": {
+      "state": "done"
+    }
+  },
+  "ready": {
+    "count": 6054380,
+    "target_us": 120000000,
+    "cal_n": 6400,
+    "cal_us": 126850,
+    "checksum_per20": 10
+  },
+  "run_command_utc": "2026-09-15T19:25:10.710+00:00",
+  "result": {
+    "done": {
+      "count": 6054380,
+      "active_us": 120004231,
+      "checksum": 3027190,
+      "expected": 3027190,
+      "correct": 1,
+      "timing_ok": 1,
+      "wdt_restored": 1
+    },
+    "events": [
+      {
+        "name": "pre_led_on_1",
+        "us": 2
+      },
+      {
+        "name": "pre_led_off_1",
+        "us": 2000001
+      },
+      {
+        "name": "pre_led_on_2",
+        "us": 3000001
+      },
+      {
+        "name": "pre_led_off_2",
+        "us": 7000001
+      },
+      {
+        "name": "pre_led_on_3",
+        "us": 8000001
+      },
+      {
+        "name": "pre_led_off_3",
+        "us": 10000001
+      },
+      {
+        "name": "active_begin",
+        "us": 20000002
+      },
+      {
+        "name": "active_end",
+        "us": 140004233
+      },
+      {
+        "name": "post_led_on_1",
+        "us": 150004001
+      },
+      {
+        "name": "post_led_off_1",
+        "us": 152004001
+      },
+      {
+        "name": "post_led_on_2",
+        "us": 153004001
+      },
+      {
+        "name": "post_led_off_2",
+        "us": 157004001
+      },
+      {
+        "name": "post_led_on_3",
+        "us": 158004001
+      },
+      {
+        "name": "post_led_off_3",
+        "us": 160004001
+      }
+    ],
+    "watchdog": [
+      {
+        "phase": "before",
+        "idle_before": "0",
+        "loop_before": "0",
+        "suspended": "0"
+      },
+      {
+        "phase": "after",
+        "idle_before": "0",
+        "loop_before": "0",
+        "suspended": "0",
+        "restored": "1"
+      }
+    ],
+    "software_protocol_pass": true,
+    "external_trace_pending": true,
+    "energy_result_available": false
+  },
+  "cfn": {
+    "file": {
+      "bytes": 80893,
+      "sha256": "4a29c8320790e53aa65842f88d317c0f192cfd87c044786ce14614461f9cfe00"
+    },
+    "metadata": {
+      "source_name": "c3_mlp_pilot_02_b8cf9258.cfn",
+      "source_sha256": "4a29c8320790e53aa65842f88d317c0f192cfd87c044786ce14614461f9cfe00",
+      "source_bytes": 80893,
+      "sample_rate_header_sps": 10.0,
+      "start_current_mA": 0,
+      "stop_current_mA": 0,
+      "stop_time_s": 5,
+      "channels": [
+        {
+          "code": 0,
+          "name": "VBUS_V",
+          "argb": "#ffffff00",
+          "has_header_extrema": true,
+          "header_max": 5.00136,
+          "header_min": 4.99655
+        },
+        {
+          "code": 1,
+          "name": "IBUS_A",
+          "argb": "#ff00ff00",
+          "has_header_extrema": true,
+          "header_max": 0.03466,
+          "header_min": 0.01998
+        },
+        {
+          "code": 4,
+          "name": "PBUS_W",
+          "argb": "#ffff55ff",
+          "has_header_extrema": true,
+          "header_max": 0.1733010398,
+          "header_min": 0.099902997
+        },
+        {
+          "code": 5,
+          "name": "CAP_Ah_as_documented",
+          "argb": "#ffff5500",
+          "has_header_extrema": false
+        },
+        {
+          "code": 6,
+          "name": "NRG_Wh_as_documented",
+          "argb": "#ffffaa00",
+          "has_header_extrema": false
+        }
+      ],
+      "records": 1683,
+      "data_offset_bytes": 109,
+      "record_bytes": 48,
+      "decoded_to_exact_eof": true
+    },
+    "span_s": 168.20000000000002,
+    "mtime_utc": "2026-09-15T19:28:03.146726+00:00",
+    "structural_pass": true,
+    "marker_alignment_pending": true,
+    "energy_result_available": false,
+    "supplied_path": "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_C3_FNB58_ALL_PILOTS_20260915\\captures\\c3_mlp_pilot_02_b8cf9258.cfn",
+    "saved_name": "c3_mlp_pilot_02_b8cf9258.cfn"
+  },
+  "finished_utc": "2026-09-15T19:28:10.201+00:00"
+}

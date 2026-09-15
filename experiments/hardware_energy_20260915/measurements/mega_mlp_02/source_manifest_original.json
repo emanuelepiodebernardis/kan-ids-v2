@@ -1,0 +1,141 @@
+{
+  "schema": "kanids-pilot-source-manifest-v1",
+  "scope": "Operational sources, instructions and validation. Historical analysis is covered by PACKAGE_MANIFEST and is not copied into each new run.",
+  "files": [
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 1620,
+      "sha256": "fa6655d298d74e7b9e2418c0237025bf0b80ec6eb408d082d0468d1c71d1d614"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 11234,
+      "sha256": "84ff2491bc0dadd6805809f87d21396dce5b9a359e58f3848874941833ae0f08"
+    },
+    {
+      "path": "VALIDATION.json",
+      "bytes": 1230,
+      "sha256": "0490df5109d5a16f127d4c8ed3c73c4f6e8e1d3f9400ab62aea06075da849b4c"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/mlp.h",
+      "bytes": 42646,
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/include/mlp16_infer.h",
+      "bytes": 3748,
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a"
+    },
+    {
+      "path": "project/include/mlp16_int8.h",
+      "bytes": 4955,
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 445,
+      "sha256": "9c1d098af4673eab194eb9a4dd8be3c585b2e0c8a7d6535241bb0340771d1979"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 10070,
+      "sha256": "3f8c2f391ae36918f79fdf5d7cab9f4c043f5280aeb2394d8d4fb0258cee7ad7"
+    },
+    {
+      "path": "project/tests/HOST_SIMULATION_SAMPLE.txt",
+      "bytes": 1326,
+      "sha256": "f9b297349b64875bd1d6e74cee65ebde9b26eaedb476d36913c4b0e98622be0d"
+    },
+    {
+      "path": "project/tests/HOST_VALIDATION.json",
+      "bytes": 2545,
+      "sha256": "44903723f484da4228e9fff59bfc957eac0aaf3f4ef76901ca723cd6a0d085e5"
+    },
+    {
+      "path": "project/tests/arduino_stub.h",
+      "bytes": 1927,
+      "sha256": "f8567eb4f06f21db06f5d1d4575f1878338eba71ac53ea7d60126ee7ce804e39"
+    },
+    {
+      "path": "project/tests/host_harness.cpp",
+      "bytes": 2338,
+      "sha256": "94cee8c46f3d004ec9dc6683fed8033cfb65770207724961d1f4f7df6a6476e4"
+    },
+    {
+      "path": "project/tests/test_host_pilot.py",
+      "bytes": 6441,
+      "sha256": "9a16e608e2f232c95817f46734c46d33259be2317c4c4b127445b6c36e4659a0"
+    },
+    {
+      "path": "run_mega_energy_pilot.py",
+      "bytes": 20882,
+      "sha256": "5d8ca45c80d40d6f6c70a2caf49e1871227cd4f97537cae8ef318e9bb31a3456"
+    },
+    {
+      "path": "runner_tests.log",
+      "bytes": 2295,
+      "sha256": "65dcc6d1b2fb3d1bc1b0d4f96f63d36f32465e263544f64dff596aaa5d34c835"
+    },
+    {
+      "path": "tests/test_runner.py",
+      "bytes": 10030,
+      "sha256": "798cea0bf4ae9fbd900865154dd0bca98af88c77e57732c094ccbdfa94b6538f"
+    },
+    {
+      "path": "validation/common_input_comparison.json",
+      "bytes": 387,
+      "sha256": "e5afedbc148fbcfc2dd3bdd59ca40bf5e07d8224fe53723ef2789e156e92f336"
+    },
+    {
+      "path": "validation/delta_main.cpp.diff",
+      "bytes": 3090,
+      "sha256": "5c5d1f7c447d5d725c34b956b4fcb734e7dc58440921ebd00ffd1fd0b7b561c7"
+    },
+    {
+      "path": "validation/delta_run_mega_energy_pilot.py.diff",
+      "bytes": 2934,
+      "sha256": "4995cf336c1750075a48d1c8b920d43da222bb4e1f9a47e9c42a4109c09425bd"
+    },
+    {
+      "path": "validation/direct_avr/BUILD_RECORD.json",
+      "bytes": 246298,
+      "sha256": "3dda5e597b0c16976c9e0b6ce5b397fec5634ad1021ba446e0cb8193db8515a4"
+    },
+    {
+      "path": "validation/direct_avr/active_batch.txt",
+      "bytes": 2873,
+      "sha256": "e77c4b562c832f0a74a47e12a0b3beec042199fcd03d1c5c41b96d98f00eebab"
+    },
+    {
+      "path": "validation/direct_avr/firmware.disassembly.txt",
+      "bytes": 198305,
+      "sha256": "a55e9bf21fa77e4c948ad2df9a60f32aaecbf89490d9006b52c42a99c7ab2bbc"
+    },
+    {
+      "path": "validation/direct_avr/firmware.elf",
+      "bytes": 45044,
+      "sha256": "e3a91b1a252c7e6b1aaa666d4dc20905739fc02190c7665ab5a8875be028439e"
+    },
+    {
+      "path": "validation/direct_avr/firmware.hex",
+      "bytes": 62768,
+      "sha256": "fdd3ad0012c0ca04b5a594f3189cc5347d14a48b94af023f591e2e36630b3cb7"
+    },
+    {
+      "path": "validation/frozen_hardware_cohort.json",
+      "bytes": 3718,
+      "sha256": "4a4f7628d8965abbc9ba7cbf6d28e380cbf59a48c3b95f4429570df81af9d465"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+HELLO protocol=kanids-c3-fnb58-suite-v1
+MODEL variant=coeff model_bytes=254 cohort_sha256=20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f
+COHORT rows=first20 order=attack_normal_interleaved boundary=prepared_features_in_RAM model_placement=flash
+RAW_IDS values=57978,126454,49019,94298,183174,127803,12386,91098,14299,116321,148681,119000,150843,98347,80922,124992,204398,82285,25406,123258
+SYSTEM chip=ESP32-C3 mac=10:00:3b:cb:8d:70 cpu_mhz=160 flash_bytes=4194304 timer=esp_timer_get_time timer_bits=64 interrupts=enabled active_yield=0 led_gpio=8 led_active=LOW led_confirmed=1 wifi=not_initialized bt=not_initialized
+WDT policy=idle0_subscription_temporarily_suspended idle_before=0 loop_before=0
+INFO_DONE state=done
+CORRECTNESS checked=20 correct=1 reference=compiled_C_predictions
+READY count=23018300 target_us=120000000 cal_n=25600 cal_us=133459 checksum_per20=10
+WDT phase=before idle_before=0 loop_before=0 suspended=0
+PREP sync=begin
+DONE count=23018300 active_us=120001607 checksum=11509150 expected=11509150 correct=1 timing_ok=1 wdt_restored=1
+EVENT name=pre_led_on_1 us=3
+EVENT name=pre_led_off_1 us=2000001
+EVENT name=pre_led_on_2 us=3000002
+EVENT name=pre_led_off_2 us=7000001
+EVENT name=pre_led_on_3 us=8000002
+EVENT name=pre_led_off_3 us=10000002
+EVENT name=active_begin us=20000002
+EVENT name=active_end us=140001609
+EVENT name=post_led_on_1 us=150001001
+EVENT name=post_led_off_1 us=152001001
+EVENT name=post_led_on_2 us=153001001
+EVENT name=post_led_off_2 us=157001001
+EVENT name=post_led_on_3 us=158001001
+EVENT name=post_led_off_3 us=160001001
+WDT phase=after idle_before=0 loop_before=0 suspended=0 restored=1
+WAIT_DONE reset_required=0 rearm_allowed=1

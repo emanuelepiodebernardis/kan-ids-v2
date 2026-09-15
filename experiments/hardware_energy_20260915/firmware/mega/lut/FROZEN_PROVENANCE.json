@@ -1,0 +1,36 @@
+{
+  "archive_name": "KAN_IDS_NEW_CHAT_20260912_v1.1.0.zip",
+  "archive_sha256": "6ed738eb25589804f28491321f5c32f3a40b8cd0160b1718449aca15623b5f6d",
+  "files": [
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/mcu_pio/include/hardware_cohort_select.h",
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03",
+      "bytes": 3035
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/mcu_pio/include/hardware_cohort/common.h",
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7",
+      "bytes": 5948
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/mcu_pio/include/hardware_cohort/kan.h",
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284",
+      "bytes": 44271
+    },
+    {
+      "path": "project/include/kan14_lut_infer.h",
+      "archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/mcu_pio/include/kan14_lut_infer.h",
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d",
+      "bytes": 3398
+    },
+    {
+      "path": "project/include/kan14_lut_int16.h",
+      "archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/mcu_pio/include/kan14_lut_int16.h",
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb",
+      "bytes": 71802
+    }
+  ]
+}

@@ -125,16 +125,16 @@ def fig(name, width=15.5 * cm, caption=None):
 
 def main():
     story = []
-    story.append(P("KAN-IDS — Paper 1: software review", "title"))
-    story.append(P("Emanuele Pio De Bernardis; Oleksandr Kuznetsov<br/>"
-                   "Finalizzazione del software — 8 settembre 2026", "sub"))
+    story.append(P("KAN-IDS — Paper 1: software e misure fisiche", "title"))
+    story.append(P("Oleksandr Kuznetsov; Emanuele Pio De Bernardis<br/>"
+                   "Aggiornamento delle evidenze — 15 settembre 2026", "sub"))
     story.append(P(
-        "<b>Stato: NOT_HARDWARE_MEASURED.</b> Le tabelle CV e cross-domain "
+        "<b>Stato: misure fisiche di latenza ed energia disponibili.</b> Le tabelle CV e cross-domain "
         "riproducono gli artefatti salvati dell'autore, non nuovi addestramenti o "
         "repliche indipendenti. Le verifiche software della finalizzazione sono "
-        "identificate separatamente. Nessuna latenza, energia o peak RAM fisica "
-        "e' stata misurata in questa revisione; host e Wokwi non sostituiscono "
-        "le misure su Mega 2560 ed ESP32-C3. Il PDF RC3 originale resta invariato."))
+        "identificate separatamente. La campagna FNB58 del 15 settembre aggiunge "
+        "stime fisiche di energia per la scheda intera, su ingressi preparati; "
+        "il peak RAM non e' misurato. Il PDF RC3 originale resta invariato."))
 
     # ── 1. protocollo ────────────────────────────────────────
     story.append(P("1. Protocollo", "h1"))
@@ -380,15 +380,36 @@ def main():
         "in warm cache. Il costo di preprocessing e il carico live di rete "
         "non rientrano in questa misura del kernel. I percorsi E2E e multiclass "
         "rimangono separati."))
+    energy_root = REPO / "experiments/hardware_energy_20260915"
+    energy_runs = pd.read_csv(energy_root / "results/all_20_acquisitions.csv")
+    energy_means = pd.read_csv(energy_root / "results/board_model_means.csv")
     story.append(P(
-        "Il protocollo corrente e' docs/HARDWARE_ENERGY_PROTOCOL_IT.md. "
-        "La metrica principale e' l'integrale V(t)I(t) nella finestra attiva "
-        "diviso per N. L'eventuale differenza rispetto al busy reference loop "
-        "usa le durate effettive ed e' una quantita' separata, che puo' essere "
-        "negativa. Non e' energia fisica negativa. Servono strumenti, "
-        "alimentazione, pin compatibili e sincronizzazione dichiarati prima "
-        "del collegamento. I vecchi hook INA219 nei firmware di latenza "
-        "non forniscono dati energetici validi per l'articolo."))
+        "La campagna eseguita il 15 settembre 2026 e' documentata in "
+        "experiments/hardware_energy_20260915/README.md. Il FNB58 registra "
+        "VBUS e IBUS a 10 campioni/s. Due codici LED ai lati del batch "
+        "consentono la sincronizzazione; la potenza media nella porzione "
+        "centrale di 60 secondi MCU moltiplicata per T/N stima l'energia "
+        "per chiamata. Non si sottrae il consumo idle. Le letture riguardano "
+        "la scheda intera e non risolvono singole inferenze. Due acquisizioni "
+        "per modello sono ripetibilita' descrittiva, non un'incertezza "
+        "strumentale calibrata. I run C3 appaiati condividono lo stesso boot; "
+        "i run Mega sono acquisizioni caricate separatamente. "
+        "Il protocollo iniziale con marker esterni resta documentazione "
+        "storica; i vecchi hook INA219 non forniscono questi risultati."))
+    energy_rows = [[P(x, "cell") for x in
+                    ("Scheda / modello", "us/chiamata", "Potenza W", "uJ/chiamata")]]
+    for row in energy_means.itertuples(index=False):
+        energy_rows.append([P(f"{row.board} / {row.model}", "cell"),
+                            P(f"{row.mean_call_us:.3f}", "cell"),
+                            P(f"{row.mean_power_W:.4f}", "cell"),
+                            P(f"{row.energy_uJ_per_call:.4f}", "cell")])
+    story.append(table(energy_rows, [6.5 * cm, 3 * cm, 3 * cm, 3 * cm]))
+    story.append(P(
+        f"Fonte: {len(energy_runs)} acquisizioni fisiche, "
+        f"{len(energy_means)} medie modello/scheda. SHA-256 e verifica "
+        "riproducibile sono nel pacchetto dell'esperimento. Nessun nuovo "
+        "training e nessuna misura di peak RAM. I risultati a 500 flussi "
+        "e il follow-up fattoriale C3 hanno protocolli diversi e restano separati."))
 
     story.append(P("5.2 Spiegazioni additive", "h2"))
     story.append(P(
@@ -420,12 +441,11 @@ def main():
     software_status += (f"{len(host_summary['checks'])} integrazioni host superate. "
                         if host_summary.get('all_passed') else "Integrazioni host non confermate. ")
     software_status += "Log in evidence/finalization e artifacts/finalization."
-    # Quattro voci, non tre: la riga unica "Misure fisiche" metteva insieme la
-    # latenza, che e' misurata su entrambe le schede, con energia e peak RAM,
-    # che non lo sono. Una tabella di stato che dichiara da fare qualcosa di
-    # fatto dice al lettore di non cercare, ed e' il difetto che il test su
-    # questo file esiste per impedire. La dicitura NOT_HARDWARE_MEASURED resta,
-    # ma datata e circoscritta a cio' a cui si riferiva.
+    # Energia disponibile dal 15 settembre; peak RAM rimane non misurato.
+    energy_status = (f"Misurata con FNB58: {len(energy_runs)} acquisizioni "
+                     f"e {len(energy_means)} medie scheda/modello. Stima USB "
+                     "della scheda intera, ingressi preparati, senza sottrazione idle. "
+                     "Dati e firmware in experiments/hardware_energy_20260915.")
     entries = [
         ("Risultati ML salvati",
          "CV, transfer, CIC, architettura e linker sizes RC3: salvati; "
@@ -435,35 +455,33 @@ def main():
                     "cinque passate separate da reset, piu' l'esperimento "
                     "fattoriale a otto condizioni su ESP32-C3. Registrata "
                     "negli archivi hardware con i log seriali."),
-        ("Energia e peak RAM",
-         "Non misurate. Servono strumento e build target; le dimensioni del "
-         "linker dei venti environment aggiunti con la coorte comune "
-         "attendono una build verificata (results/firmware_size_pending.csv). "
-         "La dicitura generale NOT_HARDWARE_MEASURED dell'8 settembre 2026 "
-         "resta come stato storico di quella data, non come stato attuale "
-         "della latenza."),
+        ("Energia", energy_status),
+        ("Peak RAM", "Non misurata. Le dimensioni statiche del linker non "
+         "misurano il picco. Il registro dei venti environment common "
+         "rimane distinto dai firmware pilot compilati e misurati il "
+         "15 settembre (results/firmware_size_pending.csv)."),
     ]
     for name, state in entries:
         rows.append([P(name, "cell"), P(state, "cell")])
     story.append(table(rows, [5.0 * cm, 10.5 * cm]))
     story.append(P(
         "Fonti: docs/CLAIM_EVIDENCE_MAP.csv. Articolo 2 resta separato. "
-        "Profilo strumentale e build target precedono il freeze di sorgenti, "
-        "coorte e binari. Flash e pubblicazione richiedono conferma del supervisore."))
+        "La campagna fisica conserva la provenienza di sorgenti, coorte e binari. "
+        "Pubblicazione e merge restano soggetti alla revisione degli autori."))
 
 
     doc = SimpleDocTemplate(str(OUT), pagesize=A4,
                             leftMargin=2.4 * cm, rightMargin=2.4 * cm,
                             topMargin=2.0 * cm, bottomMargin=2.0 * cm,
-                            title="KAN-IDS — Paper 1 software review",
-                            author="Emanuele Pio De Bernardis; Oleksandr Kuznetsov")
+                            title="KAN-IDS — Paper 1 software e misure fisiche",
+                            author="Oleksandr Kuznetsov; Emanuele Pio De Bernardis")
 
     def footer(canvas, doc_):
         canvas.saveState()
         canvas.setFont("KANReport", 7.5)
         canvas.setFillColor(GREY)
         canvas.drawString(2.4 * cm, 1.2 * cm,
-                          "KAN-IDS — software review, 8 settembre 2026 — hardware non misurato")
+                          "KAN-IDS — 15 settembre 2026 — energia disponibile; peak RAM non misurato")
         canvas.drawRightString(A4[0] - 2.4 * cm, 1.2 * cm, str(doc_.page))
         canvas.restoreState()
 

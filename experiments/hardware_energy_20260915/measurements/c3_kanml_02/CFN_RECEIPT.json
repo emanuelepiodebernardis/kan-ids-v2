@@ -1,0 +1,64 @@
+{
+  "file": {
+    "bytes": 82525,
+    "sha256": "7f728b9c3f28ab6b497ed99efbb88f0030bf5601d712bd16d473eba6e7656006"
+  },
+  "metadata": {
+    "source_name": "c3_kanml_pilot_02_b8cf9258.cfn",
+    "source_sha256": "7f728b9c3f28ab6b497ed99efbb88f0030bf5601d712bd16d473eba6e7656006",
+    "source_bytes": 82525,
+    "sample_rate_header_sps": 10.0,
+    "start_current_mA": 0,
+    "stop_current_mA": 0,
+    "stop_time_s": 5,
+    "channels": [
+      {
+        "code": 0,
+        "name": "VBUS_V",
+        "argb": "#ffffff00",
+        "has_header_extrema": true,
+        "header_max": 5.00062,
+        "header_min": 4.99569
+      },
+      {
+        "code": 1,
+        "name": "IBUS_A",
+        "argb": "#ff00ff00",
+        "has_header_extrema": true,
+        "header_max": 0.03516,
+        "header_min": 0.0197
+      },
+      {
+        "code": 4,
+        "name": "PBUS_W",
+        "argb": "#ffff55ff",
+        "has_header_extrema": true,
+        "header_max": 0.1757694108,
+        "header_min": 0.09844897700000001
+      },
+      {
+        "code": 5,
+        "name": "CAP_Ah_as_documented",
+        "argb": "#ffff5500",
+        "has_header_extrema": false
+      },
+      {
+        "code": 6,
+        "name": "NRG_Wh_as_documented",
+        "argb": "#ffffaa00",
+        "has_header_extrema": false
+      }
+    ],
+    "records": 1717,
+    "data_offset_bytes": 109,
+    "record_bytes": 48,
+    "decoded_to_exact_eof": true
+  },
+  "span_s": 171.60000000000002,
+  "mtime_utc": "2026-09-15T19:34:45.650207+00:00",
+  "structural_pass": true,
+  "marker_alignment_pending": true,
+  "energy_result_available": false,
+  "supplied_path": "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_C3_FNB58_ALL_PILOTS_20260915\\captures\\c3_kanml_pilot_02_b8cf9258.cfn",
+  "saved_name": "c3_kanml_pilot_02_b8cf9258.cfn"
+}

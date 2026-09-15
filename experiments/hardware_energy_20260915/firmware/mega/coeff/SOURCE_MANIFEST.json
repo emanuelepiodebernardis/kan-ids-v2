@@ -1,0 +1,56 @@
+{
+  "schema": "compact-git-source-manifest-v1",
+  "note": "Repackaging manifest created after measurement. Firmware/runner bytes are unchanged; original acquisition manifests are separately retained in measurements/ and provenance/. Historical validation/binaries remain in the complete checkpoint.",
+  "files": [
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 1915,
+      "sha256": "f7dabef1f34a9b4e5eabbf07430772bd73dbcf0f9ab7a8e581a986c2454fda23"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 451,
+      "sha256": "b4464b306fb285a6e54cfd1d98162024e789aa61d94ee7766d246318e3dd7bce"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 10033,
+      "sha256": "a868f00c4340f56cf699cd0339592fd3bdc4e18d73d961d2a1d53c6e826cd493"
+    },
+    {
+      "path": "run_mega_energy_pilot.py",
+      "bytes": 20626,
+      "sha256": "78b91930af5db222b0d2241fb23e4d592b072e3339d61a6d524d3a66ddd3c0eb"
+    }
+  ]
+}

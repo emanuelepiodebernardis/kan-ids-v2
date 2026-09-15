@@ -1,0 +1,908 @@
+{
+  "status": "PASS",
+  "checks": 225,
+  "physical_acquisitions": 10,
+  "checks_detail": [
+    {
+      "name": "coeff_01 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "coeff_01 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "coeff_02 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "lut_01 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "lut_01 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "lut_01 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "lut_01 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "lut_01 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "lut_01 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "lut_01 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "lut_01 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "lut_01 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "lut_01 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "lut_01 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "lut_01 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "lut_01 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "lut_02 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "lut_02 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "lut_02 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "lut_02 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "lut_02 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "lut_02 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "lut_02 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "lut_02 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "lut_02 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "lut_02 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "lut_02 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "lut_02 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "lut_02 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "mlp_01 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "mlp_02 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "kanml_01 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "kanml_02 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "dt5_01 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 inputs SHA256",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 exact EOF",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 10sps monotonic complete grid",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 metadata extrema",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 PBUS equals VI",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 NRG excluded",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 prescribed central 60 MCU seconds",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 affine transform matches saved bounds",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 two independently detected marker groups",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 12 individually fitted centers",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 central window inside active plateau",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 0",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 1",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 2",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 3",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 4",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 5",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 6",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 7",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar window 8",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 independent energy and time",
+      "pass": true
+    },
+    {
+      "name": "dt5_02 scalar affine regression",
+      "pass": true
+    },
+    {
+      "name": "coeff equal acquisition weights",
+      "pass": true
+    },
+    {
+      "name": "lut equal acquisition weights",
+      "pass": true
+    },
+    {
+      "name": "mlp equal acquisition weights",
+      "pass": true
+    },
+    {
+      "name": "kanml equal acquisition weights",
+      "pass": true
+    },
+    {
+      "name": "dt5 equal acquisition weights",
+      "pass": true
+    }
+  ],
+  "limits": "Scalar integration and affine regression independently validate saved fitted coordinates. This does not calibrate ADC timing, clock accuracy or absolute instrument uncertainty, and does not independently re-fit the waveform."
+}
