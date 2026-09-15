@@ -256,7 +256,9 @@ def test_nessun_file_di_testo_versionato_ha_i_cr():
     if r.returncode != 0:                                  # pragma: no cover
         pytest.skip("git non disponibile")
     # CFN records are binary instrument evidence, never line-normalize them.
-    binari = {".png", ".pdf", ".npz", ".pkl", ".bin", ".parquet", ".gz", ".zip", ".cfn"}
+    # Photographs and supplied TeX fonts are binary too; text checks stay active.
+    binari = {".png", ".pdf", ".npz", ".pkl", ".bin", ".parquet", ".gz", ".zip",
+              ".cfn", ".jpg", ".jpeg", ".pfb", ".tfm"}
     colpevoli = []
     for nome in r.stdout.split("\0"):
         if not nome or Path(nome).suffix.lower() in binari:

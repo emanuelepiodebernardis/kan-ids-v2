@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "version": "0.11.0",
+  "new_numeric_cells_verified": 55,
+  "legacy_tabular_bodies_preserved": 14,
+  "proposed_author_order": [
+    "Oleksandr Kuznetsov",
+    "Emanuele Pio De Bernardis",
+    "Emanuele Frontoni"
+  ],
+  "photo_bytes_match_supplied_hashes": true,
+  "scope": "Manuscript consistency, not new model fitting, device execution or absolute calibration"
+}

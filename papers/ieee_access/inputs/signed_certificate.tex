@@ -1,0 +1,105 @@
+\begin{table}[t]
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Signed-error certificate at threshold zero. The extrema are exact on the Cartesian Q12 domain; $U_{tr}$ and $U_{te}$ count decisions left uncertified on the fixed training and test inputs. All empirical decision differences are zero. This retrospective analysis does not alter selection.}
+\label{tab:signed_certificate}
+\begin{tabular}{rrrrrr}
+\toprule
+$L$ & Bytes & $D_-$ & $D_+$ & $U_{tr}$ & $U_{te}$\\
+\midrule
+513 & 10,314 & $-10065$ & 8250 & 64 & 12\\
+1025 & 20,554 & $-3426$ & 2324 & 26 & 3\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Signed error interval and threshold agreement.}
+The same finite-domain enumeration can retain the signs of the edge errors.
+Define $\delta_i(q)=\widetilde f_i(q)-f_i(q)$ and
+\begin{equation}
+ D_- = \sum_i\min_q\delta_i(q),\qquad
+ D_+ = \sum_i\max_q\delta_i(q).
+ \label{eq:signed_error_extrema}
+\end{equation}
+For every admissible input, under the arithmetic assumptions above,
+\begin{equation}
+ D_-\leq\widetilde Z-Z\leq D_+,
+ \qquad Z\in[\widetilde Z-D_+,\widetilde Z-D_-].
+ \label{eq:signed_error_interval}
+\end{equation}
+Indeed, the categorical terms cancel and each numerical error lies between
+its enumerated minimum and maximum; summing these inequalities proves the
+claim. Because the numerical input domain is a Cartesian product, the lower
+and upper error endpoints are attained by choosing an extremizing input
+separately for each edge. Thus these are exact global extrema on that
+Cartesian domain, even if some combinations do not correspond to physical
+flows. Their computation costs ten enumerations of 8,193 inputs, not an
+enumeration of $8193^{10}$ combinations.
+
+For the decision rule $\mathbf1[Z\geq\tau]$, agreement is certified by either
+of the following conditions, with equality assigned to the positive side:
+\begin{align}
+ &\widetilde Z\geq\tau\quad\text{and}\quad\widetilde Z-D_+\geq\tau,
+ \quad\text{or}\nonumber\\
+ &\widetilde Z<\tau\quad\text{and}\quad\widetilde Z-D_-<\tau.
+ \label{eq:signed_threshold_certificate}
+\end{align}
+For the tables evaluated here, $D_-\leq0\leq D_+$, so the interval contains
+$\widetilde Z$ and the condition reduces to checking its endpoints.
+The same argument preserves a fixed risk tier if $\widetilde Z$ and both
+endpoints lie in the same half-open threshold interval. This is a direct corollary of
+the error interval, not an evaluation of a risk-tier application.
+
+For the frozen $L=1025$ arrays, $(D_-,D_+)=(-3426,2324)$.
+The interval based on the LUT score certifies 168,808 of 168,834 training
+decisions and 42,206 of 42,209 test decisions. The remaining 26 and 3 rows,
+respectively, agree empirically but are not certified by this interval test.
+The tighter analysis leaves the selected table and all measured firmware
+unchanged. Certificate evaluation is performed on the host; no runtime
+guard or fallback has been added to the timed device kernels. Its enumerated edge errors also agree with 81,930 independent
+one-coordinate probes of the host-compiled C implementation.
+
+For a finite labeled cohort of $N$ rows, let $U$ be its uncertified count.
+Since predictions can differ only on those rows,
+$|\mathrm{Acc}_{\rm LUT}-\mathrm{Acc}_{\rm coeff}|\leq U/N$.
+For balanced accuracy, with $N_y$ rows and $U_y$ uncertified rows of class $y$,
+\begin{equation}
+ |\mathrm{BA}_{\rm LUT}-\mathrm{BA}_{\rm coeff}|
+ \leq \tfrac12\left(U_0/N_0+U_1/N_1\right).
+ \label{eq:certificate_metric_bound}
+\end{equation}
+For the 42,209 test rows, $(N_0,N_1)=(10000,32209)$ and the signed-interval
+test leaves $(U_0,U_1)=(0,3)$. Its worst-case absolute accuracy and balanced
+accuracy changes are therefore at most 0.00711 and 0.00466 percentage points,
+respectively. These bounds compare the two fixed integer representations
+on this cohort; they do not guarantee correctness against ground truth or
+performance on an unseen distribution. The observed changes are zero.
+
+\paragraph{Offline use in export verification.}
+The certificate can serve as an export check before a firmware release.
+A release record can bind the coefficient and LUT hashes, feature encoding,
+arithmetic rules and decision threshold to the enumerated error interval.
+The interval then defines which LUT scores have certified agreement with
+the reference. On a declared audit cohort, the same check reports the
+uncertified rows for explicit coefficient comparison. This separates a
+whole-domain error bound from agreement verified only on observed inputs.
+A future automated build could reject an export when its uncertified count
+exceeds a budget fixed on training or validation inputs before test access.
+That is a possible use of the analysis, not an implemented CI gate or the
+selection rule used in this study. A cohort budget does not bound the
+uncertified frequency on a new network. For online handling of uncertain
+scores, a guard and a specified fallback would need separate implementation
+and memory/latency measurement. The present offline check adds no such
+protection to the measured firmware.
+
+\paragraph{Retrospective memory--uncertainty comparison.}
+The $L=513$ table occupies 10,314 bytes and also has zero observed training
+and test decision differences. Its signed error interval is $[-10065,8250]$,
+and the LUT-score interval leaves 64 training and 12 test decisions
+uncertified. Increasing to $L=1025$ adds 10,240 parameter bytes (a factor of
+1.993) and reduces these counts to 26 and 3. Under the original symmetric
+reference-margin condition, the corresponding counts are 95 to 34 on
+training and 21 to 4 on test. For these two fixed tables, the extra memory narrows the uncertainty
+region; it does not purchase a complete decision-preservation guarantee
+or establish the minimum storage required for an uncertainty budget.
+The $L=513$ test analysis is retrospective and is not used to change the
+training-only selection or the frozen deployment.

@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "version": "0.11.0",
+  "pdf_pages": 22,
+  "pdf_sha256": "548b336f7ceec1b66fb8987b964e050eec2e14241b23f7276c7c43227ad70618",
+  "visually_reviewed_pages_1_based": [
+    1,
+    4,
+    13,
+    14,
+    15,
+    16,
+    17,
+    21,
+    22
+  ],
+  "observations": [
+    "Title and abstract fit the publisher template; requested proposed author order and original affiliations preserved.",
+    "Energy setup photographs appear side by side at equal 5 cm height with no content editing.",
+    "Both new numerical tables fit within page margins.",
+    "Logarithmic comparison figure is legible and caption reports mean symbols, not individual observations or confidence intervals.",
+    "New protocol, original memory table and discussion remain distinct; no clipped formula or float was observed.",
+    "Final pages preserve complete author biographies in requested draft order."
+  ],
+  "build": "Isolated temporary-directory pdflatex/BibTeX build, stabilized cross-references, no overfull boxes, complete PDF and successful pdfinfo check.",
+  "limits": "Visual checks concern layout, not calibration or independent repetition of hardware experiments."
+}

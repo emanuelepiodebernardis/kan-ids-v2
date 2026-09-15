@@ -1,0 +1,7 @@
+# Manuscript source package v0.11.0 — 2026-09-15
+
+Standalone English IEEE Access manuscript, PDF, bibliography, figures, original setup photographs, portraits, evidence extract and build/verification scripts. It incorporates accepted physical USB-energy results from twenty acquisitions on two original boards. Existing frozen classifiers, certificate calculations, fourteen numerical tables and prior 500-flow and factorial hardware results are preserved. Two new numerical tables and two new figures are added. The title and abstract now include the measured memory–latency–energy trade-off. Peak RAM and absolute instrument uncertainty remain unmeasured.
+
+The package does not itself contain the full raw physical release, does not establish a new software model freeze, and does not publish a Git branch or DOI. Its companion checkpoint preserves raw records and exact sources/binaries. The proposed author order is recorded in AUTHOR_METADATA.json; coauthor agreement is not claimed. Current verification records are labelled V011; earlier records concern their named historical versions only.
+
+Publisher assets retain their notices. ORCID icon licensing remains in assets/orcid/. Manuscript text, author portraits and photographs are not relicensed under the software licence. The two measurement photographs are included byte-for-byte as supplied; visual composition is performed only by LaTeX placement.

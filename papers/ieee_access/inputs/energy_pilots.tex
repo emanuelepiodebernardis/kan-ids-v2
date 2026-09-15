@@ -1,0 +1,78 @@
+\subsection{Whole-board USB-energy pilot}
+\label{sec:energy-pilots}
+A separate campaign on 15 September 2026 used an FNIRSI FNB58 USB meter (serial 104332) with the same Mega and ESP32-C3 boards. Five frozen implementations were each evaluated twice on each board, giving twenty physical acquisitions. Figure~\ref{fig:energy-setup} shows the instrumented setups. The meter measures the USB supply to the board and downstream cable; background board consumption is included. The recorded USB identity links the ESP32-C3 series to the earlier board. The photographs illustrate the connections; their screen readings are not used as experimental averages.
+
+\begin{figure*}[t]
+\centering
+\begin{minipage}[b]{0.47\textwidth}
+\centering\includegraphics[height=5cm]{Mega_measurement.jpg}\\[-1pt]
+{\small (a) Arduino Mega 2560}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.47\textwidth}
+\centering\includegraphics[height=5cm]{C3_measurement.jpg}\\[-1pt]
+{\small (b) ESP32-C3}
+\end{minipage}
+\caption{USB measurement setups for (a) Mega 2560 and (b) ESP32-C3. Displayed voltage, current and power are instantaneous connection snapshots; the results in Table~\ref{tab:energy-pilots} use the archived active-window records. The photographs illustrate the connections, without identifying a particular acquisition.}
+\label{fig:energy-setup}
+\end{figure*}
+
+Each acquisition repeatedly cycles twenty common source-flow identifiers, using each model's own frozen prepared inputs in RAM. Millions of calls therefore do not represent millions of distinct flows. After warmup, calibration selects a multiple of twenty calls targeting approximately 120 seconds of active execution. The active interval includes the inference call, loop, input indexing, checksum updates and enabled interrupts. Preprocessing, serial output and LED markers are outside this interval. This amortized batch boundary differs from the individual-call boundary in Table~\ref{tab:latency}. On ESP32-C3, the CPU remains at 160~MHz, Wi-Fi and Bluetooth are not initialized, and the active loop contains no explicit yield. The logged watchdog state required no subscription removal in these runs. Frozen parameters remain in Flash; the pilot does not reproduce the DRAM-copy configuration of Table~\ref{tab:c3_followup}.
+
+Power records have a stored spacing of 0.1 seconds. Two LED codes, each with 2-, 4- and 2-second pulses, bracket the active batch. For each record separately, their twelve transition centers define an affine mapping between MCU and meter timestamps. We use the prespecified central 60 seconds of the batch on the MCU clock, mapped to meter times $t_0,t_1$. With linearly interpolated boundary samples and trapezoidal integration of the recorded voltage--current products, the estimator is
+\begin{equation}
+\overline P=\frac{1}{t_1-t_0}\int_{t_0}^{t_1}V(t)I(t)\,dt,
+\qquad
+\widehat E_{\rm call}=\overline P\frac{T_{\rm MCU}}{N},
+\label{eq:energy-estimator}
+\end{equation}
+where $T_{\rm MCU}$ is the measured complete active-batch duration and $N$ its call count. This estimates whole-board energy from a stationary central window; it is not the exact integral of the complete active interval or a meter-resolved measurement of an individual call. Idle power is not subtracted. The stored PBUS channel agrees with $VI$. The NRG increment is approximately one quarter of the independently integrated $VI$ total, so that channel is retained for diagnosis and excluded from the estimator without a corrective multiplier.
+
+\begin{table*}[t]
+\caption{Separate USB-energy pilot: equal-weight means of two acquisitions per implementation and board. Time is complete active-batch duration divided by call count; power is the central-window USB mean; energy uses~\eqref{eq:energy-estimator}. Each acquisition repeatedly cycles twenty prepared inputs. These descriptive means are not pooled with the 500-flow kernel or placement experiments; displayed digits support reproducibility rather than a stated measurement uncertainty.}
+\label{tab:energy-pilots}
+\centering\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{3}{c}{Mega 2560, 16 MHz} & \multicolumn{3}{c}{ESP32-C3, 160 MHz}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Implementation & Time ($\mu$s) & Power (mW) & Energy ($\mu$J) & Time ($\mu$s) & Power (mW) & Energy ($\mu$J)\\
+\midrule
+KAN coefficients & 1395.188 & 353.09 & 492.6227 & 5.2133 & 167.78 & 0.8747\\
+KAN sampled LUT & 224.842 & 354.19 & 79.6365 & 3.3268 & 165.79 & 0.5516\\
+Multilayer KAN & 12223.856 & 355.20 & 4341.9740 & 54.1865 & 173.87 & 9.4216\\
+MLP16 & 1340.680 & 356.01 & 477.2986 & 19.8211 & 169.83 & 3.3662\\
+DT5 & 15.733 & 358.05 & 5.6332 & 0.7386 & 168.81 & 0.1247\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{energy_pilot_comparison.pdf}
+\caption{Separate sustained-batch pilot on both boards: amortized time and estimated whole-board energy per call on logarithmic scales. Symbols show the equal-weight mean of two acquisitions, without inferential confidence intervals. The inputs are prepared offline. Processor clocks, toolchains and runtime systems differ, so cross-board ratios do not isolate an instruction-set effect.}
+\label{fig:energy-pilots}
+\end{figure*}
+
+Table~\ref{tab:energy-pilots} and Fig.~\ref{fig:energy-pilots} show lower LUT cost than coefficient cost within this repeated-input protocol. The LUT reduces amortized time by 83.88\% on Mega and 36.19\% on ESP32-C3; the corresponding energy reductions are 83.83\% and 36.94\%. Similar sustained powers for the two representations make the shorter duration the main contributor to these energy reductions. DT5 has the lowest observed cost, without establishing equal predictive quality. These measurements do not identify the cause of the earlier ESP32-C3 protocol discrepancy.
+
+The implementation order was fixed. The two ESP32-C3 acquisitions of each model share one boot and are separately armed and calibrated. The two energy estimates per model differ by less than 0.32\% on Mega and 0.09\% on ESP32-C3; on ESP32-C3, shifting the central window by $\pm2$ seconds changes its mean power by at most 0.0151\%. These are checks of repeatability and window sensitivity, not instrument accuracy. The visible response spans approximately one second, so the 0.1-second storage grid does not establish a 10-Hz measurement bandwidth. Neither the meter nor the MCU clocks were independently calibrated, and a constant measurement-path delay is not identified by the marker alignment alone. We therefore provide descriptive pilot estimates without an absolute uncertainty budget or confidence intervals formed from correlated power samples.
+
+\begin{table*}[t]
+\caption{Energy-pilot application sizes in bytes, separate from the original applications in Table~\ref{tab:memory}. Program use is the linked Flash-use summary; BIN is the actual ESP32-C3 application file length. Static data excludes IRAM, stack and heap peaks.}
+\label{tab:pilot-memory}
+\centering\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrr}
+\toprule
+& \multicolumn{2}{c}{Mega 2560} & \multicolumn{3}{c}{ESP32-C3}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+Implementation & Program use & Static data & Program use & Data/BSS & BIN\\
+\midrule
+KAN coefficients & 22,300 & 841 & 267,790 & 15,888 & 283,856\\
+KAN sampled LUT & 42,060 & 841 & 287,962 & 15,888 & 300,016\\
+Multilayer KAN & 28,266 & 841 & 273,118 & 15,904 & 285,248\\
+MLP16 & 22,310 & 841 & 268,144 & 15,888 & 283,728\\
+DT5 & 23,232 & 917 & 269,486 & 15,968 & 283,520\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The source, upload and run records agree with the delivered frozen headers. Inspection of all five actual ESP32-C3 ELF files confirms that a real inference call remains inside the measured count-controlled loop and is followed by checksum accumulation. Model constants match the frozen source, and the application BIN segments agree with the corresponding ELF sections. Prepared-input decisions matched the compiled references, and active-batch checksums matched their expected sums; the checksum does not verify every active decision separately. These checks support the execution and provenance claims; they do not make this small repeated workload a detection-quality evaluation.

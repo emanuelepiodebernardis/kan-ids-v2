@@ -1,0 +1,60 @@
+{
+  "version": "0.10.0",
+  "date": "2026-09-12",
+  "language": "ru",
+  "pdf_pages": 36,
+  "pdf_sha256": "f26b53bb94f514661a196b970952f7604b3a91eb20fc81a52641011445359dd7",
+  "build": "XeLaTeX/BibTeX with scripts/build_ru.py passed",
+  "visual_review": {
+    "all_pages_contact_sheets": [
+      1,
+      2,
+      3
+    ],
+    "full_resolution_pages": [
+      1,
+      5,
+      7,
+      13,
+      28,
+      32
+    ],
+    "result": "PASS; text, tables, equations, portraits and figure panels legible; no overlaps or clipping observed"
+  },
+  "layout_log": {
+    "overfull": 0,
+    "missing_glyphs": 0,
+    "undefined_references": 0
+  },
+  "tables_unchanged": 14,
+  "display_environments_unchanged": 15,
+  "new_facts": {
+    "source_rows": 211043,
+    "Q12_values_equal": 2110430,
+    "CAT_values_equal": 844172,
+    "float_transform_upper_bound": 1.45e-14,
+    "canonical_test_rows": 42209,
+    "float_F1": "0.9831912",
+    "coeff_F1": "0.9825844",
+    "input_rounding_decision_changes": 0,
+    "coefficient_decision_changes": 40,
+    "correct_to_wrong": 39,
+    "wrong_to_correct": 1,
+    "LUT_additional_decision_changes": 0,
+    "current_JSONL_evaluation_records": 420,
+    "current_rich_records": 180,
+    "current_reduced_records": 240,
+    "current_pooled_matrices": 42,
+    "total_JSONL_records_including_old_grids": 900,
+    "archived_ratio50_incomplete_matrices": 12,
+    "model_arrays_bytes": [
+      5244,
+      9452
+    ],
+    "historical_main_frame_bytes": [
+      155,
+      219
+    ]
+  },
+  "limits": "No new training or physical measurement. Original fitted preprocessor and historical joint fitted models/preprocessors/row scores remain unavailable. Main-function compiler frames are historical probe records, not current-firmware stack or peak SRAM."
+}

@@ -1,0 +1,3 @@
+# Git source export
+
+This directory contains the reviewed v0.11.0 manuscript source, fonts, input figures, numerical evidence and build/check scripts. The compiled manuscript PDF, transient TeX files, page renders and compilation logs belong to the separately delivered source/PDF release. `verification/` JSON receipts describe that release; they are not claims that a PDF is committed here. `MANIFEST.json` is regenerated for this exact Git source export, excluding those omitted files. Figure PDFs are vector source assets and remain tracked. Build with `python scripts/build_paper.py`. Read the manuscript README for scientific scope and proposed author-order status.

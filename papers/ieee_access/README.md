@@ -1,0 +1,15 @@
+> Git source export: compiled manuscript PDF, build logs and page renders are in the separate reviewed release, not this directory. See [GIT_SOURCE_SCOPE.md](GIT_SOURCE_SCOPE.md).
+
+# KAN-IDS Paper 1 — English manuscript v0.11.0
+
+IEEE Access author-review draft, revised 15 September 2026. Build with `python3 scripts/build_paper.py` (pdfLaTeX and BibTeX). For Overleaf select `main.tex` and pdfLaTeX. The publisher class, required fonts and ORCID icon are included. A full TeX distribution supplies the remaining dependencies.
+
+This revision integrates the completed USB-energy pilot on the original Mega 2560 and ESP32-C3: five frozen implementations, two acquisitions per model and board, twenty records in total. It adds the acquisition and estimation method, a cross-board time/power/energy table, a separate pilot-firmware memory table, a scientific comparison figure, and two original instrumented-setup photographs. The abstract, research questions, contributions, discussion, conclusion and availability statement have been synchronized. No classifier was fitted and no model weights were changed. Peak runtime RAM remains unmeasured.
+
+The fourteen previous numerical tables and their classification, certificate and historical physical values are preserved. The new twenty-vector repeated-batch pilot is separate from the original 500-flow short-kernel protocol and ESP32-C3 memory-placement experiments. Its whole-board energy estimate is central-window mean voltage times current multiplied by complete MCU batch duration per call. It is not a direct per-call meter measurement or the exact integral of the full active interval. Repeatability is not absolute accuracy; no uncertainty calibration or confidence interval from correlated samples is claimed.
+
+Draft author order is Oleksandr Kuznetsov, Emanuele Pio De Bernardis, Emanuele Frontoni, as requested by Oleksandr Kuznetsov. All affiliations and ORCIDs are retained. This is a proposed draft order; agreement by the other authors is not asserted. Resolve author order and contributions before submission.
+
+`evidence/energy_pilot_results.json` supplies the table numbers. Figure and photo hashes are in `figures/*PROVENANCE.json`. Regenerate the scientific plot with `python3 figures/make_energy_figure.py` (Matplotlib); its input CSV is included. Run `python3 verification/check_content_v011.py` for numerical and author-order consistency, optionally adding `--baseline PATH_TO_V010_ZIP` to verify preservation of the previous tables. `verification/` retains original v0.10.0 receipts as historical evidence and adds current build/content/layout checks; old PASS records do not certify this revision. The standalone manuscript ZIP is not the complete hardware release. It must accompany the independently verified twenty-pilot checkpoint and integration package. Public release or DOI deposition is not claimed.
+
+Verify delivered bytes before building: `python3 tools/verify_package.py .`. Building changes generated files; verify the delivered manifest before rebuilding. The paper source contains no private Russian manuscript or internal Russian report.

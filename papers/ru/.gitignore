@@ -1,0 +1,9 @@
+main.pdf
+main.aux
+main.bbl
+main.blg
+main.log
+main.out
+BUILD.log
+__pycache__/
+*.pyc

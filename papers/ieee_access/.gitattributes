@@ -1,0 +1,7 @@
+# Preserve supplied publisher/font assets without cosmetic rewriting.
+*.jpg binary
+*.pfb binary
+*.tfm binary
+*.bst -whitespace
+*.cls -whitespace
+assets/orcid/orcidlink.sty -whitespace

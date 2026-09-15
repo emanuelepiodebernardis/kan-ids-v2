@@ -1,0 +1,108 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}[ItalicFont={DejaVu Serif},ItalicFeatures={FakeSlant=0.2},BoldItalicFont={DejaVu Serif Bold},BoldItalicFeatures={FakeSlant=0.2}]
+\setsansfont{DejaVu Sans}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+\setotherlanguage{english}
+\usepackage[left=20mm,right=20mm,top=20mm,bottom=21mm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,booktabs,array,graphicx,cite,microtype}
+\usepackage{adjustbox,caption,placeins,float,fancyhdr,ragged2e}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\authororcid}[1]{\raisebox{0.6ex}{\href{https://orcid.org/#1}{\includegraphics[height=0.7em]{figures/orcid-icon.pdf}}}}
+\urlstyle{same}
+\hypersetup{pdftitle={Целочисленные сети Колмогорова-Арнольда для обнаружения вторжений в IoT},pdfauthor={Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni},pdfsubject={Русская версия для авторской проверки; перевод английской рукописи v0.11.0}}
+\newcommand{\BA}{\operatorname{BA}}
+\newcommand{\TNR}{\operatorname{TNR}}
+\newcommand{\TPR}{\operatorname{TPR}}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\smallnote}[1]{\par\vspace{3pt}{\footnotesize #1\par}}
+\newcommand{\appendices}{\appendix}
+\graphicspath{{figures/}}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.65}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\makeatother
+\captionsetup{font=small,labelfont=bf,justification=raggedright,singlelinecheck=false}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{3pt}
+\setlength{\emergencystretch}{2em}
+\raggedbottom
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small KAN-IDS · Paper 1 · Русская версия v0.11.0}
+\fancyhead[R]{\small 15.09.2026}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\begin{document}
+\raggedright
+\begin{center}
+{\LARGE\bfseries Целочисленные сети Колмогорова--Арнольда для обнаружения вторжений в IoT:\par}
+\vspace{5pt}
+{\Large\bfseries сертификаты совпадения решений и компромисс между памятью, временем и энергией вывода\par}
+\vspace{12pt}
+Oleksandr Kuznetsov\authororcid{0000-0003-2331-6326}\textsuperscript{1,2,3,*},
+Emanuele Pio De Bernardis\authororcid{0009-0004-7915-5204}\textsuperscript{1},
+Emanuele Frontoni\authororcid{0000-0002-8893-9244}\textsuperscript{4}
+\end{center}
+\begin{small}
+\noindent\textsuperscript{1}Department of Theoretical and Applied Sciences, eCampus University, Via Isimbardi 10, Novedrate (CO), 22060, Italy.\par
+\noindent\textsuperscript{2}SMARTEST Research Center, eCampus University, Via Isimbardi 10, Novedrate (CO), 22060, Italy.\par
+\noindent\textsuperscript{3}Department of Intelligent Software Systems and Technologies, School of Computer Science and Artificial Intelligence, V.N. Karazin Kharkiv National University, 4 Svobody Sq., 61022 Kharkiv, Ukraine.\par
+\noindent\textsuperscript{4}Department of Political Sciences, Communication and International Relations, University of Macerata, Via Crescimbeni, 30/32, 62100 Macerata, Italy.\par
+\noindent\textsuperscript{*}Автор для переписки: Oleksandr Kuznetsov, \href{mailto:oleksandr.kuznetsov@uniecampus.it}{\nolinkurl{oleksandr.kuznetsov@uniecampus.it}}.\par
+\noindent Другие e-mail: \nolinkurl{emanuelepio.debernardis@gmail.com}; \nolinkurl{emanuele.frontoni@unimc.it}.\par
+\par\end{small}
+\vspace{8pt}
+\noindent\textit{Полный перевод английской рабочей рукописи v0.11.0 для авторского чтения. Целевой журнал — IEEE Access. Численные результаты и ограничения сохранены. Официальные названия организаций и библиографические записи приведены на языке оригинала.}
+
+\section*{Аннотация}
+Исследуются представления зафиксированной аддитивной сети Колмогорова--Арнольда для обнаружения вторжений целочисленными коэффициентами и таблицей отсчётов. Массивы коэффициентов занимают 254 байта, выбранная таблица --- 20,554 байта. Полный перебор конечной области Q12 каждого ребра учитывает реализованные целочисленные округления. Знаковые экстремумы ошибок рёбер дают достаточные сертификаты совпадения пороговых решений: сертифицируются 42,206 из 42,209 подготовленных тестовых решений, эмпирически совпадают все решения. Меньшая таблица объёмом 10,314 байта оставляет двенадцать решений без сертификата, выбранная --- три. Это ретроспективное сравнение сохраняет выбор по резервному правилу на обучающих данных и не устанавливает решение с минимальным расходом памяти. Физические эксперименты с ядрами на 500 потоках дают ускорение LUT в 5.746 раза на Arduino Mega 2560. Контролируемый факторный эксперимент ESP32-C3 даёт ускорение в 1.706 раза при коде во Flash и параметрах в DRAM и выявляет взаимодействие этих двух размещений. Отдельная пилотная серия USB-энергии охватывает пять реализаций, по две записи каждой реализации на каждой плате и длительные партии с повторением двадцати подготовленных исходных потоков. Оценки энергии всей платы на вызов для коэффициентов и LUT равны 492.62 и 79.64~мкДж на Mega, 0.8747 и 0.5516~мкДж на ESP32-C3. Эти описательные оценки используют измеренную мощность центрального окна и длительность партии по MCU; они исключают предобработку и не измеряют энергию каждого вызова отдельно. Ретроспективные междатасетные стресс-тесты показывают низкие показатели. Проверки исходных данных до кэша и восстановленные обучающие выборки выявляют изменения связей категорий с меткой, но не устанавливают их вклад в исторические ошибки. Вклад состоит в проверяемом анализе совпадения решений и измеренном компромиссе памяти, времени и энергии; универсальное превосходство обнаружения или безусловная компиляция без потерь не установлены. Пиковый расход рабочей памяти остаётся неизмеренным.
+
+\noindent\textbf{Ключевые слова:} обнаружение вторжений, Интернет вещей, сети Колмогорова--Арнольда, целочисленный вывод, таблицы поиска, междатасетная оценка, микроконтроллеры, энергопотребление, объяснимость.
+
+\input{parts/a_ru.tex}
+\input{parts/b_ru.tex}
+\input{parts/c_ru.tex}
+\section*{Благодарности}
+ChatGPT (OpenAI) использовался под контролем человека при подготовке и редактировании текста рукописи, а также вспомогательного кода. Авторы несут ответственность за методы, результаты и окончательное содержание статьи.
+\par\medskip
+\begingroup
+\small
+\setlength{\parskip}{0pt}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\endgroup
+\par\medskip
+\clearpage
+\section*{Сведения об авторах}
+\noindent\begin{minipage}{\textwidth}
+\begin{minipage}[t]{0.17\textwidth}\vspace{0pt}
+\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/Kuznetsov.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.80\textwidth}\vspace{0pt}\raggedright
+\noindent\textbf{Олександр Кузнецов} (Member, IEEE) --- доцент Департамента теоретических и прикладных наук Университета eCampus, Италия, и профессор кафедры интеллектуальных программных систем и технологий Харьковского национального университета имени В. Н. Каразина, Украина. Доктор наук, лауреат Национальной премии Украины имени Бориса Патона (2021), высшей научной награды страны, за вклад в кибербезопасность и системы криптографической защиты информации. Его профессиональная деятельность охватывает более двух десятилетий и включает руководящие роли в академической среде, промышленности и оборонном секторе. В 2023--2024 годах работал старшим специалистом по анализу данных в Proxima Labs, Сан-Франциско, разрабатывая вычислительные платформы на основе доказательств с нулевым разглашением, не требующие доверия к исполнителю. В 2022--2023 годах занимал должность главного научного сотрудника Grape Blockchain, Лондон, где работал над механизмами консенсуса на основе ориентированных ациклических графов. Его научные интересы включают прикладную криптографию, постквантовую безопасность, блокчейн и децентрализованные системы, искусственный интеллект в кибербезопасности, биометрическую аутентификацию, стеганографию и безопасность Интернета вещей.
+\end{minipage}
+\end{minipage}\par\bigskip
+
+\noindent\begin{minipage}{\textwidth}
+\begin{minipage}[t]{0.17\textwidth}\vspace{0pt}
+\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/E_P_Bernardis.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.80\textwidth}\vspace{0pt}\raggedright
+\noindent\textbf{Эмануэле Пио Де Бернардис} получил академическую подготовку по направлению компьютерной инженерии и автоматизации в Университете eCampus, Италия. С 2025 года сотрудничает с Олександром Кузнецовым в Университете eCampus, занимаясь машинным обучением для кибербезопасности и развёртыванием моделей на устройствах с ограниченными ресурсами. Его научные интересы включают искусственный интеллект на периферийных устройствах, квантование моделей, обнаружение вторжений в сетях Интернета вещей и промышленного Интернета вещей, а также воспроизводимое научное программное обеспечение. Его работа охватывает предварительную обработку данных, конструирование признаков, оценку моделей обучения с учителем, целочисленное квантование и программные средства выполнения моделей на микроконтроллерах. Он также занимается анализом вкладов признаков и оценкой обобщающей способности моделей при изменении распределения данных. Имеет опыт разработки средств машинного обучения на Python, использования TensorFlow Lite Micro, экспорта моделей в код на C и организации экспериментов с контролем версий. Обладатель профессиональных сертификатов IBM AI Engineering и IBM Data Science. До сосредоточения на учёбе и исследованиях приобрёл одиннадцатилетний опыт операционной и управленческой работы, включая мониторинг показателей деятельности и подготовку структурированной отчётности. Этот опыт определяет его интерес к практически применимым и сопровождаемым системам машинного обучения.
+\end{minipage}
+\end{minipage}\par\bigskip
+
+\noindent\begin{minipage}{\textwidth}
+\begin{minipage}[t]{0.17\textwidth}\vspace{0pt}
+\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/fronto.png}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.80\textwidth}\vspace{0pt}\raggedright
+\noindent\textbf{Эмануэле Фронтони} (Member, IEEE) --- профессор компьютерных наук Университета Мачераты и содиректор лаборатории VRAI Vision Robotics \& Artificial Intelligence Lab. Его научные интересы включают компьютерное зрение и искусственный интеллект с приложениями в робототехнике, анализе видео и поведения человека, расширенной реальности и цифровых гуманитарных науках. Автор более 230 международных научных статей, сотрудничает с итальянскими и зарубежными компаниями в области передачи технологий и инноваций. Выступал председателем программных комитетов или генеральным председателем международных конференций и летних школ, включая IEEE/ASME MESA Mechatronic and Embedded Systems and Applications в 2016 и 2017 годах, IEEE ECMR European Conference on Mobile Robotics в 2017 году, BigDat 2020 и DeepLearn 2021. Также участвовал в организации международных семинаров, включая DeepRetail на ICPR 2020, D2CH на CVPR 2021 и AI4DH на ICIAP 2022.
+\end{minipage}
+\end{minipage}\par\bigskip
+\end{document}

@@ -1,0 +1,9 @@
+# Manuscript source package v0.11.0 — 2026-09-15
+
+Standalone Russian reading translation with PDF, bibliography, figures, original photographs, portraits and a portable build script. This is not the full experimental release. This revision incorporates the verified twenty USB-energy pilot acquisitions: five frozen implementations, two acquisitions per original board and model. Measurement definitions, all means, memory figures, limitations and author order are synchronized with the English working manuscript.
+
+All fourteen earlier numerical tables and displayed equations are retained. Two tables and one displayed energy equation are added, together with a comparison plot and two original setup photographs shown side by side. Historical 500-flow timings, memory-placement diagnostic and factorial experiment remain separate. Frozen models and received measured firmware are not changed; no new model training or device execution occurred during manuscript editing. Peak RAM remains unmeasured. Absolute measurement accuracy is not inferred from repeatability.
+
+Proposed author order is Oleksandr Kuznetsov, Emanuele Pio De Bernardis, Emanuele Frontoni, as requested by Kuznetsov on 2026-09-15; agreement of all coauthors is pending before submission. Existing affiliations, ORCIDs, correspondence and biographical facts are preserved. The Russian text includes the translated English AI-assistance acknowledgment.
+
+Historical verification records are preserved with their original version context. Current validation is SCIENCE_QA_V011.json, BUILD_RU_V011.log and VISUAL_QA_V011.json in verification/. The root manifest covers this delivered package. Public revised-release deposition, DOI and submission remain pending. ORCID icon licensing remains in assets/orcid/. Manuscript text and photographs are not relicensed under the software licence.

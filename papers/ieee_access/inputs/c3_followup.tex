@@ -1,0 +1,27 @@
+\subsection{Reset-separated code and parameter placement experiment}
+\label{sec:c3followup}
+\begin{table*}[t]
+\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\caption{ESP32-C3 follow-up with a common binary-decision timing boundary. Each condition comprises 500 fixed source flows in each of eight reset-separated passes. Mean times and sample standard deviations of the eight pass means are in $\mu$s. The 95th percentile uses the nearest rank among 4000 calls. Ratios compare coefficient and LUT implementations at the same code and parameter placement. An asterisk denotes a pass-mean SD below $0.0001~\mu$s. All means and p95 values are in $\mu$s.}
+\label{tab:c3_followup}
+\begin{tabular}{llrrrrr}
+\toprule
+Code & Parameters & Coeff. & LUT & Speedup & Coeff. p95 & LUT p95\\
+\midrule
+Flash & Flash & $5.1690\pm0.0062$ & $3.6064\pm0.0114$ & $1.433\times$ & 5.1375 & 5.9375\\
+Flash & DRAM & $5.1364^{*}$ & $3.0104\pm0.0043$ & $1.706\times$ & 5.1125 & 3.0000\\
+IRAM & Flash & $5.1364^{*}$ & $3.3295\pm0.0096$ & $1.543\times$ & 5.1125 & 4.6438\\
+IRAM & DRAM & $5.1447\pm0.0043$ & $3.0339^{*}$ & $1.696\times$ & 5.1438 & 3.0313\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The follow-up used a fixed $2\times2\times2$ design: coefficient or sampled-LUT representation, code in Flash or IRAM, and parameters in Flash or DRAM. Eight reset-separated passes followed a Williams order that placed every condition once in every block position and covered every ordered pair of neighbouring conditions once. Each condition received a complete 500-flow warmup followed by 500 timed decisions on the same prepared inputs. Serial transmission, parameter initialization, warmup, and validation were outside the single-call intervals. The common cycle-counter boundary included a kernel call and the binary threshold; interrupts remained enabled. All 4096 empty-timer samples were one cycle, without overhead subtraction. Independent cycle-counter checks were consistent with the configured 160~MHz clock.
+
+Independent ELF inspection confirms that the Flash and IRAM copies are byte-identical within each family: 346 bytes for the coefficient kernel and 206 bytes for the LUT kernel. Thus the code-placement comparison does not change the arithmetic instruction sequence. The timer has two cycle-counter reads surrounding the indirect kernel call and the binary threshold; the prediction store follows the second read. The released source and frozen parameter arrays agree with the uploaded build artifacts. Compilation uses the same pinned GCC 8.4.0 toolchain with \texttt{-Os} and LTO disabled.
+
+The LUT was faster at all four matched placements (Table~\ref{tab:c3_followup}). The lowest observed mean was $3.0104~\mu$s with code in Flash and parameters in DRAM, compared with $5.1364~\mu$s for coefficients at the same placement: a $1.706\times$ speedup and a 41.392\% reduction. Moving LUT parameters from Flash to DRAM reduced its mean time by 16.527\% with Flash code and by 8.877\% with IRAM code. Moving LUT code to IRAM helped when parameters remained in Flash (7.679\% reduction), but increased the mean by 0.783\% when parameters were already in DRAM. Flash/Flash LUT improved the mean but had a higher p95 than coefficients; placing LUT parameters in DRAM reduced p95 to $3.0000~\mu$s. The maximum recorded call in this fastest condition was $9.0375~\mu$s, so the percentile is not a worst-case execution-time guarantee.
+
+A paired factorial analysis uses one mean for each condition and reset-separated pass. Averaged across the four placements, the LUT-minus-coefficient contrast is $-1.9016~\mu$s, with SD $0.0040~\mu$s across the eight pass contrasts. Moving LUT code from Flash to IRAM reduces mean latency by $0.2769~\mu$s with Flash parameters but increases it by $0.0236~\mu$s with DRAM parameters; both directions occur in all eight passes. Appendix~\ref{app:factorial} gives the seven factorial contrasts. These repeated-block effects describe this board and protocol; they do not identify the cause of the earlier protocol discrepancy.
+
+All 32\,000 timed binary decisions matched the frozen compiled-C references. Separately, all 32\,000 logits recorded during untimed post-block replay matched the representation-specific references. Each 500-flow condition retained 18 classification errors; execution agreement is distinct from detection accuracy. The device also reported zero mismatches in preflight and pre/post-block checks. The eight passes concern one board and a fixed, warmed input sequence; small pass-mean deviations do not describe variation across devices. Rare excursions of approximately 965 cycles were retained without causal attribution. The benchmark measures prepared-feature inference, not preprocessing, energy, cold-start performance, or peak runtime SRAM. The DRAM LUT payload alone is 20\,554 bytes versus 254 bytes for coefficients. These results establish an effective deployment choice under the common follow-up protocol; they do not establish a unique cause of the earlier protocol discrepancy or update the historical MLP/DT5 timing comparison.
