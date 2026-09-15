@@ -1,0 +1,84 @@
+{
+  "scope": "current frozen coefficient headers; finite t grid and conservative bounds, no training",
+  "basis_t_count": 32769,
+  "basis_sum_min": 196607,
+  "basis_sum_max": 196609,
+  "basis_product_max": 1073741824,
+  "admissible_witness": {
+    "q12": -4094,
+    "nseg": 16,
+    "t": 128,
+    "basis": [
+      32385,
+      131072,
+      33152,
+      0
+    ],
+    "sum": 196609
+  },
+  "assumptions": [
+    "arithmetic signed right shift",
+    "valid categorical indices"
+  ],
+  "headers": [
+    {
+      "path": "mcu_pio/include/kan14_coeff_int8.h",
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea",
+      "coefficient_abs": 127,
+      "edge_q15": {
+        "acc_abs": 24969343,
+        "multiplier_abs": 32767,
+        "high_product_abs": 25001221,
+        "low_product_abs": 1073676289,
+        "sum_abs": 25033988
+      },
+      "categorical_product_abs": 1342644,
+      "first_layer_acc_abs": 255710456
+    },
+    {
+      "path": "mcu_pio/include/kan14_ml_coeff_int8.h",
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344",
+      "coefficient_abs": 127,
+      "edge_q15": {
+        "acc_abs": 24969343,
+        "multiplier_abs": 32767,
+        "high_product_abs": 25001221,
+        "low_product_abs": 1073676289,
+        "sum_abs": 25033988
+      },
+      "categorical_product_abs": 3897630,
+      "first_layer_acc_abs": 265930400,
+      "hidden_index_q15": {
+        "acc_abs": 265930400,
+        "multiplier_abs": 12114,
+        "high_product_abs": 98317224,
+        "low_product_abs": 396939438,
+        "sum_abs": 98329338
+      },
+      "second_layer_acc_abs": 400543808
+    },
+    {
+      "path": "mcu_pio/include/kan14_mc_coeff_int8.h",
+      "sha256": "4ef43af769d9055f0bd2b286332c62b81931a6588c8a1915745edffbf1dc3c5b",
+      "coefficient_abs": 127,
+      "edge_q15": {
+        "acc_abs": 24969343,
+        "multiplier_abs": 32767,
+        "high_product_abs": 25001221,
+        "low_product_abs": 1073676289,
+        "sum_abs": 25033988
+      },
+      "categorical_product_abs": 4027932,
+      "first_layer_acc_abs": 266451608,
+      "hidden_index_q15": {
+        "acc_abs": 266451608,
+        "multiplier_abs": 13995,
+        "high_product_abs": 113807340,
+        "low_product_abs": 458574165,
+        "sum_abs": 113821335
+      },
+      "second_layer_acc_abs": 400543808
+    }
+  ],
+  "status": "PASS"
+}

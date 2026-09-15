@@ -1,0 +1,7 @@
+subgroup,L,n,coefficient_lut_disagreements,uncertified_original,uncertified_signed_reference,uncertified_signed_lut_guard,observed_max_absolute_score_error,uncertified_original_class0,uncertified_original_class1,uncertified_signed_reference_class0,uncertified_signed_reference_class1,uncertified_signed_lut_guard_class0,uncertified_signed_lut_guard_class1
+all,1025,42209,0,4,2,3,1262,0,4,0,2,0,3
+exact_duplicate,1025,5201,0,0,0,0,554,0,0,0,0,0,0
+non_overlapping,1025,37008,0,4,2,3,1262,0,4,0,2,0,3
+all,513,42209,0,21,9,12,3694,2,19,1,8,1,11
+exact_duplicate,513,5201,0,0,0,0,758,0,0,0,0,0,0
+non_overlapping,513,37008,0,21,9,12,3694,2,19,1,8,1,11

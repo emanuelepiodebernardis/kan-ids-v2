@@ -41,10 +41,14 @@
  *   32767 * |m|          deve stare in int32   (cioe' |m| <= 65535)
  *
  * Con i moltiplicatori Q15 degli header (|m| <= 32767) e gli accumulatori
- * delle B-spline (|acc| <= 6*32768*127 = 24,969,216, quindi |acc>>15| <= 762)
- * i due prodotti valgono al massimo 2.5e7 e 1.07e9, contro i 2.147e9 di
- * int32. tests/test_q15_mul.py ricava i limiti dagli header e li confronta
- * con questi, invece di fidarsi del commento.
+ * delle B-spline quantizzate la somma delle basi e' in [196607,196609],
+ * NON esattamente 6*32768: t=128 produce [32385,131072,33152,0].
+ * Quindi |acc| <= 196609*127 = 24,969,343 e |acc>>15| <= 763;
+ * il ceiling protegge anche l'estremo negativo dello shift aritmetico.
+ * I due prodotti valgono al massimo 2.5e7 e 1.07e9, sotto int32.
+ * scripts/audit_q15_bounds.py enumera t=0..32768, legge gli header e
+ * verifica intermedi, somma Q15 e accumulatori di entrambi gli strati.
+ * tests/test_q15_mul.py controlla anche il controesempio e il ceiling.
  */
 #pragma once
 #include <stdint.h>

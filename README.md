@@ -1,3 +1,5 @@
+> **Paper 1 review v0.12 (15 September 2026):** current [change scope](docs/REVIEW_REVISION_V012.md) and [executable evidence map](evidence/review_v012/ARTIFACT_MAP.md). The revision corrects the Q15 safety argument and MI/CIC descriptions, and adds saved-metric, signed-certificate and exact-row-overlap analyses without training or new hardware measurements. The entries below retain their stated historical scope.
+
 > **Hardware update, 15 September 2026:** the [physical energy campaign](experiments/hardware_energy_20260915/README.md) contains 20 accepted acquisitions on Mega 2560 and ESP32-C3, native CFNs, exact firmware sources and a standard-library reproduction command. Energy is estimated at the whole-board USB input for repeated prepared-feature inference; physical peak RAM remains unmeasured. The historical entries below retain their original dates and protocols.
 
 > **Paper 1, integrazione privata v0.9.1 (2026-09-12):** stato corrente, perimetro rispetto a `df72c7764874`, comandi verificati e limiti in [docs/INTEGRATION_20260912_IT.md](docs/INTEGRATION_20260912_IT.md). I blocchi storici sotto restano evidenza delle versioni precedenti.

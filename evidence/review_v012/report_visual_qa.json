@@ -1,0 +1,11 @@
+{
+  "version": "0.12.0",
+  "scope": "current generated review report; historical PDF receipts unchanged",
+  "pdf": "report_KAN_IDS_PAPER1_software_review.pdf",
+  "sha256": "4da7c990e76b3226e263683960cb57fcbb83e00c60c4286e47d0b08356c69c8d",
+  "pages": 6,
+  "rendered_with": "pdftoppm",
+  "visual_review": "All six pages inspected; tables readable and complete; no clipping or overlap. Energy table kept on one page; evidence section follows local-attribution figure.",
+  "status": "PASS",
+  "deterministic_regeneration_pixel_identical": true
+}

@@ -25,5 +25,8 @@
   "clip": 3.5,
   "preprocessing": "log1p (feature asimmetriche) -> QuantileTransformer(normal) -> clip; fittato su ogni training fold",
   "categorical_encoding": "vocabolario dal training fold, indice 0 = UNK",
-  "feature_selection": "mutual_info_classif sul target a 10 classi, calcolata dentro il fold"
+  "feature_selection": "mutual_info_classif sul target multiclass, calcolata dentro il training fold",
+  "feature_selection_target": "multiclass",
+  "fold_stratification_target": "multiclass",
+  "metadata_correction_v012": "Description corrected from the script already using selection_target=args.task; saved experiment metrics unchanged. Canonical KAN export has a separate multiclass-target fit."
 }

@@ -1,0 +1,75 @@
+{
+  "status": "RECOVERED_AND_VERIFIED",
+  "classifier_fits": 0,
+  "preprocessor_fits": 0,
+  "model": "Frozen current protocol-v2 KAN single-layer num10+cat4, 10 degree-8 Chebyshev edges and four categorical tables",
+  "score_definition": "float_score is the original Chebyshev logit before sigmoid; float_probability is sigmoid clipped to logits [-30,30]; float_pred is probability >=0.5",
+  "input_definition": "Stored train-derived quantiles applied to original test CSV rows, log1p mask, clip +/-3.5; numeric input is before Q12 rounding",
+  "row_order": "Exactly test_evaluation.npz; row_ids are zero-based original CSV data-row positions",
+  "row_ids_sha256": "e34368ec683d827080b3185b94caa8d1fe4c5df2945e7ef89deb0c1e00d59b53",
+  "checks": {
+    "canonical_n_test": 42209,
+    "canonical_sorted_row_ids_equal": true,
+    "training_row_ids_equal": true,
+    "requantized_Xq_equal_all_entries": true,
+    "requantized_Xq_mismatch_count": 0,
+    "categorical_codes_equal_all_entries": true,
+    "binary_labels_equal_all_rows": true,
+    "f1_matches_published_to_4_decimals": true,
+    "auc_matches_published_to_4_decimals": true,
+    "model_sha256_unchanged": true
+  },
+  "full_test_metrics": {
+    "n": 42209,
+    "f1_attack": 0.9831911690918214,
+    "roc_auc": 0.9956369368809961,
+    "accuracy": 0.9746025729109905,
+    "confusion_matrix_labels_0_1": [
+      [
+        9785,
+        215
+      ],
+      [
+        857,
+        31352
+      ]
+    ]
+  },
+  "published_reference": {
+    "file": "repository/results/kan14_binary_real.csv",
+    "row": "num10+cat4",
+    "f1_attack_rounded_4dp": 0.9832,
+    "roc_auc_rounded_4dp": 0.9956
+  },
+  "caveats": [
+    "The preserved preprocessing was reconstructed during finalization because the original fitted training transform was not saved. This calculation performs no new fit.",
+    "All 422090 re-quantized numeric entries, all 168836 categorical entries, all 42209 labels, and the complete sorted row partition agree with preserved canonical evaluation inputs.",
+    "Exact Q12 agreement does not mathematically establish bitwise identity of pre-Q12 floating values to the unavailable original fitted transformer. Matching the published rounded metrics supplies an additional consistency check.",
+    "These are post hoc evaluations of a historically inspected test set; duplicate-subset metrics do not constitute duplicate-aware retraining or an independent untouched holdout.",
+    "models/protocol_v1/kan14_binary_single.npz is a different legacy checkpoint with category cardinalities 3/9/13/3. It is not used or mixed with current UNK-aware codes."
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scipy": "1.17.0",
+    "sklearn": "1.8.0"
+  },
+  "input_sha256": {
+    "evidence/raw/train_test_network.csv": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+    "evidence/finalization/kan_preprocessor_arrays.npz": "eace47ebfc14ef30ee58ecb314b4d8033c24cb38b028cdd2c32fefca29d7f998",
+    "evidence/finalization/test_evaluation.npz": "31e3740cfd49ef4ff4d6ed13aeb1b6457b813a703f6f9d2d81ce6bf0d9de11dc",
+    "evidence/finalization/train_calibration.json": "c6db99f5911afddc75effb0665368ae393da0ec363d32c1a6e2e432a46ea96ca",
+    "evidence/finalization/test_evaluation.json": "db6f327b2cd257fab73ad084d018f39f6e2b0dd96e0c45bddbd78d6f76403c26",
+    "repository/models/kan14_binary_singlelayer.npz": "344bbd9db0c0c95cad7557f72c8982844662602329148be8284a5f40882b17cc",
+    "repository/models/feature_space.npz": "dd37eaca54c7110c2aac03b39919d9888db31e8af16d8106e84a1c46037cb227",
+    "repository/src/kan_chebyshev.py": "b62ff09fc6d83b53193208412e940cffaf1de44f5244329d7acb10d6149575b2",
+    "repository/scripts/kan14_binary.py": "52fcd52693dd5645bc12e8c7e48e7ba232d4cf3475c889a9454aa365294c4f91",
+    "repository/kanids/preprocessing.py": "261bbea3ac99260db3ed943c67ce723033ea21864ce015248d5b9a3a791ac32a",
+    "repository/results/kan14_binary_real.csv": "982109fb7c7482d4fefdbd6baca65657659658ef39fab8bb8d2d35e3ec1b5d2d"
+  },
+  "output": {
+    "path": "frozen_singlelayer_float_predictions.npz",
+    "sha256": "44ff83766ae1c16914a5939c4b88bea04818027c2d2e0c3548474a35b92497a0"
+  }
+}

@@ -11,6 +11,7 @@ ritirati.
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 from xml.sax.saxutils import escape
 import sys
@@ -18,6 +19,8 @@ from pathlib import Path
 
 import pandas as pd
 import matplotlib
+from reportlab import rl_config
+rl_config.invariant = 1  # deterministic PDF identity when checks regenerate it
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_LEFT, TA_RIGHT
 from reportlab.lib.pagesizes import A4
@@ -157,6 +160,12 @@ def main():
         "non sono quindici repliche indipendenti. La stratificazione usa sempre l'etichetta a 10 classi, "
         "così i modelli binari e multiclass vedono fold identici e la classe rara (MITM, "
         "0,49% dei flussi) è presente ovunque."))
+
+    story.append(P(
+        "La MI della CV nativa usa il target del task: binario per la CV binaria, "
+        "multiclasse per quella multiclasse. La stratificazione rimane a dieci classi. "
+        "Il fit canonico separato della KAN per export usa invece MI multiclasse. "
+        "La rettifica dei metadati v0.12 non cambia feature, fit o metriche salvate."))
 
     # ── 2. tabella comparativa ───────────────────────────────
     story.append(P("2. Tabella comparativa — TON_IoT in-domain", "h1"))
@@ -319,6 +328,23 @@ def main():
         "l'assenza di effetti della precedente esposizione ai dati. CV float, "
         "fit singolo di export e qualita' integer restano blocchi distinti."))
 
+    review = json.loads((REPO / "evidence/review_v012/saved_results_summary.json").read_text(encoding="utf-8"))
+    counts = review["unsw"]["counts_by_space"]
+    choice = review["ratio_selection"]
+    story.append(P(
+        f"La rianalisi salvata v0.12 trova AUROC inferiore a 0,5 in "
+        f"{counts['rich']['below_0_5']}/{counts['rich']['n']} run UNSW ricchi e "
+        f"{counts['reduced']['below_0_5']}/{counts['reduced']['n']} ridotti. "
+        "Con la polarita' originale dello score questo e' ranking inverso; cambiare "
+        "solo soglia non corregge il ranking. Non e' stata applicata un'inversione "
+        "dello score ottimizzata sul target. Media e SD campionaria per modello "
+        "sono in evidence/review_v012/saved_results_unsw_auc.csv. "
+        f"Il rapporto 1:5 vince in {choice['ratio5_seed_wins']}/{choice['seeds']} "
+        "confronti per seed della BA media sui sei modelli e due domini di validation; "
+        "questo descrive stabilita' interna, non nuove repliche di dominio. "
+        "CIC usa proxy di finestra/pacchetti: nomi comuni non provano equivalenza "
+        "di byte, durata, conteggi o stato con Zeek/Argus."))
+
     story.append(P("5. Finalizzazione della rappresentazione e delle prove", "h1"))
     selection_path = RESULTS / "lut_selection_protocol.json"
     if selection_path.exists():
@@ -370,6 +396,36 @@ def main():
     else:
         story.append(P("Valutazione post-freeze del test: evidenza non ancora disponibile."))
 
+    story.append(P(
+        "La verifica Q15 aggiornata enumera tutti i 32.769 valori t: la somma "
+        "delle basi quantizzate varia da 196.607 a 196.609, non e' sempre 196.608. "
+        "Il controesempio ammissibile q=-4094 produce t=128 e basi "
+        "[32385,131072,33152,0]. Il bound corretto usa ceiling per lo shift "
+        "negativo e controlla intermedi e accumulatori sui coefficienti congelati; "
+        "scripts/audit_q15_bounds.py riproduce evidence/review_v012/q15_bounds.json. "
+        "Questa correzione della prova non modifica l'aritmetica del firmware."))
+
+    overlap = json.loads((REPO / "evidence/review_v012/overlap/overlap_subgroup_results.json").read_text(encoding="utf-8"))
+    subgroup = overlap["subgroups"]["non_overlapping"]
+    story.append(P(
+        "La rianalisi v0.12 trova 5.201 dei 42.209 test con una riga training "
+        "identica sulle 44 colonne grezze, incluse etichette e indirizzi. "
+        f"Sui 37.008 test senza tale coincidenza, F1 coefficiente/LUT e' "
+        f"{subgroup['coefficient']['F1']:.6f}, BA {subgroup['coefficient']['BA']:.6f}; "
+        "i 40 disaccordi float/coefficiente ricadono tutti in questo sottogruppo. "
+        "Non e' un nuovo split deduplicato o host/time-disjoint. Il replay "
+        "float usa i quantili preservati senza fit e verifica tutti gli ingressi "
+        "Q12, ma non dimostra identita' bit a bit col trasformatore float originale "
+        "non conservato. I risultati separati e gli hash sono nel nuovo artifact map."))
+    story.append(P(
+        "Il certificato firmato L=1025 ha intervallo [-3426,2324], mentre "
+        "L=513 e' una diagnostica con intervallo [-10065,8250]. La guardia "
+        "calcolabile dal solo score LUT lascia rispettivamente 3 e 12 casi "
+        "test non certificati; entrambe le LUT mantengono empiricamente tutte "
+        "le decisioni del coefficiente. Questo non certifica il classificatore "
+        "float o la correttezza delle etichette e non cambia L di deployment. "
+        "evidence/review_v012/ARTIFACT_MAP.md contiene comandi e input esterni."))
+
     story.append(P("5.1 Coorte comune e protocollo fisico", "h2"))
     story.append(P(
         "Il nuovo percorso common usa 500 flow ID unici, bilanciati 250+250 "
@@ -403,7 +459,7 @@ def main():
                             P(f"{row.mean_call_us:.3f}", "cell"),
                             P(f"{row.mean_power_W:.4f}", "cell"),
                             P(f"{row.energy_uJ_per_call:.4f}", "cell")])
-    story.append(table(energy_rows, [6.5 * cm, 3 * cm, 3 * cm, 3 * cm]))
+    story.append(KeepTogether([table(energy_rows, [6.5 * cm, 3 * cm, 3 * cm, 3 * cm])]))
     story.append(P(
         f"Fonte: {len(energy_runs)} acquisizioni fisiche, "
         f"{len(energy_means)} medie modello/scheda. SHA-256 e verifica "
@@ -432,15 +488,12 @@ def main():
 
     story.append(P("6. Stato delle evidenze", "h1"))
     rows = [[P("Blocco", "cell"), P("Provenienza e stato", "cell")]]
-    validation_log = REPO / "evidence/finalization/combined_patch_gate_final.log"
-    validation_match = re.search(r"(\d+) passed, (\d+) skipped", validation_log.read_text(encoding="utf-8")) if validation_log.exists() else None
-    host_file = REPO / "artifacts/finalization/host_hardware_cohort_checks/summary.json"
-    host_summary = json.loads(host_file.read_text(encoding="utf-8")) if host_file.exists() else {}
-    software_status = (f"{validation_match.group(1)} test superati, {validation_match.group(2)} skip nel run registrato; "
-                       if validation_match else "Consultare i log del run; conteggi non disponibili. ")
-    software_status += (f"{len(host_summary['checks'])} integrazioni host superate. "
-                        if host_summary.get('all_passed') else "Integrazioni host non confermate. ")
-    software_status += "Log in evidence/finalization e artifacts/finalization."
+    software_status = (
+        "Replay host: 42.209 score coefficiente e LUT coincidono con C; "
+        "81.930 probe per-coordinate verificano l'errore. Q15: bound corretti "
+        "e controlli AVR in tests/test_q15_mul.py. Queste sono verifiche software, "
+        "non nuove misure MCU. Ricevute correnti in evidence/review_v012; "
+        "gate completo e fresh-apply nella directory integration del rilascio.")
     # Energia disponibile dal 15 settembre; peak RAM rimane non misurato.
     energy_status = (f"Misurata con FNB58: {len(energy_runs)} acquisizioni "
                      f"e {len(energy_means)} medie scheda/modello. Stima USB "
@@ -486,6 +539,21 @@ def main():
         canvas.restoreState()
 
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
+    provenance = {
+        "version": "0.12.0", "scope": "current report regenerated from saved evidence; no training",
+        "output": OUT.name, "output_sha256": hashlib.sha256(OUT.read_bytes()).hexdigest(),
+        "generator": "scripts/make_report.py",
+        "generator_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "sources": [{"path": path.relative_to(REPO).as_posix(),
+                     "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                    for path in [REPO/"evidence/review_v012/saved_results_summary.json",
+                                 REPO/"evidence/review_v012/q15_bounds.json",
+                                 REPO/"evidence/review_v012/overlap/overlap_subgroup_results.json",
+                                 REPO/"results/lut_selection_protocol.json",
+                                 REPO/"experiments/hardware_energy_20260915/results/board_model_means.csv"]],
+        "historical_receipts": "evidence/finalization/report_visual_qa.json refers to the earlier report only",
+    }
+    (REPO/"evidence/review_v012/report_provenance.json").write_text(json.dumps(provenance, indent=2)+"\n", encoding="utf-8", newline="\n")
     print(f"scritto {OUT} ({OUT.stat().st_size/1024:.0f} KB)")
 
 

@@ -186,10 +186,10 @@ def coverage_report(h: pd.DataFrame, name: str) -> pd.DataFrame:
 # connessione. Le sue feature sono durata, statistiche sulla dimensione dei
 # pacchetti, tassi e conteggi di flag TCP.
 #
-# Sette delle tredici feature numeriche ricche dipendono dalla direzione (le
-# due asimmetrie, i due payload medi, i quattro conteggi per direzione) e
-# vanno perse. Restano sei quantita' che TON_IoT, BoT-IoT, UNSW-NB15 e
-# CIC-IoT-2023 misurano davvero tutti e quattro.
+# Lo spazio ridotto conserva sei colonne nominalmente comuni. Nel caso CIC
+# sono proxy derivati da statistiche della finestra/pacchetti, non misure
+# dimostrate equivalenti ai flussi Zeek/Argus; vedi build_ridotto_cic.
+# Le differenze di unita' osservativa limitano l'interpretazione del transfer.
 #
 # NON si ricostruiscono le direzioni da Srate/Drate: sarebbe una stima
 # spacciata per misura. Meglio uno spazio piu' povero ma onesto.
@@ -207,9 +207,12 @@ _PROTO_CIC = ["TCP", "UDP", "ICMP", "ARP"]
 
 
 def _state_da_flag(df: pd.DataFrame) -> np.ndarray:
-    """Stato della connessione per CIC-IoT-2023, dalla stessa nozione
-    semantica usata per Zeek e Argus: chi ha chiuso, chi ha resettato, chi
-    non ha mai risposto. Decisione a priori, non tarata sui dati."""
+    """Proxy di stato CIC da flag aggregati, con regola fissata a priori.
+
+    Non ricostruisce una macchina a stati Zeek/Argus: flag aggregati e
+    connessioni hanno unita' osservative diverse. La regola storica, incluso
+    non-TCP -> incomplete, e' preservata per riprodurre i risultati salvati.
+    """
     def col(*nomi):
         for n in nomi:
             if n in df.columns:
@@ -268,14 +271,17 @@ def build_ridotto_da_ricco(h: pd.DataFrame) -> pd.DataFrame:
 def build_ridotto_cic(df: pd.DataFrame) -> pd.DataFrame:
     """CIC-IoT-2023 -> spazio ridotto.
 
-    Corrispondenze (nessuna e' una stima: tutte richiedono la colonna vera,
-    sollevano KeyError se assente invece di riempire con un valore inventato):
-      duration    <- flow_duration  (genuina in test.csv: mediana benigni
-                     26,1 s contro 0,0 s per gli attacchi, non il TTL)
-      pkts_total  <- Number          (numero di pacchetti del flusso)
-      bytes_total <- Tot sum         (somma delle dimensioni dei pacchetti)
+    Mappatura proxy storica, NON equivalenza semantica validata:
+      duration    <- flow_duration (non una durata di flusso Zeek verificata)
+      pkts_total  <- Number, fallback Tot size (semantica dipendente dal file)
+      bytes_total <- Tot sum (statistica aggregata sulla dimensione)
       proto_h     <- indicatori TCP/UDP/ICMP/ARP
-      state_h     <- conteggi dei flag TCP (vedi _state_da_flag)
+      state_h     <- conteggi di flag aggregati (vedi _state_da_flag)
+
+    La presenza delle colonne non dimostra la stessa unita' osservativa.
+    Le formule restano invariate per non riscrivere gli esperimenti storici.
+    CIC e' uno stress test fra rappresentazioni proxy, non un controllo di
+    transfer tra misure fisiche gia' validate come equivalenti.
     """
     def col(*nomi):
         for n in nomi:

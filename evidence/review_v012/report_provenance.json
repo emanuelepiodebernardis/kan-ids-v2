@@ -1,0 +1,31 @@
+{
+  "version": "0.12.0",
+  "scope": "current report regenerated from saved evidence; no training",
+  "output": "report_KAN_IDS_PAPER1_software_review.pdf",
+  "output_sha256": "4da7c990e76b3226e263683960cb57fcbb83e00c60c4286e47d0b08356c69c8d",
+  "generator": "scripts/make_report.py",
+  "generator_sha256": "a3c7e3f742686cc6c177a6ea2a24b83ecbc8977bd8eea9f69e7698179fe9bba6",
+  "sources": [
+    {
+      "path": "evidence/review_v012/saved_results_summary.json",
+      "sha256": "3777fb88225610b6f12b55c0fa44faebbbbf2eb3ee57b58becb27d5f29ef3ea4"
+    },
+    {
+      "path": "evidence/review_v012/q15_bounds.json",
+      "sha256": "610e7ab7c021c295de3e7bd5f8301df6c188044c6197bd2b9ff26cc6d4883c1f"
+    },
+    {
+      "path": "evidence/review_v012/overlap/overlap_subgroup_results.json",
+      "sha256": "bafc93202f0fa93c34287f187bde666f9e8196034f5dc0decaeb63766d706e8f"
+    },
+    {
+      "path": "results/lut_selection_protocol.json",
+      "sha256": "357126549ddd10f08f801ad67df44aa6369637254ab28cb98be73884a1024090"
+    },
+    {
+      "path": "experiments/hardware_energy_20260915/results/board_model_means.csv",
+      "sha256": "ca7a978abb8c78d8733492b763bcc0642028ba32c15252c19fac71f75db7366e"
+    }
+  ],
+  "historical_receipts": "evidence/finalization/report_visual_qa.json refers to the earlier report only"
+}

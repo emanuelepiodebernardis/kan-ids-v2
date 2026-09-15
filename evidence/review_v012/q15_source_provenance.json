@@ -1,0 +1,23 @@
+{
+  "scope": "Current shared q15 header comment corrected only; measured firmware snapshots immutable",
+  "old_active_header_sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e",
+  "new_active_header_sha256": "635b0590723d85f63943419e5940ba4059988bf5a5cb33a70f766f5c787ead65",
+  "active_code_after_comment_removal_identical": true,
+  "measured_firmware_q15_headers": [
+    {
+      "path": "experiments/hardware_energy_20260915/firmware/c3/project/include/q15_mul.h",
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e",
+      "unchanged_from_v011": true
+    },
+    {
+      "path": "experiments/hardware_energy_20260915/firmware/mega/coeff/project/include/q15_mul.h",
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e",
+      "unchanged_from_v011": true
+    },
+    {
+      "path": "experiments/hardware_energy_20260915/firmware/mega/kanml/project/include/q15_mul.h",
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e",
+      "unchanged_from_v011": true
+    }
+  ]
+}
