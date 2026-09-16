@@ -1,0 +1,62 @@
+% Supplemental software study. These are new floating-point models, not the
+% frozen checkpoints used for integer certification or hardware measurements.
+\subsection{Supplemental endpoint-pair generalization study}
+\label{sec:pair-stage2}
+To examine sensitivity to the partition and include another additive baseline,
+we fitted new models on a fixed endpoint-pair split of the 211,043-row TON\_IoT
+source file. Both traffic directions for an unordered pair of source and
+destination IP addresses were assigned together; ports were excluded from the
+group key. A fixed salted SHA-256 rule assigned pairs to training, validation,
+and test buckets in proportions 60:20:20, yielding 119,334, 53,622, and 38,087
+rows, respectively. No pair or complete 44-column row crosses these partitions.
+This is not a host-, time-, or feature-disjoint split: training and test share
+50 hosts, and 2,889 test rows (7.585\%) have transformed model inputs present in
+training. The test contains 3,669 normal and 34,418 attack rows and lacks
+backdoor, ransomware, and XSS examples.
+
+All models share ten numeric features selected using binary training labels
+only, and four categorical fields; preprocessing was fitted only on training. The configurations
+were an additive degree-eight KAN, a depth-five decision tree, a 16-unit MLP,
+and an additive cubic B-spline logistic GAM with five knots per numeric feature
+and no interactions. Unseen categorical values use an all-zero one-hot block;
+never-trained KAN category-zero entries were set to zero without changing
+training logits. A single-seed validation pilot preceded the fixed five-seed
+study; no model, hyperparameter, seed, or threshold was selected from its scores.
+The five model seeds were 20260916--20260920; the preprocessing seed was fixed
+at 20260916. All twenty fitted checkpoints were frozen before test evaluation,
+and the decision threshold remained 0.5. These new floating-point checkpoints
+are separate from the frozen integer exports and hardware cohorts.
+
+\begin{table*}[t]
+\centering
+\caption{Supplemental endpoint-pair test: mean $\pm$ sample standard deviation
+over five model seeds on the same 38,087 rows. Standard deviations describe
+optimization variation on one fixed split; they are not confidence intervals.
+FPR and TPR are percentages.}
+\label{tab:pair-stage2}
+\small
+\begin{tabular}{lccccc}
+\toprule
+Model & BA & F1 & FPR (\%) & TPR (\%) & AUROC\\
+\midrule
+Additive KAN & $0.89484\pm0.00022$ & $0.98695\pm0.00009$ & $20.594\pm0.050$ & $99.563\pm0.019$ & $0.98488\pm0.00027$\\
+DT5 & $0.68510\pm0$ & $0.96620\pm0$ & $62.687\pm0$ & $99.707\pm0$ & $0.49014\pm0$\\
+MLP16 & $0.98885\pm0.00062$ & $0.99798\pm0.00015$ & $2.044\pm0.152$ & $99.815\pm0.039$ & $0.99806\pm0.00044$\\
+Spline GAM & $0.97003\pm0$ & $0.99561\pm0$ & $5.724\pm0$ & $99.730\pm0$ & $0.99606\pm0$\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The KAN exceeds DT5 in balanced accuracy on this split but remains below both
+MLP16 and the spline GAM (Table~\ref{tab:pair-stage2}). Its F1 of 0.98695
+coexists with a 20.594\% false-positive rate, which limits deployment usefulness.
+For the 35,198 test rows whose transformed inputs are absent from training,
+mean KAN BA is 0.89638, F1 is 0.98613, and FPR is 20.248\%; this subgroup has
+3,623 normal and 31,575 attack rows. The matching-input subgroup contains only
+46 normal rows, so its rates have limited normal-class support. These results
+do not establish that additive structure improves detection or that the
+canonical-split scores were inflated by leakage: the partition, class mix,
+preprocessing fit, and model checkpoints differ. They support a narrower
+contribution centered on verifiable integer deployment when an additive score
+is required. The five seeds are not independent datasets, and neither the
+validation pilot nor these test scores are pooled with the hardware cohort.

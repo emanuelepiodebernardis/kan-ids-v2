@@ -1,0 +1,26 @@
+\subsection{Observed RAM components in a separate instrumented workload}
+\label{sec:ram500}
+The RAM500 campaign uses the frozen models and the same 500 prepared hardware inputs in separate diagnostic applications. Each model is evaluated after three fresh uploads, with three full passes per upload. All 22,500 reference comparisons per board agree, and all post-baseline positive controls pass. These are repeated executions of 500 observations, not additional detection-quality samples. The baseline includes prepared-row loading, prediction, reference checking and observed interrupt activity; diagnostic reporting and positive controls follow the saved baseline.
+
+On Mega, static SRAM is 335 bytes for every model, including the reusable input buffer. Wrapped allocator counts are zero throughout each baseline, and the heap boundary is unchanged. The observed stack depths in Table~\ref{tab:ram500} are identical across all three uploads. A positive control allocates and frees 128 requested bytes, changing the heap boundary by 130 bytes and then restoring it. A separate stack control also passes. These checks establish that the probes respond to known allocations; they do not prove the maximum stack depth over every possible input or interrupt schedule.
+
+\begin{table}[t]
+\caption{RAM500 observed stack components (bytes), over three fresh uploads per model. Mega static SRAM is 335 bytes and C3 static DRAM data/BSS is 15,312 bytes for every row. C3 ranges are lifetime task watermarks whose maxima were already reached before inference in every run. The columns have different scopes and must not be summed into a global Peak RAM estimate.}
+\label{tab:ram500}
+\centering\footnotesize
+\begin{tabular}{lrr}
+\toprule
+Implementation & Mega stack depth & C3 loop-task use\\
+\midrule
+KAN coefficients & 93 & 1584\\
+KAN sampled LUT & 80 & 1504--1584\\
+Multilayer KAN & 208 & 1504\\
+MLP16 & 95 & 1584\\
+DT5 & 46 & 1504--1584\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+C3 task watermarks and heap observations follow the ESP-IDF 4.4.7 API semantics~\cite{EspressifFreeRTOS447,EspressifHeap447}: task lifetime stack use and sampled heap state have different scopes. On C3, linked static DRAM data/BSS occupies 15,312 bytes and IRAM code plus alignment occupies 48,128 bytes. The loop task reserves 8,192 bytes. Its pre-workload and post-workload lifetime stack watermarks are identical in every run. Thus the observed 1,504--1,584-byte task use cannot establish a model-specific inference-stack advantage. Internal 8-bit heap snapshots report 309,800 free and 20,588 allocated bytes both before and after each workload. Unchanged snapshots do not exclude intervening transient allocations. A 512-byte control allocation reduces free heap by 528 bytes and is fully released. A separate control task changes its free stack watermark from 3,920 to 3,244 bytes. All fifteen C3 runs pass both controls.
+
+The task-stack reservation is already part of allocated heap and must not be added again. These observations concern diagnostic firmware, not the energy applications or a complete IDS. Finite-workload watermarks, static sections and heap snapshots do not establish an exact whole-system or universal worst-case peak. Repeating the same protocol would refine repeatability without removing that scope limitation. The retained audit gives per-upload values, actual binaries, source identities and raw control traces.

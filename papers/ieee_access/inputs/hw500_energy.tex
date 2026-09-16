@@ -1,0 +1,33 @@
+\subsection{Time and USB energy on the common 500-flow workload}
+\label{sec:hw500}
+We next used one common 500-flow cohort (250 normal and 250 attack flows) for both timing and energy on the same Mega 2560 and ESP32-C3 boards. These are the historical frozen models; the newly fitted pair-disjoint models were not exported for this campaign. Each board completed a separate coefficient pilot and five blocks containing the five models in a prespecified cyclic order, giving five technical repetitions per configuration. The pilot was excluded from the reported means. Each run used a fresh upload/reset, 500 warm-up predictions, calibration of the batch count to approximately 120\,s, and at least 30\,s of stabilization. Every prepared row was read from Flash into a small RAM buffer, evaluated, and added to a prediction checksum. The timed batch excludes feature extraction, packet capture, serial output, LED markers, warm-up and calibration. Its duration divided by the number of completed predictions is a batch-average processing time, not a distribution of individual-request latencies.
+
+One continuous FNB58 record per board covered the pilot and 25 subsequent runs. Positive LED marker groups before and after each run were associated with the host chronology; an affine fit of twelve MCU-timestamped edges registered each active interval to the stored power trace. We integrated VBUS$\times$IBUS by the trapezoidal rule over the full mapped active interval and divided by its completed prediction count $N$:
+\begin{equation}
+\widehat E_{\rm iter}=\frac{1}{N}\int_{t_0}^{t_1}V(t)I(t)\,dt,
+\qquad \overline t_{\rm iter}=\frac{T_{\rm MCU}}{N}.
+\label{eq:hw500-energy}
+\end{equation}
+Boundary samples are linearly interpolated. Sustained repeated inference is also used by MLPerf Tiny, while ULPMark-CM measures active CPU energy~\cite{Banbury2021MLPerfTiny,EEMBCULPMarkCM}; our whole-board USB protocol is not a reproduction of either benchmark. Thus the time and energy in Table~\ref{tab:hw500-energy} refer to the same batch and include the complete downstream USB-powered board and connection. Adjacent idle powers are retained as diagnostics but are not subtracted. In particular, four Mega configurations had negative signed idle-subtracted differences; these are not interpreted as negative inference energy. The unexplained NRG channel discrepancy (approximately one quarter of the VBUS$\times$IBUS integral) remains documented, and NRG is not used or rescaled.
+
+\begin{table*}[t]
+\centering\small
+\caption{Common 500-flow hardware workload: mean time and whole-board USB energy per iteration, both obtained from the same complete active batch. Five technical repetitions per model and board; energy is mean $\pm$ sample SD. This dispersion describes technical repeatability, not absolute accuracy. The separate coefficient pilot is excluded.}
+\label{tab:hw500-energy}
+\begin{tabular}{lrrrr}
+\toprule
+Model & \multicolumn{2}{c}{Mega 2560} & \multicolumn{2}{c}{ESP32-C3} \\
+ & Time ($\mu$s) & Energy ($\mu$J) & Time ($\mu$s) & Energy ($\mu$J) \\
+\midrule
+Coefficient KAN & 1412.4 & $498.4\pm0.8$ & 5.892 & $0.9874\pm0.0004$ \\
+LUT KAN & 258.83 & $92.16\pm0.13$ & 4.961 & $0.8590\pm0.0007$ \\
+MLP16 & 1344.4 & $477.3\pm0.7$ & 20.592 & $3.5263\pm0.0040$ \\
+Multilayer KAN & 12321.8 & $4367\pm4$ & 55.752 & $9.6408\pm0.0102$ \\
+DT5 & 33.035 & $11.884\pm0.010$ & 1.536 & $0.2643\pm0.0002$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+LUT reduced the batch-average time relative to coefficient KAN by factors of 5.457 on Mega and 1.188 on C3; the corresponding whole-board energy ratios were 5.407 and 1.149. DT5 remained the fastest and lowest-energy implementation in this workload. All five recorded Mega durations were identical within each configuration; this is zero observed variation in stored batch durations, not zero timing uncertainty. The new series removes the workload mismatch between the earlier twenty-flow energy pilots and the 500-flow timing cohort. Those historical protocols remain separate and are not pooled with these results. The new C3 result does not isolate the cause of the earlier protocol's 7.58\% LUT slowdown.
+
+Neither the meter nor the clocks were independently calibrated. The 0.1\,s storage grid does not establish 10\,Hz measurement bandwidth: the observed marker response was about 1\,s. The maximum marker-fit residual was 0.102\,s on Mega and 0.142\,s on C3. A common shift of both integration endpoints over $\pm2$\,s changed the estimates by at most 0.034\% and 0.605\%, respectively. These are registration diagnostics, not a complete uncertainty budget. Means and sample SD describe technical repeatability on one board of each type and do not establish absolute accuracy, variation between devices, isolated processor energy, or end-to-end IDS cost.

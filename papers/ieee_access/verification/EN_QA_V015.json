@@ -1,0 +1,73 @@
+{
+  "revision": "0.15.0",
+  "date_utc": "2026-09-16T16:25:36.741441+00:00",
+  "status": "PASS_PAPER_BUILD_AND_AFFECTED_PAGE_REVIEW",
+  "page_count": 25,
+  "build_command": "python scripts/build_paper.py",
+  "build_scope": "clean temporary pdfLaTeX/BibTeX build; stable references; no overfull boxes, LaTeX warnings or dangling PDF destinations",
+  "warning_count": 0,
+  "visually_reviewed_pages": [
+    1,
+    8,
+    12,
+    14,
+    15,
+    16,
+    17,
+    18,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25
+  ],
+  "visual_findings": "New tables fit; photo layout intact; original tables and figures retained; all three author biographies share the final page with references; no clipping or overlapping content observed on inspected pages.",
+  "main_facts": {
+    "pair_floating_test_n": 38087,
+    "pair_floating_fits": 20,
+    "pair_is_frozen_hardware_model": false,
+    "hw500_included_runs_per_board": 25,
+    "hw500_energy_scope": "full mapped active-interval integral divided by count; same batch as time",
+    "ram500_accepted_uploads_per_board": 15,
+    "ram500_reference_comparisons_per_board": 22500,
+    "ram500_whole_system_peak_claim": false,
+    "c3_stack_maximum_predates_workload": true,
+    "historical_c3_lut_slowdown_retained_percent": 7.58
+  },
+  "author_affiliation_block_unchanged": true,
+  "biography_texts_unchanged": true,
+  "photos": {
+    "C3_measurement.jpg": {
+      "sha256": "bffd3388c6276e806caa793f89e3961570330b02174007d039374aa6cd6a2943",
+      "unchanged_from_git_baseline": true
+    },
+    "Mega_measurement.jpg": {
+      "sha256": "4e693814c50d6170400094dc9ded5e79f3e42543d5001dd781207fc18fe522b2",
+      "unchanged_from_git_baseline": true
+    },
+    "Kuznetsov.png": {
+      "sha256": "000ca8f6a0c21d328bcf83383a22425f09bacf0562fabed329fbf5f3ee00245e",
+      "unchanged_from_git_baseline": true
+    },
+    "E_P_Bernardis.png": {
+      "sha256": "47d4410c7abed37e3e2eb24aea03b009736d52c2905dadb0a88a98c2f7e05153",
+      "unchanged_from_git_baseline": true
+    },
+    "fronto.png": {
+      "sha256": "c2513b7d6ec3081475929a276e47f17541fb468b5b9f0479a41a753a92a215d0",
+      "unchanged_from_git_baseline": true
+    }
+  },
+  "files_sha256": {
+    "main.tex": "fb389f30df8b6e47e419fc1e175f40b782431007bfddeee8a2d0e7c7a5cb451c",
+    "main.pdf": "a278f2243a57e9cb76a9ad77c470f2f3ff1b819f5acbf8e0388abd6ad02fa4fe",
+    "references.bib": "fc3072f0e94e91e04986265f021624a80cef4931d1685d20a95671750d4854aa",
+    "ABSTRACT_EN.txt": "3d20fd365434e65aad15cd8d80ed9d9420e3c1cece8932dc56051c7d04cc45f7",
+    "inputs/pair_stage2.tex": "d0dcabbbebba5310ac7b065aab961d7df4dd3e13a9d8463b90d597b19ca9157a",
+    "inputs/hw500_energy.tex": "da723a6d5fd4d86a555caf4ebe3e799ea474c18567b0881dce97f3d4b7d0918d",
+    "inputs/ram500.tex": "2e968bdb693dcc200a900d4ab5cb084d756c295c9eec05abc63818ccde2fdc2a",
+    "inputs/protocol_map.tex": "15362cd89b99507a9448132a18c716f4cc2820f76c9c6647d6687f1716845a73"
+  },
+  "limits": "This receipt checks the manuscript integration/build/layout; dataset and device acceptance is established by the separate accepted evidence audits. It does not certify a new hardware run or public release."
+}

@@ -1,8 +1,8 @@
 {
-  "version": "0.12.0-git-source",
-  "date": "2026-09-15",
+  "version": "0.15.0-git-source",
+  "date": "2026-09-16",
   "language": "en",
-  "scope": "Reviewed manuscript source export; compiled main.pdf, build logs and renders omitted. Historical verification JSON records refer to standalone release artifacts.",
+  "scope": "Reviewed manuscript source export; compiled main.pdf, build logs and renders omitted. Historical verification receipts retain their stated versions; v015 QA describes the separately delivered PDF.",
   "files": [
     {
       "path": ".gitattributes",
@@ -16,8 +16,8 @@
     },
     {
       "path": "ABSTRACT_EN.txt",
-      "bytes": 1403,
-      "sha256": "ae4ffe27bd9ec72133a40c9e3cd2146af128b7fee2acc03b2ad10dbf56a8663f"
+      "bytes": 1479,
+      "sha256": "3d20fd365434e65aad15cd8d80ed9d9420e3c1cece8932dc56051c7d04cc45f7"
     },
     {
       "path": "AUTHOR_METADATA.json",
@@ -26,13 +26,13 @@
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 4604,
-      "sha256": "6ead6e0dc8b0b951f8f6cb233a88bc8c1c255ba28793f9323725cc1800a4bdde"
+      "bytes": 5733,
+      "sha256": "3aa948f266bc7fb336a6369bb58202462964611e2f9fcdfc274b7c6c65bdd704"
     },
     {
       "path": "GIT_SOURCE_SCOPE.md",
-      "bytes": 814,
-      "sha256": "25fcee1a492d36f31a6f6811e74b93cdbc5fd034d95f4d3027d5c62f4d11f871"
+      "bytes": 594,
+      "sha256": "b3370ae3da7d08891b6e6e9bb36b01e86921c6ae7aa41a6db897789ace414ef6"
     },
     {
       "path": "IEEEtran.bst",
@@ -46,13 +46,13 @@
     },
     {
       "path": "PACKAGE_SCOPE.md",
-      "bytes": 1105,
-      "sha256": "b291ac9c0fbf94fa469e02b98584397f42b60cbc2fe0da51862514b8942725e6"
+      "bytes": 1182,
+      "sha256": "a35154b25be6548780b4c9f1684ba1cd7e082e256dbd62226447ba7036af07f1"
     },
     {
       "path": "README.md",
-      "bytes": 2592,
-      "sha256": "70ed4c158877100e7b4f45ee182aca3a5a50c71ae2cea7fe8db6076624b026d1"
+      "bytes": 3067,
+      "sha256": "ac11a00a8b21a54a98908cda61348d77f55951ea15602577dc84b0293828ca8f"
     },
     {
       "path": "TEMPLATE_ASSETS.json",
@@ -221,8 +221,8 @@
     },
     {
       "path": "inputs/energy_pilots.tex",
-      "bytes": 9968,
-      "sha256": "cd4e3b01176fd8b609f4d01f2f0c28d9a2c37a8522195087594cf116f0e7fd74"
+      "bytes": 9282,
+      "sha256": "c8e1908fbe92279684513831e286546ee7ce414573087699a290462e1b017fcb"
     },
     {
       "path": "inputs/factorial_table.tex",
@@ -230,14 +230,29 @@
       "sha256": "a598760a99fee43822b387546873089b96ba26895fb11c2a63926369a1664315"
     },
     {
+      "path": "inputs/hw500_energy.tex",
+      "bytes": 4804,
+      "sha256": "da723a6d5fd4d86a555caf4ebe3e799ea474c18567b0881dce97f3d4b7d0918d"
+    },
+    {
       "path": "inputs/ml_supplement_tables.tex",
       "bytes": 4943,
       "sha256": "36519d8c6185f5d0fcfae623ee5de6151eadb677ce4bddcc8ca33aed0b7bdd32"
     },
     {
+      "path": "inputs/pair_stage2.tex",
+      "bytes": 3858,
+      "sha256": "d0dcabbbebba5310ac7b065aab961d7df4dd3e13a9d8463b90d597b19ca9157a"
+    },
+    {
       "path": "inputs/protocol_map.tex",
-      "bytes": 2766,
-      "sha256": "70d3d91e36cf71ecbb43c671209e5915c207a685a5d991724a7175980fe11eb7"
+      "bytes": 3538,
+      "sha256": "15362cd89b99507a9448132a18c716f4cc2820f76c9c6647d6687f1716845a73"
+    },
+    {
+      "path": "inputs/ram500.tex",
+      "bytes": 3415,
+      "sha256": "2e968bdb693dcc200a900d4ab5cb084d756c295c9eec05abc63818ccde2fdc2a"
     },
     {
       "path": "inputs/related_work_comparison.tex",
@@ -252,7 +267,7 @@
     {
       "path": "inputs/source_target_checks.tex",
       "bytes": 4518,
-      "sha256": "de9beae1bae9a185afee31d6e96a33807ac53330071af263a914e7606e8a4f4a"
+      "sha256": "fdb2d89b87213623eaa5ad4ed0ff95fa563d668bb482943bae6b09b2a46442d6"
     },
     {
       "path": "inputs/unsw_auroc.tex",
@@ -266,8 +281,8 @@
     },
     {
       "path": "main.tex",
-      "bytes": 79880,
-      "sha256": "d354a76b55096e42e9d23054574fdbe274d03f9be3a8c705acd53baef160b758"
+      "bytes": 83053,
+      "sha256": "fb389f30df8b6e47e419fc1e175f40b782431007bfddeee8a2d0e7c7a5cb451c"
     },
     {
       "path": "notaglinelogo.png",
@@ -276,8 +291,8 @@
     },
     {
       "path": "references.bib",
-      "bytes": 10185,
-      "sha256": "a48d84d71914c75cb3473aaddd8961cb09a245bfff07b22358655952b5798188"
+      "bytes": 10827,
+      "sha256": "fc3072f0e94e91e04986265f021624a80cef4931d1685d20a95671750d4854aa"
     },
     {
       "path": "scripts/build_paper.py",
@@ -515,6 +530,11 @@
       "sha256": "53770cf83662b1f1ee3df6c77382c89bb9e25bbdd25b04f2d7bc3c0b9feeb033"
     },
     {
+      "path": "verification/EN_QA_V015.json",
+      "bytes": 3144,
+      "sha256": "a6be1c3e337aaaf72b65466ec45cc4ce879e1e3b0dbbed7a1f0d8eaf3a7440db"
+    },
+    {
       "path": "verification/FACTS_V010.json",
       "bytes": 6227,
       "sha256": "43ec060e52775e3219b4c815fb02e93805f4d5009d2f5b8d94e317cafc1b6785"
@@ -536,8 +556,8 @@
     },
     {
       "path": "verification/README.md",
-      "bytes": 748,
-      "sha256": "7b3deda8059343781cf558b8543332ae79bd1e7dac79aeb8a0b3d0d87a971baa"
+      "bytes": 1069,
+      "sha256": "1724051e07465cddeddee4c1bb8c26323d80afcc12be8180f0246004fe271558"
     },
     {
       "path": "verification/VISUAL_QA_V011.json",

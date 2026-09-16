@@ -1,0 +1,52 @@
+{
+  "version": "0.15.0",
+  "language": "ru",
+  "status": "PASS",
+  "pdf_sha256": "d5897aeb4b363ce72f43334cdcfd82008c4dda5e422bdc91fbd3a27d13aea76a",
+  "pages": 46,
+  "build": "XeLaTeX/BibTeX/xdvipdfmx isolated build PASS; stable references; no overfull boxes or missing characters",
+  "scientific_checks": {
+    "pair_stage2": "New float fits separate from frozen integer/hardware checkpoints; BA/F1/FPR/TPR/AUROC from supplied verified table; 50 shared hosts and 2889 transformed-input matches retained",
+    "HW500": "Full active-window integral VI/N, same batch and 500 input cohort as timing; 5x5 included runs per board; no idle subtraction/calibration; original20 pilot retained appendix",
+    "RAM500": "335/15312 static bytes; Mega93/80/95/208/46 stack, C3exact3upload values; lifetimebefore==after prevents inference-only peak claim; no global worst-case RAM",
+    "historical_c3": "Original7.58percent slower result retained; no causal claim; factorial primaryplacement"
+  },
+  "protected_files_unchanged": [
+    "AUTHOR_METADATA.json",
+    "figures/C3_measurement.jpg",
+    "figures/ENERGY_FIGURE_PROVENANCE.json",
+    "figures/E_P_Bernardis.png",
+    "figures/Kuznetsov.png",
+    "figures/Mega_measurement.jpg",
+    "figures/PHOTO_PROVENANCE.json",
+    "figures/board_model_means.csv",
+    "figures/energy_pilot_comparison.pdf",
+    "figures/energy_pilot_comparison.png",
+    "figures/fronto.png",
+    "figures/hardware_latency.pdf",
+    "figures/make_energy_figure.py",
+    "figures/mcu_boards.jpg",
+    "figures/orcid-icon.pdf",
+    "figures/xai_global.pdf",
+    "figures/xai_local.pdf"
+  ],
+  "new_source_files": {
+    "inputs/energy_setup.tex": "2ed4defad0060a6b5657e0cbe0d96da922fc0c4deb00c3c9639eb05359c9770a",
+    "inputs/hw500_energy.tex": "5ec8531550809c534ff2302230dc3bfcf4e1095d75774aa387731158dfce0a91",
+    "inputs/hw500_table.tex": "7a50811696abc70000b325071cae2f0ce07e7ddf51474a4e83a6ecbaf0624e17",
+    "inputs/pair_stage2.tex": "2a8831fefd574e1286dd1da66fe91d9e6e7bcfff0b4f3a7efef7373714b138a1",
+    "inputs/protocol_map.tex": "a284a3a813e5007f9eaead4e6278a59934b619072e569f0df7c83724a1eb6ac3",
+    "inputs/ram500.tex": "7de13d6157e20e3ef963bdb182d4e1ee52b41ddf2bd4c916ed6fdd4732102868"
+  },
+  "rendered_pages": [
+    1,
+    21,
+    23,
+    25,
+    26,
+    28,
+    45,
+    46
+  ],
+  "visual_review_status": "PASS: title, new tables, photos and complete last author page inspected; no clipping, overlaps or isolated final biography"
+}

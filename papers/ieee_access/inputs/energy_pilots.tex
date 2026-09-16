@@ -2,19 +2,7 @@
 \label{sec:energy-pilots}
 A separate campaign on 15 September 2026 used an FNIRSI FNB58 USB meter (serial 104332) with the same Mega and ESP32-C3 boards. Five frozen implementations were each evaluated twice on each board, giving twenty physical acquisitions. Figure~\ref{fig:energy-setup} shows the instrumented setups. The meter measures the USB supply to the board and downstream cable; background board consumption is included. The recorded USB identity links the ESP32-C3 series to the earlier board. The photographs illustrate the connections; their screen readings are not used as experimental averages.
 
-\begin{figure*}[t]
-\centering
-\begin{minipage}[b]{0.47\textwidth}
-\centering\includegraphics[height=5cm]{Mega_measurement.jpg}\\[-1pt]
-{\small (a) Arduino Mega 2560}
-\end{minipage}\hfill
-\begin{minipage}[b]{0.47\textwidth}
-\centering\includegraphics[height=5cm]{C3_measurement.jpg}\\[-1pt]
-{\small (b) ESP32-C3}
-\end{minipage}
-\caption{USB measurement setups for (a) Mega 2560 and (b) ESP32-C3. Displayed voltage, current and power are instantaneous connection snapshots; the results in Table~\ref{tab:energy-pilots} use the archived active-window records. The photographs illustrate the connections, without identifying a particular acquisition.}
-\label{fig:energy-setup}
-\end{figure*}
+
 
 Repeated-inference energy measurements are established benchmark practice: MLPerf Tiny uses sustained repeated inference to make energy measurement feasible~\cite{Banbury2021MLPerfTiny}, while ULPMark-CM reports active CPU energy~\cite{EEMBCULPMarkCM}. Here the measured quantity is explicitly the USB-supplied whole-board iteration. Our two acquisitions, central-window power and full-batch MCU duration define a separate engineering protocol, not a reproduction of either benchmark.
 

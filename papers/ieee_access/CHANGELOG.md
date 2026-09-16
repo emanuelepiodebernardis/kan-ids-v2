@@ -1,3 +1,11 @@
+# v0.15.0 — 16 September 2026
+
+- Integrated the new endpoint-pair-disjoint comparison of additive KAN, DT5, MLP16 and cubic B-spline logistic GAM. Reported supports, F1, balanced accuracy and false-positive rates, with optimizer-seed variability and residual dependence limits.
+- Added the HW500 same-cohort time/energy results: five technical runs per frozen model and board, full mapped active-interval VI integration and identical timing/energy batch boundaries. Kept the smaller twenty-input pilot in an appendix.
+- Added observed RAM500 components from fifteen accepted uploads per board. Distinguished Mega finite-workload stack observations, C3 lifetime task watermarks, static sections and heap snapshots; retained the absence of an exact whole-system peak.
+- Updated abstract, contributions, methods, protocol map, discussion, conclusion and availability. Kept the controlled placement factorial primary and preserved the historical unfavorable +7.58% C3 result.
+- Preserved author order, affiliations, portraits, setup photographs, original numerical evidence and the explicit limits of historical model provenance.
+
 # v0.12.0 — 15 September 2026
 
 - Reframed the paper around exact integer-export agreement and a physical microcontroller case study; added KANELÉ and methodological energy references and a concise closest-work comparison.
