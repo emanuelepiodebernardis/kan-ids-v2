@@ -1,0 +1,15 @@
+# Paper 1 v0.15 artifact map
+
+All paths below are relative to the repository root. Numerical results belong to their stated protocol and must not be pooled across rows.
+
+| Claim | Committed evidence | External original artifacts |
+|---|---|---|
+| New pair-disjoint five-seed comparison | `experiments/hardware_validation_20260916/paired_software/PAIR_STAGE2_SUMMARY.json`, `DATA_AUDIT.json`, `FITS_FROZEN.json`, `PAIR_INTEGRITY_AUDIT.json`, `SAVED_PREDICTION_AUDIT.json` | `PAIR_STAGE1_20260916T065056Z_3545695b.zip`, `PAIR_STAGE2_20260916T073010Z_ae12deee.zip`, original `KAN_IDS_STAGE2_20260916_v0.13.1.zip`; exact SHA in `paired_software/INPUT_ARCHIVES.json`. |
+| Common 500-flow batch time and USB-energy estimate | `experiments/hardware_validation_20260916/hw500/HW500_PUBLICATION_DATA.json`, `HW500_RUNS.csv`, `INTEGRATION_AUDIT.json` | `MEGA_HW500_CONTINUOUS_20260916T090249Z_b3712c5a.zip`, `C3_HW500_CONTINUOUS_20260916T105447Z_5118ea3a.zip`; exact SHA in `hw500/INTEGRATION_AUDIT.json`; original v0.13.3 kit required for full CFN replay. |
+| Observed diagnostic RAM on Mega and C3 | `experiments/hardware_validation_20260916/ram500/OBSERVED_RAM_TABLE.json`, `evidence/mega_records/`, `evidence/c3_records/`, acceptance/binary audit receipts | `MEGA_RAM500_20260916T141149Z_f0665b8d.zip`, `C3_RAM500_20260916T154347Z_a71998db.zip`; exact SHA in `ram500/PROVENANCE.json`. Mega accepted v0.14.1; C3 accepted v0.14.2. |
+| Reporting-only SDK-symbol correction | `ram500/runner/project/save_build_artifacts.py`, `ram500/tests/test_diagnostic_symbols.py`, `ram500/evidence/CORRECTION.json` within the experiment directory | The measured archive retains the original hook/metadata. Six unrelated SDK symbols (33 B) are excluded only from the corrected diagnostic subset; static DRAM and physical observations stay unchanged. |
+| Frozen canonical export and prior protocols | Existing `evidence/review_v012/`, `experiments/hardware_energy_20260915/`, historical results and source manifests | These retain their original models, workloads and acceptance boundaries. They are not replaced by the newly fitted pair-disjoint models. |
+
+Read-only entry point: `python experiments/hardware_validation_20260916/verify_evidence.py`. Its default success means that retained committed records and table arithmetic agree; it does not mean that omitted raw archives were replayed. Experiment-specific scripts expose full archive, CFN, UART and saved-score replay. The source integration includes exact source/firmware hashes and a byte-preserving local `.gitattributes` rule.
+
+Publication boundaries: pair disjointness is not host/time/feature disjointness; repeated seeds reuse one test set; no new integer certificate is inherited by the pair-disjoint fits. HW500 estimates include whole-board consumption and have no calibrated uncertainty budget. RAM values describe components of a separate instrumented firmware, not global Peak RAM or full IDS memory. The C3 lifetime stack watermark was reached before workload in all runs.

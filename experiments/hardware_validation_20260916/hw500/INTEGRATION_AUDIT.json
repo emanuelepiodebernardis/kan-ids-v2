@@ -1,0 +1,53 @@
+{
+  "schema": "kanids-hw500-final-integration-audit-v1",
+  "status": "PASS",
+  "raw_ZIP_CRC": "PASS for both archives",
+  "raw_archives": [
+    {
+      "board": "mega",
+      "filename": "MEGA_HW500_CONTINUOUS_20260916T090249Z_b3712c5a.zip",
+      "bytes": 4893923,
+      "sha256": "e06854ecd6d8a5fa726c4ef94639bf97a70b0f3d20e75e3e2a55bb2bd1b8c710"
+    },
+    {
+      "board": "c3",
+      "filename": "C3_HW500_CONTINUOUS_20260916T105447Z_5118ea3a.zip",
+      "bytes": 22044487,
+      "sha256": "c82bd94ff7816bf21e0d7a7c73c2545b3717779823355399dfa64e81f55215eb"
+    }
+  ],
+  "reanalysis": {
+    "mega": {
+      "status": "PASS",
+      "verified_packet_manifests": 29,
+      "recomputed_runs": 26,
+      "raw_CFN": {
+        "bytes": 2854237,
+        "sha256": "c3484ea081753bc251815b3b00ed5770086c2737b17e2cfeb2bf240ddb708598"
+      },
+      "maximum_absolute_energy_difference_uJ": 6.034497346263379e-09,
+      "means_and_sample_SD_from_five_campaign_runs_per_model": "PASS",
+      "scope": "Software and numerical evidence validation; does not establish absolute instrument accuracy"
+    },
+    "c3": {
+      "status": "PASS",
+      "verified_packet_manifests": 29,
+      "recomputed_runs": 26,
+      "raw_CFN": {
+        "bytes": 3357373,
+        "sha256": "e65f57fbcf4441f70b5f8de63918533bd2e33119a3a7a8c2568393b08cf74d0d"
+      },
+      "maximum_absolute_energy_difference_uJ": 3.104538848219818e-11,
+      "means_and_sample_SD_from_five_campaign_runs_per_model": "PASS",
+      "scope": "Software and numerical evidence validation; does not establish absolute instrument accuracy"
+    }
+  },
+  "runtime": {
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "pyserial": "not installed or required for read-only replay"
+  },
+  "publication_tables": "All 10 model/board rows recalculated from 52 run rows; 5 campaign repeats per row, pilots excluded; matches original summary within 1e-12",
+  "scope": "Read-only reanalysis of retained physical acquisitions. No new hardware measurements. Hash consistency checks establish agreement of retained artifacts, not independent proof of historical process consumption."
+}

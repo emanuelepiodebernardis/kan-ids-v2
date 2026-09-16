@@ -1,0 +1,1 @@
+The SCIENTIFIC_CONSISTENCY_REVIEW files are retained independent-review snapshots taken before the final typographic and presentation fixes. They describe numerical/scientific consistency at that checkpoint; final paper-source and compiled-layout checks are recorded separately in the release verification.

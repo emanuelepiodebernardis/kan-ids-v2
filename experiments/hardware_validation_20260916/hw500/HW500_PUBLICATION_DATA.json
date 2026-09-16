@@ -1,0 +1,405 @@
+{
+  "schema": "kanids-hw500-publication-integration-v1",
+  "source_protocol": "kanids-hw500-continuous-v1; kit v0.13.3",
+  "cohort": {
+    "distinct_flows": 500,
+    "attack": 250,
+    "normal": 250,
+    "frozen_NPZ_sha256": "20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f"
+  },
+  "boundary": "Prepared Flash row -> RAM buffer -> integer prediction -> checksum; identical batch for timing and energy",
+  "energy_method": "Integral VBUS*IBUS over per-run LED-registered CFN active interval / completed inference count",
+  "time_method": "MCU active microseconds / completed inference count; not individual-request latency distribution",
+  "primary_idle_subtraction": false,
+  "NRG_used": false,
+  "calibrated": false,
+  "model_identity": "Historical frozen canonical models, not newly fitted pair-disjoint Stage2 models",
+  "boards": {
+    "mega": {
+      "session": "MEGA_HW500_CONTINUOUS_20260916T090249Z_b3712c5a",
+      "source_CFN_sha256": "c3484ea081753bc251815b3b00ed5770086c2737b17e2cfeb2bf240ddb708598",
+      "accepted_runs": 26,
+      "included_runs": 25,
+      "excluded_pilots": 1,
+      "failed_attempts": [],
+      "means": [
+        {
+          "board": "mega",
+          "model": "coeff",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 1412.3695621301774,
+          "latency_us_sample_SD": 0.0,
+          "USB_power_W_mean": 0.35305946478965183,
+          "USB_power_W_sample_SD": 0.0005518046264663848,
+          "USB_energy_uJ_mean": 498.3534104330697,
+          "USB_energy_uJ_sample_SD": 0.7789893238713256,
+          "N_per_batch": [
+            84500,
+            84500,
+            84500,
+            84500,
+            84500
+          ],
+          "active_MCU_s": [
+            119.345228,
+            119.345228,
+            119.345228,
+            119.345228,
+            119.345228
+          ],
+          "energy_uJ_runs": [
+            498.8284984666264,
+            499.26210806348445,
+            498.45713300553405,
+            497.9693497224238,
+            497.24996290728
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": -8.352281083929874
+        },
+        {
+          "board": "mega",
+          "model": "lut",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 258.8301445523193,
+          "latency_us_sample_SD": 0.0,
+          "USB_power_W_mean": 0.356285860365403,
+          "USB_power_W_sample_SD": 0.0004791574795573715,
+          "USB_energy_uJ_mean": 92.16255939980539,
+          "USB_energy_uJ_sample_SD": 0.1261435748292391,
+          "N_per_batch": [
+            463500,
+            463500,
+            463500,
+            463500,
+            463500
+          ],
+          "active_MCU_s": [
+            119.967772,
+            119.967772,
+            119.967772,
+            119.967772,
+            119.967772
+          ],
+          "energy_uJ_runs": [
+            92.24331581719174,
+            92.33305021151193,
+            92.13732946906521,
+            92.01887803412986,
+            92.08022346712819
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": -0.6479501808119247
+        },
+        {
+          "board": "mega",
+          "model": "mlp",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 1344.4207191011235,
+          "latency_us_sample_SD": 0.0,
+          "USB_power_W_mean": 0.35527119413076214,
+          "USB_power_W_sample_SD": 0.0005531665713806233,
+          "USB_energy_uJ_mean": 477.3256494122907,
+          "USB_energy_uJ_sample_SD": 0.73784862973141,
+          "N_per_batch": [
+            89000,
+            89000,
+            89000,
+            89000,
+            89000
+          ],
+          "active_MCU_s": [
+            119.653444,
+            119.653444,
+            119.653444,
+            119.653444,
+            119.653444
+          ],
+          "energy_uJ_runs": [
+            477.75694823957735,
+            477.8615496239435,
+            477.9237923255705,
+            476.2964505189767,
+            476.7895063533856
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": -5.302263491822034
+        },
+        {
+          "board": "mega",
+          "model": "kanml",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 12321.839578947369,
+          "latency_us_sample_SD": 0.0,
+          "USB_power_W_mean": 0.3546768237735223,
+          "USB_power_W_sample_SD": 0.00033854085504187223,
+          "USB_energy_uJ_mean": 4367.193237812063,
+          "USB_energy_uJ_sample_SD": 4.276596375642806,
+          "N_per_batch": [
+            9500,
+            9500,
+            9500,
+            9500,
+            9500
+          ],
+          "active_MCU_s": [
+            117.057476,
+            117.057476,
+            117.057476,
+            117.057476,
+            117.057476
+          ],
+          "energy_uJ_runs": [
+            4370.676288885055,
+            4371.405394599482,
+            4367.662716331577,
+            4365.316765735765,
+            4360.905023508434
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": -51.01801767416628
+        },
+        {
+          "board": "mega",
+          "model": "dt5",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 33.034604625550664,
+          "latency_us_sample_SD": 0.0,
+          "USB_power_W_mean": 0.35997284765899146,
+          "USB_power_W_sample_SD": 0.00030484425631826064,
+          "USB_energy_uJ_mean": 11.884304987665475,
+          "USB_energy_uJ_sample_SD": 0.010168717673109668,
+          "N_per_batch": [
+            3632000,
+            3632000,
+            3632000,
+            3632000,
+            3632000
+          ],
+          "active_MCU_s": [
+            119.981684,
+            119.981684,
+            119.981684,
+            119.981684,
+            119.981684
+          ],
+          "energy_uJ_runs": [
+            11.898016651962147,
+            11.891365673124284,
+            11.879516166899613,
+            11.879854328628026,
+            11.872772117713307
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": 0.04167494789809517
+        }
+      ],
+      "record_count": 59461,
+      "record_span_s": 5946.0,
+      "maximum_marker_residual_s": 0.10156777015072294,
+      "maximum_equal_endpoint_shift_2s_sensitivity_percent": 0.03357044880358909,
+      "interpretation": "Unweighted mean and sample SD across five run-level technical repetitions on one physical board. Pilot excluded. Whole-board USB engineering estimates; no calibrated uncertainty or independent-sample confidence interval.",
+      "coefficient_divided_by_LUT_latency": 5.456742932988179,
+      "coefficient_divided_by_LUT_energy": 5.407330413548846
+    },
+    "c3": {
+      "session": "C3_HW500_CONTINUOUS_20260916T105447Z_5118ea3a",
+      "source_CFN_sha256": "e65f57fbcf4441f70b5f8de63918533bd2e33119a3a7a8c2568393b08cf74d0d",
+      "accepted_runs": 26,
+      "included_runs": 25,
+      "excluded_pilots": 1,
+      "failed_attempts": [],
+      "means": [
+        {
+          "board": "c3",
+          "model": "coeff",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 5.891955390552221,
+          "latency_us_sample_SD": 4.564568838152894e-08,
+          "USB_power_W_mean": 0.16758057438864185,
+          "USB_power_W_sample_SD": 8.431168157649349e-05,
+          "USB_energy_uJ_mean": 0.9873859595379191,
+          "USB_energy_uJ_sample_SD": 0.00038464933438683667,
+          "N_per_batch": [
+            20363000,
+            20365000,
+            20363000,
+            20363000,
+            20363000
+          ],
+          "active_MCU_s": [
+            119.977887,
+            119.989673,
+            119.977887,
+            119.977888,
+            119.977887
+          ],
+          "energy_uJ_runs": [
+            0.9870299473584659,
+            0.9878844372527817,
+            0.9875263298662246,
+            0.9869644578278157,
+            0.9875246253843075
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": 0.39620995176257556
+        },
+        {
+          "board": "c3",
+          "model": "lut",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 4.961316967061223,
+          "latency_us_sample_SD": 1.034825497463268e-05,
+          "USB_power_W_mean": 0.1731508639346273,
+          "USB_power_W_sample_SD": 0.00012744098192252206,
+          "USB_energy_uJ_mean": 0.8589736341847606,
+          "USB_energy_uJ_sample_SD": 0.0006789109297864859,
+          "N_per_batch": [
+            24143500,
+            24143000,
+            24143000,
+            24143000,
+            24143500
+          ],
+          "active_MCU_s": [
+            119.783652,
+            119.781197,
+            119.781196,
+            119.780629,
+            119.783665
+          ],
+          "energy_uJ_runs": [
+            0.8595814678187997,
+            0.8578508392865508,
+            0.8590134388292708,
+            0.8594337869494266,
+            0.8589886380397547
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": 0.3576698554163668
+        },
+        {
+          "board": "c3",
+          "model": "mlp",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 20.59162989030215,
+          "latency_us_sample_SD": 3.4598200371989393e-07,
+          "USB_power_W_mean": 0.17127172175498498,
+          "USB_power_W_sample_SD": 0.00020050468407224726,
+          "USB_energy_uJ_mean": 3.526330064390179,
+          "USB_energy_uJ_sample_SD": 0.00401792746662675,
+          "N_per_batch": [
+            5825000,
+            5825000,
+            5826500,
+            5825000,
+            5825000
+          ],
+          "active_MCU_s": [
+            119.946242,
+            119.946246,
+            119.977132,
+            119.946242,
+            119.946246
+          ],
+          "energy_uJ_runs": [
+            3.5234362648517505,
+            3.5239954875906956,
+            3.526725271132105,
+            3.524335601276034,
+            3.53315769710031
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": 1.4600667421015425
+        },
+        {
+          "board": "c3",
+          "model": "kanml",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 55.751695096444344,
+          "latency_us_sample_SD": 5.7303406948174686e-06,
+          "USB_power_W_mean": 0.1729394338435086,
+          "USB_power_W_sample_SD": 0.0001868697019727069,
+          "USB_energy_uJ_mean": 9.640769194639105,
+          "USB_energy_uJ_sample_SD": 0.01021090201485998,
+          "N_per_batch": [
+            2151500,
+            2151500,
+            2151500,
+            2151500,
+            2151500
+          ],
+          "active_MCU_s": [
+            119.949774,
+            119.949773,
+            119.949781,
+            119.949751,
+            119.949781
+          ],
+          "energy_uJ_runs": [
+            9.627623730420725,
+            9.637506813684817,
+            9.639866832172006,
+            9.642983498099847,
+            9.655865098818133
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": 4.037393887673811
+        },
+        {
+          "board": "c3",
+          "model": "dt5",
+          "technical_repeats": 5,
+          "physical_boards": 1,
+          "latency_us_mean": 1.5355558877547755,
+          "latency_us_sample_SD": 7.010175669397741e-09,
+          "USB_power_W_mean": 0.17213637809373405,
+          "USB_power_W_sample_SD": 0.00013515888489521079,
+          "USB_energy_uJ_mean": 0.26432798735597,
+          "USB_energy_uJ_sample_SD": 0.00019740775182804551,
+          "N_per_batch": [
+            78132500,
+            78132500,
+            78132500,
+            78132500,
+            78132500
+          ],
+          "active_MCU_s": [
+            119.97682,
+            119.97682,
+            119.97682,
+            119.976821,
+            119.976821
+          ],
+          "energy_uJ_runs": [
+            0.2643615739086354,
+            0.2645789858962858,
+            0.2642995760947772,
+            0.26437038686527947,
+            0.2640294140148721
+          ],
+          "idle_subtracted_signed_diagnostic_uJ_mean": 0.1092677081753652
+        }
+      ],
+      "record_count": 69943,
+      "record_span_s": 6994.200000000001,
+      "maximum_marker_residual_s": 0.14209393475300658,
+      "maximum_equal_endpoint_shift_2s_sensitivity_percent": 0.6043722200174435,
+      "interpretation": "Unweighted mean and sample SD across five run-level technical repetitions on one physical board. Pilot excluded. Whole-board USB engineering estimates; no calibrated uncertainty or independent-sample confidence interval.",
+      "coefficient_divided_by_LUT_latency": 1.1875789089206792,
+      "coefficient_divided_by_LUT_energy": 1.149495072075213
+    }
+  },
+  "limitations": [
+    "One physical board of each type; five technical repeats, not independent devices.",
+    "No independent meter or MCU/CFN clock calibration; no full uncertainty budget.",
+    "Nominal0.1s stored grid is not10Hz physical bandwidth.",
+    "Mean and sample SD measure within-setup repeatability only.",
+    "Marker-fit residuals and common endpoint shifts are diagnostics, not calibrated timing uncertainty.",
+    "Includes board/regulator/indicator/downstream wiring consumption; not isolated CPU or end-to-end IDS.",
+    "Negative signed idle differences on Mega retained as diagnostics; not clamped or used for primary estimates.",
+    "NRG is approximately one quarter of integrated VI; unknown cause; retained but excluded without factor4 correction.",
+    "Original C3+7.58% slowdown remains a separate protocol-dependent historical result; these results do not identify its cause.",
+    "20-flow energy pilots and kernel-only historical latency remain separate; no pooled means."
+  ]
+}

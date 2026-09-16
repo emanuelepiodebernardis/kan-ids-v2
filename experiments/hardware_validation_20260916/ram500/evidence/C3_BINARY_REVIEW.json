@@ -1,0 +1,2817 @@
+{
+  "schema": "kanids-c3-ram142-independent-binary-review-v1",
+  "input_session": "C3_RAM500_20260916T154347Z_a71998db",
+  "results": [
+    {
+      "model": "coeff",
+      "elf_sha256": "fadce5af020331664ccb45cb1924f97beb06eb7e34b4e7ec18c5d777960781bb",
+      "firmware_bin_sha256": "93ab6bda7403d8c276b99cee9cf7ab0d2013af759722c38e902afa9470aa8827",
+      "elf_machine": "RISC-V 32-bit little-endian",
+      "static_dram_data_bss_bytes": 15312,
+      "iram_text_and_alignment_bytes": 48128,
+      "isr_stack_reserved_bytes_already_in_bss": 2096,
+      "reported_diagnostic_globals_bytes": 221,
+      "corrected_application_ram_globals_bytes": 188,
+      "excluded_non_application_objects": [
+        {
+          "name": "non_iram_int_disabled",
+          "address": 1070134948,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_disabled_flag",
+          "address": 1070134952,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_mask",
+          "address": 1070134956,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "reserved_region_dram_data",
+          "address": 1006889356,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_iram_code",
+          "address": 1006889348,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_rtcram_data",
+          "address": 1006889340,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "diagnostic_application_globals": [
+        {
+          "name": "_ZL16ram_loop_hwm_min",
+          "address": 1070119960,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL19ram_heap_sample_min",
+          "address": 1070119964,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL11ram_command",
+          "address": 1070127488,
+          "size": 24,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_row_input",
+          "address": 1070127512,
+          "size": 20,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_run_token",
+          "address": 1070127532,
+          "size": 17,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_heap_start_info",
+          "address": 1070127552,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_heap_finish_info",
+          "address": 1070127580,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL12ram_checksum",
+          "address": 1070134616,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL14ram_mismatches",
+          "address": 1070134620,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_control_error",
+          "address": 1070134622,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_loop_reserved",
+          "address": 1070134624,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_command_length",
+          "address": 1070134628,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_loop_hwm_after",
+          "address": 1070134632,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_row_categories",
+          "address": 1070134636,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_checksum_per500",
+          "address": 1070134640,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_control_heap_ok",
+          "address": 1070134642,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_loop_hwm_before",
+          "address": 1070134644,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_baseline_correct",
+          "address": 1070134648,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_command_overflow",
+          "address": 1070134649,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_complete",
+          "address": 1070134650,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_stack_ok",
+          "address": 1070134651,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_baseline_complete",
+          "address": 1070134652,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_control_task_done",
+          "address": 1070134653,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_baseline_ram_valid",
+          "address": 1070134654,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_control_heap_after",
+          "address": 1070134656,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_before",
+          "address": 1070134660,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_during",
+          "address": 1070134664,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_stack_after",
+          "address": 1070134668,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_task_handle",
+          "address": 1070134672,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL24ram_control_stack_before",
+          "address": 1070134676,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL8ram_sink",
+          "address": 1070134680,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL9ram_state",
+          "address": 1070134684,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        }
+      ],
+      "nonoverlapping_application_globals": true,
+      "cohort_objects": [
+        {
+          "name": "_ZL8HC_KAN_X",
+          "address": 1006834724,
+          "size": 10000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL10HC_KAN_CAT",
+          "address": 1006830692,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL17HC_COEFF_EXPECTED",
+          "address": 1006832692,
+          "size": 500,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9HC_ROW_ID",
+          "address": 1006844740,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "model_objects": [
+        {
+          "name": "_ZL6KC_CAT",
+          "address": 1006834480,
+          "size": 32,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL7KC_COEF",
+          "address": 1006834512,
+          "size": 190,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL7KC_MULT",
+          "address": 1006834704,
+          "size": 20,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL10KC_CAT_OFF",
+          "address": 1006846740,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL11KC_CAT_MULT",
+          "address": 1006846744,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "cohort_and_model_placement": "flash.rodata",
+      "disassembly_instruction_words_byte_matched_to_elf": 71170,
+      "linked_evidence": {
+        "500_row_loop_calls_prediction": true,
+        "three_pass_loop_present": true,
+        "baseline_snapshots_before_report": true,
+        "report_does_not_resample_or_run_inference": true,
+        "positive_stack_probe_frame_bytes": 800,
+        "positive_stack_payload_bytes": 768,
+        "positive_heap_alloc_fill_snapshot_free_snapshot_present": true,
+        "positive_heap_payload_bytes": 512
+      },
+      "compiler_individual_stack_frames_not_callgraph_peak": {
+        "void ram_c3_heap_sample()": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "size_t Print::print(const __FlashStringHelper*)": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "uint8_t hw500_predict_loaded()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "uint32_t ram_active_pass()": {
+          "bytes": 48,
+          "kind": "static"
+        },
+        "void ram_stack_probe()": {
+          "bytes": 800,
+          "kind": "static"
+        },
+        "void ram_control_task(void*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void setup()": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "bool ram_c3_write(const char*)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_c3_command_error(const char*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "bool ram_c3_uint(uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_field(const char*, uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_result()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_control()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_fail(const __FlashStringHelper*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void loop()": {
+          "bytes": 144,
+          "kind": "static"
+        }
+      },
+      "esp_image": {
+        "segment_count": 11752,
+        "segments": [
+          {
+            "address": 1006829600,
+            "size": 71520,
+            "offset": 32
+          },
+          {
+            "address": 1070119936,
+            "size": 7544,
+            "offset": 71560
+          },
+          {
+            "address": 1077411840,
+            "size": 47868,
+            "offset": 79112
+          },
+          {
+            "address": 0,
+            "size": 4108,
+            "offset": 126988
+          },
+          {
+            "address": 1107296288,
+            "size": 151960,
+            "offset": 131104
+          }
+        ],
+        "xor_checksum_valid": true,
+        "appended_sha256_valid": true,
+        "elf_allocated_sections_byte_matched": [
+          ".iram0.text",
+          ".dram0.data",
+          ".flash.text",
+          ".flash.appdesc",
+          ".flash.rodata",
+          ".eh_frame"
+        ],
+        "appdesc_inserted_elf_sha256_verified": true
+      },
+      "status": "PASS_WITH_REPORTING_CORRECTION"
+    },
+    {
+      "model": "lut",
+      "elf_sha256": "a5015c89747d16ba361e1e77ee7edf6b4b9dd87402471d8872de3a39effbee72",
+      "firmware_bin_sha256": "6754603961a783e0706b159b4902bc6b16de5ce1a03b883fb3e7bd001fdebe0d",
+      "elf_machine": "RISC-V 32-bit little-endian",
+      "static_dram_data_bss_bytes": 15312,
+      "iram_text_and_alignment_bytes": 48128,
+      "isr_stack_reserved_bytes_already_in_bss": 2096,
+      "reported_diagnostic_globals_bytes": 221,
+      "corrected_application_ram_globals_bytes": 188,
+      "excluded_non_application_objects": [
+        {
+          "name": "non_iram_int_disabled",
+          "address": 1070134948,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_disabled_flag",
+          "address": 1070134952,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_mask",
+          "address": 1070134956,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "reserved_region_dram_data",
+          "address": 1006909652,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_iram_code",
+          "address": 1006909644,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_rtcram_data",
+          "address": 1006909636,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "diagnostic_application_globals": [
+        {
+          "name": "_ZL16ram_loop_hwm_min",
+          "address": 1070119960,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL19ram_heap_sample_min",
+          "address": 1070119964,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL11ram_command",
+          "address": 1070127488,
+          "size": 24,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_row_input",
+          "address": 1070127512,
+          "size": 20,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_run_token",
+          "address": 1070127532,
+          "size": 17,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_heap_start_info",
+          "address": 1070127552,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_heap_finish_info",
+          "address": 1070127580,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL12ram_checksum",
+          "address": 1070134616,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL14ram_mismatches",
+          "address": 1070134620,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_control_error",
+          "address": 1070134622,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_loop_reserved",
+          "address": 1070134624,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_command_length",
+          "address": 1070134628,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_loop_hwm_after",
+          "address": 1070134632,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_row_categories",
+          "address": 1070134636,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_checksum_per500",
+          "address": 1070134640,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_control_heap_ok",
+          "address": 1070134642,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_loop_hwm_before",
+          "address": 1070134644,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_baseline_correct",
+          "address": 1070134648,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_command_overflow",
+          "address": 1070134649,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_complete",
+          "address": 1070134650,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_stack_ok",
+          "address": 1070134651,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_baseline_complete",
+          "address": 1070134652,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_control_task_done",
+          "address": 1070134653,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_baseline_ram_valid",
+          "address": 1070134654,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_control_heap_after",
+          "address": 1070134656,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_before",
+          "address": 1070134660,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_during",
+          "address": 1070134664,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_stack_after",
+          "address": 1070134668,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_task_handle",
+          "address": 1070134672,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL24ram_control_stack_before",
+          "address": 1070134676,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL8ram_sink",
+          "address": 1070134680,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL9ram_state",
+          "address": 1070134684,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        }
+      ],
+      "nonoverlapping_application_globals": true,
+      "cohort_objects": [
+        {
+          "name": "_ZL8HC_KAN_X",
+          "address": 1006834488,
+          "size": 10000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL10HC_KAN_CAT",
+          "address": 1006830688,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL17HC_LUT14_EXPECTED",
+          "address": 1006832700,
+          "size": 500,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9HC_ROW_ID",
+          "address": 1006865036,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "model_objects": [
+        {
+          "name": "_ZL8KLUT_TAB",
+          "address": 1006844520,
+          "size": 20500,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL10KLUT_SHIFT",
+          "address": 1006832688,
+          "size": 10,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL8KLUT_CAT",
+          "address": 1006844488,
+          "size": 32,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL12KLUT_CAT_OFF",
+          "address": 1006867036,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL13KLUT_CAT_MULT",
+          "address": 1006867040,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "cohort_and_model_placement": "flash.rodata",
+      "disassembly_instruction_words_byte_matched_to_elf": 71125,
+      "linked_evidence": {
+        "500_row_loop_calls_prediction": true,
+        "three_pass_loop_present": true,
+        "baseline_snapshots_before_report": true,
+        "report_does_not_resample_or_run_inference": true,
+        "positive_stack_probe_frame_bytes": 800,
+        "positive_stack_payload_bytes": 768,
+        "positive_heap_alloc_fill_snapshot_free_snapshot_present": true,
+        "positive_heap_payload_bytes": 512
+      },
+      "compiler_individual_stack_frames_not_callgraph_peak": {
+        "void ram_c3_heap_sample()": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "size_t Print::print(const __FlashStringHelper*)": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "uint8_t hw500_predict_loaded()": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "uint32_t ram_active_pass()": {
+          "bytes": 48,
+          "kind": "static"
+        },
+        "void ram_stack_probe()": {
+          "bytes": 800,
+          "kind": "static"
+        },
+        "void ram_control_task(void*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void setup()": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "bool ram_c3_write(const char*)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_c3_command_error(const char*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "bool ram_c3_uint(uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_field(const char*, uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_result()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_control()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_fail(const __FlashStringHelper*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void loop()": {
+          "bytes": 144,
+          "kind": "static"
+        }
+      },
+      "esp_image": {
+        "segment_count": 11720,
+        "segments": [
+          {
+            "address": 1006829600,
+            "size": 91784,
+            "offset": 32
+          },
+          {
+            "address": 1070119936,
+            "size": 7544,
+            "offset": 91824
+          },
+          {
+            "address": 1077411840,
+            "size": 31720,
+            "offset": 99376
+          },
+          {
+            "address": 1107296288,
+            "size": 151832,
+            "offset": 131104
+          },
+          {
+            "address": 1077443560,
+            "size": 16148,
+            "offset": 282944
+          }
+        ],
+        "xor_checksum_valid": true,
+        "appended_sha256_valid": true,
+        "elf_allocated_sections_byte_matched": [
+          ".iram0.text",
+          ".dram0.data",
+          ".flash.text",
+          ".flash.appdesc",
+          ".flash.rodata",
+          ".eh_frame"
+        ],
+        "appdesc_inserted_elf_sha256_verified": true
+      },
+      "status": "PASS_WITH_REPORTING_CORRECTION"
+    },
+    {
+      "model": "mlp",
+      "elf_sha256": "0a7ab939fc9c63103e48833c95da506f1637fdc442ece63cdf260e7c1d9df8da",
+      "firmware_bin_sha256": "e8bc6b9373f73d92e394279ac0263faa79ec9c84babbf3656f0c94ff24037b09",
+      "elf_machine": "RISC-V 32-bit little-endian",
+      "static_dram_data_bss_bytes": 15312,
+      "iram_text_and_alignment_bytes": 48128,
+      "isr_stack_reserved_bytes_already_in_bss": 2096,
+      "reported_diagnostic_globals_bytes": 221,
+      "corrected_application_ram_globals_bytes": 188,
+      "excluded_non_application_objects": [
+        {
+          "name": "non_iram_int_disabled",
+          "address": 1070134948,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_disabled_flag",
+          "address": 1070134952,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_mask",
+          "address": 1070134956,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "reserved_region_dram_data",
+          "address": 1006889852,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_iram_code",
+          "address": 1006889844,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_rtcram_data",
+          "address": 1006889836,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "diagnostic_application_globals": [
+        {
+          "name": "_ZL16ram_loop_hwm_min",
+          "address": 1070119960,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL19ram_heap_sample_min",
+          "address": 1070119964,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL11ram_command",
+          "address": 1070127488,
+          "size": 24,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_row_input",
+          "address": 1070127512,
+          "size": 20,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_run_token",
+          "address": 1070127532,
+          "size": 17,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_heap_start_info",
+          "address": 1070127552,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_heap_finish_info",
+          "address": 1070127580,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL12ram_checksum",
+          "address": 1070134616,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL14ram_mismatches",
+          "address": 1070134620,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_control_error",
+          "address": 1070134622,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_loop_reserved",
+          "address": 1070134624,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_command_length",
+          "address": 1070134628,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_loop_hwm_after",
+          "address": 1070134632,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_row_categories",
+          "address": 1070134636,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_checksum_per500",
+          "address": 1070134640,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_control_heap_ok",
+          "address": 1070134642,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_loop_hwm_before",
+          "address": 1070134644,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_baseline_correct",
+          "address": 1070134648,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_command_overflow",
+          "address": 1070134649,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_complete",
+          "address": 1070134650,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_stack_ok",
+          "address": 1070134651,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_baseline_complete",
+          "address": 1070134652,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_control_task_done",
+          "address": 1070134653,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_baseline_ram_valid",
+          "address": 1070134654,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_control_heap_after",
+          "address": 1070134656,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_before",
+          "address": 1070134660,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_during",
+          "address": 1070134664,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_stack_after",
+          "address": 1070134668,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_task_handle",
+          "address": 1070134672,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL24ram_control_stack_before",
+          "address": 1070134676,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL8ram_sink",
+          "address": 1070134680,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL9ram_state",
+          "address": 1070134684,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        }
+      ],
+      "nonoverlapping_application_globals": true,
+      "cohort_objects": [
+        {
+          "name": "_ZL8HC_MLP_X",
+          "address": 1006834476,
+          "size": 10000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL10HC_MLP_CAT",
+          "address": 1006830688,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL15HC_MLP_EXPECTED",
+          "address": 1006832688,
+          "size": 500,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9HC_ROW_ID",
+          "address": 1006844732,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "model_objects": [
+        {
+          "name": "_ZL8MLP16_B1",
+          "address": 1006844476,
+          "size": 64,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL8MLP16_W1",
+          "address": 1006844540,
+          "size": 160,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL8MLP16_W2",
+          "address": 1006844700,
+          "size": 16,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9MLP16_CAT",
+          "address": 1006846732,
+          "size": 512,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL13MLP16_CAT_OFF",
+          "address": 1006847244,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "cohort_and_model_placement": "flash.rodata",
+      "disassembly_instruction_words_byte_matched_to_elf": 71123,
+      "linked_evidence": {
+        "500_row_loop_calls_prediction": true,
+        "three_pass_loop_present": true,
+        "baseline_snapshots_before_report": true,
+        "report_does_not_resample_or_run_inference": true,
+        "positive_stack_probe_frame_bytes": 800,
+        "positive_stack_payload_bytes": 768,
+        "positive_heap_alloc_fill_snapshot_free_snapshot_present": true,
+        "positive_heap_payload_bytes": 512
+      },
+      "compiler_individual_stack_frames_not_callgraph_peak": {
+        "void ram_c3_heap_sample()": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "size_t Print::print(const __FlashStringHelper*)": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "uint8_t hw500_predict_loaded()": {
+          "bytes": 48,
+          "kind": "static"
+        },
+        "uint32_t ram_active_pass()": {
+          "bytes": 48,
+          "kind": "static"
+        },
+        "void ram_stack_probe()": {
+          "bytes": 800,
+          "kind": "static"
+        },
+        "void ram_control_task(void*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void setup()": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "bool ram_c3_write(const char*)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_c3_command_error(const char*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "bool ram_c3_uint(uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_field(const char*, uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_result()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_control()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_fail(const __FlashStringHelper*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void loop()": {
+          "bytes": 144,
+          "kind": "static"
+        }
+      },
+      "esp_image": {
+        "segment_count": 11720,
+        "segments": [
+          {
+            "address": 1006829600,
+            "size": 71984,
+            "offset": 32
+          },
+          {
+            "address": 1070119936,
+            "size": 7544,
+            "offset": 72024
+          },
+          {
+            "address": 1077411840,
+            "size": 47868,
+            "offset": 79576
+          },
+          {
+            "address": 0,
+            "size": 3644,
+            "offset": 127452
+          },
+          {
+            "address": 1107296288,
+            "size": 151828,
+            "offset": 131104
+          }
+        ],
+        "xor_checksum_valid": true,
+        "appended_sha256_valid": true,
+        "elf_allocated_sections_byte_matched": [
+          ".iram0.text",
+          ".dram0.data",
+          ".flash.text",
+          ".flash.appdesc",
+          ".flash.rodata",
+          ".eh_frame"
+        ],
+        "appdesc_inserted_elf_sha256_verified": true
+      },
+      "status": "PASS_WITH_REPORTING_CORRECTION"
+    },
+    {
+      "model": "kanml",
+      "elf_sha256": "41db15c925d11e45065bda2f42a1d7ab16e1b5eb2d2fa545c8c7d87fec304f0f",
+      "firmware_bin_sha256": "b5c6bcaa432f7c045baac5e7dc298a8e995f253c6047b000b90763c6b3e789f0",
+      "elf_machine": "RISC-V 32-bit little-endian",
+      "static_dram_data_bss_bytes": 15312,
+      "iram_text_and_alignment_bytes": 48128,
+      "isr_stack_reserved_bytes_already_in_bss": 2096,
+      "reported_diagnostic_globals_bytes": 221,
+      "corrected_application_ram_globals_bytes": 188,
+      "excluded_non_application_objects": [
+        {
+          "name": "non_iram_int_disabled",
+          "address": 1070134948,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_disabled_flag",
+          "address": 1070134952,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_mask",
+          "address": 1070134956,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "reserved_region_dram_data",
+          "address": 1006894340,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_iram_code",
+          "address": 1006894332,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_rtcram_data",
+          "address": 1006894324,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "diagnostic_application_globals": [
+        {
+          "name": "_ZL16ram_loop_hwm_min",
+          "address": 1070119960,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL19ram_heap_sample_min",
+          "address": 1070119964,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL11ram_command",
+          "address": 1070127488,
+          "size": 24,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_row_input",
+          "address": 1070127512,
+          "size": 20,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_run_token",
+          "address": 1070127532,
+          "size": 17,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_heap_start_info",
+          "address": 1070127552,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_heap_finish_info",
+          "address": 1070127580,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL12ram_checksum",
+          "address": 1070134616,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL14ram_mismatches",
+          "address": 1070134620,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_control_error",
+          "address": 1070134622,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_loop_reserved",
+          "address": 1070134624,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_command_length",
+          "address": 1070134628,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_loop_hwm_after",
+          "address": 1070134632,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_row_categories",
+          "address": 1070134636,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_checksum_per500",
+          "address": 1070134640,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_control_heap_ok",
+          "address": 1070134642,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_loop_hwm_before",
+          "address": 1070134644,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_baseline_correct",
+          "address": 1070134648,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_command_overflow",
+          "address": 1070134649,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_complete",
+          "address": 1070134650,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_stack_ok",
+          "address": 1070134651,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_baseline_complete",
+          "address": 1070134652,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_control_task_done",
+          "address": 1070134653,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_baseline_ram_valid",
+          "address": 1070134654,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_control_heap_after",
+          "address": 1070134656,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_before",
+          "address": 1070134660,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_during",
+          "address": 1070134664,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_stack_after",
+          "address": 1070134668,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_task_handle",
+          "address": 1070134672,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL24ram_control_stack_before",
+          "address": 1070134676,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL8ram_sink",
+          "address": 1070134680,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL9ram_state",
+          "address": 1070134684,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        }
+      ],
+      "nonoverlapping_application_globals": true,
+      "cohort_objects": [
+        {
+          "name": "_ZL8HC_KAN_X",
+          "address": 1006838688,
+          "size": 10000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL10HC_KAN_CAT",
+          "address": 1006830692,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL19HC_MLCOEFF_EXPECTED",
+          "address": 1006833564,
+          "size": 500,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9HC_ROW_ID",
+          "address": 1006849728,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "model_objects": [
+        {
+          "name": "_ZL6KML_C1",
+          "address": 1006834480,
+          "size": 3040,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL6KML_C2",
+          "address": 1006837520,
+          "size": 304,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL6KML_M1",
+          "address": 1006837824,
+          "size": 320,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL6KML_M2",
+          "address": 1006838144,
+          "size": 32,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL7KML_CAT",
+          "address": 1006838176,
+          "size": 512,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL8KML_TANH",
+          "address": 1006848688,
+          "size": 1024,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL11KML_CAT_OFF",
+          "address": 1006851728,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL12KML_CAT_MULT",
+          "address": 1006851732,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "cohort_and_model_placement": "flash.rodata",
+      "disassembly_instruction_words_byte_matched_to_elf": 71288,
+      "linked_evidence": {
+        "500_row_loop_calls_prediction": true,
+        "three_pass_loop_present": true,
+        "baseline_snapshots_before_report": true,
+        "report_does_not_resample_or_run_inference": true,
+        "positive_stack_probe_frame_bytes": 800,
+        "positive_stack_payload_bytes": 768,
+        "positive_heap_alloc_fill_snapshot_free_snapshot_present": true,
+        "positive_heap_payload_bytes": 512
+      },
+      "compiler_individual_stack_frames_not_callgraph_peak": {
+        "void kml_bases(int32_t, int32_t*)": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "void ram_c3_heap_sample()": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "size_t Print::print(const __FlashStringHelper*)": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "uint8_t hw500_predict_loaded()": {
+          "bytes": 160,
+          "kind": "static"
+        },
+        "uint32_t ram_active_pass()": {
+          "bytes": 48,
+          "kind": "static"
+        },
+        "void ram_stack_probe()": {
+          "bytes": 800,
+          "kind": "static"
+        },
+        "void ram_control_task(void*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void setup()": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "bool ram_c3_write(const char*)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_c3_command_error(const char*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "bool ram_c3_uint(uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_field(const char*, uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_result()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_control()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_fail(const __FlashStringHelper*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void loop()": {
+          "bytes": 144,
+          "kind": "static"
+        }
+      },
+      "esp_image": {
+        "segment_count": 11792,
+        "segments": [
+          {
+            "address": 1006829600,
+            "size": 76544,
+            "offset": 32
+          },
+          {
+            "address": 1070119936,
+            "size": 7544,
+            "offset": 76584
+          },
+          {
+            "address": 1077411840,
+            "size": 46960,
+            "offset": 84136
+          },
+          {
+            "address": 1107296288,
+            "size": 152280,
+            "offset": 131104
+          },
+          {
+            "address": 1077458800,
+            "size": 908,
+            "offset": 283392
+          }
+        ],
+        "xor_checksum_valid": true,
+        "appended_sha256_valid": true,
+        "elf_allocated_sections_byte_matched": [
+          ".iram0.text",
+          ".dram0.data",
+          ".flash.text",
+          ".flash.appdesc",
+          ".flash.rodata",
+          ".eh_frame"
+        ],
+        "appdesc_inserted_elf_sha256_verified": true
+      },
+      "status": "PASS_WITH_REPORTING_CORRECTION"
+    },
+    {
+      "model": "dt5",
+      "elf_sha256": "8259c827d8e6369e65dc5ff9fa8bf00fd102f4a76c48994940d82fc8b7e10246",
+      "firmware_bin_sha256": "399cd625ef1c434a7bf2c478508d5865a159154a791f6f10169c742fd1dc8369",
+      "elf_machine": "RISC-V 32-bit little-endian",
+      "static_dram_data_bss_bytes": 15312,
+      "iram_text_and_alignment_bytes": 48128,
+      "isr_stack_reserved_bytes_already_in_bss": 2096,
+      "reported_diagnostic_globals_bytes": 225,
+      "corrected_application_ram_globals_bytes": 192,
+      "excluded_non_application_objects": [
+        {
+          "name": "non_iram_int_disabled",
+          "address": 1070134948,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_disabled_flag",
+          "address": 1070134952,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "non_iram_int_mask",
+          "address": 1070134956,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "reserved_region_dram_data",
+          "address": 1006891388,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_iram_code",
+          "address": 1006891380,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "reserved_region_rtcram_data",
+          "address": 1006891372,
+          "size": 8,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "diagnostic_application_globals": [
+        {
+          "name": "_ZL16ram_loop_hwm_min",
+          "address": 1070119960,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL19ram_heap_sample_min",
+          "address": 1070119964,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 7,
+          "section": ".dram0.data"
+        },
+        {
+          "name": "_ZL11ram_command",
+          "address": 1070127488,
+          "size": 24,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_row_input",
+          "address": 1070127512,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL13ram_run_token",
+          "address": 1070127540,
+          "size": 17,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_heap_start_info",
+          "address": 1070127560,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_heap_finish_info",
+          "address": 1070127588,
+          "size": 28,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL12ram_checksum",
+          "address": 1070134616,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL14ram_mismatches",
+          "address": 1070134620,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_control_error",
+          "address": 1070134622,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL17ram_loop_reserved",
+          "address": 1070134624,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_command_length",
+          "address": 1070134628,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL18ram_loop_hwm_after",
+          "address": 1070134632,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_checksum_per500",
+          "address": 1070134636,
+          "size": 2,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_control_heap_ok",
+          "address": 1070134638,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL19ram_loop_hwm_before",
+          "address": 1070134640,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_baseline_correct",
+          "address": 1070134644,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_command_overflow",
+          "address": 1070134645,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_complete",
+          "address": 1070134646,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL20ram_control_stack_ok",
+          "address": 1070134647,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_baseline_complete",
+          "address": 1070134648,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL21ram_control_task_done",
+          "address": 1070134649,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_baseline_ram_valid",
+          "address": 1070134650,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL22ram_control_heap_after",
+          "address": 1070134652,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_before",
+          "address": 1070134656,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_heap_during",
+          "address": 1070134660,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_stack_after",
+          "address": 1070134664,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL23ram_control_task_handle",
+          "address": 1070134668,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL24ram_control_stack_before",
+          "address": 1070134672,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL8ram_sink",
+          "address": 1070134676,
+          "size": 4,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        },
+        {
+          "name": "_ZL9ram_state",
+          "address": 1070134680,
+          "size": 1,
+          "type": 1,
+          "bind": 0,
+          "section_index": 9,
+          "section": ".dram0.bss"
+        }
+      ],
+      "nonoverlapping_application_globals": true,
+      "cohort_objects": [
+        {
+          "name": "_ZL7HC_DT_X",
+          "address": 1006832592,
+          "size": 14000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL15HC_DT5_EXPECTED",
+          "address": 1006830688,
+          "size": 500,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9HC_ROW_ID",
+          "address": 1006846788,
+          "size": 2000,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "model_objects": [
+        {
+          "name": "_ZL7DT5_THR",
+          "address": 1006832476,
+          "size": 114,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL8DT5_FEAT",
+          "address": 1006846592,
+          "size": 57,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL8DT5_LEAF",
+          "address": 1006846652,
+          "size": 57,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        },
+        {
+          "name": "_ZL9DT5_RIGHT",
+          "address": 1006846728,
+          "size": 57,
+          "type": 1,
+          "bind": 0,
+          "section_index": 13,
+          "section": ".flash.rodata"
+        }
+      ],
+      "cohort_and_model_placement": "flash.rodata",
+      "disassembly_instruction_words_byte_matched_to_elf": 71059,
+      "linked_evidence": {
+        "500_row_loop_calls_prediction": true,
+        "three_pass_loop_present": true,
+        "baseline_snapshots_before_report": true,
+        "report_does_not_resample_or_run_inference": true,
+        "positive_stack_probe_frame_bytes": 800,
+        "positive_stack_payload_bytes": 768,
+        "positive_heap_alloc_fill_snapshot_free_snapshot_present": true,
+        "positive_heap_payload_bytes": 512
+      },
+      "compiler_individual_stack_frames_not_callgraph_peak": {
+        "void ram_c3_heap_sample()": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "size_t Print::print(const __FlashStringHelper*)": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "uint8_t hw500_predict_loaded()": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "uint32_t ram_active_pass()": {
+          "bytes": 48,
+          "kind": "static"
+        },
+        "void ram_stack_probe()": {
+          "bytes": 800,
+          "kind": "static"
+        },
+        "void ram_control_task(void*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void setup()": {
+          "bytes": 0,
+          "kind": "static"
+        },
+        "bool ram_c3_write(const char*)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_c3_command_error(const char*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "bool ram_c3_uint(uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_field(const char*, uint32_t)": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_result()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "bool ram_c3_emit_control()": {
+          "bytes": 32,
+          "kind": "static"
+        },
+        "void ram_fail(const __FlashStringHelper*)": {
+          "bytes": 16,
+          "kind": "static"
+        },
+        "void loop()": {
+          "bytes": 144,
+          "kind": "static"
+        }
+      },
+      "esp_image": {
+        "segment_count": 11696,
+        "segments": [
+          {
+            "address": 1006829600,
+            "size": 73496,
+            "offset": 32
+          },
+          {
+            "address": 1070119936,
+            "size": 7544,
+            "offset": 73536
+          },
+          {
+            "address": 1077411840,
+            "size": 47868,
+            "offset": 81088
+          },
+          {
+            "address": 0,
+            "size": 2132,
+            "offset": 128964
+          },
+          {
+            "address": 1107296288,
+            "size": 151632,
+            "offset": 131104
+          }
+        ],
+        "xor_checksum_valid": true,
+        "appended_sha256_valid": true,
+        "elf_allocated_sections_byte_matched": [
+          ".iram0.text",
+          ".dram0.data",
+          ".flash.text",
+          ".flash.appdesc",
+          ".flash.rodata",
+          ".eh_frame"
+        ],
+        "appdesc_inserted_elf_sha256_verified": true
+      },
+      "status": "PASS_WITH_REPORTING_CORRECTION"
+    }
+  ],
+  "hardware_rerun": false,
+  "rebuild": false,
+  "status": "PASS_WITH_REPORTING_CORRECTION",
+  "limits": [
+    "Finite observed workload; neither a whole-system nor worst-case RAM proof.",
+    "C3 loop-task high-watermark is lifetime since task creation and includes earlier setup/INFO/command paths. Equal before/after only establishes no deeper observed watermark during measured workload.",
+    "Per-region historic minimum-free heap values are not a simultaneous global heap peak; pass-boundary samples can miss intra-pass transients.",
+    "Compiler .su entries are individual function frames, not task peak or whole-program call-graph maxima.",
+    "DRAM static allocations include ISR stack and application globals; do not add them twice. IRAM occupies SRAM through a separate mapping and dummy section must not be added again.",
+    "Saved disassembly instruction words were checked against actual ELF bytes; semantic review is bounded and does not constitute a formal binary proof.",
+    "Diagnostic metadata incorrectly included 33 SDK bytes via a substring match; corrected by exact application symbol prefix with ELF object type and DRAM section validation. The correction does not alter firmware or observations."
+  ]
+}

@@ -1,0 +1,445 @@
+{
+  "schema": "kanids-ram500-run-v1",
+  "plan_item": {
+    "index": 10,
+    "key": "repeat03_mlp",
+    "repeat": 3,
+    "model": "mlp",
+    "board_kind": "c3"
+  },
+  "board_kind": "c3",
+  "model": "mlp",
+  "repeat": 3,
+  "started_utc": "2026-09-16T15:46:43.093+00:00",
+  "status": "accepted_observed_ram_components",
+  "commands": [
+    {
+      "argv": [
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_RAM500_20260916_v0.14.2\\.venv\\Scripts\\python.exe",
+        "-m",
+        "platformio",
+        "run",
+        "-d",
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_RAM500_20260916_v0.14.2\\project",
+        "-e",
+        "c3_ram_mlp",
+        "-t",
+        "nobuild",
+        "-t",
+        "upload",
+        "--upload-port",
+        "COM10"
+      ],
+      "started_utc": "2026-09-16T15:46:43.374+00:00",
+      "log": "03_upload.log",
+      "timeout_s": 180,
+      "encoding": "utf-8",
+      "finished_utc": "2026-09-16T15:46:51.230+00:00",
+      "returncode": 0
+    }
+  ],
+  "build_path": "builds/mlp",
+  "fresh_boot_method": "upload_each_repeat",
+  "source_manifest": {
+    "bytes": 18929,
+    "sha256": "5e5cb818e016504c65b63172f3f643ad864367149426b566797566c466a5ebd0"
+  },
+  "build_identities": {
+    "firmware.elf": {
+      "bytes": 6117820,
+      "sha256": "0a7ab939fc9c63103e48833c95da506f1637fdc442ece63cdf260e7c1d9df8da"
+    },
+    "firmware.map": {
+      "bytes": 7925919,
+      "sha256": "8bdedd552f773eb7072b0d862ee56694f0ecc6ad9b339faf6dae1af251a1ee62"
+    },
+    "firmware.nm.txt": {
+      "bytes": 90469,
+      "sha256": "3ae29bbb2a6216bbecba736cf40800686faabac9ad983a1a23e4738bb6b44eaa"
+    },
+    "firmware.disassembly.txt": {
+      "bytes": 3663433,
+      "sha256": "a1b37ca09b108c6f612efc93ad3d0a6aea5fe18c31924c77c98e23ca86601625"
+    },
+    "firmware.audit.json": {
+      "bytes": 4864,
+      "sha256": "91867623a418f1e61f5a5242934b4bdaa78c413750e2b39a439874d633aafea4"
+    },
+    "firmware.sections.txt": {
+      "bytes": 1391,
+      "sha256": "6e05ed6df0e8abf03aa45fa6a45955cf86026aee5b2d6cbe9a18a03be14ac0ef"
+    },
+    "firmware.stack_usage.json": {
+      "bytes": 41399,
+      "sha256": "94d0e4d102983b3f2854f9c956d28b0d838456c6d18d5553ea979668188bade8"
+    },
+    "firmware.bin": {
+      "bytes": 282976,
+      "sha256": "e8bc6b9373f73d92e394279ac0263faa79ec9c84babbf3656f0c94ff24037b09"
+    },
+    "partitions.bin": {
+      "bytes": 3072,
+      "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+    },
+    "bootloader.bin": {
+      "bytes": 13248,
+      "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+    },
+    "stack_usage/FrameworkArduino/base64.cpp.su": {
+      "bytes": 151,
+      "sha256": "1723acb6b4fdd125b85ec912d00b9fbf77319b235d1ddb0e6215e542506df8e0"
+    },
+    "stack_usage/FrameworkArduino/cbuf.cpp.su": {
+      "bytes": 754,
+      "sha256": "4bf5b12a5709e03f202a4fd7d3770917dc96064c1b01b2f76f5004925572a6b8"
+    },
+    "stack_usage/FrameworkArduino/Esp.cpp.su": {
+      "bytes": 3121,
+      "sha256": "547e5e46c41be33e1a23db20cc78f7e63f30e26f5392b38021260bfedbcb5e49"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-adc.c.su": {
+      "bytes": 511,
+      "sha256": "15212f0f27a0f0e3175197912eb20937cfee4b0008a7b1c838b135f111677881"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-bt.c.su": {
+      "bytes": 157,
+      "sha256": "8efc5149996b9997e41a060c349c93af61883c20ae5d5fcc5fc2b403a5e447ee"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-cpu.c.su": {
+      "bytes": 441,
+      "sha256": "2e9d41cd50a5986f7979699831ee6a373aa0cd77d482d1e6e0c931bacad35107"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-dac.c.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-gpio.c.su": {
+      "bytes": 591,
+      "sha256": "ee38201f3760afbb0eeb62a416c2bbbe4ac1420b4bc32b767d078ad5eb609c97"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-i2c-slave.c.su": {
+      "bytes": 687,
+      "sha256": "3b97088d6f8d7851c45a3e53bc4c551b5a8e20a4084babb306c854cc466cc397"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-i2c.c.su": {
+      "bytes": 358,
+      "sha256": "4ef8a89343bcf3cc3ff5b49112ac0a116a82b880bc33edea52ebdc9a5b6349e8"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-ledc.c.su": {
+      "bytes": 633,
+      "sha256": "7bfbfd609cd0ddefe5d43f128239b90d5e92643dfb6912e7850d06a743576fe2"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-matrix.c.su": {
+      "bytes": 214,
+      "sha256": "ddf1668d4e3ce16f4408e45a52915d4f37441e93b18a2423b072dd5f4c45578e"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-misc.c.su": {
+      "bytes": 835,
+      "sha256": "a90b1e2448a50df0bb5faff49c82dde99cebe785c7d475670048094454f2ee09"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-psram.c.su": {
+      "bytes": 226,
+      "sha256": "1101fe78476c27972271ff63308e6932d4b40108e187c55bc32cbf979c34e004"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-rgb-led.c.su": {
+      "bytes": 50,
+      "sha256": "ee190048a1ebb4db4060360c459ee539f6dd2d07c8857f85f44692e55419a3ba"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-rmt.c.su": {
+      "bytes": 874,
+      "sha256": "412452c48d25c25e995fb6b1d61f21da24a3e766e713d81a5f10ee60ee5b7dfe"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-sigmadelta.c.su": {
+      "bytes": 277,
+      "sha256": "edab352f7ee589f6e05ab441fc766cd71c3c64dbaa7c18e0766d6666c66ae7d5"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-spi.c.su": {
+      "bytes": 2633,
+      "sha256": "4a3bfa2b04d128a348f3288953d9ccb97c8d292656883ed60b274c2e58c217e7"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-time.c.su": {
+      "bytes": 137,
+      "sha256": "8265b5c602f6cc08f75238930e5aa18b08aeb5b2e20301d89a3060809f74e24d"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-timer.c.su": {
+      "bytes": 1626,
+      "sha256": "5ec0e26f8e2e21ff30a85b6fd3c79383b1a63953e3c9efabac1018c65109ff3c"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-tinyusb.c.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-touch.c.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/esp32-hal-uart.c.su": {
+      "bytes": 2094,
+      "sha256": "635008b3d1dbba6178be9e02c3068db88832e2a1c5ab2a4e591fe098e0921b7e"
+    },
+    "stack_usage/FrameworkArduino/firmware_msc_fat.c.su": {
+      "bytes": 484,
+      "sha256": "9488177699a982b0ac370da4f49e3a2f5377ab057bfb028e7948562947236938"
+    },
+    "stack_usage/FrameworkArduino/FirmwareMSC.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/FunctionalInterrupt.cpp.su": {
+      "bytes": 311,
+      "sha256": "86605b07ad0cdc9ed78f120ff58890b61e81d56e1899677cb97a30f975338a2a"
+    },
+    "stack_usage/FrameworkArduino/HardwareSerial.cpp.su": {
+      "bytes": 3230,
+      "sha256": "38b8f8ddd5ae802a4a11116c3e534e6a3fc1521032bcbf48da3bdcd029567cfc"
+    },
+    "stack_usage/FrameworkArduino/HWCDC.cpp.su": {
+      "bytes": 2055,
+      "sha256": "ee0339a573c9a9818564203b74fedd3b8d532ff7c1ba67400226aeff983ea751"
+    },
+    "stack_usage/FrameworkArduino/IPAddress.cpp.su": {
+      "bytes": 854,
+      "sha256": "a624b7e0a742188d3cf2b31ebe11d6f387b7645bab065dbe7250ce83b6f572d1"
+    },
+    "stack_usage/FrameworkArduino/IPv6Address.cpp.su": {
+      "bytes": 721,
+      "sha256": "03b218597f7ed354c4e154b3eabb448b74a780e6dcc8b3df245c66d8b21a9a5a"
+    },
+    "stack_usage/FrameworkArduino/libb64/cdecode.c.su": {
+      "bytes": 239,
+      "sha256": "9397a82dc112be227cebd0673925a1e020bd8bf696d65c5e26a9bef4d0511529"
+    },
+    "stack_usage/FrameworkArduino/libb64/cencode.c.su": {
+      "bytes": 235,
+      "sha256": "88c91ac2842e215d0c03ccc2fe6d40a6f81bbfb4f38ced1a89c9c5b841d22025"
+    },
+    "stack_usage/FrameworkArduino/main.cpp.su": {
+      "bytes": 199,
+      "sha256": "3e986aa0fd12b1e22fa2a8fd742941965a58b05b5408de532aa14ad3f4fe8828"
+    },
+    "stack_usage/FrameworkArduino/MD5Builder.cpp.su": {
+      "bytes": 529,
+      "sha256": "7cb4d2dad1b969ff0921cfd4cedb4ae02d3b8026b6eb2ee20f106b2a5efd063e"
+    },
+    "stack_usage/FrameworkArduino/Print.cpp.su": {
+      "bytes": 2241,
+      "sha256": "6a72a1b047920093113dc09f132b4f6cea4e97b0f13cb0e6949ae99e8aaeb134"
+    },
+    "stack_usage/FrameworkArduino/stdlib_noniso.c.su": {
+      "bytes": 234,
+      "sha256": "d8f283de15c1522cfde6f6fd0fc816db9c89acd2229d24329a42a8894f3db58e"
+    },
+    "stack_usage/FrameworkArduino/Stream.cpp.su": {
+      "bytes": 1368,
+      "sha256": "89921e388282ca28f80eb8c3ed174a4dea5b9ee881065e5ba1f97cd3aec96028"
+    },
+    "stack_usage/FrameworkArduino/StreamString.cpp.su": {
+      "bytes": 769,
+      "sha256": "136eb1d08f76ac56d920b988e87f361c384959d114dfe94cd9dc60f9d0607e8c"
+    },
+    "stack_usage/FrameworkArduino/Tone.cpp.su": {
+      "bytes": 269,
+      "sha256": "0505cc2a21dbe7859b7cb64a0f23e0c4c5f95b4473c2a4844551972a27871069"
+    },
+    "stack_usage/FrameworkArduino/USB.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/USBCDC.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/USBMSC.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/wiring_pulse.c.su": {
+      "bytes": 83,
+      "sha256": "b04bd70324f96be92ba813145979b4599aa79cd343861b04621d3d03203f985c"
+    },
+    "stack_usage/FrameworkArduino/wiring_shift.c.su": {
+      "bytes": 79,
+      "sha256": "ed47a9e9b53fa3320acf70acaa2809375abb3450ecca5badcddab2a69be96531"
+    },
+    "stack_usage/FrameworkArduino/WMath.cpp.su": {
+      "bytes": 439,
+      "sha256": "44b55d623ed685a18ee8ae776b45ec901fbe410aafa252cc460bcdec7a220e51"
+    },
+    "stack_usage/FrameworkArduino/WString.cpp.su": {
+      "bytes": 6400,
+      "sha256": "5fd8e3f568c109c8e5f3e5873826320f9a7bdcac18f702a39f894e4fa4a32f75"
+    },
+    "stack_usage/src/main.cpp.su": {
+      "bytes": 843,
+      "sha256": "964e37afbbf56badb40650d5dbb009036871753d38e2133fa95d8bc51ed4560e"
+    },
+    "boot_app0.bin": {
+      "bytes": 8192,
+      "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0",
+      "source_path": "C:\\Users\\kuzne\\.platformio\\packages\\framework-arduinoespressif32\\tools\\partitions\\boot_app0.bin",
+      "flash_offset": "0xe000"
+    }
+  },
+  "build_ram": {
+    "static_sram_bytes": 15312,
+    "diagnostic_globals_bytes": 221,
+    "iram_code_bytes": 48128
+  },
+  "board_before_upload": {
+    "port": "COM10",
+    "vid": 12346,
+    "pid": 4097,
+    "serial_number": "10:00:3B:CB:8D:70",
+    "description": "Устройство с последовательным интерфейсом USB (COM10)"
+  },
+  "board_after_upload": {
+    "port": "COM10",
+    "vid": 12346,
+    "pid": 4097,
+    "serial_number": "10:00:3B:CB:8D:70",
+    "description": "Устройство с последовательным интерфейсом USB (COM10)"
+  },
+  "info": {
+    "HELLO": {
+      "protocol": "kanids-ram500-v2"
+    },
+    "MODEL": {
+      "variant": "mlp",
+      "model_bytes": "760",
+      "cohort_sha256": "20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f"
+    },
+    "COHORT": {
+      "rows": "500",
+      "order": "attack_normal_interleaved",
+      "boundary": "flash_row_load_predict_checksum",
+      "model_placement": "flash"
+    },
+    "RAW_IDS": {
+      "values": "57978,126454,49019,94298,183174,127803,12386,91098,14299,116321,148681,119000,150843,98347,80922,124992,204398,82285,25406,123258,15698,90959,12417,124707,67727,93756,196427,85595,185853,127421,202201,83525,147265,124485,7462,101793,202099,120910,2396,126411,9688,82802,187241,91564,181492,106394,158684,109709,80426,119057,195790,113390,193852,125440,56499,98612,47595,119452,934,100821,36229,128098,27309,123722,157378,110420,46596,117438,180985,89004,6714,90370,61168,130971,184759,88970,55489,105353,55484,86793,63458,114392,161574,96577,23499,91057,61266,95487,170729,100776,167503,104897,152812,101262,2702,90519,207228,111505,176637,122518,39413,90958,5105,125344,138615,106613,18079,83976,195760,129030,135892,114641,175033,95103,135281,85536,143003,104427,150078,81828,197893,85934,159780,110986,12848,99589,46032,85918,187295,113506,132927,87347,7841,95911,198300,124939,43068,112599,151787,126793,160759,99376,207661,118610,163806,99585,77717,117012,39383,119390,30104,98252,160932,116719,161370,90088,54910,110713,31540,101733,14902,83267,41924,118572,140493,109678,79441,92089,191512,100666,32163,95205,29183,127369,35221,83287,68386,116290,131763,93983,162085,83219,202195,96648,208040,94422,200389,84417,63592,119435,143035,86458,17310,90640,148589,103262,157936,115718,32737,125057,56873,101687,173409,127446,4425,104296,166176,109497,61339,96847,152648,88717,144347,129447,67084,81878,80096,89116,22461,114847,79155,96278,172860,125265,203038,125640,58323,96902,9255,121201,5348,116574,142189,116997,141043,127142,144517,96450,131812,112710,32050,101848,63290,124685,31076,100499,146931,113395,69345,128010,60527,110377,141734,88804,152555,91974,189255,123034,26983,86040,41903,98967,21449,124212,134904,122060,14904,105133,46567,97125,180565,100387,1850,118916,204288,104972,162166,110444,11087,122843,159399,113355,161226,104066,64474,116485,205475,87630,43124,121371,156840,98783,132699,106385,166687,110122,71053,115123,9315,106025,195776,100502,170015,123899,180270,103602,139439,95242,63536,111902,179044,100700,44401,118244,170990,115960,149547,99653,150604,92571,198812,85025,159340,114939,33164,114367,19647,84132,49474,126732,41204,120047,32418,124644,8145,98248,210931,108068,194994,107758,174549,90880,46119,127345,31475,95457,30038,119235,62636,117341,28312,85866,135994,91914,155963,117114,150548,120155,175464,88680,53840,90002,184920,107034,153042,87283,58367,130642,25090,111058,43626,111765,190498,116213,156927,124568,165445,128395,203451,124586,137619,123999,189377,109742,5226,96157,136824,88653,182157,91463,188239,91559,55916,83874,180955,104610,132390,92304,58186,114656,185119,127456,57782,118255,72476,114819,143629,90720,19852,127742,186912,95430,198821,114627,140557,108455,4362,89898,40321,90217,1943,97966,60839,108613,166541,111783,186466,131004,184964,122731,134158,90895,159210,96536,13556,118007,161762,105365,37566,96592,6450,81532,44731,106560,7894,122491,141427,100469,23293,98893,155810,90729,49586,87759,152733,98370,166744,113639,10501,103590,134702,96890,131107,87327,71136,83957,172652,118952,33314,102058,23181,100021,1458,94042,174393,127528,53610,96364,207940,82159,192244,98307,29448,83395,170354,122359,195354,86888,40451,114705,61652,85374,197902,91238,73630,112672,21644,99689,209795,119086"
+    },
+    "SYSTEM": {
+      "chip": "ESP32-C3",
+      "cpu_mhz": "160",
+      "mac": "10:00:3b:cb:8d:70",
+      "idf": "v4.4.7-dirty",
+      "loop_stack_reserved_bytes": "8192",
+      "heap_domain": "internal_8bit",
+      "watermark_units": "bytes",
+      "wifi": "not_initialized",
+      "bt": "not_initialized",
+      "wdt": "unchanged"
+    },
+    "INFO_DONE": {
+      "state": "idle"
+    }
+  },
+  "connection_retries": [],
+  "baseline_start_utc": "2026-09-16T15:46:53.549+00:00",
+  "run_token": "3e3d0cfe68254691",
+  "result": {
+    "begin": {
+      "rows": "500",
+      "passes": "3",
+      "scope": "load_predict_reference_check"
+    },
+    "ram": {
+      "board": "c3",
+      "model": "mlp",
+      "rows": "500",
+      "passes": "3",
+      "checked": "1500",
+      "mismatches": "0",
+      "checksum": "762",
+      "checksum_per500": "254",
+      "correct": "1",
+      "ram_valid": "1",
+      "row_buffer_bytes": "24",
+      "loop_stack_reserved_bytes": "8192",
+      "loop_stack_hwm_before_bytes": "6608",
+      "loop_stack_hwm_after_bytes": "6608",
+      "loop_stack_hwm_min_bytes": "6608",
+      "loop_stack_observed_used_bytes": "1584",
+      "heap_free_before_bytes": "309800",
+      "heap_free_after_bytes": "309800",
+      "heap_allocated_before_bytes": "20588",
+      "heap_allocated_after_bytes": "20588",
+      "heap_largest_before_bytes": "286708",
+      "heap_largest_after_bytes": "286708",
+      "heap_lifetime_min_before_bytes": "304820",
+      "heap_lifetime_min_after_bytes": "304820",
+      "heap_sampled_min_free_bytes": "309800",
+      "heap_domain": "internal_8bit",
+      "heap_min_scope": "sum_region_lifetime_minima",
+      "stack_scope": "loop_task_lifetime",
+      "stack_inside_heap": "1",
+      "total_peak_claim": "0",
+      "run_token": "3e3d0cfe68254691"
+    },
+    "done": {
+      "correct": "1",
+      "reset_required": "1",
+      "run_token": "3e3d0cfe68254691"
+    },
+    "software_protocol_pass": true,
+    "run_token": "3e3d0cfe68254691"
+  },
+  "baseline_serial_lines": [
+    "BEGIN rows=500 passes=3 scope=load_predict_reference_check",
+    "RAM_RESULT board=c3 model=mlp rows=500 passes=3 checked=1500 mismatches=0 checksum=762 checksum_per500=254 correct=1 ram_valid=1 row_buffer_bytes=24 loop_stack_reserved_bytes=8192 loop_stack_hwm_before_bytes=6608 loop_stack_hwm_after_bytes=6608 loop_stack_hwm_min_bytes=6608 loop_stack_observed_used_bytes=1584 heap_free_before_bytes=309800 heap_free_after_bytes=309800 heap_allocated_before_bytes=20588 heap_allocated_after_bytes=20588 heap_largest_before_bytes=286708 heap_largest_after_bytes=286708 heap_lifetime_min_before_bytes=304820 heap_lifetime_min_after_bytes=304820 heap_sampled_min_free_bytes=309800 heap_domain=internal_8bit heap_min_scope=sum_region_lifetime_minima stack_scope=loop_task_lifetime stack_inside_heap=1 total_peak_claim=0 run_token=3e3d0cfe68254691",
+    "DONE correct=1 reset_required=1 run_token=3e3d0cfe68254691"
+  ],
+  "baseline_end_utc": "2026-09-16T15:46:53.718+00:00",
+  "control_start_utc": "2026-09-16T15:46:53.723+00:00",
+  "control": {
+    "stack_pass": "1",
+    "heap_pass": "1",
+    "correct": "1",
+    "stack_before_bytes": "3920",
+    "stack_after_bytes": "3244",
+    "heap_before": "309800",
+    "heap_during": "309272",
+    "heap_after": "309800",
+    "stack_probe_bytes": "768",
+    "heap_probe_bytes": "512",
+    "stack_metric": "free_watermark",
+    "heap_metric": "free_bytes",
+    "separate_task": "1",
+    "baseline_already_saved": "1",
+    "run_token": "3e3d0cfe68254691"
+  },
+  "control_end_utc": "2026-09-16T15:46:54.553+00:00",
+  "transport_final_state": {
+    "pending_partial_hex": "",
+    "pending_partial_ascii": "",
+    "pending_complete_lines_hex": [],
+    "last_received_lines": [
+      "HELLO protocol=kanids-ram500-v2",
+      "MODEL variant=mlp model_bytes=760 cohort_sha256=20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f",
+      "COHORT rows=500 order=attack_normal_interleaved boundary=flash_row_load_predict_checksum model_placement=flash",
+      "RAW_IDS values=57978,126454,49019,94298,183174,127803,12386,91098,14299,116321,148681,119000,150843,98347,80922,124992,204398,82285,25406,123258,15698,90959,12417,124707,67727,93756,196427,85595,185853,127421,202201,83525,147265,124485,7462,101793,202099,120910,2396,126411,9688,82802,187241,91564,181492,106394,158684,109709,80426,119057,195790,113390,193852,125440,56499,98612,47595,119452,934,100821,36229,128098,27309,123722,157378,110420,46596,117438,180985,89004,6714,90370,61168,130971,184759,88970,55489,105353,55484,86793,63458,114392,161574,96577,23499,91057,61266,95487,170729,100776,167503,104897,152812,101262,2702,90519,207228,111505,176637,122518,39413,90958,5105,125344,138615,106613,18079,83976,195760,129030,135892,114641,175033,95103,135281,85536,143003,104427,150078,81828,197893,85934,159780,110986,12848,99589,46032,85918,187295,113506,132927,87347,7841,95911,198300,124939,43068,112599,151787,126793,160759,99376,207661,118610,163806,99585,77717,117012,39383,119390,30104,98252,160932,116719,161370,90088,54910,110713,31540,101733,14902,83267,41924,118572,140493,109678,79441,92089,191512,100666,32163,95205,29183,127369,35221,83287,68386,116290,131763,93983,162085,83219,202195,96648,208040,94422,200389,84417,63592,119435,143035,86458,17310,90640,148589,103262,157936,115718,32737,125057,56873,101687,173409,127446,4425,104296,166176,109497,61339,96847,152648,88717,144347,129447,67084,81878,80096,89116,22461,114847,79155,96278,172860,125265,203038,125640,58323,96902,9255,121201,5348,116574,142189,116997,141043,127142,144517,96450,131812,112710,32050,101848,63290,124685,31076,100499,146931,113395,69345,128010,60527,110377,141734,88804,152555,91974,189255,123034,26983,86040,41903,98967,21449,124212,134904,122060,14904,105133,46567,97125,180565,100387,1850,118916,204288,104972,162166,110444,11087,122843,159399,113355,161226,104066,64474,116485,205475,87630,43124,121371,156840,98783,132699,106385,166687,110122,71053,115123,9315,106025,195776,100502,170015,123899,180270,103602,139439,95242,63536,111902,179044,100700,44401,118244,170990,115960,149547,99653,150604,92571,198812,85025,159340,114939,33164,114367,19647,84132,49474,126732,41204,120047,32418,124644,8145,98248,210931,108068,194994,107758,174549,90880,46119,127345,31475,95457,30038,119235,62636,117341,28312,85866,135994,91914,155963,117114,150548,120155,175464,88680,53840,90002,184920,107034,153042,87283,58367,130642,25090,111058,43626,111765,190498,116213,156927,124568,165445,128395,203451,124586,137619,123999,189377,109742,5226,96157,136824,88653,182157,91463,188239,91559,55916,83874,180955,104610,132390,92304,58186,114656,185119,127456,57782,118255,72476,114819,143629,90720,19852,127742,186912,95430,198821,114627,140557,108455,4362,89898,40321,90217,1943,97966,60839,108613,166541,111783,186466,131004,184964,122731,134158,90895,159210,96536,13556,118007,161762,105365,37566,96592,6450,81532,44731,106560,7894,122491,141427,100469,23293,98893,155810,90729,49586,87759,152733,98370,166744,113639,10501,103590,134702,96890,131107,87327,71136,83957,172652,118952,33314,102058,23181,100021,1458,94042,174393,127528,53610,96364,207940,82159,192244,98307,29448,83395,170354,122359,195354,86888,40451,114705,61652,85374,197902,91238,73630,112672,21644,99689,209795,119086",
+      "SYSTEM chip=ESP32-C3 cpu_mhz=160 mac=10:00:3b:cb:8d:70 idf=v4.4.7-dirty loop_stack_reserved_bytes=8192 heap_domain=internal_8bit watermark_units=bytes wifi=not_initialized bt=not_initialized wdt=unchanged",
+      "INFO_DONE state=idle",
+      "RUN_BEGIN run_token=3e3d0cfe68254691",
+      "REPORT_BEGIN run_token=3e3d0cfe68254691",
+      "BEGIN rows=500 passes=3 scope=load_predict_reference_check",
+      "RAM_RESULT board=c3 model=mlp rows=500 passes=3 checked=1500 mismatches=0 checksum=762 checksum_per500=254 correct=1 ram_valid=1 row_buffer_bytes=24 loop_stack_reserved_bytes=8192 loop_stack_hwm_before_bytes=6608 loop_stack_hwm_after_bytes=6608 loop_stack_hwm_min_bytes=6608 loop_stack_observed_used_bytes=1584 heap_free_before_bytes=309800 heap_free_after_bytes=309800 heap_allocated_before_bytes=20588 heap_allocated_after_bytes=20588 heap_largest_before_bytes=286708 heap_largest_after_bytes=286708 heap_lifetime_min_before_bytes=304820 heap_lifetime_min_after_bytes=304820 heap_sampled_min_free_bytes=309800 heap_domain=internal_8bit heap_min_scope=sum_region_lifetime_minima stack_scope=loop_task_lifetime stack_inside_heap=1 total_peak_claim=0 run_token=3e3d0cfe68254691",
+      "DONE correct=1 reset_required=1 run_token=3e3d0cfe68254691",
+      "CONTROL_BEGIN run_token=3e3d0cfe68254691",
+      "CONTROL stack_pass=1 heap_pass=1 correct=1 stack_before_bytes=3920 stack_after_bytes=3244 heap_before=309800 heap_during=309272 heap_after=309800 stack_probe_bytes=768 heap_probe_bytes=512 stack_metric=free_watermark heap_metric=free_bytes separate_task=1 baseline_already_saved=1 run_token=3e3d0cfe68254691"
+    ],
+    "recovery_events": [
+      {
+        "utc": "2026-09-16T15:46:53.552+00:00",
+        "event": "run_acknowledged",
+        "run_token": "3e3d0cfe68254691"
+      },
+      {
+        "utc": "2026-09-16T15:46:54.548+00:00",
+        "event": "terminal_quiet_verified",
+        "run_token": "3e3d0cfe68254691",
+        "quiet_timeout_s": 0.75
+      }
+    ]
+  },
+  "finished_utc": "2026-09-16T15:46:54.558+00:00"
+}

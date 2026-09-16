@@ -1,0 +1,211 @@
+{
+  "schema": "kanids-ram500-manifest-v1",
+  "release": "0.15.0-source-integration",
+  "files": [
+    {
+      "path": "FIX_v0.14.1_RU.md",
+      "bytes": 4774,
+      "sha256": "129dcf8257deaeeb9759d0de7ea82cdf63a690da5befc4f6d6e8fd48c43ecf87"
+    },
+    {
+      "path": "FROZEN_COHORT_REFERENCE.json",
+      "bytes": 38062,
+      "sha256": "7af8ad4c407d99b42d4c97cd7392eec598ca9802e3696d2378f477e37c2832e0"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1082,
+      "sha256": "66142f8966e248482d24b6705176cf58bc3695bef3419dd4dc848032eacc1d39"
+    },
+    {
+      "path": "MEASUREMENT_SCOPE_RU.md",
+      "bytes": 7126,
+      "sha256": "cab1adf534939c2e3c66ca03901a69af4bebf48361412acb4b55d206076a90bf"
+    },
+    {
+      "path": "PROTOCOL.json",
+      "bytes": 3580,
+      "sha256": "5e89cefb6a170232795ee35e2da127f22e8ed5ed3b7108ad173e3b829d9b0806"
+    },
+    {
+      "path": "README_INTEGRATION.md",
+      "bytes": 747,
+      "sha256": "0e956b72cbf53951853cd3960768d198ca35ed57acd636d3d42ccd25d4c1dac5"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 5272,
+      "sha256": "28a94a0889a8a35248d9de1b3d54a417a534ea0b63e9dc6b656d8353f86cdb55"
+    },
+    {
+      "path": "SOURCE_ORIGIN.json",
+      "bytes": 6942,
+      "sha256": "67c3dd1bb0d199927f44bf335e1e630cc08c54e5b6578cc60beccc47d576b086"
+    },
+    {
+      "path": "START_C3.cmd",
+      "bytes": 274,
+      "sha256": "7b1c15cac5a7741f17407b2532c7976ed5fe20ca7184db5a3b79c84ef75e1303"
+    },
+    {
+      "path": "START_MEGA.cmd",
+      "bytes": 276,
+      "sha256": "40cd2fb07c107dedae8498caba1275cfad08a6fac0e300ee6f300cbce1b1f85c"
+    },
+    {
+      "path": "UPSTREAM_MANIFEST.json",
+      "bytes": 18929,
+      "sha256": "5e5cb818e016504c65b63172f3f643ad864367149426b566797566c466a5ebd0"
+    },
+    {
+      "path": "bootstrap.py",
+      "bytes": 4588,
+      "sha256": "0c4a5f3d6d139686bcba109ce905af400633fc9254658c0a624d33f5f7455a22"
+    },
+    {
+      "path": "project/FROZEN_HEADERS.json",
+      "bytes": 2664,
+      "sha256": "49665015afde7ccf66316961403736d13ed57326d161e5103e8db333d28e70d8"
+    },
+    {
+      "path": "project/check_avr_control_codegen.py",
+      "bytes": 7563,
+      "sha256": "843d0939bdd0a942270951b6cb181fc1ef419aceaac402ef9add6a2253810234"
+    },
+    {
+      "path": "project/include/dt5_model.h",
+      "bytes": 19409,
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/dt.h",
+      "bytes": 39825,
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan_ml.h",
+      "bytes": 1740,
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b"
+    },
+    {
+      "path": "project/include/hardware_cohort/mlp.h",
+      "bytes": 42646,
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3630,
+      "sha256": "abf56f2d4e83b59586e8338c623f899e47a7c86f06f7635e79a0ccd0ef9a2c40"
+    },
+    {
+      "path": "project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "project/include/kan14_lut_infer.h",
+      "bytes": 3398,
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d"
+    },
+    {
+      "path": "project/include/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_infer.h",
+      "bytes": 3031,
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_int8.h",
+      "bytes": 22321,
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344"
+    },
+    {
+      "path": "project/include/mlp16_infer.h",
+      "bytes": 3748,
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a"
+    },
+    {
+      "path": "project/include/mlp16_int8.h",
+      "bytes": 4955,
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f"
+    },
+    {
+      "path": "project/include/q15_mul.h",
+      "bytes": 2878,
+      "sha256": "635b0590723d85f63943419e5940ba4059988bf5a5cb33a70f766f5c787ead65"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 1917,
+      "sha256": "2264831e9c454205e8ff67ea23fe6b6d8b9f19ae49fbc48d9eee53a8740a9d34"
+    },
+    {
+      "path": "project/save_build_artifacts.py",
+      "bytes": 7139,
+      "sha256": "6db6cce42394107b742eb6270f9ebc815e151d7ca37d21a03c4900f86ad42e35"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 26975,
+      "sha256": "4d0a6f6ba75f80db542b9ef0b010e6fd4bb044d0babc1c637fa5af694bfc4b01"
+    },
+    {
+      "path": "project/tests/c3_protocol_harness.cpp",
+      "bytes": 7203,
+      "sha256": "2407a5b59e88c7ece357d53b9956f8014ce82ee850b5a0df58bd7c210c174b9a"
+    },
+    {
+      "path": "project/tests/host_harness.cpp",
+      "bytes": 1549,
+      "sha256": "c78838f2692c74aa73d93c2985f3f00ec190d0efd69e01e212f3abd24b80eabd"
+    },
+    {
+      "path": "project/tests/ram_host_stub.h",
+      "bytes": 3860,
+      "sha256": "f119653e7096b3affed95d6f96c87532a15069122674a9145e5518e55f9ab191"
+    },
+    {
+      "path": "project/tests/test_c3_protocol.py",
+      "bytes": 1551,
+      "sha256": "9f67466eafe6576d82f8f7e8b6b71d06146e623513328b86cbbeea585ca35bf1"
+    },
+    {
+      "path": "project/tests/test_firmware_host.py",
+      "bytes": 1404,
+      "sha256": "8a3640fc730cffde5e3779909669eeca5a1deed6850288279fbb7ccfd0844c08"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 33,
+      "sha256": "bdae548e8e286818f8e0085c90b0e17ed2593f33eef77f75c131dc0b3becbf1f"
+    },
+    {
+      "path": "run_ram.py",
+      "bytes": 50608,
+      "sha256": "692927d74f13d0f00067eda2133b0e74ba97cb769d449b5b1ec8edc907f3760f"
+    },
+    {
+      "path": "tests_runner/test_runner.py",
+      "bytes": 29567,
+      "sha256": "6c5064e0647caf75f77c158ceed695af97e5a1d8477648361fc31eba1f472b6f"
+    }
+  ]
+}

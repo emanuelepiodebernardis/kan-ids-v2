@@ -1,0 +1,129 @@
+{
+  "schema": "KAN_IDS_NEXT_EXPERIMENT_PROTOCOL_V013_STAGE1",
+  "created_date_utc": "2026-09-16",
+  "status": "LOCAL_PROTOCOL_FIXED_BEFORE_NEW_MODEL_METRICS_NOT_EXTERNAL_PREREGISTRATION",
+  "purpose": "Single-seed training/validation feasibility pilot for new endpoint-pair generalization study. Old measured models remain unchanged.",
+  "parent_release": {
+    "version": "v0.12.0",
+    "git_tree": "caeed5c459dcab9e5ee05a158c83c5f9c21042d8",
+    "git_commit": "e5184954de3f3c1452e37df2dcf04b7b36fffe3f"
+  },
+  "source": {
+    "filename": "train_test_network.csv",
+    "sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+    "rows": 211043,
+    "columns": 44,
+    "read_only": true
+  },
+  "split": {
+    "group": "unordered pair of src_ip and dst_ip; ports excluded; both directions together",
+    "salt": "KAN_IDS_PAIR_DISJOINT_V013_20260916",
+    "key": "json.dumps(sorted([src_ip,dst_ip]),ensure_ascii=False,separators=(comma,colon))",
+    "hash_input": "UTF-8(salt + NUL + key)",
+    "bucket": "int.from_bytes(SHA256 bytes[0:8], big) % 100",
+    "train": "bucket<60",
+    "validation": "60<=bucket<80",
+    "test": "bucket>=80",
+    "labels_and_model_metrics_used": false,
+    "no_search_over_salts": true
+  },
+  "structural_audit_known_after_fixing_split": {
+    "train_rows": 119334,
+    "validation_rows": 53622,
+    "test_rows": 38087,
+    "test_missing_attack_types": [
+      "backdoor",
+      "ransomware",
+      "xss"
+    ],
+    "host_disjoint": false,
+    "time_disjoint": false,
+    "feature_disjoint": false,
+    "row_duplicate_disjoint": true,
+    "full_host_graph_largest_component_rows": 208035,
+    "test_raw20_inputs_matching_train_rows": 2889,
+    "note": "These are data-support diagnostics, not prediction/accuracy metrics. Report class shift and missing attack types."
+  },
+  "new_preprocessing": {
+    "k_numeric": 10,
+    "selection_target": "binary",
+    "fit_scope": "train only",
+    "seed": 20260916,
+    "shared_across_models": true,
+    "categorical_fields": [
+      "proto",
+      "service",
+      "conn_state",
+      "dns_rejected"
+    ],
+    "forbidden_model_inputs": [
+      "label",
+      "type",
+      "src_ip",
+      "dst_ip"
+    ],
+    "inherited_implementation": "unchanged reference/kanids/preprocessing.py"
+  },
+  "models": {
+    "kan": {
+      "class": "CategoricalKANBinary",
+      "degree": 8,
+      "clip": 3.5,
+      "epochs": 250,
+      "lr": 0.3,
+      "l2": 0.0001,
+      "class_weight": true
+    },
+    "dt5": {
+      "max_depth": 5,
+      "class_weight": "balanced"
+    },
+    "mlp16": {
+      "hidden_layer_sizes": [
+        16
+      ],
+      "max_iter": 300,
+      "alpha": 0.0001,
+      "early_stopping": false,
+      "training_sample_weight": "balanced"
+    },
+    "gam": {
+      "type": "additive cubic B-spline logistic GAM, no interactions",
+      "n_knots": 5,
+      "degree": 3,
+      "knots": "train quantiles",
+      "C": 1.0,
+      "max_iter": 2000,
+      "class_weight": "balanced"
+    }
+  },
+  "new_unknown_category_policy": {
+    "categorical_onehot": "Known categories 1..card-1 only; unseen->all-zero block. Do not add untrained random MLP weights for category0.",
+    "kan": "After fit, set never-trained table slot0 to0 and verify identical train logits. Document prior values. No edits to historical headers/checkpoints."
+  },
+  "pilot_model_seed": 20260916,
+  "planned_model_seeds": [
+    20260916,
+    20260917,
+    20260918,
+    20260919,
+    20260920
+  ],
+  "metrics": {
+    "stage1_partition": "validation only",
+    "test_metrics_computed": false,
+    "primary": "balanced_accuracy",
+    "secondary": [
+      "F1",
+      "FPR",
+      "TPR",
+      "AUROC",
+      "confusion_counts"
+    ],
+    "threshold": 0.5,
+    "threshold_tuning": false,
+    "comparison_note": "Seeds are optimizer repetitions, not independent captures; score differences from old split are not causal leakage estimates."
+  },
+  "next_gate": "Review feasibility, convergence warnings, artifacts and Windows replay before launching fixed five-seed study. No automatic test evaluation or firmware export.",
+  "write_scope": "New runs/PAIR_STAGE1_<UTC>_<id>/ only; private source copy; no external repository edits, no serial access, no old-model loading for training."
+}

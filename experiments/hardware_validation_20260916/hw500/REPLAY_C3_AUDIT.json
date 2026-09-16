@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "verified_packet_manifests": 29,
+  "recomputed_runs": 26,
+  "raw_CFN": {
+    "bytes": 3357373,
+    "sha256": "e65f57fbcf4441f70b5f8de63918533bd2e33119a3a7a8c2568393b08cf74d0d"
+  },
+  "maximum_absolute_energy_difference_uJ": 3.104538848219818e-11,
+  "means_and_sample_SD_from_five_campaign_runs_per_model": "PASS",
+  "scope": "Software and numerical evidence validation; does not establish absolute instrument accuracy"
+}

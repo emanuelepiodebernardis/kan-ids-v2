@@ -1,0 +1,171 @@
+{
+  "schema": "kanids-observed-ram-table-v1",
+  "distinct_cohort_rows": 500,
+  "fresh_uploads_per_board": 15,
+  "reference_comparisons_per_board": 22500,
+  "mismatches": 0,
+  "total_peak_ram_claim": false,
+  "c3_model_specific_stack_advantage_claim": false,
+  "rows": [
+    {
+      "model": "coeff",
+      "mega_static_sram_bytes": 335,
+      "mega_observed_stack_bytes_per_upload": [
+        93,
+        93,
+        93
+      ],
+      "mega_minimum_untouched_bytes": 7764,
+      "c3_static_dram_bytes": 15312,
+      "c3_loop_task_lifetime_stack_used_bytes_per_upload": [
+        1584,
+        1584,
+        1584
+      ],
+      "c3_additional_stack_high_water_during_workload_bytes": [
+        0,
+        0,
+        0
+      ],
+      "c3_corrected_diagnostic_globals_bytes": 188,
+      "c3_heap_free_before_bytes": [
+        309800,
+        309800,
+        309800
+      ],
+      "c3_heap_free_after_bytes": [
+        309800,
+        309800,
+        309800
+      ]
+    },
+    {
+      "model": "lut",
+      "mega_static_sram_bytes": 335,
+      "mega_observed_stack_bytes_per_upload": [
+        80,
+        80,
+        80
+      ],
+      "mega_minimum_untouched_bytes": 7777,
+      "c3_static_dram_bytes": 15312,
+      "c3_loop_task_lifetime_stack_used_bytes_per_upload": [
+        1504,
+        1584,
+        1584
+      ],
+      "c3_additional_stack_high_water_during_workload_bytes": [
+        0,
+        0,
+        0
+      ],
+      "c3_corrected_diagnostic_globals_bytes": 188,
+      "c3_heap_free_before_bytes": [
+        309800,
+        309800,
+        309800
+      ],
+      "c3_heap_free_after_bytes": [
+        309800,
+        309800,
+        309800
+      ]
+    },
+    {
+      "model": "mlp",
+      "mega_static_sram_bytes": 335,
+      "mega_observed_stack_bytes_per_upload": [
+        95,
+        95,
+        95
+      ],
+      "mega_minimum_untouched_bytes": 7762,
+      "c3_static_dram_bytes": 15312,
+      "c3_loop_task_lifetime_stack_used_bytes_per_upload": [
+        1584,
+        1584,
+        1584
+      ],
+      "c3_additional_stack_high_water_during_workload_bytes": [
+        0,
+        0,
+        0
+      ],
+      "c3_corrected_diagnostic_globals_bytes": 188,
+      "c3_heap_free_before_bytes": [
+        309800,
+        309800,
+        309800
+      ],
+      "c3_heap_free_after_bytes": [
+        309800,
+        309800,
+        309800
+      ]
+    },
+    {
+      "model": "kanml",
+      "mega_static_sram_bytes": 335,
+      "mega_observed_stack_bytes_per_upload": [
+        208,
+        208,
+        208
+      ],
+      "mega_minimum_untouched_bytes": 7649,
+      "c3_static_dram_bytes": 15312,
+      "c3_loop_task_lifetime_stack_used_bytes_per_upload": [
+        1504,
+        1504,
+        1504
+      ],
+      "c3_additional_stack_high_water_during_workload_bytes": [
+        0,
+        0,
+        0
+      ],
+      "c3_corrected_diagnostic_globals_bytes": 188,
+      "c3_heap_free_before_bytes": [
+        309800,
+        309800,
+        309800
+      ],
+      "c3_heap_free_after_bytes": [
+        309800,
+        309800,
+        309800
+      ]
+    },
+    {
+      "model": "dt5",
+      "mega_static_sram_bytes": 335,
+      "mega_observed_stack_bytes_per_upload": [
+        46,
+        46,
+        46
+      ],
+      "mega_minimum_untouched_bytes": 7811,
+      "c3_static_dram_bytes": 15312,
+      "c3_loop_task_lifetime_stack_used_bytes_per_upload": [
+        1584,
+        1584,
+        1504
+      ],
+      "c3_additional_stack_high_water_during_workload_bytes": [
+        0,
+        0,
+        0
+      ],
+      "c3_corrected_diagnostic_globals_bytes": 192,
+      "c3_heap_free_before_bytes": [
+        309800,
+        309800,
+        309800
+      ],
+      "c3_heap_free_after_bytes": [
+        309800,
+        309800,
+        309800
+      ]
+    }
+  ]
+}

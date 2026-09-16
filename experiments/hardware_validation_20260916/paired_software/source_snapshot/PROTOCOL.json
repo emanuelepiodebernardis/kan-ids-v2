@@ -1,0 +1,181 @@
+{
+  "schema": "KAN_IDS_PAIR_DISJOINT_FIVE_SEED_V013_STAGE2",
+  "created_date_utc": "2026-09-16",
+  "status": "LOCAL_PROTOCOL_FIXED_BEFORE_NEW_MODEL_METRICS_NOT_EXTERNAL_PREREGISTRATION",
+  "purpose": "Fixed five-seed supplemental pair-disjoint evaluation. Same Stage1 settings, no tuning. All models fitted and checkpoint hashes frozen before any new test predictions.",
+  "parent_release": {
+    "version": "v0.12.0",
+    "git_tree": "caeed5c459dcab9e5ee05a158c83c5f9c21042d8",
+    "git_commit": "e5184954de3f3c1452e37df2dcf04b7b36fffe3f"
+  },
+  "source": {
+    "filename": "train_test_network.csv",
+    "sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+    "rows": 211043,
+    "columns": 44,
+    "read_only": true
+  },
+  "split": {
+    "group": "unordered pair of src_ip and dst_ip; ports excluded; both directions together",
+    "salt": "KAN_IDS_PAIR_DISJOINT_V013_20260916",
+    "key": "json.dumps(sorted([src_ip,dst_ip]),ensure_ascii=False,separators=(comma,colon))",
+    "hash_input": "UTF-8(salt + NUL + key)",
+    "bucket": "int.from_bytes(SHA256 bytes[0:8], big) % 100",
+    "train": "bucket<60",
+    "validation": "60<=bucket<80",
+    "test": "bucket>=80",
+    "labels_and_model_metrics_used": false,
+    "no_search_over_salts": true
+  },
+  "structural_audit_known_after_fixing_split": {
+    "train_rows": 119334,
+    "validation_rows": 53622,
+    "test_rows": 38087,
+    "test_missing_attack_types": [
+      "backdoor",
+      "ransomware",
+      "xss"
+    ],
+    "host_disjoint": false,
+    "time_disjoint": false,
+    "feature_disjoint": false,
+    "row_duplicate_disjoint": true,
+    "full_host_graph_largest_component_rows": 208035,
+    "test_raw20_inputs_matching_train_rows": 2889,
+    "note": "These are data-support diagnostics, not prediction/accuracy metrics. Report class shift and missing attack types."
+  },
+  "new_preprocessing": {
+    "k_numeric": 10,
+    "selection_target": "binary",
+    "fit_scope": "train only",
+    "seed": 20260916,
+    "shared_across_models": true,
+    "categorical_fields": [
+      "proto",
+      "service",
+      "conn_state",
+      "dns_rejected"
+    ],
+    "forbidden_model_inputs": [
+      "label",
+      "type",
+      "src_ip",
+      "dst_ip"
+    ],
+    "inherited_implementation": "unchanged reference/kanids/preprocessing.py"
+  },
+  "models": {
+    "kan": {
+      "class": "CategoricalKANBinary",
+      "degree": 8,
+      "clip": 3.5,
+      "epochs": 250,
+      "lr": 0.3,
+      "l2": 0.0001,
+      "class_weight": true
+    },
+    "dt5": {
+      "max_depth": 5,
+      "class_weight": "balanced"
+    },
+    "mlp16": {
+      "hidden_layer_sizes": [
+        16
+      ],
+      "max_iter": 300,
+      "alpha": 0.0001,
+      "early_stopping": false,
+      "training_sample_weight": "balanced"
+    },
+    "gam": {
+      "type": "additive cubic B-spline logistic GAM, no interactions",
+      "n_knots": 5,
+      "degree": 3,
+      "knots": "train quantiles",
+      "C": 1.0,
+      "max_iter": 2000,
+      "class_weight": "balanced"
+    }
+  },
+  "new_unknown_category_policy": {
+    "categorical_onehot": "Known categories 1..card-1 only; unseen->all-zero block. Do not add untrained random MLP weights for category0.",
+    "kan": "After fit, set never-trained table slot0 to0 and verify identical train logits. Document prior values. No edits to historical headers/checkpoints."
+  },
+  "pilot_model_seed": 20260916,
+  "planned_model_seeds": [
+    20260916,
+    20260917,
+    20260918,
+    20260919,
+    20260920
+  ],
+  "metrics": {
+    "stage1_partition": "Prior validation-only pilot",
+    "test_metrics_computed": true,
+    "primary": "balanced_accuracy",
+    "secondary": [
+      "F1",
+      "FPR",
+      "TPR",
+      "AUROC",
+      "confusion_counts"
+    ],
+    "threshold": 0.5,
+    "threshold_tuning": false,
+    "comparison_note": "Seeds are optimizer repetitions, not independent captures; score differences from old split are not causal leakage estimates.",
+    "stage2_partition": "Same fixed held-out test for every model and seed",
+    "test_metrics_computed_note": "Describes planned Stage2 execution; not evidence it has already run."
+  },
+  "next_gate": "Inspect complete Windows run and recorded warning status; retain all outcomes before code/paper integration. No automated hardware access.",
+  "write_scope": "New runs/PAIR_STAGE2_<UTC>_<id> only; no existing project edits, no serial or hardware access.",
+  "stage1_protocol_sha256": "0eaa670a244b9cb5f5067276d566cee6ae47b51a8c32714c51d57bf255c483ad",
+  "created_utc": "2026-09-16T06:58:01.881841+00:00",
+  "known_results_at_freeze": "Stage1 validation results were observed; original canonical-test metrics already public. No Stage2 pair-test model scores have been computed or inspected by this workflow before this protocol freeze.",
+  "stage2": {
+    "model_seeds": [
+      20260916,
+      20260917,
+      20260918,
+      20260919,
+      20260920
+    ],
+    "training_scope": "119334 training rows only; validation is not merged into training",
+    "all_fits_before_test": true,
+    "checkpoint_freeze_receipt": "FITS_FROZEN.json",
+    "shared_preprocessor": "Same training rows, selection target, fixed preprocessing seed and settings for all models and model seeds. Verify metadata equality.",
+    "no_selection": "No best seed, model, threshold or hyperparameter selected from validation or test. Report all outcomes including warnings and failures.",
+    "summary": "Per-model mean, sample standard deviation, min and max of metrics over the fixed five seeds. Descriptive optimization variation only; no confidence interval, significance test, or pooling repeated predictions as independent rows.",
+    "paired_comparisons": "Per-seed KAN minus DT5, MLP16 and GAM for BA, FPR and F1; mean/sample-SD/min/max, descriptive only.",
+    "subgroups": "Full test; actual transformed model inputs matching training vs not matching; attack type TPR and normal FPR with class counts. Single-class BA and AUROC undefined, report null.",
+    "primary_metric": "balanced_accuracy",
+    "mandatory_context": [
+      "FPR",
+      "TPR",
+      "binary_class_counts",
+      "type_support",
+      "actual_model_input_overlap",
+      "pair_not_host_disjoint"
+    ],
+    "hardware_checkpoint_selection": "None; no firmware exported or old measured checkpoint changed.",
+    "expected_rows": {
+      "train": 119334,
+      "validation": 53622,
+      "test": 38087
+    },
+    "expected_binary_counts": {
+      "train": {
+        "normal": 32472,
+        "attack": 86862
+      },
+      "validation": {
+        "normal": 13859,
+        "attack": 39763
+      },
+      "test": {
+        "normal": 3669,
+        "attack": 34418
+      }
+    },
+    "limitation": "One hash-based split of one dataset; seeds are not independent captures, devices or splits. Host and model-input overlap remain. Test lacks backdoor, ransomware and xss."
+  }
+}

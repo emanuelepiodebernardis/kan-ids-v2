@@ -1,0 +1,96 @@
+{
+  "schema": "kanids-ram500-kit-v1",
+  "version": "0.14.2",
+  "date": "2026-09-16",
+  "models": [
+    "coeff",
+    "lut",
+    "mlp",
+    "kanml",
+    "dt5"
+  ],
+  "boards": [
+    "mega",
+    "c3"
+  ],
+  "repeats_per_model": 3,
+  "fresh_start": "upload_each_repeat",
+  "passes_per_run": 3,
+  "rows_per_pass": 500,
+  "predictions_checked_per_run": 1500,
+  "cohort_sha256": "20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f",
+  "expected_checksum_per500": {
+    "coeff": 256,
+    "lut": 256,
+    "mlp": 254,
+    "kanml": 250,
+    "dt5": 249
+  },
+  "control_after_baseline": true,
+  "FNB58_required": false,
+  "energy_or_latency_benchmark": false,
+  "scope": "observed_ram_components_not_formal_global_worst_case",
+  "board_identity": {
+    "mega": {
+      "vid": 9025,
+      "pid": 66,
+      "serial": "14532303532351804271"
+    },
+    "c3": {
+      "vid": 12346,
+      "pid": 4097,
+      "serial": "10:00:3B:CB:8D:70"
+    }
+  },
+  "calibration_decision": "External meter verification deferred by user; no independent absolute calibration is claimed for retained energy results.",
+  "acceptance": [
+    "All frozen headers byte-identical",
+    "All five target builds before first upload",
+    "Correct board identity before every upload and protocol handshake",
+    "All 1500 predictions agree with frozen C reference per run",
+    "Numerical positive controls for stack and heap",
+    "Fifteen accepted runs per board before full summary"
+  ],
+  "limitations": [
+    "No device access in preparation environment",
+    "C3 target toolchain unavailable locally; Windows pre-upload compilation required",
+    "Three repeated boots are not independent boards",
+    "Finite cohort and watermark methods do not prove worst-case RAM",
+    "Task stacks may overlap heap accounting",
+    "Lifetime regional heap minima are not simultaneous inference-window minima",
+    "Diagnostic firmware differs from timed energy firmware",
+    "Models are historical frozen kernels, not newly trained Stage 2 models"
+  ],
+  "change_from_0_14_0": {
+    "avr_heap_observer": "Compiler memory barrier before each __brkval snapshot; prevents stale reads across malloc/free builtins",
+    "positive_control": "Original 128-byte growth and single malloc/free requirements retained; allocator evidence now emitted",
+    "failed_run_preserved": "MEGA_RAM500_20260916T135320Z_3b3703f1",
+    "historical_failed_RAM_status": "Not accepted for paper results; full RAM series must be rerun"
+  },
+  "firmware_protocol_by_board": {
+    "mega": "kanids-ram500-v1",
+    "c3": "kanids-ram500-v2"
+  },
+  "commands_by_board": {
+    "mega": [
+      "INFO",
+      "RUN",
+      "CONTROL"
+    ],
+    "c3": [
+      "INFO",
+      "RUN <16-lowercase-hex-token>",
+      "RESULT <same-token>",
+      "CHECK <same-token>"
+    ]
+  },
+  "change_from_0_14_1": {
+    "target": "C3 reporting and bounded cached report recovery only",
+    "measurement_snapshot": "captured once before output; RESULT replays cached values without repeating workload or sampling memory",
+    "control_snapshot": "CHECK computes once after baseline acceptance; repeat CHECK replays cached control",
+    "token": "fresh 16-lowercase-hex request token per upload; rejected after reset",
+    "recovery": "at most two result/control read retries on same open port, no automatic reset/reupload/new RUN",
+    "historical_failure": "C3_RAM500_20260916T142256Z_71ebd782: partial RAM_RESULT board=c; unique low-level transport cause unproved",
+    "Mega_status": "v0.14.1 session MEGA_RAM500_20260916T141149Z_f0665b8d accepted; do not repeat"
+  }
+}

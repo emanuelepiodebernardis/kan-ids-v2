@@ -1,5 +1,13 @@
 # Changelog
 
+## Paper 1 v0.15.0 — 16 September 2026
+
+- Integrate the accepted five-seed pair-disjoint study with explicit separation from frozen canonical integer models.
+- Add matched common-500-flow batch time/USB-energy tables and reproducible CFN analysis; retain pilots and earlier protocols separately.
+- Add observed RAM components, per-upload records and positive-control evidence for 15 accepted runs per board. No exact global Peak RAM claim.
+- Correct only the diagnostic-symbol reporting subset: exclude six unrelated SDK symbols totalling 33 B. Physical firmware source and retained raw evidence are unchanged.
+- Add source-only evidence checks, optional raw RAM/UART replay, and portable scripts for external archival evidence.
+
 ## Quarta revisione: v2.1-rc3 (agosto 2026)
 
 Ultimo checkpoint tecnico chiesto dal Prof. Kuznetsov prima delle misure sulle
