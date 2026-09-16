@@ -1,8 +1,10 @@
-# KAN-IDS Paper 1 — English manuscript v0.15.0
+# KAN-IDS Paper 1 — English manuscript v0.15.1
 
 IEEE Access author-review manuscript, revised 16 September 2026. Build with `python3 scripts/build_paper.py` (pdfLaTeX and BibTeX), which uses a clean temporary directory. For Overleaf select `main.tex` and pdfLaTeX. Publisher class, required fonts and ORCID icon are included.
 
-This revision integrates three accepted studies: a new endpoint-pair-disjoint floating-model comparison, HW500 time and whole-board USB energy for a common 500-flow cohort, and RAM500 observed memory components. The newly trained pair-study models are distinct from the frozen integer models used for the certificate and hardware campaigns. The pair holdout shares hosts and some prepared model inputs across splits; it is not a host- or time-disjoint deployment test. Additive KAN does not outperform GAM or MLP16 on that holdout.
+The v0.15.0 revision integrated three accepted studies: a new endpoint-pair-disjoint floating-model comparison, HW500 time and whole-board USB energy for a common 500-flow cohort, and RAM500 observed memory components. The newly trained pair-study models are distinct from the frozen integer models used for the certificate and hardware campaigns. The pair holdout shares hosts and some prepared model inputs across splits; it is not a host- or time-disjoint deployment test. Additive KAN does not outperform GAM or MLP16 on that holdout.
+
+This v0.15.1 editorial revision leads with decision-agreement certificates in the title and explicitly motivates the additive model by its exact score decomposition and finite-domain arithmetic audit. The abstract distinguishes coefficient-to-LUT certification from the uncertified floating-to-integer transition and qualifies the ESP32-C3 speedup by the controlled cycle-counter protocol and Flash-code/DRAM-parameter placement. All numerical tables, figures, experiment records and historical results are retained. The manuscript remains an author-review draft.
 
 The matched ESP32-C3 factorial remains the primary representation/placement comparison. The original five-model timing experiment, its unfavorable 7.58% C3 LUT slowdown, and the intermediate locality diagnostic remain in an explicit appendix. The earlier twenty-input energy pilot is also retained separately in an appendix. A six-protocol map prevents pooling incompatible boundaries. The setup photographs are preserved byte-for-byte and placed side by side.
 
@@ -12,6 +14,6 @@ Author order is Oleksandr Kuznetsov, Emanuele Pio De Bernardis, Emanuele Fronton
 
 The accompanying integration release maps accepted inputs, scripts, hashes and results in `evidence/review_v015/ARTIFACT_MAP.md`. Historical provenance remains in `evidence/review_v012/ARTIFACT_MAP.md`; historical V010–V012 checks and receipts describe their named revisions only. New numerical evidence is carried in the v0.15 integration evidence. The standalone manuscript source is not the complete raw experiment archive. Public deposition, journal submission, Git push and DOI assignment are not claimed.
 
-The existing pilot figure is reproducible with `python3 figures/make_energy_figure.py`. Current paper build, content and visual checks are recorded with the release; old content-check scripts retain historical assertions and do not certify v0.15. Verify delivered bytes before rebuilding with `python3 tools/verify_package.py .` when the package manifest is present. A rebuild changes generated files.
+The existing pilot figure is reproducible with `python3 figures/make_energy_figure.py`. Current paper build, content and visual checks are recorded with the release; old content-check scripts retain historical assertions and do not certify v0.15.1. Verify delivered bytes before rebuilding with `python3 tools/verify_package.py .` when the package manifest is present. A rebuild changes generated files.
 
 Publisher assets retain their notices; manuscript text, author portraits and photographs are not relicensed under the software licence.

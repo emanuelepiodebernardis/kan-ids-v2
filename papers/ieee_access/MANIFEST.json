@@ -1,8 +1,8 @@
 {
-  "version": "0.15.0-git-source",
+  "version": "0.15.1-git-source",
   "date": "2026-09-16",
   "language": "en",
-  "scope": "Reviewed manuscript source export; compiled main.pdf, build logs and renders omitted. Historical verification receipts retain their stated versions; v015 QA describes the separately delivered PDF.",
+  "scope": "Editorial revision; scientific contents preserved. One EN table-placement specifier changed. Compiled outputs belong only to standalone delivery.",
   "files": [
     {
       "path": ".gitattributes",
@@ -16,23 +16,23 @@
     },
     {
       "path": "ABSTRACT_EN.txt",
-      "bytes": 1479,
-      "sha256": "3d20fd365434e65aad15cd8d80ed9d9420e3c1cece8932dc56051c7d04cc45f7"
+      "bytes": 1599,
+      "sha256": "20524d2e30dba43842309653166800a00f3b88b0026ad2dbcfa37781a35bd48c"
     },
     {
       "path": "AUTHOR_METADATA.json",
       "bytes": 2038,
-      "sha256": "1de8d28aabe49c51af1b6cf3268dbc9fed451e2cc593db4103d890610755e261"
+      "sha256": "90b908661ae1350c168f9d4d79b36e65b1a5153fe99e05e386d7f5cfcb8b5ff1"
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 5733,
-      "sha256": "3aa948f266bc7fb336a6369bb58202462964611e2f9fcdfc274b7c6c65bdd704"
+      "bytes": 6630,
+      "sha256": "33b9449f21c11115e817cc256ceb6c626d13b691b7df8c846eb3ec42d7480619"
     },
     {
       "path": "GIT_SOURCE_SCOPE.md",
-      "bytes": 594,
-      "sha256": "b3370ae3da7d08891b6e6e9bb36b01e86921c6ae7aa41a6db897789ace414ef6"
+      "bytes": 596,
+      "sha256": "fdfe20b128ba606481340bc0f8de3e2fc955ee3eb1b2c0f9d7d980ee1ea6c65d"
     },
     {
       "path": "IEEEtran.bst",
@@ -46,13 +46,13 @@
     },
     {
       "path": "PACKAGE_SCOPE.md",
-      "bytes": 1182,
-      "sha256": "a35154b25be6548780b4c9f1684ba1cd7e082e256dbd62226447ba7036af07f1"
+      "bytes": 1451,
+      "sha256": "eb9119288bcf41e731e2e346b7fb449aa924e75a40efbc8c3275179752745338"
     },
     {
       "path": "README.md",
-      "bytes": 3067,
-      "sha256": "ac11a00a8b21a54a98908cda61348d77f55951ea15602577dc84b0293828ca8f"
+      "bytes": 3641,
+      "sha256": "210fe71e13b9b3239c77a00eb39df1f83c9dc310c3a2ae0ff7c12911c80f766e"
     },
     {
       "path": "TEMPLATE_ASSETS.json",
@@ -227,7 +227,7 @@
     {
       "path": "inputs/factorial_table.tex",
       "bytes": 785,
-      "sha256": "a598760a99fee43822b387546873089b96ba26895fb11c2a63926369a1664315"
+      "sha256": "64d05b75eca2760bba693b9fb0c7ce14381a776f3654b3a0f3166b51cbc09ead"
     },
     {
       "path": "inputs/hw500_energy.tex",
@@ -281,8 +281,8 @@
     },
     {
       "path": "main.tex",
-      "bytes": 83053,
-      "sha256": "fb389f30df8b6e47e419fc1e175f40b782431007bfddeee8a2d0e7c7a5cb451c"
+      "bytes": 83407,
+      "sha256": "8b2e13620c0dedf5224af07c6df0dda3bcf75cfd73b654c3804b2e3320c9bfdc"
     },
     {
       "path": "notaglinelogo.png",
@@ -523,6 +523,11 @@
       "path": "verification/CONTENT_QA_V012.json",
       "bytes": 437,
       "sha256": "edf827bd3b8e510272ebf680d22b65bd7550749b4008d24bb0a61b2db581da03"
+    },
+    {
+      "path": "verification/EDITORIAL_V0151_QA.json",
+      "bytes": 1364,
+      "sha256": "8e6dcf589563090310bd2ded3f16563489f2cf23d723fd4ae6d36fce0f3b3ca0"
     },
     {
       "path": "verification/EN_QA_V010.json",

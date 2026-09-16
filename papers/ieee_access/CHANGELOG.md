@@ -1,3 +1,11 @@
+# v0.15.1 — 16 September 2026
+
+- Led the title with decision-agreement certificates and identified integer additive KANs and the IoT intrusion-detection case study explicitly.
+- Made exact additive score decomposition and exhaustive integer-edge error inspection the explicit motivation in the abstract and introduction.
+- Stated in the abstract that the certificate covers the integer coefficient-to-LUT transition only; the already reported forty floating-to-integer decision changes remain outside that certificate.
+- Qualified the ESP32-C3 speedup by the controlled cycle-counter protocol and Flash-code/DRAM-parameter placement; aligned discussion and conclusion with this scope.
+- Applied limited prose edits while retaining every numerical table, figure, appendix and evidence record. No new experiment, model fit or result change. The manuscript remains an author-review working draft.
+
 # v0.15.0 — 16 September 2026
 
 - Integrated the new endpoint-pair-disjoint comparison of additive KAN, DT5, MLP16 and cubic B-spline logistic GAM. Reported supports, F1, balanced accuracy and false-positive rates, with optimizer-seed variability and residual dependence limits.

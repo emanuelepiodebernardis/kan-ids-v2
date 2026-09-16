@@ -1,8 +1,8 @@
 {
-  "version": "0.15.0-git-source",
+  "version": "0.15.1-git-source",
   "date": "2026-09-16",
   "language": "ru",
-  "scope": "Reviewed manuscript source export; compiled main.pdf, build logs and renders omitted. Historical verification receipts retain their stated versions; v015 QA describes the separately delivered PDF.",
+  "scope": "Editorial revision; scientific contents preserved. One EN table-placement specifier changed. Compiled outputs belong only to standalone delivery.",
   "files": [
     {
       "path": ".gitattributes",
@@ -17,17 +17,17 @@
     {
       "path": "AUTHOR_METADATA.json",
       "bytes": 2228,
-      "sha256": "43c726f0206114067ae308d23c53bfe89127d159a174a4600d927a302e12435d"
+      "sha256": "834160a9318681c0ffe0613b3c33bc0b94b7d9878ea5cae5b06f8a78db98c69f"
     },
     {
       "path": "CHANGELOG_RU.md",
-      "bytes": 8660,
-      "sha256": "66a76826e9759b436c9793c12ede78ac24e0bbefb97eca709878e346a1a35867"
+      "bytes": 10222,
+      "sha256": "4c12550b46819a2759abfcde37fea388ed4757b9cb19ff458857052943a72e16"
     },
     {
       "path": "GIT_SOURCE_SCOPE.md",
       "bytes": 595,
-      "sha256": "c43b9c88d21ebefa55c9f931f3bda7fd8f7074e1986a57917217bc5b37834e94"
+      "sha256": "9cf3d9dc3ee9986c259123d9980ce5d7adfca899a1d519c1ef5e094a67694902"
     },
     {
       "path": "IEEEtran.bst",
@@ -36,13 +36,13 @@
     },
     {
       "path": "PACKAGE_SCOPE.md",
-      "bytes": 2034,
-      "sha256": "531e43c65e868b4064b7e13aeacfb271bfb3bf42aa0c6c42db3306986f45c86f"
+      "bytes": 2583,
+      "sha256": "952dc5ad3f02755584ffb37ea51ee671fd988e524707d9a1965312368986b41a"
     },
     {
       "path": "README_RU.md",
-      "bytes": 4667,
-      "sha256": "578adc4747c6df5956d2a425d38b0255c250210202f84edbdddd6d715ca3e79a"
+      "bytes": 5707,
+      "sha256": "75ff80356e767f3a6c9f15ed0dafc670b019b71921055361df00df03274be9bf"
     },
     {
       "path": "assets/orcid/README.md",
@@ -231,13 +231,13 @@
     },
     {
       "path": "main.tex",
-      "bytes": 15697,
-      "sha256": "477c56c98f7f272ef91362db8e5f9b31169f3c620ddf8f2bb84fd1df6a29a509"
+      "bytes": 16122,
+      "sha256": "e52ac5951b12b4115b0e76a0b8b974044a5f926d091902771d7c9c97fd516d4a"
     },
     {
       "path": "parts/a_ru.tex",
-      "bytes": 41756,
-      "sha256": "bcef8627937130d70521c5bc1e8ed7596994251be58a08acf3824fb1589e6157"
+      "bytes": 41896,
+      "sha256": "ebe3a966c99417bd188fbf6ce5a0dedf8bf646c7f71c8f26edf8e6ecd5af8f16"
     },
     {
       "path": "parts/b_ru.tex",
@@ -246,8 +246,8 @@
     },
     {
       "path": "parts/c_ru.tex",
-      "bytes": 55533,
-      "sha256": "f31bf4a6bde587e3de1e87fb3cd93521c89f7155bab30feca9e6e588b9a90456"
+      "bytes": 55760,
+      "sha256": "9472b129b8e748135621fba3c4c6ad23e62db7ee762ad2402b27d87cbf1eba1f"
     },
     {
       "path": "references.bib",
@@ -278,6 +278,11 @@
       "path": "verification/BASELINE_V010_HARDWARE_REVISION.json",
       "bytes": 3527,
       "sha256": "a251459017afb7b558ee28312c1ce2be8da095de3db9208d5bd785c66f2ab262"
+    },
+    {
+      "path": "verification/EDITORIAL_V0151_QA.json",
+      "bytes": 1364,
+      "sha256": "3f7a6e3c768658e66515b3aa39040c6e690cfc84464dd71f9dee611ef5a6aecb"
     },
     {
       "path": "verification/ENERGY_RESULTS_V011.json",
