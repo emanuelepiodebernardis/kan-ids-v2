@@ -1,4 +1,4 @@
-# Paper 1 manuscripts, v0.15.1
+# Paper 1 manuscripts, v0.15.2
 
 - [English IEEE Access source](ieee_access/README.md), built with pdfLaTeX.
 - [Russian author-review version](ru/README_RU.md), built with XeLaTeX.
@@ -6,10 +6,14 @@
 
 The manuscript presents decision-agreement certificates for a frozen integer
 additive KAN, with IoT intrusion detection as the application case. Version
-0.15.1 revises the title, abstract and framing in both languages, with small
-style and layout fixes. It preserves the numerical results, tables, figures
-and historical unfavorable ESP32-C3 observation. This editorial revision adds
-no training or device measurements.
+0.15.2 adds five journal references and clarifies the scope of earlier LUT-KAN
+CPU/MCU studies, quantized CNN-KAN deployment and measurement characterization.
+The literature comparison table is updated. The title and abstract framing from
+v0.15.1 is retained. All experimental tables, figures, equations, model artifacts
+and measurement records are preserved; no new training or device runs were added.
+The two earlier arXiv entries remain as unused historical BibTeX records; the
+current discussion cites the relevant journals without claiming an unverified
+preprint-to-journal identity.
 
 Version 0.15.0 integrated the endpoint-pair-disjoint classification study,
 HW500 matched-cohort time and whole-board USB energy, and RAM500 observed
@@ -31,8 +35,8 @@ review release. Their hashes and scientific/visual QA receipts are retained;
 the source-export manifests describe only files actually present here.
 Figure PDFs are vector input assets and remain tracked.
 
-Run `python papers/verify_editorial_v0151.py` to verify preservation relative
-to the supplied v0.15.0 Git history, and `python papers/verify_validation_v015.py`
+Run `python papers/verify_editorial_v0152.py` to verify preservation relative
+to the supplied v0.15.1 Git tree, and `python papers/verify_validation_v015.py`
 to check the integrated numerical evidence. Run
 `python papers/verify_hardware_links.py` from the repository root to
 check the manuscript evidence against the twenty-acquisition campaign.

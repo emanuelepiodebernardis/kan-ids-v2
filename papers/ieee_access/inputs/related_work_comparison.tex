@@ -6,12 +6,12 @@
 \toprule
 Work & Starting representation and tabulation & Agreement or quality evidence & Model / application & Hardware placement and energy scope\\
 \midrule
-LUT-KAN~\cite{kuznetsov2026lutkan} & PyKAN-style spline or full-edge functions; segment-wise int8/uint8 tables with interpolation & Empirical error and prediction preservation; explicit boundary policies & Controlled KAN layers and CICIDS2017 DoS & Desktop CPU; spline/LUT comparisons matched within NumPy and Numba backends.\\
-LUT-compiled DoS~\cite{kuznetsov2026lutdos} & Multilayer B-spline KAN; quantized sampled tables with interpolation & Empirical accuracy--memory--latency trade-off & CICIDS2017 binary DoS & Desktop CPU (NumPy/Numba); energy discussed through a latency proxy, without direct power measurements.\\
+CPU LUT-KAN~\cite{kuznetsov2026toolkit} & Spline and edge-function tabulation; segment-wise quantization with interpolation & Empirical approximation error and task-level quality & Synthetic benchmarks; DoS case study & Desktop CPU; NumPy and Numba inference backends.\\
+MCU LUT-KAN~\cite{kuznetsov2026esl,kuznetsov2026mculut} & Quantized sampled basis functions; fixed-point interpolation & Approximation error and empirical task-level quality & Basis-function benchmarks; multilayer CICIDS2017 IDS & ESL: Cortex-M3 basis-function benchmarks. JSA: cross-platform benchmarks and physical Mega 2560 / ESP32-C3 IDS. The present study examines agreement with a frozen integer reference.\\
 KANEL\'{E}~\cite{Hoang2025KANELE} & Complete learned univariate functions mapped to LUTs & Hardware mapping and empirical prediction quality & MNIST, jet classification, tabular and audio benchmarks & FPGA mapping with quantization/pruning; contrasts with sampled interpolation and integer-reference agreement on the measured MCUs.\\
 QuantKAN / KANtize~\cite{fuad2025quantkan,errabii2026kantize} & Low-bit KAN quantization; B-spline and complete-spline tabulation & Quantized accuracy and implementation cost & Quantized KANs & Context for low-bit deployment; different from this frozen evaluator's exhaustive signed-error check.\\
 QEBVerif~\cite{zhang2023qebverif} & Neural network and quantized counterpart & Bounds on quantization error & Quantized neural networks & Formal-verification context; additive finite-domain enumeration here exploits the particular exported score.\\
-This study & Frozen integer coefficients; sampled LUT with interpolation & Exact signed edge intervals; sufficient threshold-agreement certificates & One additive native TON\_IoT score & Mega 2560 and ESP32-C3; matched code/parameter placement; separate physical whole-board USB-energy pilot.\\
+This study & Frozen integer coefficients; sampled LUT with interpolation & Exact signed edge intervals; sufficient threshold-agreement certificates & One additive native TON\_IoT score & Mega 2560 and ESP32-C3; controlled code/parameter placement; matched 500-flow batch time and whole-board USB energy; observed RAM components.\\
 \bottomrule
 \end{tabular}
 \end{table*}

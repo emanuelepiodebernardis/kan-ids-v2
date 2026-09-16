@@ -1,3 +1,10 @@
+# v0.15.2 — 16 September 2026
+
+- Added the journal publications on MCU LUT-KAN, the CPU toolkit, and CNN–KAN quantization and sensor-system characterization, using clean DOI fields without placeholder page ranges.
+- Distinguished established table acceleration, integer interpolation and physical MCU deployment from the implementation-specific coefficient-to-LUT decision-agreement analysis.
+- Extended the closest-work table with an explicitly identified MCU LUT-KAN row and updated this study's hardware scope to the matched HW500 and observed RAM results.
+- Preserved the v0.15.1 title, abstract, proposed author order, all numerical results, equations, figures and experimental evidence. No new fit or hardware measurement was run.
+
 # v0.15.1 — 16 September 2026
 
 - Led the title with decision-agreement certificates and identified integer additive KANs and the IoT intrusion-detection case study explicitly.

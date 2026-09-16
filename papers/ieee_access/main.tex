@@ -11,7 +11,7 @@
 \makeatother
 \DeclareFontShape{T1}{pcr}{n}{n}{<-> ssub * pcr/m/n}{}
 \urlstyle{same}
-\hypersetup{pdftitle={Decision-Agreement Certificates for Integer Additive Kolmogorov-Arnold Networks: A Microcontroller Case Study in IoT Intrusion Detection},pdfauthor={Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni},pdfsubject={Paper 1 IEEE Access working manuscript v0.15.1}}
+\hypersetup{pdftitle={Decision-Agreement Certificates for Integer Additive Kolmogorov-Arnold Networks: A Microcontroller Case Study in IoT Intrusion Detection},pdfauthor={Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni},pdfsubject={Paper 1 IEEE Access working manuscript v0.15.2}}
 \newcommand{\BA}{\operatorname{BA}}
 \newcommand{\TNR}{\operatorname{TNR}}
 \newcommand{\TPR}{\operatorname{TPR}}
@@ -32,7 +32,7 @@
 \patchcmd{\@maketitle}
   {{\vss\doifont Digital Object Identifier\space\@doi\vss}\vspace*{7.4mm}\par}
   {}{}{\PackageError{kanids}{Could not remove unassigned DOI line}{Review the supplied template.}}
-\newcommand{\kanidsdraftfoot}{\hbox to\textwidth{{\footervolfont Working manuscript, version 0.15.1}\hfill{\footerpagefont\thepage}}}
+\newcommand{\kanidsdraftfoot}{\hbox to\textwidth{{\footervolfont Working manuscript, version 0.15.2}\hfill{\footerpagefont\thepage}}}
 \apptocmd{\ps@titlepage}{\def\@oddfoot{\kanidsdraftfoot}\def\@evenfoot{\kanidsdraftfoot}}{}{}
 \apptocmd{\ps@headings}{\def\@oddfoot{\kanidsdraftfoot}\def\@evenfoot{\kanidsdraftfoot}}{}{}
 \makeatother
@@ -83,15 +83,13 @@ The contributions are as follows:
 The classification and deployment experiments serve complementary purposes. The device kernels implement native TON\_IoT models; they are not the harmonized joint-source classifiers. The endpoint-pair-disjoint study fits separate floating models under a frozen protocol; these fits do not replace the deployed weights or the integer certificate. No adaptation, drift-recovery method or new architecture search is introduced.
 
 \section{Related Work and Scope}
-KANs use learnable univariate edge functions~\cite{liu2024kan}. Integer quantization is an established deployment technique~\cite{jacob2018integer}, and earlier LUT-KAN and DoS studies compile these functions into table representations~\cite{kuznetsov2026lutkan,kuznetsov2026lutdos}. This study examines how the exact arithmetic of two frozen integer representations can be compared and how their memory placement affects execution on two microcontrollers.
+KANs use learnable univariate edge functions~\cite{liu2024kan}, and integer quantization is an established deployment technique~\cite{jacob2018integer}. Earlier LUT-KAN work replaces basis-function evaluation with sampled tables, quantization and integer interpolation on microcontrollers~\cite{kuznetsov2026esl,kuznetsov2026mculut}. The latter study also reports a multilayer CICIDS2017 intrusion detector on physical Mega 2560 and ESP32-C3 boards. The CPU toolkit provides segment-wise quantization and interpolation with NumPy and Numba backends and a DoS case study~\cite{kuznetsov2026toolkit}. Table acceleration, integer interpolation and physical MCU deployment are therefore established starting points for the present study.
 
 QuantKAN studies branch-aware low-bit training and post-training
 quantization, while KANtize evaluates the accuracy and hardware cost of
 quantized B-spline and complete-spline tabulation
 \cite{fuad2025quantkan,errabii2026kantize}.
-Earlier LUT-KAN studies define table representations and examine empirical
-accuracy--memory--latency trade-offs
-\cite{kuznetsov2026lutkan,kuznetsov2026lutdos}.
+Hybrid CNN--KAN person detection provides a separate deployment example: Faggi et al. examine quantization strategies and operator conversion for TFLite~\cite{faggi2026quantization}. Their sensor-system study characterizes the effects of runtime, compiler settings and quantization handling on device measurements~\cite{faggi2026sensor}. These results motivate explicit implementation and measurement boundaries; they do not establish agreement or measurement uncertainty for our IDS firmware.
 Formal bounds on differences between neural networks and their quantized
 counterparts also predate this work, for example in QEBVerif
 \cite{zhang2023qebverif}.
@@ -441,7 +439,7 @@ A concrete use case is model maintenance when a separate contribution from every
 
 Several limits constrain inference. Historical test inspection precludes describing these targets as untouched confirmation. Historical random observation-level splits retain content overlap in the checked canonical TON split. The new endpoint-pair split removes repeated endpoint pairs but shares hosts and some transformed inputs across train and test; it is not host- or time-disjoint and omits three attack types from its test subset. BoT has only 477 normal observations, with 95 in each joint outer test, so normal recall is based on a small minority pool. Repeated seeds reuse observations. Baselines differ in categorical encoding and weighting. The inherited compact configurations are not demonstrated optima. The two feature families used for hardware and transfer are different, and the hardware cohort is balanced and much smaller than the full test population.
 
-The device experiments establish prepared-feature execution on one unit of each board type. The HW500 study adds descriptive whole-board energy estimates and time for a common sustained 500-flow workload; five technical runs per model do not establish variation across independent devices or networks. The separate RAM500 study reports static allocations, observed stack watermarks and heap observations. On C3, the loop-task lifetime stack maximum predates inference in every accepted run, so it cannot rank model-specific stack demand. No exact whole-system RAM peak, live traffic processing, long-term thermal behavior or performance under radio and application contention is measured. Instrument accuracy and MCU clock error were not independently calibrated; recording-grid resolution and observed repeatability do not constitute an uncertainty budget. Exact additive explanations describe arithmetic, not causal security mechanisms. These limits delimit the contribution without substituting host or simulator estimates for physical measurements.
+The device experiments establish prepared-feature execution on one unit of each board type. The HW500 study adds descriptive whole-board energy estimates and time for a common sustained 500-flow workload; five technical runs per model do not establish variation across independent devices or networks. The separate RAM500 study reports static allocations, observed stack watermarks and heap observations. On C3, the loop-task lifetime stack maximum predates inference in every accepted run, so it cannot rank model-specific stack demand. No exact whole-system RAM peak, live traffic processing, long-term thermal behavior or performance under radio and application contention is measured. Instrument accuracy and MCU clock error were not independently calibrated; recording-grid resolution and observed repeatability do not constitute an uncertainty budget. The uncertainty characterization in the separate CNN--KAN sensor-system study~\cite{faggi2026sensor} is specific to its measurands and setup and cannot be transferred to these USB-energy estimates. Exact additive explanations describe arithmetic, not causal security mechanisms. These limits delimit the contribution without substituting host or simulator estimates for physical measurements.
 
 \section{Conclusion}
 For the frozen additive KAN, finite-domain enumeration connects a sampled LUT to the exact integer coefficient evaluator, including its rounding rules. Signed edge-error extrema sharpen the symmetric bound and certify 42,206 of 42,209 test decisions for the 20,554-byte table. All test decisions agree empirically. The 10,314-byte alternative leaves twelve decisions uncertified; the extra storage reduces uncertainty without establishing unconditional lossless compilation. These retrospective checks leave the training-only selection and measured kernels unchanged.
@@ -569,7 +567,6 @@ ChatGPT (OpenAI) assisted with drafting and editing throughout the manuscript an
 \end{IEEEbiography}
 \end{minipage}\par
 
-\newpage
 \noindent\begin{minipage}{\columnwidth}
 \phantomsection
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/E_P_Bernardis.png}}]{Emanuele Pio De Bernardis}

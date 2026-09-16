@@ -1,8 +1,8 @@
 {
-  "version": "0.15.1-git-source",
+  "version": "0.15.2-git-source",
   "date": "2026-09-16",
   "language": "en",
-  "scope": "Editorial revision; scientific contents preserved. One EN table-placement specifier changed. Compiled outputs belong only to standalone delivery.",
+  "scope": "Literature and bibliography revision; experimental evidence preserved. Only the related-work comparison table changes; one methodology-scope sentence per language and final-page typesetting reviewed. git-source",
   "files": [
     {
       "path": ".gitattributes",
@@ -22,17 +22,17 @@
     {
       "path": "AUTHOR_METADATA.json",
       "bytes": 2038,
-      "sha256": "90b908661ae1350c168f9d4d79b36e65b1a5153fe99e05e386d7f5cfcb8b5ff1"
+      "sha256": "c7abef4652284207b1fe7d6c4b077e400d975eb03980a677e20e1ed5a0a512d2"
     },
     {
       "path": "CHANGELOG.md",
-      "bytes": 6630,
-      "sha256": "33b9449f21c11115e817cc256ceb6c626d13b691b7df8c846eb3ec42d7480619"
+      "bytes": 7372,
+      "sha256": "fca92814fbeaff5545fa67795903fd4055163934372376ef017f86856e28b50b"
     },
     {
       "path": "GIT_SOURCE_SCOPE.md",
       "bytes": 596,
-      "sha256": "fdfe20b128ba606481340bc0f8de3e2fc955ee3eb1b2c0f9d7d980ee1ea6c65d"
+      "sha256": "91a6fb303f041cc3597887679ca2ab17e746455622beebbd2ee74690d3c31b31"
     },
     {
       "path": "IEEEtran.bst",
@@ -45,14 +45,19 @@
       "sha256": "da751920a317ed318b7b5cd7fa585a6cc7d28502d457856382e9be24b10a3bd7"
     },
     {
+      "path": "LITERATURE_VERIFICATION_V0152.md",
+      "bytes": 2221,
+      "sha256": "73d67f5fcb2e10331d33d63f1bbc7e526552150c2247d93385796752461f8937"
+    },
+    {
       "path": "PACKAGE_SCOPE.md",
-      "bytes": 1451,
-      "sha256": "eb9119288bcf41e731e2e346b7fb449aa924e75a40efbc8c3275179752745338"
+      "bytes": 1849,
+      "sha256": "a0ecf6248a489243a461afbf7d8185160b75fea5d358b3e1aa9206d0da6d2e60"
     },
     {
       "path": "README.md",
-      "bytes": 3641,
-      "sha256": "210fe71e13b9b3239c77a00eb39df1f83c9dc310c3a2ae0ff7c12911c80f766e"
+      "bytes": 4087,
+      "sha256": "2817689f0ce3d8e4624ed102f85791e1c179b452df2db889ee862acf95c15816"
     },
     {
       "path": "TEMPLATE_ASSETS.json",
@@ -256,8 +261,8 @@
     },
     {
       "path": "inputs/related_work_comparison.tex",
-      "bytes": 2328,
-      "sha256": "2053b815e923afc95199c729f40c8e6e114205d78bf6b3e421464898d12665c9"
+      "bytes": 2427,
+      "sha256": "fdad7c9db77aeea45ef906eb38047c67929629eb9a969c74296b9afc6f20f61c"
     },
     {
       "path": "inputs/signed_certificate.tex",
@@ -281,8 +286,8 @@
     },
     {
       "path": "main.tex",
-      "bytes": 83407,
-      "sha256": "8b2e13620c0dedf5224af07c6df0dda3bcf75cfd73b654c3804b2e3320c9bfdc"
+      "bytes": 84207,
+      "sha256": "86dd5c322d081224510444ef378845a3c1e88953a28c59897e38547324d8b483"
     },
     {
       "path": "notaglinelogo.png",
@@ -291,8 +296,8 @@
     },
     {
       "path": "references.bib",
-      "bytes": 10827,
-      "sha256": "fc3072f0e94e91e04986265f021624a80cef4931d1685d20a95671750d4854aa"
+      "bytes": 12839,
+      "sha256": "e4f9c876549fe8a2efe1b58fda2680ed3e20224236740b2ef16d6edabe25d037"
     },
     {
       "path": "scripts/build_paper.py",
@@ -515,6 +520,11 @@
       "sha256": "f2f1e0a8f0cccf0cbc6c049ea2138408f1c3c3466969a46ef2f69dd6ce372a07"
     },
     {
+      "path": "verification/BIBLIOGRAPHY_V0152.json",
+      "bytes": 6861,
+      "sha256": "9da761d361fb38078337ee4ba1521d0eeef8ff601d5dfc70e33ec84628e3b965"
+    },
+    {
       "path": "verification/CONTENT_QA_V011.json",
       "bytes": 388,
       "sha256": "b4fcaf6db24a00d9fb05d058ffa851383f2014763ad2d1ad35edffaf88e0315c"
@@ -528,6 +538,11 @@
       "path": "verification/EDITORIAL_V0151_QA.json",
       "bytes": 1364,
       "sha256": "8e6dcf589563090310bd2ded3f16563489f2cf23d723fd4ae6d36fce0f3b3ca0"
+    },
+    {
+      "path": "verification/EDITORIAL_V0152_QA.json",
+      "bytes": 1511,
+      "sha256": "d1d67f8b8365d5fac0deb5e08a5083c5b56a53e59b9e2bb18fe35aced9b47a36"
     },
     {
       "path": "verification/EN_QA_V010.json",
