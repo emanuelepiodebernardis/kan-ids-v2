@@ -1,0 +1,23 @@
+........................................................................ [ 11%]
+........................................................................ [ 22%]
+........................................................................ [ 34%]
+........................................................................ [ 45%]
+........................................................................ [ 56%]
+..s..............................ssssssss......................ss....... [ 68%]
+.......................................................s..s........ [ 78%]
+............sssssss..............................................ssss... [ 89%]
+.............................................................ss.         [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_encoding.py:461: su questo sistema os.linesep e' gia' LF: il difetto non si manifesta qui, ma il test sopra protegge Windows
+SKIPPED [7] tests/test_energy_firmware.py:385: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [1] tests/test_energy_firmware.py:411: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [1] tests/test_footprint_architettura.py:111: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [1] tests/test_footprint_architettura.py:135: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [1] tests/test_lut.py:188: artifacts/finalization/ assente: e' un prerequisito, non un fallimento. Lo producono le fasi di preparazione di `python reproduce.py --stage lut` (oppure, a mano, `python scripts/prepare_finalization_data.py train --csv <TON.csv> --out artifacts/finalization`), e serve il CSV di TON_IoT
+SKIPPED [1] tests/test_lut.py:260: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [6] tests/test_no_float_avr.py:82: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [1] tests/test_no_float_avr.py:98: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [3] tests/test_q15_mul.py:138: avr-g++ non trovato in: variabile $AVR_CXX; PATH (avr-g++); /root/.platformio/packages/toolchain-atmelavr/bin — si ottiene installando un environment AVR di PlatformIO (pio pkg install -t toolchain-atmelavr)
+SKIPPED [1] tests/test_reproduce_lut_phases.py:68: train_test_network.csv assente: e' un prerequisito dichiarato dello stage 'lut', non un fallimento. La catena parte dal CSV e ricostruisce la calibrazione; senza dataset non e' eseguibile
+SKIPPED [2] tests/test_stato_multiclasse.py:112: dataset non disponibile: FileNotFoundError
+609 passed, 26 skipped, 5 subtests passed in 26.51s

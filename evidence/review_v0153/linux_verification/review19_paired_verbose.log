@@ -1,0 +1,29 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- /workspace/scratch/fa15c524971b/review19_venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/scratch/fa15c524971b/review_kan_20260919/experiments/hardware_validation_20260916/paired_software/source_snapshot
+collecting ... collected 19 items
+
+tests/test_archive_integrity.py::ArchiveIntegrityTests::test_complete_run_cannot_accept_a_truncated_score_file PASSED [  5%]
+tests/test_archive_integrity.py::ArchiveIntegrityTests::test_failed_run_preserves_partial_evidence_for_diagnosis PASSED [ 10%]
+tests/test_audit_dataset.py::AuditTests::test_duplicate_groups_preserved_and_source_not_changed PASSED [ 15%]
+tests/test_audit_dataset.py::AuditTests::test_reverse_direction_and_label_independence PASSED [ 21%]
+tests/test_audit_dataset.py::AuditTests::test_wrong_dataset_refused_before_output_creation PASSED [ 26%]
+tests/test_pilot.py::SelectionTests::test_actual_model_input_overlap_counts_rows_and_unique_keys PASSED [ 31%]
+tests/test_pilot.py::SelectionTests::test_cross_split_group_is_rejected PASSED [ 36%]
+tests/test_pilot.py::SelectionTests::test_test_rows_are_not_materialized_or_label_parsed PASSED [ 42%]
+tests/test_pilot.py::TinyTrainingTests::test_targets_invariance_additivity_and_convergence_visibility PASSED [ 47%]
+tests/test_pilot.py::TinyTrainingTests::test_train_only_vocab_and_unknown_policies PASSED [ 52%]
+tests/test_study.py::StudyTests::test_all_fits_finish_in_order_before_freeze_and_failure_cannot_freeze PASSED [ 57%]
+tests/test_study.py::StudyTests::test_atomic_score_writer_rejects_incomplete_output_without_publish PASSED [ 63%]
+tests/test_study.py::StudyTests::test_atomic_score_writer_roundtrip_large_and_truncation_rejected PASSED [ 68%]
+tests/test_study.py::StudyTests::test_checkpoint_tamper_rejected_before_deserialization PASSED [ 73%]
+tests/test_study.py::StudyTests::test_deterministic_repeats_do_not_become_independent_samples PASSED [ 78%]
+tests/test_study.py::StudyTests::test_no_test_access_without_all_fits_and_matching_preprocessor PASSED [ 84%]
+tests/test_study.py::StudyTests::test_protocol_seed_threshold_and_hyperparameter_guard 
+tests/test_study.py::StudyTests::test_protocol_seed_threshold_and_hyperparameter_guard PASSED [ 89%]
+tests/test_study.py::StudyTests::test_source_assignment_and_output_row_alignment PASSED [ 94%]
+tests/test_study.py::StudyTests::test_undefined_single_class_and_empty_metrics PASSED [100%]
+
+--- generated xml file: /workspace/scratch/fa15c524971b/review19_paired.xml ----
+==================== 19 passed, 4 subtests passed in 1.52s =====================

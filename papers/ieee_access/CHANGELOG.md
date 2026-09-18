@@ -1,3 +1,12 @@
+# v0.15.3 — 19 September 2026
+
+- Retained both ESP32-C3 outcomes explicitly in the abstract: the placement-qualified controlled-protocol speedup and the original five-implementation slowdown.
+- Identified the four uncertified canonical test rows as the symmetric-margin result; preserved the signed-interval count of three.
+- Added the five missing table references and a concise discussion of the DT5 AUROC, without asserting an unmeasured cause.
+- Replaced the obsolete public baseline reference with reviewed software commit b219fb6671442e2e5dfcda5b6ea49a04d57e7960; kept complete archival deposition explicitly pending.
+- Condensed repetitive availability prose while preserving its evidence boundaries and adjusted local biography spacing to keep all three biographies and the end marker on page 25.
+- Preserved all formulas, numerical results, tables, figures, bibliography entries and historical evidence. No new training, hardware measurement, or alteration of historical receipts.
+
 # v0.15.2 — 16 September 2026
 
 - Added the journal publications on MCU LUT-KAN, the CPU toolkit, and CNN–KAN quantization and sensor-system characterization, using clean DOI fields without placeholder page ranges.

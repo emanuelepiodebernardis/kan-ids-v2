@@ -1,8 +1,8 @@
 {
-  "version": "0.15.2-git-source",
-  "date": "2026-09-16",
+  "version": "0.15.3-source",
+  "date": "2026-09-19",
   "language": "ru",
-  "scope": "Literature and bibliography revision; experimental evidence preserved. Only the related-work comparison table changes; one methodology-scope sentence per language and final-page typesetting reviewed. git-source",
+  "scope": "Editorial response to coauthor review; numerical tables, equations, figures and frozen experimental evidence preserved. Independent arithmetic script and input headers added with attribution. source",
   "files": [
     {
       "path": ".gitattributes",
@@ -17,17 +17,17 @@
     {
       "path": "AUTHOR_METADATA.json",
       "bytes": 2228,
-      "sha256": "e4848ab030f8d7c9964fee8a98dcbd1b77c03199cf34ca537dd1bf96dccf3c03"
+      "sha256": "54dedcca70b39ba26f374562a1664049a03aaa1b2576b69c89ee0ba4aea5ee2d"
     },
     {
       "path": "CHANGELOG_RU.md",
-      "bytes": 12250,
-      "sha256": "8af7441202a6a8dc49cc7eabb77758f42f5d43d378db32fa2cd2240daf75cca2"
+      "bytes": 14435,
+      "sha256": "279d5ffd9bee9a58fdacff77696733d65f1d986cf2e64a26a373594747e2db85"
     },
     {
       "path": "GIT_SOURCE_SCOPE.md",
       "bytes": 595,
-      "sha256": "35751d9aa85df87a6c079f05ee55766a6ddd75c9bb4382cdf32879e6bf7eaea1"
+      "sha256": "1feb343985e18b45e72dbde49bc9bc67ec894ede8ca2af731c4e6611e3827edc"
     },
     {
       "path": "IEEEtran.bst",
@@ -41,13 +41,13 @@
     },
     {
       "path": "PACKAGE_SCOPE.md",
-      "bytes": 2781,
-      "sha256": "5264813a3eb0918346d370c7688586dc7990de9b2243c38c8fcbd3c115616568"
+      "bytes": 2898,
+      "sha256": "afe0d52fb80924e0dbfa74fe36f965a464d02533279844b9e8b5c7d8c69cd8c0"
     },
     {
       "path": "README_RU.md",
-      "bytes": 6850,
-      "sha256": "92c669e42bab116dfb5196982c15ef7d2009878a474ec431b5e4ea7ccd310a5e"
+      "bytes": 8828,
+      "sha256": "e0b4626159c20a7fb641374a8f13aa8472ec2114f28f3a2d4b7974507651cbd3"
     },
     {
       "path": "assets/orcid/README.md",
@@ -151,8 +151,8 @@
     },
     {
       "path": "inputs/duplicate_sensitivity.tex",
-      "bytes": 2450,
-      "sha256": "f8dc00c37a8524a497c6f88dd8ed961b090745593003b27ce48c8e857b5f3fef"
+      "bytes": 2489,
+      "sha256": "568c75c15b6bb5d0022fc224d443dc1d6d520e00f4dc3fa678deefbbf70d259f"
     },
     {
       "path": "inputs/energy_full_precision.tex",
@@ -161,8 +161,8 @@
     },
     {
       "path": "inputs/energy_pilots.tex",
-      "bytes": 16560,
-      "sha256": "4d1c8ab89318c0d9c008555f05748ef30ad4d4eb05fb6c2f878c9660513a38da"
+      "bytes": 16900,
+      "sha256": "89b77fe4a3316e7984fdd75e3880654f764c9f2a2af7bb163b02238ed40991fb"
     },
     {
       "path": "inputs/energy_setup.tex",
@@ -201,8 +201,8 @@
     },
     {
       "path": "inputs/pair_stage2.tex",
-      "bytes": 6647,
-      "sha256": "2a8831fefd574e1286dd1da66fe91d9e6e7bcfff0b4f3a7efef7373714b138a1"
+      "bytes": 7237,
+      "sha256": "9f5ac805034c8cec663bead2c5aa53ecba533d4d111e0e76b4dd83cc70678be1"
     },
     {
       "path": "inputs/protocol_map.tex",
@@ -221,8 +221,8 @@
     },
     {
       "path": "inputs/signed_certificate.tex",
-      "bytes": 11127,
-      "sha256": "5a60e98216bc74f58b4a3eb7fe366c94c4118e4586c528f173e18889eb2479d9"
+      "bytes": 11168,
+      "sha256": "cc09e28b6fc9817d4d90800d14894e9fe4a78029d765971127a2fb832be6964b"
     },
     {
       "path": "inputs/unsw_auc.tex",
@@ -236,8 +236,8 @@
     },
     {
       "path": "main.tex",
-      "bytes": 16119,
-      "sha256": "5b324c783cd422627b54f5b5594adb43813c411d2003abc64d85ae76cc47d40c"
+      "bytes": 16317,
+      "sha256": "4a049d44d9630ed16724d016751137b133b2a91478107aef318ee82a3c8ffd33"
     },
     {
       "path": "parts/a_ru.tex",
@@ -246,13 +246,13 @@
     },
     {
       "path": "parts/b_ru.tex",
-      "bytes": 29516,
-      "sha256": "3c4e35e83fff3203d497d063fc5d84d9495830ea0deadc84a7b754d8c80c1720"
+      "bytes": 29708,
+      "sha256": "595fa9f40aa359a4c67f3d8f405e00f3a9296afe0010be05919a226975039fd5"
     },
     {
       "path": "parts/c_ru.tex",
-      "bytes": 56112,
-      "sha256": "e51ddc393d1ce3109561c3ca155b720b9288a79e1e385ccc824221009a5aa466"
+      "bytes": 56753,
+      "sha256": "e1bab4b70a9e17222733a1d4b774a8e3e43613dfd22c28015e91bd7469fef7fb"
     },
     {
       "path": "references.bib",
@@ -300,6 +300,11 @@
       "sha256": "f0579f5f78214578fbd93db9fba67cbd9eb7741c16efdfec772767d295362e69"
     },
     {
+      "path": "verification/EDITORIAL_V0153_QA.json",
+      "bytes": 1346,
+      "sha256": "8eba5b24c2a93d8270bb653360f9cd6e16f0239c38b7cf33e1340346e3593f58"
+    },
+    {
       "path": "verification/ENERGY_RESULTS_V011.json",
       "bytes": 4800,
       "sha256": "01cd0b1b389348da6465136f43f0ddff4c86ecf42c94367ec9be396474ca3401"
@@ -313,6 +318,36 @@
       "path": "verification/FINAL_SCIENTIFIC_QA.json",
       "bytes": 3859,
       "sha256": "f8e95a607cf48d0a0063fc62bb05e8e016068774f706837409f2c849ae15480c"
+    },
+    {
+      "path": "verification/INDEPENDENT_CERTIFICATE_V0153/PROVENANCE.json",
+      "bytes": 971,
+      "sha256": "852cfa938c701856476e89c689f7d290a616b7bff1de645c3eb5f834a1da7cd8"
+    },
+    {
+      "path": "verification/INDEPENDENT_CERTIFICATE_V0153/README.md",
+      "bytes": 992,
+      "sha256": "1b778e55aa1c76c7ece43dfbf7c8abd15504945469473ecd2d724d6d8ed312cb"
+    },
+    {
+      "path": "verification/INDEPENDENT_CERTIFICATE_V0153/RESULTS.txt",
+      "bytes": 1348,
+      "sha256": "14587cb54f1094d1d3e603ee843e7bea9d0d7cda46dda84250d3416b4afc25de"
+    },
+    {
+      "path": "verification/INDEPENDENT_CERTIFICATE_V0153/headers/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "verification/INDEPENDENT_CERTIFICATE_V0153/headers/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "verification/INDEPENDENT_CERTIFICATE_V0153/verifica_certificato.py",
+      "bytes": 5327,
+      "sha256": "620e9785beb6097d17db26bc7849bab32bb3011f35118a206f67a035f8529d72"
     },
     {
       "path": "verification/INDEPENDENT_NUMERIC_QA_V012.json",

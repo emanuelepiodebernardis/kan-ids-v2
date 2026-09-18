@@ -51,8 +51,11 @@ pytest -q -rs
 | `ram500/runner` | 49 passed, 150 subtests |
 | `paired_software/source_snapshot` | 19 passed, 4 subtests |
 
-In totale 148 test e 242 subtest, senza fallimenti e senza skip, nello stesso
-ambiente in cui gira la suite principale.
+La somma delle cinque esecuzioni è 148 test e 242 subtest, senza fallimenti
+e senza skip. Le suite `hw500/runner` e `ram500/runner` raccolgono già i
+rispettivi test sotto `project/`: i controlli distinti sono quindi 145 test
+e 172 subtest. I due lanci separati di `project/` verificano anche che questi
+sottoprogetti siano eseguibili dalla propria radice.
 
 ### Perché non si raccolgono dalla radice
 
@@ -104,3 +107,17 @@ compilatore con `$CXX` e togliendo la sua cartella dal PATH.
 
 Se il compilatore non c'è, i test si saltano dicendo quale manca e dove è
 stato cercato, invece di saltarsi in silenzio.
+
+## 4. Limite del controllo sull’I/O negli snapshot
+
+La suite di encoding ordinaria non scandisce `experiments/`. Una scansione
+in sola lettura del commit `b219fb6`, conservata in
+`evidence/review_v0153/EXPERIMENTS_TEXT_IO_AUDIT.json`, rileva 41 chiamate
+senza encoding esplicito e 29 scritture senza newline esplicito. Le liste
+si sovrappongono; non sono conteggi di errori osservati. Le chiamate senza
+encoding erano 42 prima della correzione della lettura di `serial.log`.
+
+Gli snapshot e i dati storici restano invariati. Eventuali correzioni future
+vanno applicate in versioni di lavoro distinte e tracciate, preservando
+i riferimenti agli originali. Il rapporto non estende la copertura del
+pytest ordinario e non certifica la portabilità di tutto `experiments/`.

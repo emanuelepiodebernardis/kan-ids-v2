@@ -1,0 +1,47 @@
+{
+  "commit": "b219fb6671442e2e5dfcda5b6ea49a04d57e7960",
+  "environment": "Linux, Python 3.12, review19_venv",
+  "main": {
+    "passed": 609,
+    "skipped": 26,
+    "subtests_passed": 5
+  },
+  "nested_distinct": {
+    "passed": 145,
+    "subtests_passed": 172,
+    "failed": 0
+  },
+  "windows": "Reported by Emanuele; not independently executed in this review",
+  "logs": [
+    {
+      "path": "review19_root_junit.log",
+      "sha256": "d922fcc97c0025c2dddaf3c61526b7c7b7e001df0f13a3e05f7470a50ee478b9",
+      "bytes": 3692
+    },
+    {
+      "path": "review19_root.xml",
+      "sha256": "e77c8c0ee235625f2e2a17bbd27641a1bd0e455d586189db124e5bc3ff41c4be",
+      "bytes": 95040
+    },
+    {
+      "path": "review19_hw500_pytest.log",
+      "sha256": "557a4609fb10ff4d9832370fbce9a005090c35b9b47435317f4ae470e6637871",
+      "bytes": 182
+    },
+    {
+      "path": "review19_ram500_pytest.log",
+      "sha256": "f8ca5b4b2d1d609ed80316927c231f92b8f4999cc4ff89800277954173614b9f",
+      "bytes": 122
+    },
+    {
+      "path": "review19_paired_verbose.log",
+      "sha256": "a670d488c2265e1f77db57d03bd89223b643c99db9c45af8d8c5452d6c583c2a",
+      "bytes": 2679
+    },
+    {
+      "path": "review19_paired.xml",
+      "sha256": "44ec470ccfa96b6b224239b6e81e0931fb6d915458d67dcb69c3b138f7e17a46",
+      "bytes": 2754
+    }
+  ]
+}

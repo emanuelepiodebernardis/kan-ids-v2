@@ -50,6 +50,10 @@ Spline GAM & $0.97003\pm0$ & $0.99561\pm0$ & $5.724\pm0$ & $99.730\pm0$ & $0.996
 The KAN exceeds DT5 in balanced accuracy on this split but remains below both
 MLP16 and the spline GAM (Table~\ref{tab:pair-stage2}). Its F1 of 0.98695
 coexists with a 20.594\% false-positive rate, which limits deployment usefulness.
+DT5 has AUROC 0.49014 despite its high attack recall at the fixed threshold;
+its scores therefore provide poor overall ranking on this holdout. This is a
+separate diagnostic from thresholded F1, and the present comparison does not
+establish the cause of the ranking failure.
 For the 35,198 test rows whose transformed inputs are absent from training,
 mean KAN BA is 0.89638, F1 is 0.98613, and FPR is 20.248\%; this subgroup has
 3,623 normal and 31,575 attack rows. The matching-input subgroup contains only

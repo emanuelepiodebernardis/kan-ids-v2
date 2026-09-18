@@ -1,0 +1,32 @@
+$ python3 verifica_certificato.py headers
+header letti da: /workspace/scratch/fa15c524971b/revision_v0153/repo/evidence/review_v0153/independent_certificate/headers
+edge numerici: 10   coefficienti per edge: 19
+L = 1025   passo = 8
+
+COINCIDE  esponenti di scala r_i
+             manoscritto: (7, 7, 7, 6, 7, 6, 7, 6, 7, 6)
+             ricalcolato: (7, 7, 7, 6, 7, 6, 7, 6, 7, 6)
+COINCIDE  somma dei b_r su tutti i t ammissibili (min, max)
+             manoscritto: (196607, 196609)
+             ricalcolato: (196607, 196609)
+             (6F varrebbe 196608)
+COINCIDE  base a q=-4094, cioe' t=128
+             manoscritto: (32385, 131072, 33152, 0)
+             ricalcolato: (32385, 131072, 33152, 0)
+COINCIDE  errori per edge E_i(1025)
+             manoscritto: (889, 491, 225, 327, 252, 294, 597, 271, 601, 324)
+             ricalcolato: (889, 491, 225, 327, 252, 294, 597, 271, 601, 324)
+COINCIDE  B(1025) = somma degli E_i
+             manoscritto: 4271
+             ricalcolato: 4271
+COINCIDE  intervallo segnato (D_-, D_+)
+             manoscritto: (-3426, 2324)
+             ricalcolato: (-3426, 2324)
+COINCIDE  byte degli array a coefficienti
+             manoscritto: 254
+             ricalcolato: 254
+COINCIDE  byte degli array della LUT
+             manoscritto: 20554
+             ricalcolato: 20554
+
+Tutti gli 8 confronti coincidono.
