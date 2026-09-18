@@ -358,7 +358,7 @@ class FramedTransportTests(unittest.TestCase):
    capture.close()
    self.assertEqual(wire.commands,['RUN '+TOKEN,'RESULT '+TOKEN,'RESULT '+TOKEN])
    state=r.read_json(Path(td)/'TRANSPORT_STATE.json');self.assertEqual(state['pending_partial_ascii'],'DO')
-   self.assertIn('DO',(Path(td)/'serial.log').read_text())
+   self.assertIn('DO',(Path(td)/'serial.log').read_text(encoding='utf-8'))
    self.assertEqual(len([event for event in state['recovery_events'] if event['event']=='frame_timeout']),3)
  def test_result_and_control_tokens_are_bound_to_baseline(self):
   baseline=r.validate_result(result_lines('c3',run_token=TOKEN),'c3','coeff',audit('c3'),TOKEN)
