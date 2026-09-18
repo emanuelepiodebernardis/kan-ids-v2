@@ -34,6 +34,13 @@ matplotlib>=3.7,<4
 seaborn>=0.12,<1
 reportlab>=4.0,<5          # scripts/make_report.py
 pillow>=10,<13             # usata da reportlab per le immagini
+# `DataFrame.to_markdown()` non fa il lavoro da se': delega a tabulate, e
+# senza di esso solleva ImportError. scripts/pacchetto_finale.py la chiama
+# alla riga 267 per scrivere le tabelle del rapporto, quindi tabulate e' una
+# dipendenza vera dello script, non un extra. Mancava dal 26 agosto (commit
+# 73e3c17, quello che ha introdotto to_markdown): chi installava solo
+# requirements.txt otteneva un pacchetto che non si costruiva.
+tabulate>=0.9,<1           # scripts/pacchetto_finale.py: to_markdown()
 
 # ── test ────────────────────────────────────────────────────────────
 pytest>=7.4,<10
