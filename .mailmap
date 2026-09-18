@@ -1,0 +1,35 @@
+# Identita' degli autori, normalizzate senza toccare la storia.
+#
+# Il commit 73b8da7 ("Terzo commit: catena LUT completa, registro degli
+# environment, stati del report") risulta scritto da `E <e@x>`: un'identita'
+# segnaposto rimasta nella configurazione git dell'ambiente in cui quella
+# patch fu generata. Gli altri due commit dello stesso lavoro, b26ac62 e
+# c3342f1, portano l'autore corretto.
+#
+# L'identita' non e' stata dedotta, e' documentata dentro git. Nel repository
+# di lavoro di Emanuele Pio De Bernardis, ramo integrazione-v0.9.1, il commit
+# corrispondente e' df9a22a, con albero ce21d8414605b1c2fbe9a4de3ab275a0c74724ea
+# — lo stesso albero di 73b8da7 — e li' il campo COMMITTER porta
+# "Emanuele Pio De Bernardis <emanuelepio.debernardis@gmail.com>": solo il
+# campo author era rimasto al segnaposto. Il commit ha per genitore 2493f2c,
+# scritto e committato da lui, che a sua volta discende da d2b9a19, idem. Su
+# 52 commit di quel repository l'indirizzo e@x compare una volta sola,
+# proprio li'; gli altri 51 portano il suo. Anche il fuso conferma
+# l'anomalia isolata: la data di autore e' +0000 mentre i commit intorno sono
+# +0200.
+#
+# Correggerlo riscrivendo il commit non e' un'opzione: 73b8da7 ha otto commit
+# a valle, quindi cambierebbero tutti gli SHA successivi, compreso il commit
+# finale ca92318 che il pacchetto v0.15.2 dichiara e che e' stato verificato.
+# L'albero resterebbe identico, gli identificatori no, e la corrispondenza
+# fra quanto consegnato e quanto verificato andrebbe persa.
+#
+# .mailmap e' il meccanismo che git prevede esattamente per questo caso:
+# associa un'identita' canonica a una scritta male, e `git log`, `git
+# shortlog` e `git blame` la mostrano corretta senza che un solo byte della
+# storia cambi. Il file e' versionato, quindi la correzione viaggia con il
+# repository invece di restare nella configurazione di chi guarda.
+#
+# Formato: <nome canonico> <email canonica> <nome usato> <email usata>
+
+Emanuele Pio De Bernardis <emanuelepio.debernardis@gmail.com> E <e@x>
