@@ -1,0 +1,19 @@
+{
+  "status": "OFFLINE_PROTOCOL_AND_ANALYSIS_ONLY",
+  "utc": "2026-09-08T12:24:01.927740+00:00",
+  "hardware_acquired": false,
+  "firmware_flashed": false,
+  "synthetic_validation": {
+    "command": "python -m pytest -q tests/test_energy_trace_aggregation.py",
+    "passed": 10,
+    "failed": 0,
+    "log": "evidence_local/energy_protocol/02_synthetic_aggregation_tests.log"
+  },
+  "initial_test_correction": "Analytical fixture reference integral corrected from 4.6208 J to 4.7008 J; initial failure log retained.",
+  "main_energy_change": "uint64 intermediate duration sums/products and comparison parameters; documentation claims clarified. Target/hardware validation delegated to main task.",
+  "sha256": {
+    "templates/energy_acquisition.json": "ff5d91c91b30940e015ae0b54bd9b800145e93faeb129f2e085d7a7ddbabffbb",
+    "tools/aggregate_energy_trace.py": "0e47c102fa678165220c905482b067e80721bdd2170b1c8591a0d7f5b8c0a3d4",
+    "tests/test_energy_trace_aggregation.py": "a3b23319baed30de1b8fcb85d7fdb6798ea336168cc5e1ce7999557572ed43cd"
+  }
+}

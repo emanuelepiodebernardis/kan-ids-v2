@@ -1,0 +1,8 @@
+{
+  "filename": "KAN_IDS_HARDWARE_20_PILOTS_CHECKPOINT_20260915.zip",
+  "bytes": 25978451,
+  "sha256": "9d6b6de68857171c5c753fe8214bf75f9851f4d12a1b947177c8600c3f65734e",
+  "availability": "Author-held review checkpoint; not yet a public release or DOI. Place it outside the Git worktree.",
+  "contents": "All 20 original CFNs and run archives, actual ELF/BIN/HEX images, complete acquisition source packages, independent binary/provenance/marker audits.",
+  "public_release_action": "After coauthor review, attach the unchanged checkpoint to a versioned GitHub release or archival repository and add its permanent URL. Do not replace the hash with an unverified upload."
+}

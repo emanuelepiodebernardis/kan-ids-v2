@@ -1,0 +1,12 @@
+# Actual software-check environment, Python 3.12.13
+# This is separate from the saved author training environment. No classifier was retrained.
+numpy==2.3.5
+pandas==2.2.3
+scikit-learn==1.8.0
+scipy==1.17.0
+joblib==1.5.3
+matplotlib==3.10.8
+reportlab==4.4.9
+Pillow==12.3.0
+pytest==9.1.1
+platformio==6.2.0

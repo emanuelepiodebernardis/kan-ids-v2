@@ -1,0 +1,17 @@
+{
+  "schema": "kanids-c3-board-target-v1",
+  "confirmed_utc_date": "2026-09-15",
+  "confirmation_source": "user serial.tools.list_ports -v output",
+  "expected_usb_vid": 12346,
+  "expected_usb_pid": 4097,
+  "expected_usb_serial": "10:00:3B:CB:8D:70",
+  "current_port": "COM10",
+  "historical_match": "ESP32C3_FOLLOWUP_20260910T114135Z_0b638fac",
+  "other_board_excluded": {
+    "serial": "10:00:3B:CC:2C:C4",
+    "port_at_observation": "COM12"
+  },
+  "led": "GPIO8 active LOW is provisional configuration; requires physical LEDTEST observation before first run",
+  "meter": "FNIRSI FNB58 SN104332; same inline USB 5V setup",
+  "scope": "five frozen model variants; 2 acquisitions each; old C3 only; no training; no new board campaign"
+}

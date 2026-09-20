@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "evidence_type": "independently_generated_host_xai_artifacts",
+  "source_split": "train",
+  "n_train_rows": 168834,
+  "source_csv_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+  "row_ids_sha256": "096300264d770c884cff39ed17b26564538976e692f1b3ec5234db68cd8dca0d",
+  "train_npz_sha256": "5fceda026459f3e670ccdd67b6f33f30b6bf7e54e5b61cd53d2d2865ec37b5e3",
+  "train_metadata_sha256": "c6db99f5911afddc75effb0665368ae393da0ec363d32c1a6e2e432a46ea96ca",
+  "model_header_sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea",
+  "golden_header_sha256": "405c477d7484fe8775bc7f2a1941197901e619aedbb61e0a22830c34f03ed7eb",
+  "vocabulary_sha256": "557365b65a80e679c020796d843bdb0db4065453a578249f5673a89add956fe6",
+  "script_sha256": "94ac8d12cde098c8552fc9685703b260c561369153e8222caf6ed609b64dc611",
+  "module_sha256": "5893bc43a8da84b130b94a80e3fd5d710538c265bf6f04cf64e26b83fb2dc12f",
+  "histogram_policy": "24 equal-width bins on [-CLIP,+CLIP], frequencies scaled per panel for display",
+  "golden_prediction_agreement": {
+    "matches": 200,
+    "total": 200
+  },
+  "local_examples_source": "historical_balanced_test_golden_vectors",
+  "local_example_rule": "maximum predicted-attack logit; minimum predicted-normal logit; minimum absolute logit",
+  "selected_golden_indices": [
+    7,
+    140,
+    29
+  ],
+  "train_support_rug": "unique observed Q12 values; histogram includes every training row",
+  "terms_centered": false,
+  "limitations": [
+    "computational terms, not causal attribution",
+    "uncentered terms do not define unique feature importance",
+    "discrete-code interpolation need not be semantically feasible",
+    "single-layer original-input decomposition only",
+    "no hardware execution or energy measurement performed by this script"
+  ],
+  "artifacts": {
+    "figures/fig_kan_funzioni_apprese.png": "9913f97fc8f9d2f5444840faafd7e63542e13acee480d3c75429613cac758535",
+    "figures/fig_kan_contributi_locali.png": "9fa5011fca9981609f0459931d7effa2811238f48abac6001b69a674fb1294db",
+    "results/interpretabilita_contributi.csv": "caeabe76b791ae5ddfe6c1af01bce1e8a33196962c28f6f468df97c595e7a328",
+    "results/interpretabilita_escursione.csv": "cfc6f3497e05e546bdebe04a542f1b70a6833cf8bd4531525bf468fba9f383c5"
+  }
+}

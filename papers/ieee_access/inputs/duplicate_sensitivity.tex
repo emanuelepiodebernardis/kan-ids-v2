@@ -1,0 +1,14 @@
+\begin{table*}[t]
+\caption{Post-hoc exact-row-overlap sensitivity of the frozen integer model on the canonical TON test set. Coefficients and both fixed LUTs ($L=513,1025$) give identical decisions in every row below. Equality is across all 44 parsed raw columns, including labels and addresses, with the retained missing-value parsing; ``no exact match'' does not mean independent or cleanly deduplicated.}
+\label{tab:duplicate-sensitivity}
+\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+Test subgroup & $N$ & Normal & Attack & TN & FP & FN & TP & FPR & TPR & BA / F1\\
+\midrule
+All & 42,209 & 10,000 & 32,209 & 9,786 & 214 & 896 & 31,313 & .0214 & .9722 & .9754 / .9826\\
+Exact training match & 5,201 & 1,634 & 3,567 & 1,609 & 25 & 0 & 3,567 & .0153 & 1.0000 & .9924 / .9965\\
+No exact training match & 37,008 & 8,366 & 28,642 & 8,177 & 189 & 896 & 27,746 & .0226 & .9687 & .9731 / .9808\\
+\bottomrule
+\end{tabular}
+\end{table*}

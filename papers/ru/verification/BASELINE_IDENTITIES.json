@@ -1,0 +1,14 @@
+[
+  {
+    "language": "en",
+    "archive": "KAN_IDS_PAPER1_IEEE_ACCESS_SOURCE_20260912_v0.9.0.zip",
+    "sha256": "6db878e8ca370a876302c39330ea34f5d0f78e968b3c33c5551fc23887b512f7",
+    "manifest_payloads_verified": 87
+  },
+  {
+    "language": "ru",
+    "archive": "KAN_IDS_PAPER1_RU_SOURCE_20260912_v0.9.0.zip",
+    "sha256": "744cbbb6159c9f6c66dbf48621a0405d42e7ea0bbcc2fccba5df1df11e3011c4",
+    "manifest_payloads_verified": 42
+  }
+]

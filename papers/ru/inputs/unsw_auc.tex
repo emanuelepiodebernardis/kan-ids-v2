@@ -1,0 +1,17 @@
+\begin{table}[!htbp]
+\centering\small
+\caption{Исторические AUROC расширенных совместных моделей на UNSW: среднее и выборочное SD десяти сохранённых метрик. Проверена агрегация, но сам расчёт AUROC без построчных scores независимо не повторён.}
+\label{tab:unsw-auroc}
+\begin{tabular}{lrr}
+\toprule
+Модель & AUROC, среднее $\pm$ SD & Ниже 0.5 / 10\\
+\midrule
+Аддитивная KAN & $0.324164\pm0.056729$ & 10\\
+Многослойная KAN & $0.330055\pm0.055499$ & 10\\
+MLP16 & $0.277736\pm0.038753$ & 10\\
+DT5 & $0.371359\pm0.069769$ & 10\\
+LightGBM & $0.370156\pm0.072272$ & 9\\
+XGBoost & $0.413953\pm0.074862$ & 8\\
+\bottomrule
+\end{tabular}
+\end{table}

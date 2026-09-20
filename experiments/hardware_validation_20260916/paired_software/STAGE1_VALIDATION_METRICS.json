@@ -1,0 +1,184 @@
+{
+  "schema": "kanids-pair-disjoint-pilot-v1",
+  "status": "PILOT_ONLY_NOT_FINAL_STUDY",
+  "nonconverged": false,
+  "model_seed": 20260916,
+  "preprocessing_seed": 20260916,
+  "training_rows": 119334,
+  "validation_rows": 53622,
+  "metrics_partition": "validation",
+  "test_transforms": 0,
+  "test_predictions": 0,
+  "validation_used_for_fit_or_model_selection": false,
+  "decision_threshold": 0.5,
+  "models": {
+    "kan": {
+      "n": 53622,
+      "threshold": 0.5,
+      "f1": 0.9433639463460419,
+      "balanced_accuracy": 0.829475088887879,
+      "auroc": 0.987778518525351,
+      "tn": 9154,
+      "fp": 4705,
+      "fn": 62,
+      "tp": 39701,
+      "fpr": 0.3394905837362003,
+      "tpr": 0.9984407615119584
+    },
+    "dt5": {
+      "n": 53622,
+      "threshold": 0.5,
+      "f1": 0.9627000868594119,
+      "balanced_accuracy": 0.9143721611519463,
+      "auroc": 0.8675883377320023,
+      "tn": 11824,
+      "fp": 2035,
+      "fn": 971,
+      "tp": 38792,
+      "fpr": 0.1468359910527455,
+      "tpr": 0.9755803133566381
+    },
+    "mlp16": {
+      "n": 53622,
+      "threshold": 0.5,
+      "f1": 0.9495215311004784,
+      "balanced_accuracy": 0.8494680919508337,
+      "auroc": 0.9881354424488871,
+      "tn": 9712,
+      "fp": 4147,
+      "fn": 73,
+      "tp": 39690,
+      "fpr": 0.299227938523703,
+      "tpr": 0.9981641224253703
+    },
+    "gam": {
+      "n": 53622,
+      "threshold": 0.5,
+      "f1": 0.9671315712474398,
+      "balanced_accuracy": 0.9050614954214152,
+      "auroc": 0.9972410872394258,
+      "tn": 11262,
+      "fp": 2597,
+      "fn": 99,
+      "tp": 39664,
+      "fpr": 0.1873872573778772,
+      "tpr": 0.9975102482207077
+    }
+  },
+  "timings_and_warnings": {
+    "preprocessor": {
+      "fit_seconds": 4.075364999996964,
+      "warnings": [],
+      "convergence_warning": false
+    },
+    "kan": {
+      "fit_seconds": 4.614240799972322,
+      "warnings": [],
+      "convergence_warning": false
+    },
+    "dt5": {
+      "fit_seconds": 0.3944577000220306,
+      "warnings": [],
+      "convergence_warning": false
+    },
+    "mlp16": {
+      "fit_seconds": 24.070577100035734,
+      "warnings": [],
+      "convergence_warning": false
+    },
+    "gam": {
+      "fit_seconds": 1.5270472000120208,
+      "warnings": [],
+      "convergence_warning": false
+    }
+  },
+  "fixed_hyperparameters": {
+    "kan": {
+      "degree": 8,
+      "clip": 3.5,
+      "epochs": 250,
+      "lr": 0.3,
+      "l2": 0.0001,
+      "class_weight": true
+    },
+    "dt5": {
+      "max_depth": 5,
+      "class_weight": "balanced",
+      "categorical_encoding": "known-only one-hot"
+    },
+    "mlp16": {
+      "hidden_layer_sizes": [
+        16
+      ],
+      "max_iter": 300,
+      "early_stopping": false,
+      "alpha": 0.0001,
+      "solver": "adam",
+      "sample_weight": "training balanced",
+      "categorical_encoding": "known-only one-hot"
+    },
+    "gam": {
+      "basis": "additive cubic B-spline",
+      "n_knots": 5,
+      "degree": 3,
+      "knots": "training quantiles",
+      "include_bias": false,
+      "extrapolation": "constant",
+      "C": 1.0,
+      "class_weight": "balanced",
+      "max_iter": 2000,
+      "interactions": false
+    }
+  },
+  "kan_unknown_category_policy": {
+    "policy": "NEW_PROTOCOL_POST_FIT_UNSEEN_CATEGORY_ZEROING",
+    "previous_values": [
+      0.0024621581787420813,
+      0.03559203468325977,
+      -0.0712614267801854,
+      0.0219804979138138
+    ],
+    "new_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "all_training_logits_bit_identical": true,
+    "reference_implementation_changed": false
+  },
+  "onehot_unknown_category_policy": "all-zero block; no unobserved zero-index weight is learned",
+  "validation_model_input_overlap": {
+    "definition": "Exact byte equality of selected, normalized and clipped float64 numeric inputs followed by categorical int64 codes; little-endian, feature order preserved, no padding; no Q12 quantization or hashes.",
+    "numeric_features": 10,
+    "categorical_features": 4,
+    "training_rows": 119334,
+    "validation_rows": 53622,
+    "unique_training_model_inputs": 101687,
+    "unique_validation_model_inputs": 48949,
+    "shared_unique_model_inputs": 1778,
+    "unique_validation_inputs_absent_from_training": 47171,
+    "validation_rows_matching_training_inputs": 2377,
+    "validation_rows_not_matching_training_inputs": 51245,
+    "validation_fraction_matching_training_inputs": 0.044328820260340907,
+    "uses_labels": false,
+    "test_rows_examined": 0,
+    "used_for_fit_split_or_model_selection": false,
+    "scope": "Descriptive train/validation comparison after fitting the shared preprocessor on training only; equality of these inputs is not equality of source rows."
+  },
+  "forbidden_column_invariance": {
+    "transformed_arrays_equal": true,
+    "model_probabilities_equal": {
+      "kan": true,
+      "dt5": true,
+      "mlp16": true,
+      "gam": true
+    }
+  },
+  "additive_decomposition_max_abs_logit_error": {
+    "kan": 3.552713678800501e-15,
+    "gam": 1.0658141036401503e-14
+  },
+  "kan_budget_note": "Fixed epoch count; reference trainer has no convergence stopping criterion. No claim of optimizer convergence.",
+  "checkpoint_note": "Exploratory single-seed feasibility pilot. It is not the five-seed final experiment or a hardware checkpoint selection."
+}

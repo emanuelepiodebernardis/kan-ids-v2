@@ -1,0 +1,25 @@
+{
+  "version": "0.10.0",
+  "date": "2026-09-12",
+  "language": "en",
+  "pdf_pages": 19,
+  "pdf_sha256": "39a72ea8ce4447565361662869da94474ad3386ef87a808930c5f28d428e8cd2",
+  "build": "pdfLaTeX/BibTeX via scripts/build_paper.py; final build performed in isolated temporary copy and completed outputs copied to source",
+  "log_checks": "PASS: no overfull boxes, missing glyphs, undefined references or rerun warnings",
+  "visual_review": {
+    "all_pages_contact_sheets": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "full_size_pages": [
+      3,
+      6,
+      17
+    ],
+    "result": "PASS: no overlaps or clipping observed. Final page contains the third complete author biography."
+  },
+  "scientific_review": "FINAL_SCIENTIFIC_QA.json;14tables and15display environments preserved",
+  "limits": "No new ML fitting, device measurements, public release or DOI."
+}

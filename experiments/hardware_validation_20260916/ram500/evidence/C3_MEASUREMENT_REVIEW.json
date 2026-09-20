@@ -1,0 +1,3473 @@
+{
+  "schema": "independent-c3-ram142-measurement-review-v1",
+  "session": "C3_RAM500_20260916T154347Z_a71998db",
+  "status": "PASS_WITH_SCOPE_LIMITATIONS_AND_METADATA_CORRECTION",
+  "check_count": 549,
+  "failed_checks": [],
+  "accepted_physical_runs": 15,
+  "reference_comparisons": 22500,
+  "distinct_cohort_rows": 500,
+  "mismatches": 0,
+  "transport_retries": 0,
+  "extrema": [
+    {
+      "model": "coeff",
+      "stack_used_per_boot_bytes": [
+        1584,
+        1584,
+        1584
+      ],
+      "stack_used_min_bytes": 1584,
+      "stack_used_max_bytes": 1584,
+      "stack_growth_beyond_preinference_hwm_bytes": [
+        0,
+        0,
+        0
+      ],
+      "heap_free_bytes": 309800,
+      "heap_allocated_bytes": 20588,
+      "heap_lifetime_min_free_bytes": 304820,
+      "heap_largest_free_block_bytes": 286708,
+      "static_sram_bytes": 15312,
+      "iram_code_bytes": 48128
+    },
+    {
+      "model": "lut",
+      "stack_used_per_boot_bytes": [
+        1504,
+        1584,
+        1584
+      ],
+      "stack_used_min_bytes": 1504,
+      "stack_used_max_bytes": 1584,
+      "stack_growth_beyond_preinference_hwm_bytes": [
+        0,
+        0,
+        0
+      ],
+      "heap_free_bytes": 309800,
+      "heap_allocated_bytes": 20588,
+      "heap_lifetime_min_free_bytes": 304820,
+      "heap_largest_free_block_bytes": 286708,
+      "static_sram_bytes": 15312,
+      "iram_code_bytes": 48128
+    },
+    {
+      "model": "mlp",
+      "stack_used_per_boot_bytes": [
+        1584,
+        1584,
+        1584
+      ],
+      "stack_used_min_bytes": 1584,
+      "stack_used_max_bytes": 1584,
+      "stack_growth_beyond_preinference_hwm_bytes": [
+        0,
+        0,
+        0
+      ],
+      "heap_free_bytes": 309800,
+      "heap_allocated_bytes": 20588,
+      "heap_lifetime_min_free_bytes": 304820,
+      "heap_largest_free_block_bytes": 286708,
+      "static_sram_bytes": 15312,
+      "iram_code_bytes": 48128
+    },
+    {
+      "model": "kanml",
+      "stack_used_per_boot_bytes": [
+        1504,
+        1504,
+        1504
+      ],
+      "stack_used_min_bytes": 1504,
+      "stack_used_max_bytes": 1504,
+      "stack_growth_beyond_preinference_hwm_bytes": [
+        0,
+        0,
+        0
+      ],
+      "heap_free_bytes": 309800,
+      "heap_allocated_bytes": 20588,
+      "heap_lifetime_min_free_bytes": 304820,
+      "heap_largest_free_block_bytes": 286708,
+      "static_sram_bytes": 15312,
+      "iram_code_bytes": 48128
+    },
+    {
+      "model": "dt5",
+      "stack_used_per_boot_bytes": [
+        1584,
+        1584,
+        1504
+      ],
+      "stack_used_min_bytes": 1504,
+      "stack_used_max_bytes": 1584,
+      "stack_growth_beyond_preinference_hwm_bytes": [
+        0,
+        0,
+        0
+      ],
+      "heap_free_bytes": 309800,
+      "heap_allocated_bytes": 20588,
+      "heap_lifetime_min_free_bytes": 304820,
+      "heap_largest_free_block_bytes": 286708,
+      "static_sram_bytes": 15312,
+      "iram_code_bytes": 48128
+    }
+  ],
+  "diagnostic_global_metadata_correction": [
+    {
+      "model": "coeff",
+      "as_recorded_bytes": 221,
+      "corrected_ram_named_globals_bytes": 188,
+      "excluded_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ],
+      "impact": "diagnostic subset only; static SRAM and physical observations unchanged"
+    },
+    {
+      "model": "lut",
+      "as_recorded_bytes": 221,
+      "corrected_ram_named_globals_bytes": 188,
+      "excluded_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ],
+      "impact": "diagnostic subset only; static SRAM and physical observations unchanged"
+    },
+    {
+      "model": "mlp",
+      "as_recorded_bytes": 221,
+      "corrected_ram_named_globals_bytes": 188,
+      "excluded_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ],
+      "impact": "diagnostic subset only; static SRAM and physical observations unchanged"
+    },
+    {
+      "model": "kanml",
+      "as_recorded_bytes": 221,
+      "corrected_ram_named_globals_bytes": 188,
+      "excluded_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ],
+      "impact": "diagnostic subset only; static SRAM and physical observations unchanged"
+    },
+    {
+      "model": "dt5",
+      "as_recorded_bytes": 225,
+      "corrected_ram_named_globals_bytes": 192,
+      "excluded_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ],
+      "impact": "diagnostic subset only; static SRAM and physical observations unchanged"
+    }
+  ],
+  "compiler_frame_evidence": [
+    {
+      "model": "coeff",
+      "static_frame_sizes_bytes": {
+        "hw500_predict_loaded()": 32,
+        "ram_active_pass()": 48,
+        "ram_stack_probe()": 800,
+        "loop()": 144
+      },
+      "interpretation": "compiler frame sizes only, not a complete call-chain or runtime peak"
+    },
+    {
+      "model": "lut",
+      "static_frame_sizes_bytes": {
+        "hw500_predict_loaded()": 16,
+        "ram_active_pass()": 48,
+        "ram_stack_probe()": 800,
+        "loop()": 144
+      },
+      "interpretation": "compiler frame sizes only, not a complete call-chain or runtime peak"
+    },
+    {
+      "model": "mlp",
+      "static_frame_sizes_bytes": {
+        "hw500_predict_loaded()": 48,
+        "ram_active_pass()": 48,
+        "ram_stack_probe()": 800,
+        "loop()": 144
+      },
+      "interpretation": "compiler frame sizes only, not a complete call-chain or runtime peak"
+    },
+    {
+      "model": "kanml",
+      "static_frame_sizes_bytes": {
+        "hw500_predict_loaded()": 160,
+        "ram_active_pass()": 48,
+        "ram_stack_probe()": 800,
+        "loop()": 144
+      },
+      "interpretation": "compiler frame sizes only, not a complete call-chain or runtime peak"
+    },
+    {
+      "model": "dt5",
+      "static_frame_sizes_bytes": {
+        "hw500_predict_loaded()": 0,
+        "ram_active_pass()": 48,
+        "ram_stack_probe()": 800,
+        "loop()": 144
+      },
+      "interpretation": "compiler frame sizes only, not a complete call-chain or runtime peak"
+    }
+  ],
+  "limitations": [
+    "All C3 loop-task lifetime stack maxima were already reached before inference. The experiment does not resolve inference-specific stack usage or establish relative model stack efficiency.",
+    "Heap samples are taken before and after each 500-row pass. Unchanged values do not alone rule out a transient allocate/free pair within a pass.",
+    "The SDK heap lifetime minimum is a sum of region minima, not necessarily a simultaneous whole-system minimum.",
+    "Allocated heap already includes dynamically created task stacks. Do not add the 8192-byte loop stack or its used portion to allocated heap.",
+    "Static SRAM includes diagnostic globals, row buffers and the statically reserved ISR stack. Those components must not be added again.",
+    "IRAM code, static DRAM and heap/task components are separately scoped. No exact whole-system peak RAM is established.",
+    "The workload checks predictions against frozen C references; zero mismatches is export agreement, not zero classification errors.",
+    "Reporting recovery was not exercised by this physical run: every report arrived on its first request."
+  ],
+  "runs": [
+    {
+      "attempt": "repeat01_coeff",
+      "model": "coeff",
+      "repeat": 1,
+      "run_token": "f404764277004a90",
+      "ram": {
+        "board": "c3",
+        "model": "coeff",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "768",
+        "checksum_per500": "256",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "f404764277004a90"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "f404764277004a90"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "785d8139cea32da8305730da530788bfd6fd8b9ab0419100e442b939164bb648"
+    },
+    {
+      "attempt": "repeat01_dt5",
+      "model": "dt5",
+      "repeat": 1,
+      "run_token": "11d0d793432d489a",
+      "ram": {
+        "board": "c3",
+        "model": "dt5",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "747",
+        "checksum_per500": "249",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "32",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "11d0d793432d489a"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "11d0d793432d489a"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 225,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "ba7a33f4742d6ca4e77b590f0fd984183d5cb1fcfa9ab74affa0f288e3bcb1b3"
+    },
+    {
+      "attempt": "repeat01_kanml",
+      "model": "kanml",
+      "repeat": 1,
+      "run_token": "da39debd3f374897",
+      "ram": {
+        "board": "c3",
+        "model": "kanml",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "750",
+        "checksum_per500": "250",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6688",
+        "loop_stack_hwm_after_bytes": "6688",
+        "loop_stack_hwm_min_bytes": "6688",
+        "loop_stack_observed_used_bytes": "1504",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "da39debd3f374897"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "da39debd3f374897"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "094c90e123c0d6f82062b1c7b0466d0d7ffe66a4534dc92133b06e78f2745558"
+    },
+    {
+      "attempt": "repeat01_lut",
+      "model": "lut",
+      "repeat": 1,
+      "run_token": "f82116a8ae5449ac",
+      "ram": {
+        "board": "c3",
+        "model": "lut",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "768",
+        "checksum_per500": "256",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6688",
+        "loop_stack_hwm_after_bytes": "6688",
+        "loop_stack_hwm_min_bytes": "6688",
+        "loop_stack_observed_used_bytes": "1504",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "f82116a8ae5449ac"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "f82116a8ae5449ac"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "2105e40d324e43caf816d74cb179eeb3dbe30d5a186d34069f3b7db46ab094a7"
+    },
+    {
+      "attempt": "repeat01_mlp",
+      "model": "mlp",
+      "repeat": 1,
+      "run_token": "616f6b93bc7141cb",
+      "ram": {
+        "board": "c3",
+        "model": "mlp",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "762",
+        "checksum_per500": "254",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "616f6b93bc7141cb"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "616f6b93bc7141cb"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "6da53b1e5317f88ff0fd0532051dec16b6adc28e638772356b2d5f0c6efe7844"
+    },
+    {
+      "attempt": "repeat02_coeff",
+      "model": "coeff",
+      "repeat": 2,
+      "run_token": "1d97c56d47274b12",
+      "ram": {
+        "board": "c3",
+        "model": "coeff",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "768",
+        "checksum_per500": "256",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "1d97c56d47274b12"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "1d97c56d47274b12"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "0a16b78dd1cfa7c4188748ad082edc4774df124d90da885783bd558a24d6a4d9"
+    },
+    {
+      "attempt": "repeat02_dt5",
+      "model": "dt5",
+      "repeat": 2,
+      "run_token": "a01a5ad502df4bd7",
+      "ram": {
+        "board": "c3",
+        "model": "dt5",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "747",
+        "checksum_per500": "249",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "32",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "a01a5ad502df4bd7"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "a01a5ad502df4bd7"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 225,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "f26c71845c74c1ec58b24bdd58cda477f470ea7bad459c57af74d8a52621891b"
+    },
+    {
+      "attempt": "repeat02_kanml",
+      "model": "kanml",
+      "repeat": 2,
+      "run_token": "8b6d2b934e5e42cd",
+      "ram": {
+        "board": "c3",
+        "model": "kanml",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "750",
+        "checksum_per500": "250",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6688",
+        "loop_stack_hwm_after_bytes": "6688",
+        "loop_stack_hwm_min_bytes": "6688",
+        "loop_stack_observed_used_bytes": "1504",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "8b6d2b934e5e42cd"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "8b6d2b934e5e42cd"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "99c6b88085114e65c01c518da1bf75cfca064dcd208ce0c116582722f8a19155"
+    },
+    {
+      "attempt": "repeat02_lut",
+      "model": "lut",
+      "repeat": 2,
+      "run_token": "7b021a626724476c",
+      "ram": {
+        "board": "c3",
+        "model": "lut",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "768",
+        "checksum_per500": "256",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "7b021a626724476c"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "7b021a626724476c"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "c2a002211999ed5827d7a820dd294a88c3c31017c92f9967a603cae4047f5cab"
+    },
+    {
+      "attempt": "repeat02_mlp",
+      "model": "mlp",
+      "repeat": 2,
+      "run_token": "ff88703a53074d67",
+      "ram": {
+        "board": "c3",
+        "model": "mlp",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "762",
+        "checksum_per500": "254",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "ff88703a53074d67"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "ff88703a53074d67"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "dc5fe5eb90e26cf95b6ba98eab1861a3919c63977d5acb34150bb3c79043bc88"
+    },
+    {
+      "attempt": "repeat03_coeff",
+      "model": "coeff",
+      "repeat": 3,
+      "run_token": "c5be2fc5fdd14c8b",
+      "ram": {
+        "board": "c3",
+        "model": "coeff",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "768",
+        "checksum_per500": "256",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "c5be2fc5fdd14c8b"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "c5be2fc5fdd14c8b"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "4442715fd0676d95df83705a7192d41ad49522cda5fc2fb440ae2c802e7b514d"
+    },
+    {
+      "attempt": "repeat03_dt5",
+      "model": "dt5",
+      "repeat": 3,
+      "run_token": "182631d07acd4bad",
+      "ram": {
+        "board": "c3",
+        "model": "dt5",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "747",
+        "checksum_per500": "249",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "32",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6688",
+        "loop_stack_hwm_after_bytes": "6688",
+        "loop_stack_hwm_min_bytes": "6688",
+        "loop_stack_observed_used_bytes": "1504",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "182631d07acd4bad"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "182631d07acd4bad"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 225,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "5507d0165270c2f6963ffe157c4938519eb385cf897a3f51dfe2cc828425e810"
+    },
+    {
+      "attempt": "repeat03_kanml",
+      "model": "kanml",
+      "repeat": 3,
+      "run_token": "68f89d1977d647a8",
+      "ram": {
+        "board": "c3",
+        "model": "kanml",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "750",
+        "checksum_per500": "250",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6688",
+        "loop_stack_hwm_after_bytes": "6688",
+        "loop_stack_hwm_min_bytes": "6688",
+        "loop_stack_observed_used_bytes": "1504",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "68f89d1977d647a8"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "68f89d1977d647a8"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "1c7cbc67baa1e908c8ad86488b6240d3732eb004f439156e535e0b1ac63f4ba7"
+    },
+    {
+      "attempt": "repeat03_lut",
+      "model": "lut",
+      "repeat": 3,
+      "run_token": "957c00bda756433a",
+      "ram": {
+        "board": "c3",
+        "model": "lut",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "768",
+        "checksum_per500": "256",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "957c00bda756433a"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "957c00bda756433a"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "7dc004d5464924ca2d1a76973c9e5c0459cfb98d32bc9d50ce61db9178e74071"
+    },
+    {
+      "attempt": "repeat03_mlp",
+      "model": "mlp",
+      "repeat": 3,
+      "run_token": "3e3d0cfe68254691",
+      "ram": {
+        "board": "c3",
+        "model": "mlp",
+        "rows": "500",
+        "passes": "3",
+        "checked": "1500",
+        "mismatches": "0",
+        "checksum": "762",
+        "checksum_per500": "254",
+        "correct": "1",
+        "ram_valid": "1",
+        "row_buffer_bytes": "24",
+        "loop_stack_reserved_bytes": "8192",
+        "loop_stack_hwm_before_bytes": "6608",
+        "loop_stack_hwm_after_bytes": "6608",
+        "loop_stack_hwm_min_bytes": "6608",
+        "loop_stack_observed_used_bytes": "1584",
+        "heap_free_before_bytes": "309800",
+        "heap_free_after_bytes": "309800",
+        "heap_allocated_before_bytes": "20588",
+        "heap_allocated_after_bytes": "20588",
+        "heap_largest_before_bytes": "286708",
+        "heap_largest_after_bytes": "286708",
+        "heap_lifetime_min_before_bytes": "304820",
+        "heap_lifetime_min_after_bytes": "304820",
+        "heap_sampled_min_free_bytes": "309800",
+        "heap_domain": "internal_8bit",
+        "heap_min_scope": "sum_region_lifetime_minima",
+        "stack_scope": "loop_task_lifetime",
+        "stack_inside_heap": "1",
+        "total_peak_claim": "0",
+        "run_token": "3e3d0cfe68254691"
+      },
+      "control": {
+        "stack_pass": "1",
+        "heap_pass": "1",
+        "correct": "1",
+        "stack_before_bytes": "3920",
+        "stack_after_bytes": "3244",
+        "heap_before": "309800",
+        "heap_during": "309272",
+        "heap_after": "309800",
+        "stack_probe_bytes": "768",
+        "heap_probe_bytes": "512",
+        "stack_metric": "free_watermark",
+        "heap_metric": "free_bytes",
+        "separate_task": "1",
+        "baseline_already_saved": "1",
+        "run_token": "3e3d0cfe68254691"
+      },
+      "build_ram": {
+        "static_sram_bytes": 15312,
+        "diagnostic_globals_bytes": 221,
+        "iram_code_bytes": 48128
+      },
+      "raw_sha256": "9ea5cd9047af302888ca661b4037c054d1e4b412b8016e28881f1b2367013120"
+    }
+  ],
+  "checks": [
+    {
+      "check": "15 attempts",
+      "pass": true
+    },
+    {
+      "check": "summary complete",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat01_coeff: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat01_dt5: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat01_kanml: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat01_lut: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat01_mlp: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat02_coeff: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat02_dt5: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat02_kanml: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat02_lut: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat02_mlp: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat03_coeff: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat03_dt5: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat03_kanml: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat03_lut: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: one connection",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: raw RX equals JSONL",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: monotonic event timestamps",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: serial text equals raw nonempty lines",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: complete frame order",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: nonce syntax",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: all six received nonces match",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: exact INFO RUN CHECK sequence without retransmission",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: accepted run and baseline snapshot",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: immutable baseline",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: parsed baseline equals records",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: parsed control equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: all metadata equals record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: transport state agrees with record",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: no pending bytes or frames",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: no recovery events",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: baseline/control timestamps correctly ordered at millisecond resolution",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: fresh upload for every repeat",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: 500 distinct raw row IDs",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: same ordered cohort",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: 1500 exact reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: expected checksum",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: stack accounting",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: stack baseline already reaches final watermark",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: heap snapshots unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: sampled heap unchanged",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: explicit measurement scope",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: positive control flags",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: positive control stack detects probe",
+      "pass": true
+    },
+    {
+      "check": "repeat03_mlp: positive control heap detects and releases allocation",
+      "pass": true
+    },
+    {
+      "check": "15 independent nonces",
+      "pass": true
+    },
+    {
+      "check": "22500 reference comparisons",
+      "pass": true
+    },
+    {
+      "check": "coeff: exactly three repeats",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary static_sram_bytes",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary diagnostic_globals_bytes",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary iram_code_bytes",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary loop_stack_observed_used_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary loop_stack_hwm_min_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_free_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_free_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_allocated_before_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_allocated_after_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_largest_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_largest_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_lifetime_min_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_lifetime_min_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: summary heap_sampled_min_free_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "coeff: actual pass calls predictor",
+      "pass": true
+    },
+    {
+      "check": "coeff: assembly frame agrees ram_active_pass",
+      "pass": true
+    },
+    {
+      "check": "coeff: assembly frame agrees hw500_predict_loaded",
+      "pass": true
+    },
+    {
+      "check": "coeff: assembly frame agrees ram_stack_probe",
+      "pass": true
+    },
+    {
+      "check": "lut: exactly three repeats",
+      "pass": true
+    },
+    {
+      "check": "lut: summary static_sram_bytes",
+      "pass": true
+    },
+    {
+      "check": "lut: summary diagnostic_globals_bytes",
+      "pass": true
+    },
+    {
+      "check": "lut: summary iram_code_bytes",
+      "pass": true
+    },
+    {
+      "check": "lut: summary loop_stack_observed_used_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary loop_stack_hwm_min_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_free_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_free_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_allocated_before_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_allocated_after_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_largest_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_largest_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_lifetime_min_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_lifetime_min_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: summary heap_sampled_min_free_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "lut: actual pass calls predictor",
+      "pass": true
+    },
+    {
+      "check": "lut: assembly frame agrees ram_active_pass",
+      "pass": true
+    },
+    {
+      "check": "lut: assembly frame agrees hw500_predict_loaded",
+      "pass": true
+    },
+    {
+      "check": "lut: assembly frame agrees ram_stack_probe",
+      "pass": true
+    },
+    {
+      "check": "mlp: exactly three repeats",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary static_sram_bytes",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary diagnostic_globals_bytes",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary iram_code_bytes",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary loop_stack_observed_used_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary loop_stack_hwm_min_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_free_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_free_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_allocated_before_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_allocated_after_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_largest_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_largest_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_lifetime_min_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_lifetime_min_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: summary heap_sampled_min_free_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "mlp: actual pass calls predictor",
+      "pass": true
+    },
+    {
+      "check": "mlp: assembly frame agrees ram_active_pass",
+      "pass": true
+    },
+    {
+      "check": "mlp: assembly frame agrees hw500_predict_loaded",
+      "pass": true
+    },
+    {
+      "check": "mlp: assembly frame agrees ram_stack_probe",
+      "pass": true
+    },
+    {
+      "check": "kanml: exactly three repeats",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary static_sram_bytes",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary diagnostic_globals_bytes",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary iram_code_bytes",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary loop_stack_observed_used_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary loop_stack_hwm_min_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_free_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_free_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_allocated_before_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_allocated_after_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_largest_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_largest_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_lifetime_min_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_lifetime_min_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: summary heap_sampled_min_free_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "kanml: actual pass calls predictor",
+      "pass": true
+    },
+    {
+      "check": "kanml: assembly frame agrees ram_active_pass",
+      "pass": true
+    },
+    {
+      "check": "kanml: assembly frame agrees hw500_predict_loaded",
+      "pass": true
+    },
+    {
+      "check": "kanml: assembly frame agrees ram_stack_probe",
+      "pass": true
+    },
+    {
+      "check": "dt5: exactly three repeats",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary static_sram_bytes",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary diagnostic_globals_bytes",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary iram_code_bytes",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary loop_stack_observed_used_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary loop_stack_hwm_min_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_free_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_free_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_allocated_before_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_allocated_after_bytes_maximum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_largest_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_largest_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_lifetime_min_before_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_lifetime_min_after_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: summary heap_sampled_min_free_bytes_minimum_observed",
+      "pass": true
+    },
+    {
+      "check": "dt5: actual pass calls predictor",
+      "pass": true
+    },
+    {
+      "check": "dt5: assembly frame agrees ram_active_pass",
+      "pass": true
+    },
+    {
+      "check": "dt5: assembly frame agrees hw500_predict_loaded",
+      "pass": true
+    },
+    {
+      "check": "dt5: assembly frame agrees ram_stack_probe",
+      "pass": true
+    }
+  ]
+}

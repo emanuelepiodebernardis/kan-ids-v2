@@ -1,0 +1,96 @@
+{
+  "all_unchanged": true,
+  "files": [
+    {
+      "path": "models/MANIFEST.json",
+      "sha256": "9d4fd8c8535d89ecfc7556e286e7614e7582a4048ca76703701fd25ffdcd0b51",
+      "unchanged": true
+    },
+    {
+      "path": "models/feature_space.npz",
+      "sha256": "dd37eaca54c7110c2aac03b39919d9888db31e8af16d8106e84a1c46037cb227",
+      "unchanged": true
+    },
+    {
+      "path": "models/kan14_binary_multilayer.pkl",
+      "sha256": "f5a5366740ac16756b3f792c5e4dcad97837e2a155b9633b1ccf95ad958c9ee4",
+      "unchanged": true
+    },
+    {
+      "path": "models/kan14_binary_singlelayer.npz",
+      "sha256": "344bbd9db0c0c95cad7557f72c8982844662602329148be8284a5f40882b17cc",
+      "unchanged": true
+    },
+    {
+      "path": "models/kan14_multiclass_multilayer.pkl",
+      "sha256": "ccd2d5406aa5575c57f6d364babf9e7de1d49f2e80ead1d3dec8d0cbbb66bcdb",
+      "unchanged": true
+    },
+    {
+      "path": "models/protocol_v1/README.md",
+      "sha256": "06e8346ac48fd28f70f78c98af6b422c9434a1b470dfd41e7a8dc9ced06dfd0c",
+      "unchanged": true
+    },
+    {
+      "path": "models/protocol_v1/feature_space_14.npz",
+      "sha256": "f3f32bea1a97a86fb2875e6d9f31f16b817e8c17da21b7c15e31c1c85c618877",
+      "unchanged": true
+    },
+    {
+      "path": "models/protocol_v1/kan14_binary_multilayer.npz",
+      "sha256": "0b7c64be16c2b1c0eead1c3ef003006ddd3c5a3204c34edc3036db5788705391",
+      "unchanged": true
+    },
+    {
+      "path": "models/protocol_v1/kan14_binary_single.npz",
+      "sha256": "40eef574c337f0b1078a9ae40183453000f414d679cf00af9c37ec38b55ca967",
+      "unchanged": true
+    },
+    {
+      "path": "models/protocol_v1/kan14_multiclass_multilayer.npz",
+      "sha256": "9ea723a21e349fd9ef56a4daa3f31c12821f7db63a4f778c90528f9f04445c6f",
+      "unchanged": true
+    },
+    {
+      "path": "models/vocabolari_categorici.json",
+      "sha256": "557365b65a80e679c020796d843bdb0db4065453a578249f5673a89add956fe6",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/kan14_coeff_int8.h",
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/kan14_ml_coeff_int8.h",
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/kan14_mc_coeff_int8.h",
+      "sha256": "4ef43af769d9055f0bd2b286332c62b81931a6588c8a1915745edffbf1dc3c5b",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/mlp16_int8.h",
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/dt5_model.h",
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/kan_e2e_int.h",
+      "sha256": "6bdccc90afee53a9a8fdda9bd7861c8338d6b3b7f0ca2f25fe202cf76b79209d",
+      "unchanged": true
+    },
+    {
+      "path": "mcu_pio/include/kan_mc_e2e_int.h",
+      "sha256": "c557bf09a1c6b497b52f40d4afd1f457a5745ca9c4133f2ce6ce731db47d1a96",
+      "unchanged": true
+    }
+  ],
+  "exception": "Sampled-LUT representation regenerated from unchanged coefficient header; classifier fits=0."
+}

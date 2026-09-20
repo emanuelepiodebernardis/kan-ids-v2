@@ -1,0 +1,83 @@
+% Supplementary ML tables. Requires \usepackage{booktabs}.
+% ML values are author-saved. Mean/sample-SD consistency was independently
+% recomputed from saved run CSVs; no models were refitted for this draft.
+
+\begin{table*}[p]
+\centering
+\caption{Joint-model results in the rich harmonized space. Values are means $\pm$ sample SD on the 0--1 scale across ten fits (seeds 42--51). Final fitting uses 4,584 equally contributed source observations. Normal recall equals $1-\mathrm{FPR}$. Class denominators are 10,000 normal/32,209 attack for TON, 95/733,610 for BoT and 93,000/164,673 for UNSW. One BoT normal error changes normal recall by 1.05 percentage points and BA by 0.526 points. Reused seeds are not independent new networks.}
+\label{tab:supp-joint-recalls}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{llccc}
+\toprule
+Evaluation domain & Model & Balanced accuracy & Normal recall & Attack recall \\
+\midrule
+TON\_IoT & Additive KAN & $0.9432 \pm 0.0016$ & $0.9558 \pm 0.0029$ & $0.9306 \pm 0.0032$ \\
+ & Multilayer KAN & $0.9811 \pm 0.0014$ & $0.9706 \pm 0.0035$ & $0.9916 \pm 0.0015$ \\
+ & MLP16 & $0.9296 \pm 0.0083$ & $0.8720 \pm 0.0236$ & $0.9872 \pm 0.0078$ \\
+ & DT5 & $0.9669 \pm 0.0056$ & $0.9512 \pm 0.0108$ & $0.9827 \pm 0.0108$ \\
+ & LightGBM & $0.9846 \pm 0.0017$ & $0.9751 \pm 0.0039$ & $0.9941 \pm 0.0014$ \\
+ & XGBoost & $0.9804 \pm 0.0030$ & $0.9673 \pm 0.0072$ & $0.9935 \pm 0.0016$ \\
+\midrule
+BoT-IoT & Additive KAN & $0.9825 \pm 0.0110$ & $0.9705 \pm 0.0226$ & $0.9944 \pm 0.0011$ \\
+ & Multilayer KAN & $0.9924 \pm 0.0057$ & $0.9884 \pm 0.0116$ & $0.9964 \pm 0.0004$ \\
+ & MLP16 & $0.9494 \pm 0.0166$ & $0.9032 \pm 0.0332$ & $0.9956 \pm 0.0006$ \\
+ & DT5 & $0.9865 \pm 0.0094$ & $0.9768 \pm 0.0184$ & $0.9962 \pm 0.0007$ \\
+ & LightGBM & $0.9951 \pm 0.0027$ & $0.9937 \pm 0.0054$ & $0.9964 \pm 0.0002$ \\
+ & XGBoost & $0.9925 \pm 0.0044$ & $0.9884 \pm 0.0092$ & $0.9966 \pm 0.0007$ \\
+\midrule
+UNSW-NB15 & Additive KAN & $0.3991 \pm 0.0228$ & $0.5125 \pm 0.0451$ & $0.2857 \pm 0.0089$ \\
+ & Multilayer KAN & $0.3629 \pm 0.0614$ & $0.3394 \pm 0.1070$ & $0.3865 \pm 0.1197$ \\
+ & MLP16 & $0.3119 \pm 0.0094$ & $0.2783 \pm 0.0182$ & $0.3454 \pm 0.0051$ \\
+ & DT5 & $0.4081 \pm 0.0619$ & $0.4707 \pm 0.0945$ & $0.3456 \pm 0.1031$ \\
+ & LightGBM & $0.3884 \pm 0.0793$ & $0.3723 \pm 0.1101$ & $0.4044 \pm 0.1814$ \\
+ & XGBoost & $0.4193 \pm 0.0428$ & $0.4264 \pm 0.0869$ & $0.4121 \pm 0.1030$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% Source: work/results/cv_leakagefree_summary_binary_ALL.csv and
+% work/results/cv_leakagefree_summary_multiclass_ALL.csv.
+\begin{table*}[p]
+\centering
+\caption{Native TON\_IoT cross-validation. Values are means $\pm$ sample SD on the 0--1 scale across 15 fits: five folds for seeds 42--44, stratified by the ten-class label. Feature selection and preprocessing use each training fold. These floating-point results are separate from canonical integer deployment.}
+\label{tab:supp-native-cv}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lcccc}
+\toprule
+& \multicolumn{2}{c}{Binary classification} & \multicolumn{2}{c}{Ten-class classification} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}
+Model & Balanced accuracy & Attack F1 & Balanced accuracy & Macro-F1 \\
+\midrule
+Additive KAN & $0.9765 \pm 0.0009$ & $0.9835 \pm 0.0007$ & $0.9295 \pm 0.0023$ & $0.8767 \pm 0.0014$ \\
+Multilayer KAN & $0.9963 \pm 0.0004$ & $0.9976 \pm 0.0002$ & $0.9738 \pm 0.0019$ & $0.9374 \pm 0.0036$ \\
+MLP16 & $0.9934 \pm 0.0014$ & $0.9964 \pm 0.0009$ & $0.9151 \pm 0.0154$ & $0.9182 \pm 0.0107$ \\
+DT5 & $0.9919 \pm 0.0007$ & $0.9944 \pm 0.0004$ & $0.7864 \pm 0.0037$ & $0.7633 \pm 0.0033$ \\
+LightGBM & $0.9983 \pm 0.0003$ & $0.9991 \pm 0.0001$ & $0.9807 \pm 0.0020$ & $0.9680 \pm 0.0021$ \\
+XGBoost & $0.9975 \pm 0.0004$ & $0.9989 \pm 0.0001$ & $0.9737 \pm 0.0028$ & $0.9666 \pm 0.0021$ \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+% Source: work/results/joint_ratio_selection_runs.csv.
+% Aggregation unit: first mean across 6 models x 2 domains within seed,
+% then mean and sample SD across ten seeds; not SD across 120 mixed cells.
+\begin{table*}[p]
+\centering
+\caption{Validation ratio selection, on the 0--1 balanced-accuracy scale. Each seed first averages six models and two validation domains; reported SD is across ten seed means. Counts refer to inner training fits, not final refitting. The corrected criterion does not undo historical test-set inspection.}
+\label{tab:supp-ratio-selection}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{ccrrr}
+\toprule
+Normal:attack & Validation balanced accuracy & Normal/domain & Attack/domain & Union fit rows \\
+\midrule
+$1:5$ & $0.9732 \pm 0.0041$ & 306 & 1530 & 3672 \\
+$1:10$ & $0.9702 \pm 0.0049$ & 306 & 3060 & 6732 \\
+$1:20$ & $0.9657 \pm 0.0064$ & 306 & 6120 & 12852 \\
+$1:50$ & $0.9592 \pm 0.0060$ & 306 & 15300 & 31212 \\
+$1:100$ & $0.9523 \pm 0.0042$ & 306 & 30600 & 61812 \\
+\bottomrule
+\end{tabular}
+\end{table*}

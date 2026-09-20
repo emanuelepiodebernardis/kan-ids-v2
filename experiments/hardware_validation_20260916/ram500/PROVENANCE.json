@@ -1,0 +1,25 @@
+{
+  "schema": "kanids-ram500-provenance-v1",
+  "scope": "Two separate accepted diagnostic sessions; frozen canonical models, not Stage2 pair-disjoint fits.",
+  "raw_archives": [
+    {
+      "board": "mega",
+      "filename": "MEGA_RAM500_20260916T141149Z_f0665b8d.zip",
+      "bytes": 1877938,
+      "sha256": "a84d4fc6760cf5ea821f8b5178a3f84829d7694a7ea539de1822d5f544418fc0"
+    },
+    {
+      "board": "c3",
+      "filename": "C3_RAM500_20260916T154347Z_a71998db.zip",
+      "bytes": 18788283,
+      "sha256": "f4e1a2ae5379a8b90af5a38223690005c8a50aa880fd00dae5652195fbc42b60"
+    }
+  ],
+  "accepted_versions": {
+    "mega": "0.14.1",
+    "c3": "0.14.2"
+  },
+  "maintained_source_copy": "runner/ is a v0.15 source integration derived from v0.14.2 with a reporting-only post-link correction. It is not relabelled as the source of the physical runs.",
+  "original_receipts_preserved": true,
+  "total_peak_ram_established": false
+}

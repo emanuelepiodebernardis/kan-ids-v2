@@ -1,0 +1,136 @@
+{
+  "date_utc": "2026-09-08T12:29:46.844160+00:00",
+  "source": "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK",
+  "compiler": "/usr/bin/g++",
+  "checks": [
+    {
+      "file": "mcu_pio/host_check/run_coeff_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_coeff_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_coeff_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "agreement kernel C vs sim numpy: 200/200 (100.00%)\naccuratezza vs label reali: 198/200 (99.0%)\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_e2e_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_e2e_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_e2e_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "logit bit-esatti vs riferimento : 200/200\ndecisioni identiche             : 200/200\naccuratezza vs label reali      : 188/200 (94.0%)\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_host_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_host_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_host_check"
+      ],
+      "meaning": "legacy ground-truth accuracy demo",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "== host check: inferenza KAN-LUT integer-only sui test vector ==\nmodello: E=10 K=8 L=64 FP_BITS=9\nN_TEST=40\n\nidx,label_atteso,pred,logit_int,match\n0,1,1,1250,OK\n1,1,1,1098,OK\n2,1,1,1792,OK\n3,0,0,-1141,OK\n4,0,0,-1352,OK\n5,1,1,1336,OK\n6,0,0,-1583,OK\n7,1,1,381,OK\n8,1,1,1235,OK\n9,0,0,-1526,OK\n10,1,1,381,OK\n11,0,0,-711,OK\n12,0,0,-2278,OK\n13,0,0,-1322,OK\n14,0,1,381,MISMATCH\n15,1,1,381,OK\n16,1,1,381,OK\n17,1,1,2255,OK\n18,0,0,-2278,OK\n19,0,0,-1141,OK\n20,0,0,-1498,OK\n21,0,0,-2278,OK\n22,0,0,-2266,OK\n23,1,1,381,OK\n24,1,1,381,OK\n25,0,0,-792,OK\n26,0,0,-1609,OK\n27,1,1,1915,OK\n28,0,0,-1515,OK\n29,1,1,2531,OK\n30,0,0,-1495,OK\n31,0,0,-1141,OK\n32,1,1,889,OK\n33,1,1,2531,OK\n34,1,1,381,OK\n35,0,0,-2274,OK\n36,1,1,381,OK\n37,1,1,1200,OK\n38,1,1,1915,OK\n39,0,0,-930,OK\n\n--- riepilogo ---\ncorrette: 39/40\naccuratezza sui test vector: 97.50%\nmismatch: 1\nRISULTATO: 1 predizioni divergono (vedi righe MISMATCH sopra).\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_lut_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_lut_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_lut_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "agreement kernel C vs sim numpy: 200/200 (100.00%)\ndecisioni identiche alla versione a coefficienti: 200/200\nscostamento massimo del logit fra LUT e coefficienti: 547\naccuratezza vs label reali: 198/200 (99.0%)\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_mc_coeff_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_mc_coeff_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_mc_coeff_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "agreement kernel C vs sim: 200/200\naccuratezza label: 197/200\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_mc_e2e_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_mc_e2e_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_mc_e2e_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "accumulatori bit-esatti vs riferimento : 200/200\nargmax identico                        : 200/200\naccuratezza vs label reali             : 196/200 (98.0%)\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_ml_coeff_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_ml_coeff_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_ml_coeff_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "agreement kernel C vs sim: 200/200\naccuratezza label: 197/200\n"
+    },
+    {
+      "file": "mcu_pio/host_check/run_mlp_check.cpp",
+      "compile_command": [
+        "/usr/bin/g++",
+        "-std=c++17",
+        "-O2",
+        "-I/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/include",
+        "/workspace/scratch/d33ab1927407/KAN_IDS_PAPER1_WORK/mcu_pio/host_check/run_mlp_check.cpp",
+        "-o",
+        "/tmp/kan-host-b38gqvew/run_mlp_check"
+      ],
+      "meaning": "reference check; see raw output for decision vs full-logit scope",
+      "compile_returncode": 0,
+      "run_returncode": 0,
+      "raw_output": "agreement kernel C vs sim numpy: 200/200 (100.00%)\naccuratezza vs label reali: 199/200 (99.5%)\n"
+    }
+  ],
+  "note": "Not MCU validation. Legacy run_host_check may exit 0 with a classification error."
+}

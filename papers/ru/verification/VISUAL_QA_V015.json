@@ -1,0 +1,34 @@
+{
+  "version": "0.15.0",
+  "language": "ru",
+  "pdf_sha256": "d5897aeb4b363ce72f43334cdcfd82008c4dda5e422bdc91fbd3a27d13aea76a",
+  "pages": 46,
+  "reviewed_pages": [
+    1,
+    21,
+    23,
+    25,
+    26,
+    28,
+    45,
+    46
+  ],
+  "status": "PASS",
+  "notes": [
+    "New split table retains five metrics and readably fits page width.",
+    "Six-row protocol map uses ragged-right columns to avoid exaggerated word spacing.",
+    "Two byte-identical setup photos are adjacent.",
+    "HW500 and RAM500 tables fit within page width; distinct stack scopes are stated in caption/text.",
+    "Last page contains all three complete biographies; two added SDK references fit the preceding bibliography page."
+  ],
+  "render_sha256": {
+    "final-01.png": "ffb397444ba63f4a6bd7aa9aa4b3c23d19c3072941b6082516f9040e759e1281",
+    "final-21.png": "c9addca4d85f282ed908ed0132492f24a9b6edeb43a95bf379163416825d5f71",
+    "final-23.png": "2bd31cf798068ba2b8b3cd077f1265ed227b250f357414a614d11923842351cf",
+    "final-25.png": "e1c8c835b8b4a8225ff75311415b0d473ae8835da2ea475053919697db0933e0",
+    "final-26.png": "1d03aa2852fbbf467178ce1ab89039b0fe76c0c87a34ff5fd4f8f7e49ba401c4",
+    "final-28.png": "92ef6128c664849b2a900158af76d1c6366c1dcf6c849d806c14a47f005aa6bc",
+    "final-45.png": "7f99a31dcf9d76b073dc6715e9f8f06dadb2c29a072dd1d9c95845e97c4c0f00",
+    "final-46.png": "0d0cdd00f966f464c6be96b356db68152b998923b0f99c20f9d7cf9a745e036e"
+  }
+}

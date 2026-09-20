@@ -1,0 +1,362 @@
+{
+  "reviewed_commit": "b219fb6671442e2e5dfcda5b6ea49a04d57e7960",
+  "method": "Read-only application of chiamate_senza_encoding and scritture_senza_newline from tests/test_encoding.py to Python sources under experiments/.",
+  "count_without_encoding": 41,
+  "count_without_newline": 29,
+  "historical_count_without_encoding_at_ca92318": 42,
+  "scope": "Potential portability findings from a static scanner, not proven failures. The two lists overlap and must not be added as distinct faults. Frozen experimental sources and records were not modified.",
+  "without_encoding": [
+    {
+      "path": "experiments/hardware_energy_20260915/firmware/c3/run_c3_energy_suite.py",
+      "line": 422,
+      "call": "open"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 34,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 35,
+      "call": "open"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 44,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 12,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 13,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 12,
+      "call": "open"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/run_suite.py",
+      "line": 392,
+      "call": "open"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_continuous/test_runner.py",
+      "line": 39,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_continuous/test_runner.py",
+      "line": 169,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 167,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 167,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 156,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 157,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 161,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 189,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 197,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_summary/test_summary.py",
+      "line": 94,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_summary/test_summary.py",
+      "line": 97,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_c3_binary.py",
+      "line": 113,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_c3_binary.py",
+      "line": 142,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_c3_binary.py",
+      "line": 156,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_c3_binary.py",
+      "line": 90,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_c3_binary.py",
+      "line": 92,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_measurements.py",
+      "line": 118,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_measurements.py",
+      "line": 125,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_measurements.py",
+      "line": 51,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_measurements.py",
+      "line": 55,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_received_c3.py",
+      "line": 68,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_received_c3.py",
+      "line": 68,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_received_c3.py",
+      "line": 104,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_received_c3.py",
+      "line": 111,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/run_ram.py",
+      "line": 315,
+      "call": "open"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 261,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 262,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 278,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 274,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/verify_ram.py",
+      "line": 138,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/verify_ram.py",
+      "line": 117,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/verify_ram.py",
+      "line": 51,
+      "call": "read_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/verify_evidence.py",
+      "line": 51,
+      "call": "open"
+    }
+  ],
+  "without_newline": [
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 34,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/build_integration.py",
+      "line": 44,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/replay_hw500.py",
+      "line": 65,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/replay_hw500.py",
+      "line": 66,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_continuous/test_runner.py",
+      "line": 39,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 167,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 167,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 156,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 157,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 161,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 189,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/hw500/runner/tests_runner/test_runner.py",
+      "line": 197,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/paired_software/audit_pair.py",
+      "line": 91,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/paired_software/source_snapshot/tests/test_archive_integrity.py",
+      "line": 14,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/paired_software/source_snapshot/tests/test_audit_dataset.py",
+      "line": 54,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_c3_binary.py",
+      "line": 156,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_measurements.py",
+      "line": 136,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_mega.py",
+      "line": 88,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_mega.py",
+      "line": 50,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/audit/audit_received_c3.py",
+      "line": 137,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/project/check_avr_control_codegen.py",
+      "line": 138,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/project/save_build_artifacts.py",
+      "line": 37,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 261,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 262,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 278,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/runner/tests_runner/test_runner.py",
+      "line": 274,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/tests/test_diagnostic_symbols.py",
+      "line": 69,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/tests/test_diagnostic_symbols.py",
+      "line": 70,
+      "call": "write_text"
+    },
+    {
+      "path": "experiments/hardware_validation_20260916/ram500/verify_ram.py",
+      "line": 138,
+      "call": "write_text"
+    }
+  ]
+}

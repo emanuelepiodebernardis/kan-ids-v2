@@ -65,13 +65,54 @@ def test_lo_script_copre_tutti_gli_environment_di_platformio():
 
 @serve_csv
 def test_il_csv_copre_ogni_environment():
+    """Ogni environment sta o nei risultati o nel registro dei mancanti.
+
+    Non si pretende piu' che tutti abbiano dimensioni misurate: venti
+    environment sono stati aggiunti con la coorte comune e non hanno ancora
+    una build verificata. Si pretende che nessuno sparisca: la copertura fra i
+    due file dev'essere completa e senza sovrapposizioni, perche' un
+    environment assente da entrambi sarebbe un'esclusione silenziosa, ed e'
+    quella che questo file esiste per impedire.
+    """
     mod = _modulo()
     d = pd.read_csv(CSV)
-    mancanti = set(mod.environment()) - set(d.environment)
-    assert not mancanti, (
-        f"environment senza dimensioni misurate: {sorted(mancanti)}. "
-        f"Una tabella che ne omette la meta' e' il difetto che questo file "
-        f"esiste per impedire.")
+    tutti = set(mod.environment())
+    misurati = set(d.environment)
+
+    registro = REPO / "results" / "firmware_size_pending.csv"
+    assert registro.is_file(), (
+        f"manca {registro.name}: senza registro, gli environment non misurati "
+        f"non sono da nessuna parte")
+    reg = pd.read_csv(registro)
+    in_attesa = set(reg.environment)
+
+    assert not (misurati & in_attesa), (
+        f"environment sia misurati sia in attesa: "
+        f"{sorted(misurati & in_attesa)}")
+    scoperti = tutti - misurati - in_attesa
+    assert not scoperti, (
+        f"environment che non compaiono ne' nei risultati ne' nel registro: "
+        f"{sorted(scoperti)}")
+    inventati = (misurati | in_attesa) - tutti
+    assert not inventati, (
+        f"environment dichiarati ma non presenti in platformio.ini: "
+        f"{sorted(inventati)}")
+
+    # Nel registro non ci sono numeri: non potendo contenere dimensioni, non
+    # puo' contenerne di copiate da un'altra configurazione.
+    numeriche = [c for c in reg.columns if "byte" in c or "totale" in c]
+    assert not numeriche, (
+        f"il registro dei mancanti contiene colonne di dimensioni {numeriche}: "
+        f"un environment senza build non ha dimensioni da riportare")
+
+    # I due stati restano distinti, e "energia non misurata" non si applica a
+    # un environment di latenza, che quella misura non la produce.
+    assert set(reg.stato_build) == {"non_compilato"}, sorted(set(reg.stato_build))
+    attesa = {"energia": "non_misurata", "latenza": "non_applicabile"}
+    sbagliati = [r.environment for r in reg.itertuples()
+                 if r.stato_energia != attesa[r.categoria]]
+    assert not sbagliati, (
+        f"stato dell'energia incoerente con la categoria: {sbagliati}")
     assert (d.flash_byte > 0).all() and (d.sram_byte > 0).all()
 
 
@@ -100,9 +141,22 @@ def test_le_due_grandezze_non_sono_confuse():
         "modello: qualcosa sta misurando la cosa sbagliata")
     t = README.read_text(encoding="utf-8")
     blocco = t[t.index(INIZIO):t.index(FINE)]
-    assert "flashed binary" in blocco and "model" in blocco, (
+    # Non si pretende piu' la parola "flashed": compilare non dimostra che una
+    # scheda sia stata programmata, e il test chiedeva un termine che
+    # affermava piu' di quanto il dato sostenesse. Resta la sostanza, cioe'
+    # che le due grandezze siano nominate come cose diverse.
+    assert "binary size" in blocco or "binary sizes" in blocco, (
+        "il blocco non dice che quelle riportate sono dimensioni del binario")
+    assert "model" in blocco, (
         "il blocco non distingue le dimensioni del binario da quelle del "
         "modello")
+    # La parola "flashed" puo' comparire: il blocco la usa per NEGARE, dicendo
+    # che le dimensioni non provano che una scheda sia stata programmata. Cio'
+    # che non deve tornare e' l'etichetta "flashed binary" applicata alle
+    # dimensioni, che e' l'affermazione piu' forte del dato.
+    assert "flashed binary" not in blocco, (
+        "le dimensioni sono di nuovo etichettate come 'flashed binary': "
+        "la compilazione non dimostra che una scheda sia stata programmata")
 
 
 # --------------------------------------------------------------------------

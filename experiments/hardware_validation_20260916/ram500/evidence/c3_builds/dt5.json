@@ -1,0 +1,172 @@
+{
+  "schema": "kanids-ram500-build-v1",
+  "environment": "c3_ram_dt5",
+  "target_elf": "firmware.elf",
+  "active_symbol_present": true,
+  "prediction_symbol_present": true,
+  "physical_measurement": false,
+  "total_peak_claim": false,
+  "stack_usage_files": 47,
+  "stack_probe_symbol_present": true,
+  "diagnostic_globals": [
+    {
+      "symbol": "_ZL17ram_control_error",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL18ram_command_length",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL19ram_control_heap_ok",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_baseline_correct",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_command_overflow",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_control_complete",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_control_stack_ok",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL21ram_baseline_complete",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL21ram_control_task_done",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL22ram_baseline_ram_valid",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL9ram_state",
+      "bytes": 1
+    },
+    {
+      "symbol": "non_iram_int_disabled_flag",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL14ram_mismatches",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL19ram_checksum_per500",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL12ram_checksum",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL16ram_loop_hwm_min",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL17ram_loop_reserved",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL18ram_loop_hwm_after",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL19ram_heap_sample_min",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL19ram_loop_hwm_before",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL22ram_control_heap_after",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_heap_before",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_heap_during",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_stack_after",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_task_handle",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL24ram_control_stack_before",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL8ram_sink",
+      "bytes": 4
+    },
+    {
+      "symbol": "non_iram_int_disabled",
+      "bytes": 4
+    },
+    {
+      "symbol": "non_iram_int_mask",
+      "bytes": 4
+    },
+    {
+      "symbol": "reserved_region_dram_data",
+      "bytes": 8
+    },
+    {
+      "symbol": "reserved_region_iram_code",
+      "bytes": 8
+    },
+    {
+      "symbol": "reserved_region_rtcram_data",
+      "bytes": 8
+    },
+    {
+      "symbol": "_ZL13ram_run_token",
+      "bytes": 17
+    },
+    {
+      "symbol": "_ZL11ram_command",
+      "bytes": 24
+    },
+    {
+      "symbol": "_ZL13ram_row_input",
+      "bytes": 28
+    },
+    {
+      "symbol": "_ZL19ram_heap_start_info",
+      "bytes": 28
+    },
+    {
+      "symbol": "_ZL20ram_heap_finish_info",
+      "bytes": 28
+    }
+  ],
+  "section_report": ".pio\\build\\c3_ram_dt5\\firmware.elf  :\nsection                   size         addr\n.rtc.text                   16   1342177280\n.rtc.force_fast              0   1342177296\n.rtc_noinit                 16   1342177296\n.rtc.force_slow              0   1342177312\n.iram0.text              47866   1077411840\n.dram0.dummy             48128   1070071808\n.dram0.data               7544   1070119936\n.noinit                      0   1070127480\n.dram0.bss                7768   1070127488\n.flash.text             151632   1107296288\n.flash_rodata_dummy     196608   1006632992\n.flash.appdesc             256   1006829600\n.flash.rodata            61544   1006829856\n.eh_frame                11696   1006891400\n.flash.rodata_noload         0   1006903096\n.iram0.text_end            262   1077459706\n.iram0.data                  0   1077459968\n.iram0.bss                   0   1077459968\n.dram0.heap_start            8   1070135256\n.debug_info            2965775            0\n.debug_abbrev           270179            0\n.debug_loc              555140            0\n.debug_aranges           26432            0\n.debug_ranges            78032            0\n.debug_line            1151264            0\n.debug_str              310616            0\n.comment                    93            0\n.riscv.attributes           55            0\n.debug_frame             72148            0\nTotal                  5963078\n\n\n",
+  "isr_stack_static_reserved_bytes": 2096,
+  "batch_prediction_call_verified": true,
+  "diagnostic_globals_bytes": 225,
+  "static_data_sections_bytes": {
+    ".dram0.data": 7544,
+    ".dram0.bss": 7768
+  },
+  "static_sram_bytes": 15312,
+  "iram_code_bytes": 48128,
+  "peak_sram_measured": false
+}

@@ -1,0 +1,295 @@
+{
+  "schema": "kanids-ram500-run-v1",
+  "plan_item": {
+    "index": 8,
+    "key": "repeat02_dt5",
+    "repeat": 2,
+    "model": "dt5",
+    "board_kind": "mega"
+  },
+  "board_kind": "mega",
+  "model": "dt5",
+  "repeat": 2,
+  "started_utc": "2026-09-16T14:14:59.158+00:00",
+  "status": "accepted_observed_ram_components",
+  "commands": [
+    {
+      "argv": [
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_RAM500_20260916_v0.14.1\\.venv\\Scripts\\python.exe",
+        "-m",
+        "platformio",
+        "run",
+        "-d",
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_RAM500_20260916_v0.14.1\\project",
+        "-e",
+        "mega_ram_dt5",
+        "-t",
+        "nobuild",
+        "-t",
+        "upload",
+        "--upload-port",
+        "COM5"
+      ],
+      "started_utc": "2026-09-16T14:14:59.406+00:00",
+      "log": "03_upload.log",
+      "timeout_s": 180,
+      "encoding": "utf-8",
+      "finished_utc": "2026-09-16T14:15:09.718+00:00",
+      "returncode": 0
+    }
+  ],
+  "build_path": "builds/dt5",
+  "fresh_boot_method": "upload_each_repeat",
+  "source_manifest": {
+    "bytes": 16887,
+    "sha256": "ed95d1c8054ebb6be6abfc739a4ed59f0f3951c487fa55a57343d319f1374880"
+  },
+  "build_identities": {
+    "firmware.elf": {
+      "bytes": 45336,
+      "sha256": "c85ac7caeb65f1bf0a78237edfc870e488e1ed09629da90e52b8db8e2ad15da1"
+    },
+    "firmware.map": {
+      "bytes": 84365,
+      "sha256": "a4ace629a221cd4aada2537a7ccb86803f39f208e226446e62d03d4791873228"
+    },
+    "firmware.nm.txt": {
+      "bytes": 6342,
+      "sha256": "18dd87d10262aacf85ec88a7554d9371f6e7c8cd001b94897a96bb9ad885451e"
+    },
+    "firmware.disassembly.txt": {
+      "bytes": 222625,
+      "sha256": "f53427460ab0ece2ad40cec2fc97a87682e6b024eab88483b439abaf180af9e9"
+    },
+    "firmware.audit.json": {
+      "bytes": 6579,
+      "sha256": "f55c3c73ff20326fe1f7a6962ee48d0d522c0ceff37a5dce577a9ccf6938375d"
+    },
+    "firmware.sections.txt": {
+      "bytes": 548,
+      "sha256": "ff834e31c0b292b0094168222005a906d37fa31ca9427b22435133f46ee61e51"
+    },
+    "firmware.stack_usage.json": {
+      "bytes": 16417,
+      "sha256": "26ed52451336a84af6b0c8086c629d9473ce42ce4d6b01c42631c221c6639f56"
+    },
+    "firmware.hex": {
+      "bytes": 69870,
+      "sha256": "577242e8829309f72a832f1d56bbd3ab48f3bf20178660a173266148ce1a6f69"
+    },
+    "stack_usage/FrameworkArduino/abi.cpp.su": {
+      "bytes": 147,
+      "sha256": "69fa8a320a99cc84c9ed2363e42880eb1bddd256d74bebee6b2a0b8672b3f554"
+    },
+    "stack_usage/FrameworkArduino/CDC.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/HardwareSerial.cpp.su": {
+      "bytes": 732,
+      "sha256": "0b398242d8ebe9ceb6de884fb8b9abc6fc28f6b0e600501f56edd2fdfeea4831"
+    },
+    "stack_usage/FrameworkArduino/HardwareSerial0.cpp.su": {
+      "bytes": 210,
+      "sha256": "3d71d7acf860dd2a901f5e2a719d68fc8d32a9934bf488e0e3f8806aa49072c3"
+    },
+    "stack_usage/FrameworkArduino/HardwareSerial1.cpp.su": {
+      "bytes": 210,
+      "sha256": "6f657e9a7904d2fc5798df41114f5495c9ebdfb8e531f67aa3d7093caf30f2c0"
+    },
+    "stack_usage/FrameworkArduino/HardwareSerial2.cpp.su": {
+      "bytes": 210,
+      "sha256": "7ddb89a55977b0bb0da19afa05154cba0171feb1de093272148780744f3d793f"
+    },
+    "stack_usage/FrameworkArduino/HardwareSerial3.cpp.su": {
+      "bytes": 210,
+      "sha256": "0dd47626bf7d397df71703b0b0d093dd599c355b2d550af030d4501874d63bfb"
+    },
+    "stack_usage/FrameworkArduino/hooks.c.su": {
+      "bytes": 32,
+      "sha256": "75521e4a1a6bce0af33cedcbe63dad26370b908a51b52d072927e77e6938dceb"
+    },
+    "stack_usage/FrameworkArduino/IPAddress.cpp.su": {
+      "bytes": 675,
+      "sha256": "49eb073d2a76d8a7f9221029ea20e4c18181092d862bb588135e9af767bd85b7"
+    },
+    "stack_usage/FrameworkArduino/main.cpp.su": {
+      "bytes": 165,
+      "sha256": "84e73bfd44d55aaf5f2b796076eec6a67c253cc1eceb339a1635547aa264dc4b"
+    },
+    "stack_usage/FrameworkArduino/new.cpp.su": {
+      "bytes": 771,
+      "sha256": "7ce662be7c45626997f02040a05fb6abd75c50fd9b3f0650b34ad969205f7f10"
+    },
+    "stack_usage/FrameworkArduino/PluggableUSB.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/Print.cpp.su": {
+      "bytes": 1839,
+      "sha256": "03c922f0e1c90c995961d3b74a88b1d9e85f77ba14113f12394701af6031522a"
+    },
+    "stack_usage/FrameworkArduino/Stream.cpp.su": {
+      "bytes": 992,
+      "sha256": "6eb2e0f98df07c47bfe5cd0c83a696ca428c3deb5662e671db47d956fabf2e11"
+    },
+    "stack_usage/FrameworkArduino/Tone.cpp.su": {
+      "bytes": 221,
+      "sha256": "56c8449645ecae76ee169eeab39846f3789c4c3dd375f1f64778c1026ba38097"
+    },
+    "stack_usage/FrameworkArduino/USBCore.cpp.su": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stack_usage/FrameworkArduino/WInterrupts.c.su": {
+      "bytes": 465,
+      "sha256": "5c43e14b95054d59dda5e9b95602a36cb064d26164e39cbbfa1749cc0ca48c08"
+    },
+    "stack_usage/FrameworkArduino/wiring.c.su": {
+      "bytes": 206,
+      "sha256": "67fa73d1ab7e99a1809c252f7314a837ec6cdd8605eb4b7d0dca983b4523fca4"
+    },
+    "stack_usage/FrameworkArduino/wiring_analog.c.su": {
+      "bytes": 132,
+      "sha256": "a0bbcc51a40c152f965c0de783c1a94c375ee9ad14316e3cd461eac4db20f2d3"
+    },
+    "stack_usage/FrameworkArduino/wiring_digital.c.su": {
+      "bytes": 175,
+      "sha256": "0874a00e725ac5236440b8371d5c2bee92ab07e9062565acf269e5b6350b98cd"
+    },
+    "stack_usage/FrameworkArduino/wiring_pulse.c.su": {
+      "bytes": 83,
+      "sha256": "57d18c06dec7c49b7caadb46680745d9ec1e971cf0e8fe4d3aadbb022dbffb2a"
+    },
+    "stack_usage/FrameworkArduino/wiring_shift.c.su": {
+      "bytes": 78,
+      "sha256": "5701bcb1ff50173624479c9193c853d5581171cdc4918695b83edd9d7ba86189"
+    },
+    "stack_usage/FrameworkArduino/WMath.cpp.su": {
+      "bytes": 401,
+      "sha256": "1d28f78b9a4ffafcb9d9de9c282ab371b4e1e27875260c00191ddf97e70616c7"
+    },
+    "stack_usage/FrameworkArduino/WString.cpp.su": {
+      "bytes": 6262,
+      "sha256": "62c802f2034236febe6addb9f1593d906d94c25e21ae1bab139a36d9ac204c17"
+    },
+    "stack_usage/src/main.cpp.su": {
+      "bytes": 634,
+      "sha256": "56a4afbd44a6f7eeff07df24533dbf04de4d951af53ee9eb085392db0bf469bd"
+    }
+  },
+  "build_ram": {
+    "static_sram_bytes": 335,
+    "diagnostic_globals_bytes": 120
+  },
+  "board_before_upload": {
+    "port": "COM5",
+    "vid": 9025,
+    "pid": 66,
+    "serial_number": "14532303532351804271",
+    "description": "Устройство с последовательным интерфейсом USB (COM5)"
+  },
+  "board_after_upload": {
+    "port": "COM5",
+    "vid": 9025,
+    "pid": 66,
+    "serial_number": "14532303532351804271",
+    "description": "Устройство с последовательным интерфейсом USB (COM5)"
+  },
+  "info": {
+    "HELLO": {
+      "protocol": "kanids-ram500-v1"
+    },
+    "MODEL": {
+      "variant": "dt5",
+      "model_bytes": "285",
+      "cohort_sha256": "20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f"
+    },
+    "COHORT": {
+      "rows": "500",
+      "order": "attack_normal_interleaved",
+      "boundary": "flash_row_load_predict_checksum",
+      "model_placement": "flash"
+    },
+    "RAW_IDS": {
+      "values": "57978,126454,49019,94298,183174,127803,12386,91098,14299,116321,148681,119000,150843,98347,80922,124992,204398,82285,25406,123258,15698,90959,12417,124707,67727,93756,196427,85595,185853,127421,202201,83525,147265,124485,7462,101793,202099,120910,2396,126411,9688,82802,187241,91564,181492,106394,158684,109709,80426,119057,195790,113390,193852,125440,56499,98612,47595,119452,934,100821,36229,128098,27309,123722,157378,110420,46596,117438,180985,89004,6714,90370,61168,130971,184759,88970,55489,105353,55484,86793,63458,114392,161574,96577,23499,91057,61266,95487,170729,100776,167503,104897,152812,101262,2702,90519,207228,111505,176637,122518,39413,90958,5105,125344,138615,106613,18079,83976,195760,129030,135892,114641,175033,95103,135281,85536,143003,104427,150078,81828,197893,85934,159780,110986,12848,99589,46032,85918,187295,113506,132927,87347,7841,95911,198300,124939,43068,112599,151787,126793,160759,99376,207661,118610,163806,99585,77717,117012,39383,119390,30104,98252,160932,116719,161370,90088,54910,110713,31540,101733,14902,83267,41924,118572,140493,109678,79441,92089,191512,100666,32163,95205,29183,127369,35221,83287,68386,116290,131763,93983,162085,83219,202195,96648,208040,94422,200389,84417,63592,119435,143035,86458,17310,90640,148589,103262,157936,115718,32737,125057,56873,101687,173409,127446,4425,104296,166176,109497,61339,96847,152648,88717,144347,129447,67084,81878,80096,89116,22461,114847,79155,96278,172860,125265,203038,125640,58323,96902,9255,121201,5348,116574,142189,116997,141043,127142,144517,96450,131812,112710,32050,101848,63290,124685,31076,100499,146931,113395,69345,128010,60527,110377,141734,88804,152555,91974,189255,123034,26983,86040,41903,98967,21449,124212,134904,122060,14904,105133,46567,97125,180565,100387,1850,118916,204288,104972,162166,110444,11087,122843,159399,113355,161226,104066,64474,116485,205475,87630,43124,121371,156840,98783,132699,106385,166687,110122,71053,115123,9315,106025,195776,100502,170015,123899,180270,103602,139439,95242,63536,111902,179044,100700,44401,118244,170990,115960,149547,99653,150604,92571,198812,85025,159340,114939,33164,114367,19647,84132,49474,126732,41204,120047,32418,124644,8145,98248,210931,108068,194994,107758,174549,90880,46119,127345,31475,95457,30038,119235,62636,117341,28312,85866,135994,91914,155963,117114,150548,120155,175464,88680,53840,90002,184920,107034,153042,87283,58367,130642,25090,111058,43626,111765,190498,116213,156927,124568,165445,128395,203451,124586,137619,123999,189377,109742,5226,96157,136824,88653,182157,91463,188239,91559,55916,83874,180955,104610,132390,92304,58186,114656,185119,127456,57782,118255,72476,114819,143629,90720,19852,127742,186912,95430,198821,114627,140557,108455,4362,89898,40321,90217,1943,97966,60839,108613,166541,111783,186466,131004,184964,122731,134158,90895,159210,96536,13556,118007,161762,105365,37566,96592,6450,81532,44731,106560,7894,122491,141427,100469,23293,98893,155810,90729,49586,87759,152733,98370,166744,113639,10501,103590,134702,96890,131107,87327,71136,83957,172652,118952,33314,102058,23181,100021,1458,94042,174393,127528,53610,96364,207940,82159,192244,98307,29448,83395,170354,122359,195354,86888,40451,114705,61652,85374,197902,91238,73630,112672,21644,99689,209795,119086"
+    },
+    "SYSTEM": {
+      "chip": "ATmega2560",
+      "cpu_mhz": "16",
+      "sram_capacity_bytes": "8192",
+      "interrupts": "enabled",
+      "wdt": "unchanged"
+    },
+    "INFO_DONE": {
+      "state": "idle"
+    }
+  },
+  "connection_retries": [],
+  "baseline_start_utc": "2026-09-16T14:15:12.316+00:00",
+  "result": {
+    "begin": {
+      "rows": "500",
+      "passes": "3",
+      "scope": "load_predict_reference_check"
+    },
+    "ram": {
+      "board": "mega",
+      "model": "dt5",
+      "rows": "500",
+      "passes": "3",
+      "checked": "1500",
+      "mismatches": "0",
+      "checksum": "747",
+      "checksum_per500": "249",
+      "correct": "1",
+      "ram_valid": "1",
+      "row_buffer_bytes": "32",
+      "heap_end_before": "847",
+      "heap_end_after": "847",
+      "malloc_calls": "0",
+      "calloc_calls": "0",
+      "realloc_calls": "0",
+      "free_calls": "0",
+      "stack_observed_bytes": "46",
+      "min_sampled_sp": "8669",
+      "paint_min_untouched_bytes": "7811",
+      "paint_last_low": "847",
+      "paint_last_high_exclusive": "8664",
+      "paint_guard_bytes": "16",
+      "patterns": "165,90,60",
+      "stack_scope": "load_predict_check_and_observed_ISR",
+      "total_peak_claim": "0"
+    },
+    "done": {
+      "correct": "1",
+      "reset_required": "1"
+    },
+    "software_protocol_pass": true
+  },
+  "baseline_end_utc": "2026-09-16T14:15:12.467+00:00",
+  "control_start_utc": "2026-09-16T14:15:12.471+00:00",
+  "control": {
+    "stack_pass": "1",
+    "heap_pass": "1",
+    "correct": "1",
+    "stack_before_bytes": "0",
+    "stack_after_bytes": "293",
+    "heap_before": "847",
+    "heap_during": "977",
+    "heap_after": "847",
+    "heap_alloc_ok": "1",
+    "heap_malloc_calls": "1",
+    "heap_free_calls": "1",
+    "paint_stack_before_bytes": "0",
+    "paint_stack_after_bytes": "293",
+    "stack_probe_bytes": "256",
+    "heap_probe_bytes": "128",
+    "stack_metric": "observed_depth",
+    "heap_metric": "heap_end_address",
+    "separate_task": "0",
+    "baseline_already_saved": "1"
+  },
+  "control_end_utc": "2026-09-16T14:15:12.524+00:00",
+  "finished_utc": "2026-09-16T14:15:12.525+00:00"
+}

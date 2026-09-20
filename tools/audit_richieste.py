@@ -280,6 +280,7 @@ attesi = {
     "Decision Tree d=5 (confronto Pareto)": "main_dt5.cpp",
     "KAN single-layer campionata (sampled-LUT)": "main_lut14.cpp",
     "MLP(16) denso (baseline hardware)": "main_mlp.cpp",
+    "replay a coorte comune (latenza)": "main_common_latency.cpp",
 }
 mancanti = [k for k, v in attesi.items()
             if not (src / v).exists() or v not in ini]

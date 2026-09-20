@@ -1,0 +1,46 @@
+{
+  "authors": [
+    {
+      "name": "Oleksandr Kuznetsov",
+      "affiliations": [
+        1,
+        2,
+        3
+      ],
+      "corresponding": true,
+      "email": "oleksandr.kuznetsov@uniecampus.it",
+      "orcid": "0000-0003-2331-6326"
+    },
+    {
+      "name": "Emanuele Pio De Bernardis",
+      "affiliations": [
+        1
+      ],
+      "email": "emanuelepio.debernardis@gmail.com",
+      "orcid": "0009-0004-7915-5204"
+    },
+    {
+      "name": "Emanuele Frontoni",
+      "affiliations": [
+        4
+      ],
+      "email": "emanuele.frontoni@unimc.it",
+      "orcid": "0000-0002-8893-9244"
+    }
+  ],
+  "affiliations": {
+    "1": "Department of Theoretical and Applied Sciences, eCampus University, Via Isimbardi 10, Novedrate (CO), 22060, Italy",
+    "2": "SMARTEST Research Center, eCampus University, Via Isimbardi 10, Novedrate (CO), 22060, Italy",
+    "3": "Department of Intelligent Software Systems and Technologies, School of Computer Science and Artificial Intelligence, V.N. Karazin Kharkiv National University, 4 Svobody Sq., 61022 Kharkiv, Ukraine",
+    "4": "Department of Political Sciences, Communication and International Relations, University of Macerata, Via Crescimbeni, 30/32, 62100 Macerata, Italy"
+  },
+  "correspondence": "oleksandr.kuznetsov@uniecampus.it",
+  "funding": "NOT_PROVIDED_YET",
+  "acknowledgments": "Brief AI assistance statement; no mention of private Russian translation.",
+  "pending_clarification": null,
+  "biographies": "Expanded in v0.4 from user-supplied bios and CV; facts are author-provided, not independently verified career records. See AUTHOR_BIO_PROVENANCE.json.",
+  "affiliation_3_confirmation": "Explicitly requested by Oleksandr Kuznetsov in the current revision on 2026-09-10.",
+  "orcid_display": "Clickable green iD icons next to all three author names; identifiers unchanged.",
+  "author_order_status": "Draft order requested by Oleksandr Kuznetsov on 2026-09-15; coauthor agreement is not asserted and must be resolved before submission.",
+  "version": "0.15.3"
+}

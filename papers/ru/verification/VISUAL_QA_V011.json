@@ -1,0 +1,30 @@
+{
+  "version": "0.11.0",
+  "status": "PASS",
+  "pdf_sha256": "41e66a5460d0ab3503b7264eaaf1275f4af57650b72ed1b9487bbddc4935d63e",
+  "pdf_pages": 41,
+  "reviewed_pages": [
+    1,
+    2,
+    24,
+    25,
+    26,
+    27,
+    28,
+    30,
+    31,
+    37,
+    40,
+    41
+  ],
+  "checks": [
+    "First author, ORCID and affiliations readable",
+    "Original setup photographs shown side by side at equal 5 cm height; no alteration of source pixels",
+    "New energy table, memory table and comparison figure legible without clipping",
+    "Equation and limitations readable",
+    "Historical tables and captions remain separate",
+    "Translated AI acknowledgment and responsibility statement present",
+    "Biographies follow proposed author order"
+  ],
+  "note": "Scientific consistency is recorded in SCIENCE_QA_V011.json. Re-rendered final pages show no collision or clipped content."
+}

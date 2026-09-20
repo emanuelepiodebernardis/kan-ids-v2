@@ -1,0 +1,26 @@
+[
+  {
+    "source_name": "C3.jpg",
+    "paper_asset": "C3_measurement.jpg",
+    "sha256": "bffd3388c6276e806caa793f89e3961570330b02174007d039374aa6cd6a2943",
+    "bytes": 70978,
+    "pixel_dimensions": [
+      510,
+      642
+    ],
+    "processing": "None: original JPEG bytes copied unchanged. Side-by-side arrangement is typeset by LaTeX, not a modified photograph.",
+    "scope": "Connection setup photograph; screen reading is a snapshot and is not a recorded active-batch mean. Image alone does not identify run, firmware or board MAC."
+  },
+  {
+    "source_name": "Mega.jpg",
+    "paper_asset": "Mega_measurement.jpg",
+    "sha256": "4e693814c50d6170400094dc9ded5e79f3e42543d5001dd781207fc18fe522b2",
+    "bytes": 130952,
+    "pixel_dimensions": [
+      564,
+      741
+    ],
+    "processing": "None: original JPEG bytes copied unchanged. Side-by-side arrangement is typeset by LaTeX, not a modified photograph.",
+    "scope": "Connection setup photograph; screen reading is a snapshot and is not a recorded active-batch mean. Image alone does not identify run, firmware or board MAC."
+  }
+]

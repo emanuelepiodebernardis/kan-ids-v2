@@ -1,0 +1,168 @@
+{
+  "source_release": "KAN_IDS_STAGE2_20260916_v0.13.1",
+  "source_snapshot_only": true,
+  "no_training_performed_for_this_integration": true,
+  "files_copied_verbatim": [
+    {
+      "path": "bootstrap.py",
+      "bytes": 4215,
+      "sha256": "87f944d31ab951fa657c5ea0878c478f18d118c525137c5507de5bf8e013434e"
+    },
+    {
+      "path": "run_stage2.py",
+      "bytes": 11481,
+      "sha256": "e0b9f72c86fb318911d08b0715cb98cfb56577b2bcb2bdfa5cda8b4893f74beb"
+    },
+    {
+      "path": "verify_saved_study.py",
+      "bytes": 10981,
+      "sha256": "8887cb01166e7a3da663523da46dac9339616a341000bfba6d3d198dc800cd8e"
+    },
+    {
+      "path": "pilot.py",
+      "bytes": 25494,
+      "sha256": "91ac93b6b869780aa2b093a04f9161bf319866dc72b9bdc92eaf28536a668717"
+    },
+    {
+      "path": "UPSTREAM_MANIFEST.json",
+      "bytes": 7830,
+      "sha256": "28bf029d51e4a3e50f1401fbede1aa7bcafa2ff3d7208519ff95c8b876042bd7"
+    },
+    {
+      "path": "audit_dataset.py",
+      "bytes": 8875,
+      "sha256": "c1e9d9a1a8edb867279bfdbbfcc6514a74bcd08792d7da5535ced8ce66f190e3"
+    },
+    {
+      "path": "study.py",
+      "bytes": 27339,
+      "sha256": "afccf3be83b3119489ee02ddeb1506ac17f573af3591f60cde6838960b073c03"
+    },
+    {
+      "path": "PROTOCOL.json",
+      "bytes": 6867,
+      "sha256": "ec61a37361727decb8be736169ef7327abcd2ba7e282e6dbcdf2c18171f02389"
+    },
+    {
+      "path": "STAGE1_PROTOCOL.json",
+      "bytes": 4244,
+      "sha256": "0eaa670a244b9cb5f5067276d566cee6ae47b51a8c32714c51d57bf255c483ad"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 75,
+      "sha256": "c8513d42a04635fdd9b0cca3517ceb82b9d97c1d3a55509140cda54435e7f3a6"
+    },
+    {
+      "path": "tests/test_archive_integrity.py",
+      "bytes": 1189,
+      "sha256": "e8b850ba4127a0300bb3668dc45923f1be3231b7e11cf6be15b1c51b849c67c4"
+    },
+    {
+      "path": "tests/test_pilot.py",
+      "bytes": 6994,
+      "sha256": "f50a25f35e8e367950fb5a641c82b707b351e41176e6ceb199eae09c310fd58f"
+    },
+    {
+      "path": "tests/test_audit_dataset.py",
+      "bytes": 2690,
+      "sha256": "c6a2e3315445378906a7e8302a9158c2220468766cde8f9841dc8f29c0fe4a54"
+    },
+    {
+      "path": "tests/test_study.py",
+      "bytes": 11731,
+      "sha256": "8e648df2b6fd2864d51312afe486b87a8a09cfb1e18937d6d9466696cbfa7870"
+    },
+    {
+      "path": "reference/kanids/legacy.py",
+      "bytes": 6264,
+      "sha256": "b20dafbd22a3ad7566494f652588f067f870ca701963581d87748b3c33ef0e6e"
+    },
+    {
+      "path": "reference/kanids/datasets.py",
+      "bytes": 11932,
+      "sha256": "d6e3cb9f888529397407d128e4f10510369e14d3da3aee70232433053d18ab87"
+    },
+    {
+      "path": "reference/kanids/toolchain.py",
+      "bytes": 5188,
+      "sha256": "356698dfbbd2fff5e4f2017223bcad3fd523a4c24669d7c81eebe33ae5cdf70e"
+    },
+    {
+      "path": "reference/kanids/__init__.py",
+      "bytes": 1896,
+      "sha256": "187bff68576471aafb50e5ca053cb61d25e5de4ff70d5098f3d0723d6b1468a8"
+    },
+    {
+      "path": "reference/kanids/integer.py",
+      "bytes": 4346,
+      "sha256": "24626addc0d758bcd8363dfa59daf85462f7581107ea6ec7fbce9f3c19883e80"
+    },
+    {
+      "path": "reference/kanids/console.py",
+      "bytes": 2423,
+      "sha256": "828222f6555d386da05cafde997effdf1b222abbfd99b9f9dee97f167d049e81"
+    },
+    {
+      "path": "reference/kanids/splits.py",
+      "bytes": 2651,
+      "sha256": "8eb105010e0bafaa88b9da36ec269e0e0ea999eaf78a98ec0d0c574d043dc1c0"
+    },
+    {
+      "path": "reference/kanids/lut.py",
+      "bytes": 9014,
+      "sha256": "87e1950c97064d7e009e7833d69ae0d634e1dd9d73ce16ce1c6c8748d1550bd3"
+    },
+    {
+      "path": "reference/kanids/harmonized.py",
+      "bytes": 12426,
+      "sha256": "410329348bf00f9a5635e6b8fe4936544a56ea7d9df35219fb14488d8e17daf5"
+    },
+    {
+      "path": "reference/kanids/config.py",
+      "bytes": 9138,
+      "sha256": "a8f90a09028d7e3924f886b0afe4e6789ebdc98aaa02961e1a91ef1d36d7cda1"
+    },
+    {
+      "path": "reference/kanids/compila_ml.py",
+      "bytes": 11001,
+      "sha256": "59ce3a25cb982ef7a133182d385b815bbf880960776fff245f44baae60f73d60"
+    },
+    {
+      "path": "reference/kanids/checkpoint.py",
+      "bytes": 2673,
+      "sha256": "ac0563246c7efee315e5d59bb6f41e4486767bff1f6fc131104bb72cfa205d51"
+    },
+    {
+      "path": "reference/kanids/models.py",
+      "bytes": 29913,
+      "sha256": "3cf05a29557fc8f5a8e664754916ccae4b0fcabb2ec6348b0a1c715638fcd616"
+    },
+    {
+      "path": "reference/kanids/interpretabilita.py",
+      "bytes": 8684,
+      "sha256": "5893bc43a8da84b130b94a80e3fd5d710538c265bf6f04cf64e26b83fb2dc12f"
+    },
+    {
+      "path": "reference/kanids/statistica.py",
+      "bytes": 10815,
+      "sha256": "abb9008814b9cd820ea051c9489c1d2db62a15cdb1bcfa25391ce7e0c367a8d4"
+    },
+    {
+      "path": "reference/kanids/cache.py",
+      "bytes": 2465,
+      "sha256": "3b2c3c14a14da6b46fd8aaa182f23c3a9d3943b9036dc0cd7bc942284835e08a"
+    },
+    {
+      "path": "reference/kanids/metrics.py",
+      "bytes": 4864,
+      "sha256": "04abad6ff413181b722ef0e0cc5d364abb0c4c1abedfa6290a940e9fef51c38d"
+    },
+    {
+      "path": "reference/kanids/preprocessing.py",
+      "bytes": 11367,
+      "sha256": "261bbea3ac99260db3ed943c67ce723033ea21864ce015248d5b9a3a791ac32a"
+    }
+  ],
+  "full_reproduction_requires": "Original kit and dataset identified in ../INPUT_ARCHIVES.json; this subset preserves method implementation and regression source without data/fits."
+}

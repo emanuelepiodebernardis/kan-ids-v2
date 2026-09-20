@@ -55,6 +55,10 @@ from kanids import RESULTS_DIR                                  # noqa: E402
 
 MCU = _REPO / "mcu_pio"
 USCITA = RESULTS_DIR / "firmware_size.csv"
+#: registro degli environment senza build verificata: la copertura fra i
+#: due file deve essere completa, perche' un environment che non compare
+#: ne' qui ne' li' sarebbe un'esclusione silenziosa.
+REGISTRO = RESULTS_DIR / "firmware_size_pending.csv"
 INIZIO = "<!-- firmware-size:inizio -->"
 FINE = "<!-- firmware-size:fine -->"
 
@@ -93,16 +97,55 @@ def misura(pio: str, env: str) -> dict | None:
             "sram_byte": valori["RAM"][0], "sram_totale": valori["RAM"][1]}
 
 
+def registro_mancanti(d: pd.DataFrame) -> pd.DataFrame:
+    """Gli environment senza dimensioni misurate, con i due stati separati.
+
+    Le dimensioni del linker non richiedono misure di energia, ma devono
+    riferirsi a una build verificata: finche' quella non esiste, l'environment
+    non ha righe nei risultati. Restano pero' due fatti diversi, e vanno tenuti
+    diversi: che il firmware non sia stato compilato, e che l'energia non sia
+    stata misurata. Confonderli farebbe credere che basti compilare per
+    completare la riga degli environment di energia.
+
+    La colonna `stato_energia` vale `non_applicabile` per gli environment di
+    latenza: non e' una misura mancante, e' una misura che quell'environment
+    non produce.
+    """
+    misurati = set(d.environment)
+    righe = [{"environment": e,
+              "scheda": scheda(e),
+              "categoria": categoria(e),
+              "stato_build": "non_compilato",
+              "stato_energia": ("non_misurata" if "_energy" in e
+                                else "non_applicabile"),
+              "motivo": "nessuna build verificata per questo environment"}
+             for e in environment() if e not in misurati]
+    return pd.DataFrame(righe, columns=["environment", "scheda", "categoria",
+                                        "stato_build", "stato_energia",
+                                        "motivo"])
+
+
 def blocco_markdown(d: pd.DataFrame) -> str:
     uso = {"latenza": "latency", "energia": "energy"}
+    mancanti = registro_mancanti(d)
     r = [INIZIO, "",
-         f"All {len(d)} PlatformIO environments in `mcu_pio/platformio.ini` "
-         f"build. These are the sizes of the **flashed binary**, Arduino core "
-         f"included, as PlatformIO reports them; they are written to "
+         f"The author saved {len(d)} RC3 PlatformIO linker results. These are "
+         f"**compiled binary sizes**, Arduino core included, not proof that a "
+         f"board was flashed or measured; they are written to "
          f"`results/firmware_size.csv` by `scripts/firmware_size.py`, which "
          f"also regenerates this block. They are a different quantity from the "
          f"*model* bytes in the Pareto table above, which count only the "
          f"parameter arrays.", ""]
+    if len(mancanti):
+        energia = int((mancanti.stato_energia == "non_misurata").sum())
+        r += [f"The remaining {len(mancanti)} environments in "
+              f"`mcu_pio/platformio.ini` have no verified build yet and are "
+              f"listed in `results/firmware_size_pending.csv`, with no sizes "
+              f"copied from any other configuration. Of those, {energia} are "
+              f"energy environments whose physical measurement is also still "
+              f"missing: not compiled and not measured are recorded as two "
+              f"separate states, because compiling them would not complete "
+              f"the second.", ""]
     for sch in ("Mega 2560", "ESP32-C3"):
         parte = d[d.scheda == sch]
         if parte.empty:

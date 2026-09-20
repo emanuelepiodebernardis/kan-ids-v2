@@ -1,0 +1,14 @@
+{
+  "reviewed_software_commit": "b219fb6671442e2e5dfcda5b6ea49a04d57e7960",
+  "script_author": "Emanuele Pio De Bernardis",
+  "source": "Email received 19 September 2026, subject Re: Risultati della verifica indipendente; attachment verifica_certificato.py",
+  "script_bytes": 5327,
+  "script_sha256": "620e9785beb6097d17db26bc7849bab32bb3011f35118a206f67a035f8529d72",
+  "headers": {
+    "kan14_coeff_int8.h": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea",
+    "kan14_lut_int16.h": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+  },
+  "checks_passed": 8,
+  "execution": "Python standard library; exhaustive numerical-edge arithmetic; no training and no device access",
+  "scope": "Recomputes edge errors, symmetric bound, signed extrema, scale exponents, cubic-basis quantities and array byte counts. It does not independently recount certified rows on a dataset, certify the floating model or measure compiled firmware/RAM."
+}

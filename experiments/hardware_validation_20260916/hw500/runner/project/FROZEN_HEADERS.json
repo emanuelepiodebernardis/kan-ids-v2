@@ -1,0 +1,85 @@
+{
+  "source": "Paper1 v0.12.0 repository/mcu_pio/include",
+  "files": [
+    {
+      "path": "include/hardware_cohort_select.h",
+      "sha256": "abf56f2d4e83b59586e8338c623f899e47a7c86f06f7635e79a0ccd0ef9a2c40",
+      "bytes": 3630
+    },
+    {
+      "path": "include/kan14_coeff_infer.h",
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83",
+      "bytes": 2191
+    },
+    {
+      "path": "include/kan14_coeff_int8.h",
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea",
+      "bytes": 2002
+    },
+    {
+      "path": "include/kan14_lut_infer.h",
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d",
+      "bytes": 3398
+    },
+    {
+      "path": "include/kan14_lut_int16.h",
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb",
+      "bytes": 71802
+    },
+    {
+      "path": "include/kan14_ml_coeff_infer.h",
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484",
+      "bytes": 3031
+    },
+    {
+      "path": "include/kan14_ml_coeff_int8.h",
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344",
+      "bytes": 22321
+    },
+    {
+      "path": "include/mlp16_infer.h",
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a",
+      "bytes": 3748
+    },
+    {
+      "path": "include/mlp16_int8.h",
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f",
+      "bytes": 4955
+    },
+    {
+      "path": "include/dt5_model.h",
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0",
+      "bytes": 19409
+    },
+    {
+      "path": "include/q15_mul.h",
+      "sha256": "635b0590723d85f63943419e5940ba4059988bf5a5cb33a70f766f5c787ead65",
+      "bytes": 2878
+    },
+    {
+      "path": "include/hardware_cohort/common.h",
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7",
+      "bytes": 5948
+    },
+    {
+      "path": "include/hardware_cohort/kan.h",
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284",
+      "bytes": 44271
+    },
+    {
+      "path": "include/hardware_cohort/kan_ml.h",
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b",
+      "bytes": 1740
+    },
+    {
+      "path": "include/hardware_cohort/mlp.h",
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9",
+      "bytes": 42646
+    },
+    {
+      "path": "include/hardware_cohort/dt.h",
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f",
+      "bytes": 39825
+    }
+  ]
+}

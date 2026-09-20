@@ -1,0 +1,143 @@
+{
+  "version": "0.11.0",
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "main.tex",
+      "blocks": 0,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "parts/a_ru.tex",
+      "blocks": 3,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "parts/b_ru.tex",
+      "blocks": 9,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "parts/c_ru.tex",
+      "blocks": 5,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "inputs/c3_followup.tex",
+      "blocks": 1,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "inputs/factorial_table.tex",
+      "blocks": 1,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "inputs/ml_supplement_tables.tex",
+      "blocks": 4,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "inputs/signed_certificate.tex",
+      "blocks": 5,
+      "pass": true
+    },
+    {
+      "check": "old_numerical_blocks_preserved",
+      "file": "inputs/unsw_diagnostics.tex",
+      "blocks": 1,
+      "pass": true
+    },
+    {
+      "check": "rounded_energy_table_row_from_accepted_record",
+      "model": "coeff",
+      "pass": true
+    },
+    {
+      "check": "rounded_energy_table_row_from_accepted_record",
+      "model": "lut",
+      "pass": true
+    },
+    {
+      "check": "rounded_energy_table_row_from_accepted_record",
+      "model": "mlp",
+      "pass": true
+    },
+    {
+      "check": "rounded_energy_table_row_from_accepted_record",
+      "model": "kanml",
+      "pass": true
+    },
+    {
+      "check": "rounded_energy_table_row_from_accepted_record",
+      "model": "dt5",
+      "pass": true
+    },
+    {
+      "check": "metadata_author_order",
+      "pass": true
+    },
+    {
+      "check": "biography_order",
+      "pass": true
+    },
+    {
+      "check": "global_no_energy_claim_removed",
+      "pass": true
+    },
+    {
+      "check": "same_draft_order_pending_coauthors",
+      "pass": true
+    },
+    {
+      "check": "no_peak_memory_claim",
+      "pass": true
+    },
+    {
+      "check": "original_photograph_bytes",
+      "file": "C3_measurement.jpg",
+      "pass": true,
+      "sha256": "bffd3388c6276e806caa793f89e3961570330b02174007d039374aa6cd6a2943"
+    },
+    {
+      "check": "original_photograph_bytes",
+      "file": "Mega_measurement.jpg",
+      "pass": true,
+      "sha256": "4e693814c50d6170400094dc9ded5e79f3e42543d5001dd781207fc18fe522b2"
+    },
+    {
+      "check": "layout_and_cross_references",
+      "pass": true,
+      "warnings": []
+    },
+    {
+      "check": "readable_complete_pdf",
+      "pass": true,
+      "pages": 41
+    },
+    {
+      "check": "16_tables_14_preserved_plus2",
+      "pass": true
+    },
+    {
+      "check": "1SE_threshold_and_seed_scope",
+      "pass": true,
+      "source": "ARCH_SELECTION_SCELTA.json"
+    },
+    {
+      "check": "Mega_repeat_difference_under_0.32percent",
+      "pass": true,
+      "max_abs_percent": 0.3185890078696074
+    }
+  ],
+  "scope": "Manuscript integration and numerical/layout consistency; no new model training or hardware execution.",
+  "pdf_sha256": "41e66a5460d0ab3503b7264eaaf1275f4af57650b72ed1b9487bbddc4935d63e"
+}

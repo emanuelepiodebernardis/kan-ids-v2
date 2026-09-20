@@ -1,0 +1,585 @@
+\documentclass{ieeeaccess}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,booktabs,array,graphicx,cite,microtype}
+\usepackage{placeins,float,afterpage}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\authororcid}[1]{\raisebox{0.6ex}{\href{https://orcid.org/#1}{\includegraphics[height=0.7em]{figures/orcid-icon.pdf}}}}
+\usepackage{etoolbox}
+\makeatletter
+\input{t1pcr.fd}
+\makeatother
+\DeclareFontShape{T1}{pcr}{n}{n}{<-> ssub * pcr/m/n}{}
+\urlstyle{same}
+\hypersetup{pdftitle={Decision-Agreement Certificates for Integer Additive Kolmogorov-Arnold Networks: A Microcontroller Case Study in IoT Intrusion Detection},pdfauthor={Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni},pdfsubject={Paper 1 IEEE Access working manuscript v0.15.3}}
+\newcommand{\BA}{\operatorname{BA}}
+\newcommand{\TNR}{\operatorname{TNR}}
+\newcommand{\TPR}{\operatorname{TPR}}
+\newcommand{\floor}[1]{\left\lfloor #1\right\rfloor}
+\newcommand{\smallnote}[1]{\par\vspace{3pt}{\footnotesize #1\par}}
+\graphicspath{{figures/}}
+\renewcommand{\dbltopfraction}{0.96}
+\renewcommand{\textfraction}{0.04}
+\renewcommand{\dblfloatpagefraction}{0.70}
+\hyphenation{micro-controller micro-controllers pre-processing}
+% The publisher's class and assets are unmodified. Only draft metadata is
+% suppressed here: publication date, DOI, volume and year are not yet assigned.
+% Reserve space for the class abstract/index bullet; the class aliases both widths.
+\newlength{\kanidsabstractwidth}
+\setlength{\kanidsabstractwidth}{\dimexpr\titlewidth-10pt\relax}
+\let\abstractwidth\kanidsabstractwidth
+\makeatletter
+\patchcmd{\@maketitle}
+  {{\vss\doifont Digital Object Identifier\space\@doi\vss}\vspace*{7.4mm}\par}
+  {}{}{\PackageError{kanids}{Could not remove unassigned DOI line}{Review the supplied template.}}
+\newcommand{\kanidsdraftfoot}{\hbox to\textwidth{{\footervolfont Working manuscript, version 0.15.3}\hfill{\footerpagefont\thepage}}}
+\apptocmd{\ps@titlepage}{\def\@oddfoot{\kanidsdraftfoot}\def\@evenfoot{\kanidsdraftfoot}}{}{}
+\apptocmd{\ps@headings}{\def\@oddfoot{\kanidsdraftfoot}\def\@evenfoot{\kanidsdraftfoot}}{}{}
+\makeatother
+\makeatletter
+\patchcmd{\IEEEbiographynophoto}{\vskip 4\baselineskip plus 1fil minus 0\baselineskip}{\vskip 4\baselineskip}{}{\PackageError{kanids}{Could not set biography spacing}{Review the supplied template.}}
+\def\@IEEEBIOskipN{3\baselineskip} % Keep all biographies and the end marker together.
+\patchcmd{\thebibliography}{\addcontentsline{toc}{section}{\refname}}
+  {\phantomsection\addcontentsline{toc}{section}{\refname}}{}
+  {\PackageError{kanids}{Could not set bibliography destination}{Review the supplied template.}}
+\makeatother
+\pagestyle{headings}
+\begin{document}
+\history{Working manuscript, 19 September 2026.}
+\doi{}
+\title{Decision-Agreement Certificates for Integer Additive Kolmogorov--Arnold Networks: A Microcontroller Case Study in IoT Intrusion Detection}
+\author{\uppercase{Oleksandr Kuznetsov}\authororcid{0000-0003-2331-6326}\authorrefmark{1,2,3,*},
+\uppercase{Emanuele Pio De Bernardis}\authororcid{0009-0004-7915-5204}\authorrefmark{1},
+\mbox{and \uppercase{Emanuele Frontoni}\authororcid{0000-0002-8893-9244}\authorrefmark{4}}}
+\address[1]{Department of Theoretical and Applied Sciences, eCampus University, Via Isimbardi 10, Novedrate (CO), 22060, Italy (e-mails: emanuelepio.debernardis@gmail.com; oleksandr.kuznetsov@uniecampus.it)}
+\address[2]{SMARTEST Research Center, eCampus University, Via Isimbardi 10, Novedrate (CO), 22060, Italy}
+\address[3]{Department of Intelligent Software Systems and Technologies, School of Computer Science and Artificial Intelligence, V.N. Karazin Kharkiv National University, 4 Svobody Sq., 61022 Kharkiv, Ukraine}
+\address[4]{Department of Political Sciences, Communication and International Relations, University of Macerata, Via Crescimbeni, 30/32, 62100 Macerata, Italy (e-mail: emanuele.frontoni@unimc.it)}
+\corresp{Corresponding author: Oleksandr Kuznetsov (e-mail: oleksandr.kuznetsov@uniecampus.it).}
+\tfootnote{}
+\markboth{Kuznetsov et al.: Decision-Agreement Certificates for Integer Additive KANs}{Kuznetsov et al.: Decision-Agreement Certificates for Integer Additive KANs}
+\begin{abstract}
+Exact additive score decomposition makes additive Kolmogorov--Arnold networks suitable for direct arithmetic inspection. We use IoT intrusion detection as a case study of integer export verification and microcontroller implementation. Exhaustive enumeration of finite-domain edge functions includes integer rounding; signed error intervals give sufficient agreement certificates relative to the frozen integer coefficient evaluator. A 20,554-byte table certifies 42,206 of 42,209 prepared test decisions, with empirical agreement on all decisions; the coefficient arrays occupy 254 bytes. The certificates cover coefficient-to-LUT agreement only: export from the original floating model changes 40 test decisions and is not certified. Under a controlled cycle-counter protocol with Flash code and DRAM parameters, the LUT is about 1.71 times faster on ESP32-C3, whereas it is 7.58\% slower under the original five-implementation protocol. A separate sustained workload cycles the same 500 source flows used by the hardware comparison and records whole-board USB energy and batch time under one boundary. Coefficient-to-LUT energy estimates decrease from 498 to 92.2~$\mu$J per iteration on Mega 2560 and from 0.987 to 0.859~$\mu$J on ESP32-C3. Instrumented runs report observed static, stack and heap components, without claiming an exact whole-system memory peak. An endpoint-pair-disjoint floating-model experiment gives additive-KAN balanced accuracy 0.8948 and false-positive rate 20.59\%, both worse than those of the evaluated GAM and MLP baselines. These results support an auditable implementation study while showing the detection limitations of the chosen additive model.
+\end{abstract}
+\begin{keywords}
+Cross-dataset evaluation, explainability, integer inference, Internet of Things, intrusion detection, Kolmogorov--Arnold networks, lookup tables, microcontrollers.
+\end{keywords}
+\titlepgskip=-21pt
+\maketitle
+
+\section{Introduction}
+An intrusion detector intended for a small edge device must satisfy several different requirements. It must distinguish attacks from normal traffic in the evaluated population, remain useful when the observation environment changes, and execute within the device's computational and memory constraints. A high score on a random split of one network dataset establishes only part of this evidence. Likewise, a small parameter array does not establish a small complete firmware image, low peak SRAM use, or low energy per decision.
+
+Kolmogorov--Arnold networks (KANs) represent learned transformations through univariate functions on network edges~\cite{liu2024kan}. Their functions can be evaluated from coefficients or compiled into tables. We select an additive categorical KAN because its output decomposes exactly into numerical and categorical contributions, and its finite-domain edge errors can be exhaustively checked under integer arithmetic. This structure makes it possible to study how export agreement changes with the table memory budget. IoT intrusion detection supplies the application case, with separate classifier comparisons to assess detection quality. A requirement to inspect a separate contribution from every input is different from a requirement to inspect a tree decision path. Both can be useful forms of model inspection; neither establishes that the additive model should replace a more accurate or faster detector. The representation, feature preprocessing, and target processor must be assessed together.
+
+This study asks three questions. What decision-agreement certificate can be computed directly from a frozen integer evaluator and its sampled LUT? What memory--uncertainty trade-off is observed between the fixed table sizes? How do representation and memory placement affect measured inference latency, and what whole-board energy cost is observed under sustained prepared-input execution on AVR and RV32 microcontrollers? Native-feature and cross-dataset experiments place these implementation results in the context of the evaluated classifier pipelines.
+
+The contributions are as follows:
+\begin{enumerate}
+\item A finite-domain agreement analysis of a frozen additive integer KAN and its sampled LUT. Exact signed edge-error extrema yield sufficient threshold certificates, bounds on changes in fixed-cohort metrics, and a measured relation between table size and unresolved decisions.
+\item A physical comparison of five frozen implementations on Mega 2560 and ESP32-C3 using 500 common source observations, followed by a controlled ESP32-C3 factorial experiment that separates representation, code placement and parameter placement. A matched 500-flow sustained-batch study reports time and whole-board USB energy, and a separate instrumented workload reports observed RAM components on both boards.
+\item An evidence-linked assessment of exact additive explanations, retrospective cross-dataset stress tests and a new endpoint-pair-disjoint comparison with a cubic B-spline logistic GAM. It distinguishes model quality from compilation agreement and retains explicit limits on input overlap and network generalization.
+\end{enumerate}
+
+The classification and deployment experiments serve complementary purposes. The device kernels implement native TON\_IoT models; they are not the harmonized joint-source classifiers. The endpoint-pair-disjoint study fits separate floating models under a frozen protocol; these fits do not replace the deployed weights or the integer certificate. No adaptation, drift-recovery method or new architecture search is introduced.
+
+\section{Related Work and Scope}
+KANs use learnable univariate edge functions~\cite{liu2024kan}, and integer quantization is an established deployment technique~\cite{jacob2018integer}. Earlier LUT-KAN work replaces basis-function evaluation with sampled tables, quantization and integer interpolation on microcontrollers~\cite{kuznetsov2026esl,kuznetsov2026mculut}. The latter study also reports a multilayer CICIDS2017 intrusion detector on physical Mega 2560 and ESP32-C3 boards. The CPU toolkit provides segment-wise quantization and interpolation with NumPy and Numba backends and a DoS case study~\cite{kuznetsov2026toolkit}. Table acceleration, integer interpolation and physical MCU deployment are therefore established starting points for the present study.
+
+QuantKAN studies branch-aware low-bit training and post-training
+quantization, while KANtize evaluates the accuracy and hardware cost of
+quantized B-spline and complete-spline tabulation
+\cite{fuad2025quantkan,errabii2026kantize}.
+Hybrid CNN--KAN person detection provides a separate deployment example: Faggi et al. examine quantization strategies and operator conversion for TFLite~\cite{faggi2026quantization}. Their sensor-system study characterizes the effects of runtime, compiler settings and quantization handling on device measurements~\cite{faggi2026sensor}. These results motivate explicit implementation and measurement boundaries; they do not establish agreement or measurement uncertainty for our IDS firmware.
+Formal bounds on differences between neural networks and their quantized
+counterparts also predate this work, for example in QEBVerif
+\cite{zhang2023qebverif}.
+Here, the additive structure and finite Q12 domain permit direct enumeration
+of the exact implementation error for each edge, including integer rounding,
+and composition into a certificate for threshold agreement with a frozen
+integer reference. We quantify both the decisions certified by this bound
+and the unresolved cases, alongside measurements of the same exported
+representations on AVR and RV32 microcontrollers. The contribution is a verified deployment study and its reproducible arithmetic and hardware evidence. Summing independent edge intervals is elementary; the value here is their exact computation for the frozen rounding rules and the resulting auditable certificates, not a new general verification theory. KANEL\'{E} maps complete learned univariate functions to FPGA LUTs~\cite{Hoang2025KANELE}; our sampled tables interpolate on MCUs and are checked against an integer coefficient reference. Table~\ref{tab:related-work} identifies these boundaries.
+
+\input{inputs/related_work_comparison.tex}
+
+Network dataset heterogeneity is a separate source of difficulty. The TON\_IoT literature documents heterogeneous observations and the need to standardize features and attack types~\cite{moustafa2021networkton,alsaedi2020ton,booij2022heterogeneity}. BoT-IoT, UNSW-NB15, and CICIoT2023 provide different collection settings and feature conventions~\cite{koroniotis2019botiot,moustafa2015unsw,neto2023ciciot}. The recent BRIDGE preprint also addresses heterogeneous cross-domain IoT botnet evaluation~\cite{bhilwarawala2026bridge}. Harmonization is consequently treated here as an explicit experimental mapping, not as a new general solution to domain shift.
+
+Our earlier study~\cite{debernardis2026lightweight} already reported quantized conventional classifiers and physical Mega/ESP32-C3 deployment. It did not include KANs. Its timing experiment used two distinct input vectors, each repeated 250 times. Our short-kernel experiment uses 500 distinct source flows shared across implementations, with five reset-separated passes. The main energy study cycles those same 500 source flows under a sustained load/call/checksum boundary; an earlier twenty-input pilot is retained separately. Their amortized times are not individual-kernel latencies. This study also evaluates the specific harmonized and joint-source protocols described below. These changes extend the model and input coverage; they do not make the old and new latency numbers directly comparable. Model fits, representations, feature adapters, and timing cohorts differ, so we do not calculate an optimization speedup against that earlier article.
+
+\section{Experimental Design}
+\subsection{Tasks, populations, and evidence}
+The main detection task is binary, with attack as the positive class. We use attack-class F1 for native-feature reporting and balanced accuracy for cross-domain comparison:
+\begin{equation}
+\begin{split}
+F_1&=\frac{2TP}{2TP+FP+FN},\\
+\BA&=\frac{1}{2}\left(\frac{TN}{TN+FP}+\frac{TP}{TP+FN}\right).
+\end{split}
+\label{eq:metrics}
+\end{equation}
+The two terms in balanced accuracy are normal recall $\TNR$ and attack recall $\TPR$. Both are necessary under the extreme class prior of BoT-IoT, where attack-oriented metrics alone can conceal poor normal-traffic recognition.
+
+\begin{table}[t]
+\caption{Evaluated dataset populations. CIC denotes the retained target subset, not the complete dataset.}
+\label{tab:populations}
+\centering\footnotesize
+\begin{tabular}{lrrr}
+\toprule
+Population & Normal & Attack & Total\\
+\midrule
+TON\_IoT & 50,000 & 161,043 & 211,043\\
+BoT-IoT & 477 & 3,668,045 & 3,668,522\\
+UNSW-NB15 & 93,000 & 164,673 & 257,673\\
+CIC target subset & 27,709 & 400,000 & 427,709\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Table~\ref{tab:populations} specifies the populations used by the saved experiments. TON\_IoT uses \texttt{train\_test\_network.csv}. BoT-IoT uses the four Full5pc files. The official UNSW-NB15 training and testing CSVs are concatenated solely for external evaluation; neither is used to fit the joint models. This is not an experiment on the official UNSW training/testing split. The CIC loader retains all benign observations and samples at most 400,000 attacks without replacement with seed 42. Thus its evaluated class prior is an imposed subset prior.
+
+We distinguish four evidence layers. The historical dataset-scale fits and their run-level metrics are preserved outputs of the original experimental stage; their summaries were recomputed without rerunning those fits. The separately identified endpoint-pair-disjoint study adds new floating fits and saved row-level test predictions. The integer coefficient/LUT calculations and explanation sums were independently recomputed from fixed headers and prepared arrays. Finally, physical measurements were collected on the two boards and checked against archived serial traces and build artifacts. Agreement at one layer is not used to claim independent replication at another.
+
+\subsection{Three feature families}
+\label{sec:features}
+The native TON\_IoT family selects ten numerical fields from sixteen candidates and retains four native categorical fields. In the deployed additive KAN, the numerical order is \texttt{src\_ip\_bytes}, \texttt{dst\_port}, \texttt{dst\_ip\_bytes}, \texttt{src\_port}, \texttt{duration}, \texttt{src\_bytes}, \texttt{dst\_pkts}, \texttt{dst\_bytes}, \texttt{src\_pkts}, and \texttt{dns\_qtype}. The categorical fields are \texttt{proto}, \texttt{service}, \texttt{conn\_state}, and \texttt{dns\_rejected}, with 4, 10, 14, and 4 entries, respectively, including an unknown-category slot. This native representation includes ports.
+
+The rich harmonized family instead defines thirteen numerical candidates and two mapped categorical fields. Let $d$ be duration, $b_s,b_d$ the directional byte counts, and $p_s,p_d$ the directional packet counts. Set $b=b_s+b_d$ and $p=p_s+p_d$. The thirteen candidates are
+\begin{equation}
+\begin{split}
+\mathcal H=\bigg\{&d,b_s,b_d,p_s,p_d,b,p,\frac{b_s-b_d}{b+1},\frac{p_s-p_d}{p+1},\\[-2pt]
+&\frac{b_s}{p_s+1},\frac{b_d}{p_d+1},\frac{p}{d+\epsilon},\frac{b}{d+\epsilon}\bigg\},
+\quad \epsilon=10^{-6}.
+\end{split}
+\label{eq:harmonized}
+\end{equation}
+TON\_IoT uses IP-level byte counts. The terms $b_s/(p_s+1)$ and $b_d/(p_d+1)$ are smoothed directional byte-per-packet ratios, not physical packet means or payload sizes. Equal formulas do not by themselves establish identical byte-accounting and flow-extraction conventions across datasets. Protocol is mapped to TCP, UDP, ICMP, or other; state is mapped to established, closed, rejected, incomplete, reset, or other. Ports, addresses, application-specific metadata, and BoT window aggregates are excluded. Mutual information (MI) retains ten of the thirteen numerical candidates inside each training fit; the resulting rich model has ten numerical and two categorical inputs.
+
+The reduced family, used for the CIC external evaluation, has six numerical inputs: $d,b,p,b/(p+1),p/(d+\epsilon),b/(d+\epsilon)$, plus protocol and state. CIC duration, packet count, and bytes are mapped from \texttt{flow\_duration}, \texttt{Number}, and \texttt{Tot sum}. State uses flag indicators with reset/closed precedence. This mapping is a proxy: CIC observations and source flow logs do not have identical collection units. Reduced models are separately fitted historical models, not rich models with columns removed after training.
+
+\subsection{Preprocessing and model configurations}
+Numerical preprocessing coerces values, imputes zero, ranks candidates by MI on at most 40,000 training rows, and selects the required numerical inputs. Selected skewed fields receive $\log(1+\max(v,0))$. A training-fitted normal-output quantile transform, requesting at most 1,000 quantiles, is clipped to $[-3.5,3.5]$. Its subsampling follows the recorded library version. Category vocabularies are fitted on training values, with index zero reserved for unseen categories. An unknown slot is represented explicitly; its contribution is not assumed to be zero. The MI target depends on the fitting stage. Native cross-validation uses the task label: binary for binary fits and attack type for ten-class fits. The canonical additive and multilayer KAN deployment adapters use the multiclass attack-type target even for binary prediction; the frozen DT5 and MLP16 adapters use the binary target. Harmonized fits use the binary target. Stratification by attack type is distinct from the MI target. The native summaries in Table~\ref{tab:supp-native-cv} are retained historical results, and the release records the corresponding task-dependent code path and corrected metadata; no new cross-validation fit is claimed.
+
+The additive KAN uses degree-eight Chebyshev functions and categorical tables, optimized for 250 full-batch gradient steps with learning rate 0.3 and $L_2$ coefficient $10^{-4}$. The multilayer KAN has sixteen hidden units, degree-eight functions in both layers, categorical contributions to the hidden units, and a $\tanh$ intermediate activation. It uses 300 full-batch Adam steps with learning rate 0.01, $(\beta_1,\beta_2)=(0.9,0.999)$, and $\epsilon=10^{-8}$. Both use inverse-class-frequency weighted binary cross-entropy.
+
+For the auxiliary multiclass results, additive KAN uses 300 full-batch steps and multilayer KAN uses 300 Adam steps, with weighted softmax cross-entropy and the same respective learning rates. Multiclass balanced accuracy denotes the mean recall over ten classes.
+
+The baselines are a depth-five balanced decision tree (DT5), a sixteen-unit MLP with early stopping and a 300-iteration limit, LightGBM with 400 estimators and 31 leaves, and XGBoost with 300 estimators and depth six. Both boosting configurations use learning rate 0.05. The MLP uses one-hot categories; the tree and boosting models receive ordinal category codes. DT5 and LightGBM use balanced class weights, while no class-balancing weights are passed to MLP or XGBoost. These are comparisons of the specified pipelines, not an isolation of architecture under identical weighting and categorical encoding. Exact constructor arguments and software records are retained with the source checkpoint.
+
+The ten-feature deployment budget and the sixteen-unit, degree-eight multilayer configuration are inherited compact configurations, rather than validation optima. Preserved selection records favor sixteen numerical features for native additive-KAN F1 and select 32/6 under the one-standard-error rule, whose retained validation threshold is 0.99617. The validation split depends on the seed and is common to the compared candidates within each seed. The saved five-seed validation BA is 0.996023 for 16/8 and 0.996308 for 32/6. Independent inspection of recovered AVR relocatable objects confirms model-array sizes of 5,244 and 9,452 bytes (+80.2\%). Their saved compiler records report \texttt{main} function frames of 155 and 219 bytes (+41.3\%). These probes use a historical kernel and separately trained weights, rather than the exact measured firmware. The figures therefore describe those probes, not total linked Flash, current firmware stack use or measured peak SRAM. The observed validation difference does not establish equivalence. We retain 16/8 as the lower-memory frozen deployment choice; this does not make it the 1-SE selection or a proved optimum.
+
+\subsection{Splits and joint-source selection}
+Native evaluation uses five folds for each of seeds 42, 43, and 44, giving fifteen fits per model. Stratification follows the ten-class label. The separate canonical deployment split uses seed 42, with 168,834 training and 42,209 test rows. Native cross-validation covers the whole dataset; it is not nested inside that canonical training pool, and its observations overlap the canonical holdout.
+
+Rich in-domain evaluation uses five binary-stratified folds for each seed from 42 through 51, giving fifty fits per model. Direct transfer fits each source pool and evaluates the complete target for each of ten seeds. A training-only attack:normal cap of 50:1 leaves TON\_IoT unchanged and reduces the full BoT source fit to 477 normal and 23,850 attack rows. Evaluation populations retain their original class proportions.
+
+Joint training uses an outer 80/20 split independently in each source domain and an inner 80/20 split within each outer training pool. The two domains contribute equal numbers of normal observations and use the same candidate attack:normal ratio from $\{5,10,20,50,100\}$. Selection maximizes validation balanced accuracy averaged across six models, two domains, and ten seeds. Validation retains natural priors. The globally selected normal:attack ratio is 1:5; this same ratio also wins separately in each of the ten seed-level validation summaries. A row that belongs to an outer test under one seed can contribute to validation under another seed. Thus the global selection is not strictly nested with wholly untouched outer tests, although separate per-seed selection would return the same ratio in all ten cases. Each final fit combines 382 normal and 1,910 attack observations per domain, totaling 4,584 rows. Inner selection at ratio five instead uses 3,672 fit rows; selection and final refitting have different sample counts.
+
+All the historical splits above are random at observation level. Those pipelines do not establish host-, session-, or time-disjoint evaluation, or deduplication across splits. The new endpoint-pair-disjoint study in Section~\ref{sec:pair-stage2} is separate and does not retroactively change these splits. Training-only preprocessing limits direct fitting on evaluation values but does not remove these broader dependence risks. In the canonical deployment split, 5,201 of 42,209 test rows (12.322\%) exactly match at least one training row across all 44 original CSV columns, including labels and addresses. Row indices are disjoint, but their observed contents need not be. This quantifies dependence in this split; it neither identifies repeated physical events nor measures the resulting optimism in predictive metrics. Section~\ref{sec:duplicate-sensitivity} reports a frozen-model sensitivity analysis on these two subsets.
+
+\subsection{Historical exposure and interpretation}
+An initial joint-ratio decision followed inspection of a test-based grid. A later validation-only selection returned the same ratio; the old grid is retained separately and excluded from current selection evidence. The inherited sampled-LUT setting likewise used test-vector margins before the corrected procedure in Section~\ref{sec:lut}. These corrections specify a reproducible current procedure, but they do not make previously inspected tests untouched. UNSW and CIC are therefore retrospective external stress tests of frozen models. We do not treat them as newly blinded confirmation or tune a new adaptation method against them.
+
+\section{Integer Compilation and Decision Preservation}
+\subsection{Additive score and coefficient representation}
+Here, \emph{integer KAN} means post-training deployment with quantized parameters and integer inference, not training with integer arithmetic. Both the coefficient evaluator and the sampled LUT are integer implementations. The training model uses floating-point Chebyshev coefficients; export approximates its functions with cubic splines and quantizes them. The subsequent LUT stores signed 16-bit samples of the already fixed integer functions. Thus quantization changes numerical precision, while LUT compilation changes how those functions are evaluated. Sampling and interpolation may introduce further score error, which is bounded separately below.
+
+Let $x_i$ denote a transformed numerical feature and $c_j$ a categorical index. The floating additive model is
+\begin{equation}
+\begin{split}
+z(x,c)&=\sum_{i=1}^{10}\phi_i(x_i)+\sum_{j=1}^{4}\psi_j(c_j),\\
+\phi_i(x_i)&=\sum_{d=0}^{8}a_{id}T_d(x_i/3.5),
+\end{split}
+\label{eq:additive}
+\end{equation}
+with the Chebyshev argument clipped to $[-1,1]$. Constant components are included in the functions; no separate intercept is required by the summed kernel. The binary decision is $\widehat y=\mathbf 1[z\geq0]$.
+
+Export approximates each fixed learned numerical function with a cubic B-spline using sixteen intervals and nineteen coefficients. The representation fit uses 30,000 training locations and 200 uniform anchors, whose least-squares equations receive a factor of 0.1. This fits a representation to the frozen function, not a new classifier to labels. The coefficients become signed 8-bit integers with per-edge signed 16-bit multipliers. Categories use signed 8-bit tables and four signed 16-bit multipliers.
+
+Prepared numerical inputs are
+\begin{equation}
+q_i=\operatorname{round}_{\rm even}\!\left(4096\,\frac{\operatorname{clip}(x_i,-3.5,3.5)}{3.5}\right),
+\end{equation}
+with $q_i\in\{-4096,\ldots,4096\}$. Let $F=32768$, $C_{i,s+r}$ be the four local coefficients, and $b_r(q_i)$ the fixed-point cubic basis numerators, approximating $6F$ times the real-valued basis. The implemented score is
+\begin{align}
+f_i(q_i)&=\floor{\frac{M_i\sum_{r=0}^{3}b_r(q_i)C_{i,s+r}}{F}},\\
+g_j(c_j)&=6M^{\rm cat}_j C^{\rm cat}_{o_j+c_j},\\
+Z(q,c)&=\sum_{i=1}^{10}f_i(q_i)+\sum_{j=1}^{4}g_j(c_j).
+\label{eq:integer}
+\end{align}
+The decision is $\mathbf1[Z\geq0]$. Floors reproduce signed arithmetic shifts. $Z$ is an integer score, not a calibrated probability. Appendix~\ref{app:arithmetic} defines the basis arithmetic.
+
+The kernel evaluates the potentially wide multiply-shift exactly through
+\begin{equation}
+\floor{\frac{am}{F}}=hm+\floor{\frac{\ell m}{F}},\quad
+h=\floor{a/F},\quad \ell=a-hF,
+\end{equation}
+using bounded 32-bit products. Its parameter arrays occupy $190+20+32+8+4=254$ bytes: numerical coefficients, numerical multipliers, category entries, category multipliers, and offsets. This count excludes executable code, framework, test fixtures, and runtime storage.
+
+\subsection{Sampled LUT and selection rule}
+\label{sec:lut}
+The LUT is constructed from the frozen integer coefficient evaluator. For candidate $L$, use $L$ equally spaced nodes with $\Delta=8192/(L-1)$ and $q_k=-4096+k\Delta$. Each edge has the smallest nonnegative exponent $r_i$ for which
+\begin{equation}
+T_{ik}=\operatorname{round}_{\rm even}(f_i(q_k)/2^{r_i})
+\end{equation}
+fits the symmetric signed-16-bit magnitude limit 32,767. For $u=\operatorname{clip}(q+4096,0,8192)$, set $k=\min(\floor{u/\Delta},L-2)$ and $v=u-k\Delta$. Evaluation is
+\begin{equation}
+\widetilde f_i(q)=2^{r_i}\left[T_{ik}+\floor{\frac{(T_{i,k+1}-T_{ik})v}{\Delta}}\right].
+\label{eq:lut}
+\end{equation}
+Rounding precedes scale restoration. Thus this expression is not replaced by floating interpolation followed by one final rounding. Category terms are unchanged.
+
+All 8,193 admissible integer inputs are enumerated separately for each numerical edge:
+\begin{equation}
+E_i(L)=\max_q|\widetilde f_i(q)-f_i(q)|,\qquad
+B(L)=\sum_{i=1}^{10}E_i(L).
+\end{equation}
+The triangle inequality gives $|\widetilde Z-Z|\leq B(L)$. Therefore
+\begin{equation}
+|Z|>B(L)\quad\Longrightarrow\quad
+\mathbf1[Z\geq0]=\mathbf1[\widetilde Z\geq0].
+\label{eq:certificate}
+\end{equation}
+The statement assumes valid category codes, identical category terms, the specified arithmetic, and no overflow or undefined signed operations. It certifies representation agreement, not correctness of the class label. Exhaustive per-edge enumeration is sufficient for the bound; the procedure does not enumerate every combination of fourteen input fields.
+
+The fixed candidate grid contains 9, 17, 33, 65, 129, 257, 513, and 1025 nodes. Selection uses only explicitly identified training calibration inputs. It chooses the smallest candidate satisfying $B(L)<\min_{(q,c)\in\mathcal T}|Z(q,c)|$; if none satisfies this condition, it selects the largest grid member. The procedure uses training scores, not labels or test F1. The protocol and selected header are frozen before the separate test-evaluation command.
+
+\begin{table}[t]
+\caption{Freshly recomputed LUT selection on 168,834 preserved training inputs. ``Uncertified'' counts rows with $|Z|\leq B$.}
+\label{tab:lut}
+\centering\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{rrrrr}
+\toprule
+$L$ & Parameter bytes & $B(L)$ & Uncertified & Mismatches\\
+\midrule
+9 & 234 & 16,533,344 & 168,834 & 744\\
+17 & 394 & 8,439,408 & 128,577 & 239\\
+33 & 714 & 2,897,380 & 22,087 & 73\\
+65 & 1,354 & 825,654 & 4,597 & 23\\
+129 & 2,634 & 219,538 & 1,418 & 6\\
+257 & 5,194 & 56,586 & 374 & 1\\
+513 & 10,314 & 14,850 & 95 & 0\\
+1025 & 20,554 & 4,271 & 34 & 0\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The minimum absolute training score is 336. No candidate passes the all-training sufficient condition, so $L=1025$ is selected by the fallback (Table~\ref{tab:lut}). Its error bound is 4,271 integer-score units. It certifies 168,800 of 168,834 training decisions, and all training decisions agree empirically. The $L=513$ candidate also has zero empirical training mismatches. Consequently $L=1025$ is neither a proved optimum nor the smallest empirically lossless table. The fallback completes the corrected fixed-grid selection procedure when its sufficient condition fails. The signed-error analysis below was performed later and is not the criterion that selected this table. The single training mismatch at $L=257$ provides a concrete example: original zero-based CSV row 46,815 has coefficient score 488 and LUT score $-116$, changing attack to normal although its label is attack. The sufficient margin condition does not cover this row. The full test still has zero decision differences at $L=257$; this example is not evidence of a test-$F_1$ decrease.
+
+The selected model arrays occupy $20L+54=20,554$ bytes, or 80.921 times the coefficient arrays. Post-freeze evaluation gives identical decisions on all 42,209 canonical test rows. Four rows fail the sufficient symmetric margin condition in (\ref{eq:certificate}), although their decisions still agree. The coefficient and LUT confusion counts are $TP=31,313$, $FP=214$, $FN=896$, and $TN=9,786$, yielding $F_1=0.9825844$. These are independently recomputed host integer-model results on preserved transformed arrays, not a physical replay of the whole test set. Earlier test exposure remains disclosed as specified above.
+
+\input{inputs/signed_certificate.tex}
+
+The two export transitions have different evidence boundaries: the saved floating functions $\longrightarrow$ the integer coefficient evaluator changes 40 of 42,209 test decisions; the integer coefficient evaluator $\longrightarrow$ the selected LUT has zero observed decision changes, with 42,206 decisions certified by the signed bound. The certificate covers only the second transition and does not certify the true class label.
+
+\subsection{Paired check against the saved floating functions}
+The recovered native TON\_IoT cache supplies the original pre-Q12 transformed coordinates for all 211,043 canonical training and test rows. Independent comparison with the finalization inputs confirms identical row indices and labels, all 2,110,430 numerical Q12 values and all 844,172 categorical codes. The floating transforms are not bitwise identical, although their maximum absolute discrepancy is below $1.45\times10^{-14}$. This establishes quantized-input equality on the known cohort; the original fitted preprocessing object remains unavailable, so equivalence on future raw inputs is not established.
+
+On the same 42,209 test rows, the preserved Chebyshev weights give $F_1=0.9831912$ both at the recovered pre-Q12 coordinates and after rounding and dequantizing each coordinate as $x_i=3.5q_i/4096$. Input rounding changes no decisions on this cohort. The deployed coefficient evaluator gives $F_1=0.9825844$, a decrease of $0.0006068$, or approximately 0.0607 percentage points. Its decisions differ from the floating evaluation on 40 rows (99.9052\% agreement): 39 correct decisions become wrong and one wrong decision becomes correct, adding 38 errors overall. The sampled LUT adds no further decision differences relative to the coefficient evaluator.
+
+This paired host check isolates the decision effect of input rounding on the fixed test cohort. The remaining difference combines spline approximation, parameter quantization and integer arithmetic; their separate contributions are not identified. It is not a physical replay of the full test set. Decision preservation in Section~\ref{sec:lut} is relative to the frozen integer coefficient model, not exact preservation of the original floating classifier.
+
+\section{Exact Explanation of the Implemented Score}
+The frozen coefficient implementation of the additive KAN is intrinsically interpretable at the score level: each of its fourteen terms depends on one numerical or categorical input, and their sum gives the implemented integer score. Its response curves and per-flow contributions therefore describe the model itself, rather than a fitted surrogate. This property follows from additivity, which is shared with generalized additive models and neural additive models~\cite{agarwal2021nam}; it is not an exclusive property of KANs. In particular, a shallow decision tree also exposes its decision path and threshold rules. The comparison is therefore between different forms of transparent computation, not between an interpretable KAN and an intrinsically opaque tree. A conventional dense MLP does not impose the same univariate additive decomposition. Multilayer KANs likewise do not generally retain this decomposition with respect to the original inputs.
+
+Equation~\eqref{eq:integer} supplies ten numerical and four categorical contributions directly from the deployed coefficient header. Their sum is the implemented score; no surrogate or post-hoc attribution model is fitted. A fresh host compilation of the unchanged C kernel agreed exactly, in full integer scores, with the separately calculated explanation sums for all 200 historical golden vectors.
+
+Figure~\ref{fig:xai-global} shows the numerical response curves and category entries. Numerical coordinates are quantile-normal transformed and clipped values, not raw traffic units. The histogram and observed-value rug use the 168,834 training rows without class conditioning. Each histogram is normalized independently to its largest bin and drawn within 16\% of that panel's vertical range; heights are not comparable as absolute frequencies across panels. Rugs show distinct observed Q12 values. They show where the training inputs support inspection of a response curve; they do not prove that the curve is meaningful on a new network. Continuous displays of discrete ports or DNS type codes also do not imply valid intermediate raw values.
+
+The displayed numerical terms are non-monotone: each changes direction five to seven times on the 401-point grid. These are integer cubic-spline approximations of learned degree-eight Chebyshev functions; the oscillations alone do not establish a Runge interpolation artifact. Exact decomposition exposes the implemented computation but does not ensure a simple monotone relation useful to an analyst. In particular, the training data occupy only 15 of 24 displayed bins for \texttt{duration}, while \texttt{dns\_qtype} has only twelve observed Q12 values. Interpretation should follow the observed support rather than treat every plotted coordinate as a plausible flow.
+
+\begin{figure*}[!tp]
+\centering
+\includegraphics[width=\textwidth,height=0.80\textheight,keepaspectratio]{xai_global.pdf}
+\caption{Exact additive terms of the frozen coefficient KAN. Numerical curves use 401 rounded Q12 locations; shaded histograms use 24 bins over all 168,834 training rows, with observed-value rugs. Horizontal numerical coordinates are transformed values clipped to $\pm3.5$. Category labels come from the frozen vocabulary, including UNK. Support is not class-conditioned; vertical values are contributions in millions of integer-score units. Histogram heights are normalized separately in each panel.}
+\label{fig:xai-global}
+\end{figure*}
+
+Figure~\ref{fig:xai-local} gives three illustrative cases from the historical 200-vector balanced test fixture: the largest predicted-attack score, smallest predicted-normal score, and smallest absolute score. Their indices are 7, 140, and 29, with scores 12,042,992, $-11,561,249$, and 120,232. These rules select illustrations only and are unrelated to model or LUT selection.
+
+\begin{figure*}[!tp]
+\centering
+\includegraphics[width=\textwidth,height=0.77\textheight,keepaspectratio]{xai_local.pdf}
+\caption{Three predetermined illustrative cases from the historical 200-vector fixture. Bars are all fourteen uncentered contributions in millions of integer-score units; positive values increase the attack score and negative values decrease it. True and predicted classes are shown explicitly. Numerical feature values are transformed coordinates, and case selection is descriptive rather than an explanation-quality test.}
+\label{fig:xai-local}
+\end{figure*}
+
+This explanation establishes computational fidelity. It does not establish causal attribution or a unique importance ordering: constants can be redistributed among additive functions without changing the total score. Contributions are not centered against a reference population, and unknown-category contributions in the frozen model are nonzero. The same univariate decomposition of original inputs does not apply to the multilayer KAN. The sampled LUT is also additive, but its individual contributions and total score may differ from the coefficient values. The explanations plotted here refer to the coefficient implementation. No physical XAI execution-time or memory claim is made.
+
+\section{Classification Results}
+\subsection{Native features and harmonized transfer}
+Native TON\_IoT binary cross-validation gives mean F1 values of 0.999136 for LightGBM, 0.998890 for XGBoost, 0.997593 for multilayer KAN, 0.996442 for MLP16, 0.994449 for DT5, and 0.983530 for additive KAN. Full native binary and multiclass results with sample standard deviations are included in Appendix~\ref{app:results}. They show that the compact additive KAN does not dominate predictive quality. Its model-array footprint and exact decomposition are separate properties.
+
+\begin{table*}[t]
+\caption{Mean balanced accuracy in the rich harmonized space. The first two columns summarize 50 fits each; the other columns summarize 10 fits each. Joint denotes the equal-domain, normal:attack 1:5 protocol. These conditions differ in training population, sample count, categorical encoding and class weights; they compare fixed pipelines rather than isolate architecture.}
+\label{tab:cross}
+\centering\small
+\begin{tabular}{lrrrrrrr}
+\toprule
+Model & TON$\to$TON & BoT$\to$BoT & TON$\to$BoT & BoT$\to$TON & Joint$\to$TON & Joint$\to$BoT & Joint$\to$UNSW\\
+\midrule
+Additive KAN & .9701 & .9934 & .5573 & .6112 & .9432 & .9825 & .3991\\
+Multilayer KAN & .9932 & .9971 & .4588 & .6855 & .9811 & .9924 & .3629\\
+MLP16 & .9879 & .9426 & .4369 & .7343 & .9296 & .9494 & .3119\\
+DT5 & .9828 & .9952 & .5494 & .4597 & .9669 & .9865 & .4081\\
+LightGBM & .9963 & .9971 & .4779 & .6964 & .9846 & .9951 & .3884\\
+XGBoost & .9947 & .9779 & .5528 & .6487 & .9804 & .9925 & .4193\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\input{inputs/cross_dispersion.tex}
+
+Table~\ref{tab:cross} makes the transfer limitation explicit; Table~\ref{tab:supp-cross-dispersion} reports the corresponding dispersions. Although rich in-domain balanced accuracy is generally high, TON-to-BoT means range from 0.4369 to 0.5573. Additive KAN has the largest observed mean in that direction, whereas MLP16 leads BoT-to-TON with 0.7343. This reversal provides no basis for general KAN superiority. Different sampling mechanisms, feature semantics, and class-conditional distributions remain after harmonization.
+
+\subsection{Frozen-model sensitivity to exact row overlap}
+\label{sec:duplicate-sensitivity}
+A new host-side reanalysis applies the unchanged integer evaluator to the existing canonical test set, separately for the 5,201 exact training matches and the remaining 37,008 rows (Table~\ref{tab:duplicate-sensitivity}). It performs no training, new model selection or hardware run. BA/F1 are 0.9924/0.9965 on the matching rows and 0.9731/0.9808 on the remaining rows, compared with 0.9754/0.9826 overall. Matching rows have higher observed performance, but subgroup difficulty and class composition also differ; this is not a causal estimate of duplicate-induced optimism.
+
+Both LUT sizes retain identical decisions in each subgroup. All three uncertified $L=1025$ decisions and all twelve uncertified $L=513$ decisions occur among rows without an exact match (Table~\ref{tab:duplicate-certificates}). The certificate remains an implementation-agreement result. The remaining rows can still share hosts, sessions, times or model inputs with training; equality after removing labels and identifiers is not tested here. This post-hoc sensitivity analysis neither creates a new independent holdout nor replaces grouped or temporal retraining.
+
+\input{inputs/duplicate_sensitivity.tex}
+\input{inputs/duplicate_certificates.tex}
+
+\input{inputs/pair_stage2.tex}
+
+\subsection{Joint training and external stress tests}
+The corrected validation criterion in Table~\ref{tab:supp-ratio-selection} decreases from $0.97320\pm0.00405$ at ratio five to $0.95230\pm0.00421$ at ratio one hundred. The standard deviation is calculated across ten seed-level averages, after averaging the six models and two validation domains within each seed. Ratio five is the best tested boundary point. Changing the ratio also changes training size, so this grid does not isolate a causal class-balance effect.
+
+Joint models attain mean BA from 0.9296 to 0.9846 on TON and from 0.9494 to 0.9951 on BoT; Table~\ref{tab:supp-joint-recalls} gives the corresponding class recalls. These values support coverage of both represented source domains under the particular balanced union. They do not establish that pooling alone caused the change: direct-transfer and joint protocols differ in fit sizes, source composition, and train/test partitions.
+
+On UNSW, all joint rich-space means are below 0.42, ranging from 0.3119 to 0.4193. A constant prediction of either class gives BA exactly 0.5. Independent recomputation from the saved confusion counts confirms all six means; 59 of the 60 individual fits are below 0.5, and none predicts a single class throughout UNSW. The saved unseen-category rates are zero. Subsequently recovered source CSVs match the author-reported SHA-256 hashes. An independent implementation reproduced all sixteen supplied harmonized columns for 257,673 rows exactly (4,122,768 value comparisons), and every raw binary label agrees with its attack category. This rules out a label or numerical-transformation discrepancy on the checked raw-to-cache segment, but does not recover the historical fitted preprocessors, models or aligned scores.
+
+The saved rich-space AUROC values also diagnose a ranking failure: 57 of 60 runs are below 0.5. Means range from 0.2777 for MLP16 to 0.4140 for XGBoost (Table~\ref{tab:unsw-auroc}); thus the negative result is not confined to the fixed threshold. These are reaggregated historical metrics, not ROC curves recomputed from predictions. Without row-level scores we cannot independently recalculate AUROC or attribute the errors, and no output or label reversal is used to repair target results.
+
+\input{inputs/unsw_auroc.tex}
+
+Reconstructing the balanced joint-source cohorts under the retained sampling code gives a more specific diagnostic than comparing full source populations. Across all ten reconstructed cohorts, protocol \texttt{other} occurs in 35--42 observations, all normal; in UNSW the same mapped category contains 37,919 attacks among 41,916 observations (90.46\%). Table~\ref{tab:unsw-category-shift} also shows changes in the class associations of TCP, UDP and \texttt{closed}. By contrast, \texttt{established} is relatively associated with normal traffic in both the reconstructed mixture and UNSW. These are descriptive properties of the data. Missing historical model outputs prevent assigning a causal contribution to each change; Appendix~\ref{app:data-checks} records reconstruction assumptions, feature selection and further checks.
+
+Reduced-space joint models on the CIC subset yield $0.492754\pm0.040544$ for LightGBM, $0.509947\pm0.008238$ for XGBoost, $0.500243\pm0.053045$ for multilayer KAN, $0.414416\pm0.071708$ for DT5, $0.472501\pm0.040057$ for MLP16, and $0.497395\pm0.010734$ for additive KAN. The proxy adapter combines distribution shift with measurement and mapping mismatch: all non-TCP observations receive the \texttt{incomplete} state after the TCP-flag rules. Neither external target establishes a robustness benefit or isolates an intrinsic KAN limitation.
+
+The sanity check also found a resume-related aggregation defect: the archived rich-space UNSW DT5 pooled confusion matrix contained nine seeds, while the per-fit table contained all ten. Reconstructing the pooled matrix from all ten records corrects this artifact; the reported mean BA remains 0.4081494. Recovered JSONL checkpoints independently corroborate all 420 current model--seed--domain evaluation records (180 rich and 240 reduced) and the 42 complete pooled matrices. The corrected aggregation uses the complete merged run table, with regression checks for identical seed sets and pooled counts. These records strengthen the provenance of the aggregates; they do not supply row-aligned scores or explain the below-0.5 mean.
+
+The reported dispersions describe repeated training, subsampling, and random splitting of the available observations. Seeds do not constitute independent networks; fold estimates also share observations. We therefore use descriptive mean and sample SD, without significance claims based on treating these repeats as independent deployment environments.
+
+\section{Physical Microcontroller Evaluation}
+\subsection{Devices, implementations, and timing boundary}
+The controlled factorial experiment in Section~\ref{sec:c3followup} is the primary comparison for the ESP32-C3 coefficient--LUT and memory-placement question. Section~\ref{sec:hw500} reports sustained-batch time and USB energy for the same 500-flow hardware cohort, and Section~\ref{sec:ram500} reports separately instrumented RAM components. The original five-implementation comparison and intermediate diagnostic are retained as supporting experiments with distinct boundaries.
+
+The devices are an Arduino Mega 2560 R3 with a 16-MHz ATmega2560 and an ESP32-C3 board with a SuperMini layout. The ESP probe identified revision 0.4, 4 MB of embedded Flash, and the firmware reported a 160-MHz CPU clock. Both boards were USB powered; Fig.~\ref{fig:energy-setup} shows the two instrumented measurement setups side by side. Builds used PlatformIO Core 6.1.19. The Mega toolchain records atmelavr 5.1.0, Arduino AVR 5.2.0, and GCC 7.3.0. ESP builds use espressif32 6.12.0, Arduino 2.0.17, and GCC 8.4.0; the effective final optimization option is \texttt{-Os}. Recorded commands and binaries define the measured configurations.
+
+
+
+The five implementations are the additive coefficient KAN, its selected sampled LUT, the multilayer coefficient KAN, an integer MLP16, and DT5. Each uses its frozen model-specific input adapter. The MLP implementation substitutes category-table lookups for explicit one-hot construction; the tree uses a compact node table. These baseline kernels are measured on the same boards and observations. Boosting results remain part of the dataset-scale comparison and are not assigned new hardware measurements in this study.
+
+For the short-kernel experiments, the common cohort contains 500 distinct original TON flows, comprising 250 normal and 250 attack observations in interleaved order. Source identifiers and order are identical across all five implementations and both devices. Preprocessing is performed offline with each model's frozen adapter. Common raw observations do not imply an identical transformed input matrix for models with different adapters.
+
+Table~\ref{tab:protocol-map} separates six hardware protocols. The matched factorial experiment is the primary ESP32-C3 coefficient--LUT comparison. In the original five-implementation experiment the LUT was 7.58\% slower on ESP32-C3 under a different protocol; the cause remains unresolved. Appendix~\ref{app:historical-hardware} retains that unfavorable result, the five-model timing table and figure, and the intermediate locality diagnostic. On Mega, the original experiment measured a $5.746\times$ coefficient-to-LUT speedup. The common 500-flow cohort produced 18 errors for both additive representations, 6 each for multilayer KAN and MLP16, and 9 for DT5; agreement with an implementation reference is distinct from detection quality.
+
+\input{inputs/protocol_map.tex}
+
+\input{inputs/c3_followup.tex}
+
+\begin{figure*}[t]
+\centering
+\begin{minipage}[b]{0.47\textwidth}
+\centering\includegraphics[height=5cm]{Mega_measurement.jpg}\\[-1pt]
+{\small (a) Arduino Mega 2560}
+\end{minipage}\hfill
+\begin{minipage}[b]{0.47\textwidth}
+\centering\includegraphics[height=5cm]{C3_measurement.jpg}\\[-1pt]
+{\small (b) ESP32-C3}
+\end{minipage}
+\caption{USB measurement setups for (a) Mega 2560 and (b) ESP32-C3. Displayed voltage, current and power are instantaneous connection snapshots; quantitative results use archived active-window records. The photographs illustrate the connections, without identifying a particular acquisition.}
+\label{fig:energy-setup}
+\end{figure*}
+
+\input{inputs/hw500_energy.tex}
+
+\subsection{Model arrays, firmware, and SRAM}
+\begin{table*}[t]
+\caption{Original five-implementation protocol: memory accounting in bytes. Model arrays exclude code and fixtures. Mega Flash is the linked program-use figure; ESP Flash is the actual application BIN length. These platform-specific image measures include the benchmark and framework. Linked SRAM is not peak runtime usage.}
+\label{tab:memory}
+\centering\small
+\begin{tabular}{lrrrrrr}
+\toprule
+& & \multicolumn{2}{c}{Mega 2560} & \multicolumn{3}{c}{ESP32-C3}\\
+\cmidrule(lr){3-4}\cmidrule(lr){5-7}
+Implementation & Model arrays & Flash & Static data & App BIN & DRAM data & Shared SRAM extent\\
+\midrule
+KAN coefficients & 254 & 20,480 & 217 & 280,352 & 13,940 & 62,080\\
+KAN sampled LUT & 20,554 & 40,286 & 217 & 295,088 & 13,940 & 62,080\\
+Multilayer KAN & 5,244 & 26,434 & 217 & 280,672 & 13,940 & 62,080\\
+MLP16 & 760 & 20,442 & 217 & 280,224 & 13,940 & 62,080\\
+DT5 & 285 & 21,452 & 217 & 280,032 & 13,932 & 62,064\\
+\bottomrule
+\end{tabular}
+\smallnote{ESP also reserves 48,128 bytes for IRAM code and alignment within the shared SRAM extent; the aliased \texttt{.dram0.dummy} range is counted once. A separate 32-byte RTC allocation is excluded from the shared SRAM extent. These original applications have no runtime stack/heap measurements; the later instrumented applications are reported separately in Table~\ref{tab:ram500}.}
+\end{table*}
+
+Table~\ref{tab:memory} reports the original five-implementation applications and separates quantities that should not be conflated. The 254-byte coefficient model is the smallest declared model-array representation among the five frozen implementations. However, the complete Mega coefficient benchmark uses 20,480 bytes of Flash, and the corresponding ESP application BIN is 280,352 bytes. The sampled-LUT increase in model arrays is only one contributor to the change in total image size.
+
+Mega linked static data occupy 217 bytes for every application. Stack allocations and heap activity are not captured by that figure. On ESP32-C3, the data-only summary reports 13,940 bytes for four models and 13,932 for DT5, but the linker also reserves 48,128 bytes for instruction RAM, including alignment. The shared SRAM extent through the heap-start boundary is 62,080 or 62,064 bytes, with aliasing counted once. Thus a data-only figure cannot support an 18-KB total runtime SRAM claim. Likewise, the Mega build summary cannot establish a 2-KB runtime peak. Section~\ref{sec:ram500} adds observed runtime components for separate diagnostic applications, without asserting an exact whole-system SRAM peak.
+
+The eight-condition follow-up application contains both DRAM parameter copies (20,808 bytes), descriptors, and measurement buffers. Its application BIN is 307,792 bytes; linked DRAM data and BSS occupy 57,348 bytes, and the shared SRAM address extent through the heap boundary is 105,992 bytes including IRAM and alignment. These figures describe the combined measurement application. The recorded initialization interval of 1466--1499 microseconds includes model, input, and reference copies plus descriptor setup, so it does not isolate LUT-copy cost.
+
+Table~\ref{tab:pilot-memory} separately records the energy-pilot applications on both boards. Their larger data allocations include the twenty prepared inputs and the acquisition harness; they do not replace the original application sizes in Table~\ref{tab:memory}. The MLP model representation is 760 bytes, while its separately linked parameter objects total 756 bytes because the compiler embeds the four-byte output bias in instructions. The instruction-embedded value was checked against the frozen source. All five ESP32-C3 pilot applications additionally reserve 47,906 bytes of IRAM code and 222 bytes of alignment outside the data/BSS totals. No pilot result establishes a stack or heap peak.
+
+\input{inputs/ram500.tex}
+
+\subsection{Artifact checks}
+The archived records include application sources, build commands, toolchain packages, binaries, upload logs, raw serial observations, and source-flow identifiers. ESP application images were checked against their ELF sections and upload addresses. A separate readback after the original five-implementation measurement series matched the complete compiled bootloader prefix, partition-table bytes, OTA reference bytes, and the final DT5 application. Unexplained non-erased bytes after the compiled bootloader remain outside that equality claim. This readback records the observed post-series state, not continuous attestation of every earlier application execution.
+
+\section{Discussion and Limitations}
+The 254-byte additive coefficient representation exposes its exact computational terms and supports a measurable time--storage trade-off. Its sampled LUT reduces kernel latency by a factor of 5.746 on Mega 2560. The controlled ESP32-C3 cycle-counter experiment measures a 1.706-fold coefficient-to-LUT speedup with code in Flash and both parameter sets in DRAM, using the same binary-decision timing boundary. Moving the LUT code to IRAM does not improve this DRAM result. The matched-cohort HW500 study measures batch time and energy together; coefficient-to-LUT whole-board energy falls by about 81.5\% on Mega and 13.0\% on ESP32-C3. These values include prepared-row loading and loop work. They neither inherit the short-kernel boundary nor reproduce the smaller twenty-input pilot, whose results remain in Appendix~\ref{app:energy-details}. The original ESP32-C3 protocol showed no LUT gain, while the intermediate diagnostic showed sensitivity to repeated-input locality. These protocol-specific results do not establish a general LUT speedup on ESP32-C3. The representation choice therefore involves the processor, memory placement, and execution protocol.
+
+DT5 remains faster in the original five-implementation experiment, while boosting achieves the strongest native-feature predictive results. The coefficient KAN saves only 31 parameter bytes relative to DT5 (254 versus 285 bytes), and DT5 makes fewer errors on the common 500-flow cohort (9 versus 18). These observations give no accuracy--latency justification for replacing DT5 with the additive KAN in the measured setting. The additive model instead provides the fixed score structure on which we study export verification and the coefficient--LUT trade-off. The new endpoint-pair-disjoint comparison reinforces this scope: additive KAN exceeds DT5 in that separate fit but falls below both GAM and MLP16, with a 20.59\% normal-traffic false-positive rate. Its attack F1 of 0.987 therefore does not establish operational suitability.
+
+The external stress tests give poor performance for the evaluated pipelines; their interpretation also depends on adapter validity. Harmonized quantities reduce explicit field mismatch, but they do not make data collection, observation units, attack behavior, or normal traffic equivalent. Joint-source training gives higher scores on the represented sources than on UNSW or the reduced CIC target. The verified UNSW raw-to-cache transformation narrows the diagnosis, while the reconstructed balanced cohorts expose source--target association changes. Their effects on historical model errors remain unresolved without fitted objects and row-aligned scores. Those results motivate caution about deploying a frozen source classifier in a new network; they are not repaired by interpreting high source-domain F1 as robustness.
+
+A concrete use case is model maintenance when a separate contribution from every transformed input must be recorded and an exported implementation must be checked against a frozen score reference. The additive representation supplies these arithmetic terms directly, and its univariate edge errors can be exhaustively enumerated before deployment. Choosing it for this requirement would still require acceptable detection quality on the intended network and validation that the records help the intended users. Neither condition is established for a new deployment here. The contributions are uncentered terms, not causal effects or a unique ranking of feature importance. We assess computational inspectability and export agreement; human understanding, regulatory acceptance and operational benefit have not been measured. Additive explainability itself is established prior work.
+
+Several limits constrain inference. Historical test inspection precludes describing these targets as untouched confirmation. Historical random observation-level splits retain content overlap in the checked canonical TON split. The new endpoint-pair split removes repeated endpoint pairs but shares hosts and some transformed inputs across train and test; it is not host- or time-disjoint and omits three attack types from its test subset. BoT has only 477 normal observations, with 95 in each joint outer test, so normal recall is based on a small minority pool. Repeated seeds reuse observations. Baselines differ in categorical encoding and weighting. The inherited compact configurations are not demonstrated optima. The two feature families used for hardware and transfer are different, and the hardware cohort is balanced and much smaller than the full test population.
+
+The device experiments establish prepared-feature execution on one unit of each board type. The HW500 study adds descriptive whole-board energy estimates and time for a common sustained 500-flow workload; five technical runs per model do not establish variation across independent devices or networks. The separate RAM500 study reports static allocations, observed stack watermarks and heap observations. On C3, the loop-task lifetime stack maximum predates inference in every accepted run, so it cannot rank model-specific stack demand. No exact whole-system RAM peak, live traffic processing, long-term thermal behavior or performance under radio and application contention is measured. Instrument accuracy and MCU clock error were not independently calibrated; recording-grid resolution and observed repeatability do not constitute an uncertainty budget. The uncertainty characterization in the separate CNN--KAN sensor-system study~\cite{faggi2026sensor} is specific to its measurands and setup and cannot be transferred to these USB-energy estimates. Exact additive explanations describe arithmetic, not causal security mechanisms. These limits delimit the contribution without substituting host or simulator estimates for physical measurements.
+
+\section{Conclusion}
+For the frozen additive KAN, finite-domain enumeration connects a sampled LUT to the exact integer coefficient evaluator, including its rounding rules. Signed edge-error extrema sharpen the symmetric bound and certify 42,206 of 42,209 test decisions for the 20,554-byte table. All test decisions agree empirically. The 10,314-byte alternative leaves twelve decisions uncertified; the extra storage reduces uncertainty without establishing unconditional lossless compilation. These retrospective checks leave the training-only selection and measured kernels unchanged.
+
+The original Mega experiment measured a $5.746\times$ coefficient-to-LUT speedup. The controlled ESP32-C3 cycle-counter experiment measured $5.136$ versus $3.010~\mu$s with Flash code and DRAM parameters, a $1.706\times$ speedup. Its factorial contrasts show a code--parameter placement interaction; they do not identify the cause of the earlier protocol discrepancy. All 32,000 timed decisions in that experiment matched the compiled references. The HW500 series pairs whole-board energy with batch time on the common 500-flow cohort: coefficient and LUT estimates are about 498 and 92.2~$\mu$J per iteration on Mega, and 0.987 and 0.859~$\mu$J on ESP32-C3. Separate RAM500 runs pass all reference and positive-control checks and report observed memory components, without an exact whole-system peak. These studies complement the short-kernel observations while preserving distinct measurement boundaries. Additive score decomposition remains exact but is neither uniquely interpretable nor empirically shown to improve analyst decisions. Cross-dataset stress tests show poor performance. Exact raw-to-cache checks and reconstructed source cohorts document category--label association changes on UNSW, while their model-level effects remain unresolved. The result is a reproducible agreement analysis and a measured implementation trade-off, with workload-specific energy and memory observations. It establishes neither superior detection nor universal energy efficiency or worst-case memory use.
+
+\section*{Reproducibility and Data Availability}
+The reviewed source is public in the \href{https://github.com/emanuelepiodebernardis/kan-ids-v2}{\texttt{kan-ids-v2}} repository at commit \href{https://github.com/emanuelepiodebernardis/kan-ids-v2/commit/b219fb6671442e2e5dfcda5b6ea49a04d57e7960}{\texttt{b219fb667144}}; it is not a final archival release. The accompanying release candidate retains corrected selection protocols, frozen headers, transformed inputs, common cohort identifiers, run-level metrics, raw hardware archives and independent scripts. Retained analyses cover signed errors, factorial contrasts, hash-matched UNSW/TON source-to-cache verification, reconstructed joint-cohort associations and canonical-split duplicates. Recovered native pre-Q12 inputs, JSONL checkpoints and AVR probe objects support paired-export and provenance checks; verification receipts record identities and independently checked quantities. Hardware records include all twenty original power records and run archives, exact sources, ELF/HEX/BIN files, marker alignment and integrations, audited for provenance, executed loops and energy arithmetic. A manuscript-specific evidence extract links tables to accepted records. The new pair-disjoint study retains fitted preprocessors, floating models, split identities and row-level predictions. Historical joint fitted models, preprocessors and aligned scores remain unavailable.
+
+Artifact maps for v0.15 and historical v0.12 identify input hashes, commands and expected outputs for each central claim, distinguishing prepared-input arithmetic replay, historical-metric reaggregation, conditional preprocessing recovery and physical provenance. The exact-row subgroup analysis uses frozen inputs without fitting. The endpoint-pair study comprises twenty new floating fits, with metrics independently recomputed from 761,740 saved test predictions. HW500 retains two continuous meter records and per-run timing/provenance; RAM500 retains fifteen accepted uploads per board with reference comparisons and instrumentation controls. The release records source versions for each accepted series and retains failed instrumentation attempts as excluded diagnostics. A complete fitted raw-flow-to-decision pipeline for arbitrary new traffic is not established. Verification-package hashes identify source CSVs, caches, inputs and scripts. The UNSW CSVs recovered from a public mirror match the author-reported historical hashes, but this does not establish which bytes the original fitted processes consumed. Manuscript archives include LaTeX sources, bibliography, figures and build scripts. Complete public archival deposition remains pending; the cited commit does not establish availability of every raw record. Dataset use remains subject to the original providers' terms.
+
+\appendices
+\section{Exact Cubic Integer Basis}
+\label{app:arithmetic}
+For numerical input $q_i$, define $u_i=16\operatorname{clip}(q_i+4096,0,8192)$, $s_i=\min(\floor{u_i/8192},15)$, and $t_i=4(u_i-8192s_i)$. With $F=32768$, $t_i$ ranges from zero to $F$. The fixed-point powers and basis numerators are
+\begin{align}
+t_2&=\floor{t_i^2/F},&t_3&=\floor{t_2t_i/F},\\
+b_0&=\floor{\frac{\floor{(F-t_i)^2/F}(F-t_i)}{F}},\\
+b_1&=3t_3-6t_2+4F,\\
+b_2&=-3t_3+3t_2+3t_i+F,&b_3&=t_3.
+\end{align}
+The $b_r$ are quantized approximations to $6F$ times the usual cubic B-spline basis; the nested floors are part of their definition. Substitution into~\eqref{eq:integer} defines the exact exported score, including negative floors. At $L=1025$, the LUT spacing is eight Q12 units and the per-edge scale exponents are $(7,7,7,6,7,6,7,6,7,6)$. The corresponding exhaustive edge errors are $(889,491,225,327,252,294,597,271,601,324)$, whose sum is 4,271. These finite-domain values are recomputed from the frozen arrays rather than inferred from a floating approximation. Exhaustive checking also gives $196607\leq\sum_r b_r\leq196609$, not a bound of $6F=196608$. For admissible $q=-4094$, $t=128$, the basis is $(32385,131072,33152,0)$ and sums to 196609. Conservative signed-shift bounds use a ceiling for negative absolute magnitudes. The frozen additive header gives a conservative score-accumulator magnitude bound of 255,710,456, below $2^{31}$; the archived arithmetic receipt additionally checks basis products, split multiplication intermediates and the multilayer headers. These corrected bounds change no model arrays, predictions or certificates.
+
+\section{Original Hardware Protocols and Diagnostic Results}
+\label{app:historical-hardware}
+Each application is uploaded once, then evaluated in five reset-separated passes with 64 warm-up inferences preceding each 500-flow measured pass. The ESP series contains an initial boot followed by four software resets, not five power cycles. Timing starts with prepared features in SRAM and ends at the binary decision. Input copying from Flash, numerical preprocessing, serial output, and reference checks are outside the measured interval. Reads of the model tables remain inside it. The results describe prepared-feature inference kernels; packet acquisition, flow extraction, queueing, and complete IDS latency are outside their scope.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=1.95in]{mcu_boards.jpg}
+\caption{Physical boards used in the experiments: Arduino Mega 2560 R3 (top) and ESP32-C3 (bottom). The one-euro coin provides a visual size reference only.}
+\label{fig:mcu_boards}
+\end{figure}
+
+\subsection{Original five-implementation latency and replay consistency}
+\begin{table}[t]
+\caption{Original five-implementation protocol: measured latency in $\mu$s, mean of five 500-flow pass means and sample SD across those five means. Mega pass means were identical.}
+\label{tab:latency}
+\centering\footnotesize
+\begin{tabular}{lrr}
+\toprule
+Implementation & Mega 2560 & ESP32-C3\\
+\midrule
+KAN coefficients & $1396.568\pm0$ & $5.474\pm0.113$\\
+KAN sampled LUT & $243.040\pm0$ & $5.889\pm0.201$\\
+Multilayer KAN & $12306.176\pm0$ & $55.351\pm0.257$\\
+MLP16 & $1328.672\pm0$ & $19.180\pm0.142$\\
+DT5 & $17.400\pm0$ & $1.420\pm0.269$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure*}[!tp]
+\centering\includegraphics[width=\textwidth]{hardware_latency.pdf}
+\caption{Physical inference-kernel latency for the same 500 source flows per pass. Horizontal positions use a logarithmic latency scale; error bars show the sample SD of five reset-separated pass means. Board clocks, framework, and instruction sets differ. Zero observed Mega repeat variation does not imply zero measurement uncertainty.}
+\label{fig:latency}
+\end{figure*}
+
+Table~\ref{tab:latency} and Fig.~\ref{fig:latency} show a representation trade-off that depends on the processor under the original five-implementation protocol. On the Mega, the LUT reduces mean latency by a factor of 5.746 relative to the coefficient KAN. On the ESP32-C3, its mean is 5.8888~$\mu$s, compared with 5.4740~$\mu$s for coefficients: a 0.4148~$\mu$s increase, or 7.58\%, rather than an observed gain. The experiment does not isolate cache, USB, or instruction-level mechanisms, so no specific causal explanation is assigned to this difference.
+
+DT5 has the smallest observed mean on both targets. Multilayer KAN costs substantially more time than the additive representations, particularly on AVR. These observations concern the fixed implementations and do not rank architectures independently of representation, predictive behavior, or preprocessing.
+
+There are 25 captures and 12,500 measured decisions per board. All 25,000 decisions agree with their compiled C references, and all 12,500 corresponding predictions agree between boards. This is replay consistency, not perfect classification. On the 500 distinct source flows, coefficient KAN, LUT KAN, multilayer KAN, MLP16, and DT5 make 18, 18, 6, 6, and 9 classification errors, respectively. The two additive representations agree on every cohort decision. These cohort counts are not substitutes for the full held-out test metrics.
+
+Individual times lie on a 4-$\mu$s grid on Mega and a 1-$\mu$s grid on ESP32-C3. Raw durations are reported without subtracting timer overhead. The Mega empty probes generally span 0--4~$\mu$s, with 0--8~$\mu$s in the multilayer capture; ESP probes span 0--2~$\mu$s. This matters particularly for the very short DT5 kernel. Identical Mega timing sequences across repeats produce zero sample SD but do not imply zero timing uncertainty. ESP sequences are distinct. There is one board of each type and a fixed implementation order; the SD measures repeat variation on those boards, not manufacturing variation or independent workloads.
+
+\subsection{Separate ESP32-C3 memory-placement diagnostic}
+\label{sec:c3diagnostic}
+We then tested whether memory placement and repeated-input locality affect the representation trade-off on the same ESP32-C3. This separate experiment retains the frozen weights, $L=1025$, and the same 500 source flows. One application contains two parameter-pointer kernels, one for coefficients and one for the LUT. Each kernel is reused unchanged with its parameters in Flash or copied to DRAM, giving four conditions. The kernels and timing wrappers reside in IRAM; compilation retains \texttt{-Os}, with link-time optimization disabled. ELF sections and reported addresses verify these placements. This application uses 20,808 additional bytes of DRAM parameter payload for the two copies, plus measurement buffers and descriptors; this is not a peak-SRAM measurement.
+
+Five ordered passes run within one boot. Before each of ten collection blocks, 2,000 warm-up calls cover all 500 flows in all four conditions. A four-condition Williams order balances positions and pair precedence over the cohort. Serial operations are absent from warm-up through the end of each collection block, and interrupts remain enabled. The CPU cycle counter measures either one full integer-logit call (\texttt{stream}) or 32 calls on the same input (\texttt{same32}). The latter interval includes the loop and 32 result stores; division by 32 gives an amortized cost, not an isolated-call latency. Timer overhead is not subtracted. At the verified 160-MHz clock, cycles divided by 160 give microseconds. The timing endpoint is the returned integer logit; the binary threshold used by the original protocol is excluded.
+
+\begin{table}[t]
+\caption{Separate ESP32-C3 diagnostic in cycles per call: mean and sample SD of five pass means within one boot. The \texttt{same32} column is the amortized 32-call block cost, including the loop and result stores.}
+\label{tab:c3diagnostic}
+\centering\footnotesize
+\begin{tabular}{lrr}
+\toprule
+Parameters & \texttt{stream} & \texttt{same32}\\
+\midrule
+Coefficients, Flash & $881.41\pm5.96$ & $832.51\pm0.34$\\
+LUT, Flash & $771.80\pm9.15$ & $501.41\pm0.29$\\
+Coefficients, DRAM & $820.24\pm1.93$ & $830.39\pm0.26$\\
+LUT, DRAM & $482.52\pm1.61$ & $492.96\pm0.43$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Within this diagnostic, the LUT reduces the mean \texttt{stream} cost by factors of 1.142 in Flash and 1.700 in DRAM (Table~\ref{tab:c3diagnostic}). The mean gain does not extend to every latency statistic: the pooled \texttt{stream} 95th percentile over 2,500 calls, calculated by linear interpolation and rounded to whole cycles, is 1,482 for the Flash LUT versus 1,119 for Flash coefficients. Moving the parameters from Flash to DRAM reduces this mean by 37.48\% for the LUT and 6.94\% for coefficients. For the LUT, the Flash--DRAM difference is 289.28 cycles per call in \texttt{stream}, but 8.45 amortized cycles per call in \texttt{same32}. Memory access and input locality therefore materially affect the observed cost, and an ESP32-C3 LUT speedup is possible. No cache-miss counter was recorded. These observations do not identify a unique cause of the original 7.58\% increase: code placement, parameter access, timer, timing endpoint, and serial protocol also changed between experiments. The original measurements remain a separate result.
+
+The diagnostic archive contains 20,000 rows representing 330,000 timed calls. Firmware checks found no full-logit mismatches against the frozen, representation-specific references. Single-call logits are transmitted individually; each 32-call row reports the last logit, a checksum, and a mismatch count after all 32 results have been checked outside the timer. These checks establish agreement of the executed diagnostic kernels with their references; five passes within one boot do not constitute independent board or boot replicates.
+
+\section{Retained Twenty-Input USB Pilot}
+\label{app:energy-details}
+\input{inputs/energy_pilots.tex}
+
+Table~\ref{tab:energy-pilots-full} preserves the original pilot means for audit against the full-precision CSV. The pilot remains separate from the HW500 study; these digits imply no absolute instrument accuracy.
+\input{inputs/energy_full_precision.tex}
+
+\section{Additional Classification Results}
+\label{app:results}
+The following tables retain native binary and multiclass summaries, both class recalls for the rich joint-source experiments, and the validation ratio criterion. Their standard deviations describe the recorded repeat units, as stated in each caption. The supplied run-level CSVs retain additional metrics and full numerical precision. No model fitting was repeated when these summaries were checked.
+\input{inputs/ml_supplement_tables.tex}
+
+\raggedbottom
+\section{Descriptive Factorial Contrasts}
+\label{app:factorial}
+For each of the eight passes, let $y_{abc}$ be the mean latency of its 500 calls under condition $(a,b,c)\in\{-1,1\}^3$. For a nonempty factor set $S$, the reported contrast is $e_S=\frac14\sum_{a,b,c}(\prod_{j\in S}x_j)y_{abc}$. Main contrasts average over the other factors; two-factor contrasts are half a difference-in-differences. Table~\ref{tab:c3-factorial} reports the mean and sample SD of the eight paired pass contrasts. The passes reuse one device and a fixed cohort; no population-level ANOVA significance or independence of individual calls is assumed.
+\input{inputs/factorial_table.tex}
+
+\section{Source-to-Cache and Source--Target Checks}
+\label{app:data-checks}
+\input{inputs/source_target_checks.tex}
+
+\section*{Acknowledgment}
+ChatGPT (OpenAI) assisted with drafting and editing throughout the manuscript and with supporting code, under human supervision. The authors retain responsibility for the methods, results, and final content.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+\noindent\begin{minipage}{\columnwidth}
+\phantomsection
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/Kuznetsov.png}}]{Oleksandr Kuznetsov}
+(Member, IEEE) is an Associate Professor at the Department of Theoretical and Applied Sciences, eCampus University, Italy, and a Full Professor at the Department of Intelligent Software Systems and Technologies, V.N. Karazin Kharkiv National University, Ukraine. He holds a Doctor of Sciences degree and is a laureate of the Boris Paton National Prize of Ukraine (2021), the nation's highest academic distinction, in recognition of his contributions to cybersecurity and cryptographic information protection systems. His career spans over two decades, with leadership roles across academia, industry, and defense. He served as a Senior Data Scientist at Proxima Labs, San Francisco, from 2023 to 2024, developing trustless computation platforms using zero-knowledge proofs, and as Chief Scientist at Grape Blockchain, London, from 2022 to 2023, working on DAG-based consensus mechanisms. His research interests include applied cryptography, post-quantum security, blockchain and decentralized systems, artificial intelligence in cybersecurity, biometric authentication, steganography, and IoT security.
+\end{IEEEbiography}
+\end{minipage}\par
+
+\noindent\begin{minipage}{\columnwidth}
+\phantomsection
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/E_P_Bernardis.png}}]{Emanuele Pio De Bernardis}
+has an academic background in Computer and Automation Engineering at eCampus University, Italy. Since 2025, he has been a research collaborator with Oleksandr Kuznetsov at eCampus University, working on machine learning for cybersecurity and deployment on resource-constrained devices. His research interests include edge artificial intelligence, model quantization, intrusion detection for Internet of Things and Industrial Internet of Things networks, and reproducible scientific software. His work covers data preprocessing, feature engineering, supervised model evaluation, integer quantization, and embedded inference pipelines. He also works on feature attribution and the assessment of generalization under distribution shift. His software experience includes Python-based machine learning pipelines, TensorFlow Lite Micro, C-code model export, and version-controlled experimental workflows. He holds the IBM AI Engineering and IBM Data Science Professional Certificates. Before focusing on academic studies and research, he accumulated eleven years of operational and managerial experience, including responsibility for performance monitoring and structured reporting. This background informs his interest in practical, maintainable machine learning systems.
+\end{IEEEbiography}
+\end{minipage}\par
+
+\noindent\begin{minipage}{\columnwidth}
+\phantomsection
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{figures/fronto.png}}]{Emanuele Frontoni}
+(Member, IEEE) is a Full Professor of computer science with the University of Macerata and the Co-Director of the VRAI Vision Robotics \& Artificial Intelligence Lab. His research interests include computer vision and artificial intelligence, with applications in robotics, video analysis, human behavior analysis, extended reality, and digital humanities. He is the author of over 230 international articles and collaborates with national and international companies in technology transfer and innovation. He has served as a program chair or general chair of international conferences and summer schools, including IEEE/ASME MESA Mechatronic and Embedded Systems and Applications in 2016 and 2017, IEEE ECMR European Conference on Mobile Robotics in 2017, BigDat 2020, and DeepLearn 2021. He has also co-organized international workshops, including DeepRetail at ICPR 2020, D2CH at CVPR 2021, and AI4DH at ICIAP 2022.
+\end{IEEEbiography}
+\end{minipage}\par
+\EOD
+\end{document}

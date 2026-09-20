@@ -1,0 +1,21 @@
+% Source: work/results/crossdomain_summary_cat.csv; sample SD checked
+% against work/results/crossdomain_runs_cat.csv.
+\begin{table*}[t]
+\centering
+\caption{Rich-space single-source balanced accuracy, mean $\pm$ sample SD on the 0--1 scale. In-domain columns summarize 50 fits; transfer columns summarize ten fits (seeds 42--51). The 50:1 attack:normal cap affects training only. Tests retain natural priors; repeat variability does not represent independent networks.}
+\label{tab:supp-cross-dispersion}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{lcccc}
+\toprule
+Model & TON$\to$TON & BoT$\to$BoT & TON$\to$BoT & BoT$\to$TON \\
+\midrule
+Additive KAN & $0.9701 \pm 0.0012$ & $0.9934 \pm 0.0010$ & $0.5573 \pm 0.0095$ & $0.6112 \pm 0.0695$ \\
+Multilayer KAN & $0.9932 \pm 0.0007$ & $0.9971 \pm 0.0027$ & $0.4588 \pm 0.0548$ & $0.6855 \pm 0.0977$ \\
+MLP16 & $0.9879 \pm 0.0016$ & $0.9426 \pm 0.0361$ & $0.4369 \pm 0.0634$ & $0.7343 \pm 0.0144$ \\
+DT5 & $0.9828 \pm 0.0015$ & $0.9952 \pm 0.0034$ & $0.5494 \pm 0.0089$ & $0.4597 \pm 0.0107$ \\
+LightGBM & $0.9963 \pm 0.0004$ & $0.9971 \pm 0.0031$ & $0.4779 \pm 0.0083$ & $0.6964 \pm 0.0545$ \\
+XGBoost & $0.9947 \pm 0.0004$ & $0.9779 \pm 0.0087$ & $0.5528 \pm 0.0269$ & $0.6487 \pm 0.0461$ \\
+\bottomrule
+\end{tabular}
+\end{table*}

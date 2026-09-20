@@ -1,0 +1,133 @@
+{
+  "version": "0.12.0",
+  "status": "PASS",
+  "scope": "Current RU manuscript source/PDF checks; no training, hardware execution or instrument calibration",
+  "pdf_sha256": "0fe6959fd2d7974a5ef95d3a4d14ff2df6ba329a2ae7d80bcca21b89a7ec66ef",
+  "pages": 41,
+  "original_numerical_tables_preserved": [
+    {
+      "old_label": "tab:populations",
+      "current_label": "tab:populations",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:lut",
+      "current_label": "tab:lut",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:cross",
+      "current_label": "tab:cross",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:latency",
+      "current_label": "tab:latency",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:c3diagnostic",
+      "current_label": "tab:c3diagnostic",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:memory",
+      "current_label": "tab:memory",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:c3_followup",
+      "current_label": "tab:c3_followup",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:energy-pilot",
+      "current_label": "tab:energy-full-precision",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:energy-memory",
+      "current_label": "tab:energy-memory",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:c3-factorial",
+      "current_label": "tab:c3-factorial",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:supp-joint-recalls",
+      "current_label": "tab:supp-joint-recalls",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:supp-native-cv",
+      "current_label": "tab:supp-native-cv",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:supp-ratio-selection",
+      "current_label": "tab:supp-ratio-selection",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:supp-cross-dispersion",
+      "current_label": "tab:supp-cross-dispersion",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:signed_certificate",
+      "current_label": "tab:signed_certificate",
+      "numerical_rows_preserved": true
+    },
+    {
+      "old_label": "tab:unsw-category-shift",
+      "current_label": "tab:unsw-category-shift",
+      "numerical_rows_preserved": true
+    }
+  ],
+  "photo_bytes": {
+    "Mega_measurement.jpg": {
+      "old_sha256": "4e693814c50d6170400094dc9ded5e79f3e42543d5001dd781207fc18fe522b2",
+      "current_sha256": "4e693814c50d6170400094dc9ded5e79f3e42543d5001dd781207fc18fe522b2",
+      "identical": true
+    },
+    "C3_measurement.jpg": {
+      "old_sha256": "bffd3388c6276e806caa793f89e3961570330b02174007d039374aa6cd6a2943",
+      "current_sha256": "bffd3388c6276e806caa793f89e3961570330b02174007d039374aa6cd6a2943",
+      "identical": true
+    }
+  },
+  "biography_text_unchanged": {
+    "Олександр Кузнецов": true,
+    "Эмануэле Пио Де Бернардис": true,
+    "Эмануэле Фронтони": true
+  },
+  "current_analyses": [
+    "V012_subgroup_metrics.csv",
+    "V012_subgroup_certificates.csv",
+    "V012_overlap_subgroup_results.json",
+    "V012_saved_results_unsw_auc.csv",
+    "V012_q15_bounds.json"
+  ],
+  "checks": {
+    "isolated_xelatex_build": true,
+    "stable_references": true,
+    "no_overfull_or_missing_characters": true,
+    "complete_abstract_in_rendered_pdf": true,
+    "main_original_lut_slowdown_visible": true,
+    "p_value_removed": true,
+    "federation_digression_removed": true,
+    "primary_c3_factorial_identified": true,
+    "energy_timer_instrument_and_boundaries_explicit": true,
+    "historical_qa_not_current": true,
+    "three_prior_work_rows_match_verified_EN_scope": true,
+    "energy_figure_byte_identical_with_EN": true
+  },
+  "limits": [
+    "No new training or device run",
+    "Original fitted preprocessor not recovered",
+    "Two acquisitions per physical board/model in USB pilot; no independent absolute calibration",
+    "Coauthor approval and public deposit not asserted"
+  ]
+}

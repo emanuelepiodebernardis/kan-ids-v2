@@ -82,7 +82,7 @@ ZSCORE = "feature z-scored fuori dalla scheda (10 numeriche, niente categoriche)
 
 # modello -> (header, prefisso dei simboli, descrizione della variante, ingresso)
 MODELS = [
-    ("DecisionTree(d=5)",           "dt5_model.h",            "DT5_",  "4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)", PREPROCESSATO),
+    ("DecisionTree(d=5)",           "dt5_model.h",            "DT5_",  "4 array paralleli su 57 nodi (feature, soglia, figlio destro, flag foglia)", "feature preprocessate fuori dalla scheda (14 valori Q7: numeriche e codici categorici)"),
     ("KAN(cat,1L)",                 "kan14_coeff_int8.h",     "KC_",   "coefficienti B-spline int8 + tabelle categoriche int8 + moltiplicatori Q15", PREPROCESSATO),
     ("KAN(cat,ML)",                 "kan14_ml_coeff_int8.h",  "KML_",  "due layer int8 + LUT tanh int16", PREPROCESSATO),
     ("KAN(cat,MC) 10 classi",       "kan14_mc_coeff_int8.h",  "KMC_",  "due layer int8, 10 uscite + LUT tanh int16", PREPROCESSATO),
@@ -171,6 +171,10 @@ def collect() -> list[dict]:
             print(f"[skip] {fname} assente", file=sys.stderr)
             continue
         total, rows = scan(path, prefix)
+        if prefix == 'KLUT_':
+            length = int(re.search(r'#define\s+KLUT_L\s+(\d+)', path.read_text(encoding="utf-8")).group(1))
+            nota = (f'stesse funzioni della KAN(cat,1L), campionate: 10 edge x {length} punti int16 '
+                    '+ uno shift per edge; edge categorici invariati')
         out.append({
             "modello": label,
             "byte_parametri": total,

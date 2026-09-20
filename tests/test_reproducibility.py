@@ -247,9 +247,20 @@ def test_every_firmware_compiles_without_mcu_toolchain():
     Serve a poterlo controllare senza board: se un main non ha il ramo
     HOST_CHECK, resta l'unico che nessuno puo' verificare prima di flashare.
     """
-    import shutil, subprocess, tempfile
-    if not shutil.which("g++"):
-        pytest.skip("g++ non disponibile")
+    import subprocess, tempfile
+    import sys as _sys
+    _sys.path.insert(0, str(REPO))
+    from kanids.toolchain import ambiente, motivo_assenza, trova
+    # `shutil.which` da solo non basta, ed e' per questo che kanids/toolchain.py
+    # esiste: su questa macchina g++ e' indicato da $CXX e non sta nel PATH,
+    # quindi questo test si saltava dichiarando assente un compilatore che c'e'.
+    # Non un fallimento mascherato — eseguito, passa — ma proprio il controllo
+    # che avrebbe intercettato main_common_latency.cpp, spento in silenzio sulla
+    # macchina dove il codice viene scritto. Il resto della suite usa gia'
+    # questo localizzatore; qui era rimasto il vecchio.
+    gpp = trova("g++")
+    if gpp is None:
+        pytest.skip(motivo_assenza("g++"))
     mp = REPO / "mcu_pio"
     with tempfile.TemporaryDirectory() as d:
         stub = Path(d) / "m.cpp"
@@ -265,9 +276,9 @@ def test_every_firmware_compiles_without_mcu_toolchain():
                 saltati.append(f"{f.name} ({', '.join(manca)})")
                 continue
             r = subprocess.run(
-                ["g++", "-fsyntax-only", "-DHOST_CHECK",
+                [gpp, "-fsyntax-only", "-DHOST_CHECK",
                  f"-I{mp/'include'}", f"-I{mp/'host_check'}", str(f)],
-                capture_output=True, text=True)
+                capture_output=True, text=True, env=ambiente("g++"))
             assert r.returncode == 0, f"{f.name} non compila su host:\n{r.stderr[:400]}"
         if saltati:
             pytest.skip("header generati assenti: " + "; ".join(saltati))

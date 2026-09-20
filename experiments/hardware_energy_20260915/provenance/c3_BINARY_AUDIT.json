@@ -1,0 +1,1131 @@
+{
+  "status": "FIVE_ACTUAL_C3_BINARIES_PASS",
+  "audits": [
+    {
+      "variant": "coeff",
+      "status": "ACTUAL_ELF_AND_IMAGE_PASS",
+      "elf_sha256": "42e22da74eb476696105ea43f156c34f6303c55c83aa1107acc1e731420cf5e8",
+      "bin_sha256": "3e998887314ac3016da77f98e8a6e806a9e6eed4c3f07b34da63f7ef80234cef",
+      "elf_file_bytes": 6240392,
+      "bin_file_bytes": 283856,
+      "architecture": {
+        "elf_class": 32,
+        "machine": "EM_RISCV",
+        "little_endian": true,
+        "entrypoint": "0x40381fc2",
+        "image_chip_id": 5,
+        "riscv_attributes_hex": "4136000000726973637600012c0000000572763332693270305f6d3270305f613270305f663270305f643270305f633270300008010a0b"
+      },
+      "image_validation": {
+        "checksum_matches": true,
+        "sha256_trailer_matches": true,
+        "loadable_sections_match_elf": true,
+        "app_descriptor_embeds_actual_elf_sha256": true,
+        "segments": [
+          {
+            "load_address": "0x3c030020",
+            "bytes": 71616
+          },
+          {
+            "load_address": "0x3fc8bc00",
+            "bytes": 7536
+          },
+          {
+            "load_address": "0x40380000",
+            "bytes": 47908
+          },
+          {
+            "load_address": "0x0",
+            "bytes": 3980
+          },
+          {
+            "load_address": "0x42000020",
+            "bytes": 152716
+          }
+        ],
+        "sections": [
+          {
+            "section": ".iram0.text",
+            "address": "0x40380000",
+            "bytes": 47906,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".dram0.data",
+            "address": "0x3fc8bc00",
+            "bytes": 7536,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.text",
+            "address": "0x42000020",
+            "bytes": 152716,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.appdesc",
+            "address": "0x3c030020",
+            "bytes": 256,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": true
+          },
+          {
+            "section": ".flash.rodata",
+            "address": "0x3c030120",
+            "bytes": 59632,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".eh_frame",
+            "address": "0x3c03ea10",
+            "bytes": 11728,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          }
+        ]
+      },
+      "loop": {
+        "function": "pilot_active_batch",
+        "start": "0x420003ac",
+        "bytes": 116,
+        "loop_start": "0x420003d8",
+        "call_address": "0x420003f0",
+        "call_destination": "0x42000020",
+        "kernel_symbol": "_ZL17kan14_coeff_logitPKsPKh",
+        "kernel_bytes": 358,
+        "backedges": [
+          {
+            "address": "0x420003fa",
+            "destination": "0x420003d8",
+            "instruction": "bne s0, s5, -0x22"
+          },
+          {
+            "address": "0x42000400",
+            "destination": "0x420003d8",
+            "instruction": "c.j -0x28"
+          }
+        ],
+        "inference_call_inside_count_loop": true,
+        "checksum_accumulation_after_call": true,
+        "all_function_bytes_decoded": true,
+        "dt5_signed_operations": null
+      },
+      "sizes": {
+        "pio_flash_used": 267790,
+        "pio_static_data_and_bss": 15888,
+        "dram_data": 7536,
+        "dram_bss": 8352,
+        "instruction_ram_text": 47906,
+        "instruction_ram_reserved_end_padding": 222,
+        "model_representation": 254,
+        "named_model_flash_objects": 254,
+        "prepared_input_ram": 400,
+        "prepared_categories_ram": 80,
+        "all_allocated_progbits_bytes": 279774,
+        "not_peak_ram": true
+      },
+      "compiled_constants": [
+        {
+          "name": "KC_COEF",
+          "bytes": 190,
+          "address": "0x3c031260",
+          "section": ".flash.rodata",
+          "sha256": "b475a7be6ce449beaa63a670ae1673b07f6c05f72ec2759b874b4039d8c0db6d",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KC_MULT",
+          "bytes": 20,
+          "address": "0x3c031320",
+          "section": ".flash.rodata",
+          "sha256": "8b05c7bd2fa6d85dcb333c5906b8e5bd4e60c33852fc7dd239580bec9fe4e756",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KC_CAT",
+          "bytes": 32,
+          "address": "0x3c031240",
+          "section": ".flash.rodata",
+          "sha256": "9c207aed02d0c31f7b17a5ec37b1984590781189d1da31787189f4fd9e5c0717",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KC_CAT_OFF",
+          "bytes": 4,
+          "address": "0x3c0342f8",
+          "section": ".flash.rodata",
+          "sha256": "d04bcab41a52c185b5237d4c5434677260e957ca64c56eb7b4e7edafe23bac61",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KC_CAT_MULT",
+          "bytes": 8,
+          "address": "0x3c0342fc",
+          "section": ".flash.rodata",
+          "sha256": "0d3a9b209faca74a8c60f8defba66950689d463df81bf7e9c9b737c5d1bc9b00",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "HC_KAN_X",
+          "bytes": 10000,
+          "address": "0x3c031334",
+          "section": ".flash.rodata",
+          "sha256": "d5ec8c8bc94bafeff33237136042b1831c9a86486181e0a9c746df79a3b9de53",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_KAN_CAT",
+          "bytes": 2000,
+          "address": "0x3c03080c",
+          "section": ".flash.rodata",
+          "sha256": "b7b80bab030568027343fd092c0ecccab1fe6e1c69f4149fd6d8cd96157de977",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_COEFF_EXPECTED",
+          "bytes": 500,
+          "address": "0x3c03103c",
+          "section": ".flash.rodata",
+          "sha256": "ac8ca736084de19018fddeaa73673b39c8b8b779684b69b77351b8519aab197c",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_ROW_ID",
+          "bytes": 2000,
+          "address": "0x3c033a44",
+          "section": ".flash.rodata",
+          "sha256": "3d4bc61b77cc5925adcee227498a173ebbc5b5efedf8d5f3fe693c5d99a6f6fe",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        }
+      ],
+      "constant_folding": [],
+      "limits": [
+        "No target rebuild was performed; these are the supplied Windows-compiled binaries.",
+        "PlatformIO static data+bss excludes instruction RAM, runtime stack/heap and dynamic framework allocations.",
+        "PlatformIO Flash size is not the .bin file size; section formulas are recorded.",
+        "These checks validate compiled replay, not unseen-data detection quality."
+      ]
+    },
+    {
+      "variant": "lut",
+      "status": "ACTUAL_ELF_AND_IMAGE_PASS",
+      "elf_sha256": "64166943e9f9c9bdaf104a53c323a2c3da5a13ca4301d1d863660586c291abcf",
+      "bin_sha256": "0c206bf92b76460f699d15bd2d2067c676728a1946c3c908f91a278cde3e1a1d",
+      "elf_file_bytes": 6259440,
+      "bin_file_bytes": 300016,
+      "architecture": {
+        "elf_class": 32,
+        "machine": "EM_RISCV",
+        "little_endian": true,
+        "entrypoint": "0x40381fc2",
+        "image_chip_id": 5,
+        "riscv_attributes_hex": "4136000000726973637600012c0000000572763332693270305f6d3270305f613270305f663270305f643270305f633270300008010a0b"
+      },
+      "image_validation": {
+        "checksum_matches": true,
+        "sha256_trailer_matches": true,
+        "loadable_sections_match_elf": true,
+        "app_descriptor_embeds_actual_elf_sha256": true,
+        "segments": [
+          {
+            "load_address": "0x3c030020",
+            "bytes": 91880
+          },
+          {
+            "load_address": "0x3fc8bc00",
+            "bytes": 7536
+          },
+          {
+            "load_address": "0x40380000",
+            "bytes": 31632
+          },
+          {
+            "load_address": "0x42000020",
+            "bytes": 152592
+          },
+          {
+            "load_address": "0x40387b90",
+            "bytes": 16276
+          }
+        ],
+        "sections": [
+          {
+            "section": ".iram0.text",
+            "address": "0x40380000",
+            "bytes": 47906,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".dram0.data",
+            "address": "0x3fc8bc00",
+            "bytes": 7536,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.text",
+            "address": "0x42000020",
+            "bytes": 152592,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.appdesc",
+            "address": "0x3c030020",
+            "bytes": 256,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": true
+          },
+          {
+            "section": ".flash.rodata",
+            "address": "0x3c030120",
+            "bytes": 79928,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".eh_frame",
+            "address": "0x3c043958",
+            "bytes": 11696,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          }
+        ]
+      },
+      "loop": {
+        "function": "pilot_active_batch",
+        "start": "0x4200032c",
+        "bytes": 116,
+        "loop_start": "0x42000358",
+        "call_address": "0x42000370",
+        "call_destination": "0x42000020",
+        "kernel_symbol": "_ZL15kan14_lut_logitPKsPKh",
+        "kernel_bytes": 230,
+        "backedges": [
+          {
+            "address": "0x4200037a",
+            "destination": "0x42000358",
+            "instruction": "bne s0, s5, -0x22"
+          },
+          {
+            "address": "0x42000380",
+            "destination": "0x42000358",
+            "instruction": "c.j -0x28"
+          }
+        ],
+        "inference_call_inside_count_loop": true,
+        "checksum_accumulation_after_call": true,
+        "all_function_bytes_decoded": true,
+        "dt5_signed_operations": null
+      },
+      "sizes": {
+        "pio_flash_used": 287962,
+        "pio_static_data_and_bss": 15888,
+        "dram_data": 7536,
+        "dram_bss": 8352,
+        "instruction_ram_text": 47906,
+        "instruction_ram_reserved_end_padding": 222,
+        "model_representation": 20554,
+        "named_model_flash_objects": 20554,
+        "prepared_input_ram": 400,
+        "prepared_categories_ram": 80,
+        "all_allocated_progbits_bytes": 299914,
+        "not_peak_ram": true
+      },
+      "compiled_constants": [
+        {
+          "name": "KLUT_TAB",
+          "bytes": 20500,
+          "address": "0x3c033978",
+          "section": ".flash.rodata",
+          "sha256": "2005033addb4bfacfc1816e255f67ef4a31eddbe2a898e6c695ec11cf305bb35",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KLUT_SHIFT",
+          "bytes": 10,
+          "address": "0x3c030fd8",
+          "section": ".flash.rodata",
+          "sha256": "4bc46dd49719443c72db90bfe5894c0ea55061567ce3183a3624c03a5905822e",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KLUT_CAT",
+          "bytes": 32,
+          "address": "0x3c033958",
+          "section": ".flash.rodata",
+          "sha256": "9c207aed02d0c31f7b17a5ec37b1984590781189d1da31787189f4fd9e5c0717",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KLUT_CAT_OFF",
+          "bytes": 4,
+          "address": "0x3c039240",
+          "section": ".flash.rodata",
+          "sha256": "d04bcab41a52c185b5237d4c5434677260e957ca64c56eb7b4e7edafe23bac61",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KLUT_CAT_MULT",
+          "bytes": 8,
+          "address": "0x3c039244",
+          "section": ".flash.rodata",
+          "sha256": "0d3a9b209faca74a8c60f8defba66950689d463df81bf7e9c9b737c5d1bc9b00",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "HC_KAN_X",
+          "bytes": 10000,
+          "address": "0x3c031248",
+          "section": ".flash.rodata",
+          "sha256": "d5ec8c8bc94bafeff33237136042b1831c9a86486181e0a9c746df79a3b9de53",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_KAN_CAT",
+          "bytes": 2000,
+          "address": "0x3c030808",
+          "section": ".flash.rodata",
+          "sha256": "b7b80bab030568027343fd092c0ecccab1fe6e1c69f4149fd6d8cd96157de977",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_LUT14_EXPECTED",
+          "bytes": 500,
+          "address": "0x3c031044",
+          "section": ".flash.rodata",
+          "sha256": "ac8ca736084de19018fddeaa73673b39c8b8b779684b69b77351b8519aab197c",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_ROW_ID",
+          "bytes": 2000,
+          "address": "0x3c03898c",
+          "section": ".flash.rodata",
+          "sha256": "3d4bc61b77cc5925adcee227498a173ebbc5b5efedf8d5f3fe693c5d99a6f6fe",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        }
+      ],
+      "constant_folding": [],
+      "limits": [
+        "No target rebuild was performed; these are the supplied Windows-compiled binaries.",
+        "PlatformIO static data+bss excludes instruction RAM, runtime stack/heap and dynamic framework allocations.",
+        "PlatformIO Flash size is not the .bin file size; section formulas are recorded.",
+        "These checks validate compiled replay, not unseen-data detection quality."
+      ]
+    },
+    {
+      "variant": "mlp",
+      "status": "ACTUAL_ELF_AND_IMAGE_PASS",
+      "elf_sha256": "59f41dc17cfbf53b267a79ee970f0fa3c7cc3bca2ce09ec57970093df4907d7a",
+      "bin_sha256": "7d3cee6204ccc4cd79f8316ddb753385066981f6afb26881b53c8252de067fdd",
+      "elf_file_bytes": 6238140,
+      "bin_file_bytes": 283728,
+      "architecture": {
+        "elf_class": 32,
+        "machine": "EM_RISCV",
+        "little_endian": true,
+        "entrypoint": "0x40381fc2",
+        "image_chip_id": 5,
+        "riscv_attributes_hex": "4136000000726973637600012c0000000572763332693270305f6d3270305f613270305f663270305f643270305f633270300008010a0b"
+      },
+      "image_validation": {
+        "checksum_matches": true,
+        "sha256_trailer_matches": true,
+        "loadable_sections_match_elf": true,
+        "app_descriptor_embeds_actual_elf_sha256": true,
+        "segments": [
+          {
+            "load_address": "0x3c030020",
+            "bytes": 72080
+          },
+          {
+            "load_address": "0x3fc8bc00",
+            "bytes": 7536
+          },
+          {
+            "load_address": "0x40380000",
+            "bytes": 47908
+          },
+          {
+            "load_address": "0x0",
+            "bytes": 3516
+          },
+          {
+            "load_address": "0x42000020",
+            "bytes": 152576
+          }
+        ],
+        "sections": [
+          {
+            "section": ".iram0.text",
+            "address": "0x40380000",
+            "bytes": 47906,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".dram0.data",
+            "address": "0x3fc8bc00",
+            "bytes": 7536,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.text",
+            "address": "0x42000020",
+            "bytes": 152574,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.appdesc",
+            "address": "0x3c030020",
+            "bytes": 256,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": true
+          },
+          {
+            "section": ".flash.rodata",
+            "address": "0x3c030120",
+            "bytes": 60128,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".eh_frame",
+            "address": "0x3c03ec00",
+            "bytes": 11696,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          }
+        ]
+      },
+      "loop": {
+        "function": "pilot_active_batch",
+        "start": "0x4200031e",
+        "bytes": 116,
+        "loop_start": "0x4200034a",
+        "call_address": "0x42000362",
+        "call_destination": "0x42000020",
+        "kernel_symbol": "_ZL11mlp16_logitPKsPKh",
+        "kernel_bytes": 216,
+        "backedges": [
+          {
+            "address": "0x4200036c",
+            "destination": "0x4200034a",
+            "instruction": "bne s0, s5, -0x22"
+          },
+          {
+            "address": "0x42000372",
+            "destination": "0x4200034a",
+            "instruction": "c.j -0x28"
+          }
+        ],
+        "inference_call_inside_count_loop": true,
+        "checksum_accumulation_after_call": true,
+        "all_function_bytes_decoded": true,
+        "dt5_signed_operations": null
+      },
+      "sizes": {
+        "pio_flash_used": 268144,
+        "pio_static_data_and_bss": 15888,
+        "dram_data": 7536,
+        "dram_bss": 8352,
+        "instruction_ram_text": 47906,
+        "instruction_ram_reserved_end_padding": 222,
+        "model_representation": 760,
+        "named_model_flash_objects": 756,
+        "prepared_input_ram": 400,
+        "prepared_categories_ram": 80,
+        "all_allocated_progbits_bytes": 280096,
+        "not_peak_ram": true
+      },
+      "compiled_constants": [
+        {
+          "name": "MLP16_W1",
+          "bytes": 160,
+          "address": "0x3c03398c",
+          "section": ".flash.rodata",
+          "sha256": "dfc7734cbdb4acd2b12deb1a32cb6887b538ed74c4b0bd28515e4de904380d72",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "MLP16_CAT",
+          "bytes": 512,
+          "address": "0x3c03420c",
+          "section": ".flash.rodata",
+          "sha256": "a74f3310cee0b9aa3a9df41e51642949985188014e5d1394afcf53fea5362623",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "MLP16_CAT_OFF",
+          "bytes": 4,
+          "address": "0x3c0344f0",
+          "section": ".flash.rodata",
+          "sha256": "d04bcab41a52c185b5237d4c5434677260e957ca64c56eb7b4e7edafe23bac61",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "MLP16_B1",
+          "bytes": 64,
+          "address": "0x3c03394c",
+          "section": ".flash.rodata",
+          "sha256": "9ddcc3a70465dff159713875293ce075d628ed84fd3a0a34049e7f0efa9ce0a6",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "MLP16_W2",
+          "bytes": 16,
+          "address": "0x3c033a2c",
+          "section": ".flash.rodata",
+          "sha256": "d2c4076208c1c0c04de4653af92d9b01243824419b688ae58f735bd0e06eb891",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "HC_MLP_X",
+          "bytes": 10000,
+          "address": "0x3c03123c",
+          "section": ".flash.rodata",
+          "sha256": "13fb85a27406e83f6bea137031a278e0eedbbd1f6c2f66a989f82653987647b6",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_MLP_CAT",
+          "bytes": 2000,
+          "address": "0x3c030808",
+          "section": ".flash.rodata",
+          "sha256": "b7b80bab030568027343fd092c0ecccab1fe6e1c69f4149fd6d8cd96157de977",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_MLP_EXPECTED",
+          "bytes": 500,
+          "address": "0x3c03102c",
+          "section": ".flash.rodata",
+          "sha256": "7033d663dd051e116c08f980d7808a1c2e287e6fde6d9abee514189c0f94857f",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_ROW_ID",
+          "bytes": 2000,
+          "address": "0x3c033a3c",
+          "section": ".flash.rodata",
+          "sha256": "3d4bc61b77cc5925adcee227498a173ebbc5b5efedf8d5f3fe693c5d99a6f6fe",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        }
+      ],
+      "constant_folding": [
+        {
+          "name": "MLP16_B2",
+          "declared_bytes": 4,
+          "value_signed": -933754,
+          "status": "no_standalone_symbol_constant_folded_into_kernel",
+          "instruction_materialization": {
+            "upper_address": "0x42000054",
+            "lower_address": "0x4200006e",
+            "signed_value": -933754,
+            "source_scalar_match": true
+          }
+        }
+      ],
+      "limits": [
+        "No target rebuild was performed; these are the supplied Windows-compiled binaries.",
+        "PlatformIO static data+bss excludes instruction RAM, runtime stack/heap and dynamic framework allocations.",
+        "PlatformIO Flash size is not the .bin file size; section formulas are recorded.",
+        "These checks validate compiled replay, not unseen-data detection quality."
+      ]
+    },
+    {
+      "variant": "kanml",
+      "status": "ACTUAL_ELF_AND_IMAGE_PASS",
+      "elf_sha256": "c10246b0e7b8b0c7029e7410c317ffca1a9ad5e6255b38b140b0f3a6715b676a",
+      "bin_sha256": "4abe54ffe4a6304b1a8e7f6e89141cca8d4abed744a3087b7bb7c89065fcec5c",
+      "elf_file_bytes": 6247320,
+      "bin_file_bytes": 285248,
+      "architecture": {
+        "elf_class": 32,
+        "machine": "EM_RISCV",
+        "little_endian": true,
+        "entrypoint": "0x40381fc2",
+        "image_chip_id": 5,
+        "riscv_attributes_hex": "4136000000726973637600012c0000000572763332693270305f6d3270305f613270305f663270305f643270305f633270300008010a0b"
+      },
+      "image_validation": {
+        "checksum_matches": true,
+        "sha256_trailer_matches": true,
+        "loadable_sections_match_elf": true,
+        "app_descriptor_embeds_actual_elf_sha256": true,
+        "segments": [
+          {
+            "load_address": "0x3c030020",
+            "bytes": 76640
+          },
+          {
+            "load_address": "0x3fc8bc00",
+            "bytes": 7536
+          },
+          {
+            "load_address": "0x40380000",
+            "bytes": 46872
+          },
+          {
+            "load_address": "0x42000020",
+            "bytes": 153060
+          },
+          {
+            "load_address": "0x4038b718",
+            "bytes": 1036
+          }
+        ],
+        "sections": [
+          {
+            "section": ".iram0.text",
+            "address": "0x40380000",
+            "bytes": 47906,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".dram0.data",
+            "address": "0x3fc8bc00",
+            "bytes": 7536,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.text",
+            "address": "0x42000020",
+            "bytes": 153060,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.appdesc",
+            "address": "0x3c030020",
+            "bytes": 256,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": true
+          },
+          {
+            "section": ".flash.rodata",
+            "address": "0x3c030120",
+            "bytes": 64616,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".eh_frame",
+            "address": "0x3c03fd88",
+            "bytes": 11768,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          }
+        ]
+      },
+      "loop": {
+        "function": "pilot_active_batch",
+        "start": "0x420004e6",
+        "bytes": 116,
+        "loop_start": "0x42000512",
+        "call_address": "0x4200052a",
+        "call_destination": "0x42000298",
+        "kernel_symbol": "_ZL14kan14_ml_logitPKsPKh",
+        "kernel_bytes": 590,
+        "backedges": [
+          {
+            "address": "0x42000534",
+            "destination": "0x42000512",
+            "instruction": "bne s0, s5, -0x22"
+          },
+          {
+            "address": "0x4200053a",
+            "destination": "0x42000512",
+            "instruction": "c.j -0x28"
+          }
+        ],
+        "inference_call_inside_count_loop": true,
+        "checksum_accumulation_after_call": true,
+        "all_function_bytes_decoded": true,
+        "dt5_signed_operations": null
+      },
+      "sizes": {
+        "pio_flash_used": 273118,
+        "pio_static_data_and_bss": 15904,
+        "dram_data": 7536,
+        "dram_bss": 8368,
+        "instruction_ram_text": 47906,
+        "instruction_ram_reserved_end_padding": 222,
+        "model_representation": 5244,
+        "named_model_flash_objects": 5244,
+        "prepared_input_ram": 400,
+        "prepared_categories_ram": 80,
+        "all_allocated_progbits_bytes": 285142,
+        "not_peak_ram": true
+      },
+      "compiled_constants": [
+        {
+          "name": "KML_C1",
+          "bytes": 3040,
+          "address": "0x3c031240",
+          "section": ".flash.rodata",
+          "sha256": "69df01dca9ad4ef140749e377bd0730eb50804d8bcb5b57cbb44b2f49b439dfe",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_M1",
+          "bytes": 320,
+          "address": "0x3c031f50",
+          "section": ".flash.rodata",
+          "sha256": "7ef9a09708272eb3f247781767bbf8c7d4efe88af3003be5a3977c2d40864332",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_C2",
+          "bytes": 304,
+          "address": "0x3c031e20",
+          "section": ".flash.rodata",
+          "sha256": "8cc4d39320e75ec203efc4e26ff1301e09c0c9c6b78bf67b4078bda9e00f3f7e",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_M2",
+          "bytes": 32,
+          "address": "0x3c032090",
+          "section": ".flash.rodata",
+          "sha256": "b05c8aecd4aa1635a00fc809580b352fe183e403b2abb5970e652209c28912a0",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_CAT",
+          "bytes": 512,
+          "address": "0x3c0320b0",
+          "section": ".flash.rodata",
+          "sha256": "339c7c0e2dcd8dbda1599ed094dfb791f56eb736c883ef80c90a5225eaabe30c",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_CAT_OFF",
+          "bytes": 4,
+          "address": "0x3c035674",
+          "section": ".flash.rodata",
+          "sha256": "d04bcab41a52c185b5237d4c5434677260e957ca64c56eb7b4e7edafe23bac61",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_CAT_MULT",
+          "bytes": 8,
+          "address": "0x3c035678",
+          "section": ".flash.rodata",
+          "sha256": "1a6b0d53323b6e8247382cf87bba5c18dbe017ff57b61053fbc4804b962189ba",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "KML_TANH",
+          "bytes": 1024,
+          "address": "0x3c0349c0",
+          "section": ".flash.rodata",
+          "sha256": "8ca09ec3a3b4950ade1376e575cf3df1f66311b8f1cbbd148b0aa07508a63da2",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "HC_KAN_X",
+          "bytes": 10000,
+          "address": "0x3c0322b0",
+          "section": ".flash.rodata",
+          "sha256": "d5ec8c8bc94bafeff33237136042b1831c9a86486181e0a9c746df79a3b9de53",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_KAN_CAT",
+          "bytes": 2000,
+          "address": "0x3c03080c",
+          "section": ".flash.rodata",
+          "sha256": "b7b80bab030568027343fd092c0ecccab1fe6e1c69f4149fd6d8cd96157de977",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_MLCOEFF_EXPECTED",
+          "bytes": 500,
+          "address": "0x3c03103c",
+          "section": ".flash.rodata",
+          "sha256": "d1de24e2f4970dd85dcba2f7c209799c0d215255abd4f5ec587222d14bc763d5",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_ROW_ID",
+          "bytes": 2000,
+          "address": "0x3c034dc0",
+          "section": ".flash.rodata",
+          "sha256": "3d4bc61b77cc5925adcee227498a173ebbc5b5efedf8d5f3fe693c5d99a6f6fe",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        }
+      ],
+      "constant_folding": [],
+      "limits": [
+        "No target rebuild was performed; these are the supplied Windows-compiled binaries.",
+        "PlatformIO static data+bss excludes instruction RAM, runtime stack/heap and dynamic framework allocations.",
+        "PlatformIO Flash size is not the .bin file size; section formulas are recorded.",
+        "These checks validate compiled replay, not unseen-data detection quality."
+      ]
+    },
+    {
+      "variant": "dt5",
+      "status": "ACTUAL_ELF_AND_IMAGE_PASS",
+      "elf_sha256": "4b871713c566a7320912bab87848da80ea0eee8b0397492a9643167766e8f1c9",
+      "bin_sha256": "28a80299c45b6793774d0a34f14a114737f309086419653eaca10c63e4033c8a",
+      "elf_file_bytes": 6242168,
+      "bin_file_bytes": 283520,
+      "architecture": {
+        "elf_class": 32,
+        "machine": "EM_RISCV",
+        "little_endian": true,
+        "entrypoint": "0x40381fc2",
+        "image_chip_id": 5,
+        "riscv_attributes_hex": "4136000000726973637600012c0000000572763332693270305f6d3270305f613270305f663270305f643270305f633270300008010a0b"
+      },
+      "image_validation": {
+        "checksum_matches": true,
+        "sha256_trailer_matches": true,
+        "loadable_sections_match_elf": true,
+        "app_descriptor_embeds_actual_elf_sha256": true,
+        "segments": [
+          {
+            "load_address": "0x3c030020",
+            "bytes": 73600
+          },
+          {
+            "load_address": "0x3fc8bc00",
+            "bytes": 7536
+          },
+          {
+            "load_address": "0x40380000",
+            "bytes": 47908
+          },
+          {
+            "load_address": "0x0",
+            "bytes": 1996
+          },
+          {
+            "load_address": "0x42000020",
+            "bytes": 152380
+          }
+        ],
+        "sections": [
+          {
+            "section": ".iram0.text",
+            "address": "0x40380000",
+            "bytes": 47906,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".dram0.data",
+            "address": "0x3fc8bc00",
+            "bytes": 7536,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.text",
+            "address": "0x42000020",
+            "bytes": 152380,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".flash.appdesc",
+            "address": "0x3c030020",
+            "bytes": 256,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": true
+          },
+          {
+            "section": ".flash.rodata",
+            "address": "0x3c030120",
+            "bytes": 61664,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          },
+          {
+            "section": ".eh_frame",
+            "address": "0x3c03f200",
+            "bytes": 11680,
+            "image_matches": true,
+            "elf_sha256_inserted_at_appdesc_offset_144": false
+          }
+        ]
+      },
+      "loop": {
+        "function": "pilot_active_batch",
+        "start": "0x420002a2",
+        "bytes": 98,
+        "loop_start": "0x420002c8",
+        "call_address": "0x420002da",
+        "call_destination": "0x42000020",
+        "kernel_symbol": "_ZL11dt5_predictPKs",
+        "kernel_bytes": 92,
+        "backedges": [
+          {
+            "address": "0x420002de",
+            "destination": "0x420002c8",
+            "instruction": "bne s0, s6, -0x16"
+          },
+          {
+            "address": "0x420002e4",
+            "destination": "0x420002c8",
+            "instruction": "c.j -0x1c"
+          }
+        ],
+        "inference_call_inside_count_loop": true,
+        "checksum_accumulation_after_call": true,
+        "all_function_bytes_decoded": true,
+        "dt5_signed_operations": {
+          "int8_feature_signed_load": "lb at 0x4200003e",
+          "negative_leaf_sentinel_branch": "bltz at 0x42000042",
+          "signed_int16_input_and_threshold_loads": [
+            "lh at 0x42000050",
+            "lh at 0x42000054"
+          ],
+          "signed_threshold_comparison": "blt threshold,input at 0x42000058"
+        }
+      },
+      "sizes": {
+        "pio_flash_used": 269486,
+        "pio_static_data_and_bss": 15968,
+        "dram_data": 7536,
+        "dram_bss": 8432,
+        "instruction_ram_text": 47906,
+        "instruction_ram_reserved_end_padding": 222,
+        "model_representation": 285,
+        "named_model_flash_objects": 285,
+        "prepared_input_ram": 560,
+        "prepared_categories_ram": 0,
+        "all_allocated_progbits_bytes": 281422,
+        "not_peak_ram": true
+      },
+      "compiled_constants": [
+        {
+          "name": "DT5_FEAT",
+          "bytes": 57,
+          "address": "0x3c034190",
+          "section": ".flash.rodata",
+          "sha256": "9d5da01c20a464dbe0b8f1940be3551b12cf6ee4b534cafe21003318a2b2881a",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "DT5_THR",
+          "bytes": 114,
+          "address": "0x3c030a6c",
+          "section": ".flash.rodata",
+          "sha256": "03dc6d620cd6a57c93c16eff9b7113b3dc2c21f795da498cb34fa519ec070e43",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "DT5_RIGHT",
+          "bytes": 57,
+          "address": "0x3c034208",
+          "section": ".flash.rodata",
+          "sha256": "9541450aa81ed6d9d421092d8a51bb72d034a4a0a0cdb7078ba506dfbe94b41d",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "DT5_LEAF",
+          "bytes": 57,
+          "address": "0x3c0341cc",
+          "section": ".flash.rodata",
+          "sha256": "269b558416c6cce957c28b252428bccb116e2cc9d7c615b0160c3a75e9e10e41",
+          "source_initializer_byte_match": true,
+          "role": "model"
+        },
+        {
+          "name": "HC_DT_X",
+          "bytes": 14000,
+          "address": "0x3c030ae0",
+          "section": ".flash.rodata",
+          "sha256": "2214c6a853abad6ef62433490a2c5a23688d5735b226bca367015c78ee28d698",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_DT5_EXPECTED",
+          "bytes": 500,
+          "address": "0x3c03085c",
+          "section": ".flash.rodata",
+          "sha256": "0da5c026f9de214e47e93d6501f3ef2260caa6b457c3d912c754b987c41a6404",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        },
+        {
+          "name": "HC_ROW_ID",
+          "bytes": 2000,
+          "address": "0x3c034244",
+          "section": ".flash.rodata",
+          "sha256": "3d4bc61b77cc5925adcee227498a173ebbc5b5efedf8d5f3fe693c5d99a6f6fe",
+          "source_initializer_byte_match": true,
+          "role": "replay_cohort"
+        }
+      ],
+      "constant_folding": [],
+      "limits": [
+        "No target rebuild was performed; these are the supplied Windows-compiled binaries.",
+        "PlatformIO static data+bss excludes instruction RAM, runtime stack/heap and dynamic framework allocations.",
+        "PlatformIO Flash size is not the .bin file size; section formulas are recorded.",
+        "These checks validate compiled replay, not unseen-data detection quality."
+      ]
+    }
+  ],
+  "dependencies": {
+    "pyelftools": "0.33",
+    "capstone": "5.0.7",
+    "esptool": "4.9.0"
+  },
+  "method": "ELF32 inspection, complete relevant function decoding, source integer initializer byte comparison, image section/checksum/digest validation; no target rebuild."
+}

@@ -249,12 +249,33 @@ def test_il_readme_non_dice_piu_che_non_ci_sta():
     sta. E' una preferenza dichiarata con un prezzo misurato, e il README
     deve dirlo cosi' — il relatore ha chiesto due volte di togliere le
     affermazioni piu' forti dei dati."""
+    import re
     testo = (REPO / "README.md").read_text(encoding="utf-8")
     inizio = testo.index("### Architecture: selected and deployed")
-    sezione = testo[inizio:inizio + 6000].lower()
-    assert "does not fit" in sezione or "not \"it does not fit\"" in sezione, (
+    # La sezione va presa fino al titolo successivo, non per un numero fisso di
+    # caratteri: con 6000 la finestra copriva un quinto di una sezione lunga
+    # 19.357, e una frase che si sposta in basso usciva dal controllo senza che
+    # nulla lo dicesse. E gli spazi si normalizzano, perche' "parameter arrays
+    # fit" era gia' presente ma spezzato su due righe: una guardia non deve
+    # dipendere da dove va a capo il testo.
+    m = re.search(r"\n### ", testo[inizio + 10:])
+    fine = inizio + 10 + m.start() if m else len(testo)
+    sezione = re.sub(r"\s+", " ", testo[inizio:fine]).lower()
+    # La prima versione pretendeva la stringa "does not fit". Il relatore ha
+    # chiesto di conservare invece la formulazione attuale, che parla degli
+    # ARRAY DI PARAMETRI e non del picco di memoria dell'intero firmware: dire
+    # che il firmware ci sta sarebbe piu' forte del dato, perche' il picco a
+    # runtime non e' misurato. Il controllo non cerca quindi una frase fissa,
+    # ma che la sezione risponda alla domanda restando dentro cio' che e'
+    # stato misurato.
+    risponde = ("parameter arrays fit" in sezione
+                or "arrays fit within" in sezione
+                or "does not fit" in sezione)
+    assert risponde, (
         "la sezione non affronta la domanda se la configurazione scelta ci "
         "stia: e' la prima cosa che un revisore chiede")
-    assert "declared preference" in sezione or "measured price" in sezione, (
+    preferenza = ("declared preference", "measured price",
+                  "deliberate resource preference")
+    assert any(f in sezione for f in preferenza), (
         "la sezione presenta ancora la scelta come un vincolo invece che "
         "come una preferenza con un prezzo")

@@ -1,0 +1,13 @@
+{
+  "scope": "selected changed-subsystem tests, not full repository suite",
+  "passed": 116,
+  "skipped": 9,
+  "failed": 0,
+  "skipped_reason": "AVR compiler unavailable",
+  "test_log": "combined_patch_gate_final.log",
+  "host_cohort_integrations": 20,
+  "legacy_host_programs": 8,
+  "full_pytest_run": false,
+  "target_builds": false,
+  "physical_hardware_measurements": false
+}

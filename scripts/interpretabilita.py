@@ -1,45 +1,24 @@
 #!/usr/bin/env python3
-"""Le funzioni apprese dalla KAN single-layer, e i contributi al singolo logit.
+"""Figure XAI della KAN single-layer, senza addestramento.
 
-Richiesta del Prof. Kuznetsov, punto 7
-======================================
-"Sfruttare l'interpretabilita' della KAN single-layer: una figura semplice con
-le funzioni apprese per feature e due o tre esempi di contributi locali al
-logit — una spiegazione diretta, non post-hoc. Mantenere una formulazione piu'
-prudente per il multi-layer."
+Le curve e i contributi sono gli addendi interi del kernel fissato. Il
+supporto empirico proviene esclusivamente dal train_calibration.npz con
+metadata source_split=train. I tre esempi locali provengono dai 200 golden
+vectors storici: sono esempi illustrativi selezionati, non un campione per
+stimare la qualita' o scegliere il modello. Si mostrano entrambe le etichette.
 
-Che cosa produce
-================
-    figures/fig_kan_funzioni_apprese.png   le 14 funzioni: 10 spline sulle
-                                           numeriche + 4 tabelle categoriche
-    figures/fig_kan_contributi_locali.png  tre flussi reali, con i 14 addendi
-                                           che compongono il loro logit
-    results/interpretabilita_contributi.csv  i numeri dei tre esempi
-    results/interpretabilita_escursione.csv  quanto ciascun edge muove il logit
-                                             sui 200 vettori di verifica
+Non si deducono causalita', controfattuali realizzabili o un ranking univoco
+di importanza dagli addendi non centrati. Per porte e codici discreti, i
+valori intermedi delle curve non hanno necessariamente significato fisico.
+L'equivalenza al kernel va verificata con un confronto C compilato; le figure
+non rappresentano una prova di esecuzione o una misura energetica su scheda.
 
-Perche' "diretta" e non "post-hoc"
-==================================
-Il kernel deployato somma quattordici termini e nient'altro. Quello che le
-figure mostrano non e' una stima del contributo di una feature — SHAP, LIME e
-le mappe di salienza approssimano una funzione opaca con un modello locale —
-ma **gli addendi stessi della somma che il microcontrollore esegue**. La somma
-dei quattordici numeri e' il logit, bit per bit, e il test lo verifica contro
-il kernel C compilato sui 200 vettori.
-
-Sul multi-layer questo script non produce niente, di proposito: li' il secondo
-strato vede combinazioni delle unita' nascoste, il contributo di una feature
-dipende dalle altre e una scomposizione additiva esatta non esiste. Dirlo e'
-piu' utile che produrre una figura che sembra la stessa cosa e non lo e'.
-
-Non serve il dataset: coefficienti e vettori stanno negli header committati.
-
-Uso
-===
-    python scripts/interpretabilita.py
+Uso: python scripts/interpretabilita.py [--train-support NPZ --support-meta JSON]
 """
 from __future__ import annotations
 
+import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -62,6 +41,9 @@ from kanids.interpretabilita import (contributi, curva, escursione,  # noqa: E40
 
 INCLUDE = _REPO / "mcu_pio" / "include"
 FIGURE = _REPO / "figures"
+TRAIN_SUPPORT = _REPO / "artifacts" / "finalization" / "train_calibration.npz"
+DISCRETE_CODES = {"src_port", "dst_port", "dns_qtype", "dns_qclass",
+                  "dns_rcode", "http_status_code"}
 SCALA = 1e6          # i contributi sono interi dell'ordine del milione
 
 
@@ -71,6 +53,52 @@ SCALA = 1e6          # i contributi sono interi dell'ordine del milione
 SEGNO = ("contributo positivo → spinge verso ATTACCO, "
          "negativo → verso NORMALE; la decisione e' il segno della somma")
 BLU, ROSSO = "#1f4e79", "#b03a2e"
+
+
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def leggi_supporto_train(path: Path, metadata: Path, m: dict) -> tuple[dict, dict]:
+    """Legge solo un supporto dichiarato train, senza fallback ai golden test.
+
+    L'identita' dello split viene verificata dal replay di preprocessing;
+    questo lettore impone la provenienza dichiarata e l'integrita' degli ID.
+    """
+    meta = json.loads(metadata.read_text(encoding="utf-8"))
+    if meta.get("source_split") != "train":
+        raise ValueError("XAI support must have source_split='train'")
+    if not re_sha256(meta.get("source_csv_sha256")):
+        raise ValueError("Missing or invalid source_csv_sha256")
+    if "calibration_npz_sha256" in meta and meta["calibration_npz_sha256"] != sha256_file(path):
+        raise ValueError("Training calibration_npz_sha256 mismatch")
+    with np.load(path, allow_pickle=False) as d:
+        required = {"Xq", "CAT", "row_ids"}
+        if not required.issubset(d.files):
+            raise ValueError(f"Training NPZ requires {sorted(required)}")
+        x, cat, ids = (np.asarray(d[k]) for k in ("Xq", "CAT", "row_ids"))
+    if any(a.dtype.kind not in "iu" for a in (x, cat, ids)):
+        raise ValueError("Training inputs and row IDs must be integer arrays")
+    n = len(ids)
+    if n == 0 or ids.ndim != 1 or x.shape != (n, m["NFEAT"]) or cat.shape != (n, m["NCAT"]):
+        raise ValueError("Training support shapes are empty or inconsistent")
+    if len(np.unique(ids)) != n or np.any(ids < 0):
+        raise ValueError("Training row IDs must be unique and nonnegative")
+    row_hash = hashlib.sha256(ids.astype("<i8").tobytes()).hexdigest()
+    if meta.get("row_ids_sha256") != row_hash:
+        raise ValueError("Training row_ids_sha256 mismatch (little-endian int64)")
+    if np.any((x < -4096) | (x > 4096)):
+        raise ValueError("Training Xq values outside deployed Q12 domain")
+    for j in range(m["NCAT"]):
+        if np.any((cat[:, j] < 0) | (cat[:, j] >= len(tabella_categorica(m, j)))):
+            raise ValueError(f"Training category code out of range: {CATEGORICAL[j]}")
+    return {"X": x.astype(np.int64), "CAT": cat.astype(np.int64),
+            "row_ids": ids.astype(np.int64)}, meta
+
+
+def re_sha256(value) -> bool:
+    return isinstance(value, str) and len(value) == 64 and all(
+        c in "0123456789abcdef" for c in value.lower())
 
 
 def nomi_numerici() -> list[str]:
@@ -87,9 +115,8 @@ def nomi_categorie() -> dict[str, list[str]] | None:
 
     Le tabelle degli header sono indicizzate per posizione e i nomi non ci
     sono: li produce `scripts/export_vocabolari.py`, che ha bisogno del
-    dataset. Quando il file manca si etichetta con l'indice E LO SI DICE
-    nella figura, invece di lasciar credere che 3 sia il nome di un
-    protocollo."""
+    dataset. La funzione restituisce None quando manca; il comando di
+    generazione delle figure finali richiede il vocabolario semantico."""
     f = _REPO / "models" / "vocabolari_categorici.json"
     if not f.exists():
         return None
@@ -107,14 +134,13 @@ def etichette_categoria(voc: dict | None, j: int, n: int) -> list[str]:
 
 
 # ─────────────────────────────────────────────────────────────
-def figura_funzioni(m: dict, v: dict, nomi: list[str], voc: dict | None,
+def figura_funzioni(m: dict, supporto: dict, nomi: list[str], voc: dict | None,
                     dest: Path) -> None:
-    """Le quattordici funzioni apprese, con sotto la densita' dei dati.
+    """Funzioni del kernel e istogramma/rug degli ingressi di training.
 
-    Il rug e l'istogramma in basso sono i 200 flussi di verifica: senza, la
-    curva sembra ugualmente affidabile ovunque, mentre dove non ci sono
-    osservazioni e' solo l'estrapolazione della spline. E' la stessa
-    prudenza che il README chiede a parole, resa visibile."""
+    L'assenza di osservazioni indica un limite del supporto empirico, non
+    dimostra da sola se un segmento sia interpolazione o estrapolazione.
+    """
     fig, assi = plt.subplots(4, 4, figsize=(15, 11.6))
     assi = assi.ravel()
     for i in range(m["NFEAT"]):
@@ -122,12 +148,16 @@ def figura_funzioni(m: dict, v: dict, nomi: list[str], voc: dict | None,
         a = assi[i]
         a.plot(x, y / SCALA, lw=1.8, color=BLU, zorder=3)
         a.axhline(0, lw=0.8, color="0.6")
-        a.set_title(nomi[i] if i < len(nomi) else f"feature {i}", fontsize=10)
+        titolo = nomi[i] if i < len(nomi) else f"feature {i}"
+        if titolo in DISCRETE_CODES:
+            titolo += " [codice discreto]"
+        a.set_title(titolo, fontsize=10)
         a.tick_params(labelsize=8)
         a.grid(alpha=0.25)
 
-        # densita' dei 200 vettori di verifica, in fondo al riquadro
-        oss = v["X"][:, i] / (1 << 12) * CLIP
+        # Istogramma: tutti i training rows, con la loro frequenza reale.
+        # Rug: valori Q12 osservati distinti, per limitare l'overplotting.
+        oss = supporto["X"][:, i] / (1 << 12) * CLIP
         basso, alto = a.get_ylim()
         altezza = (alto - basso) * 0.16
         conteggi, bordi = np.histogram(oss, bins=24, range=(-CLIP, CLIP))
@@ -135,7 +165,8 @@ def figura_funzioni(m: dict, v: dict, nomi: list[str], voc: dict | None,
             a.bar(bordi[:-1], conteggi / conteggi.max() * altezza,
                   width=np.diff(bordi), align="edge", bottom=basso,
                   color="0.55", alpha=0.35, linewidth=0, zorder=1)
-        a.plot(oss, np.full(len(oss), basso + altezza * 0.06), "|",
+        rug = np.unique(oss)
+        a.plot(rug, np.full(len(rug), basso + altezza * 0.06), "|",
                color="0.25", ms=4, alpha=0.5, zorder=2)
         a.set_ylim(basso, alto)
 
@@ -161,27 +192,29 @@ def figura_funzioni(m: dict, v: dict, nomi: list[str], voc: dict | None,
     fig.suptitle("KAN single-layer: le quattordici funzioni apprese\n"
                  f"{SEGNO}\n"
                  "ordinata = contributo al logit (unita' intere del kernel, x10⁶); "
-                 "in grigio la densita' dei 200 flussi di verifica",
+                 f"in grigio il training (n={len(supporto['X']):,}); rug = valori Q12 distinti",
                  fontsize=12)
     fig.supxlabel("feature dopo trasformazione quantile-normale e clip a "
-                  f"±{CLIP:g}  —  {nota}", fontsize=9)
-    fig.tight_layout(rect=(0, 0.02, 1, 0.945))
+                  f"±{CLIP:g}  —  {nota}\n"
+                  "Porte e codici: gli intermedi della curva non implicano valori validi; "
+                  "supporto osservato, non affidabilita' causale.", fontsize=9)
+    fig.tight_layout(rect=(0, 0.045, 1, 0.945))
     fig.savefig(dest, dpi=150)
     plt.close(fig)
     print(f"scritto {dest.relative_to(_REPO).as_posix()}")
 
 
-def scegli_esempi(z: np.ndarray, attesa: np.ndarray) -> list[tuple[int, str]]:
+def scegli_esempi(z: np.ndarray, predizioni: np.ndarray) -> list[tuple[int, str]]:
     """Un attacco netto, un flusso normale netto, e quello piu' vicino alla
     soglia: gli estremi mostrano quali edge decidono, il caso incerto mostra
     che la somma puo' essere il risultato di termini che si oppongono."""
-    att = np.flatnonzero(attesa == 1)
-    nor = np.flatnonzero(attesa == 0)
+    att = np.flatnonzero(predizioni == 1)
+    nor = np.flatnonzero(predizioni == 0)
     scelti = []
     if len(att):
-        scelti.append((int(att[np.argmax(z[att])]), "attacco, logit alto"))
+        scelti.append((int(att[np.argmax(z[att])]), "pred. attacco, logit alto"))
     if len(nor):
-        scelti.append((int(nor[np.argmin(z[nor])]), "normale, logit basso"))
+        scelti.append((int(nor[np.argmin(z[nor])]), "pred. normale, logit basso"))
     scelti.append((int(np.argmin(np.abs(z))), "il piu' vicino alla soglia"))
     return scelti
 
@@ -223,7 +256,7 @@ def figura_contributi(m: dict, v: dict, nomi: list[str], voc: dict | None,
         a.axvline(0, lw=0.8, color="0.4")
 
         tot = val.sum()
-        pred = int(tot >= 0)
+        pred = int(num.sum() + ctg.sum() >= 0)
         vero = int(v["LABEL"][k])
         esito = "corretta" if pred == vero else "SBAGLIATA"
         a.set_title(f"vettore #{k} — {descr}\n"
@@ -235,12 +268,14 @@ def figura_contributi(m: dict, v: dict, nomi: list[str], voc: dict | None,
         a.grid(alpha=0.25, axis="x")
         a.tick_params(labelsize=8)
 
-    fig.suptitle("Contributi locali al logit: la spiegazione E' il calcolo\n"
-                 "ogni barra e' un addendo del kernel deployato; la loro somma "
-                 "e' il logit, bit per bit\n" + SEGNO, fontsize=12)
+    fig.suptitle("Contributi locali al logit del kernel single-layer\n"
+                 "Somma esatta degli addendi non centrati; esempi illustrativi dai golden vectors, "
+                 "senza interpretazione causale\n" + SEGNO, fontsize=11)
     fig.supxlabel("contributo al logit (unita' intere del kernel, x10⁶)  —  "
-                  "blu verso ATTACCO, rosso verso NORMALE", fontsize=10)
-    fig.tight_layout(rect=(0, 0.03, 1, 0.905))
+                  "blu verso ATTACCO, rosso verso NORMALE\n"
+                  "Valori numerici nello spazio trasformato; i codici discreti non definiscono "
+                  "controfattuali continui realizzabili.", fontsize=9)
+    fig.tight_layout(rect=(0, 0.06, 1, 0.895))
     fig.savefig(dest, dpi=150)
     plt.close(fig)
     print(f"scritto {dest.relative_to(_REPO).as_posix()}")
@@ -248,15 +283,29 @@ def figura_contributi(m: dict, v: dict, nomi: list[str], voc: dict | None,
 
 # ─────────────────────────────────────────────────────────────
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--train-support", type=Path, default=TRAIN_SUPPORT)
+    parser.add_argument("--support-meta", type=Path)
+    args = parser.parse_args()
+    metadata = args.support_meta or args.train_support.with_suffix(".json")
     m = leggi_modello(INCLUDE / "kan14_coeff_int8.h")
     v = leggi_vettori(INCLUDE / "kan14_test_vectors.h")
+    supporto, meta = leggi_supporto_train(args.train_support, metadata, m)
     nomi = nomi_numerici()
+    if len(nomi) != m["NFEAT"]:
+        raise ValueError("Feature names do not match the deployed model width")
+    if meta.get("preprocessing", {}).get("numeric_features", nomi) != nomi:
+        raise ValueError("Training support numeric feature order mismatch")
     voc = nomi_categorie()
     if voc is None:
-        print("[nota] models/vocabolari_categorici.json assente: le categorie "
-              "saranno etichettate con l'indice e la figura lo dichiara.\n"
-              "       Per i nomi veri: python scripts/export_vocabolari.py "
-              "(serve il dataset)")
+        raise SystemExit("Required semantic category vocabulary is missing: "
+                         "models/vocabolari_categorici.json")
+    for j in range(m["NCAT"]):
+        etichette_categoria(voc, j, len(tabella_categorica(m, j)))
+    if meta.get("vocabolari", voc) != voc:
+        raise ValueError("Training support semantic category vocabulary mismatch")
+    if meta.get("model_header_sha256", sha256_file(INCLUDE / "kan14_coeff_int8.h")) != sha256_file(INCLUDE / "kan14_coeff_int8.h"):
+        raise ValueError("Training support model header hash mismatch")
     FIGURE.mkdir(exist_ok=True)
 
     z = logit(m, v["X"], v["CAT"])
@@ -268,7 +317,7 @@ def main() -> None:
                          "dell'header: la scomposizione non e' quella del "
                          "kernel")
 
-    figura_funzioni(m, v, nomi, voc, FIGURE / "fig_kan_funzioni_apprese.png")
+    figura_funzioni(m, supporto, nomi, voc, FIGURE / "fig_kan_funzioni_apprese.png")
 
     scelti = scegli_esempi(z, v["ATTESA"])
     figura_contributi(m, v, nomi, voc, scelti,
@@ -297,25 +346,59 @@ def main() -> None:
         RESULTS_DIR / "interpretabilita_contributi.csv", index=False, lineterminator="\n")
     print("scritto results/interpretabilita_contributi.csv")
 
-    esc = pd.DataFrame(escursione(m, v["X"], v["CAT"]))
+    esc = pd.DataFrame(escursione(m, supporto["X"], supporto["CAT"]))
     esc["edge"] = [etichette[i] if r.tipo == "numerica"
                    else etichette[m["NFEAT"] + r.indice]
                    for i, r in enumerate(esc.itertuples())]
     esc = esc.sort_values("escursione", ascending=False)
-    esc[["edge", "tipo", "min", "max", "escursione", "media"]].to_csv(
+    esc["source_split"] = "train"
+    esc["n_rows"] = len(supporto["X"])
+    esc[["edge", "tipo", "min", "max", "escursione", "media", "source_split", "n_rows"]].to_csv(
         RESULTS_DIR / "interpretabilita_escursione.csv", index=False, lineterminator="\n")
     print("scritto results/interpretabilita_escursione.csv")
 
     print("\n" + "=" * 74)
-    print("Quanto ciascun edge muove il logit sui 200 vettori di verifica")
+    print(f"Escursione degli addendi sul training: {len(supporto['X']):,} righe")
     print("-" * 74)
     for r in esc.head(6).itertuples():
         print(f"  {r.edge:<24}{r.escursione / SCALA:>10.3f} ×10⁶"
               f"   (da {r.min / SCALA:+.3f} a {r.max / SCALA:+.3f})")
     print("-" * 74)
-    print("Non e' una feature importance stimata: e' l'escursione effettiva")
-    print("del termine additivo, letta dagli addendi del kernel.")
+    print("Escursione empirica degli addendi non centrati: non e' un ranking")
+    print("causale o un'importanza univoca. Nessuna misura su hardware.")
     print("=" * 74)
+
+    provenance = {
+        "schema_version": 1,
+        "evidence_type": "independently_generated_host_xai_artifacts",
+        "source_split": "train", "n_train_rows": len(supporto["X"]),
+        "source_csv_sha256": meta["source_csv_sha256"],
+        "row_ids_sha256": meta["row_ids_sha256"],
+        "train_npz_sha256": sha256_file(args.train_support),
+        "train_metadata_sha256": sha256_file(metadata),
+        "model_header_sha256": sha256_file(INCLUDE / "kan14_coeff_int8.h"),
+        "golden_header_sha256": sha256_file(INCLUDE / "kan14_test_vectors.h"),
+        "vocabulary_sha256": sha256_file(_REPO / "models" / "vocabolari_categorici.json"),
+        "script_sha256": sha256_file(Path(__file__)),
+        "module_sha256": sha256_file(_REPO / "kanids" / "interpretabilita.py"),
+        "histogram_policy": "24 equal-width bins on [-CLIP,+CLIP], frequencies scaled per panel for display",
+        "golden_prediction_agreement": {"matches": accordo, "total": len(z)},
+        "local_examples_source": "historical_balanced_test_golden_vectors",
+        "local_example_rule": "maximum predicted-attack logit; minimum predicted-normal logit; minimum absolute logit",
+        "selected_golden_indices": [k for k, _ in scelti],
+        "train_support_rug": "unique observed Q12 values; histogram includes every training row",
+        "terms_centered": False,
+        "limitations": ["computational terms, not causal attribution",
+                        "uncentered terms do not define unique feature importance",
+                        "discrete-code interpolation need not be semantically feasible",
+                        "single-layer original-input decomposition only",
+                        "no hardware execution or energy measurement performed by this script"],
+        "artifacts": {str(p.relative_to(_REPO)): sha256_file(p) for p in (
+            FIGURE / "fig_kan_funzioni_apprese.png", FIGURE / "fig_kan_contributi_locali.png",
+            RESULTS_DIR / "interpretabilita_contributi.csv", RESULTS_DIR / "interpretabilita_escursione.csv")},
+    }
+    (RESULTS_DIR / "interpretabilita_provenance.json").write_text(
+        json.dumps(provenance, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
 if __name__ == "__main__":

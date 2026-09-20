@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "images_reviewed": [
+    "comparison/mega_c3_20_pilots.png",
+    "trace/dt5_02/sync/marker_alignment.png"
+  ],
+  "checks": [
+    "No cropped titles, axes, labels, legend or notes in combined figure",
+    "Two raw acquisitions shown per board and model; no confidence intervals implied",
+    "Units are microseconds and microjoules; logarithmic axes labeled",
+    "Numerical labels agree with CSV, allowing displayed rounding"
+  ],
+  "trace_visual_qa": "All ten marker plots separately reviewed; see trace/VISUAL_QA.json",
+  "scope_review": "Root report reviewed independently against original next-actions and current pilot protocol; no required correction"
+}

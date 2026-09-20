@@ -1,0 +1,86 @@
+{
+  "status": "PASS",
+  "scope": "Final read-only scientific QA of changed English and Russian passages against existing evidence receipts. Recursive source comparison with v0.9 ZIPs; no builds, PDF edits, training, device runs or new scientific experiment.",
+  "reviewed_source_sha256": {
+    "en_source/main.tex": "2f8de60fa522b82c61ad06d5dcd62449a02d843e8904e587b2686f4f12256ed8",
+    "en_source/inputs/source_target_checks.tex": "fdb2d89b87213623eaa5ad4ed0ff95fa563d668bb482943bae6b09b2a46442d6",
+    "ru_source/main.tex": "def31727fdcd750a26bdb38966515c10b072c8ee1f7f39b40e3c60006db020ad",
+    "ru_source/parts/a_ru.tex": "5495fc1d55718a341df65bb5d8c5a945a123d6ed7d7bc4dd8eac749ed37d137b",
+    "ru_source/parts/b_ru.tex": "f5ad10ddb2f5382dcbe1a1d12cb69fc5317448fc733638ba055a3d3fb06f961e",
+    "ru_source/parts/c_ru.tex": "1baf7ccc291d006fef107235332c0c2b89e058894a13698356efb0bfcf4ff9b4",
+    "ru_source/inputs/unsw_diagnostics.tex": "892b94096ceb36af28562d8ae0f1274b42691867a705fe965f04bbcf32629ce8"
+  },
+  "facts_reference_sha256": "43ec060e52775e3219b4c815fb02e93805f4d5009d2f5b8d94e317cafc1b6785",
+  "language_sync": {
+    "whole_known_cohort_Q12_equality": true,
+    "preQ12_float_not_bitwise_equivalent": true,
+    "original_native_fitted_preprocessor_remains_missing": true,
+    "no_future_raw_input_equivalence_claim": true,
+    "paired_test_42209_correct": true,
+    "input_rounding_zero_different_decisions": true,
+    "F1_float_0_9831912_integer_0_9825844": true,
+    "combined_export_loss_0_0607_percentage_points": true,
+    "40_changed_39_worsened_1_corrected": true,
+    "no_selected_LUT_additional_decisions": true,
+    "input_rounding_isolated_other_export_stages_combined": true,
+    "host_not_full_test_hardware_measurement": true,
+    "probe_array_and_main_frame_bytes": true,
+    "historical_probe_kernel_and_separate_weights": true,
+    "probe_frames_not_current_peak_or_stack": true,
+    "six_JSONL_900_records_not_independent_model_replay": true,
+    "420_current_records_and_42_matrices": true,
+    "superseded_ratio50_12_matrices_missing_seed42": true,
+    "joint_fitted_models_preprocessors_row_scores_still_missing": true,
+    "energy_and_peak_SRAM_not_measured": true,
+    "current_predictive_tables_not_reinterpreted_as_new_fits": true
+  },
+  "preserved_mathematical_content": {
+    "en": {
+      "tables": {
+        "old_count": 14,
+        "new_count": 14,
+        "exact_ordered_equality": true,
+        "different_indices": []
+      },
+      "display_environments": {
+        "old_count": 15,
+        "new_count": 15,
+        "exact_ordered_equality": true,
+        "different_indices": []
+      },
+      "bracket_displays": {
+        "old_count": 0,
+        "new_count": 0,
+        "exact_ordered_equality": true,
+        "different_indices": []
+      }
+    },
+    "ru": {
+      "tables": {
+        "old_count": 14,
+        "new_count": 14,
+        "exact_ordered_equality": true,
+        "different_indices": []
+      },
+      "display_environments": {
+        "old_count": 15,
+        "new_count": 15,
+        "exact_ordered_equality": true,
+        "different_indices": []
+      },
+      "bracket_displays": {
+        "old_count": 0,
+        "new_count": 0,
+        "exact_ordered_equality": true,
+        "different_indices": []
+      }
+    }
+  },
+  "material_remaining_problems": [],
+  "notes": [
+    "English explicitly states net38 additional errors; Russian states39 worsened and1 corrected, mathematically identical.",
+    "English explicitly decomposes900 into420 current and480 historical; Russian gives900 and420, consistent.",
+    "Existing paper abstract/hardware timing claims were retained rather than re-audited in this bounded review.",
+    "This receipt verifies scientific text and source preservation; PDF build and visual layout QA remain the coordinating agent's separate responsibility."
+  ]
+}

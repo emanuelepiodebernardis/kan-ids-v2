@@ -1,0 +1,200 @@
+{
+  "status": "STRUCTURAL_AUDIT_COMPLETE",
+  "classifier_fits": 0,
+  "source_csv_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+  "source_bytes": 29902775,
+  "source_rows": 211043,
+  "source_columns": [
+    "src_ip",
+    "src_port",
+    "dst_ip",
+    "dst_port",
+    "proto",
+    "service",
+    "duration",
+    "src_bytes",
+    "dst_bytes",
+    "conn_state",
+    "missed_bytes",
+    "src_pkts",
+    "src_ip_bytes",
+    "dst_pkts",
+    "dst_ip_bytes",
+    "dns_query",
+    "dns_qclass",
+    "dns_qtype",
+    "dns_rcode",
+    "dns_AA",
+    "dns_RD",
+    "dns_RA",
+    "dns_rejected",
+    "ssl_version",
+    "ssl_cipher",
+    "ssl_resumed",
+    "ssl_established",
+    "ssl_subject",
+    "ssl_issuer",
+    "http_trans_depth",
+    "http_method",
+    "http_uri",
+    "http_version",
+    "http_request_body_len",
+    "http_response_body_len",
+    "http_status_code",
+    "http_user_agent",
+    "http_orig_mime_types",
+    "http_resp_mime_types",
+    "weird_name",
+    "weird_addl",
+    "weird_notice",
+    "label",
+    "type"
+  ],
+  "row_id_definition": "Zero-based data-row position; BOM/header excluded; no row filtering.",
+  "matching_definition": "SHA256 over JSON arrays of decoded CSV field strings; numerical formatting is preserved.",
+  "candidate_input_columns": [
+    "src_port",
+    "dst_port",
+    "duration",
+    "src_bytes",
+    "dst_bytes",
+    "missed_bytes",
+    "src_pkts",
+    "src_ip_bytes",
+    "dst_pkts",
+    "dst_ip_bytes",
+    "dns_qclass",
+    "dns_qtype",
+    "dns_rcode",
+    "http_request_body_len",
+    "http_response_body_len",
+    "http_status_code",
+    "proto",
+    "service",
+    "conn_state",
+    "dns_rejected"
+  ],
+  "candidate_input_warning": "Before MI, imputation, quantile transform, and Q12; not a feature-disjoint claim.",
+  "split_rule": {
+    "salt": "KAN_IDS_PAIR_DISJOINT_V013_20260916",
+    "key": "compact UTF-8 JSON sorted [src_ip,dst_ip]",
+    "bucket": "big-endian first 8 SHA256 bytes of salt+NUL+key, modulo 100",
+    "train": "[0,60)",
+    "validation": "[60,80)",
+    "test": "[80,100)",
+    "uses_labels_or_model_scores": false
+  },
+  "split_assignments_sha256": "738805e292dc2e53692376e998076bd8c8c44bcc4169cea8ee44d18bdcff5044",
+  "row_ids_hash_encoding": "concatenated little-endian signed int64",
+  "splits": {
+    "train": {
+      "rows": 119334,
+      "normal": 32472,
+      "attack": 86862,
+      "pair_groups": 601,
+      "types": {
+        "backdoor": 10011,
+        "ddos": 12902,
+        "dos": 9675,
+        "injection": 7637,
+        "mitm": 826,
+        "normal": 32472,
+        "password": 7557,
+        "ransomware": 8534,
+        "scanning": 11702,
+        "xss": 18018
+      },
+      "absent_types": [],
+      "row_ids_sha256": "ca362f051cc4275a45feca56c7ece409f285016e873518217609118478455fc2"
+    },
+    "validation": {
+      "rows": 53622,
+      "normal": 13859,
+      "attack": 39763,
+      "pair_groups": 213,
+      "types": {
+        "backdoor": 9989,
+        "ddos": 955,
+        "dos": 2755,
+        "injection": 4970,
+        "mitm": 115,
+        "normal": 13859,
+        "password": 4511,
+        "ransomware": 11466,
+        "scanning": 3020,
+        "xss": 1982
+      },
+      "absent_types": [],
+      "row_ids_sha256": "ef3d12aea03bcc6ee51987615653f1541cc1719dc793fc40e6ff8431370dce7b"
+    },
+    "test": {
+      "rows": 38087,
+      "normal": 3669,
+      "attack": 34418,
+      "pair_groups": 190,
+      "types": {
+        "ddos": 6143,
+        "dos": 7570,
+        "injection": 7393,
+        "mitm": 102,
+        "normal": 3669,
+        "password": 7932,
+        "scanning": 5278
+      },
+      "absent_types": [
+        "backdoor",
+        "ransomware",
+        "xss"
+      ],
+      "row_ids_sha256": "921b3e1d573490bf217e2453ef0ef8d4f87d3ffec9fe50acd3d4a85016625192"
+    }
+  },
+  "overlap": {
+    "train_to_validation": {
+      "shared_pair_groups": 0,
+      "shared_full_row_keys": 0,
+      "shared_hosts": 62,
+      "shared_candidate_input_keys": 1775,
+      "right_rows_matching_left_candidate_inputs": 2374
+    },
+    "train_to_test": {
+      "shared_pair_groups": 0,
+      "shared_full_row_keys": 0,
+      "shared_hosts": 50,
+      "shared_candidate_input_keys": 1988,
+      "right_rows_matching_left_candidate_inputs": 2889
+    },
+    "validation_to_test": {
+      "shared_pair_groups": 0,
+      "shared_full_row_keys": 0,
+      "shared_hosts": 30,
+      "shared_candidate_input_keys": 1161,
+      "right_rows_matching_left_candidate_inputs": 1863
+    }
+  },
+  "full_row_unique": 190474,
+  "full_row_duplicate_excess": 20569,
+  "input_binary_conflicting_groups": 0,
+  "input_type_conflicting_groups": 11,
+  "host_graph_component_rows": [
+    208035,
+    2939,
+    67,
+    2
+  ],
+  "time_or_capture_fields_present": [],
+  "claims": {
+    "pair_disjoint": true,
+    "host_disjoint": false,
+    "time_disjoint": false,
+    "feature_disjoint": false,
+    "previously_unseen_dataset": false
+  },
+  "checks": {
+    "source_rows_match": true,
+    "both_binary_classes_in_every_split": true,
+    "pair_groups_do_not_cross_splits": true,
+    "full_rows_do_not_cross_splits": true
+  },
+  "pilot_allowed": true
+}

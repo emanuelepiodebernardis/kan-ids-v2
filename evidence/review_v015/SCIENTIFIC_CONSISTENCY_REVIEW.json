@@ -1,0 +1,66 @@
+{
+  "review_type": "independent read-only scientific consistency review",
+  "created_utc": "2026-09-16T16:24:08.001876+00:00",
+  "status": "NO_BLOCKING_SCIENTIFIC_CONTRADICTION_FOUND; MINOR_TEXT_CORRECTIONS_IDENTIFIED",
+  "scope": "Current EN/RU source snapshots against accepted RAM audit, PAIR Stage2 saved summary/counts, and HW500 replay publication data. No new fits, hardware runs, or independent raw-electrical calibration. Manuscript writers are still completing layout.",
+  "checks_passed": [
+    "RAM static figures and model-specific Mega stack depths agree with accepted audit. C3 1504–1584 bytes correctly identified as lifetime history reached before inference, not model-specific inference peak.",
+    "C3 task reservation not double-counted with allocated heap. Unchanged snapshots explicitly do not exclude transient allocations.",
+    "All 20 PAIR confusion-count-derived BA/F1/FPR/TPR recomputed independently and agree; their per-model means/sample SD agree.",
+    "All 10 HW500 per-model energy means/sample SD recomputed from five runs each; count/duration-derived batch times agree.",
+    "HW500 common500 workload distinguished from short-kernel timing and historical20-input pilot; full USB-board energy, no idle subtraction, no calibrated uncertainty.",
+    "Stage2 new floating models explicitly separated from frozen integer export/certificate and hardware weights.",
+    "Train/test pair and exact-row disjointness not overclaimed as host/time/model-input disjointness; 50 shared hosts and2889 matching transformed inputs disclosed.",
+    "Historical unfavorable C3 +7.58% LUT slowdown retained in appendix/protocol map and unresolved causal explanation stated.",
+    "EN/RU primary values, interpretation and first-author ordering consistent."
+  ],
+  "findings": [
+    {
+      "id": "R1",
+      "priority": "minor",
+      "location": "EN abstract",
+      "issue": "A clause originally said BA0.8948 and FPR20.59% were below GAM/MLP, ambiguous because FPR is higher.",
+      "recommendation": "State lower BA and higher FPR than the evaluated GAM/MLP baselines.",
+      "status": "sent to EN authoring agent; correction in progress"
+    },
+    {
+      "id": "R2",
+      "priority": "minor",
+      "location": "EN methodology evidence paragraph",
+      "issue": "Originally counted three evidence layers but enumerated four.",
+      "recommendation": "Change three to four.",
+      "status": "confirmed fixed in source during this review"
+    },
+    {
+      "id": "R3",
+      "priority": "minor",
+      "location": "EN/RU HW500 marker residual paragraph",
+      "issue": "C3 maximum is0.142093934753s in publication data; ordinary three-decimal rounding is0.142s, whereas text says was/equal0.143s.",
+      "recommendation": "Use0.142s or explicitly below0.143s. Conservative upper-bound0.143s is otherwise scientifically harmless.",
+      "status": "RU authoring agent confirmed conservative-bound wording fixed; EN sent"
+    },
+    {
+      "id": "R4",
+      "priority": "clarity",
+      "location": "EN/RU PAIR feature-selection paragraph",
+      "issue": "Train-only preprocessing is stated but supervised numeric-feature selection could more explicitly name training labels only. Protocol confirms train-only selection.",
+      "recommendation": "Add training-only to feature-selection clause.",
+      "status": "RU authoring agent confirmed train-only clause added; EN sent"
+    }
+  ],
+  "hardware_rerun_required_for_reported_claims": false,
+  "limitation": "This bounded review does not prove an exact whole-system/worst-case RAM peak or independently witness historical execution.",
+  "snapshot_sha256": {
+    "paper_final/repo/papers/ieee_access/main.tex": "fb389f30df8b6e47e419fc1e175f40b782431007bfddeee8a2d0e7c7a5cb451c",
+    "paper_final/repo/papers/ieee_access/inputs/ram500.tex": "2e968bdb693dcc200a900d4ab5cb084d756c295c9eec05abc63818ccde2fdc2a",
+    "paper_final/repo/papers/ieee_access/inputs/pair_stage2.tex": "d0dcabbbebba5310ac7b065aab961d7df4dd3e13a9d8463b90d597b19ca9157a",
+    "paper_final/repo/papers/ieee_access/inputs/hw500_energy.tex": "da723a6d5fd4d86a555caf4ebe3e799ea474c18567b0881dce97f3d4b7d0918d",
+    "paper_final/repo/papers/ru/main.tex": "239c807fe5a67164655c6120efb6fb0862f4180170324e6a101de2b5520de719",
+    "paper_final/repo/papers/ru/inputs/ram500.tex": "7de13d6157e20e3ef963bdb182d4e1ee52b41ddf2bd4c916ed6fdd4732102868",
+    "paper_final/repo/papers/ru/inputs/pair_stage2.tex": "2a8831fefd574e1286dd1da66fe91d9e6e7bcfff0b4f3a7efef7373714b138a1",
+    "paper_final/repo/papers/ru/inputs/hw500_energy.tex": "3f3686daa3f6a5f83ebb2e21fe101e5b8c6b7cf43fbd516c0be915673ffe3edc",
+    "paper_final/new_results/pair/PAIR_STAGE2_SUMMARY.json": "ddd51b92f393add6ea61ae650e45488b3f87576677c874eb96f73750378bee02",
+    "paper_final/new_results/hw500/HW500_PUBLICATION_DATA.json": "4b972f283054efe333cd589fe91611a249b77348eacf9d61e358154657ee0f88",
+    "ram142_review/deliverable/MANUSCRIPT_INSERT_EN.md": "d884e726028102fff902fd1298f0273fd168cb54f77153a70a5efa7d7efa269c"
+  }
+}

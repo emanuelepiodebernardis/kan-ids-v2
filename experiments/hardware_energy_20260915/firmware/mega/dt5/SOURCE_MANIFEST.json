@@ -1,0 +1,46 @@
+{
+  "schema": "compact-git-source-manifest-v1",
+  "note": "Repackaging manifest created after measurement. Firmware/runner bytes are unchanged; original acquisition manifests are separately retained in measurements/ and provenance/. Historical validation/binaries remain in the complete checkpoint.",
+  "files": [
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 1338,
+      "sha256": "c7fe63914d5bbc2522d9b04168f378b06f5d6ac8087cedc7de90097f477ec667"
+    },
+    {
+      "path": "project/include/dt5_model.h",
+      "bytes": 19409,
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/dt.h",
+      "bytes": 39825,
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 445,
+      "sha256": "9eb3982dad804f1c7e7e33ffa97c6d151b88c13a20f44aef3b79f9fa8debc463"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 10338,
+      "sha256": "6c40ad6076f23b08ef127592bb64a235fb4718f8a18cde54d2d111e73a7cc56a"
+    },
+    {
+      "path": "run_mega_energy_pilot.py",
+      "bytes": 20876,
+      "sha256": "bb1c37f67708609eb386a0e104273179f95d53737b8e951ecd8c3756a543ae49"
+    }
+  ]
+}

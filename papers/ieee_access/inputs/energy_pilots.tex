@@ -1,0 +1,68 @@
+\subsection{Whole-board USB-energy pilot}
+\label{sec:energy-pilots}
+A separate campaign on 15 September 2026 used an FNIRSI FNB58 USB meter (serial 104332) with the same Mega and ESP32-C3 boards. Five frozen implementations were each evaluated twice on each board, giving twenty physical acquisitions. Figure~\ref{fig:energy-setup} shows the instrumented setups. The meter measures the USB supply to the board and downstream cable; background board consumption is included. The recorded USB identity links the ESP32-C3 series to the earlier board. The photographs illustrate the connections; their screen readings are not used as experimental averages.
+
+
+
+Repeated-inference energy measurements are established benchmark practice: MLPerf Tiny uses sustained repeated inference to make energy measurement feasible~\cite{Banbury2021MLPerfTiny}, while ULPMark-CM reports active CPU energy~\cite{EEMBCULPMarkCM}. Here the measured quantity is explicitly the USB-supplied whole-board iteration. Our two acquisitions, central-window power and full-batch MCU duration define a separate engineering protocol, not a reproduction of either benchmark.
+
+Each acquisition repeatedly cycles twenty common source-flow identifiers, using each model's own frozen prepared inputs in RAM. Millions of calls therefore do not represent millions of distinct flows. Exact LUT indexing for these first twenty inputs addresses 208 of 10,250 numerical cells (2.03\%, or 416 payload bytes); all 500 cohort inputs address 1,425 cells (13.90\%, or 2,850 bytes). These are addressed-cell counts, not measured cache footprints. Cache lines, associativity and miss rates were not measured. The small repeated working set favors warm execution and limits extrapolation to a larger input stream. After warmup, calibration selects a multiple of twenty calls targeting approximately 120 seconds of active execution. The active interval includes the inference call, loop, input indexing, checksum updates and enabled interrupts. Preprocessing, serial output and LED markers are outside this interval. This amortized batch boundary differs from the individual-call boundary in Table~\ref{tab:latency}. On ESP32-C3, the CPU remains at 160~MHz, Wi-Fi and Bluetooth are not initialized, and the active loop contains no explicit yield. The logged watchdog state required no subscription removal in these runs. Frozen parameters remain in Flash; the pilot does not reproduce the DRAM-copy configuration of Table~\ref{tab:c3_followup}.
+
+Power records have a stored spacing of 0.1 seconds. Two LED codes, each with 2-, 4- and 2-second pulses, bracket the active batch. For each record separately, the centers of the twelve recorded transitions, extracted separately for each record, define an affine mapping between MCU and meter timestamps. We use the prespecified central 60 seconds of the batch on the MCU clock, mapped to meter times $t_0,t_1$. With linearly interpolated boundary samples and trapezoidal integration of the recorded voltage--current products, the estimator is
+\begin{equation}
+\overline P=\frac{1}{t_1-t_0}\int_{t_0}^{t_1}V(t)I(t)\,dt,
+\qquad
+\widehat E_{\rm call}=\overline P\frac{T_{\rm MCU}}{N},
+\label{eq:energy-estimator}
+\end{equation}
+where $T_{\rm MCU}$ is the measured complete active-batch duration and $N$ its call count. This estimates whole-board energy from a stationary central window; it is not the exact integral of the complete active interval or a meter-resolved measurement of an individual call. Idle power is not subtracted because whole-board iteration energy is the defined estimand. It includes the active loop, indexing, checksums, interrupts and background board demand; it is not incremental neural-kernel energy. The stored PBUS channel agrees with $VI$, which is an internal consistency check of channels from the same meter, not an independent calibration. The NRG increment is approximately one quarter of the independently integrated $VI$ total, so that channel is retained for diagnosis and excluded from the estimator without a corrective multiplier.
+
+\begin{table*}[t]
+\caption{Separate USB-energy pilot: equal-weight means of two acquisitions per implementation and board. Time is complete active-batch duration divided by call count; power is the central-window USB mean; energy uses~\eqref{eq:energy-estimator}. Each acquisition repeatedly cycles twenty prepared inputs. These descriptive engineering estimates are rounded and are not pooled with the 500-flow kernel or placement experiments. Full-precision means remain in Appendix~\ref{app:energy-details} and the CSV; the digits do not state measurement accuracy.}
+\label{tab:energy-pilots}
+\centering\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrrr}
+\toprule
+& \multicolumn{3}{c}{Mega 2560, 16 MHz} & \multicolumn{3}{c}{ESP32-C3, 160 MHz}\\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Implementation & Time ($\mu$s) & Power (mW) & Energy ($\mu$J) & Time ($\mu$s) & Power (mW) & Energy ($\mu$J)\\
+\midrule
+KAN coefficients & 1395 & 353 & 493 & 5.21 & 168 & 0.875\\
+KAN sampled LUT & 225 & 354 & 79.6 & 3.33 & 166 & 0.552\\
+Multilayer KAN & 12224 & 355 & 4342 & 54.2 & 174 & 9.42\\
+MLP16 & 1341 & 356 & 477 & 19.8 & 170 & 3.37\\
+DT5 & 15.7 & 358 & 5.63 & 0.739 & 169 & 0.125\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{energy_pilot_comparison.pdf}
+\caption{Separate sustained-batch pilot on both boards: amortized time and estimated whole-board energy per call on logarithmic scales. Symbols show the equal-weight mean of two acquisitions, without inferential confidence intervals. The inputs are prepared offline. Processor clocks, toolchains and runtime systems differ, so cross-board ratios do not isolate an instruction-set effect.}
+\label{fig:energy-pilots}
+\end{figure*}
+
+Table~\ref{tab:energy-pilots} and Fig.~\ref{fig:energy-pilots} show lower LUT cost than coefficient cost within this repeated-input protocol. The LUT reduces amortized time by about 84\% on Mega and 36\% on ESP32-C3; the corresponding energy reductions are about 84\% and 37\%. Full-precision reductions are 83.88\%, 36.19\%, 83.83\% and 36.94\%, respectively, in the retained analysis. Similar sustained powers for the two representations make the shorter duration the main contributor to these energy reductions. DT5 has the lowest observed cost, without establishing equal predictive quality. These measurements do not identify the cause of the earlier ESP32-C3 protocol discrepancy.
+
+The C3 implementation order was coefficients, LUT, MLP16, multilayer KAN and DT5; it was fixed, rather than randomized. Active-batch timing uses the 64-bit \texttt{esp\_timer\_get\_time} on C3. The two ESP32-C3 acquisitions of each model share one boot and are separately armed and calibrated. The two energy estimates per model differ by less than 0.32\% on Mega and 0.09\% on ESP32-C3; on ESP32-C3, shifting the central window by $\pm2$ seconds changes its mean power by at most 0.0151\%. These are checks of repeatability and window sensitivity, not instrument accuracy. The visible response spans approximately one second, so the 0.1-second storage grid does not establish a 10-Hz measurement bandwidth. The meter firmware and recording-GUI versions were not retained. The archived decoder documents a Toolbox v0.0.6 file schema; this is not evidence of the version installed for acquisition. Neither the meter nor the MCU clocks were independently calibrated, and a constant measurement-path delay is not identified by the marker alignment alone. We therefore provide descriptive pilot estimates without an absolute uncertainty budget or confidence intervals formed from correlated power samples.
+
+\begin{table*}[t]
+\caption{Energy-pilot application sizes in bytes, separate from the original applications in Table~\ref{tab:memory}. Program use is the linked Flash-use summary; BIN is the actual ESP32-C3 application file length. Static data excludes IRAM, stack and heap peaks.}
+\label{tab:pilot-memory}
+\centering\small\setlength{\tabcolsep}{5pt}
+\begin{tabular}{lrrrrr}
+\toprule
+& \multicolumn{2}{c}{Mega 2560} & \multicolumn{3}{c}{ESP32-C3}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+Implementation & Program use & Static data & Program use & Data/BSS & BIN\\
+\midrule
+KAN coefficients & 22,300 & 841 & 267,790 & 15,888 & 283,856\\
+KAN sampled LUT & 42,060 & 841 & 287,962 & 15,888 & 300,016\\
+Multilayer KAN & 28,266 & 841 & 273,118 & 15,904 & 285,248\\
+MLP16 & 22,310 & 841 & 268,144 & 15,888 & 283,728\\
+DT5 & 23,232 & 917 & 269,486 & 15,968 & 283,520\\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+The source, upload and run records agree with the delivered frozen headers. Inspection of all five actual ESP32-C3 ELF files confirms that a real inference call remains inside the measured count-controlled loop and is followed by checksum accumulation. Model constants match the frozen source, and the application BIN segments agree with the corresponding ELF sections. Prepared-input decisions matched the compiled references, and active-batch checksums matched their expected sums; the checksum does not verify every active decision separately. These checks support the execution and provenance claims; they do not make this small repeated workload a detection-quality evaluation.

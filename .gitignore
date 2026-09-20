@@ -1,4 +1,19 @@
-# artefatti intermedi: sempre ricostruibili con reproduce.py
+# artefatti intermedi: sempre ricostruibili con reproduce.py.
+#
+# Da v0.9.1 qui vive anche artifacts/finalization/, che il pacchetto di
+# finalizzazione consegna: tredici dei suoi quattordici file li ricostruisce
+# scripts/prepare_finalization_data.py dal CSV di TON_IoT, il quattordicesimo
+# (hardware_cohort_export.json) viene da scripts/export_hardware_cohort.py e
+# non serve al replay LUT; la sua rigenerazione e' documentata in
+# docs/HARDWARE_COMMON_COHORT_IT.md e scrive fuori di qui, per non
+# sovrascrivere ne' il referto consegnato ne' gli header misurati.
+# Ricostruibili, quindi, ma non identici per
+# definizione: una nuova esecuzione produce una provenienza NUOVA — hash e log
+# propri — non gli stessi hash e gli stessi log di quella consegnata. Le due
+# cose vanno tenute distinte quando si cita un'evidenza: i file sotto
+# evidence/ documentano esecuzioni avvenute, e non si rigenerano affatto.
+# Chi rifa' il percorso con 'reproduce.py --stage lut' scrive in una
+# directory nuova proprio per non confondere le due provenienze.
 artifacts/
 *.meta.json
 
@@ -75,6 +90,15 @@ audit.txt
 /*.txt
 !/requirements.txt
 !/requirements-lock.txt
+#: l'ambiente in cui sono stati eseguiti i CONTROLLI di finalizzazione,
+#: che non e' quello storico di addestramento fissato da
+#: requirements-lock.txt: tenerli distinti e' il motivo per cui sono due
+#: file e non uno.
+!/requirements-finalization.txt
 
 # cartella in cui si estrae il pacchetto per provarlo
 prova/
+
+# ricevute e backup di tools/apply_integration.py: evidenza del
+# processo di integrazione, non contenuto del progetto
+_integration_receipts/

@@ -1,0 +1,5018 @@
+{
+  "status": "C3_TEN_RUN_PROVENANCE_AND_PROTOCOL_PASS",
+  "scope": "Raw evidence, source ancestry, compile/upload receipts, runtime protocol; external trace alignment/energy and independent machine-code call audit are separate. No new physical experiment is performed by this script.",
+  "input_archive": {
+    "name": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+    "bytes": 13219270,
+    "sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+  },
+  "delivery_archive": {
+    "name": "KAN_IDS_C3_FNB58_ALL_PILOTS_20260915.zip",
+    "bytes": 216014,
+    "sha256": "8b142f3a59e6bc586352bffe2cbab41eed681a29d7bd10d5feda86abe9a8a824"
+  },
+  "frozen_archive": {
+    "name": "KAN_IDS_NEW_CHAT_20260912_v1.1.0.zip",
+    "bytes": 189675013,
+    "sha256": "6ed738eb25589804f28491321f5c32f3a40b8cd0160b1718449aca15623b5f6d"
+  },
+  "source_file_count": 59,
+  "source_manifest": {
+    "bytes": 10036,
+    "sha256": "160b5beece5fc5e8b60531c1c69b1509a8457cc06fbccb33b32dad7311e90da6"
+  },
+  "frozen_header_count": 30,
+  "external_command_count": 15,
+  "physical_runs_count": 10,
+  "distinct_cfn_count": 10,
+  "board": {
+    "port": "COM10",
+    "vid": 12346,
+    "pid": 4097,
+    "serial_number": "10:00:3B:CB:8D:70",
+    "description": "Устройство с последовательным интерфейсом USB (COM10)"
+  },
+  "led_observation": {
+    "confirmed": true,
+    "operator_answer": "да",
+    "utc": "2026-09-15T19:06:34.944+00:00",
+    "setup_model": "coeff",
+    "gpio": 8,
+    "active": "LOW"
+  },
+  "builds": {
+    "coeff": {
+      "binaries": {
+        "firmware.elf": {
+          "bytes": 6240392,
+          "sha256": "42e22da74eb476696105ea43f156c34f6303c55c83aa1107acc1e731420cf5e8"
+        },
+        "firmware.bin": {
+          "bytes": 283856,
+          "sha256": "3e998887314ac3016da77f98e8a6e806a9e6eed4c3f07b34da63f7ef80234cef"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+        },
+        "bootloader.bin": {
+          "bytes": 13248,
+          "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+        }
+      },
+      "upload_support": {
+        "source_path": "C:\\Users\\kuzne\\.platformio\\packages\\framework-arduinoespressif32\\tools\\partitions\\boot_app0.bin",
+        "file": {
+          "bytes": 8192,
+          "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+        },
+        "flash_offset": "0xe000",
+        "package_version": "3.20017.241212+sha.dcc1105b",
+        "package_manifest": {
+          "bytes": 414,
+          "sha256": "f35415c75f6f43755df92bbbf7ef10c9e65c2edb2569d512636a0477be64d5bf"
+        }
+      },
+      "static_ram_build_report_bytes": 15888,
+      "program_build_report_bytes": 267790,
+      "model_bytes": 254
+    },
+    "lut": {
+      "binaries": {
+        "firmware.elf": {
+          "bytes": 6259440,
+          "sha256": "64166943e9f9c9bdaf104a53c323a2c3da5a13ca4301d1d863660586c291abcf"
+        },
+        "firmware.bin": {
+          "bytes": 300016,
+          "sha256": "0c206bf92b76460f699d15bd2d2067c676728a1946c3c908f91a278cde3e1a1d"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+        },
+        "bootloader.bin": {
+          "bytes": 13248,
+          "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+        }
+      },
+      "upload_support": {
+        "source_path": "C:\\Users\\kuzne\\.platformio\\packages\\framework-arduinoespressif32\\tools\\partitions\\boot_app0.bin",
+        "file": {
+          "bytes": 8192,
+          "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+        },
+        "flash_offset": "0xe000",
+        "package_version": "3.20017.241212+sha.dcc1105b",
+        "package_manifest": {
+          "bytes": 414,
+          "sha256": "f35415c75f6f43755df92bbbf7ef10c9e65c2edb2569d512636a0477be64d5bf"
+        }
+      },
+      "static_ram_build_report_bytes": 15888,
+      "program_build_report_bytes": 287962,
+      "model_bytes": 20554
+    },
+    "mlp": {
+      "binaries": {
+        "firmware.elf": {
+          "bytes": 6238140,
+          "sha256": "59f41dc17cfbf53b267a79ee970f0fa3c7cc3bca2ce09ec57970093df4907d7a"
+        },
+        "firmware.bin": {
+          "bytes": 283728,
+          "sha256": "7d3cee6204ccc4cd79f8316ddb753385066981f6afb26881b53c8252de067fdd"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+        },
+        "bootloader.bin": {
+          "bytes": 13248,
+          "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+        }
+      },
+      "upload_support": {
+        "source_path": "C:\\Users\\kuzne\\.platformio\\packages\\framework-arduinoespressif32\\tools\\partitions\\boot_app0.bin",
+        "file": {
+          "bytes": 8192,
+          "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+        },
+        "flash_offset": "0xe000",
+        "package_version": "3.20017.241212+sha.dcc1105b",
+        "package_manifest": {
+          "bytes": 414,
+          "sha256": "f35415c75f6f43755df92bbbf7ef10c9e65c2edb2569d512636a0477be64d5bf"
+        }
+      },
+      "static_ram_build_report_bytes": 15888,
+      "program_build_report_bytes": 268144,
+      "model_bytes": 760
+    },
+    "kanml": {
+      "binaries": {
+        "firmware.elf": {
+          "bytes": 6247320,
+          "sha256": "c10246b0e7b8b0c7029e7410c317ffca1a9ad5e6255b38b140b0f3a6715b676a"
+        },
+        "firmware.bin": {
+          "bytes": 285248,
+          "sha256": "4abe54ffe4a6304b1a8e7f6e89141cca8d4abed744a3087b7bb7c89065fcec5c"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+        },
+        "bootloader.bin": {
+          "bytes": 13248,
+          "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+        }
+      },
+      "upload_support": {
+        "source_path": "C:\\Users\\kuzne\\.platformio\\packages\\framework-arduinoespressif32\\tools\\partitions\\boot_app0.bin",
+        "file": {
+          "bytes": 8192,
+          "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+        },
+        "flash_offset": "0xe000",
+        "package_version": "3.20017.241212+sha.dcc1105b",
+        "package_manifest": {
+          "bytes": 414,
+          "sha256": "f35415c75f6f43755df92bbbf7ef10c9e65c2edb2569d512636a0477be64d5bf"
+        }
+      },
+      "static_ram_build_report_bytes": 15904,
+      "program_build_report_bytes": 273118,
+      "model_bytes": 5244
+    },
+    "dt5": {
+      "binaries": {
+        "firmware.elf": {
+          "bytes": 6242168,
+          "sha256": "4b871713c566a7320912bab87848da80ea0eee8b0397492a9643167766e8f1c9"
+        },
+        "firmware.bin": {
+          "bytes": 283520,
+          "sha256": "28a80299c45b6793774d0a34f14a114737f309086419653eaca10c63e4033c8a"
+        },
+        "partitions.bin": {
+          "bytes": 3072,
+          "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+        },
+        "bootloader.bin": {
+          "bytes": 13248,
+          "sha256": "30d47ab1f344cfa69f6b2f718ffa72fc7baea6db047eaabefea162db29e6821c"
+        }
+      },
+      "upload_support": {
+        "source_path": "C:\\Users\\kuzne\\.platformio\\packages\\framework-arduinoespressif32\\tools\\partitions\\boot_app0.bin",
+        "file": {
+          "bytes": 8192,
+          "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+        },
+        "flash_offset": "0xe000",
+        "package_version": "3.20017.241212+sha.dcc1105b",
+        "package_manifest": {
+          "bytes": 414,
+          "sha256": "f35415c75f6f43755df92bbbf7ef10c9e65c2edb2569d512636a0477be64d5bf"
+        }
+      },
+      "static_ram_build_report_bytes": 15968,
+      "program_build_report_bytes": 269486,
+      "model_bytes": 285
+    }
+  },
+  "runs": [
+    {
+      "run_id": "C3_COEFF_01_a8bf461e",
+      "model": "coeff",
+      "repeat": 1,
+      "count": 23018300,
+      "input_rows": 20,
+      "complete_cycles": 1150915,
+      "active_us": 120001606,
+      "time_per_call_us": 5.213313146496483,
+      "checksum": 11509150,
+      "cal_n": 25600,
+      "cal_us": 133459,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9999493,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 5
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000004
+        },
+        {
+          "name": "active_end",
+          "us": 140001610
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150001002
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152001001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153001001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157001001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158001001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160001001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_coeff_pilot_01_b8cf9258.cfn",
+        "bytes": 92509,
+        "sha256": "e591019618675b736b6ae5244fc9dbab5be4ae638c4eed018918324fbd864591"
+      },
+      "info_initial_state": "idle",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_COEFF_02_0d48d2b3",
+      "model": "coeff",
+      "repeat": 2,
+      "count": 23018300,
+      "input_rows": 20,
+      "complete_cycles": 1150915,
+      "active_us": 120001607,
+      "time_per_call_us": 5.213313189940178,
+      "checksum": 11509150,
+      "cal_n": 25600,
+      "cal_us": 133459,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 164.0001507,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 3
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000002
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000002
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000002
+        },
+        {
+          "name": "active_begin",
+          "us": 20000002
+        },
+        {
+          "name": "active_end",
+          "us": 140001609
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150001001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152001001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153001001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157001001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158001001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160001001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_coeff_pilot_02_b8cf9258.cfn",
+        "bytes": 86269,
+        "sha256": "467632f9205e9e9fe6caf71eab7aa0981282f9592e9a2218957cf7f3196960ed"
+      },
+      "info_initial_state": "done",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_LUT_01_6bb4ec5e",
+      "model": "lut",
+      "repeat": 1,
+      "count": 36070720,
+      "input_rows": 20,
+      "complete_cycles": 1803536,
+      "active_us": 120000874,
+      "time_per_call_us": 3.326822253617338,
+      "checksum": 18035360,
+      "cal_n": 51200,
+      "cal_us": 170332,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9991754,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 11
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000004
+        },
+        {
+          "name": "active_end",
+          "us": 140000878
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150000001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152000001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153000001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157000001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158000001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160000001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_lut_pilot_01_b8cf9258.cfn",
+        "bytes": 87133,
+        "sha256": "9378dd085cda60f27f2ad7d45b86a0757b36a65342bd4a5bf61e51a1ecf921e4"
+      },
+      "info_initial_state": "idle",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_LUT_02_d6e6f26b",
+      "model": "lut",
+      "repeat": 2,
+      "count": 36070720,
+      "input_rows": 20,
+      "complete_cycles": 1803536,
+      "active_us": 120000874,
+      "time_per_call_us": 3.326822253617338,
+      "checksum": 18035360,
+      "cal_n": 51200,
+      "cal_us": 170332,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9989384,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 10
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000003
+        },
+        {
+          "name": "active_end",
+          "us": 140000877
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150000001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152000001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153000001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157000001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158000001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160000001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_lut_pilot_02_b8cf9258.cfn",
+        "bytes": 80893,
+        "sha256": "0b045ff02c9d8c86c443903f1fefe80edf9f0a291721304bfd216fae1743a434"
+      },
+      "info_initial_state": "done",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_MLP_01_6cb79e3e",
+      "model": "mlp",
+      "repeat": 1,
+      "count": 6054380,
+      "input_rows": 20,
+      "complete_cycles": 302719,
+      "active_us": 120004227,
+      "time_per_call_us": 19.821059629557443,
+      "checksum": 3027190,
+      "cal_n": 6400,
+      "cal_us": 126850,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 164.0032225,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 6
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000004
+        },
+        {
+          "name": "active_end",
+          "us": 140004231
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150004001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152004001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153004001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157004001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158004001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160004001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_mlp_pilot_01_b8cf9258.cfn",
+        "bytes": 81565,
+        "sha256": "648d61f4ed8c9e7e141c5f5679344e97a04da2046891bbeb1416cfcdbf392c44"
+      },
+      "info_initial_state": "idle",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_MLP_02_ba9ad428",
+      "model": "mlp",
+      "repeat": 2,
+      "count": 6054380,
+      "input_rows": 20,
+      "complete_cycles": 302719,
+      "active_us": 120004231,
+      "time_per_call_us": 19.821060290236158,
+      "checksum": 3027190,
+      "cal_n": 6400,
+      "cal_us": 126850,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 164.0028637,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 2
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000002
+        },
+        {
+          "name": "active_end",
+          "us": 140004233
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150004001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152004001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153004001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157004001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158004001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160004001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_mlp_pilot_02_b8cf9258.cfn",
+        "bytes": 80893,
+        "sha256": "4a29c8320790e53aa65842f88d317c0f192cfd87c044786ce14614461f9cfe00"
+      },
+      "info_initial_state": "done",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_KANML_01_36221250",
+      "model": "kanml",
+      "repeat": 1,
+      "count": 2214580,
+      "input_rows": 20,
+      "complete_cycles": 110729,
+      "active_us": 120000372,
+      "time_per_call_us": 54.18651482448139,
+      "checksum": 1107290,
+      "cal_n": 3200,
+      "cal_us": 173396,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9991329,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 6
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000000
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000000
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000003
+        },
+        {
+          "name": "active_end",
+          "us": 140000375
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150000001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152000000
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153000000
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157000000
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158000000
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160000000
+        }
+      ],
+      "cfn": {
+        "filename": "c3_kanml_pilot_01_b8cf9258.cfn",
+        "bytes": 80989,
+        "sha256": "823c90ac0ce01cfd51492807aee20aa8da27180805cbe7dafd1d83e3daa8cc66"
+      },
+      "info_initial_state": "idle",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_KANML_02_211282a9",
+      "model": "kanml",
+      "repeat": 2,
+      "count": 2214580,
+      "input_rows": 20,
+      "complete_cycles": 110729,
+      "active_us": 120000367,
+      "time_per_call_us": 54.18651256671694,
+      "checksum": 1107290,
+      "cal_n": 3200,
+      "cal_us": 173396,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9991273,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 9
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000000
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000000
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000002
+        },
+        {
+          "name": "active_end",
+          "us": 140000369
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150000000
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152000000
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153000000
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157000000
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158000000
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160000000
+        }
+      ],
+      "cfn": {
+        "filename": "c3_kanml_pilot_02_b8cf9258.cfn",
+        "bytes": 82525,
+        "sha256": "7f728b9c3f28ab6b497ed99efbb88f0030bf5601d712bd16d473eba6e7656006"
+      },
+      "info_initial_state": "done",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_DT5_01_b3d2bc8a",
+      "model": "dt5",
+      "repeat": 1,
+      "count": 162479500,
+      "input_rows": 20,
+      "complete_cycles": 8123975,
+      "active_us": 120000970,
+      "time_per_call_us": 0.738560679962703,
+      "checksum": 81239750,
+      "cal_n": 204800,
+      "cal_us": 151256,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9989758,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 6
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000005
+        },
+        {
+          "name": "active_end",
+          "us": 140000975
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150000001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152000001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153000001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157000001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158000001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160000001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_dt5_pilot_01_b8cf9258.cfn",
+        "bytes": 80893,
+        "sha256": "99eb7948ec0dcbd828d2f3280a301883fd39606e2aea75bff83440c0f8e80606"
+      },
+      "info_initial_state": "idle",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    },
+    {
+      "run_id": "C3_DT5_02_74d00119",
+      "model": "dt5",
+      "repeat": 2,
+      "count": 162479500,
+      "input_rows": 20,
+      "complete_cycles": 8123975,
+      "active_us": 120000970,
+      "time_per_call_us": 0.738560679962703,
+      "checksum": 81239750,
+      "cal_n": 204800,
+      "cal_us": 151256,
+      "serial_lines": 28,
+      "serial_tx": [
+        "INFO",
+        "ARM",
+        "RUN"
+      ],
+      "serial_transport_quiet_s": 163.9990291,
+      "events": [
+        {
+          "name": "pre_led_on_1",
+          "us": 5
+        },
+        {
+          "name": "pre_led_off_1",
+          "us": 2000001
+        },
+        {
+          "name": "pre_led_on_2",
+          "us": 3000001
+        },
+        {
+          "name": "pre_led_off_2",
+          "us": 7000001
+        },
+        {
+          "name": "pre_led_on_3",
+          "us": 8000001
+        },
+        {
+          "name": "pre_led_off_3",
+          "us": 10000001
+        },
+        {
+          "name": "active_begin",
+          "us": 20000003
+        },
+        {
+          "name": "active_end",
+          "us": 140000973
+        },
+        {
+          "name": "post_led_on_1",
+          "us": 150000001
+        },
+        {
+          "name": "post_led_off_1",
+          "us": 152000001
+        },
+        {
+          "name": "post_led_on_2",
+          "us": 153000001
+        },
+        {
+          "name": "post_led_off_2",
+          "us": 157000001
+        },
+        {
+          "name": "post_led_on_3",
+          "us": 158000001
+        },
+        {
+          "name": "post_led_off_3",
+          "us": 160000001
+        }
+      ],
+      "cfn": {
+        "filename": "c3_dt5_pilot_02_b8cf9258.cfn",
+        "bytes": 81037,
+        "sha256": "bfba7f8c081b116a5695203df8780fa246f33d857ddbebcf79fd557b74074b44"
+      },
+      "info_initial_state": "done",
+      "wdt_actual_suspended": false,
+      "wdt_actual_subscriptions_before": {
+        "idle": false,
+        "loop": false
+      }
+    }
+  ],
+  "variant_mean_time_per_call_us": {
+    "coeff": 5.21331316821833,
+    "lut": 3.326822253617338,
+    "mlp": 19.8210599598968,
+    "kanml": 54.18651369559917,
+    "dt5": 0.738560679962703
+  },
+  "limitations": [
+    "Two recorded acquisitions per model on one board; second acquisition follows rearm in the same boot and is not a fresh flash or independent device.",
+    "20 prepared rows are cycled; count is inference calls, not unique network flows.",
+    "compiled_C_predictions is a software consistency reference, not an accuracy estimate on a held-out IDS dataset.",
+    "Application serial transport is quiet during acquisition; esp_timer timestamps, not host USB arrival times, define batch duration.",
+    "The firmware policy supports temporary IDLE0 watchdog removal, but actual all-ten logs report idle_before=0, loop_before=0 and suspended=0: no task subscription was removed.",
+    "Build-reported static RAM is not measured peak RAM. Model bytes are not firmware program or .bin file size."
+  ],
+  "checks": [
+    {
+      "check": "input ZIP: no duplicate file names",
+      "pass": true
+    },
+    {
+      "check": "input ZIP: one intended root",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/01_build.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/binaries/boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/binaries/bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/binaries/firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/binaries/firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/binaries/framework-package.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/binaries/partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/coeff/BUILD_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/01_build.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/binaries/boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/binaries/bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/binaries/firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/binaries/firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/binaries/framework-package.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/binaries/partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/dt5/BUILD_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/01_build.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/binaries/boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/binaries/bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/binaries/firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/binaries/firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/binaries/framework-package.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/binaries/partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/kanml/BUILD_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/01_build.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/binaries/boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/binaries/bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/binaries/firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/binaries/firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/binaries/framework-package.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/binaries/partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/lut/BUILD_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/01_build.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/binaries/boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/binaries/bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/binaries/firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/binaries/firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/binaries/framework-package.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/binaries/partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: builds/mlp/BUILD_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e/c3_coeff_pilot_01_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_01_a8bf461e.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3/c3_coeff_pilot_02_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_COEFF_02_0d48d2b3.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a/c3_dt5_pilot_01_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_01_b3d2bc8a.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119/c3_dt5_pilot_02_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_DT5_02_74d00119.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250/c3_kanml_pilot_01_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_01_36221250.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9/c3_kanml_pilot_02_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_KANML_02_211282a9.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e/c3_lut_pilot_01_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_01_6bb4ec5e.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b/c3_lut_pilot_02_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_LUT_02_d6e6f26b.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e/c3_mlp_pilot_01_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_01_6cb79e3e.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428/c3_mlp_pilot_02_b8cf9258.cfn",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428/CFN_RECEIPT.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428/RUN_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: physical_runs/C3_MLP_02_ba9ad428.zip",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/coeff/03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/coeff/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/coeff/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/coeff/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/coeff/SETUP_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/dt5/03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/dt5/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/dt5/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/dt5/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/dt5/SETUP_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/kanml/03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/kanml/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/kanml/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/kanml/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/kanml/SETUP_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/lut/03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/lut/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/lut/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/lut/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/lut/SETUP_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/mlp/03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/mlp/serial.jsonl",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/mlp/serial.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/mlp/serial_raw.bin",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: setup/mlp/SETUP_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/BOARD_TARGET.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/cfn_decoder.py",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/FROZEN_PROVENANCE.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/dt5_model.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/hardware_cohort/common.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/hardware_cohort/dt.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/hardware_cohort/kan.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/hardware_cohort/kan_ml.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/hardware_cohort/mlp.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/hardware_cohort_select.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_lut_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_lut_int16.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_mc_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_mc_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_mc_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_ml_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_ml_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_ml_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan14_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_ids_layer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_ids_layer_int.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_mc_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/kan_mc_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/mlp16_infer.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/mlp16_int8.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/mlp16_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/q15_mul.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/include/test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/platformio.ini",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/PROTOCOL.md",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/src/main.cpp",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/tests/ACTUAL_PROTOCOL_FIXTURES.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/tests/c3_host_stub.h",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/tests/host_harness.cpp",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/tests/HOST_VALIDATION.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/tests/make_protocol_fixtures.py",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/project/tests/test_firmware_host.py",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/PROTOCOL_RU.md",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/README_RU.md",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/run_c3_energy_suite.py",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/SOURCE_MANIFEST.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/tests/test_runner.py",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/build/01_platform_install.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/build/02_tools_install.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/build/check_frozen_models_host.py",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/build/frozen_models_host.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/build/README.md",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/build/target_build_status.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/final_runner_tests.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/historical_board/chip_id.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/historical_board/flash_id.log",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/historical_board/platformio.ini",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/REFERENCE_APIS.md",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/validation/runner_validation.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: sources/VALIDATION.json",
+      "pass": true
+    },
+    {
+      "check": "received ZIP member: SUITE_RECORD.json",
+      "pass": true
+    },
+    {
+      "check": "original delivered ZIP pinned SHA-256",
+      "pass": true
+    },
+    {
+      "check": "original research ZIP pinned SHA-256",
+      "pass": true
+    },
+    {
+      "check": "59 manifest entries",
+      "pass": true
+    },
+    {
+      "check": "60 source files including manifest",
+      "pass": true
+    },
+    {
+      "check": "SOURCE_MANIFEST equals ORIGINAL delivery bytes",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: BOARD_TARGET.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: BOARD_TARGET.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: FROZEN_PROVENANCE.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: FROZEN_PROVENANCE.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: PROTOCOL_RU.md",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: PROTOCOL_RU.md",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: README_RU.md",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: README_RU.md",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: VALIDATION.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: VALIDATION.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: cfn_decoder.py",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: cfn_decoder.py",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/PROTOCOL.md",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/PROTOCOL.md",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/dt5_model.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/dt5_model.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/hardware_cohort/common.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/hardware_cohort/common.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/hardware_cohort/dt.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/hardware_cohort/dt.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/hardware_cohort/kan.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/hardware_cohort/kan.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/hardware_cohort/kan_ml.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/hardware_cohort/kan_ml.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/hardware_cohort/mlp.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/hardware_cohort/mlp.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/hardware_cohort_select.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/hardware_cohort_select.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_lut_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_lut_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_lut_int16.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_lut_int16.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_mc_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_mc_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_mc_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_mc_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_mc_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_mc_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_ml_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_ml_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_ml_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_ml_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_ml_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_ml_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan14_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan14_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_ids_layer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_ids_layer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_ids_layer_int.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_ids_layer_int.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_mc_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_mc_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/kan_mc_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/kan_mc_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/mlp16_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/mlp16_infer.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/mlp16_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/mlp16_int8.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/mlp16_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/mlp16_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/q15_mul.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/q15_mul.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/include/test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/include/test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/platformio.ini",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/platformio.ini",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/src/main.cpp",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/src/main.cpp",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/tests/ACTUAL_PROTOCOL_FIXTURES.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/tests/ACTUAL_PROTOCOL_FIXTURES.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/tests/HOST_VALIDATION.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/tests/HOST_VALIDATION.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/tests/c3_host_stub.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/tests/c3_host_stub.h",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/tests/host_harness.cpp",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/tests/host_harness.cpp",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/tests/make_protocol_fixtures.py",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/tests/make_protocol_fixtures.py",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: project/tests/test_firmware_host.py",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: project/tests/test_firmware_host.py",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: run_c3_energy_suite.py",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: run_c3_energy_suite.py",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: tests/test_runner.py",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: tests/test_runner.py",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/REFERENCE_APIS.md",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/REFERENCE_APIS.md",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/build/01_platform_install.log",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/build/01_platform_install.log",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/build/02_tools_install.log",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/build/02_tools_install.log",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/build/README.md",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/build/README.md",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/build/check_frozen_models_host.py",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/build/check_frozen_models_host.py",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/build/frozen_models_host.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/build/frozen_models_host.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/build/target_build_status.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/build/target_build_status.json",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/final_runner_tests.log",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/final_runner_tests.log",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/historical_board/chip_id.log",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/historical_board/chip_id.log",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/historical_board/flash_id.log",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/historical_board/flash_id.log",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/historical_board/platformio.ini",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/historical_board/platformio.ini",
+      "pass": true
+    },
+    {
+      "check": "source manifest content: validation/runner_validation.json",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL delivery identity: validation/runner_validation.json",
+      "pass": true
+    },
+    {
+      "check": "30 frozen headers",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/dt5_model.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/hardware_cohort/common.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/hardware_cohort/dt.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/hardware_cohort/kan.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/hardware_cohort/kan_ml.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/hardware_cohort/mlp.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/hardware_cohort_select.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_lut_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_lut_int16.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_mc_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_mc_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_mc_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_ml_coeff_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_ml_coeff_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_ml_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan14_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_ids_layer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_ids_layer_int.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_mc_e2e_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/kan_mc_e2e_int.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/mlp16_infer.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/mlp16_int8.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/mlp16_test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/q15_mul.h",
+      "pass": true
+    },
+    {
+      "check": "ORIGINAL frozen header: project/include/test_vectors.h",
+      "pass": true
+    },
+    {
+      "check": "suite original manifest signature",
+      "pass": true
+    },
+    {
+      "check": "five models with two repeats",
+      "pass": true
+    },
+    {
+      "check": "suite final saved status",
+      "pass": true
+    },
+    {
+      "check": "suite initial board",
+      "pass": true
+    },
+    {
+      "check": "operator observed LED code",
+      "pass": true
+    },
+    {
+      "check": "coeff: build equals suite",
+      "pass": true
+    },
+    {
+      "check": "coeff: setup equals suite",
+      "pass": true
+    },
+    {
+      "check": "coeff: commands exactly build, packages, upload",
+      "pass": true
+    },
+    {
+      "check": "coeff: command 01_build.log",
+      "pass": true
+    },
+    {
+      "check": "coeff: command 02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "coeff: command 03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "coeff: actual firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "coeff: actual firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: actual partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: actual bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: boot_app0 actual bytes",
+      "pass": true
+    },
+    {
+      "check": "coeff: framework package actual bytes",
+      "pass": true
+    },
+    {
+      "check": "coeff: boot_app0 offset",
+      "pass": true
+    },
+    {
+      "check": "coeff: board before upload",
+      "pass": true
+    },
+    {
+      "check": "coeff: board after upload",
+      "pass": true
+    },
+    {
+      "check": "coeff: upload success and MAC",
+      "pass": true
+    },
+    {
+      "check": "coeff: all four upload blocks verified",
+      "pass": true
+    },
+    {
+      "check": "coeff: uploaded bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: uploaded partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: uploaded boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: uploaded firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "coeff: successful build log",
+      "pass": true
+    },
+    {
+      "check": "coeff: pinned platform framework toolchain",
+      "pass": true
+    },
+    {
+      "check": "coeff: serial directions",
+      "pass": true
+    },
+    {
+      "check": "coeff: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "coeff: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "coeff: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "coeff: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "coeff: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: protocol",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "coeff setup: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "coeff: LED setup protocol",
+      "pass": true
+    },
+    {
+      "check": "lut: build equals suite",
+      "pass": true
+    },
+    {
+      "check": "lut: setup equals suite",
+      "pass": true
+    },
+    {
+      "check": "lut: commands exactly build, packages, upload",
+      "pass": true
+    },
+    {
+      "check": "lut: command 01_build.log",
+      "pass": true
+    },
+    {
+      "check": "lut: command 02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "lut: command 03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "lut: actual firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "lut: actual firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: actual partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: actual bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: boot_app0 actual bytes",
+      "pass": true
+    },
+    {
+      "check": "lut: framework package actual bytes",
+      "pass": true
+    },
+    {
+      "check": "lut: boot_app0 offset",
+      "pass": true
+    },
+    {
+      "check": "lut: board before upload",
+      "pass": true
+    },
+    {
+      "check": "lut: board after upload",
+      "pass": true
+    },
+    {
+      "check": "lut: upload success and MAC",
+      "pass": true
+    },
+    {
+      "check": "lut: all four upload blocks verified",
+      "pass": true
+    },
+    {
+      "check": "lut: uploaded bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: uploaded partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: uploaded boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: uploaded firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "lut: successful build log",
+      "pass": true
+    },
+    {
+      "check": "lut: pinned platform framework toolchain",
+      "pass": true
+    },
+    {
+      "check": "lut: serial directions",
+      "pass": true
+    },
+    {
+      "check": "lut: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "lut: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "lut: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "lut: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "lut: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "lut setup: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "lut setup: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "lut setup: protocol",
+      "pass": true
+    },
+    {
+      "check": "lut setup: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "lut setup: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "lut setup: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "lut setup: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "lut setup: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "lut setup: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "lut: LED setup protocol",
+      "pass": true
+    },
+    {
+      "check": "mlp: build equals suite",
+      "pass": true
+    },
+    {
+      "check": "mlp: setup equals suite",
+      "pass": true
+    },
+    {
+      "check": "mlp: commands exactly build, packages, upload",
+      "pass": true
+    },
+    {
+      "check": "mlp: command 01_build.log",
+      "pass": true
+    },
+    {
+      "check": "mlp: command 02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "mlp: command 03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "mlp: actual firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "mlp: actual firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: actual partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: actual bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: boot_app0 actual bytes",
+      "pass": true
+    },
+    {
+      "check": "mlp: framework package actual bytes",
+      "pass": true
+    },
+    {
+      "check": "mlp: boot_app0 offset",
+      "pass": true
+    },
+    {
+      "check": "mlp: board before upload",
+      "pass": true
+    },
+    {
+      "check": "mlp: board after upload",
+      "pass": true
+    },
+    {
+      "check": "mlp: upload success and MAC",
+      "pass": true
+    },
+    {
+      "check": "mlp: all four upload blocks verified",
+      "pass": true
+    },
+    {
+      "check": "mlp: uploaded bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: uploaded partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: uploaded boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: uploaded firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "mlp: successful build log",
+      "pass": true
+    },
+    {
+      "check": "mlp: pinned platform framework toolchain",
+      "pass": true
+    },
+    {
+      "check": "mlp: serial directions",
+      "pass": true
+    },
+    {
+      "check": "mlp: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "mlp: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "mlp: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "mlp: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "mlp: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: protocol",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "mlp setup: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "mlp: LED setup protocol",
+      "pass": true
+    },
+    {
+      "check": "kanml: build equals suite",
+      "pass": true
+    },
+    {
+      "check": "kanml: setup equals suite",
+      "pass": true
+    },
+    {
+      "check": "kanml: commands exactly build, packages, upload",
+      "pass": true
+    },
+    {
+      "check": "kanml: command 01_build.log",
+      "pass": true
+    },
+    {
+      "check": "kanml: command 02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "kanml: command 03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "kanml: actual firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "kanml: actual firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: actual partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: actual bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: boot_app0 actual bytes",
+      "pass": true
+    },
+    {
+      "check": "kanml: framework package actual bytes",
+      "pass": true
+    },
+    {
+      "check": "kanml: boot_app0 offset",
+      "pass": true
+    },
+    {
+      "check": "kanml: board before upload",
+      "pass": true
+    },
+    {
+      "check": "kanml: board after upload",
+      "pass": true
+    },
+    {
+      "check": "kanml: upload success and MAC",
+      "pass": true
+    },
+    {
+      "check": "kanml: all four upload blocks verified",
+      "pass": true
+    },
+    {
+      "check": "kanml: uploaded bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: uploaded partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: uploaded boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: uploaded firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "kanml: successful build log",
+      "pass": true
+    },
+    {
+      "check": "kanml: pinned platform framework toolchain",
+      "pass": true
+    },
+    {
+      "check": "kanml: serial directions",
+      "pass": true
+    },
+    {
+      "check": "kanml: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "kanml: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "kanml: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "kanml: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "kanml: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: protocol",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "kanml setup: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "kanml: LED setup protocol",
+      "pass": true
+    },
+    {
+      "check": "dt5: build equals suite",
+      "pass": true
+    },
+    {
+      "check": "dt5: setup equals suite",
+      "pass": true
+    },
+    {
+      "check": "dt5: commands exactly build, packages, upload",
+      "pass": true
+    },
+    {
+      "check": "dt5: command 01_build.log",
+      "pass": true
+    },
+    {
+      "check": "dt5: command 02_packages.log",
+      "pass": true
+    },
+    {
+      "check": "dt5: command 03_upload.log",
+      "pass": true
+    },
+    {
+      "check": "dt5: actual firmware.elf",
+      "pass": true
+    },
+    {
+      "check": "dt5: actual firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: actual partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: actual bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: boot_app0 actual bytes",
+      "pass": true
+    },
+    {
+      "check": "dt5: framework package actual bytes",
+      "pass": true
+    },
+    {
+      "check": "dt5: boot_app0 offset",
+      "pass": true
+    },
+    {
+      "check": "dt5: board before upload",
+      "pass": true
+    },
+    {
+      "check": "dt5: board after upload",
+      "pass": true
+    },
+    {
+      "check": "dt5: upload success and MAC",
+      "pass": true
+    },
+    {
+      "check": "dt5: all four upload blocks verified",
+      "pass": true
+    },
+    {
+      "check": "dt5: uploaded bootloader.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: uploaded partitions.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: uploaded boot_app0.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: uploaded firmware.bin",
+      "pass": true
+    },
+    {
+      "check": "dt5: successful build log",
+      "pass": true
+    },
+    {
+      "check": "dt5: pinned platform framework toolchain",
+      "pass": true
+    },
+    {
+      "check": "dt5: serial directions",
+      "pass": true
+    },
+    {
+      "check": "dt5: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "dt5: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "dt5: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "dt5: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "dt5: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: protocol",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "dt5 setup: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "dt5: LED setup protocol",
+      "pass": true
+    },
+    {
+      "check": "15 successful external commands",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_01_a8bf461e: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_COEFF_02_0d48d2b3: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_01_6bb4ec5e: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_LUT_02_d6e6f26b: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_01_6cb79e3e: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_MLP_02_ba9ad428: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_01_36221250: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_KANML_02_211282a9: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_01_b3d2bc8a: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: RUN record equals SUITE copy",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: physical run status",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: original sources signature",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: build identities",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: board identity",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: serial directions",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: serial monotonic receipts",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: serial monotonic UTC",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: exact host commands",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: RX equals raw binary",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: raw equals line log",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: INFO exact line order",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: INFO equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: protocol",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: frozen model metadata",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: cohort boundary",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: first20 raw IDs",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: runtime configuration",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: actual watchdog subscriptions absent",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: before ARM state",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: exact full protocol sequence/no extra restart errors",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: per-row prediction check",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: READY raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: DONE raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: EVENT raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: watchdog raw equals record",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: watchdog no subscriptions suspended",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: waiting for rearm",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: independent selected count arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: calibration doubling range",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: independent checksum arithmetic",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: correctness/timing flags consistent",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: exact 14 event names",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: monotonic event times",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: event interval equals measured duration",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: two 2-4-2 LED codes",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: 10s idle guards",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: RUN UTC equals recorded command",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: no printed application output between PREP and DONE",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: serial transport silence spans acquisition",
+      "pass": true
+    },
+    {
+      "check": "C3_DT5_02_74d00119: CFN bytes equal record",
+      "pass": true
+    },
+    {
+      "check": "intended sequential five-model two-repeat order",
+      "pass": true
+    },
+    {
+      "check": "10 distinct physical capture files",
+      "pass": true
+    },
+    {
+      "check": "unique run identities",
+      "pass": true
+    }
+  ]
+}

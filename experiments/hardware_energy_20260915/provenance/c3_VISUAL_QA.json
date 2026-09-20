@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "images_reviewed": [
+    "c3_ten_pilots_comparison.png",
+    "coeff_01/sync/marker_alignment.png",
+    "coeff_02/sync/marker_alignment.png",
+    "dt5_01/sync/marker_alignment.png",
+    "dt5_02/sync/marker_alignment.png",
+    "kanml_01/sync/marker_alignment.png",
+    "kanml_02/sync/marker_alignment.png",
+    "lut_01/sync/marker_alignment.png",
+    "lut_02/sync/marker_alignment.png",
+    "mlp_01/sync/marker_alignment.png",
+    "mlp_02/sync/marker_alignment.png"
+  ],
+  "observations": [
+    "All ten pairs of 2-4-2 LED waveforms visibly match the empirical ramp fits.",
+    "Axes, per-call units, ten sample labels and logarithmic bar annotations are readable.",
+    "No optimization parameter reached a bound; marker-center maximum affine residual is below 0.1 seconds across all recordings.",
+    "The comparative plot uses \u00b5J, while JSON and CSV energy use mJ; units are explicit."
+  ],
+  "image_sha256": {
+    "c3_ten_pilots_comparison.png": "427c5023ccb24d3996771e728d49db902d475f663c16da90ca965717bb516082",
+    "coeff_01/sync/marker_alignment.png": "f0073b6f87b08b457ac61b5cae5698a60924ae2f73f9c408895ff83b95dbfae8",
+    "coeff_02/sync/marker_alignment.png": "3357cd52348d266b58d68d026efa033bd8b0900f1b1ec87cb93511d801b3e23f",
+    "dt5_01/sync/marker_alignment.png": "02a4294e93b58f7f8bf931f47fbe9faca4c8b45037718f83455c1d6b894d55f2",
+    "dt5_02/sync/marker_alignment.png": "4e228c85dd0af4347d25c4636f7625e7e39e0028d8329b5ad7736a3d4ed3dac0",
+    "kanml_01/sync/marker_alignment.png": "167aaef6f9a59efd1817e2e84ff8e98fbb3086ddbd6e629ad2c93d60cc338def",
+    "kanml_02/sync/marker_alignment.png": "17a281578ac6005bf318497aeb46355d875601462b966b85dabedd0874203b6f",
+    "lut_01/sync/marker_alignment.png": "f75f72bb7088ed37a6eb36dd86d9b6d01747e3f7c499fce5f3d0debb1c286888",
+    "lut_02/sync/marker_alignment.png": "f0302572191dec9e94965ed2eab621740c8f236679307d3b2f38b4d1d3942f90",
+    "mlp_01/sync/marker_alignment.png": "395c373bec7894dcccb14c100887eee0980932f67ba9a2ec68a4cce9af93b4fa",
+    "mlp_02/sync/marker_alignment.png": "2c88c34ae9cebf0b1e8747b847d27b9977d4f59a78e1c62174f7f8afed6720ca"
+  }
+}

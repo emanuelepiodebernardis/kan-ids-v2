@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "checks": 718,
+  "errors": [],
+  "manifest_files_checked": {
+    "stage1": 45,
+    "stage2": 111,
+    "kit": 48
+  },
+  "source_snapshot_files_matched_to_kit": 24,
+  "source_csv_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+  "source_rows": 211043,
+  "source_columns": 44,
+  "split_rows": {
+    "train": 119334,
+    "validation": 53622,
+    "test": 38087
+  },
+  "pair_groups": {
+    "train": 601,
+    "validation": 213,
+    "test": 190
+  },
+  "overlap_recomputed": {
+    "train_to_validation": {
+      "shared_pair_groups": 0,
+      "shared_full_row_keys": 0,
+      "shared_hosts": 62
+    },
+    "train_to_test": {
+      "shared_pair_groups": 0,
+      "shared_full_row_keys": 0,
+      "shared_hosts": 50
+    },
+    "validation_to_test": {
+      "shared_pair_groups": 0,
+      "shared_full_row_keys": 0,
+      "shared_hosts": 30
+    }
+  },
+  "stage1_validation_predictions_checked": 214488,
+  "stage1_stage2_first_seed_identical_checkpoints": [
+    "gam.joblib",
+    "kan_parameters.npz",
+    "dt5.joblib",
+    "mlp16.joblib",
+    "selected_rows.npz",
+    "kan.joblib",
+    "shared_known_categories_onehot.joblib"
+  ],
+  "stage1_stage2_first_seed_byte_different_checkpoints": [
+    "shared_preprocessor.joblib"
+  ],
+  "preprocessor_json_identical": true,
+  "method": "All source-row pair assignments independently recomputed; decoded 44-column tuples compared directly for duplicates; manifests/source snapshots verified; stage1 validation metrics recomputed from saved probabilities. No model loading or training.",
+  "limitations": [
+    "Run manifests attest supplied artifact consistency, not independently witnessed execution.",
+    "Model-input overlap masks are checked separately for stored-score consistency; this audit does not load fitted preprocessors to recompute transformed inputs."
+  ]
+}

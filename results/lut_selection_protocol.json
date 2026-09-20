@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "status": "FROZEN_BEFORE_TEST_EVALUATION",
+  "created_utc": "2026-09-08T12:22:31.114057+00:00",
+  "source_split": "train",
+  "source_csv_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+  "row_ids_sha256": "096300264d770c884cff39ed17b26564538976e692f1b3ec5234db68cd8dca0d",
+  "row_ids_hash_encoding": "ordered little-endian int64 raw bytes",
+  "n_calibration": 168834,
+  "candidate_grid": [
+    9,
+    17,
+    33,
+    65,
+    129,
+    257,
+    513,
+    1025
+  ],
+  "selection_rule": "minimum_L_with_B_lt_min_abs_train_logit_else_max_fixed_candidate",
+  "selection_uses_labels": false,
+  "selection_reads_test": false,
+  "selected_L": 1025,
+  "fallback_max_candidate": true,
+  "evidence": {
+    "bound_B": 4271,
+    "minimum_abs_calibration_logit": 336,
+    "calibration_rows_not_certified": 34,
+    "calibration_certified_fraction": 0.9997986187616238,
+    "calibration_decisions_identical": 168834,
+    "all_calibration_decisions_certified": false,
+    "model_bytes": 20554
+  },
+  "bound_scope": {
+    "grid": "each numeric edge at every integer Q12 value [-4096,4096]",
+    "formula": "B = sum_i max_x |edge_lut_i(x) - edge_coeff_i(x)|",
+    "decision_condition": "abs(z_coeff(x)) > B",
+    "assumptions": [
+      "identical categorical terms and valid category codes",
+      "specified integer rounding and arithmetic right shifts",
+      "no overflow or undefined signed arithmetic in the C implementation"
+    ],
+    "not_guaranteed": [
+      "classification correctness",
+      "agreement for abs(z_coeff)<=B",
+      "all future decisions"
+    ]
+  },
+  "historical_note": "RC3 L=257 used test-vector margins; its results remain historical. The previously examined test set is not a new untouched holdout.",
+  "artifacts": {
+    "coefficient_header": {
+      "path": "../mcu_pio/include/kan14_coeff_int8.h",
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    "lut_header": {
+      "path": "../mcu_pio/include/kan14_lut_int16.h",
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    "calibration_npz": {
+      "path": "../artifacts/finalization/train_calibration.npz",
+      "sha256": "5fceda026459f3e670ccdd67b6f33f30b6bf7e54e5b61cd53d2d2865ec37b5e3"
+    },
+    "calibration_metadata": {
+      "path": "../artifacts/finalization/train_calibration.json",
+      "sha256": "c6db99f5911afddc75effb0665368ae393da0ec363d32c1a6e2e432a46ea96ca"
+    },
+    "calibration_sweep": {
+      "path": "lut_vs_coeff_calibration.csv",
+      "sha256": "d7b3a58f69c9d4cb549f77a454cdbe3fe1336fbf6030924613af619e0b994a38"
+    }
+  }
+}

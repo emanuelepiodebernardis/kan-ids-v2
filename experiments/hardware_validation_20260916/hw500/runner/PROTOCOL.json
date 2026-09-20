@@ -1,0 +1,151 @@
+{
+  "schema": "KAN_IDS_HW500_PROTOCOL_V1",
+  "protocol": "kanids-hw500-v1",
+  "version": "0.13.3",
+  "fixed_before_new_hardware_measurements": true,
+  "date": "2026-09-16",
+  "scope": "Same frozen canonical models and 500-flow cohort on the two previously used physical boards. Not the newly trained pair-disjoint Stage2 models.",
+  "cohort": {
+    "rows": 500,
+    "attack_rows": 250,
+    "normal_rows": 250,
+    "order": "frozen attack/normal interleaving",
+    "frozen_npz_sha256": "20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f",
+    "sha256_meaning": "Historical NPZ identity, not a hash of only row IDs",
+    "reference_predictions": "Saved compiled-C predictions: replay correctness, not an independent estimator equivalence proof"
+  },
+  "boards": {
+    "mega": {
+      "chip": "ATmega2560",
+      "usb_vid": 9025,
+      "usb_pid": 66,
+      "serial": "14532303532351804271",
+      "clock_mhz": 16,
+      "last_observed_port": "COM5"
+    },
+    "c3": {
+      "chip": "ESP32-C3",
+      "usb_vid": 12346,
+      "usb_pid": 4097,
+      "serial": "10:00:3B:CB:8D:70",
+      "clock_mhz": 160,
+      "last_observed_port": "COM10",
+      "wifi": "not initialized",
+      "bluetooth": "not initialized"
+    }
+  },
+  "model_order": [
+    "coeff",
+    "lut",
+    "mlp",
+    "kanml",
+    "dt5"
+  ],
+  "model_array_bytes": {
+    "coeff": 254,
+    "lut": 20554,
+    "mlp": 760,
+    "kanml": 5244,
+    "dt5": 285
+  },
+  "workload": {
+    "boundary": "flash_row_load_predict_checksum",
+    "includes": [
+      "read one prepared row from Flash into a small RAM buffer",
+      "integer inference",
+      "loop and prediction checksum"
+    ],
+    "excludes": [
+      "raw-feature preprocessing",
+      "network capture",
+      "serial output",
+      "LED markers",
+      "calibration",
+      "warmup"
+    ],
+    "warmup_inferences": 500,
+    "calibration": "Same active-batch function; target count rounded down to complete 500-row traversals",
+    "target_active_seconds": 120,
+    "accepted_active_seconds": [
+      60,
+      180
+    ],
+    "count_multiple": 500,
+    "correctness_before_each_run": "Every one of 500 predictions must match the frozen compiled-C reference",
+    "active_checksum": "Actual prediction sum must equal whole-cohort prediction sum times complete traversals",
+    "latency_estimate": "MCU active duration divided by actual inference count from the same energy run"
+  },
+  "design": {
+    "separate_pilots_per_board": 1,
+    "pilot_variant": "coeff",
+    "pilot_in_confirmatory_summary": false,
+    "blocks_per_board": 5,
+    "variants_per_block": 5,
+    "order_rule": "Left rotate model_order by block index 0..4, fixed before acquisition",
+    "confirmatory_runs_per_board": 25,
+    "physical_boards_per_type": 1,
+    "repeated_observations_are": "Technical repetitions on one physical board, not independent boards, datasets or flows",
+    "reset": "Upload/reset before every acquisition",
+    "stabilization": "At least 30 seconds of quiet waiting after ARM and calibration before starting the recorded experiment",
+    "failure_policy": "Stop immediately on software or board identity failure. Trace checks occur after the continuous CFN is saved. Retain incomplete and rejected sessions. No automatic acquisition resume across recorder restarts; new acquisitions get a new session. Analysis-only recovery never reflashes.",
+    "protocol_change_policy": "Any changed harness or analysis gate requires a new version; retain previous attempts as pilots, do not silently pool",
+    "pilot_gate": "Separate coefficient pilot excluded from summary. Its 500-reference prediction and batch checks gate further acquisition; its trace/energy gate is deferred until the entire recording is saved."
+  },
+  "meter": {
+    "model": "FNIRSI FNB58",
+    "device_serial_observed": "104332",
+    "connection": "User confirmed unchanged USB power/data path from the previous campaign",
+    "nominal_record_grid_sps": 10,
+    "required_channels": [
+      "VBUS",
+      "IBUS",
+      "PBUS"
+    ],
+    "optional_diagnostic_channels": [
+      "CAP",
+      "NRG"
+    ],
+    "GUI_start_current_mA": 0,
+    "GUI_stop_current_mA": 0,
+    "GUI_stop_time_s": 5,
+    "start_gate": "On runner prompt start a NEW CFN; verify TIME grows; confirm in terminal within ten seconds of starting. If late, create a new recording before confirming. Keep recording until end prompt.",
+    "marker": "On-board LED, pulses 2/4/2 seconds with 2-second OFF gaps, outside active interval",
+    "absolute_calibration": "Not independently established",
+    "record_grid_is_bandwidth": false,
+    "NRG_used_for_primary_energy": false,
+    "zero_load_diagnostic": "Not a calibration. Optional separately labelled observation; not subtracted from the primary whole-board energy",
+    "recording_scope": "One fresh continuous CFN per physical board/session: pilot plus 25 campaign runs, including upload and stabilization gaps. Do not stop/restart between models.",
+    "maximum_recording_seconds": 10800
+  },
+  "analysis": {
+    "primary_energy": "Trapezoidal integral of VBUS times IBUS on CFN time coordinates between marker-registered active endpoints, divided by actual N",
+    "primary_energy_scope": "Complete downstream USB-powered board/connection, including its regulator and indicators; engineering estimate",
+    "primary_idle_subtraction": false,
+    "idle_diagnostics": "Adjacent quiet intervals, LED off; report before/after power and optional signed baseline-subtracted estimate separately",
+    "registration": "Whole-record marker candidates associated with MCU bookend separations and host monotonic run timings. Require unambiguous ordered attribution, then fit twelve individual edges per run. Host time identifies runs; energy endpoints use per-run MCU-to-CFN LED registration.",
+    "uncertainty": "Registration residual and endpoint sensitivity are descriptive diagnostics, not a full instrument uncertainty budget or calibrated confidence interval",
+    "statistics": "Show all five run-level results per model/board, mean and sample SD; no sample-level confidence interval from correlated 10-sps points",
+    "historical_comparison": "Retain previous 20-flow energy and kernel-only latency separately. Do not combine power here with earlier latency or suppress historical C3 +7.58% result",
+    "forbidden_claims": [
+      "independent zero calibration",
+      "10 Hz effective measurement bandwidth",
+      "isolated CPU energy",
+      "end-to-end IDS energy",
+      "peak RAM from linker static allocation",
+      "cause of historical C3 discrepancy established",
+      "hardware cost of newly trained Stage2 models"
+    ],
+    "continuous_limitations": [
+      "Marker and trace quality are checked only after saving at the end; a software-passed pilot is not a trace-accepted pilot.",
+      "Continuous-recording capacity and reliability of the particular Windows FNB58 app are not validated by synthetic tests.",
+      "A stalled/restarted recorder can invalidate portions or the entire session; failed data are retained and never silently replaced."
+    ]
+  },
+  "deferred": [
+    "separate instrumented peak-RAM experiment",
+    "Pico 2 / RP2350",
+    "ESP32-S3",
+    "new pair-disjoint model export and deployment"
+  ],
+  "acquisition_protocol": "kanids-hw500-continuous-v1"
+}

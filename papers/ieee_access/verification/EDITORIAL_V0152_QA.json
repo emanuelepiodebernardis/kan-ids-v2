@@ -1,0 +1,39 @@
+{
+  "version": "0.15.2",
+  "date": "2026-09-16",
+  "baseline_git_tree": "ca5b6f5444210d8453fcb3172d52df440635e049",
+  "scope": "Editorial preservation, bibliography and document-build QA. No new scientific replication, training, or hardware measurement.",
+  "pdf": {
+    "filename": "main.pdf",
+    "sha256": "ce4300bc954b8e106244a4398d13ae039cf51adbf57de0bc4e774e31917b4d05",
+    "pages": 25
+  },
+  "build": "PASS: supplied strict build script; stable references; no overfull boxes, missing characters or undefined references in final pass.",
+  "preservation_gate": "papers/verify_editorial_v0152.py",
+  "preserved": [
+    "title and abstract framing",
+    "proposed author order",
+    "all experimental tables, figures and equations",
+    "model, source-input and physical-measurement evidence",
+    "original unfavorable ESP32-C3 observation and RAM limitations"
+  ],
+  "reviewed_changes": [
+    "five journal references and related-work discussion",
+    "related-work comparison table",
+    "one methodology-scope sentence per language",
+    "version metadata and final-page layout"
+  ],
+  "visual_review": {
+    "all_page_contact_sheet": true,
+    "related_work_and_bibliography_at_reading_scale": true,
+    "all_three_biographies_on_final_page": true
+  },
+  "bibliography_audit": "BIBLIOGRAPHY_V0152.json",
+  "not_established": [
+    "coauthor approval",
+    "journal submission readiness",
+    "exact whole-system peak RAM",
+    "new device outcomes",
+    "unverified preprint-to-journal identity"
+  ]
+}

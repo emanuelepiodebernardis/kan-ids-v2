@@ -1,12 +1,36 @@
 # mcu_pio — Benchmark firmware KAN-IDS (integer-only)
 
+> **Finalizzazione Paper 1 — NOT_HARDWARE_MEASURED (8 settembre 2026).**
+> I build, conteggi e check RC3 descritti nelle sezioni storiche qui sotto
+> sono evidenze salvate dell'autore. I nuovi header e gli environment common
+> richiedono build target aggiornati; nessuna misura fisica nuova e' stata
+> acquisita. Host e Wokwi servono alla verifica funzionale, non forniscono
+> latenza, energia o peak RAM fisici. I comandi di upload nelle ricette RC3
+> non costituiscono autorizzazione a flashare: serve conferma del supervisore.
+>
+> Per il confronto corrente usare gli environment `<board>_common_<model>`
+> e `<board>_common_energy_<model>`, dove `<board>` e' `megaatmega2560` oppure
+> `esp32c3`, e `<model>` e' `coeff`, `lut14`, `mlcoeff`, `mlp` oppure `dt5`.
+> Il cohort contiene 500 flow ID unici (250+250), trasformati separatamente
+> dai preprocessori fissati dei modelli. La misura e' prepared features in
+> RAM → decisione; l'energia ripete i primi 20 flussi (10+10), warm cache.
+> La provenienza e' in `../artifacts/finalization/hardware_cohort.npz` e
+> `../artifacts/finalization/hardware_cohort_export.json`.
+>
+> La LUT corrente e' L=1025, 20.554 B: la scelta storica L=257/5.194 B usava
+> margini dal test. Il nuovo protocollo e' `../results/lut_selection_protocol.json`.
+> La configurazione h=16/g=8 e' una preferenza di deployment dichiarata.
+> Protocollo cohort: [HARDWARE_COMMON_COHORT_IT.md](../docs/HARDWARE_COMMON_COHORT_IT.md).
+> Protocollo e prerequisiti strumentali:
+> [HARDWARE_ENERGY_PROTOCOL_IT.md](../docs/HARDWARE_ENERGY_PROTOCOL_IT.md).
+
 Progetto **PlatformIO** che replica il protocollo di benchmark su
 microcontrollore del paper *Electronics 2026, 15, 2869*: **500 inferenze
 temporizzate** per modello (250 con input di classe **attacco** + 250 di
 classe **normale**, con vettori pre-normalizzati in Flash), statistiche di
 latenza calcolate **a bordo**, misura di **SRAM**, verifica delle
 predizioni contro i valori attesi, e hook opzionale per la misura di
-**energia** via INA219.
+**energia** via INA219 (hook storico, escluso dai numeri del Paper 1).
 
 Ogni sorgente in `src/` copre entrambi i target tramite `#ifdef`.
 
@@ -247,155 +271,40 @@ un riepilogo di accuratezza.
 
 ---
 
-## 7. Misura di energia
+## 7. Misura di energia: protocollo corrente
 
-### 7a. Firmware dedicato — `src/main_energy.cpp` (da usare per l'articolo)
+Usare [HARDWARE_ENERGY_PROTOCOL_IT.md](../docs/HARDWARE_ENERGY_PROTOCOL_IT.md)
+e il template `../templates/energy_acquisition.json`. Prima di collegare lo
+strumento occorrono modello e revisione delle board, alimentazione e rail
+misurato, modello dello strumento, shunt/range, frequenza di campionamento,
+precisione, esportazione delle tracce e compatibilita' dei marker digitali.
+I default Mega 22/24 ed ESP32-C3 GPIO3/GPIO4 descrivono il sorgente, non uno
+schema di collegamento validato per lo strumento del supervisore.
 
-I nove firmware di latenza cronometrano **una** inferenza per volta e fra
-una misura e la successiva stampano da cinque a nove valori su Serial. Per la
-latenza va bene: fra `t0` e `t1` c'è solo la chiamata al kernel. Per
-l'energia no. Uno strumento misura la corrente nel tempo, e in quel tempo la
-UART a 115200 baud — e, dove era attivo l'hook INA219 di §7b, anche il bus
-I²C — consumano molto più dell'inferenza. Il vecchio integratore accumulava
-proprio su quegli intervalli e chiamava l'I²C dentro il conteggio: misurava
-l'energia della UART, non quella del modello.
+La metrica principale e' `integral_active(V(t)*I(t) dt) / N`. Il reference
+loop e' un busy loop con branch, decrement e nop, non idle a energia nulla.
+L'eventuale differenza rispetto a quel riferimento usa le durate effettive;
+puo' essere negativa e non va interpretata o ritagliata come energia fisica
+negativa. Un solo marker attivo individua la finestra attiva, ma tutto il
+resto della traccia non puo' essere assunto reference senza sincronizzazione.
 
-`main_energy.cpp` è costruito per essere misurato dall'esterno. Ogni
-ripetizione produce **due finestre adiacenti della stessa durata**:
+Il ciclo attivo usa un accumulatore locale e uno store volatile alla fine.
+`checksum_ok`, calibrazione e flag delle finestre sono controlli necessari;
+un checksum da solo non prova formalmente che il compilatore abbia eseguito
+ogni chiamata prevista. Conservare versione del compilatore, flag/LTO,
+source/binary hash e verifica del loop compilato. Non disabilitare
+l'ottimizzazione del modello per ottenere uno speedup atteso.
 
-| marcatore | contenuto |
-|---|---|
-| `EB_PIN` **alto** (22 / GPIO 3) | `EB_BATCH` inferenze consecutive e nient'altro: nessuna Serial, nessun Wire, nessun `delay`, nessun accesso a Flash (i vettori sono già in RAM), nessuna divisione (l'indice avanza con un confronto) |
-| `EB_PIN_REF` **alto** (24 / GPIO 4) | riferimento: CPU sveglia che gira su `nop` per lo stesso numero di microsecondi, nessuna inferenza |
+Il nuovo workload `_common_energy_` usa gli stessi venti flow ID (10+10),
+lo stesso ordine, batch e ripetizioni per i modelli confrontati. Il costo
+include il ciclo della misura e l'accesso ai vettori in RAM; le tabelle dei
+modelli possono essere lette da Flash. I percorsi E2E e multiclass richiedono
+un protocollo e una tabella separati.
 
-I due marcatori sono **pin distinti**. Con un pin solo il livello basso
-significava due cose — la finestra di riferimento *e* tutto il resto: setup,
-calibrazione, intervalli fra le ripetizioni, stampe finali — e per ritagliare
-l'integrale giusto bisognava fidarsi dell'ordine invece di leggerlo dalla
-traccia. Ora ogni finestra ha il suo fronte e nessun campione entra
-nell'integrale sbagliato.
-
-```
-E_totale   per inferenza = P_alta × T_alta / EB_BATCH
-E_dinamica per inferenza = (P_alta − P_bassa) × T_alta / EB_BATCH
-```
-
-La prima include il consumo statico del core sveglio, la seconda è il solo
-costo del calcolo. Tutte le stampe stanno **prima** della prima finestra e
-**dopo** l'ultima.
-
-**Comandi.**
-
-Gli environment marcati **(grezzo)** partono dai contatori di flusso e fanno
-a bordo anche il feature engineering: i loro byte comprendono la LUT del
-logaritmo, le costanti affini e la quantizzazione. Gli altri ricevono feature
-gia' preprocessate fuori dalla scheda, e quel costo non e' nei loro byte. Le
-due famiglie non stanno sulla stessa scala e non vanno messe nella stessa
-colonna senza dirlo (richiesta del relatore, rc3 punto 6).
-
-```bash
-pio run -e megaatmega2560_energy -t upload        # KAN single-layer, 254 B
-pio run -e esp32c3_energy        -t upload
-pio run -e megaatmega2560_energy_dt5   -t upload  # albero d=5, 285 B
-pio run -e megaatmega2560_energy_e2e   -t upload  # end-to-end integer, 1.334 B (grezzo)
-pio run -e megaatmega2560_energy_mlcoeff -t upload
-pio run -e megaatmega2560_energy_mlp   -t upload  # MLP(16) denso, 760 B
-pio run -e megaatmega2560_energy_lut14 -t upload  # KAN 1L campionata, 5.194 B
-pio run -e esp32c3_energy_mc     -t upload        # 10 classi, 8.268 B
-
-# batch e ripetizioni si cambiano senza toccare i file
-PLATFORMIO_BUILD_FLAGS="-DEB_BATCH=5000 -DEB_REPS=10" pio run -e esp32c3_energy
-```
-
-**Collegamento del trigger.** I marcatori sono **22** (finestra attiva) e
-**24** (riferimento) sul Mega 2560, **GPIO 3** e **GPIO 4** sull'ESP32-C3, e
-vanno collegati **solo** agli ingressi di trigger dello strumento, che sono ad
-alta impedenza. Non sono pin di LED: un LED assorbirebbe corrente dentro la
-finestra misurata. Con un solo canale disponibile basta collegare il 22: le
-due finestre restano adiacenti e la seconda è quella fra un fronte di discesa
-e il successivo di salita. Con `-DEB_NO_PIN` nessun pin viene toccato, per chi
-preferisce allineare le finestre sul gradino di corrente; con
-`-DEB_PIN=n -DEB_PIN_REF=n` si scelgono altri due pin.
-
-**Verifica che le inferenze siano avvenute.** Tolta la Serial dalla finestra,
-sparisce l'unica cosa che consumava il risultato, e i kernel sono `static
-inline` con ingressi costanti in Flash: `-O2` potrebbe cancellare l'intero
-ciclo, e una finestra vuota sembrerebbe soltanto un modello molto efficiente.
-Il risultato di ogni inferenza è perciò accumulato in un `volatile` e la
-somma viene confrontata con quella attesa dai golden vector. L'output finisce
-con `checksum_ok=1`; se dice `0`, il firmware stampa che **la misura non è
-valida**. `tests/test_energy_firmware.py` compila ed esegue le sette varianti
-sull'host pretendendo `checksum_ok=1`, e rilegge il sorgente per verificare
-che dentro la finestra non sia ricomparso dell'I/O.
-
-**Output** (nessuna virgola mobile nemmeno nella stampa, così su AVR non
-entrano le routine soft-float in un firmware che misura un modello
-integer-only):
-
-```
-# energy benchmark variant=coeff_int8 model_bytes=254 batch=2000 reps=5 vectors_in_ram=20 marker_pin_active=22 marker_pin_ref=24
-# due marcatori distinti: ALTO su marker_pin_active = finestra di inferenze, ALTO su marker_pin_ref = finestra di riferimento
-# E_totale per inferenza  = P_alta * T_alta / batch
-# E_dinamica per inferenza = (P_alta - P_bassa) * T_alta / batch
-variant,rep,batch,window_us,ref_us,ref_vs_active_permille,windows_match,ns_per_inference,checksum,expected,ok
-coeff_int8,0,2000,...
-SUMMARY variant=coeff_int8 model_bytes=254 mean_window_us=... mean_ref_us=... ref_vs_active_permille=... nop_per_us_q8=... calibration_ok=1 windows_ok=1 tolerance_permille=50 checksum_ok=1
-```
-
-**Le tre bandiere da guardare prima di fidarsi di una misura.**
-`checksum_ok=1` dice che le inferenze sono avvenute (nessuna finestra vuota);
-`calibration_ok=1` che il ciclo di riferimento è stato calibrato e non è un
-valore di ripiego; `windows_ok=1` che le due finestre durano lo stesso entro
-`tolerance_permille` (50 ‰, cioè il 5 %). Se `windows_ok=0`, la differenza fra
-le due potenze **non** è l'energia dinamica: resta valida la sola finestra
-attiva, cioè `E_totale`. Lo scarto vero, riga per riga, è nella colonna
-`ref_vs_active_permille`: è un numero misurato, non una promessa.
-
-### 7b. Hook INA219 dentro i firmware di latenza (storico, sconsigliato)
-
-Resta documentato perché il codice c'è ancora, ma **non va usato per i numeri
-dell'articolo**: integra su intervalli che contengono le `Serial.print` e
-chiama l'I²C dentro il conteggio, quindi misura in larghissima parte
-l'energia di UART e I²C. Per l'energia usare §7a.
-
-Il firmware compila **anche senza** energia (default). Per abilitarla,
-aggiungi il flag `-DENABLE_INA219` nell'env desiderato in `platformio.ini`:
-
-```ini
-[env:esp32c3]
-platform = espressif32
-board = esp32-c3-devkitm-1
-framework = arduino
-build_flags = ${env.build_flags} -O2 -DENABLE_INA219
-```
-
-Il blocco `#ifdef ENABLE_INA219` legge l'INA219 via **I2C raw** (registri
-`0x00..0x05`, nessuna libreria esterna), integra `potenza × dt` durante il
-loop di inferenza e aggiunge alla riga SUMMARY:
-
-```
-...,energy_total_mJ=<mJ totali>,energy_per_inf_uJ=<µJ per inferenza>
-```
-
-**Collegamento INA219 (I2C):**
-
-| INA219 | Mega 2560 | ESP32-C3 |
-|--------|-----------|----------|
-| VCC    | 5V        | 3V3      |
-| GND    | GND       | GND      |
-| SDA    | pin 20    | GPIO 8   |
-| SCL    | pin 21    | GPIO 9   |
-
-Lo shunt (V+ / V−) va **in serie** sull'alimentazione della scheda sotto
-misura. Calibra `INA219_CURRENT_LSB_A`, `INA219_POWER_LSB_W` e
-`INA219_CAL_VALUE` in `src/main.cpp` in base al tuo shunt (default: shunt
-0.1 Ω, range 32V/2A).
-
-> **Alternativa con libreria Adafruit:** se preferisci non usare l'accesso
-> raw, aggiungi `lib_deps = adafruit/Adafruit INA219` in `platformio.ini` e
-> sostituisci le funzioni `ina219_*` con le chiamate della libreria
-> (`Adafruit_INA219 ina; ina.begin(); ina.getPower_mW();`). L'integrazione
-> `potenza × dt` resta identica.
+L'hook `ENABLE_INA219` nei firmware storici di latenza integra anche
+intervalli con Serial/I2C. E' mantenuto per provenienza e non deve produrre i
+valori energetici dell'articolo. I risultati vanno ricavati dalle tracce
+esterne sincronizzate, con `../tools/aggregate_energy_trace.py`.
 
 ## 8. Verifica preliminare su Wokwi (senza hardware)
 
@@ -442,9 +351,10 @@ pio device monitor --baud 115200
 - Verifica host: `g++ -O2 -o check host_check/run_coeff_check.cpp && ./check`
   → atteso 200/200.
 
-Confronto atteso con le altre varianti on-board: stessa accuratezza della
-LUT (99.95% agreement col float) con 1/22 della memoria; latenza da misurare
-(lookup+interp vs Horner: ~2× operazioni per edge, entrambe O(1)).
+La latenza e' da misurare sullo stesso cohort. La LUT storica di default
+appartiene a un altro modello. Per la LUT della stessa KAN usare il protocollo
+di selezione corrente e i byte dell'header attuale; non dedurre la latenza
+da un conteggio approssimato delle operazioni.
 
 ## Varianti 4 e 5: multi-layer (5 KB) e multiclass (8 KB)
 

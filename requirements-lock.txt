@@ -27,6 +27,12 @@ pyarrow==25.0.0
 reportlab==4.5.1
 pillow==12.2.0
 pytest==9.1.1
+# Nessun numero pubblicato dipende da tabulate: serve solo a
+# scripts/pacchetto_finale.py per formattare le tabelle del rapporto. Compare
+# qui perche' questo file deve contenere ogni dipendenza non opzionale di
+# requirements.txt — e' la regola dichiarata in testa e verificata da
+# tests/test_ambiente.py — non perche' abbia influito su una misura.
+tabulate==0.10.0
 
 # ─────────────────────────────────────────────────────────────────────
 # SECONDO AMBIENTE, VERIFICATO (agosto 2026)

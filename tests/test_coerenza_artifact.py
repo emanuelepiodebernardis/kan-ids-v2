@@ -20,6 +20,7 @@ a mano, il test cade prima che il numero finisca nell'articolo.
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -133,6 +134,7 @@ NOMI_README = {
 # parte dai contatori grezzi non stanno sulla stessa scala.
 INGRESSI_README = {
     "preprocessed": "feature preprocessate fuori dalla scheda (Q12 + codici categorici)",
+    "preprocessed Q7": "feature preprocessate fuori dalla scheda (14 valori Q7: numeriche e codici categorici)",
     "raw counters": "contatori grezzi: feature engineering a bordo, dentro i byte dichiarati",
     "z-scored": "feature z-scored fuori dalla scheda (10 numeriche, niente categoriche)",
 }
@@ -613,16 +615,57 @@ def test_il_report_non_dichiara_come_da_fare_cose_gia_fatte():
     su CIC erano gia' otto file in results/. Una tabella di stato sbagliata
     e' peggio di nessuna tabella: dice al lettore di non cercare."""
     testo = (REPO / "scripts" / "make_report.py").read_text(encoding="utf-8")
-    i = testo.index("Benchmark fisici")
-    blocco = testo[max(0, i - 3000):i + 3000]
+    # L'ancora non e' piu' la stringa "Benchmark fisici": la tabella di stato
+    # e' stata riscritta e quella voce non esiste. Si ancora invece alla
+    # struttura, cioe' alla lista `entries`, e si controllano gli stati che
+    # contiene. Cambiare l'ancora di un controllo e' il modo tipico di
+    # disattivarlo per sbaglio, quindi qui le asserzioni sul merito non si
+    # sono indebolite: sono aumentate.
+    assert "entries = [" in testo, (
+        "la tabella di stato del report non ha piu' una lista `entries`: "
+        "questo controllo non sa piu' dove guardare")
+    i = testo.index("entries = [")
+    blocco = testo[i:testo.index("]", i) + 1]
+
     assert "non iniziato" not in blocco, (
         "la tabella di stato del report dichiara qualcosa come non iniziato: "
         "verificare che sia ancora vero")
+
+    #: Le cinque categorie che il report deve tenere separate. Metterle in una
+    #: riga sola aveva prodotto una tabella che dichiarava da fare la latenza,
+    #: che e' misurata su entrambe le schede.
+    for voce in ("Risultati ML salvati", "Verifiche software", "Latenza",
+                 "Energia", "Peak RAM"):
+        assert voce in blocco, (
+            f"la tabella di stato non distingue «{voce}»: le misure "
+            f"disponibili e quelle mancanti finiscono nella stessa riga")
+
+    i_lat = blocco.index("Latenza")
+    i_energia = blocco.index("Energia")
+    i_mancanti = blocco.index("Peak RAM")
+    assert "Misurata" in blocco[i_lat:i_energia], (
+        "la latenza non e' dichiarata misurata, ma lo e'")
+    assert "energy_status" in blocco[i_energia:i_mancanti]
+    assert 'energy_runs = pd.read_csv' in testo
+    assert 'energy_means = pd.read_csv' in testo
+    assert 'len(energy_runs)' in testo and 'len(energy_means)' in testo
+    energy_root = REPO / "experiments/hardware_energy_20260915/results"
+    energy_runs = pd.read_csv(energy_root / "all_20_acquisitions.csv")
+    energy_means = pd.read_csv(energy_root / "board_model_means.csv")
+    assert len(energy_runs) == 20 and len(energy_means) == 10
+    assert set(energy_runs["board"]) == {"Mega 2560", "ESP32-C3"}
+    assert "Non misurata" in blocco[i_mancanti:], (
+        "il peak RAM non e' dichiarato mancante")
+    if "NOT_HARDWARE_MEASURED" in blocco:
+        assert re.search(r"NOT_HARDWARE_MEASURED[^\"]{0,200}?\d{4}", blocco), (
+            "NOT_HARDWARE_MEASURED compare senza una data: come stato "
+            "generale non e' piu' vero, come stato storico va datato")
+
     fatti = ("results/confusion_joint_ratio5_ridotto_cat_cic_KAN_cat_1L.csv",
              "results/mlp16_export.csv", "results/arch_footprint.csv")
     esistono = [f for f in fatti if (REPO / f).exists()]
     if esistono:
-        assert "completat" in blocco, (
+        assert "salvati" in blocco or "completat" in blocco, (
             "gli artefatti esistono ma la tabella di stato non lo dice")
 
 
@@ -642,7 +685,8 @@ def test_i_conteggi_di_firmware_e_environment_sono_quelli_veri():
               6: "sei", 7: "sette", 8: "otto", 9: "nove", 10: "dieci",
               11: "undici", 12: "dodici", 13: "tredici", 14: "quattordici",
               15: "quindici", 16: "sedici", 17: "diciassette", 18: "diciotto",
-              19: "diciannove", 20: "venti"}
+              19: "diciannove", 20: "venti", 21: "ventuno",
+              22: "ventidue", 23: "ventitre"}
     # La tabella si e' fermata a dodici finche' gli environment di energia
     # erano undici: al tredicesimo il confronto diventava contro "?" e
     # qualunque parola risultava sbagliata, compresa quella giusta. Un

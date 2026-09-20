@@ -1,0 +1,286 @@
+{
+  "schema": "kanids-hardware-energy-20260915-v1",
+  "run_count": 20,
+  "runs": [
+    {
+      "board": "Mega 2560",
+      "model": "coeff",
+      "repeat": 1,
+      "directory": "measurements/mega_coeff_01",
+      "run_id": "MEGA_PILOT_20260915T155739Z_1ec1cd0b",
+      "firmware_directory": "firmware/mega/coeff",
+      "cfn_bounds_s": [
+        60.09158638301975,
+        120.054677582905
+      ],
+      "original_archive": "MEGA_PILOT_20260915T155739Z_1ec1cd0b.zip",
+      "original_archive_sha256": "614e62f76958406b583c57af8db52ebe3bd256b02d3cfb183a9d685c3c667c41"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "coeff",
+      "repeat": 2,
+      "directory": "measurements/mega_coeff_02",
+      "run_id": "MEGA_PILOT_20260915T162011Z_dc2d64c7",
+      "firmware_directory": "firmware/mega/coeff",
+      "cfn_bounds_s": [
+        55.041095808489274,
+        115.0145061326087
+      ],
+      "original_archive": "MEGA_PILOT_20260915T162011Z_dc2d64c7.zip",
+      "original_archive_sha256": "900c9895492350f21a518dde0330d1dde33ff317c73aa844e55557521d230eb7"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "lut",
+      "repeat": 1,
+      "directory": "measurements/mega_lut_01",
+      "run_id": "MEGA_LUT_PILOT_20260915T163709Z_3517fb26",
+      "firmware_directory": "firmware/mega/lut",
+      "cfn_bounds_s": [
+        54.78293550850242,
+        114.74582331323111
+      ],
+      "original_archive": "MEGA_LUT_PILOT_20260915T163709Z_3517fb26.zip",
+      "original_archive_sha256": "9d55ec3b265c5f6cdb32a5efdf0269dd118f9bbbdcbb68f8d5d0ec3b47f708f7"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "lut",
+      "repeat": 2,
+      "directory": "measurements/mega_lut_02",
+      "run_id": "MEGA_LUT_PILOT_20260915T164951Z_d1f553a1",
+      "firmware_directory": "firmware/mega/lut",
+      "cfn_bounds_s": [
+        55.6005778868328,
+        115.56227968671946
+      ],
+      "original_archive": "MEGA_LUT_PILOT_20260915T164951Z_d1f553a1.zip",
+      "original_archive_sha256": "c8b5fd6de1effda7468bf318e663d9101d9cb806fa3c602ea2fdfdf1b1099448"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "mlp",
+      "repeat": 1,
+      "directory": "measurements/mega_mlp_01",
+      "run_id": "MEGA_MLP_PILOT_20260915T171155Z_c3402054",
+      "firmware_directory": "firmware/mega/mlp",
+      "cfn_bounds_s": [
+        56.071511934273694,
+        116.04526245786558
+      ],
+      "original_archive": "MEGA_MLP_PILOT_20260915T171155Z_c3402054.zip",
+      "original_archive_sha256": "4aa18f378cb03a13c74894923a511b7f5a560e72e5617e8184c5d63c069b7e89"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "mlp",
+      "repeat": 2,
+      "directory": "measurements/mega_mlp_02",
+      "run_id": "MEGA_MLP_PILOT_20260915T172814Z_c71c4741",
+      "firmware_directory": "firmware/mega/mlp",
+      "cfn_bounds_s": [
+        55.47126046497259,
+        115.4363258833539
+      ],
+      "original_archive": "MEGA_MLP_PILOT_20260915T172814Z_c71c4741.zip",
+      "original_archive_sha256": "d957484348e2b9eb27c00088e8a6a41fa4a2234fd1a02fe4c1ffd4d1167c917c"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "kanml",
+      "repeat": 1,
+      "directory": "measurements/mega_kanml_01",
+      "run_id": "MEGA_KANML_PILOT_20260915T174902Z_33faff58",
+      "firmware_directory": "firmware/mega/kanml",
+      "cfn_bounds_s": [
+        55.22477836158931,
+        115.17834687485507
+      ],
+      "original_archive": "MEGA_KANML_PILOT_20260915T174902Z_33faff58.zip",
+      "original_archive_sha256": "d5670ef955016f160910ed05579664839f0685d08c55c5e99c4eb5f17d36ff0b"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "kanml",
+      "repeat": 2,
+      "directory": "measurements/mega_kanml_02",
+      "run_id": "MEGA_KANML_PILOT_20260915T175602Z_b26298f4",
+      "firmware_directory": "firmware/mega/kanml",
+      "cfn_bounds_s": [
+        56.02922073258367,
+        115.97988692265217
+      ],
+      "original_archive": "MEGA_KANML_PILOT_20260915T175602Z_b26298f4.zip",
+      "original_archive_sha256": "7cf3bf04afb9b0bac830d165e50e39e907858e358456a901a1b1d478675770a5"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "dt5",
+      "repeat": 1,
+      "directory": "measurements/mega_dt5_01",
+      "run_id": "MEGA_DT5_PILOT_20260915T181339Z_29aec9b2",
+      "firmware_directory": "firmware/mega/dt5",
+      "cfn_bounds_s": [
+        55.27936731208622,
+        115.24720647078561
+      ],
+      "original_archive": "MEGA_DT5_PILOT_20260915T181339Z_29aec9b2.zip",
+      "original_archive_sha256": "b43585dd58c1d31008b7c809e417dc58cc166ede1d3522112c22069a097070ee"
+    },
+    {
+      "board": "Mega 2560",
+      "model": "dt5",
+      "repeat": 2,
+      "directory": "measurements/mega_dt5_02",
+      "run_id": "MEGA_DT5_PILOT_20260915T181727Z_225e39b0",
+      "firmware_directory": "firmware/mega/dt5",
+      "cfn_bounds_s": [
+        55.03663340941782,
+        115.00485978193845
+      ],
+      "original_archive": "MEGA_DT5_PILOT_20260915T181727Z_225e39b0.zip",
+      "original_archive_sha256": "3063d13387ab29b1149af8d63b30a58b9efb39ed7934f4a9f03b2b9bde1bdb28"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "coeff",
+      "repeat": 1,
+      "directory": "measurements/c3_coeff_01",
+      "run_id": "C3_COEFF_01_a8bf461e",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        56.02025644802031,
+        116.02504776730824
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "coeff",
+      "repeat": 2,
+      "directory": "measurements/c3_coeff_02",
+      "run_id": "C3_COEFF_02_0d48d2b3",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.983423925877396,
+        115.97736894164412
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "lut",
+      "repeat": 1,
+      "directory": "measurements/c3_lut_01",
+      "run_id": "C3_LUT_01_6bb4ec5e",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.80372117374268,
+        115.81534038519129
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "lut",
+      "repeat": 2,
+      "directory": "measurements/c3_lut_02",
+      "run_id": "C3_LUT_02_d6e6f26b",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.73912028833554,
+        115.7449792012305
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "mlp",
+      "repeat": 1,
+      "directory": "measurements/c3_mlp_01",
+      "run_id": "C3_MLP_01_6cb79e3e",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        56.70977218033915,
+        116.70245988996594
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "mlp",
+      "repeat": 2,
+      "directory": "measurements/c3_mlp_02",
+      "run_id": "C3_MLP_02_ba9ad428",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.77123620338249,
+        115.77879037672048
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "kanml",
+      "repeat": 1,
+      "directory": "measurements/c3_kanml_01",
+      "run_id": "C3_KANML_01_36221250",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.93070421324736,
+        115.93028301755757
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "kanml",
+      "repeat": 2,
+      "directory": "measurements/c3_kanml_02",
+      "run_id": "C3_KANML_02_211282a9",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.39094104925614,
+        115.40198333395482
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "dt5",
+      "repeat": 1,
+      "directory": "measurements/c3_dt5_01",
+      "run_id": "C3_DT5_01_b3d2bc8a",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.771051910797695,
+        115.77815767070146
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "dt5",
+      "repeat": 2,
+      "directory": "measurements/c3_dt5_02",
+      "run_id": "C3_DT5_02_74d00119",
+      "firmware_directory": "firmware/c3",
+      "cfn_bounds_s": [
+        55.8152486485815,
+        115.82616357029386
+      ],
+      "original_archive": "C3_ENERGY_SUITE_20260915T190500Z_b8cf9258.zip",
+      "original_archive_sha256": "c277220f0daa110c42a56fb01ef3e121faac03c6875b967c3a4e2ffe51bda799"
+    }
+  ]
+}

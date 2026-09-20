@@ -1,0 +1,23 @@
+HELLO protocol=kanids-mega-fnb58-mlp-pilot-v1
+MODEL variant=mlp16_int8 model_bytes=760 cohort_sha256=20c53b571bfaef91f5fd26b19e5960e3fa85ed48b38c78c8527245b921ebe86f
+COHORT rows=first20 order=attack_normal_interleaved boundary=prepared_features_in_RAM
+RAW_IDS values=57978,126454,49019,94298,183174,127803,12386,91098,14299,116321,148681,119000,150843,98347,80922,124992,204398,82285,25406,123258
+CORRECTNESS checked=20 correct=1 reference=compiled_C_predictions
+READY count=89500 target_us=120000000 cal_n=200 cal_us=268144 checksum_per20=10
+PREP sync=begin
+DONE count=89500 active_us=119990832 checksum=44750 expected=44750 correct=1 timing_ok=1
+EVENT name=pre_led_on_1 us=12
+EVENT name=pre_led_off_1 us=2000040
+EVENT name=pre_led_on_2 us=3000060
+EVENT name=pre_led_off_2 us=7000080
+EVENT name=pre_led_on_3 us=8000100
+EVENT name=pre_led_off_3 us=10000124
+EVENT name=active_begin us=20000136
+EVENT name=active_end us=139990968
+EVENT name=post_led_on_1 us=149990992
+EVENT name=post_led_off_1 us=151991012
+EVENT name=post_led_on_2 us=152991032
+EVENT name=post_led_off_2 us=156991052
+EVENT name=post_led_on_3 us=157991072
+EVENT name=post_led_off_3 us=159991096
+WAIT_DONE reset_required=1

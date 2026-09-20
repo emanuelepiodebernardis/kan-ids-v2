@@ -1,0 +1,61 @@
+{
+  "schema": "compact-git-source-manifest-v1",
+  "note": "Repackaging manifest created after measurement. Firmware/runner bytes are unchanged; original acquisition manifests are separately retained in measurements/ and provenance/. Historical validation/binaries remain in the complete checkpoint.",
+  "files": [
+    {
+      "path": "FROZEN_PROVENANCE.json",
+      "bytes": 2229,
+      "sha256": "ae5bd9e1a214f5889faafa074c12876272cb062d5befff04bf368076a9b68d29"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan_ml.h",
+      "bytes": 1740,
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3035,
+      "sha256": "be3ce1b9012514f97c701daec2dd9eaf30f85d8bf79f1dcef716b764e2768d03"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_infer.h",
+      "bytes": 3031,
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_int8.h",
+      "bytes": 22321,
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344"
+    },
+    {
+      "path": "project/include/q15_mul.h",
+      "bytes": 2599,
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 453,
+      "sha256": "c8caef2a11541ef64cbf0716615e1564a96334b1eb6c0152389eac6a3331eb58"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 10123,
+      "sha256": "b20bdd7099bf9ed7cdd05ef629d9b8c0de56d0792246ac53213c88481e241208"
+    },
+    {
+      "path": "run_mega_energy_pilot.py",
+      "bytes": 20896,
+      "sha256": "8216441a4e4d98d63eecdf53ebe7c6a6914c9e5e756fe70d2830b0a80e167d1a"
+    }
+  ]
+}

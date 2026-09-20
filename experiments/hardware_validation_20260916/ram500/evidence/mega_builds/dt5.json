@@ -1,0 +1,250 @@
+{
+  "schema": "kanids-ram500-build-v1",
+  "environment": "mega_ram_dt5",
+  "target_elf": "firmware.elf",
+  "active_symbol_present": true,
+  "prediction_symbol_present": true,
+  "physical_measurement": false,
+  "total_peak_claim": false,
+  "stack_usage_files": 25,
+  "stack_probe_symbol_present": true,
+  "diagnostic_globals": [
+    {
+      "symbol": "_ZL17ram_paint_pattern",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL18ram_command_length",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL19ram_control_heap_ok",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL19ram_paint_all_valid",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_allocator_window",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_command_overflow",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL20ram_control_stack_ok",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL9ram_state",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZL13ram_paint_low",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL14ram_free_calls",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL14ram_heap_after",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL14ram_mismatches",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL14ram_paint_high",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL15ram_heap_before",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL16ram_calloc_calls",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL16ram_malloc_calls",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL17ram_realloc_calls",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL18ram_max_stack_seen",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL18ram_min_sampled_sp",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL18ram_paint_min_free",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL19ram_checksum_per500",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL23ram_control_paint_after",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL24ram_control_paint_before",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL24ram_last_watermark_depth",
+      "bytes": 2
+    },
+    {
+      "symbol": "_ZL12ram_checksum",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL22ram_control_heap_after",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_heap_before",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_heap_during",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL23ram_control_stack_after",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL24ram_control_stack_before",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL8ram_sink",
+      "bytes": 4
+    },
+    {
+      "symbol": "_ZL11ram_command",
+      "bytes": 24
+    },
+    {
+      "symbol": "_ZL13ram_row_input",
+      "bytes": 28
+    }
+  ],
+  "section_report": ".pio\\build\\mega_ram_dt5\\firmware.elf  :\nsection                     size      addr\n.data                         50   8389120\n.text                      24784         0\n.bss                         285   8389170\n.comment                      17         0\n.note.gnu.avr.deviceinfo      64         0\n.debug_aranges               224         0\n.debug_info                 4313         0\n.debug_abbrev               2982         0\n.debug_line                 1198         0\n.debug_str                   998         0\nTotal                      34915\n\n\n",
+  "isr_stack_static_reserved_bytes": null,
+  "batch_prediction_call_verified": true,
+  "diagnostic_globals_bytes": 120,
+  "avr_heap_control_codegen": {
+    "snapshot_loads": {
+      "before_malloc": [
+        "522c:\t80 91 4b 03 \tlds\tr24, 0x034B\t; 0x80034b <__brkval>",
+        "5230:\t90 91 4c 03 \tlds\tr25, 0x034C\t; 0x80034c <__brkval+0x1>"
+      ],
+      "after_malloc_before_during_store": [
+        "52a4:\t80 91 4b 03 \tlds\tr24, 0x034B\t; 0x80034b <__brkval>",
+        "52a8:\t90 91 4c 03 \tlds\tr25, 0x034C\t; 0x80034c <__brkval+0x1>"
+      ],
+      "after_free_before_after_store": [
+        "52ce:\t80 91 4b 03 \tlds\tr24, 0x034B\t; 0x80034b <__brkval>",
+        "52d2:\t90 91 4c 03 \tlds\tr25, 0x034C\t; 0x80034c <__brkval+0x1>"
+      ]
+    },
+    "allocator_calls": [
+      "5268:\t0e 94 5b 24 \tcall\t0x48b6\t; 0x48b6 <__wrap_malloc>",
+      "52ca:\t0e 94 6b 24 \tcall\t0x48d6\t; 0x48d6 <__wrap_free>"
+    ],
+    "heap_ok_stores": [
+      "535a:\tc0 93 4c 02 \tsts\t0x024C, r28\t; 0x80024c <ram_control_heap_ok>"
+    ],
+    "ram_malloc_calls_reads_after_operation": [
+      "52f6:\t80 90 49 02 \tlds\tr8, 0x0249\t; 0x800249 <ram_malloc_calls>",
+      "52fa:\t90 90 4a 02 \tlds\tr9, 0x024A\t; 0x80024a <ram_malloc_calls+0x1>"
+    ],
+    "ram_free_calls_reads_after_operation": [
+      "5302:\ta0 90 43 02 \tlds\tr10, 0x0243\t; 0x800243 <ram_free_calls>",
+      "5306:\tb0 90 44 02 \tlds\tr11, 0x0244\t; 0x800244 <ram_free_calls+0x1>"
+    ],
+    "failures": [],
+    "passed": true
+  },
+  "avr_heap_control_source": {
+    "path": "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_RAM500_20260916_v0.14.1\\project\\src\\main.cpp",
+    "sha256": "8ca9d53dc98580e74c65db69a2c10ca6fa92ddcc03d17a1cc00e3b9c912d2704",
+    "checks": {
+      "heap_growth_128": true,
+      "malloc_counter_increment_one": true,
+      "free_counter_increment_one": true,
+      "nonnull_probe": true,
+      "allocation_size_128": true,
+      "malloc_delta_measured": true,
+      "free_delta_measured": true
+    },
+    "passed": true
+  },
+  "avr_leaf_paint_scan_stack_bytes": {
+    "ram_avr_paint": 3,
+    "ram_avr_scan": 3
+  },
+  "avr_paint_guard_bytes": 16,
+  "frozen_headers_verified": 16,
+  "size_report": "AVR Memory Usage\n----------------\nDevice: atmega2560\n\nProgram:   24834 bytes (9.5% Full)\n(.text + .data + .bootloader)\n\nData:        335 bytes (4.1% Full)\n(.data + .bss + .noinit)\n\n\n",
+  "static_sram_bytes": 335,
+  "peak_sram_measured": false,
+  "near_progmem_checked": [
+    {
+      "symbol": "_ZL8DT5_FEAT",
+      "address": 18452,
+      "size": 57,
+      "end": 18509
+    },
+    {
+      "symbol": "_ZL8DT5_LEAF",
+      "address": 18224,
+      "size": 57,
+      "end": 18281
+    },
+    {
+      "symbol": "_ZL9DT5_RIGHT",
+      "address": 18281,
+      "size": 57,
+      "end": 18338
+    },
+    {
+      "symbol": "_ZL7DT5_THR",
+      "address": 18338,
+      "size": 114,
+      "end": 18452
+    },
+    {
+      "symbol": "_ZL15HC_DT5_EXPECTED",
+      "address": 1724,
+      "size": 500,
+      "end": 2224
+    },
+    {
+      "symbol": "_ZL9HC_ROW_ID",
+      "address": 16224,
+      "size": 2000,
+      "end": 18224
+    },
+    {
+      "symbol": "_ZL7HC_DT_X",
+      "address": 2224,
+      "size": 14000,
+      "end": 16224
+    }
+  ],
+  "near_progmem_max_end": 18509
+}

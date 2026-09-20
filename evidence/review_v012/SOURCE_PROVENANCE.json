@@ -1,0 +1,104 @@
+{
+  "outer_archive": {
+    "filename": "KAN_IDS_NEW_CHAT_20260912_v1.1.0.zip",
+    "bytes": 189675013,
+    "sha256": "6ed738eb25589804f28491321f5c32f3a40b8cd0160b1718449aca15623b5f6d"
+  },
+  "nested_archive": {
+    "outer_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/history/KAN_IDS_PAPER1_REVISION_ANALYSIS_20260910_v0.7.0.zip",
+    "bytes": 17016960,
+    "sha256": "2d65132d53a1d6c20bdb2a805756b26af6fa5dc8e73b2bffed07c19e5e73e2f4"
+  },
+  "evidence_files": [
+    {
+      "evidence_path": "finalization/kan_preprocessor_arrays.npz",
+      "sha256": "eace47ebfc14ef30ee58ecb314b4d8033c24cb38b028cdd2c32fefca29d7f998",
+      "bytes": 277396,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/artifacts/finalization/kan_preprocessor_arrays.npz",
+      "identical_nested_archive_member": "release_candidate_20260910/software/artifacts/finalization/kan_preprocessor_arrays.npz"
+    },
+    {
+      "evidence_path": "finalization/test_evaluation.json",
+      "sha256": "db6f327b2cd257fab73ad084d018f39f6e2b0dd96e0c45bddbd78d6f76403c26",
+      "bytes": 411,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/artifacts/finalization/test_evaluation.json",
+      "identical_nested_archive_member": "release_candidate_20260910/software/artifacts/finalization/test_evaluation.json"
+    },
+    {
+      "evidence_path": "finalization/test_evaluation.npz",
+      "sha256": "31e3740cfd49ef4ff4d6ed13aeb1b6457b813a703f6f9d2d81ce6bf0d9de11dc",
+      "bytes": 347925,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/artifacts/finalization/test_evaluation.npz",
+      "identical_nested_archive_member": "release_candidate_20260910/software/artifacts/finalization/test_evaluation.npz"
+    },
+    {
+      "evidence_path": "finalization/train_calibration.json",
+      "sha256": "c6db99f5911afddc75effb0665368ae393da0ec363d32c1a6e2e432a46ea96ca",
+      "bytes": 3527,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/artifacts/finalization/train_calibration.json",
+      "identical_nested_archive_member": "release_candidate_20260910/software/artifacts/finalization/train_calibration.json"
+    },
+    {
+      "evidence_path": "finalization/train_calibration.npz",
+      "sha256": "5fceda026459f3e670ccdd67b6f33f30b6bf7e54e5b61cd53d2d2865ec37b5e3",
+      "bytes": 1163896,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/software/paper1_snapshot/artifacts/finalization/train_calibration.npz",
+      "identical_nested_archive_member": "release_candidate_20260910/software/artifacts/finalization/train_calibration.npz"
+    },
+    {
+      "evidence_path": "headers/kan14_coeff_infer.h",
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83",
+      "bytes": 2191,
+      "source_path": "paper1_hardware_integration_20260915/repository/mcu_pio/include/kan14_coeff_infer.h"
+    },
+    {
+      "evidence_path": "headers/kan14_coeff_int8.h",
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea",
+      "bytes": 2002,
+      "source_path": "paper1_hardware_integration_20260915/repository/mcu_pio/include/kan14_coeff_int8.h"
+    },
+    {
+      "evidence_path": "headers/kan14_lut_infer.h",
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d",
+      "bytes": 3398,
+      "source_path": "paper1_hardware_integration_20260915/repository/mcu_pio/include/kan14_lut_infer.h"
+    },
+    {
+      "evidence_path": "headers/kan14_lut_int16.h",
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb",
+      "bytes": 71802,
+      "source_path": "paper1_hardware_integration_20260915/repository/mcu_pio/include/kan14_lut_int16.h"
+    },
+    {
+      "evidence_path": "headers/q15_mul.h",
+      "sha256": "cadf90f0673a82a46091508d098b6122262a92d3b3a0e4628919b2203345f50e",
+      "bytes": 2599,
+      "source_path": "paper1_hardware_integration_20260915/repository/mcu_pio/include/q15_mul.h"
+    },
+    {
+      "evidence_path": "historical/analyze_certificate.py",
+      "sha256": "b6a6a39626cd5c157c8184847cab21077ae223d2327a387329669bca4d5b286e",
+      "bytes": 11350,
+      "source_nested_archive_member": "certificate_novelty_20260910/analyze_certificate.py"
+    },
+    {
+      "evidence_path": "historical/canonical_test_duplicate_row_ids.csv",
+      "sha256": "993609debea306016773277ef3458b92046e3a6ff463ee3b08c535ab670c3258",
+      "bytes": 81575,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/evidence/verification_v09/ton_independent/canonical_test_duplicate_row_ids.csv"
+    },
+    {
+      "evidence_path": "historical/ton_overlap_summary.json",
+      "sha256": "0db7b704829edb3277e3c3a5ddb221e256014fffd19a5a5f809b5e1fac9b4431",
+      "bytes": 1173,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/evidence/verification_v09/ton_independent/summary.json"
+    },
+    {
+      "evidence_path": "raw/train_test_network.csv",
+      "sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+      "bytes": 29902775,
+      "source_archive_member": "KAN_IDS_NEW_CHAT_20260912_v1.1.0/data/raw/train_test_network.csv"
+    }
+  ],
+  "extraction": "Byte-identical extraction from preserved archives; headers copied byte-identically from current frozen v0.11 repository. Both nested v0.7 and v1.1 finalization NPZ inputs have identical hashes."
+}

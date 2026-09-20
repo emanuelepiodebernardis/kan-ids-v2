@@ -1,0 +1,546 @@
+{
+  "schema": "kanids-ram500-manifest-v1",
+  "release": "0.14.2",
+  "files": [
+    {
+      "path": "FIX_v0.14.1_RU.md",
+      "bytes": 4774,
+      "sha256": "129dcf8257deaeeb9759d0de7ea82cdf63a690da5befc4f6d6e8fd48c43ecf87"
+    },
+    {
+      "path": "FROZEN_COHORT_REFERENCE.json",
+      "bytes": 38062,
+      "sha256": "7af8ad4c407d99b42d4c97cd7392eec598ca9802e3696d2378f477e37c2832e0"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1082,
+      "sha256": "66142f8966e248482d24b6705176cf58bc3695bef3419dd4dc848032eacc1d39"
+    },
+    {
+      "path": "MEASUREMENT_SCOPE_RU.md",
+      "bytes": 7126,
+      "sha256": "cab1adf534939c2e3c66ca03901a69af4bebf48361412acb4b55d206076a90bf"
+    },
+    {
+      "path": "PROTOCOL.json",
+      "bytes": 3580,
+      "sha256": "5e89cefb6a170232795ee35e2da127f22e8ed5ed3b7108ad173e3b829d9b0806"
+    },
+    {
+      "path": "README_RU.md",
+      "bytes": 5272,
+      "sha256": "28a94a0889a8a35248d9de1b3d54a417a534ea0b63e9dc6b656d8353f86cdb55"
+    },
+    {
+      "path": "START_C3.cmd",
+      "bytes": 274,
+      "sha256": "7b1c15cac5a7741f17407b2532c7976ed5fe20ca7184db5a3b79c84ef75e1303"
+    },
+    {
+      "path": "START_MEGA.cmd",
+      "bytes": 276,
+      "sha256": "40cd2fb07c107dedae8498caba1275cfad08a6fac0e300ee6f300cbce1b1f85c"
+    },
+    {
+      "path": "accepted_mega/MEGA_ACCEPTANCE.json",
+      "bytes": 81564,
+      "sha256": "acf315179861d95a0c6626c0b7201c9c7098beca941c27fe482d4c8fab1d65a6"
+    },
+    {
+      "path": "accepted_mega/MEGA_ACCEPTANCE_RU.md",
+      "bytes": 5737,
+      "sha256": "a1e4c0c8523d979efae4293d98279f8b23215a943523fc0ea769c8d8ac9e9f92"
+    },
+    {
+      "path": "accepted_mega/audit_mega.py",
+      "bytes": 9832,
+      "sha256": "b80dbe9095b3f9e995f86ba287137714e0093eda1a844fc624c6b00e50e293ad"
+    },
+    {
+      "path": "bootstrap.py",
+      "bytes": 4588,
+      "sha256": "0c4a5f3d6d139686bcba109ce905af400633fc9254658c0a624d33f5f7455a22"
+    },
+    {
+      "path": "project/FROZEN_HEADERS.json",
+      "bytes": 2664,
+      "sha256": "49665015afde7ccf66316961403736d13ed57326d161e5103e8db333d28e70d8"
+    },
+    {
+      "path": "project/check_avr_control_codegen.py",
+      "bytes": 7563,
+      "sha256": "843d0939bdd0a942270951b6cb181fc1ef419aceaac402ef9add6a2253810234"
+    },
+    {
+      "path": "project/include/dt5_model.h",
+      "bytes": 19409,
+      "sha256": "7ce09062989328aca77d40e367666eec45b0bb7752bdb92428c3dd6ead0e48b0"
+    },
+    {
+      "path": "project/include/hardware_cohort/common.h",
+      "bytes": 5948,
+      "sha256": "8df1b402f539eb3a2121f31bcd21aa16ea051c41d6ac2aebfe765bf5077b75a7"
+    },
+    {
+      "path": "project/include/hardware_cohort/dt.h",
+      "bytes": 39825,
+      "sha256": "308f139b88d9917c3bd05566aede941af9adcd88e7656bd01d58fa2745a6970f"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan.h",
+      "bytes": 44271,
+      "sha256": "27419ed26a5aab4be1d11d9ec4a39de0e233c87bd13b44e9b49500df88771284"
+    },
+    {
+      "path": "project/include/hardware_cohort/kan_ml.h",
+      "bytes": 1740,
+      "sha256": "9258c451c39409dc1256f84adec6bb2e17ace1e93c6c1c0451ab5f8e04f1512b"
+    },
+    {
+      "path": "project/include/hardware_cohort/mlp.h",
+      "bytes": 42646,
+      "sha256": "95ac24cbc180f1ccd2cb9db9976d038def36e972b5f81620f5b9697447a9afd9"
+    },
+    {
+      "path": "project/include/hardware_cohort_select.h",
+      "bytes": 3630,
+      "sha256": "abf56f2d4e83b59586e8338c623f899e47a7c86f06f7635e79a0ccd0ef9a2c40"
+    },
+    {
+      "path": "project/include/kan14_coeff_infer.h",
+      "bytes": 2191,
+      "sha256": "fb24a01121581ce7316251bcb309e6467502a50f23a1ae41fe09275c949b8c83"
+    },
+    {
+      "path": "project/include/kan14_coeff_int8.h",
+      "bytes": 2002,
+      "sha256": "56d707fcd879dc0f9ab389debe5391b8460e88b846c48dcdea7da005d9ad5fea"
+    },
+    {
+      "path": "project/include/kan14_lut_infer.h",
+      "bytes": 3398,
+      "sha256": "5cdc7e8730563c85ceda2ba21d7feda80b3754a9f1f8e2243ed6d7c6bb8cca0d"
+    },
+    {
+      "path": "project/include/kan14_lut_int16.h",
+      "bytes": 71802,
+      "sha256": "a6b47843958dee4651d5a2d7c12f378549622b6bcb933f7805b2ba6736ed41bb"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_infer.h",
+      "bytes": 3031,
+      "sha256": "df7864a27f187334c07be88bd5edfa0ddfce2b80381989d04b7c639d5aea4484"
+    },
+    {
+      "path": "project/include/kan14_ml_coeff_int8.h",
+      "bytes": 22321,
+      "sha256": "defd4670a8dad30c87c661c6f71571299722cc6fde753cb3f74e96e3b0d3c344"
+    },
+    {
+      "path": "project/include/mlp16_infer.h",
+      "bytes": 3748,
+      "sha256": "7cb08ae996d4c784f1f03c09d780a34ed41705892d4fce7b0eaeb24c4262f36a"
+    },
+    {
+      "path": "project/include/mlp16_int8.h",
+      "bytes": 4955,
+      "sha256": "83d59eb07c93e9f36c6290652fe86a68217265c1180bc96d03f76974c05b6f6f"
+    },
+    {
+      "path": "project/include/q15_mul.h",
+      "bytes": 2878,
+      "sha256": "635b0590723d85f63943419e5940ba4059988bf5a5cb33a70f766f5c787ead65"
+    },
+    {
+      "path": "project/platformio.ini",
+      "bytes": 1917,
+      "sha256": "2264831e9c454205e8ff67ea23fe6b6d8b9f19ae49fbc48d9eee53a8740a9d34"
+    },
+    {
+      "path": "project/save_build_artifacts.py",
+      "bytes": 7102,
+      "sha256": "10c09dd5cf46cae89a0a0cd4b8e3e615a60d0145f99117e64399973b2f1ee9a6"
+    },
+    {
+      "path": "project/src/main.cpp",
+      "bytes": 26975,
+      "sha256": "4d0a6f6ba75f80db542b9ef0b010e6fd4bb044d0babc1c637fa5af694bfc4b01"
+    },
+    {
+      "path": "project/tests/c3_protocol_harness.cpp",
+      "bytes": 7203,
+      "sha256": "2407a5b59e88c7ece357d53b9956f8014ce82ee850b5a0df58bd7c210c174b9a"
+    },
+    {
+      "path": "project/tests/host_harness.cpp",
+      "bytes": 1549,
+      "sha256": "c78838f2692c74aa73d93c2985f3f00ec190d0efd69e01e212f3abd24b80eabd"
+    },
+    {
+      "path": "project/tests/ram_host_stub.h",
+      "bytes": 3860,
+      "sha256": "f119653e7096b3affed95d6f96c87532a15069122674a9145e5518e55f9ab191"
+    },
+    {
+      "path": "project/tests/test_c3_protocol.py",
+      "bytes": 1551,
+      "sha256": "9f67466eafe6576d82f8f7e8b6b71d06146e623513328b86cbbeea585ca35bf1"
+    },
+    {
+      "path": "project/tests/test_firmware_host.py",
+      "bytes": 1404,
+      "sha256": "8a3640fc730cffde5e3779909669eeca5a1deed6850288279fbb7ccfd0844c08"
+    },
+    {
+      "path": "project/validation/FIRMWARE_VALIDATION.json",
+      "bytes": 3967,
+      "sha256": "a596a259b51790444bf352d80434e86cc4298dc6bd9ca1a273c602ad8b14a675"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.audit.json",
+      "bytes": 6765,
+      "sha256": "119bc58b1a517a5252356d9cd5a5d4dd3778e885cefb9c7a62a721566a0514b7"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.disassembly.txt",
+      "bytes": 232518,
+      "sha256": "431e43c7da92f896b05ebdcd8655dc95b1007e7cbb4f5501c7465aa6b8e80dc5"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.elf",
+      "bytes": 46368,
+      "sha256": "1f93906b71833e4d438ef24f2738b830197a0afa7d8fb8623d19c6683589ece7"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.hex",
+      "bytes": 67133,
+      "sha256": "26e48d03edd7de2b0bf9832c77e79ac04d8e49a233cef976762e21de1f9020d9"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.map",
+      "bytes": 108739,
+      "sha256": "3a6cb70eaaf6b8d78b96036b41a3a10cf475a48fc6c92a435cc297ebe8ac9485"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.nm.txt",
+      "bytes": 6688,
+      "sha256": "b7be4e5fe92ce85fd6bc1c2bf914f630702eda7775be3450bc8dda9f78c0898d"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.sections.txt",
+      "bytes": 550,
+      "sha256": "04d1bbf7c84d6bee1db4f1dce7f77ce067f636e7abcfcd8129ae5f51b71d885d"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/firmware.stack_usage.json",
+      "bytes": 16366,
+      "sha256": "f4affc20f9130151c0864ad8d04b611ff73ba52b82b750f6c4f3e619435abaf8"
+    },
+    {
+      "path": "project/validation/mega_ram_coeff/main.cpp.su",
+      "bytes": 623,
+      "sha256": "e18097a2802ba32ffe20981ef44082291fdb2fc9a00b31ad354bab6cdeac72c7"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.audit.json",
+      "bytes": 6577,
+      "sha256": "67a708b7614739fcbee9779da0890fd2666073be3c5faeca063c2e3c8f37f843"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.disassembly.txt",
+      "bytes": 222625,
+      "sha256": "af77b2ceeebf9b3d4e55f67a2957db17ceed4cef08a2df21f986847bd8f3d066"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.elf",
+      "bytes": 45224,
+      "sha256": "77e5849944b17dfdc367985cb5e7501be43903a2c24ad14e5964ff1e0db5367b"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.hex",
+      "bytes": 69870,
+      "sha256": "577242e8829309f72a832f1d56bbd3ab48f3bf20178660a173266148ce1a6f69"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.map",
+      "bytes": 93538,
+      "sha256": "eccbde2a06395f1b5c5fb3783e9b21f847b1e05252195a2a56b925b83c3ecb48"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.nm.txt",
+      "bytes": 6342,
+      "sha256": "a650474310f96d68a0bcdd3e3423f2634d78dc12f1b4d3ed468beb952dff1309"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.sections.txt",
+      "bytes": 548,
+      "sha256": "96640742c8ca5436e2ad536ccebff746cece5b8727cfe366df7ac19d01c8a045"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/firmware.stack_usage.json",
+      "bytes": 16365,
+      "sha256": "96c8b9ed9afb2a1cbeaf6fbdca53d2432bb2fead8d0eb821993438e0d2570693"
+    },
+    {
+      "path": "project/validation/mega_ram_dt5/main.cpp.su",
+      "bytes": 622,
+      "sha256": "8737f3e92e7b2ab319019b20d77b474ded76b98d6861b8ecf134c11616b2d372"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.audit.json",
+      "bytes": 7088,
+      "sha256": "ccf702ad1d7d9334e73c97da14149a24263c5a0f26c899e7f754c1fcda72db2e"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.disassembly.txt",
+      "bytes": 276130,
+      "sha256": "297c59f9133786fdca2e198880736e0b0fcab30756105532a23d20d3a0289d94"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.elf",
+      "bytes": 52428,
+      "sha256": "9dc219285e8c4a0e0bcd1bb8954c5a4e9bdb51d935dc83e0c34ef5c93aff908a"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.hex",
+      "bytes": 83865,
+      "sha256": "431d0fb5a99f70825e4b00696891574821484b6d79cbe640b1a86f745ed89c93"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.map",
+      "bytes": 109194,
+      "sha256": "57a536abce5cae64837f4d727ba20dbbad4189996c83c24954c02789e1d14b05"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.nm.txt",
+      "bytes": 6823,
+      "sha256": "84e5204a60282d1af65d155f1601538ecb7822a560e7e52dce46d535dba830f8"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.sections.txt",
+      "bytes": 550,
+      "sha256": "f19c5d36edd46d0ce1c8365cde557a5d02c411f0f013799cf95e5ed469484bd8"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/firmware.stack_usage.json",
+      "bytes": 16443,
+      "sha256": "bc089e18e1c985f11aefabe9fb43e7b9feaf436a363f521bd14c45c193c9d38e"
+    },
+    {
+      "path": "project/validation/mega_ram_kanml/main.cpp.su",
+      "bytes": 697,
+      "sha256": "424c829563f8b2f9784e65351c37c8ac8836cd93d0f80b3e22e56e4987dae4d9"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.audit.json",
+      "bytes": 6773,
+      "sha256": "bc22073fd55688e956287a2b09a7be3afefcd28cc7e1e9b4276cfccf56db1d26"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.disassembly.txt",
+      "bytes": 323482,
+      "sha256": "ea75c3b691ade6161bf7ead18ec7e23d1ca5af39fb51c14b9231aeb1ec613627"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.elf",
+      "bytes": 65776,
+      "sha256": "8ed21f37a0a824847416206e5eb57c5afc1b919e3bac277a48b1e2dc6bea7335"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.hex",
+      "bytes": 122835,
+      "sha256": "5962994d0a09848bb879ebc8b16ab91b3b10d224948a28d0f1821a1839cbf66a"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.map",
+      "bytes": 105340,
+      "sha256": "62d83d7dd9e1ab9145c613ab78a99bab4bfe52d19d95c0ecabc189e5de365b31"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.nm.txt",
+      "bytes": 6635,
+      "sha256": "3ffc1b07d4eb8507b567cf58354665196da763dd60ee6d8a632961ff0edb9cb8"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.sections.txt",
+      "bytes": 548,
+      "sha256": "cf4b958f076c8a8e69c3879657196f6d86333e8c8628800a8885410f2430b9be"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/firmware.stack_usage.json",
+      "bytes": 16366,
+      "sha256": "b4be4bf7b2a5e8565d3815f4986612e1b65c393c5d8eb668b268aab605159f9a"
+    },
+    {
+      "path": "project/validation/mega_ram_lut/main.cpp.su",
+      "bytes": 623,
+      "sha256": "af00217efd6fe4bb8990da54dfcb239e5a96fd35321b189db16b628666953328"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.audit.json",
+      "bytes": 6867,
+      "sha256": "a85b59bddd0ce7bad311000823bfe84e744aa66f44cab04c33d94aef03f545a9"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.disassembly.txt",
+      "bytes": 224288,
+      "sha256": "93f1b911632a1324a6d917dfac8dbce3a00580d298598a4125d2a6abab4022ba"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.elf",
+      "bytes": 45932,
+      "sha256": "83df50f5723ae8302e3494fe0947adbd71edf11f91b748e011e66fe8dd3300f6"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.hex",
+      "bytes": 67023,
+      "sha256": "9d502f3e3689a06d577f2b45c335e28dd85620d52d5d6f017d37d15e73e1b882"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.map",
+      "bytes": 105646,
+      "sha256": "eaa2003e02c3b0e8af634b08e8b2ffac62c7568595ef69d4e956fda7af8e7ecd"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.nm.txt",
+      "bytes": 6694,
+      "sha256": "573681ce91f3b2c95608d3fa97c387f5606f1a173af2e5666b64a6b7be98dffc"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.sections.txt",
+      "bytes": 548,
+      "sha256": "ff28c05954a6ec1a56c4c78da18881d042dc46d60298a30573936d5c5e7f1994"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/firmware.stack_usage.json",
+      "bytes": 16366,
+      "sha256": "78348c9266745c97c4bf24bc23982a63a1765386dacacf5e08cf8b71b350252b"
+    },
+    {
+      "path": "project/validation/mega_ram_mlp/main.cpp.su",
+      "bytes": 623,
+      "sha256": "ed87a9c86cc905dd34ee8279d84531167746a4a39c484d2f83fcecddc3f21c96"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 33,
+      "sha256": "bdae548e8e286818f8e0085c90b0e17ed2593f33eef77f75c131dc0b3becbf1f"
+    },
+    {
+      "path": "run_ram.py",
+      "bytes": 50608,
+      "sha256": "692927d74f13d0f00067eda2133b0e74ba97cb769d449b5b1ec8edc907f3760f"
+    },
+    {
+      "path": "tests_runner/test_runner.py",
+      "bytes": 29567,
+      "sha256": "6c5064e0647caf75f77c158ceed695af97e5a1d8477648361fc31eba1f472b6f"
+    },
+    {
+      "path": "validation/AVR_BUILD.log",
+      "bytes": 17093,
+      "sha256": "e8bc6f76ea0c4e25b7b50c8eb2c6d4d6627314961caceefd9e747b7fbf1329bf"
+    },
+    {
+      "path": "validation/C3_SDK_API_REVIEW.json",
+      "bytes": 785,
+      "sha256": "d7789349d7e15bdbaf5723de21c991621968dabd791a823c9becfcbec87c2978"
+    },
+    {
+      "path": "validation/HOST_TESTS.log",
+      "bytes": 5595,
+      "sha256": "c42273d724a2e5513f96c480fac5ef43b80e1502629272d501477da58e29ca77"
+    },
+    {
+      "path": "validation/MEGA_142_UNCHANGED.json",
+      "bytes": 792,
+      "sha256": "8a28240ef351a8d16d43c7e2704dd3c388cea9348e8cfb4790e6faaca2f3facb"
+    },
+    {
+      "path": "validation/RECEIVED_ARCHIVES.json",
+      "bytes": 680,
+      "sha256": "436ff7eaf0122c51579912c39ffb27c870eb69b49353b14ee27caa8db73a11f3"
+    },
+    {
+      "path": "validation/RUNNER_TESTS.log",
+      "bytes": 5573,
+      "sha256": "a2dac7edac9057e907d8c94703bb7181244fff6ee138e8f46cce432adda963bc"
+    },
+    {
+      "path": "validation/VALIDATION.json",
+      "bytes": 2337,
+      "sha256": "8e33300db6f12efb873c9774283c7e2099c6eb72d7e593308beb29b799c5502a"
+    },
+    {
+      "path": "validation/independent/ACTUAL_EMISSION_CONTRACT.json",
+      "bytes": 1766,
+      "sha256": "d743c47d5cf2194611629d698d8f117f3e293ae85f5d2dbe9aa5bfedd390a884"
+    },
+    {
+      "path": "validation/independent/INDEPENDENT_REVIEW.json",
+      "bytes": 1582,
+      "sha256": "51efa73840b9e7fd489cc0d54016913c40d023666d0542abd2992e4b9365708a"
+    },
+    {
+      "path": "validation/independent/INDEPENDENT_REVIEW_RU.md",
+      "bytes": 6438,
+      "sha256": "6477a9ab67896ecbc121c645048b48977cd5a8d98fc7b31d8567969bb3855429"
+    },
+    {
+      "path": "validation/independent/check_actual_emissions.py",
+      "bytes": 3157,
+      "sha256": "88c42013e5ec17cc1262d4d9ed40b23da2511ea622e96cdfbbc083c30bb53953"
+    },
+    {
+      "path": "validation/independent/emission_contract.log",
+      "bytes": 1766,
+      "sha256": "d743c47d5cf2194611629d698d8f117f3e293ae85f5d2dbe9aa5bfedd390a884"
+    },
+    {
+      "path": "validation/independent/emitted_coeff.txt",
+      "bytes": 1371,
+      "sha256": "355faf2f12ae91693f52201e0864dcac536732c522c77e0151c3217c88211ef5"
+    },
+    {
+      "path": "validation/independent/emitted_dt5.txt",
+      "bytes": 1367,
+      "sha256": "1dce230b24cb19972858fe689cbfeacb42fa8f1d6e7ade53568cbcb27ef158e6"
+    },
+    {
+      "path": "validation/independent/emitted_kanml.txt",
+      "bytes": 1371,
+      "sha256": "a08e1723139b5a587fafce92bd30e101e1abba917cdd0403e416e76b221be043"
+    },
+    {
+      "path": "validation/independent/emitted_lut.txt",
+      "bytes": 1367,
+      "sha256": "63e5a45433b83567dbb80e8d6105f4a49598372dd25a4f3d53e0b14d615d7155"
+    },
+    {
+      "path": "validation/independent/emitted_mlp.txt",
+      "bytes": 1367,
+      "sha256": "9d803a2040784cf789f5e6012615f6360d3f1efb917bf8bcb54e6d745e152ea7"
+    },
+    {
+      "path": "validation/independent/test_independent_transport.py",
+      "bytes": 6985,
+      "sha256": "b52016c38e18229c5e234dc862ed5c85d9796cba8a15e6268b2771028b1d6072"
+    },
+    {
+      "path": "validation/independent/transport_test.log",
+      "bytes": 1639,
+      "sha256": "d3d2a6fd332006e372b18522e59c7f3819a404b7c710c519fa70767cc50fee7d"
+    },
+    {
+      "path": "validation/previous_c3_failure/C3_DIAGNOSIS.json",
+      "bytes": 2205,
+      "sha256": "f4680ceb4989b1d160582370866c1eed7a0a5e68fb466de03efd85926ad47a2e"
+    },
+    {
+      "path": "validation/previous_c3_failure/C3_RECEIPT_AUDIT.json",
+      "bytes": 557,
+      "sha256": "cf24dbb5771a60ecddc16a7cb169678871e9e6ea11419d11251453c60dde7fd0"
+    }
+  ]
+}

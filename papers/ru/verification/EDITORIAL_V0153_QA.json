@@ -1,0 +1,32 @@
+{
+  "revision": "0.15.3",
+  "date": "2026-09-19",
+  "language": "ru",
+  "status": "PASS",
+  "reviewed_software_commit": "b219fb6671442e2e5dfcda5b6ea49a04d57e7960",
+  "manuscript_baseline": "0.15.2",
+  "input_note": "EN supplied v0.15.2; supplied RU v0.15.1 matched the previous delivery exactly, so the already reviewed RU v0.15.2 journal-reference update was retained before this editorial revision.",
+  "unchanged_tabular_equation_align_figure_blocks": 48,
+  "all_table_labels_referenced": 26,
+  "figure_environments": 5,
+  "figure_assets_and_bibliography_byte_identical_to_v0152": true,
+  "independent_arithmetic_matches": 8,
+  "new_training_or_hardware_measurements": false,
+  "build": {
+    "command": "python scripts/build_ru.py",
+    "stable_references": true,
+    "overfull_or_missing_glyph_errors": false,
+    "pdf_pages": 47
+  },
+  "review_scope": [
+    "Abstract gives both ESP32-C3 protocol outcomes",
+    "Symmetric and signed certificates distinguished",
+    "Five missing table references supplied",
+    "DT5 ranking discussed without causal speculation",
+    "Public software commit distinguished from final complete archival deposition"
+  ],
+  "limitations": [
+    "No new independent recount of full-cohort certified decisions in this editorial pass",
+    "Historical verification receipts retain their own version scope"
+  ]
+}

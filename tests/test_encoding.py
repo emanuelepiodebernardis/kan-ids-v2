@@ -246,27 +246,78 @@ def test_gitattributes_fissa_i_terminatori_di_riga():
             f"normalizzarne i terminatori")
 
 
-def test_nessun_file_di_testo_versionato_ha_i_cr():
-    """Il controllo a valle dei due precedenti: quello che sta nel
-    repository, non quello che sta sul disco. Un CR qui dentro significa che
-    un file e' stato committato da un ambiente che non normalizzava."""
+#: i soli file versionati che possono contenere CRLF, ciascuno con la sua
+#: ragione. L'elenco e' di PERCORSI ESATTI e non di estensioni: esentare
+#: `*.cmd` o `*.csv` lascerebbe entrare senza accorgersene il prossimo file
+#: normalizzato male, che e' il difetto che questo test esiste per prendere.
+CRLF_AMMESSI = {
+    # Evidenza strumentale della campagna hardware: il CSV e' stato prodotto
+    # dalla macchina di misura e versionato come e' uscito. Normalizzarlo
+    # significherebbe riscrivere un'evidenza per far contento un controllo.
+    "experiments/hardware_validation_20260916/hw500/HW500_RUNS.csv",
+    # Script batch di Windows. Qui il CRLF non e' un incidente ma la forma
+    # corretta: cmd.exe interpreta un .cmd con terminatori LF in modo
+    # inaffidabile, e questi due sono i lanciatori verificati sul banco.
+    "experiments/hardware_validation_20260916/ram500/runner/START_C3.cmd",
+    "experiments/hardware_validation_20260916/ram500/runner/START_MEGA.cmd",
+}
+
+
+def _file_versionati_con_crlf():
+    """(elenco dei file di testo con CRLF nell'indice, oppure None se git manca)."""
     import subprocess
     r = subprocess.run(["git", "ls-files", "-z"], cwd=REPO,
                        capture_output=True, text=True)
     if r.returncode != 0:                                  # pragma: no cover
-        pytest.skip("git non disponibile")
-    binari = {".png", ".pdf", ".npz", ".pkl", ".bin", ".parquet", ".gz", ".zip"}
-    colpevoli = []
+        return None
+    # CFN records are binary instrument evidence, never line-normalize them.
+    # Photographs and supplied TeX fonts are binary too; text checks stay active.
+    binari = {".png", ".pdf", ".npz", ".pkl", ".bin", ".parquet", ".gz", ".zip",
+              ".cfn", ".jpg", ".jpeg", ".pfb", ".tfm"}
+    trovati = []
     for nome in r.stdout.split("\0"):
         if not nome or Path(nome).suffix.lower() in binari:
             continue
         blob = subprocess.run(["git", "show", f":{nome}"], cwd=REPO,
                               capture_output=True)
         if b"\r\n" in blob.stdout:
-            colpevoli.append(nome)
+            trovati.append(nome)
+    return trovati
+
+
+def test_nessun_file_di_testo_versionato_ha_i_cr():
+    """Il controllo a valle dei due precedenti: quello che sta nel
+    repository, non quello che sta sul disco. Un CR qui dentro significa che
+    un file e' stato committato da un ambiente che non normalizzava — tranne
+    nei tre casi dichiarati in CRLF_AMMESSI, dove il CRLF e' voluto."""
+    trovati = _file_versionati_con_crlf()
+    if trovati is None:                                    # pragma: no cover
+        pytest.skip("git non disponibile")
+    colpevoli = [n for n in trovati if n not in CRLF_AMMESSI]
     assert not colpevoli, (
         f"{len(colpevoli)} file di testo con CRLF nell'indice git: "
-        f"{colpevoli[:5]}. Esegui `git add --renormalize .`")
+        f"{colpevoli[:5]}. Esegui `git add --renormalize .`, oppure — se il "
+        f"CRLF e' voluto — dichiaralo in CRLF_AMMESSI spiegando perche'.")
+
+
+def test_le_eccezioni_crlf_dichiarate_sono_tutte_ancora_necessarie():
+    """Un elenco di eccezioni che non corrisponde piu' alla realta' smette di
+    essere una decisione e diventa un residuo: da quel momento esenta file
+    che nessuno ha piu' guardato. Qui si pretende la corrispondenza esatta
+    nei due versi — nessuna eccezione per un file che non esiste piu' o che
+    e' stato nel frattempo normalizzato, e nessun file con CRLF fuori
+    dall'elenco.
+
+    E' lo stesso criterio di TXT_LEGITTIMI_IN_RADICE poco piu' sotto, per la
+    stessa ragione: gli elenchi di cose vietate mancano il caso nuovo, gli
+    elenchi di cose ammesse lo fanno emergere."""
+    trovati = _file_versionati_con_crlf()
+    if trovati is None:                                    # pragma: no cover
+        pytest.skip("git non disponibile")
+    inutili = CRLF_AMMESSI - set(trovati)
+    assert not inutili, (
+        f"CRLF_AMMESSI esenta file che nell'indice non hanno CRLF (o non "
+        f"esistono piu'): {sorted(inutili)}. Toglili dall'elenco.")
 
 
 # ─────────────────────────────────────────────────────────────────────
@@ -420,7 +471,11 @@ def test_il_difetto_di_to_csv_e_ancora_riproducibile():
 #: L'elenco e' corto di proposito: se un file nuovo merita di stare qui,
 #: qualcuno lo aggiunge e in quel momento lo sta decidendo.
 TXT_LEGITTIMI_IN_RADICE = frozenset({"requirements.txt",
-                                     "requirements-lock.txt"})
+                                     "requirements-lock.txt",
+                                     #: ambiente dei controlli di
+                                     #: finalizzazione, distinto da
+                                     #: quello storico di addestramento
+                                     "requirements-finalization.txt"})
 
 
 def test_il_repository_non_contiene_file_di_appoggio_della_sessione():

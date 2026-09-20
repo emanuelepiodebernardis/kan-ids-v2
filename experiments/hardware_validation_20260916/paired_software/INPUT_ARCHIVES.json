@@ -1,0 +1,23 @@
+[
+  {
+    "file": "PAIR_STAGE1_20260916T065056Z_3545695b.zip",
+    "bytes": 2275787,
+    "sha256": "c0b491b2a1a3f9bdd00a1e632a645997e9efa449b1af9ceecefee090a29b150a",
+    "crc_ok": true,
+    "members": 46
+  },
+  {
+    "file": "PAIR_STAGE2_20260916T073010Z_ae12deee.zip",
+    "bytes": 14276680,
+    "sha256": "e7f06fa0fb44c1ae074f7e5c5e84e8e6d5a019ae61cbfd1f0e3e2b96ef2c74bd",
+    "crc_ok": true,
+    "members": 112
+  },
+  {
+    "file": "KAN_IDS_STAGE2_20260916_v0.13.1.zip",
+    "bytes": 31134185,
+    "sha256": "8c70bd3a27c9bca2a8a2b975966f5377cf91f38e612733f2fbb38b627acac53d",
+    "crc_ok": true,
+    "members": 49
+  }
+]

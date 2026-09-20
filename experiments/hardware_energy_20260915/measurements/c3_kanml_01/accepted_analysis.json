@@ -1,0 +1,299 @@
+{
+  "status": "TRACE_USABLE_FOR_DESCRIPTIVE_PILOT_ESTIMATE",
+  "run_id": "C3_KANML_01_36221250",
+  "model": "kanml",
+  "repeat": 1,
+  "inputs": {
+    "raw/kanml_01/RUN_RECORD.json": "980b34b5b2872e403ecbc9846993f636e235cb4b16fbbf24bb9d418a3d9cb4fe",
+    "raw/kanml_01/c3_kanml_pilot_01_b8cf9258.cfn": "823c90ac0ce01cfd51492807aee20aa8da27180805cbe7dafd1d83e3daa8cc66"
+  },
+  "protocol": {
+    "variant": "kanml",
+    "board": "ESP32-C3 10:00:3B:CB:8D:70",
+    "cpu_mhz": 160,
+    "count": 2214580,
+    "active_seconds_MCU": 120.000372,
+    "mean_call_us": 54.18651482448139,
+    "calls_per_MCU_second": 18454.77612352735,
+    "prepared_distinct_vectors": 20,
+    "repetitions_per_vector": 110729,
+    "recorded_checksum": 1107290,
+    "recorded_correct": 1,
+    "physical_acquisitions_this_variant": 2,
+    "same_boot_for_paired_acquisitions": true
+  },
+  "model_boundary": "Same 20 frozen raw flow identities; own frozen model representations with prepared features in RAM. Active loop includes indexing/checksum and system interrupts. No preprocessing, network ingestion or end-to-end IDS.",
+  "central_window_rule": "Prespecified middle 60 MCU seconds of the active series, mapped from 12 individually fitted LED centers detected in this recording.",
+  "mean_method": "Trapezoidal time integral of saved V*I with linearly interpolated boundary values, divided by mapped window duration.",
+  "central_window": {
+    "cfn_bounds_s": [
+      55.93070421324736,
+      115.93028301755757
+    ],
+    "stored_points_strictly_inside": 600,
+    "mean_voltage_V": 4.997237597177145,
+    "mean_current_A": 0.034809382342457375,
+    "mean_power_W": 0.17395077845657322
+  },
+  "three_20_MCU_second_segments": [
+    {
+      "cfn_bounds_s": [
+        55.93070421324736,
+        75.93056381468409
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.996787216311993,
+      "mean_current_A": 0.034803799542966016,
+      "mean_power_W": 0.17390722406159395
+    },
+    {
+      "cfn_bounds_s": [
+        75.93056381468409,
+        95.93042341612083
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.997309392273552,
+      "mean_current_A": 0.03477129902680741,
+      "mean_power_W": 0.17376295718725068
+    },
+    {
+      "cfn_bounds_s": [
+        95.93042341612083,
+        115.93028301755757
+      ],
+      "stored_points_strictly_inside": 200,
+      "mean_voltage_V": 4.997616182945889,
+      "mean_current_A": 0.034853048457598707,
+      "mean_power_W": 0.174182154120875
+    }
+  ],
+  "segment_mean_range_percent": 0.24098594863660225,
+  "window_shift_sensitivity": [
+    {
+      "shift_CFN_s": -2,
+      "cfn_bounds_s": [
+        53.93070421324736,
+        113.93028301755757
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.997212197499796,
+      "mean_current_A": 0.03480798013105685,
+      "mean_power_W": 0.17394288463101087
+    },
+    {
+      "shift_CFN_s": -1,
+      "cfn_bounds_s": [
+        54.93070421324736,
+        114.93028301755757
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.997231460495823,
+      "mean_current_A": 0.03480807053956193,
+      "mean_power_W": 0.17394400855148703
+    },
+    {
+      "shift_CFN_s": 0,
+      "cfn_bounds_s": [
+        55.93070421324736,
+        115.93028301755757
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.997237597177145,
+      "mean_current_A": 0.034809382342457375,
+      "mean_power_W": 0.17395077845657322
+    },
+    {
+      "shift_CFN_s": 1,
+      "cfn_bounds_s": [
+        56.93070421324736,
+        116.93028301755757
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.99721370162334,
+      "mean_current_A": 0.034810330193729914,
+      "mean_power_W": 0.17395468271051662
+    },
+    {
+      "shift_CFN_s": 2,
+      "cfn_bounds_s": [
+        57.93070421324736,
+        117.93028301755757
+      ],
+      "stored_points_strictly_inside": 600,
+      "mean_voltage_V": 4.997170044854813,
+      "mean_current_A": 0.03481158234821954,
+      "mean_power_W": 0.1739594187536581
+    }
+  ],
+  "max_abs_power_change_for_2s_shifts_percent": 0.004967093083199808,
+  "energy_estimate": {
+    "method": "mean(V*I) in central stationary window * active_MCU_seconds / count",
+    "mJ_per_call": 0.009425786435567183,
+    "J_per_call": 9.425786435567183e-06,
+    "estimated_full_batch_J": 20.874158124478374,
+    "exact_synchronized_active_integral": false,
+    "scope": "Whole board at USB measurement point, including downstream cable losses and loop/index/checksum overhead. No idle subtraction."
+  },
+  "NRG_used": false,
+  "NRG_ratio_to_full_record_VI_integral": 0.25000010990390054,
+  "recording_integrity": {
+    "exact_EOF_and_header_extrema_valid": true,
+    "missing_saved_nominal_time_slots": 0,
+    "both_LED_patterns_detected_in_this_recording": true,
+    "central_window_fully_covered": true,
+    "PBUS_minus_VI_max_abs_W": 0.0
+  },
+  "sync": {
+    "marker_detection": {
+      "idle_thresholds_mA": [
+        20.345,
+        20.442
+      ],
+      "active_separation_threshold_mA": 27.486,
+      "observed_high_current_region_s": [
+        25.400000000000002,
+        145.9
+      ],
+      "candidate_groups": [
+        [
+          [
+            6.0,
+            7.9
+          ],
+          [
+            9.0,
+            12.9
+          ],
+          [
+            14.0,
+            15.9
+          ]
+        ],
+        [
+          [
+            156.0,
+            157.9
+          ],
+          [
+            159.0,
+            162.70000000000002
+          ],
+          [
+            164.10000000000002,
+            165.8
+          ]
+        ]
+      ],
+      "fit_windows_cfn_s": [
+        [
+          4.7,
+          17.2
+        ],
+        [
+          154.7,
+          167.10000000000002
+        ]
+      ]
+    },
+    "source_sha256": "823c90ac0ce01cfd51492807aee20aa8da27180805cbe7dafd1d83e3daa8cc66",
+    "records": 1685,
+    "recorded_grid_step_s": 0.1,
+    "recorded_span_s": 168.4,
+    "sync_assessment": "ACCEPTED_FOR_PILOT_INTERIOR_IDENTIFICATION; absolute acquisition latency not calibrated",
+    "observations": {
+      "two_2_4_2_patterns_visible": true,
+      "ramps_approximately_one_second": true,
+      "fourfold_recorded_timescale_error_rejected_by_marker_separation": true
+    },
+    "descriptive_joint_fit": {
+      "model": "CFN apparent ramp onset = offset + scale * MCU event time, followed by shared clipped linear ramp; separate local baselines/drifts/amplitudes. Empirical model only.",
+      "offset_s": 5.429168739690736,
+      "recorded_seconds_per_MCU_second": 1.0000055598992934,
+      "linear_ramp_width_s": 1.0087105767441675,
+      "median_abs_residual_mA": 0.010918897078799006,
+      "rms_residual_mA": 0.019171024634864094,
+      "pre_baseline_mA": 20.107098951648865,
+      "pre_slope_mA_per_s": 8.6757389012088e-05,
+      "pre_LED_amplitude_mA": 0.4736049227964161,
+      "post_baseline_mA": 20.18244276005066,
+      "post_slope_mA_per_s": -0.007795310840174835,
+      "post_LED_amplitude_mA": 0.47585881178652817,
+      "active_apparent_ramp_onsets_s": [
+        25.42928293769328,
+        145.43032212767676
+      ],
+      "active_half_height_coordinates_s": [
+        25.933638226065362,
+        145.93467741604886
+      ]
+    },
+    "independent_observed_pattern_comparison": {
+      "best_lag_s": 149.97500000000562,
+      "Pearson_correlation_after_shift": 0.9798465835780167,
+      "MCU_marker_separation_s": 149.99999499999998,
+      "ratio": 0.9998333666611499
+    },
+    "conservative_interior": {
+      "CFN_bounds_s": [
+        30.933638226065362,
+        140.93467741604886
+      ],
+      "samples": 1100,
+      "mean_current_mA": 34.810890909090915,
+      "mean_VI_power_W": 0.17396678074954547
+    },
+    "limits": [
+      "No CFN hardware acquisition timestamps or GPIO channels.",
+      "Observed transition width is about 1 s, so 0.1 s storage grid is not 0.1 s edge resolution.",
+      "An unknown common filter/transport delay is inseparable from recording start offset.",
+      "Fit precision is descriptive, not a confidence interval or calibration uncertainty.",
+      "Do not use post-WAIT_DONE current as the same idle/reference state as the firmware guard; these states differ.",
+      "No energy-per-inference estimate is made by this synchronization audit."
+    ],
+    "independent_edge_centers": {
+      "method": "12 independently movable edge centers, shared empirical ramp width; then unweighted least squares affine map. No individual event time tied to MCU during waveform fit.",
+      "affine_center_offset_s": 5.930866210982273,
+      "affine_scale": 0.999992980071837,
+      "edge_center_residual_rms_s": 0.02571429032433594,
+      "edge_center_residual_max_abs_s": 0.05078255346006699,
+      "descriptive_shared_ramp_width_s": 1.009621937579104,
+      "individual_edge_centers_s": [
+        5.9380883074574635,
+        7.926512003477861,
+        8.89869249785736,
+        12.930123893705783,
+        13.978856841409613,
+        15.912106543891289,
+        155.94278486275178,
+        157.9640323816806,
+        158.91837688676978,
+        162.87898152880064,
+        163.93707931941296,
+        165.9380303334653
+      ],
+      "central_60_mcu_bounds_s": [
+        50.000189,
+        110.00018899999999
+      ],
+      "central_60_cfn_bounds_s": [
+        55.93070421324736,
+        115.93028301755757
+      ],
+      "uncertainty_note": "Residual scatter is fit consistency, not a calibrated absolute time uncertainty. Unknown common latency remains confounded with offset; moving-average-like broadening is about 1 s."
+    },
+    "optimization_checks": {
+      "joint_success": true,
+      "free_edge_success": true,
+      "joint_active_bound_indices": [],
+      "free_edge_active_bound_indices": []
+    }
+  },
+  "limits": [
+    "Two acquisitions per model on the same physical board and same boot per pair, not independent hardware specimens or reboots.",
+    "Models run sequentially in fixed groups; differences in voltage/temperature/current may include drift.",
+    "No independent-sample or confidence-interval interpretation of correlated CFN points.",
+    "Absolute meter and MCU clock accuracy uncalibrated. Unknown common delay is inseparable from recording offset.",
+    "Saved 10-sps grid is not proof of 10 independent measurements per second or individual-call energy resolution.",
+    "No equal-accuracy claim, no peak-RAM measurement, no bare-kernel timing, no bare-chip energy."
+  ]
+}

@@ -1,0 +1,302 @@
+{
+  "regola": "1-SE: fra le configurazioni con media >= (migliore - 1 errore standard della migliore), la piu' piccola per numero di parametri",
+  "metrica": "balanced_accuracy",
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "val_size": 0.2,
+  "hidden_candidati": [
+    4,
+    8,
+    16,
+    32
+  ],
+  "degree_candidati": [
+    4,
+    6,
+    8
+  ],
+  "scelte": {
+    "KAN(cat,1L)": {
+      "modello": "KAN(cat,1L)",
+      "hidden": 0,
+      "degree": 8,
+      "media_validation": 0.97727,
+      "parametri": 130,
+      "migliore_assoluta": {
+        "hidden": 0,
+        "degree": 8,
+        "media": 0.97727,
+        "parametri": 130
+      },
+      "soglia_1se": 0.97697,
+      "candidate_ammesse": 1,
+      "confronti_appaiati": [
+        {
+          "hidden": 0,
+          "degree": 4,
+          "delta": 0.00683,
+          "p": 1.7e-05,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 0,
+          "degree": 6,
+          "delta": 0.00367,
+          "p": 0.000146,
+          "vince_in": 5,
+          "su": 5
+        }
+      ],
+      "per_configurazione": [
+        {
+          "hidden": 0,
+          "degree": 4,
+          "media": 0.97044,
+          "dev": 0.00099,
+          "n": 5,
+          "parametri": 90,
+          "errore_standard": 0.00044
+        },
+        {
+          "hidden": 0,
+          "degree": 6,
+          "media": 0.9736,
+          "dev": 0.00101,
+          "n": 5,
+          "parametri": 110,
+          "errore_standard": 0.00045
+        },
+        {
+          "hidden": 0,
+          "degree": 8,
+          "media": 0.97727,
+          "dev": 0.00067,
+          "n": 5,
+          "parametri": 130,
+          "errore_standard": 0.0003
+        }
+      ]
+    },
+    "KAN(cat,ML)": {
+      "modello": "KAN(cat,ML)",
+      "hidden": 32,
+      "degree": 6,
+      "media_validation": 0.99631,
+      "parametri": 2592,
+      "migliore_assoluta": {
+        "hidden": 32,
+        "degree": 8,
+        "media": 0.99631,
+        "parametri": 3296
+      },
+      "soglia_1se": 0.99617,
+      "candidate_ammesse": 2,
+      "confronti_appaiati": [
+        {
+          "hidden": 4,
+          "degree": 4,
+          "delta": 0.00495,
+          "p": 8e-06,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 4,
+          "degree": 6,
+          "delta": 0.00363,
+          "p": 0.000168,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 4,
+          "degree": 8,
+          "delta": 0.00284,
+          "p": 0.002519,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 8,
+          "degree": 4,
+          "delta": 0.00416,
+          "p": 1.4e-05,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 8,
+          "degree": 6,
+          "delta": 0.00176,
+          "p": 0.003922,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 8,
+          "degree": 8,
+          "delta": 0.00121,
+          "p": 0.000332,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 16,
+          "degree": 4,
+          "delta": 0.00299,
+          "p": 0.000448,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 16,
+          "degree": 6,
+          "delta": 0.00057,
+          "p": 0.027911,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 16,
+          "degree": 8,
+          "delta": 0.00028,
+          "p": 0.082963,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 32,
+          "degree": 4,
+          "delta": 0.00222,
+          "p": 0.000707,
+          "vince_in": 5,
+          "su": 5
+        },
+        {
+          "hidden": 32,
+          "degree": 8,
+          "delta": -0.0,
+          "p": 0.999291,
+          "vince_in": 3,
+          "su": 5
+        }
+      ],
+      "per_configurazione": [
+        {
+          "hidden": 4,
+          "degree": 4,
+          "media": 0.99136,
+          "dev": 0.00044,
+          "n": 5,
+          "parametri": 236,
+          "errore_standard": 0.0002
+        },
+        {
+          "hidden": 4,
+          "degree": 6,
+          "media": 0.99268,
+          "dev": 0.00068,
+          "n": 5,
+          "parametri": 324,
+          "errore_standard": 0.00031
+        },
+        {
+          "hidden": 4,
+          "degree": 8,
+          "media": 0.99347,
+          "dev": 0.00077,
+          "n": 5,
+          "parametri": 412,
+          "errore_standard": 0.00034
+        },
+        {
+          "hidden": 8,
+          "degree": 4,
+          "media": 0.99215,
+          "dev": 0.00045,
+          "n": 5,
+          "parametri": 472,
+          "errore_standard": 0.0002
+        },
+        {
+          "hidden": 8,
+          "degree": 6,
+          "media": 0.99455,
+          "dev": 0.00088,
+          "n": 5,
+          "parametri": 648,
+          "errore_standard": 0.00039
+        },
+        {
+          "hidden": 8,
+          "degree": 8,
+          "media": 0.9951,
+          "dev": 0.00045,
+          "n": 5,
+          "parametri": 824,
+          "errore_standard": 0.0002
+        },
+        {
+          "hidden": 16,
+          "degree": 4,
+          "media": 0.99332,
+          "dev": 0.00055,
+          "n": 5,
+          "parametri": 944,
+          "errore_standard": 0.00025
+        },
+        {
+          "hidden": 16,
+          "degree": 6,
+          "media": 0.99574,
+          "dev": 0.00048,
+          "n": 5,
+          "parametri": 1296,
+          "errore_standard": 0.00021
+        },
+        {
+          "hidden": 16,
+          "degree": 8,
+          "media": 0.99602,
+          "dev": 0.00055,
+          "n": 5,
+          "parametri": 1648,
+          "errore_standard": 0.00025
+        },
+        {
+          "hidden": 32,
+          "degree": 4,
+          "media": 0.99409,
+          "dev": 0.00055,
+          "n": 5,
+          "parametri": 1888,
+          "errore_standard": 0.00025
+        },
+        {
+          "hidden": 32,
+          "degree": 6,
+          "media": 0.99631,
+          "dev": 0.00028,
+          "n": 5,
+          "parametri": 2592,
+          "errore_standard": 0.00013
+        },
+        {
+          "hidden": 32,
+          "degree": 8,
+          "media": 0.99631,
+          "dev": 0.00031,
+          "n": 5,
+          "parametri": 3296,
+          "errore_standard": 0.00014
+        }
+      ]
+    }
+  }
+}

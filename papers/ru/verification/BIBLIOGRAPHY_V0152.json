@@ -1,0 +1,95 @@
+{
+  "scope": "Bibliographic metadata and abstract-level scope audit, checked 2026-09-16; no new scientific experiments.",
+  "journal_records": [
+    {
+      "doi": "10.1016/j.neucom.2026.133774",
+      "title": "LUT-KAN: An open software toolkit for LUT-compiled and quantized CPU inference of Kolmogorov–Arnold networks",
+      "author": "Oleksandr Kuznetsov",
+      "journal": "Neurocomputing",
+      "volume": "688",
+      "article_number": "133774",
+      "issue_date": "2026-08-01",
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/abs/pii/S0925231226011719",
+        "https://www.sciencedirect.com/journal/neurocomputing/vol/688/suppl/C",
+        "https://uniecampus.unifind.cineca.it/resource/item/101939?language=en-US"
+      ],
+      "verification": "ScienceDirect search index confirms title, volume and issue date; eCampus repository page was directly readable and confirms title, author, journal, year and abstract. ScienceDirect full article access returned HTTP403. The uploaded BibTeX month apr is not the issue month.",
+      "supported_characterization": "CPU LUT compilation toolkit, segment-wise quantization, linear interpolation, NumPy/Numba backends and a multilayer DoS detection case study.",
+      "limits": "No full journal text read. Cannot infer absence of decision certificates or assert the exact preprint-to-journal relationship."
+    },
+    {
+      "doi": "10.1016/j.sysarc.2026.103923",
+      "title": "LUT-KAN: Look-up table acceleration of Kolmogorov–Arnold networks on resource-constrained microcontrollers for embedded edge inference",
+      "author": "Oleksandr Kuznetsov",
+      "journal": "Journal of Systems Architecture",
+      "volume": "179",
+      "article_number": "103923",
+      "issue_date": "2026-10",
+      "source_urls": [
+        "https://www.sciencedirect.com/science/article/pii/S1383762126002419",
+        "https://www.sciencedirect.com/journal/journal-of-systems-architecture/vol/179/suppl/C"
+      ],
+      "verification": "ScienceDirect search index confirms title, author, volume179, October2026, article103923. Full article access returnedHTTP403. Uploaded BibTeX month july is not the issue month.",
+      "supported_characterization": "Author-supplied abstract describes LUT acceleration, asymmetric8-bit quantization, fixed-point interpolation, four MCU architectures, and physical ESP32-C3/Mega multilayer CICIDS2017 inference.",
+      "limits": "Technical characterization is grounded in the user-supplied abstract; full journal text unavailable. Do not claim no certificates based on abstract. Do not describe all four platforms as physical measurements: abstract distinguishes Wokwi and physical Mega/C3."
+    },
+    {
+      "doi": "10.1109/ACCESS.2026.3693881",
+      "title": "Hybrid CNN-KAN Architectures for Ultra-Compact Person Detection on IoT Devices: A Systematic Evaluation of Quantization Strategies",
+      "journal": "IEEE Access",
+      "year": 2026,
+      "volume": "14",
+      "pages": "81696--81712",
+      "source_urls": [
+        "https://ieeexplore.ieee.org/document/11520800/",
+        "https://iris.uniecampus.it/handle/11389/93096"
+      ],
+      "verification": "Publisher search-index metadata confirms title, volume 14, pages 81696–81712 and publication 15 May 2026; institutional abstract and author-supplied record support the narrow deployment description. Direct PDF retrieval from the institutional repository returned HTTP403. No full-text technical audit is claimed."
+    },
+    {
+      "doi": "10.1109/LES.2026.3704316",
+      "title": "Look-Up Table Optimization for Kolmogorov-Arnold Networks on Microcontrollers",
+      "journal": "IEEE Embedded Systems Letters",
+      "year": 2026,
+      "source_urls": [
+        "https://orcid.org/0000-0003-2331-6326",
+        "https://doi.org/10.1109/LES.2026.3704316"
+      ],
+      "verification": "Title/author/year are corroborated by institutional and author-record search results; DOI and technical characterization follow the author-supplied BibTeX and abstract. Volume, issue and pages were not independently verified and are omitted. No early-access status is asserted."
+    },
+    {
+      "doi": "10.1109/OJIM.2026.3712887",
+      "title": "Sensor-System Characterisation of CNN-KAN Person Detection on Dual-Tier IoT Platforms with Uncertainty Quantification",
+      "journal": "IEEE Open Journal of Instrumentation and Measurement",
+      "year": 2026,
+      "source_urls": [
+        "https://uniecampus.unifind.cineca.it/resource/item/101943?language=en-US",
+        "https://orcid.org/0000-0003-2331-6326"
+      ],
+      "verification": "Institutional search record confirms supplied title spelling and year; author-record index corroborates the DOI with an American-spelling title variant. Authors and technical description follow the supplied BibTeX/abstract. Unverified placeholder pages 1–1 are omitted. This reference provides methodology context, not calibration or an uncertainty budget for the current FNB58 measurements."
+    }
+  ],
+  "preprints": [
+    {
+      "arxiv": "2601.03332",
+      "title": "LUT-KAN: Segment-wise LUT Quantization for Fast KAN Inference",
+      "date": "2026-01-06",
+      "version": "v1",
+      "url": "https://arxiv.org/abs/2601.03332",
+      "full_html": "https://arxiv.org/html/2601.03332v1",
+      "relationship_evidence": "Official author repository https://github.com/KuznetsovKarazin/lut-kan still cites this preprint. Current README includes CPU and MCU development lines and NCA R1 revisions; no journal DOI mapping appears on arXiv or CITATION.cff. This is continuity of software, not verified one-to-one journal-version metadata."
+    },
+    {
+      "arxiv": "2601.08044",
+      "title": "LUT-Compiled Kolmogorov-Arnold Networks for Lightweight DoS Detection on IoT Edge Devices",
+      "date": "2026-01-12",
+      "version": "v1",
+      "url": "https://arxiv.org/abs/2601.08044",
+      "full_html": "https://arxiv.org/html/2601.08044v1",
+      "relationship_evidence": "Full HTML is CPU/x86 DoS case study and links kan-dos-detection/tree/lut-v2. No journal reference on arXiv. It is not established to be the JSA journal version. Its original cross-framework speedup claims should not be reused as a matched MCU comparison."
+    }
+  ],
+  "editorial_recommendation": "Use the journal articles to support the revised related-work descriptions, removing generic early-preprint citations when redundant. This is citation selection, not a claimed one-to-one bibliographic replacement. Add no sentence that the journals are versions of either preprint without author/source confirmation. Avoid separate publication-count claims. The comparison table should describe prior positive contributions and the focus of this study, rather than categorical absence of certificates in inaccessible full texts.",
+  "version": "0.15.2"
+}

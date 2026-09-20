@@ -1,0 +1,7 @@
+{
+  "input": "board_model_means.csv",
+  "sha256": "ca7a978abb8c78d8733492b763bcc0642028ba32c15252c19fac71f75db7366e",
+  "aggregation": "Equal arithmetic weight for each of two acquisitions per model and board",
+  "independent_error_bars": false,
+  "scope": "Prepared-input batch timing and estimated whole-board USB energy; model quality not ranked; logarithmic axes"
+}

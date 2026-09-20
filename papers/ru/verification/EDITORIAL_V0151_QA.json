@@ -1,0 +1,24 @@
+{
+  "version": "0.15.1",
+  "date": "2026-09-16",
+  "baseline_git_commit": "3af5159df405d342e4b6c4b484c3388752cd0a16",
+  "scope": "Editorial preservation and document-build QA only; no new scientific replication, training, or hardware measurement.",
+  "pdf": {
+    "filename": "main.pdf",
+    "sha256": "09810ef75e5b8f320e59bb09bb97bfdd9c108ca6e736fd3591cfc8acd84d7bf8",
+    "pages": 46
+  },
+  "build": "PASS: supplied build script completed; final log has no overfull boxes, undefined references/citations, or missing characters.",
+  "scientific_preservation": "Checked separately by papers/verify_editorial_v0151.py against baseline Git history; all table contents, figures, equations, references, citations and scientific inputs retained. Sole formatting exception: EN factorial table [H] to [t].",
+  "visual_review": {
+    "page_overview": "All pages reviewed in contact sheet; first/last pages inspected at reading scale; EN appendix pages 21-25 inspected after float fix.",
+    "all_three_biographies_on_last_page": true
+  },
+  "language_alignment": "EN/RU titles and abstract scope aligned; source and LUT evaluators, floating-export limitation, workload and C3 placement remain distinguished.",
+  "not_established": [
+    "Coauthor approval",
+    "Journal submission readiness",
+    "Exact whole-system peak RAM",
+    "New hardware or model outcomes"
+  ]
+}

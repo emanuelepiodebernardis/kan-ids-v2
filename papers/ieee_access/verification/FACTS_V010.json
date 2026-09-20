@@ -1,0 +1,161 @@
+{
+  "schema": "KAN-IDS manuscript evidence facts v0.10.0",
+  "scope": "Read-only extraction and consistency check of existing verified receipts. No new fitting, device measurements, or full-pipeline execution.",
+  "source_receipts": {
+    "new_artifacts_check/RESULTS.json": {
+      "sha256": "2ff5f6cee1e878292ae7086fbdd838d28042be3807d5e4aab97b1968c3cd6026"
+    },
+    "new_artifacts_check/PRE_Q12_PAIRING.json": {
+      "sha256": "8c2d65c24dbbc8419e3e66f1cc35f1a7deebfa89d213ab3e3736f56d9fea7895"
+    },
+    "pooling_check/RECEIVED_JSONL_CROSSCHECK.json": {
+      "sha256": "98272d7bfaef52c0e40f54b34875970be1e3bc691e6f58ccd59200555e48baa7"
+    },
+    "pooling_check/REPORT_RU.md": {
+      "sha256": "dc3ad41d24146024a79d184ade4ed2c09af5fedc206a5f15b6e8dc7a2217a73a"
+    },
+    "hardware_binding_check/FINDINGS_RU.md": {
+      "sha256": "6be22abcec3b68a1643c1a6cb98832e205f474b2c067be9037f96a3dc4e79ecc"
+    }
+  },
+  "native_preprocessing": {
+    "legacy_npz_sha256": "ce1865f6f416d0ca0af39cb28d16df207d1985f16d3bcce815f767ba3990580b",
+    "source_csv_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+    "known_rows": 211043,
+    "training_rows": 168834,
+    "test_rows": 42209,
+    "numerical_feature_count": 10,
+    "categorical_feature_count": 4,
+    "Q12_compared_cells": 2110430,
+    "Q12_mismatches": 0,
+    "categorical_codes_compared": 844172,
+    "categorical_code_mismatches": 0,
+    "row_mapping_labels_split_verified": true,
+    "preQ12_float_cell_mismatches": 3952,
+    "preQ12_max_abs_difference": 1.4432899320127035e-14,
+    "scope_limitation": "Equivalence of quantized inputs on the entire known supplied native TON cohort; neither bitwise equality of float coordinates nor equivalence for future raw flows. Original native fitted preprocessor remains unavailable."
+  },
+  "canonical_paired_test": {
+    "n": 42209,
+    "float_preQ12": {
+      "TN": 9785,
+      "FP": 215,
+      "FN": 857,
+      "TP": 31352,
+      "errors": 1072,
+      "F1": 0.9831911690918214,
+      "BA": 0.975946265019094,
+      "minimum_absolute_logit": 0.0004177177850988034
+    },
+    "float_after_Q12_dequantization": {
+      "TN": 9785,
+      "FP": 215,
+      "FN": 857,
+      "TP": 31352,
+      "errors": 1072,
+      "F1": 0.9831911690918214,
+      "BA": 0.975946265019094,
+      "minimum_absolute_logit": 0.00024024271592582025
+    },
+    "integer_coefficients": {
+      "TN": 9786,
+      "FP": 214,
+      "FN": 896,
+      "TP": 31313,
+      "errors": 1110,
+      "F1": 0.9825844106941132,
+      "BA": 0.9753908441739887,
+      "minimum_absolute_logit": 1408.0
+    },
+    "input_rounding_changed_decisions": 0,
+    "float_to_integer_changed_decisions": 40,
+    "float_correct_integer_wrong": 39,
+    "float_wrong_integer_correct": 1,
+    "net_additional_errors": 38,
+    "F1_absolute_decrease": 0.0006067583977081847,
+    "F1_decrease_percentage_points": 0.060675839770818474,
+    "selected_LUT_additional_different_decisions_vs_integer": 0,
+    "attribution": "Input rounding is isolated on the fixed known test coordinates. Spline approximation and parameter/arithmetic quantization remain a combined effect. No quantization-only loss estimate and no equality of logits are established.",
+    "native_CV_F1_separate": 0.98353,
+    "native_CV_note": "Historical aggregate over different fits/splits; do not subtract from the canonical integer F1."
+  },
+  "architecture_probes": {
+    "compiler_string": "GCC: (GNU) 7.3.0",
+    "object_kind": "ELF32 AVR relocatable objects",
+    "configs": [
+      "h16g8",
+      "h32g6"
+    ],
+    "model_array_bytes": [
+      5244,
+      9452
+    ],
+    "main_function_frame_bytes": [
+      155,
+      219
+    ],
+    "kml_bases_function_frame_bytes": [
+      21,
+      21
+    ],
+    "array_increase_percent": 80.24408848207476,
+    "main_frame_increase_percent": 41.29032258064515,
+    "weights_and_kernel_match_measured_firmware": false,
+    "exact_build_invocation_recovered": false,
+    "not_measured": [
+      "total Flash increase",
+      "whole-call-stack maximum",
+      "peak runtime SRAM"
+    ],
+    "interpretation": "Independent inspection supports an architectural compactness comparison; the probes use separately trained weights and a historical kernel."
+  },
+  "joint_saved_logs": {
+    "files": 6,
+    "unique_seed_model_domain_keys": 900,
+    "seeds": [
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "jsonl_csv_compared_values": 29700,
+    "jsonl_csv_mismatches": 0,
+    "confusion_derived_metric_checks": 7200,
+    "confusion_derived_metric_mismatches": 0,
+    "summary_mean_sample_sd_checks": 1800,
+    "summary_mismatches": 0,
+    "current_Paper1_matrices_checked": 42,
+    "current_Paper1_matrices_mismatched": 0,
+    "superseded_ratio_grid_matrices_checked": 48,
+    "superseded_matrices_mismatched": 12,
+    "historical_defect": "All 12 ratio50 pooled matrices omit exactly seed42. Their per-fit metrics and aggregate means/SD retain all ten seeds. Historical grid is excluded from current selection evidence.",
+    "AUC_caution": "ROC-AUC/PR-AUC were cross-format checked and aggregated from saved values; they are not recoverable from confusion counts.",
+    "not_recovered": [
+      "joint fitted models",
+      "joint fitted preprocessors",
+      "row-aligned predictions",
+      "row-aligned scores"
+    ],
+    "interpretation": "Consistency and arithmetic validation of preserved outputs, not independent historical model replay."
+  },
+  "hardware_binding": {
+    "new_device_runs": 0,
+    "new_compilations": 0,
+    "Mega_source_files_matching_v09": 42,
+    "Mega_build_record_source_hashes_matching": 210,
+    "Mega_ELF_HEX_artifacts_matching": 10,
+    "Mega_serial_receipts_matching": 25,
+    "Mega_measured_LUT_nodes": 1025,
+    "Mega_measured_LUT_model_arrays_bytes": 20554,
+    "C3_followup_frozen_files_matching_v09": 7,
+    "binding_limitation": "File and recorded-log provenance; timestamps are not external attestations. The controlled C3 timed kernel is a separate harness, not a byte-identical common-harness kernel. Initial C3 five-model archives were outside this bounded binding check.",
+    "energy_measured": false,
+    "peak_SRAM_measured": false
+  }
+}

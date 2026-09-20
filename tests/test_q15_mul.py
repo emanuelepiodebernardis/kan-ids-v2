@@ -76,11 +76,11 @@ def test_lidentita_e_esatta_non_approssimata():
     formula con int64. Un test che accettasse uno scarto di uno non
     distinguerebbe un'identita' da un arrotondamento fortunato."""
     casi = [(0, 0), (1, 1), (-1, 1), (32767, 32767), (-32768, 32767),
-            (32768, 32767), (-32769, -32767), (24_969_216, 32767),
-            (-24_969_216, 32767), (24_969_216, -32767)]
+            (32768, 32767), (-32769, -32767), (24_969_343, 32767),
+            (-24_969_343, 32767), (24_969_343, -32767)]
     rng = random.Random(20260827)
     for _ in range(200_000):
-        casi.append((rng.randint(-24_969_216, 24_969_216),
+        casi.append((rng.randint(-24_969_343, 24_969_343),
                      rng.randint(-32767, 32767)))
     for a, m in casi:
         assert q15_mul_shift(a, m) == (a * m) >> 15, (a, m)
@@ -96,49 +96,33 @@ def test_il_controllo_saprebbe_vedere_una_differenza():
     assert len(diversi) == 3, "il sabotaggio non produce differenze"
 
 
-def _blocco_interi(testo: str, nome: str) -> list[int]:
-    i = testo.index(f" {nome}[")
-    i = testo.index("= {", i)
-    livello, j = 0, i + 2
-    while True:
-        if testo[j] == "{":
-            livello += 1
-        elif testo[j] == "}":
-            livello -= 1
-            if livello == 0:
-                break
-        j += 1
-    return [int(x) for x in re.findall(r"-?\d+", testo[i + 2:j + 1])]
+def test_quantized_basis_counterexample_and_full_grid():
+    from scripts.audit_q15_bounds import analyze, bases
+    assert bases(128) == [32385, 131072, 33152, 0]
+    report = analyze()
+    assert (report["basis_sum_min"], report["basis_sum_max"]) == (196607, 196609)
+    assert report["basis_t_count"] == 32769
+    assert report["status"] == "PASS"
+
+
+def test_signed_endpoint_bound_covers_negative_shift():
+    from scripts.audit_q15_bounds import q15_bounds
+    bound = q15_bounds(196609*127, 32767)
+    assert bound["high_product_abs"] == 763*32767
+    assert abs((-196609*127) >> 15)*32767 <= bound["high_product_abs"]
 
 
 def test_gli_intermedi_stanno_in_int32_per_i_valori_veri_degli_header():
-    """Il limite non e' quello del commento: e' quello che si ricava dai
-    coefficienti e dai moltiplicatori committati.
-
-    |acc| <= (somma delle basi B-spline in Q15, cioe' 6*32768) * max|coef|
-    e i due prodotti dell'identita' devono stare in int32 con quel bound.
-    """
-    somma_basi = 6 * 32768
-    controllati = 0
-    for nome, headers, _ in KERNEL:
-        testo = (INCLUDE / headers[0]).read_text(encoding="utf-8")
-        coef = [c for blocco in ("KC_COEF", "KML_C1", "KML_C2", "KMC_C1", "KMC_C2")
-                if f" {blocco}[" in testo
-                for c in _blocco_interi(testo, blocco)]
-        mult = [m for blocco in ("KC_MULT", "KC_CAT_MULT", "KML_M1", "KML_M2",
-                                 "KML_CAT_MULT", "KMC_M1", "KMC_M2", "KMC_CAT_MULT")
-                if f" {blocco}[" in testo
-                for m in _blocco_interi(testo, blocco)]
-        assert coef and mult, f"{nome}: header senza coefficienti o moltiplicatori"
-
-        acc_max = somma_basi * max(abs(c) for c in coef)
-        m_max = max(abs(m) for m in mult)
-        alto = (acc_max >> 15) * m_max
-        basso = 32767 * m_max
-        assert alto <= INT32_MAX, f"{nome}: parte alta {alto} fuori da int32"
-        assert basso <= INT32_MAX, f"{nome}: parte bassa {basso} fuori da int32"
-        controllati += 1
-    assert controllati == 3
+    """Actual quantized basis extrema, signed ceilings, and accumulators."""
+    from scripts.audit_q15_bounds import analyze
+    report = analyze()
+    assert len(report["headers"]) == 3
+    for header in report["headers"]:
+        edge = header["edge_q15"]
+        for key in ("acc_abs", "high_product_abs", "low_product_abs", "sum_abs"):
+            assert edge[key] <= INT32_MAX
+        assert header["first_layer_acc_abs"] <= INT32_MAX
+        assert header.get("second_layer_acc_abs", 0) <= INT32_MAX
 
 
 def test_nessun_kernel_a_coefficienti_usa_piu_int64():

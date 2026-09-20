@@ -1,0 +1,147 @@
+{
+  "status": "TWENTY_PILOT_ACQUISITIONS_VERIFIED_DESCRIPTIVE_RESULTS",
+  "physical_boards": 2,
+  "models_per_board": 5,
+  "acquisitions_per_model_per_board": 2,
+  "aggregation": "Equal arithmetic weight per acquisition, not per stored sample or call",
+  "means": [
+    {
+      "board": "Mega 2560",
+      "model": "coeff",
+      "acquisitions": 2,
+      "mean_call_us": 1395.187604651163,
+      "mean_power_W": 0.35308706238883525,
+      "energy_uJ_per_call": 492.62269279449356
+    },
+    {
+      "board": "Mega 2560",
+      "model": "lut",
+      "acquisitions": 2,
+      "mean_call_us": 224.84151424287856,
+      "mean_power_W": 0.35418970260004157,
+      "energy_uJ_per_call": 79.63654906182816
+    },
+    {
+      "board": "Mega 2560",
+      "model": "mlp",
+      "acquisitions": 2,
+      "mean_call_us": 1340.6797094972067,
+      "mean_power_W": 0.3560124236925739,
+      "energy_uJ_per_call": 477.2986327821865
+    },
+    {
+      "board": "Mega 2560",
+      "model": "kanml",
+      "acquisitions": 2,
+      "mean_call_us": 12223.855510204081,
+      "mean_power_W": 0.35520495341741715,
+      "energy_uJ_per_call": 4341.974027083279
+    },
+    {
+      "board": "Mega 2560",
+      "model": "dt5",
+      "acquisitions": 2,
+      "mean_call_us": 15.732680780646687,
+      "mean_power_W": 0.35805480924165295,
+      "energy_uJ_per_call": 5.633162015749706
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "coeff",
+      "acquisitions": 2,
+      "mean_call_us": 5.21331316821833,
+      "mean_power_W": 0.1677757408641131,
+      "energy_uJ_per_call": 0.8746674791533703
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "lut",
+      "acquisitions": 2,
+      "mean_call_us": 3.326822253617338,
+      "mean_power_W": 0.16579407397917062,
+      "energy_uJ_per_call": 0.5515674148317842
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "mlp",
+      "acquisitions": 2,
+      "mean_call_us": 19.8210599598968,
+      "mean_power_W": 0.16982809677612168,
+      "energy_uJ_per_call": 3.3661728890595795
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "kanml",
+      "acquisitions": 2,
+      "mean_call_us": 54.18651369559917,
+      "mean_power_W": 0.17387270383386116,
+      "energy_uJ_per_call": 9.421555647672513
+    },
+    {
+      "board": "ESP32-C3",
+      "model": "dt5",
+      "acquisitions": 2,
+      "mean_call_us": 0.738560679962703,
+      "mean_power_W": 0.1688052223645655,
+      "energy_uJ_per_call": 0.12467289981082876
+    }
+  ],
+  "lut_vs_coeff": [
+    {
+      "board": "Mega 2560",
+      "coeff_over_lut_time": 6.205204627576257,
+      "coeff_over_lut_energy": 6.185886990306819,
+      "lut_time_reduction_percent": 83.88449599943976,
+      "lut_energy_reduction_percent": 83.83416959335042
+    },
+    {
+      "board": "ESP32-C3",
+      "coeff_over_lut_time": 1.5670549163093288,
+      "coeff_over_lut_energy": 1.5857852651069397,
+      "lut_time_reduction_percent": 36.18602707586254,
+      "lut_energy_reduction_percent": 36.9397596254898
+    }
+  ],
+  "cross_board_ratios": [
+    {
+      "model": "coeff",
+      "mega_over_c3_time": 267.62014090321253,
+      "mega_over_c3_energy": 563.2113969428989
+    },
+    {
+      "model": "lut",
+      "mega_over_c3_time": 67.58446863171083,
+      "mega_over_c3_energy": 144.38225848804998
+    },
+    {
+      "model": "mlp",
+      "mega_over_c3_time": 67.63915311339319,
+      "mega_over_c3_energy": 141.79266737411436
+    },
+    {
+      "model": "kanml",
+      "mega_over_c3_time": 225.5885215069088,
+      "mega_over_c3_energy": 460.85531832059115
+    },
+    {
+      "model": "dt5",
+      "mega_over_c3_time": 21.301812034511748,
+      "mega_over_c3_energy": 45.183532462123935
+    }
+  ],
+  "input_sha256": {
+    "comparison/mega_comparison.csv": "962480b1d1f8b3b91389233bb119e1f722eb733f659f09792422a83fb5adba25",
+    "comparison/mega_variant_means.csv": "41abb129ff222ed5d7ae17f3687419863c272644eabcd3927710f623188ef8e2",
+    "trace/comparison.csv": "192326e4a88153495ad98627ace82b29888d2651bfcedaa7428c5cb3c40fe3ec",
+    "trace/variant_means.csv": "2c5b210f3722325b45396db87439c3c8c8a4796646be8fbf9f2939c6aa9314e4"
+  },
+  "measurement": "Prepared-input active batch time per call, including loop/checksum/interrupts; whole-board USB energy estimated from central-window mean V*I; idle not subtracted",
+  "limitations": [
+    "Pilot series, fixed model order; C3 paired acquisitions share one boot",
+    "20 prepared distinct input vectors cyclically repeated; no IDS accuracy estimate",
+    "No per-call power resolution, no absolute instrument/MCU-clock calibration",
+    "No peak RAM measurement and no CI from correlated power samples",
+    "Cross-board ratios compare entire implementations at 16 MHz and 160 MHz; not isolated ISA effects",
+    "Historical short latency and C3 factorial data are not pooled here"
+  ]
+}

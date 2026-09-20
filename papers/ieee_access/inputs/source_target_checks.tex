@@ -1,0 +1,31 @@
+The retained source sampler was reconstructed for seeds 42--51 without model fitting. Twenty domain-specific index selections agree with the retained sampling function, and their sizes agree with the saved run records: 382 normal and 1,910 attack observations per domain, or 4,584 combined rows. This reconstruction is conditional on the supplied caches, retained code and the verification environment (scikit-learn 1.8.0); historical index hashes and fitted objects are unavailable. It does not establish bit-identical replay of the original training runs.
+
+\begin{table}[t]
+\caption{Category associations in reconstructed balanced joint cohorts ($J$) and UNSW ($U$). $P_D=P_D(attack\mid c)$ and $LR_D=P_D(c\mid attack)/P_D(c\mid normal)$. Joint intervals are minima--maxima over ten reconstructed cohorts, not confidence intervals.}
+\label{tab:unsw-category-shift}
+\centering\scriptsize\setlength{\tabcolsep}{2.4pt}
+\begin{tabular}{lrrrr}
+\toprule
+Category $c$ & $P_J$ & $P_U$ & $LR_J$ & $LR_U$\\
+\midrule
+\multicolumn{5}{l}{Protocol}\\
+\texttt{other} & 0.0000 & 0.9046 & 0.000 & 5.358\\
+\texttt{tcp} & 0.9334--0.9445 & 0.4557 & 2.803--3.406 & 0.473\\
+\texttt{udp} & 0.6738--0.6866 & 0.7625 & 0.413--0.438 & 1.813\\
+\midrule
+\multicolumn{5}{l}{State}\\
+\texttt{closed} & 0.8884--0.9105 & 0.4764 & 1.591--2.034 & 0.514\\
+\texttt{established} & 0.4487--0.4892 & 0.0697 & 0.163--0.192 & 0.042\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The full \texttt{other} category comprises 41,916 UNSW rows. Of these, 37,760 reach it through the protocol fallback; 4,156 ARP rows use an explicit mapping. The zero unseen-category rate therefore does not mean that the original protocol composition is unchanged. Normalizing category frequencies within each class through $LR$ separates these associations from the overall attack proportion. An $LR$ above one favors occurrence among attacks; it is not a learned model parameter.
+
+Nine of thirteen candidate numerical features have opposite marginal Spearman signs between every reconstructed joint cohort and UNSW; seven also have $|\rho|>0.05$ on both sides for every seed. Such counts do not establish independent mechanisms. The saved MI selections exclude \texttt{pkts\_dst} and \texttt{payload\_mean\_dst} in every joint seed, while \texttt{bytes\_dst} is selected in eight. In the common TCP/\texttt{closed} stratum, destination-feature correlations are negative in both full TON and UNSW. Thus a full-population sign reversal need not survive conditioning or source balancing.
+
+Zero duration creates large rate values through the fixed $10^{-6}$ denominator offset. Nevertheless, zero duration is relatively associated with normal traffic in both the reconstructed joint mixture and UNSW. The target subset contains 3,543 normal and 64 attack rows. Correcting all errors exclusively on that subset could increase BA by at most $\tfrac12(3543/93000+64/164673)=0.019243$, or 1.9243 percentage points. This cannot account for the entire observed deficit to 0.5; it does not rule out broader effects of rate features during learning. No denominator or mapping was retuned on the target.
+
+The checks also reproduce all sixteen TON cache columns from 211,043 source rows and verify binary labels against attack types. For UNSW, source-file identity and row position are retained together because the raw \texttt{id} values repeat across training and testing CSVs. Exact transformation agreement establishes numerical consistency of this segment, not semantic equivalence of different flow extractors or correctness of the subsequent unavailable fitted-model path. The detailed outputs distinguish the smoothed ratios $b/(p+1)$ from physical bytes per packet and report the actual size of percentile-threshold subsets when tied values exceed one percent.
+
+The six recovered JSONL checkpoint files contain 900 model--seed--domain evaluation records, including the 420 current rich/reduced records and 480 from the superseded ratio grid. Their values agree with the saved run tables, and confusion-derived metrics and aggregate means and sample standard deviations were independently recomputed. Twelve pooled matrices in the superseded ratio-50 grid omit seed 42; the original matrices are retained with separate corrected sums. These archival corrections do not alter the current validation-only selection or the per-fit means reported in this article. The checkpoints contain aggregates, not the predictions needed to reconstruct ROC/PR curves or attribute individual UNSW errors.

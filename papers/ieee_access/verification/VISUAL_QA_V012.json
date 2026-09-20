@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "version": "0.12.0",
+  "pages": 23,
+  "pdf_sha256": "55d7013f8be4111a54c3526592e4f6ecaa97504598e181fb8fae3dd5f1ba8550",
+  "tex_sha256": "d354a76b55096e42e9d23054574fdbe274d03f9be3a8c705acd53baef160b758",
+  "reviewed_pages": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "visual_checks": {
+    "all_final_pages_inspected": true,
+    "no_clipped_or_overlapping_text": true,
+    "no_blank_content_pages": true,
+    "appendix_float_gaps_resolved": true,
+    "all_three_biographies_share_final_page": true,
+    "original_energy_photos_side_by_side": true,
+    "energy_model_order_matches_table": true
+  },
+  "build": "isolated pdfLaTeX/BibTeX; stable references; no Overfull boxes",
+  "content_receipt": "CONTENT_QA_V012.json",
+  "limits": [
+    "No new classifier fit or physical acquisition",
+    "Subgroup analysis is post-hoc and not an independent holdout",
+    "Energy is uncalibrated whole-board iteration engineering estimate",
+    "No full live IDS pipeline or measured peak runtime SRAM",
+    "Runtime certificate guard/fallback is not implemented"
+  ]
+}

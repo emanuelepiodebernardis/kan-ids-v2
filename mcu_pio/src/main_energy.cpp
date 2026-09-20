@@ -2,7 +2,7 @@
  *
  * Perche' serve un firmware separato
  * ----------------------------------
- * I nove firmware di latenza cronometrano UNA inferenza per volta e fra una
+ * I firmware di latenza cronometrano UNA inferenza per volta e fra una
  * misura e la successiva stampano 5-9 valori su Serial. Per la latenza va
  * bene: fra t0 e t1 c'e' solo la chiamata al kernel. Per l'energia no: uno
  * strumento misura la corrente assorbita nel tempo, e in quel tempo la UART
@@ -13,12 +13,13 @@
  *
  * Come e' fatto qui (richiesta del Prof. Kuznetsov, punto 4)
  * ----------------------------------------------------------
- * Ogni ripetizione produce due finestre della STESSA durata, adiacenti:
+ * Ogni ripetizione produce due finestre adiacenti di durata simile:
  *
  *     EB_PIN alto      finestra ATTIVA: EB_BATCH inferenze consecutive, e
  *                      nulla altro. Nessuna Serial, nessun Wire, nessun
- *                      delay, nessun accesso a PROGMEM: i vettori di
- *                      ingresso sono gia' in RAM, e l'indice avanza con un
+ *                      delay; i vettori di ingresso sono gia' in RAM.
+ *                      I kernel possono leggere pesi/tabelle da PROGMEM.
+ *                      L'indice avanza con un
  *                      confronto (niente divisioni nel ciclo misurato).
  *     EB_PIN_REF alto  finestra di RIFERIMENTO: la CPU gira a vuoto su `nop`
  *                      per un numero di giri calibrato in modo da durare
@@ -32,17 +33,18 @@
  * finestra ha il suo fronte, e nessun campione entra nell'integrale
  * sbagliato. L'energia per inferenza si ricava come
  *
- *     E_inf = (P_attiva - P_riferimento) * T_finestra / EB_BATCH
+ *     E_totale = integrale_attiva(V*I dt) / EB_BATCH
+ *     E_incrementale = (E_attiva - E_rif * T_attiva / T_rif) / EB_BATCH
  *
  * Tutte le stampe sono PRIMA della prima finestra e DOPO l'ultima. Fra le
  * ripetizioni non viene eseguita una sola istruzione di I/O.
  *
- * Sulla linea di base: la CPU sveglia che gira su `nop` consuma piu' di una
- * CPU in sleep e meno di una che esegue il kernel. Sottraendola si ottiene
- * il costo MARGINALE dell'inferenza rispetto a un processore acceso e
- * inattivo, che e' la quantita' confrontabile fra i sette modelli. Il
- * consumo assoluto del sistema e' la sola finestra attiva, ed e' comunque
- * misurabile perche' le due finestre sono separate sul pin.
+ * Il riferimento esegue decrementi volatile e nop: non e' sleep, e non
+ * si assume che consumi meno del kernel. La differenza e' incrementale
+ * rispetto a QUESTO busy loop; puo' essere negativa. La finestra attiva
+ * include la scheda entro il confine elettrico misurato, kernel, ciclo e
+ * overhead dei marcatori. Il firmware non misura tensione o corrente:
+ * le energie richiedono una traccia esterna sincronizzata.
  *
  * Contro l'eliminazione del codice morto
  * --------------------------------------
@@ -50,10 +52,12 @@
  * cancellare le inferenze era la Serial.print del risultato. Qui la Serial
  * non c'e': i kernel sono `static inline` in header, le costanti stanno in
  * Flash e senza precauzioni `-O2` potrebbe eliminare l'intero ciclo. Il
- * risultato di ogni inferenza viene quindi accumulato in un `volatile`, e
+ * risultato di ogni inferenza viene quindi accumulato, scritto alla fine
+ * del batch in un `volatile`, e
  * alla fine la somma viene CONFRONTATA con quella attesa, calcolata dai
- * golden vector. Se il confronto fallisce il firmware lo dichiara: una
- * finestra vuota non puo' essere scambiata per una finestra veloce.
+ * golden vector. Il checksum e' un controllo aggregato: puo' avere
+ * collisioni e da solo non prova ogni predizione o il numero di chiamate.
+ * Occorrono anche correctness per vettore e ispezione del binario target.
  *
  * Uso
  * ---
@@ -137,7 +141,26 @@
   #include "kan14_lut_infer.h"
   #include "kan14_test_vectors.h"
   #define EB_NAME       "lut_int16"
-  #define EB_MODEL_BYTES 5194
+  #define EB_MODEL_BYTES (sizeof(KLUT_TAB) + sizeof(KLUT_SHIFT) + sizeof(KLUT_CAT) + sizeof(KLUT_CAT_OFF) + sizeof(KLUT_CAT_MULT))
+#endif
+
+/* The common binary study uses the exact same raw-flow IDs as the new
+ * latency harness. Legacy golden-vector experiments remain selectable. */
+#ifdef EB_COMMON_COHORT
+  #if defined(EB_COEFF)
+    #define HB_COEFF
+  #elif defined(EB_LUT14)
+    #define HB_LUT14
+  #elif defined(EB_MLCOEFF)
+    #define HB_MLCOEFF
+  #elif defined(EB_MLP)
+    #define HB_MLP
+  #elif defined(EB_DT5)
+    #define HB_DT5
+  #else
+    #error "EB_COMMON_COHORT applies only to the five binary prepared-feature models"
+  #endif
+  #include "hardware_cohort_select.h"
 #endif
 
 /* ── parametri ────────────────────────────────────────────────────── */
@@ -149,6 +172,12 @@
 #endif
 #ifndef EB_CACHE
   #define EB_CACHE 20              /* vettori tenuti in RAM (10 + 10) */
+#endif
+#if defined(EB_COMMON_COHORT) && EB_CACHE != 20
+  #error "Common energy protocol fixes EB_CACHE=20 (first 10 attack + 10 normal)"
+#endif
+#if EB_CACHE < 2 || EB_CACHE > 254 || (EB_CACHE % 2) != 0
+  #error "EB_CACHE must be an even integer in [2,254]"
 #endif
 #ifndef EB_PIN
   #if defined(__AVR__)
@@ -198,6 +227,15 @@ static uint8_t  eb_expected[EB_CACHE];
  * (prima meta' attacco, seconda meta' normale). */
 static void eb_load(void) {
   for (uint8_t i = 0; i < EB_CACHE; i++) {
+#if defined(EB_COMMON_COHORT)
+    // First 20 cohort rows are already attack/normal interleaved.
+    #if defined(EB_DT5)
+      hb_load(i, eb_x[i], (uint8_t *)0);
+    #else
+      hb_load(i, eb_x[i], eb_c[i]);
+    #endif
+    eb_expected[i] = HB_RD8(HB_EXPECTED[i]);
+#else
     const uint8_t half = EB_CACHE / 2;
 #if defined(EB_E2E)
     const uint16_t k = (i < half) ? i : (E2E_N_GOLDEN / 2 + (i - half));
@@ -244,6 +282,7 @@ static void eb_load(void) {
     for (uint8_t j = 0; j < 4;  j++) eb_c[i][j] = EB_RD8(EB_TVC[k][j]);
     eb_expected[i] = EB_RD8(EB_TVE[k]);
 #endif
+#endif  // EB_COMMON_COHORT
   }
 }
 
@@ -408,7 +447,7 @@ static uint32_t eb_riferimento(uint32_t durata_us) {
 /* Scarto fra le due finestre in parti per mille, con segno. E' il numero che
  * rende verificabile la frase "stessa durata": se non e' piccolo, sottrarre
  * la potenza di riferimento da quella attiva non produce un'energia. */
-static int32_t eb_permille(uint32_t attiva, uint32_t riferimento) {
+static int32_t eb_permille(uint64_t attiva, uint64_t riferimento) {
   if (attiva == 0) return 0;
   return (int32_t)(((int64_t)riferimento - (int64_t)attiva) * 1000
                    / (int64_t)attiva);
@@ -429,8 +468,8 @@ void setup() {
   eb_load();
   eb_calibra();
 
-  /* somma attesa delle predizioni sulla finestra: e' la prova che le
-   * inferenze sono state eseguite davvero e non ottimizzate via */
+  /* Somma attesa: controllo aggregato delle predizioni, non una prova
+   * individuale delle inferenze o del numero di chiamate al kernel. */
   uint32_t attesa_per_batch = 0;
   for (uint32_t r = 0; r < (uint32_t)EB_BATCH; r++)
     attesa_per_batch += eb_expected[r % EB_CACHE];
@@ -446,8 +485,24 @@ void setup() {
   digitalWrite(EB_PIN_REF, LOW);
 #endif
 
+#ifdef HOST_CHECK
+  Serial.println(F("# execution=HOST_REPLAY_CHECK; timings are NOT hardware measurements"));
+#endif
+#ifdef EB_COMMON_COHORT
+  Serial.print(F("# cohort_sha256=")); Serial.println(F(HC_COHORT_SHA256));
+  Serial.println(F("# cohort=common_first_20; order=attack_normal_interleaved; boundary=prepared_features_in_RAM"));
+  Serial.println(F("# expected=compiled_C_reference; independent_golden_equivalence_is_separate"));
+  Serial.print(F("# raw_row_ids="));
+  for (uint8_t i = 0; i < EB_CACHE; ++i) {
+    if (i) Serial.print(',');
+    Serial.print((unsigned long)HB_RD32(HC_ROW_ID[i]));
+  }
+  Serial.println();
+#endif
   Serial.print(F("# energy benchmark variant=")); Serial.print(F(EB_NAME));
-  Serial.print(F(" model_bytes=")); Serial.print(EB_MODEL_BYTES);
+  Serial.print(F(" model_bytes=")); Serial.print((uint32_t)EB_MODEL_BYTES);  /* il cast non e' cosmetico: per la variante LUT EB_MODEL_BYTES e'
+     una somma di sizeof, quindi size_t, che su Windows a 64 bit e'
+     unsigned long long e non combacia con nessun overload di print */
   Serial.print(F(" batch=")); Serial.print((uint32_t)EB_BATCH);
   Serial.print(F(" reps="));  Serial.print((uint32_t)EB_REPS);
   Serial.print(F(" vectors_in_ram=")); Serial.print((uint32_t)EB_CACHE);
@@ -463,8 +518,9 @@ void setup() {
                    "di riferimento; nessun I/O dentro nessuna delle due"));
   Serial.println(F("# E_totale per inferenza  = P_alta * T_alta / batch"));
   Serial.println(F("# E_dinamica per inferenza = (P_alta - P_bassa) * T_alta / batch"));
-  Serial.println(F("# la prima include il consumo statico del core sveglio, la "
-                   "seconda e' il solo costo del calcolo"));
+  Serial.println(F("# P_alta e P_bassa sono medie su durate misurate esternamente; "
+                   "la prima energia include la scheda misurata, la seconda "
+                   "e' incrementale rispetto al busy loop, anche negativa"));
   Serial.flush();
   delay(200);                     /* la UART deve essere ferma prima di iniziare */
 
@@ -514,23 +570,23 @@ void setup() {
     /* niente virgola mobile nemmeno qui: su AVR tirerebbe dentro le
      * routine soft-float di libgcc in un firmware che esiste per
      * misurare un modello integer-only. Nanosecondi in interi. */
-    Serial.print((uint32_t)((durata[rep] * 1000UL) / (uint32_t)EB_BATCH));
+    Serial.print((uint32_t)(((uint64_t)durata[rep] * 1000ULL) / (uint32_t)EB_BATCH));
     Serial.print(',');
     Serial.print(somma[rep]);     Serial.print(',');
     Serial.print(attesa_per_batch); Serial.print(',');
     Serial.println(ok ? 1 : 0);
   }
 
-  uint32_t tot = 0;
+  uint64_t tot = 0;
   for (uint8_t rep = 0; rep < EB_REPS; rep++) tot += durata[rep];
   Serial.print(F("SUMMARY variant=")); Serial.print(F(EB_NAME));
-  Serial.print(F(" model_bytes=")); Serial.print(EB_MODEL_BYTES);
-  Serial.print(F(" mean_window_us=")); Serial.print(tot / EB_REPS);
+  Serial.print(F(" model_bytes=")); Serial.print((uint32_t)EB_MODEL_BYTES);
+  Serial.print(F(" mean_window_us=")); Serial.print((uint32_t)(tot / EB_REPS));
   Serial.print(F(" mean_ns_per_inference="));
-  Serial.print((uint32_t)((tot * 1000UL) / ((uint32_t)EB_REPS * (uint32_t)EB_BATCH)));
-  uint32_t tot_rif = 0;
+  Serial.print((uint32_t)((tot * 1000ULL) / ((uint64_t)EB_REPS * (uint32_t)EB_BATCH)));
+  uint64_t tot_rif = 0;
   for (uint8_t rep = 0; rep < EB_REPS; rep++) tot_rif += durata_rif[rep];
-  Serial.print(F(" mean_ref_us=")); Serial.print(tot_rif / EB_REPS);
+  Serial.print(F(" mean_ref_us=")); Serial.print((uint32_t)(tot_rif / EB_REPS));
   /* scarto fra le due finestre in parti per mille: se non e' piccolo, la
    * sottrazione del baseline non ha senso e va detto qui, non scoperto dopo. */
   Serial.print(F(" ref_vs_active_permille="));

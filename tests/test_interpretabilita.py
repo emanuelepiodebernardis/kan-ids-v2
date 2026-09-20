@@ -131,17 +131,47 @@ def test_lescursione_ordina_gli_edge_e_non_e_una_stima(m, v):
 
 
 # ─────────────────────────────────────────────────────────────
-# 3. "non post-hoc" e' un'affermazione con conseguenze
+# 3. Provenienza del supporto empirico
 # ─────────────────────────────────────────────────────────────
-def test_nessun_explainer_post_hoc_fra_le_dipendenze():
-    """Se il progetto dichiara una spiegazione diretta, non deve dipendere da
-    uno strumento che ne stima una."""
-    for nome in ("requirements.txt", "requirements-lock.txt"):
-        testo = (REPO / nome).read_text(encoding="utf-8").lower()
-        for pacchetto in ("shap", "lime", "captum", "eli5"):
-            righe = [r for r in testo.splitlines()
-                     if r.strip().startswith(pacchetto)]
-            assert not righe, f"{nome} dipende da {pacchetto}: {righe}"
+def _script_module():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "interp_script", REPO / "scripts" / "interpretabilita.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_supporto_train_rifiuta_test_e_id_alterati(tmp_path, m, v):
+    """La figura deve fermarsi se si passa il test o si alterano gli ID."""
+    import hashlib
+    import json
+    mod = _script_module()
+    ids = np.arange(len(v["X"]), dtype="<i8")
+    p, meta_path = tmp_path / "support.npz", tmp_path / "support.json"
+    np.savez(p, Xq=v["X"], CAT=v["CAT"], row_ids=ids)
+    meta = {"source_split": "train", "source_csv_sha256": "a" * 64,
+            "row_ids_sha256": hashlib.sha256(ids.tobytes()).hexdigest()}
+    meta_path.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
+    support, _ = mod.leggi_supporto_train(p, meta_path, m)
+    assert len(support["X"]) == len(ids)
+
+    meta["source_split"] = "test"
+    meta_path.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
+    with pytest.raises(ValueError, match="source_split"):
+        mod.leggi_supporto_train(p, meta_path, m)
+
+    meta["source_split"] = "train"
+    meta_path.write_text(json.dumps(meta), encoding="utf-8", newline="\n")
+    np.savez(p, Xq=v["X"], CAT=v["CAT"], row_ids=ids + 1)
+    with pytest.raises(ValueError, match="sha256 mismatch"):
+        mod.leggi_supporto_train(p, meta_path, m)
+
+
+def test_supporto_train_mancante_non_usa_i_golden(tmp_path, m):
+    with pytest.raises(FileNotFoundError):
+        _script_module().leggi_supporto_train(
+            tmp_path / "missing.npz", tmp_path / "missing.json", m)
 
 
 def test_il_readme_e_prudente_sul_multilayer():
@@ -241,8 +271,7 @@ def test_i_contributi_locali_mostrano_etichetta_vera_e_predetta():
 
 
 def test_le_funzioni_apprese_mostrano_dove_stanno_i_dati():
-    """Densita' e rug dei 200 vettori sotto ogni curva: dove non ci sono
-    osservazioni la spline e' estrapolazione, e la figura deve farlo vedere."""
+    """L'istogramma conta tutto il training; il rug usa valori distinti."""
     s = _script()
     assert "np.histogram" in s and '"|"' in s, (
         "mancano istogramma o rug sotto le curve")
@@ -252,11 +281,7 @@ def test_le_categorie_usano_i_nomi_veri_quando_ci_sono(tmp_path, monkeypatch):
     """Con il vocabolario esportato le barre portano il nome della categoria;
     senza, portano l'indice e la figura lo DICHIARA invece di far passare un
     numero per un nome."""
-    import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "interp_script", REPO / "scripts" / "interpretabilita.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
+    mod = _script_module()
 
     senza = mod.etichette_categoria(None, 0, 4)
     assert senza == ["UNK", "1", "2", "3"], senza

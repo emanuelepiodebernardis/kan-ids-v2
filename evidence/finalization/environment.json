@@ -1,0 +1,19 @@
+{
+  "python": "3.12.13",
+  "system": "Linux-6.18.35-x86_64-with-glibc2.39",
+  "packages": {
+    "numpy": "2.3.5",
+    "pandas": "2.2.3",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.0",
+    "joblib": "1.5.3",
+    "matplotlib": "3.10.8",
+    "reportlab": "4.4.9",
+    "Pillow": "12.3.0",
+    "pytest": "9.1.1",
+    "platformio": "6.2.0"
+  },
+  "g++": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04) 13.3.0",
+  "author_lock_reproduced": false,
+  "target_toolchain_builds": false
+}

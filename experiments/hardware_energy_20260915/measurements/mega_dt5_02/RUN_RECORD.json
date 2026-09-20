@@ -1,0 +1,189 @@
+{
+  "run_id": "MEGA_DT5_PILOT_20260915T181727Z_225e39b0",
+  "started_utc": "2026-09-15T18:17:27.289+00:00",
+  "status": "software_protocol_pass_external_trace_pending",
+  "mode": "run",
+  "commands": [
+    {
+      "argv": [
+        "C:\\Users\\kuzne\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "platformio",
+        "run",
+        "-d",
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_MEGA_FNB58_DT5_PILOT_20260915\\project",
+        "-e",
+        "mega_fnb58_dt5_pilot"
+      ],
+      "started_utc": "2026-09-15T18:17:27.442+00:00",
+      "log": "01_build.log",
+      "child_python_io_encoding": "utf-8",
+      "returncode": 0,
+      "finished_utc": "2026-09-15T18:17:29.407+00:00"
+    },
+    {
+      "argv": [
+        "C:\\Users\\kuzne\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "platformio",
+        "pkg",
+        "list",
+        "-d",
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_MEGA_FNB58_DT5_PILOT_20260915\\project",
+        "-e",
+        "mega_fnb58_dt5_pilot"
+      ],
+      "started_utc": "2026-09-15T18:17:29.407+00:00",
+      "log": "02_packages.log",
+      "child_python_io_encoding": "utf-8",
+      "returncode": 0,
+      "finished_utc": "2026-09-15T18:17:30.776+00:00"
+    },
+    {
+      "argv": [
+        "C:\\Users\\kuzne\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+        "-m",
+        "platformio",
+        "run",
+        "-d",
+        "E:\\KAN_IDS_PAPER1_SW_20260908\\KAN_IDS_MEGA_FNB58_DT5_PILOT_20260915\\project",
+        "-e",
+        "mega_fnb58_dt5_pilot",
+        "-t",
+        "upload",
+        "--upload-port",
+        "COM5"
+      ],
+      "started_utc": "2026-09-15T18:17:30.838+00:00",
+      "log": "03_upload.log",
+      "child_python_io_encoding": "utf-8",
+      "returncode": 0,
+      "finished_utc": "2026-09-15T18:17:40.079+00:00"
+    }
+  ],
+  "python": "3.11.8 (tags/v3.11.8:db85d51, Feb  6 2024, 22:03:32) [MSC v.1937 64 bit (AMD64)]",
+  "system": "Windows-10-10.0.26200-SP0",
+  "requested_port": "COM5",
+  "scope": "USB measurement point includes whole board and downstream cable losses; prepared features; external V/I trace required",
+  "host_timestamps": "transport receipt timestamps, not hardware timestamps",
+  "energy_result_available": false,
+  "source_manifest": {
+    "bytes": 5637,
+    "sha256": "9f156c45c5c525308d196c48ffd9c09f98cd020b49d818f5598eea38661d7bde"
+  },
+  "versions": {
+    "platformio": "6.1.19",
+    "pyserial": "3.5"
+  },
+  "board_before_build": {
+    "port": "COM5",
+    "vid": 9025,
+    "pid": 66,
+    "serial_number": "14532303532351804271",
+    "description": "Устройство с последовательным интерфейсом USB (COM5)"
+  },
+  "binaries": {
+    "firmware.elf": {
+      "bytes": 44484,
+      "sha256": "f65310fffbb7aa12779a7b26c725af966297a20493ada6b79d432fab04f10a2f"
+    },
+    "firmware.hex": {
+      "bytes": 65366,
+      "sha256": "6917f5848e80460778442c68c9f4aa9edb0ac04c5383343fe423ea35c053b2a7"
+    }
+  },
+  "board_before_upload": {
+    "port": "COM5",
+    "vid": 9025,
+    "pid": 66,
+    "serial_number": "14532303532351804271",
+    "description": "Устройство с последовательным интерфейсом USB (COM5)"
+  },
+  "board_before_serial": {
+    "port": "COM5",
+    "vid": 9025,
+    "pid": 66,
+    "serial_number": "14532303532351804271",
+    "description": "Устройство с последовательным интерфейсом USB (COM5)"
+  },
+  "ready": {
+    "count": 7614200,
+    "target_us": 120000000,
+    "cal_n": 200,
+    "cal_us": 3152,
+    "checksum_per20": 10
+  },
+  "run_command_utc": "2026-09-15T18:17:49.425+00:00",
+  "result": {
+    "done": {
+      "count": 7614200,
+      "active_us": 119791776,
+      "checksum": 3807100,
+      "expected": 3807100,
+      "correct": 1,
+      "timing_ok": 1
+    },
+    "events": [
+      {
+        "name": "pre_led_on_1",
+        "us": 8
+      },
+      {
+        "name": "pre_led_off_1",
+        "us": 2000032
+      },
+      {
+        "name": "pre_led_on_2",
+        "us": 3000052
+      },
+      {
+        "name": "pre_led_off_2",
+        "us": 7000072
+      },
+      {
+        "name": "pre_led_on_3",
+        "us": 8000092
+      },
+      {
+        "name": "pre_led_off_3",
+        "us": 10000116
+      },
+      {
+        "name": "active_begin",
+        "us": 20000128
+      },
+      {
+        "name": "active_end",
+        "us": 139791904
+      },
+      {
+        "name": "post_led_on_1",
+        "us": 149791936
+      },
+      {
+        "name": "post_led_off_1",
+        "us": 151791956
+      },
+      {
+        "name": "post_led_on_2",
+        "us": 152791976
+      },
+      {
+        "name": "post_led_off_2",
+        "us": 156791996
+      },
+      {
+        "name": "post_led_on_3",
+        "us": 157792016
+      },
+      {
+        "name": "post_led_off_3",
+        "us": 159792036
+      }
+    ],
+    "software_protocol_pass": true,
+    "external_trace_pending": true,
+    "energy_result_available": false
+  },
+  "finished_utc": "2026-09-15T18:20:33.181+00:00"
+}

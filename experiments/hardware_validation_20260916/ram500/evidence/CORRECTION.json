@@ -1,0 +1,164 @@
+{
+  "type": "reporting_only",
+  "firmware_changes": false,
+  "hardware_rerun_required": false,
+  "original_hook_sha256": "10c09dd5cf46cae89a0a0cd4b8e3e615a60d0145f99117e64399973b2f1ee9a6",
+  "corrected_hook_sha256": "6db6cce42394107b742eb6270f9ebc815e151d7ca37d21a03c4900f86ad42e35",
+  "model_results": [
+    {
+      "model": "coeff",
+      "recorded_diagnostic_globals_bytes": 221,
+      "corrected_diagnostic_globals_bytes": 188,
+      "unrelated_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "model": "lut",
+      "recorded_diagnostic_globals_bytes": 221,
+      "corrected_diagnostic_globals_bytes": 188,
+      "unrelated_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "model": "mlp",
+      "recorded_diagnostic_globals_bytes": 221,
+      "corrected_diagnostic_globals_bytes": 188,
+      "unrelated_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "model": "kanml",
+      "recorded_diagnostic_globals_bytes": 221,
+      "corrected_diagnostic_globals_bytes": 188,
+      "unrelated_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "model": "dt5",
+      "recorded_diagnostic_globals_bytes": 225,
+      "corrected_diagnostic_globals_bytes": 192,
+      "unrelated_sdk_symbols": [
+        {
+          "symbol": "non_iram_int_disabled_flag",
+          "bytes": 1
+        },
+        {
+          "symbol": "non_iram_int_disabled",
+          "bytes": 4
+        },
+        {
+          "symbol": "non_iram_int_mask",
+          "bytes": 4
+        },
+        {
+          "symbol": "reserved_region_dram_data",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_iram_code",
+          "bytes": 8
+        },
+        {
+          "symbol": "reserved_region_rtcram_data",
+          "bytes": 8
+        }
+      ]
+    }
+  ]
+}

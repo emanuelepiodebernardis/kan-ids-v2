@@ -9,13 +9,14 @@ e questi test difendono esattamente quella proprieta':
 * l'header si rigenera identico byte per byte dall'header a coefficienti;
 * il kernel C calcola gli stessi interi della simulazione numpy;
 * le decisioni coincidono con quelle della versione a coefficienti su tutti e
-  200 i vettori, e non per caso: il limite di deviazione calcolato su TUTTI
-  gli 8.193 ingressi possibili sta sotto il margine minimo osservato;
+  200 golden vectors dopo il freeze, senza usarli per scegliere L;
+* il bound e le condizioni di decision agreement sono verificati separatamente;
 * i byte dichiarati sono quelli che il compilatore mette in Flash;
 * su AVR non compare virgola mobile ne' aritmetica a 64 bit.
 """
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 import sys
@@ -45,6 +46,58 @@ avr = pytest.mark.skipif(AVR is None, reason=motivo_assenza("avr-g++"))
 serve_header = pytest.mark.skipif(
     not HEADER.exists(),
     reason="kan14_lut_int16.h non generato: python scripts/export_kan14_lut_c.py")
+
+#: Le verifiche di integrazione leggono la calibrazione consegnata col
+#: pacchetto. Da un clone pulito, e dopo `--stage clean`, quella cartella non
+#: c'e': senza questa guardia il test fallisce per un ingresso mancante invece
+#: di dichiarare il prerequisito, e `--stage all`, che comincia dai test, si
+#: ferma prima ancora di poterlo produrre.
+CALIBRAZIONE = REPO / "artifacts" / "finalization" / "train_calibration.npz"
+serve_calibrazione = pytest.mark.skipif(
+    not CALIBRAZIONE.exists(),
+    reason="artifacts/finalization/ assente: e' un prerequisito, non un fallimento. Lo producono le fasi di preparazione di `python reproduce.py --stage lut` (oppure, a mano, `python scripts/prepare_finalization_data.py train --csv <TON.csv> --out artifacts/finalization`), e serve il CSV di TON_IoT")
+
+
+def _diagnosi_ubsan() -> tuple[bool, str]:
+    """Se il sanitizzatore e' utilizzabile, e se non lo e' PERCHE'.
+
+    Tre esiti distinti, e tenerli distinti e' il punto. `-fsanitize=undefined`
+    e' accettato dal driver anche quando `libubsan` manca: l'errore arriva dal
+    linker. Ma un compilatore rotto, o un ambiente senza intestazioni, fallisce
+    allo stesso modo — e presentare quel caso come «libubsan assente» sarebbe
+    una diagnosi inventata, che nasconde un problema vero dietro uno skip
+    plausibile. Quindi si compila prima senza sanitizzatore: se gia' quello non
+    passa, il probe non dice nulla su libubsan e lo si dichiara.
+    """
+    if GPP is None:
+        return False, motivo_assenza("g++")
+    import tempfile
+    with tempfile.TemporaryDirectory() as d:
+        c = Path(d) / "probe.cpp"
+        c.write_text("int main(){return 0;}\n", encoding="utf-8", newline="\n")
+
+        base = subprocess.run([GPP, str(c), "-o", str(Path(d) / "base")],
+                              capture_output=True, text=True, env=ambiente("g++"))
+        if base.returncode != 0:
+            return False, ("il compilatore non produce un eseguibile nemmeno da "
+                           "un programma vuoto, quindi il probe non dice nulla "
+                           "su libubsan: " + base.stderr.strip()[-300:])
+
+        san = subprocess.run([GPP, "-fsanitize=undefined", str(c),
+                              "-o", str(Path(d) / "san")],
+                             capture_output=True, text=True, env=ambiente("g++"))
+        if san.returncode == 0:
+            return True, ""
+        err = san.stderr.strip()
+        if "ubsan" in err or "sanitiz" in err.lower():
+            return False, ("il compilatore accetta -fsanitize=undefined ma il "
+                           "runtime non e' installato: " + err[-300:])
+        return False, ("compilazione con -fsanitize=undefined fallita per una "
+                       "ragione che non riguarda libubsan: " + err[-300:])
+
+
+_UBSAN_OK, _UBSAN_MOTIVO = _diagnosi_ubsan()
+ubsan = pytest.mark.skipif(not _UBSAN_OK, reason=_UBSAN_MOTIVO)
 
 
 def _L_dell_header() -> int:
@@ -133,25 +186,29 @@ def test_i_byte_dichiarati_sono_quelli_che_il_compilatore_mette_in_flash():
 
 
 @serve_header
+@serve_calibrazione
 def test_la_tabella_del_compromesso_e_riproducibile():
-    """results/lut_vs_coeff.csv e' la risposta alla domanda del relatore: si
-    ricalcola e si pretende identica, cosi' la curva byte/errore non puo'
-    invecchiare rispetto all'header."""
-    f = REPO / "results" / "lut_vs_coeff.csv"
-    assert f.exists(), "manca results/lut_vs_coeff.csv"
-    import scripts.export_kan14_lut_c as exp                     # noqa: WPS433
+    """Recompute the current TRAIN sweep; keep RC3's test-informed table historical."""
+    import scripts.export_kan14_lut_c as exp
 
-    atteso = exp.tabella(leggi_modello(SORGENTE), leggi_vettori(VETTORI))
-    trovato = pd.read_csv(f)
+    protocol_path = REPO / 'results/lut_selection_protocol.json'
+    assert protocol_path.exists(), 'Current LUT requires a frozen train-selection protocol'
+    p = json.loads(protocol_path.read_text(encoding='utf-8'))
+    assert p['source_split'] == 'train'
+    assert p['selection_reads_test'] is False
+    paths = {k: exp._checked_artifact(v, protocol_path.parent)
+             for k, v in p['artifacts'].items()}
+    m = leggi_modello(paths['coefficient_header'])
+    calibration = exp.leggi_npz(paths['calibration_npz'], m)
+    atteso = exp.tabella(m, calibration)
+    trovato = pd.read_csv(paths['calibration_sweep'])
     pd.testing.assert_frame_equal(trovato, atteso, check_dtype=False)
-
-    scelto = trovato[trovato.L == _L_dell_header()].iloc[0]
-    assert bool(scelto.decisioni_garantite), (
-        "l'header e' stato generato con un L che non garantisce le decisioni")
-    piu_piccoli = trovato[(trovato.L < _L_dell_header())
-                          & trovato.decisioni_garantite]
-    assert piu_piccoli.empty, (
-        f"esiste un L piu' piccolo con la stessa garanzia: {list(piu_piccoli.L)}")
+    assert exp.scegli(trovato) == p['selected_L'] == _L_dell_header()
+    assert p['evidence']['calibration_rows_not_certified'] == int(
+        trovato[trovato.L == p['selected_L']].iloc[0].vettori_entro_il_limite)
+    if p['fallback_max_candidate']:
+        assert not trovato.decisioni_garantite.any()
+        assert p['selected_L'] == max(p['candidate_grid'])
 
 
 @gpp
@@ -237,36 +294,83 @@ def test_firmware_ed_environment_esistono():
     assert "EB_LUT14" in energia, "la variante di energia non esiste"
 
 
-def test_i_numeri_del_readme_sul_test_set_vengono_dallartefatto():
-    """Il paragrafo del README che dichiara l'accordo sull'intero test set
-    cita sei numeri. Vengono da `results/lut_vs_coeff_test.csv`, prodotto da
-    `export_kan14_lut_c.py --su-test` sulla macchina che ha il dataset: qui si
-    pretende che coincidano, invece di fidarsi di chi li ha ricopiati.
+def test_postfreeze_test_evidence_references_the_unchanged_selection():
+    """Current test results identify the frozen selection, rather than enforce old metrics."""
+    import scripts.export_kan14_lut_c as exp
 
-    Il CSV non c'e' in un clone senza dataset, e allora il test si salta
-    dicendolo: e' una verifica in piu' dove il file esiste, non un requisito
-    per far girare la suite."""
-    f = REPO / "results" / "lut_vs_coeff_test.csv"
+    f = REPO / 'results/lut_postfreeze_test_protocol.json'
     if not f.exists():
-        pytest.skip("results/lut_vs_coeff_test.csv assente: serve il dataset "
-                    "(python scripts/export_kan14_lut_c.py --su-test)")
-    r = pd.read_csv(f).iloc[0]
-    testo = (REPO / "README.md").read_text(encoding="utf-8")
-    blocco = testo[testo.index("Measured on the **whole test set**"):]
-    blocco = blocco[:blocco.index("\n\n")]
+        pytest.skip('Post-freeze test evaluation has not yet been run')
+    r = json.loads(f.read_text(encoding="utf-8"))
+    selection = REPO / 'results/lut_selection_protocol.json'
+    p = json.loads(selection.read_text(encoding="utf-8"))
+    assert r['selection_protocol_sha256'] == exp.sha256(selection)
+    assert r['selected_L_changed'] is False
+    assert r['results']['L'] == p['selected_L'] == _L_dell_header()
+    csv = REPO / 'results/lut_vs_coeff_postfreeze_test.csv'
+    assert r['results_csv_sha256'] == exp.sha256(csv)
+    table = pd.read_csv(csv)
+    pd.testing.assert_frame_equal(table, pd.DataFrame([r['results']]), check_dtype=False)
 
-    attesi = {
-        "flussi di test": f"{int(r.n_test):,}",
-        "decisioni diverse": str(int(r.decisioni_diverse)),
-        "F1": f"{float(r.f1_coefficienti):.6f}",
-        "flussi entro il limite": str(int(r.flussi_entro_il_limite)),
-        "scostamento massimo": f"{int(r.scostamento_max_osservato):,}",
-        "limite": f"{int(r.limite_scostamento_logit):,}",
-    }
-    mancanti = {k: v for k, v in attesi.items() if v not in blocco}
-    assert not mancanti, (
-        f"il README non riporta i valori dell'artefatto: {mancanti}\n{blocco}")
-    assert float(r.f1_coefficienti) == float(r.f1_lut), (
-        "il README dice che gli F1 coincidono, il CSV dice di no")
-    assert int(r.decisioni_diverse) == 0, (
-        "il README dichiara decisioni identiche su tutto il test set")
+
+def _sorgente_griglia(tmp_path):
+    """Il programma che percorre tutti gli 8.193 ingressi Q12 per ogni edge."""
+    src = tmp_path / 'grid.cpp'
+    src.write_text(
+        '#include <cstdio>\n#include <cstdint>\n'
+        '#include "kan14_lut_infer.h"\n'
+        'int main(){ for(int q=0;q<=8192;q++){ int16_t x[10]; uint8_t c[4];\n'
+        '  const int cards[4]={4,10,14,4};\n'
+        '  for(int i=0;i<10;i++) x[i]=(q+137*i)%8193-4096;\n'
+        '  for(int j=0;j<4;j++) c[j]=q%cards[j];\n'
+        '  printf("%ld\\n",(long)kan14_lut_logit(x,c)); } }\n',
+        encoding='utf-8', newline="\n")
+    return src
+
+
+@gpp
+@serve_header
+def test_lut_q12_grid_c_python_equality(tmp_path):
+    """Il kernel C e la simulazione numpy su tutta la griglia Q12.
+
+    Separato dal controllo UBSan di proposito: il confronto C/Python non ha
+    bisogno del sanitizzatore, e legarli faceva sparire anche questo dove
+    libubsan non e' installata. Un errore di compilazione del codice non deve
+    diventare uno skip.
+    """
+    src = _sorgente_griglia(tmp_path)
+    exe = tmp_path / 'grid'
+    build = subprocess.run([GPP, '-O2', '-I', str(INCLUDE), str(src), '-o', str(exe)],
+                           capture_output=True, text=True, env=ambiente('g++'))
+    assert build.returncode == 0, build.stderr
+    run = subprocess.run([str(exe)], capture_output=True, text=True, timeout=120)
+    assert run.returncode == 0, run.stderr
+    m = leggi_modello(SORGENTE)
+    lu = klut.campiona(m, _L_dell_header())
+    q = np.arange(8193, dtype=np.int64)
+    x = np.column_stack([(q + 137*i) % 8193 - 4096 for i in range(m['NFEAT'])])
+    cards = np.r_[m['CAT_OFF'][1:], len(m['CAT'])] - m['CAT_OFF']
+    cat = np.column_stack([q % c for c in cards])
+    assert [int(t) for t in run.stdout.split()] == klut.logit(lu, m, x, cat).tolist()
+    # Conservative sum-of-absolute-edge bounds protect every accumulation order.
+    maxima = [int(np.abs(klut.contributo_lut(lu, i, q-4096)).max())
+              for i in range(m['NFEAT'])]
+    maxima += [int(np.abs(m['CAT'][off:off+card] * m['CAT_MULT'][j] * 6).max())
+               for j, (off, card) in enumerate(zip(m['CAT_OFF'], cards))]
+    assert sum(maxima) < np.iinfo(np.int32).max
+
+
+@gpp
+@ubsan
+@serve_header
+def test_lut_q12_grid_undefined_behavior(tmp_path):
+    """La stessa griglia sotto UBSan: nessun comportamento indefinito."""
+    src = _sorgente_griglia(tmp_path)
+    exe = tmp_path / 'grid_ubsan'
+    cmd = [GPP, '-O2', '-fsanitize=undefined', '-fno-sanitize-recover=undefined',
+           '-I', str(INCLUDE), str(src), '-o', str(exe)]
+    build = subprocess.run(cmd, capture_output=True, text=True, env=ambiente('g++'))
+    assert build.returncode == 0, build.stderr
+    run = subprocess.run([str(exe)], capture_output=True, text=True, timeout=120)
+    assert run.returncode == 0, run.stderr
+    assert not run.stderr, run.stderr

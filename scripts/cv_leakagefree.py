@@ -263,8 +263,11 @@ def main():
         "preprocessing": "log1p (feature asimmetriche) -> QuantileTransformer(normal) "
                          "-> clip; fittato su ogni training fold",
         "categorical_encoding": "vocabolario dal training fold, indice 0 = UNK",
-        "feature_selection": "mutual_info_classif sul target a 10 classi, "
-                             "calcolata dentro il fold",
+        "feature_selection": "mutual_info_classif sul target " + args.task +
+                             ", calcolata dentro il training fold",
+        "feature_selection_target": args.task,
+        "fold_stratification_target": "multiclass",
+        "scope": "native cross-validation; canonical KAN export uses a separate multiclass-target fit",
     }, indent=2, default=str), encoding="utf-8", newline="\n")
 
     print("\n" + "=" * 74)
