@@ -1,0 +1,2002 @@
+{
+  "file": "Network_dataset_23.csv",
+  "sha256": "e89c54673961c2b260265cdd3f6c50355369f8a80e63c31999df04b0a757f213",
+  "byte": 51705634,
+  "righe": 339021,
+  "stage": {
+    "all_source": 339021,
+    "invalid_raw_contract": 4,
+    "valid_raw_contract": 339017,
+    "known_input_overlap": 294872,
+    "candidate_unseen_input": 44145
+  },
+  "label_valide": {
+    "1": 305546,
+    "0": 33471
+  },
+  "tipi_valide": {
+    "backdoor": 304494,
+    "normal": 33471,
+    "mitm": 1052
+  },
+  "ts_primo_valido": 1556485532.0,
+  "ts_ultimo_valido": 1556549156.0,
+  "ts_primo_valido_iso": "2019-04-28T21:05:32+00:00",
+  "ts_ultimo_valido_iso": "2019-04-29T14:45:56+00:00",
+  "salti_indietro_nel_ts": 4,
+  "righe_con_ts_non_valido": 0,
+  "righe_con_label_sconosciuta": 0,
+  "zeri_negativi_canonicalizzati": 0,
+  "campi_invalidi": {
+    "src_bytes": {
+      "non_numeric": 4
+    }
+  },
+  "esempi_invalidi": [
+    {
+      "source_row_index_zero_based": 333234,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 333782,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 334928,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 335231,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    }
+  ],
+  "impronte_note_osservate": 2366,
+  "tempi": {
+    "righe": 339021,
+    "celle_orarie": [
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 21837
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1021
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 884
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 928
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 20953
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 93
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 21837
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1021
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24042
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1094
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 989
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 917
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23125
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 105
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24042
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1094
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24044
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1135
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1027
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 985
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23059
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 108
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24044
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1135
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24049
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1079
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 877
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 970
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23172
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 109
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24049
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1079
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1055
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24054
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 946
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 947
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 109
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23107
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1055
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24054
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24023
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1003
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 887
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1107
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22916
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 116
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24023
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1003
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24020
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1248
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1142
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1189
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22831
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 106
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24020
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1248
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24035
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1172
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1250
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1067
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22785
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 105
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24035
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1172
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23961
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 996
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1103
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 891
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22858
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 105
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23961
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 996
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24061
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1225
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1115
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 886
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23175
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 110
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24061
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1225
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24045
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1118
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1016
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 959
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23086
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 102
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24045
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1118
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24053
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1260
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 903
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1148
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23150
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 112
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24053
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1260
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 18270
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1137
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1055
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 772
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 17498
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 82
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 18270
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1137
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 4971
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "mitm",
+        "rows": 304
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 4633
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 338
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "mitm",
+        "rows": 304
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 4971
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "mitm",
+        "rows": 304
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2480
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "mitm",
+        "rows": 181
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2322
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 158
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "mitm",
+        "rows": 181
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2480
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "mitm",
+        "rows": 181
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 11481
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "mitm",
+        "rows": 567
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 11230
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 4
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "mitm",
+        "rows": 567
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 247
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 11477
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "mitm",
+        "rows": 567
+      }
+    ],
+    "celle_orarie_frt": [
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 21837
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1020
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 884
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 927
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 20953
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 93
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 21837
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1020
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1093
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24042
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 988
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 917
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23125
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 105
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1093
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24042
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1135
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24044
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1027
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 985
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23059
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 108
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1135
+      },
+      {
+        "utc_hour": "2019-04-28T23:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24044
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1079
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24049
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 970
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 877
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23172
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 109
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1079
+      },
+      {
+        "utc_hour": "2019-04-29T00:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24049
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1055
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24054
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 946
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 947
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 109
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23107
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1055
+      },
+      {
+        "utc_hour": "2019-04-29T01:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24054
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1003
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24023
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 887
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1107
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22916
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 116
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1003
+      },
+      {
+        "utc_hour": "2019-04-29T02:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24023
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1248
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24020
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1142
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1189
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22831
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 106
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1248
+      },
+      {
+        "utc_hour": "2019-04-29T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24020
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1172
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24035
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1067
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1250
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22785
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 105
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1172
+      },
+      {
+        "utc_hour": "2019-04-29T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24035
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 995
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23961
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 890
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1103
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22858
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 105
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 995
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23961
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1226
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24061
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1116
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 886
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23175
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 110
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1226
+      },
+      {
+        "utc_hour": "2019-04-29T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24061
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1118
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24045
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1016
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 959
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23086
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 102
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1118
+      },
+      {
+        "utc_hour": "2019-04-29T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24045
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1259
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24053
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1147
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 903
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 23150
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 112
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1259
+      },
+      {
+        "utc_hour": "2019-04-29T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 24053
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1140
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 18270
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1058
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 772
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 17498
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 82
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1140
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 18270
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 4966
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "mitm",
+        "rows": 303
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 4628
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 338
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "mitm",
+        "rows": 303
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 4966
+      },
+      {
+        "utc_hour": "2019-04-29T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "mitm",
+        "rows": 303
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2477
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "mitm",
+        "rows": 182
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2319
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "mitm",
+        "rows": 182
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 158
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2477
+      },
+      {
+        "utc_hour": "2019-04-29T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "mitm",
+        "rows": 182
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 11489
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "mitm",
+        "rows": 567
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 11238
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 4
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "mitm",
+        "rows": 567
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 247
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 11485
+      },
+      {
+        "utc_hour": "2019-04-29T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "mitm",
+        "rows": 567
+      }
+    ],
+    "ts_min": 1556485532.0,
+    "ts_max": 1556549156.0,
+    "feature_ready_time_min": 1556485532.000082,
+    "feature_ready_time_max": 1556549156.296382,
+    "durata_massima_secondi": 32071.27693,
+    "duration_non_numeriche": 0,
+    "duration_negative": 0,
+    "coppie_fuori_ordine_per_ts": 4,
+    "coppie_fuori_ordine_per_feature_ready_time": 144990
+  },
+  "celle_giornaliere": [
+    {
+      "utc_day": "2019-04-28",
+      "stage": "all_source",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 69923
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 3250
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 2786
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "candidate_unseen_input",
+      "label": "0",
+      "type": "normal",
+      "rows": 2944
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 67137
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 306
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 69923
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 3250
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "all_source",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 234571
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 30225
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "all_source",
+      "label": "1",
+      "type": "mitm",
+      "rows": 1052
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 9993
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "candidate_unseen_input",
+      "label": "0",
+      "type": "normal",
+      "rows": 28422
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "invalid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 4
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 224578
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 1799
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "mitm",
+      "rows": 1052
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 234571
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 30221
+    },
+    {
+      "utc_day": "2019-04-29",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "mitm",
+      "rows": 1052
+    }
+  ],
+  "secondi_impiegati": 12.5,
+  "coerenza_orario_vs_giornaliero": {
+    "coincide": true,
+    "celle_orarie_arrotolate": 20,
+    "celle_giornaliere": 20
+  }
+}
