@@ -20,11 +20,13 @@
     "normali": 223199
   },
   "trasformazione": "log1p poi standardizzazione, stimata su A",
+  "campionamento": "uniforme",
   "etichette_spese": 91506,
   "quota_etichette_effettiva": 0.009989737991266375,
   "riepilogo": {
     "lr": {
       "salti_per_memoria_monoclasse": 393,
+      "aggiornamenti_applicati": 522,
       "congelato": {
         "accuratezza": 0.858545008986679,
         "richiamo_attacchi": 0.8678855484622247,
@@ -42,6 +44,7 @@
     },
     "mlp": {
       "salti_per_memoria_monoclasse": 393,
+      "aggiornamenti_applicati": 522,
       "congelato": {
         "accuratezza": 0.8396110364203819,
         "richiamo_attacchi": 0.8452514151525639,
@@ -59,6 +62,7 @@
     },
     "kan": {
       "salti_per_memoria_monoclasse": 393,
+      "aggiornamenti_applicati": 522,
       "congelato": {
         "accuratezza": 0.8698313318777292,
         "richiamo_attacchi": 0.8781072541992236,
@@ -75,7 +79,39 @@
       }
     }
   },
-  "secondi": 105.1,
+  "ambiente": {
+    "python": "3.11.15",
+    "implementazione": "CPython",
+    "sistema": "Linux 6.18.44-fc-v50",
+    "macchina": "x86_64",
+    "numpy": "2.4.4",
+    "scikit_learn": "1.8.0",
+    "hardware": "solo CPU: nessuna libreria di accelerazione usata"
+  },
+  "comando": "replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --uscita smoke/C_completo.json",
+  "costi": {
+    "secondi_totali": 113.12,
+    "secondi_addestramento_iniziale": 26.93,
+    "secondi_per_modello_iniziale": {
+      "lr": 4.28,
+      "mlp": 13.91,
+      "kan": 6.78
+    },
+    "secondi_replay": 86.17,
+    "secondi_per_blocco": 0.0941,
+    "etichette_richieste": 91506,
+    "etichette_per_blocco": 100,
+    "aggiornamenti_applicati": {
+      "lr": 522,
+      "mlp": 522,
+      "kan": 522
+    },
+    "aggiornamenti_saltati": {
+      "lr": 393,
+      "mlp": 393,
+      "kan": 393
+    }
+  },
   "per_blocco": [
     {
       "blocco": 0,

@@ -26,6 +26,7 @@
   "riepilogo": {
     "lr": {
       "salti_per_memoria_monoclasse": 421,
+      "aggiornamenti_applicati": 494,
       "congelato": {
         "accuratezza": 0.858545008986679,
         "richiamo_attacchi": 0.8678855484622247,
@@ -43,6 +44,7 @@
     },
     "mlp": {
       "salti_per_memoria_monoclasse": 421,
+      "aggiornamenti_applicati": 494,
       "congelato": {
         "accuratezza": 0.8396110364203819,
         "richiamo_attacchi": 0.8452514151525639,
@@ -60,6 +62,7 @@
     },
     "kan": {
       "salti_per_memoria_monoclasse": 421,
+      "aggiornamenti_applicati": 494,
       "congelato": {
         "accuratezza": 0.8698313318777292,
         "richiamo_attacchi": 0.8781072541992236,
@@ -76,7 +79,39 @@
       }
     }
   },
-  "secondi": 113.2,
+  "ambiente": {
+    "python": "3.11.15",
+    "implementazione": "CPython",
+    "sistema": "Linux 6.18.44-fc-v50",
+    "macchina": "x86_64",
+    "numpy": "2.4.4",
+    "scikit_learn": "1.8.0",
+    "hardware": "solo CPU: nessuna libreria di accelerazione usata"
+  },
+  "comando": "replay.py --iniziale /home/claude/drift_prova/flussi/A.npz --flusso /home/claude/drift_prova/flussi/C.npz --uscita /home/claude/drift_prova/smoke/C_strati.json --campionamento strati_punteggio",
+  "costi": {
+    "secondi_totali": 111.72,
+    "secondi_addestramento_iniziale": 28.3,
+    "secondi_per_modello_iniziale": {
+      "lr": 4.36,
+      "mlp": 14.19,
+      "kan": 7.55
+    },
+    "secondi_replay": 83.39,
+    "secondi_per_blocco": 0.091,
+    "etichette_richieste": 91506,
+    "etichette_per_blocco": 100,
+    "aggiornamenti_applicati": {
+      "lr": 494,
+      "mlp": 494,
+      "kan": 494
+    },
+    "aggiornamenti_saltati": {
+      "lr": 421,
+      "mlp": 421,
+      "kan": 421
+    }
+  },
   "per_blocco": [
     {
       "blocco": 0,

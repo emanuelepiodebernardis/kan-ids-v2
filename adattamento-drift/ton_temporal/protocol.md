@@ -89,6 +89,13 @@ Conseguenze operative, entrambe vincolanti:
 `row_id`, `t_start`, `t_end` e `feature_ready_time` sono tenuti **separati dalle
 feature**, così non possono entrare nel modello.
 
+**Preprocessing stimato solo su A.** Le otto feature sono conteggi di byte e di
+pacchetti con code lunghe: si applica `log1p` e poi una standardizzazione. Media
+e deviazione sono stimate **una sola volta su A** e non vengono più toccate; B,
+C e D si trasformano con quei parametri. Nessuna statistica dei flussi
+successivi entra nella trasformazione, e in particolare **D non contribuisce in
+alcun modo** al preprocessing.
+
 ## 4. I quattro intervalli
 
 Confini scelti sulla disponibilità dei dati e sulla scala dei tipi, non su una
@@ -318,6 +325,26 @@ quando è congelata. L'**MLP non guadagna**: sul solo seme 42 sembrava migliorar
 da 0,798 a 0,833, ma sulle cinque ripetizioni la media è −0,026 e il guadagno è
 positivo in un seme solo. Quella prima lettura era un effetto del seme, ed è la
 ragione per cui le ripetizioni sono state fatte prima di riportare il risultato.
+
+**Quando l'adattamento serve davvero: il regime di inversione.** La misura più
+netta del pilota non sta nelle medie. Il modello congelato ha AUROC **sotto
+0,5** — cioè ordina al contrario — in 174 blocchi su 875 per la logistica, 154
+per l'MLP e **soltanto 10** per la KAN additiva. In quei blocchi l'adattamento
+guadagna moltissimo; in tutti gli altri perde poco ma perde: la logistica
+**+0,556** contro −0,056, l'MLP **+0,655** contro −0,098, la KAN **+0,483**
+contro −0,096.
+
+I blocchi invertiti sono quasi tutti quelli di `dos` (122) e `injection` (46),
+cioè i tipi comparsi dopo A, che contiene solo `scanning`; quelli di `ddos`
+(580) e `password` (120) non si invertono quasi mai. La KAN additiva quasi non
+si inverte ed è anche il modello con l'AUROC congelato più alto: non ha quasi
+nulla da correggere, e paga solo il costo dell'aggiornamento.
+
+**Questo assorbe la lettura per ricchezza di normali** riportata qui sotto. I
+blocchi ricchi di normali danno +0,409, ma il **67%** di essi è invertito;
+controllando per l'inversione, i ricchi **non** invertiti danno solo **+0,071**,
+e i poveri non invertiti −0,073. La ricchezza di normali coincide in larga parte
+con l'inversione e non la sostituisce come spiegazione.
 
 **Dove vive il guadagno.** Confrontando il guadagno di AUROC per fascia di
 ricchezza di normali del blocco, i due regimi sono opposti:

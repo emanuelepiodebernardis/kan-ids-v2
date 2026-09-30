@@ -39,6 +39,8 @@ viene piu' toccata, quindi non usa informazione dei flussi successivi.
 
 import argparse
 import json
+import platform
+import sys
 import time
 from pathlib import Path
 
@@ -294,10 +296,13 @@ def main(argv=None):
           % (len(yA), int((yA == 0).sum()), int((yA == 1).sum())), flush=True)
 
     modelli = {}
+    costo_addestramento = {}
     for cls in (ModelloLR, ModelloMLP, ModelloKAN):
         t1 = time.monotonic()
         modelli[cls.nome] = cls(ZA, yA, a.seme)
-        print('  %-4s addestrato in %.1fs' % (cls.nome, time.monotonic() - t1), flush=True)
+        costo_addestramento[cls.nome] = round(time.monotonic() - t1, 2)
+        print('  %-4s addestrato in %.1fs' % (cls.nome, costo_addestramento[cls.nome]), flush=True)
+    secondi_iniziale = round(time.monotonic() - t0, 2)
 
     # copia congelata: gli stessi parametri iniziali, mai aggiornati
     congelati = {n: np.array(m.parametri(), copy=True) for n, m in modelli.items()}
@@ -319,7 +324,9 @@ def main(argv=None):
     in_attesa = {}          # blocco -> (indici campionati)
     righe = []
     salti = {nm: 0 for nm in modelli}
+    aggiornamenti = {nm: 0 for nm in modelli}
     etichette_spese = 0
+    t_flusso = time.monotonic()
 
     for k in range(n_blocchi):
         i0, i1 = k * a.blocco, min((k + 1) * a.blocco, n)
@@ -372,6 +379,7 @@ def main(argv=None):
                     voce['salto_' + nm] = True
                 else:
                     adattivi[nm] = np.concatenate([nuovo[0], [nuovo[1]]])
+                    aggiornamenti[nm] += 1
                     voce['salto_' + nm] = False
         righe.append(voce)
         if k % 50 == 0:
@@ -383,10 +391,12 @@ def main(argv=None):
              if r[variante + '_' + nm][campo] is not None]
         return float(np.mean(v)) if v else NA
 
+    secondi_flusso = round(time.monotonic() - t_flusso, 2)
     riepilogo = {}
     for nm in modelli:
         riepilogo[nm] = {
             'salti_per_memoria_monoclasse': salti[nm],
+            'aggiornamenti_applicati': aggiornamenti[nm],
             'congelato': {c: media(nm, 'congelato', c) for c in
                           ('accuratezza', 'richiamo_attacchi', 'richiamo_normali',
                            'falsi_allarmi', 'auroc')},
@@ -408,7 +418,27 @@ def main(argv=None):
         'etichette_spese': etichette_spese,
         'quota_etichette_effettiva': etichette_spese / (n_blocchi * a.blocco),
         'riepilogo': riepilogo,
-        'secondi': round(time.monotonic() - t0, 1),
+        'ambiente': {
+            'python': platform.python_version(),
+            'implementazione': platform.python_implementation(),
+            'sistema': platform.system() + ' ' + platform.release(),
+            'macchina': platform.machine(),
+            'numpy': np.__version__,
+            'scikit_learn': __import__('sklearn').__version__,
+            'hardware': 'solo CPU: nessuna libreria di accelerazione usata',
+        },
+        'comando': ' '.join([Path(sys.argv[0]).name] + sys.argv[1:]),
+        'costi': {
+            'secondi_totali': round(time.monotonic() - t0, 2),
+            'secondi_addestramento_iniziale': secondi_iniziale,
+            'secondi_per_modello_iniziale': costo_addestramento,
+            'secondi_replay': secondi_flusso,
+            'secondi_per_blocco': round(secondi_flusso / max(1, n_blocchi), 4),
+            'etichette_richieste': etichette_spese,
+            'etichette_per_blocco': int(a.budget * a.blocco),
+            'aggiornamenti_applicati': aggiornamenti,
+            'aggiornamenti_saltati': salti,
+        },
         'per_blocco': righe,
     }
     u = Path(a.uscita)

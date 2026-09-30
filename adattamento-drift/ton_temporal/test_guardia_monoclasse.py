@@ -108,6 +108,7 @@ def test_quando_la_guardia_scatta_i_parametri_restano_quelli_di_prima():
 # --------------------------------------------------------------------------
 
 def _rendiconto_di_prova(tmp_path, righe_per_blocco=200, blocchi=6, quota_normali=0.0):
+    tmp_path = Path(tmp_path); tmp_path.mkdir(parents=True, exist_ok=True)
     """Costruisce due flussi minimi e fa girare il replay per davvero."""
     rng = np.random.default_rng(7)
     n_a = 2000
@@ -160,7 +161,50 @@ def test_con_entrambe_le_classi_la_guardia_non_scatta(tmp_path):
 
 
 # --------------------------------------------------------------------------
-# 4. Le altre regole del protocollo che il salto non deve spostare
+# 4. Richieste comuni: gli stessi record per tutti i metodi
+# --------------------------------------------------------------------------
+
+def test_il_campionamento_non_dipende_dal_modello(tmp_path):
+    """Un solo insieme di indici per blocco, condiviso dai tre metodi.
+
+    Il protocollo pretende che il confronto avvenga sugli stessi esempi. Nel
+    replay il campionamento e' eseguito una volta per blocco, con un generatore
+    inizializzato a `seme + k`, e la guida e' il punteggio della LR CONGELATA,
+    che non cambia mai. Qui si verifica la conseguenza osservabile: ogni blocco
+    registra una sola richiesta e una sola impronta degli indici, e due
+    esecuzioni con lo stesso seme le riproducono identiche.
+    """
+    primo = _rendiconto_di_prova(tmp_path / 'a', quota_normali=0.4)
+    secondo = _rendiconto_di_prova(tmp_path / 'b', quota_normali=0.4)
+    for r in primo['per_blocco']:
+        assert 'etichette_richieste' in r
+        assert 'row_id_campionati_sha' in r
+    impronte_1 = [r['row_id_campionati_sha'] for r in primo['per_blocco']]
+    impronte_2 = [r['row_id_campionati_sha'] for r in secondo['per_blocco']]
+    assert impronte_1 == impronte_2, (
+        'con lo stesso seme gli indici campionati devono essere identici')
+    assert any(x for x in impronte_1), 'nessun indice campionato: la prova e vuota'
+
+
+def test_il_campionatore_e_deterministico_e_indipendente_dai_modelli():
+    """`campiona` dipende solo da modo, guida, quantita e generatore."""
+    import numpy as _np
+    rng_a = _np.random.default_rng(42)
+    rng_b = _np.random.default_rng(42)
+    guida = _np.linspace(-5, 5, 1000)
+    a = R.campiona('uniforme', guida, 100, rng_a)
+    b = R.campiona('uniforme', guida, 100, rng_b)
+    assert _np.array_equal(a, b)
+    assert len(_np.unique(a)) == 100, 'campionamento senza ripetizioni'
+    # la variante stratificata copre tutte le fasce del punteggio
+    s = R.campiona('strati_punteggio', guida, 100, _np.random.default_rng(42))
+    assert len(_np.unique(s)) == 100
+    assert s.min() < 100 and s.max() > 900, (
+        'lo stratificato deve pescare in tutte le fasce, non solo al centro')
+
+
+# --------------------------------------------------------------------------
+# 5. Le altre regole del protocollo che il salto non deve spostare
 # --------------------------------------------------------------------------
 
 def test_il_ritardo_resta_di_un_blocco_anche_quando_si_salta(tmp_path):
