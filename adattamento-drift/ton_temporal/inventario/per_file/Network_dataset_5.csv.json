@@ -1,0 +1,224 @@
+{
+  "file": "Network_dataset_5.csv",
+  "sha256": "2cfccfbc2816418b49ab8bf26bcd45f0a4796f634512f7e5dff9def7b601778e",
+  "byte": 145230697,
+  "righe": 1000000,
+  "stage": {
+    "all_source": 1000000,
+    "invalid_raw_contract": 0,
+    "valid_raw_contract": 1000000,
+    "known_input_overlap": 807304,
+    "candidate_unseen_input": 192696
+  },
+  "label_valide": {
+    "1": 996343,
+    "0": 3657
+  },
+  "tipi_valide": {
+    "scanning": 996343,
+    "normal": 3657
+  },
+  "ts_primo_valido": 1556076051.0,
+  "ts_ultimo_valido": 1556076696.0,
+  "ts_primo_valido_iso": "2019-04-24T03:20:51+00:00",
+  "ts_ultimo_valido_iso": "2019-04-24T03:31:36+00:00",
+  "salti_indietro_nel_ts": 0,
+  "righe_con_ts_non_valido": 0,
+  "righe_con_label_sconosciuta": 0,
+  "zeri_negativi_canonicalizzati": 0,
+  "campi_invalidi": {},
+  "esempi_invalidi": [],
+  "impronte_note_osservate": 1641,
+  "tempi": {
+    "righe": 1000000,
+    "celle_orarie": [
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 996343
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3657
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 190553
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2143
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 805790
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 1514
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 996343
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3657
+      }
+    ],
+    "celle_orarie_frt": [
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 996343
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3657
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 190553
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2143
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 805790
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 1514
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 996343
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3657
+      }
+    ],
+    "ts_min": 1556076051.0,
+    "ts_max": 1556076696.0,
+    "feature_ready_time_min": 1556076051.0,
+    "feature_ready_time_max": 1556077041.675274,
+    "durata_massima_secondi": 679.455659,
+    "duration_non_numeriche": 0,
+    "duration_negative": 0,
+    "coppie_fuori_ordine_per_ts": 0,
+    "coppie_fuori_ordine_per_feature_ready_time": 206603
+  },
+  "celle_giornaliere": [
+    {
+      "utc_day": "2019-04-24",
+      "stage": "all_source",
+      "label": "1",
+      "type": "scanning",
+      "rows": 996343
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 3657
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "scanning",
+      "rows": 190553
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "candidate_unseen_input",
+      "label": "0",
+      "type": "normal",
+      "rows": 2143
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "scanning",
+      "rows": 805790
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 1514
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "scanning",
+      "rows": 996343
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 3657
+    }
+  ],
+  "secondi_impiegati": 35.7,
+  "coerenza_orario_vs_giornaliero": {
+    "coincide": true,
+    "celle_orarie_arrotolate": 8,
+    "celle_giornaliere": 8
+  }
+}

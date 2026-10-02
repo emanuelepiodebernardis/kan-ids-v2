@@ -1,0 +1,199 @@
+{
+ "semi": [
+  42,
+  43,
+  44,
+  45,
+  46
+ ],
+ "politiche": [
+  "ogni_blocco",
+  "evidenza",
+  "casuale"
+ ],
+ "misure_congelate_confrontate": 27480,
+ "aggiornamenti_pareggiati": {
+  "lr": [
+   54,
+   43,
+   44,
+   49,
+   36
+  ],
+  "mlp": [
+   20,
+   35,
+   45,
+   30,
+   39
+  ],
+  "kan": [
+   23,
+   16,
+   24,
+   13,
+   21
+  ]
+ },
+ "tabella": {
+  "lr": {
+   "congelato": {
+    "auroc": 0.7149,
+    "richiamo_normali_medio_per_blocco": 0.5327,
+    "fpr_complessivo": 0.4872,
+    "aggiornamenti": 0
+   },
+   "ogni_blocco": {
+    "auroc": 0.7739,
+    "richiamo_normali_medio_per_blocco": 0.5876,
+    "fpr_complessivo": 0.1854,
+    "aggiornamenti": 520
+   },
+   "evidenza": {
+    "auroc": 0.7756,
+    "richiamo_normali_medio_per_blocco": 0.5711,
+    "fpr_complessivo": 0.1944,
+    "aggiornamenti": 45.2
+   },
+   "casuale": {
+    "auroc": 0.7499,
+    "richiamo_normali_medio_per_blocco": 0.5501,
+    "fpr_complessivo": 0.2467,
+    "aggiornamenti": 45.2
+   }
+  },
+  "mlp": {
+   "congelato": {
+    "auroc": 0.7921,
+    "richiamo_normali_medio_per_blocco": 0.8585,
+    "fpr_complessivo": 0.2828,
+    "aggiornamenti": 0
+   },
+   "ogni_blocco": {
+    "auroc": 0.7664,
+    "richiamo_normali_medio_per_blocco": 0.6341,
+    "fpr_complessivo": 0.1508,
+    "aggiornamenti": 520
+   },
+   "evidenza": {
+    "auroc": 0.7956,
+    "richiamo_normali_medio_per_blocco": 0.6625,
+    "fpr_complessivo": 0.1844,
+    "aggiornamenti": 33.8
+   },
+   "casuale": {
+    "auroc": 0.7265,
+    "richiamo_normali_medio_per_blocco": 0.6427,
+    "fpr_complessivo": 0.1625,
+    "aggiornamenti": 33.8
+   }
+  },
+  "kan": {
+   "congelato": {
+    "auroc": 0.8909,
+    "richiamo_normali_medio_per_blocco": 0.9602,
+    "fpr_complessivo": 0.1323,
+    "aggiornamenti": 0
+   },
+   "ogni_blocco": {
+    "auroc": 0.8068,
+    "richiamo_normali_medio_per_blocco": 0.7117,
+    "fpr_complessivo": 0.1098,
+    "aggiornamenti": 520
+   },
+   "evidenza": {
+    "auroc": 0.8358,
+    "richiamo_normali_medio_per_blocco": 0.7552,
+    "fpr_complessivo": 0.0952,
+    "aggiornamenti": 19.4
+   },
+   "casuale": {
+    "auroc": 0.7384,
+    "richiamo_normali_medio_per_blocco": 0.6619,
+    "fpr_complessivo": 0.2122,
+    "aggiornamenti": 19.4
+   }
+  }
+ },
+ "stimabilita_del_verso": {
+  "lr": {
+   "blocchi_con_decisione": 4580,
+   "stima_disponibile": 1904,
+   "quota_disponibile": 0.4157,
+   "normali_campionati_mediana": 0.0,
+   "normali_campionati_media": 1.86,
+   "blocchi_senza_normali_campionati": 2676,
+   "correlazione_per_ritardo": {
+    "j": 0.687,
+    "j+1": 0.411,
+    "j+2": 0.363,
+    "j+3": 0.311,
+    "j+4": 0.289,
+    "j+5": 0.265
+   },
+   "accordo_sul_verso_a_j2": {
+    "vp": 42,
+    "fp": 205,
+    "fn": 71,
+    "vn": 1569,
+    "invertiti_veri": 113,
+    "richiamo": 0.3717,
+    "precisione": 0.17
+   }
+  },
+  "mlp": {
+   "blocchi_con_decisione": 4580,
+   "stima_disponibile": 1904,
+   "quota_disponibile": 0.4157,
+   "normali_campionati_mediana": 0.0,
+   "normali_campionati_media": 1.86,
+   "blocchi_senza_normali_campionati": 2676,
+   "correlazione_per_ritardo": {
+    "j": 0.692,
+    "j+1": 0.392,
+    "j+2": 0.325,
+    "j+3": 0.287,
+    "j+4": 0.252,
+    "j+5": 0.261
+   },
+   "accordo_sul_verso_a_j2": {
+    "vp": 43,
+    "fp": 195,
+    "fn": 55,
+    "vn": 1594,
+    "invertiti_veri": 98,
+    "richiamo": 0.4388,
+    "precisione": 0.1807
+   }
+  },
+  "kan": {
+   "blocchi_con_decisione": 4580,
+   "stima_disponibile": 1904,
+   "quota_disponibile": 0.4157,
+   "normali_campionati_mediana": 0.0,
+   "normali_campionati_media": 1.86,
+   "blocchi_senza_normali_campionati": 2676,
+   "correlazione_per_ritardo": {
+    "j": 0.729,
+    "j+1": 0.395,
+    "j+2": 0.292,
+    "j+3": 0.207,
+    "j+4": 0.232,
+    "j+5": 0.225
+   },
+   "accordo_sul_verso_a_j2": {
+    "vp": 26,
+    "fp": 144,
+    "fn": 69,
+    "vn": 1648,
+    "invertiti_veri": 95,
+    "richiamo": 0.2737,
+    "precisione": 0.1529
+   }
+  }
+ },
+ "note": {
+  "congelato": "la copia congelata e la stessa in tutte le politiche, e il controllo 1 lo verifica",
+  "ritardo_effettivo": "un aggiornamento deciso con le etichette del blocco j incide dal blocco j+2"
+ }
+}

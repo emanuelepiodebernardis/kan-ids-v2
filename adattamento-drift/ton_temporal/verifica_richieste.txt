@@ -1,0 +1,45 @@
+RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE
+  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di conferma
+
+OK      1  due aggregazioni del FPR, nominate e definite                    nomi e definizione presenti nei documenti
+OK      1  nessuna frase assoluta sui falsi allarmi                         ogni «aumentano sempre» ha l'aggregazione dichiarata o e' un ritiro
+OK      1  entrambe le aggregazioni nel riepilogo pubblicato                riepiloghi_semi.json
+OK      2  cinque rendiconti per blocco a soglia zero                       semi presenti: [42, 43, 44, 45, 46]
+OK      2  script dei riepiloghi presente                                   riepiloghi_semi.py
+OK      2  riepiloghi per seme, non solo in media                           una voce per ciascuno dei cinque semi
+OK      2  il seme 42 e dichiarato come tale nei documenti                  la diagnosi e attribuita al seme su cui e stata fatta
+OK      3  riferimento senza calibrazione conservato                        i cinque rendiconti a soglia zero dichiarano modo=zero
+OK      3  soglia scelta su B col massimo della balanced accuracy           cinque rendiconti calibrati
+OK      9  scelta sull'intero B                                             5.681.198 righe, cioe l intervallo intero
+OK      9  candidati documentati                                            15 casi in soglie_candidati.json
+OK      9  regola di confronto documentata e misurata                       uguaglianza esatta: un candidato solo in 15/15; a 1e-6 fino a 27
+OK      9  mediana inferiore dichiarata nei documenti                       formulazione del referente
+OK     10  una soglia per ogni modello e per ogni seme                      15 scelte registrate
+OK     10  soglia identica nella coppia congelato/adattivo                  ai blocchi 0 e 1 le due copie danno le stesse misure
+OK     10  nessuna pretesa di stabilita della soglia                        dichiarato nel protocollo
+OK      4  politica su evidenza di inversione eseguita                      semi: [42, 43, 44, 45, 46]
+OK      4  controllo negativo eseguito e pareggiato                         aggiornamenti pareggiati modello per modello
+OK      4  primo passo: quando il verso e stimabile                         disponibile nel 41.6% dei blocchi
+OK      4  primo passo: utilita per i blocchi futuri                        correlazione riportata per ritardi da j a j+5
+OK      4  decisione «non disponibile» quando manca una classe              conteggio separato da «nessuna evidenza»
+OK      4  le etichette spese sono le stesse in tutte le politiche          91,506 per seme in tutte e tre
+OK      4  il risparmio dichiarato e di aggiornamenti, non di etichette     dichiarato nei documenti
+OK     12  budget, FIFO e ritardo invariati in tutte le corse               blocco 10.000, budget 0,01, memoria 256, ritardo 1
+OK      5  controllo diretto delle sovrapposizioni A/B/C/D                  sovrapposizioni_abcd.json
+OK      5  le sei coppie sono riportate                                     A-B, A-C, A-D, B-C, B-D, C-D
+OK      5  esito su D riportato nei documenti                               righe e normali di D
+OK     13  D non usato per addestrare ne per valutare                       tutte le corse sono sul flusso C
+OK      6  modello descritto con precisione                                 strato, base, sottocampione, parametri aggiornati
+OK      6  rapporto col componente del Paper 1 dichiarato per quello che e  stessa forma funzionale, differenza nel regime di stima
+OK      6  e dichiarato che non e a piu strati                              il contrasto che regge
+OK      6  i tre documenti sono allineati sul nome                          protocollo, sintesi e nota
+OK      3  la soglia non cambia l'AUROC                                     27,480 valori confrontati fra soglia zero e soglia su B
+
+33 controlli su 33 passati
+
+NON VERIFICABILE DA QUI, e quindi non dato per fatto:
+     8  «puoi proseguire»: eseguito, ma il commit non e ancora spinto
+     11 «pubblica nello stesso PR»: i file sono pronti, il push e manuale
+     11 la descrizione del PR e ancora quella vecchia e va aggiornata
+     14 il 15 ottobre per il rapporto del pilot
+     15 indicare il nuovo commit in Trello: dopo il push

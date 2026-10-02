@@ -1,0 +1,2507 @@
+{
+ "definizioni": {
+  "fpr_medio_per_blocco": "media non pesata di fp/normali sui blocchi con almeno un normale; ogni blocco pesa uno",
+  "fpr_complessivo": "somma delle matrici di confusione su tutti i blocchi, poi fp/(fp+vn); ogni normale pesa uno",
+  "invertiti": "blocchi in cui il modello congelato ha AUROC < 0,5; solo blocchi con AUROC definita su entrambi i modelli"
+ },
+ "semi": [
+  42,
+  43,
+  44,
+  45,
+  46
+ ],
+ "per_seme": [
+  {
+   "seme": 42,
+   "blocchi": 916,
+   "per_modello": {
+    "lr": {
+     "nome": "regressione logistica",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5692453564691052,
+      "adattivo": 0.784965039367572,
+      "delta": 0.21571968289846677
+     },
+     "fpr_complessivo": {
+      "congelato": 0.6022698423688523,
+      "adattivo": 0.5528052805280528,
+      "delta": -0.049464561840799504,
+      "fp_congelato": 104383,
+      "fp_adattivo": 95810,
+      "delta_fp": -8573
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 174,
+      "quota_invertiti": 0.19885714285714284,
+      "auroc_congelato_invertiti": 0.31919460005854217,
+      "auroc_adattivo_invertiti": 0.8754863302062224,
+      "guadagno_invertiti": 0.5562917301476803,
+      "guadagno_altrove": -0.05597727252112482
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 266,
+       "fp_adattivo": 802,
+       "delta_fp": 536,
+       "delta_fpr_medio": 0.646529124470301
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3621,
+       "fp_adattivo": 5172,
+       "delta_fp": 1551,
+       "delta_fpr_medio": 0.282890282794834
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 6676,
+       "fp_adattivo": 8653,
+       "delta_fp": 1977,
+       "delta_fpr_medio": 0.16658610894865264
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 93820,
+       "fp_adattivo": 81183,
+       "delta_fp": -12637,
+       "delta_fpr_medio": -0.219833309880196
+      }
+     ]
+    },
+    "mlp": {
+     "nome": "MLP, ultimo strato",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.2657538387208442,
+      "adattivo": 0.7398997273368595,
+      "delta": 0.4741458886160153
+     },
+     "fpr_complessivo": {
+      "congelato": 0.42594451752867596,
+      "adattivo": 0.4585785501627086,
+      "delta": 0.03263403263403264,
+      "fp_congelato": 73823,
+      "fp_adattivo": 79479,
+      "delta_fp": 5656
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 154,
+      "quota_invertiti": 0.176,
+      "auroc_congelato_invertiti": 0.28159803684976703,
+      "auroc_adattivo_invertiti": 0.9368491505664651,
+      "guadagno_invertiti": 0.6552511137166981,
+      "guadagno_altrove": -0.09823374331332412
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 95,
+       "fp_adattivo": 803,
+       "delta_fp": 708,
+       "delta_fpr_medio": 0.8101666307548661
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 440,
+       "fp_adattivo": 4893,
+       "delta_fp": 4453,
+       "delta_fpr_medio": 0.8119894568928945
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 3777,
+       "fp_adattivo": 8404,
+       "delta_fp": 4627,
+       "delta_fpr_medio": 0.4107083760584652
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 69511,
+       "fp_adattivo": 65379,
+       "delta_fp": -4132,
+       "delta_fpr_medio": -0.17109954276070688
+      }
+     ]
+    },
+    "kan": {
+     "nome": "additivo a B-spline, guadagni e intercetta",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5383758920582604,
+      "adattivo": 0.7199717352100685,
+      "delta": 0.1815958431518081
+     },
+     "fpr_complessivo": {
+      "congelato": 0.5017367121327517,
+      "adattivo": 0.4703893466269704,
+      "delta": -0.03134736550578132,
+      "fp_congelato": 86959,
+      "fp_adattivo": 81526,
+      "delta_fp": -5433
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 10,
+      "quota_invertiti": 0.011428571428571429,
+      "auroc_congelato_invertiti": 0.4315461544173115,
+      "auroc_adattivo_invertiti": 0.9142194296837591,
+      "guadagno_invertiti": 0.4826732752664476,
+      "guadagno_altrove": -0.0957405903961628
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 265,
+       "fp_adattivo": 743,
+       "delta_fp": 478,
+       "delta_fpr_medio": 0.5664727429433312
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3483,
+       "fp_adattivo": 4915,
+       "delta_fp": 1432,
+       "delta_fpr_medio": 0.24679590734198578
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 5770,
+       "fp_adattivo": 8374,
+       "delta_fp": 2604,
+       "delta_fpr_medio": 0.2254558748681959
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 77441,
+       "fp_adattivo": 67494,
+       "delta_fp": -9947,
+       "delta_fpr_medio": -0.2607667451591878
+      }
+     ]
+    }
+   }
+  },
+  {
+   "seme": 43,
+   "blocchi": 916,
+   "per_modello": {
+    "lr": {
+     "nome": "regressione logistica",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5692453564691052,
+      "adattivo": 0.776733833667672,
+      "delta": 0.20748847719856678
+     },
+     "fpr_complessivo": {
+      "congelato": 0.6022698423688523,
+      "adattivo": 0.5052274458215052,
+      "delta": -0.09704239654734703,
+      "fp_congelato": 104383,
+      "fp_adattivo": 87564,
+      "delta_fp": -16819
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 174,
+      "quota_invertiti": 0.19885714285714284,
+      "auroc_congelato_invertiti": 0.31919460005854217,
+      "auroc_adattivo_invertiti": 0.8669099261787621,
+      "guadagno_invertiti": 0.5477153261202199,
+      "guadagno_altrove": -0.07288406091892889
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 266,
+       "fp_adattivo": 837,
+       "delta_fp": 571,
+       "delta_fpr_medio": 0.7135136105724341
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3621,
+       "fp_adattivo": 5127,
+       "delta_fp": 1506,
+       "delta_fpr_medio": 0.2777239687123448
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 6676,
+       "fp_adattivo": 8447,
+       "delta_fp": 1771,
+       "delta_fpr_medio": 0.15275026266383626
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 93820,
+       "fp_adattivo": 73153,
+       "delta_fp": -20667,
+       "delta_fpr_medio": -0.2960323850323049
+      }
+     ]
+    },
+    "mlp": {
+     "nome": "MLP, ultimo strato",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.2619530114968977,
+      "adattivo": 0.7278208686440236,
+      "delta": 0.4658678571471259
+     },
+     "fpr_complessivo": {
+      "congelato": 0.4254829329086755,
+      "adattivo": 0.4522779200997023,
+      "delta": 0.026794987191026798,
+      "fp_congelato": 73743,
+      "fp_adattivo": 78387,
+      "delta_fp": 4644
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 161,
+      "quota_invertiti": 0.184,
+      "auroc_congelato_invertiti": 0.28772644662150026,
+      "auroc_adattivo_invertiti": 0.9025027939085478,
+      "guadagno_invertiti": 0.6147763472870476,
+      "guadagno_altrove": -0.1556586184720085
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 99,
+       "fp_adattivo": 821,
+       "delta_fp": 722,
+       "delta_fpr_medio": 0.8231720893485599
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 409,
+       "fp_adattivo": 4714,
+       "delta_fp": 4305,
+       "delta_fpr_medio": 0.7898996413565448
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 3111,
+       "fp_adattivo": 7878,
+       "delta_fp": 4767,
+       "delta_fpr_medio": 0.4286743092195202
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 70124,
+       "fp_adattivo": 64974,
+       "delta_fp": -5150,
+       "delta_fpr_medio": -0.19724691561602686
+      }
+     ]
+    },
+    "kan": {
+     "nome": "additivo a B-spline, guadagni e intercetta",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5104143357556747,
+      "adattivo": 0.7172819750481945,
+      "delta": 0.20686763929251972
+     },
+     "fpr_complessivo": {
+      "congelato": 0.498996053451499,
+      "adattivo": 0.4512220452814512,
+      "delta": -0.04777400817004779,
+      "fp_congelato": 86484,
+      "fp_adattivo": 78204,
+      "delta_fp": -8280
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 9,
+      "quota_invertiti": 0.010285714285714285,
+      "auroc_congelato_invertiti": 0.4520478072249876,
+      "auroc_adattivo_invertiti": 0.8906688673317658,
+      "guadagno_invertiti": 0.4386210601067782,
+      "guadagno_altrove": -0.0842907812513434
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 219,
+       "fp_adattivo": 810,
+       "delta_fp": 591,
+       "delta_fpr_medio": 0.7449867126337715
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3413,
+       "fp_adattivo": 4833,
+       "delta_fp": 1420,
+       "delta_fpr_medio": 0.25358483948156574
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 5654,
+       "fp_adattivo": 7748,
+       "delta_fp": 2094,
+       "delta_fpr_medio": 0.18328690726534147
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 77198,
+       "fp_adattivo": 64813,
+       "delta_fp": -12385,
+       "delta_fpr_medio": -0.31604011640174706
+      }
+     ]
+    }
+   }
+  },
+  {
+   "seme": 44,
+   "blocchi": 916,
+   "per_modello": {
+    "lr": {
+     "nome": "regressione logistica",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5692453564691052,
+      "adattivo": 0.7768105922328928,
+      "delta": 0.2075652357637876
+     },
+     "fpr_complessivo": {
+      "congelato": 0.6022698423688523,
+      "adattivo": 0.5352419857370353,
+      "delta": -0.06702785663181698,
+      "fp_congelato": 104383,
+      "fp_adattivo": 92766,
+      "delta_fp": -11617
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 174,
+      "quota_invertiti": 0.19885714285714284,
+      "auroc_congelato_invertiti": 0.31919460005854217,
+      "auroc_adattivo_invertiti": 0.8794983796298783,
+      "guadagno_invertiti": 0.5603037795713361,
+      "guadagno_altrove": -0.05450328483709531
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 266,
+       "fp_adattivo": 801,
+       "delta_fp": 535,
+       "delta_fpr_medio": 0.6651098901098901
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3621,
+       "fp_adattivo": 5262,
+       "delta_fp": 1641,
+       "delta_fpr_medio": 0.29511080287559605
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 6676,
+       "fp_adattivo": 8642,
+       "delta_fp": 1966,
+       "delta_fpr_medio": 0.17025135105069994
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 93820,
+       "fp_adattivo": 78061,
+       "delta_fp": -15759,
+       "delta_fpr_medio": -0.2811731906565184
+      }
+     ]
+    },
+    "mlp": {
+     "nome": "MLP, ultimo strato",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.27114071173217813,
+      "adattivo": 0.7517111038715732,
+      "delta": 0.4805703921393951
+     },
+     "fpr_complessivo": {
+      "congelato": 0.4295794964111796,
+      "adattivo": 0.5166170463200166,
+      "delta": 0.087037549908837,
+      "fp_congelato": 74453,
+      "fp_adattivo": 89538,
+      "delta_fp": 15085
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 156,
+      "quota_invertiti": 0.1782857142857143,
+      "auroc_congelato_invertiti": 0.2763630465262902,
+      "auroc_adattivo_invertiti": 0.9063126717327528,
+      "guadagno_invertiti": 0.6299496252064626,
+      "guadagno_altrove": -0.1816569190964175
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 98,
+       "fp_adattivo": 806,
+       "delta_fp": 708,
+       "delta_fpr_medio": 0.8376086331968685
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 468,
+       "fp_adattivo": 4913,
+       "delta_fp": 4445,
+       "delta_fpr_medio": 0.8003770190000417
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 4039,
+       "fp_adattivo": 9282,
+       "delta_fp": 5243,
+       "delta_fpr_medio": 0.462064344242246
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 69848,
+       "fp_adattivo": 74537,
+       "delta_fp": 4689,
+       "delta_fpr_medio": -0.1876855805844202
+      }
+     ]
+    },
+    "kan": {
+     "nome": "additivo a B-spline, guadagni e intercetta",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5120348639475277,
+      "adattivo": 0.6848771819646525,
+      "delta": 0.1728423180171248
+     },
+     "fpr_complessivo": {
+      "congelato": 0.49809596344249807,
+      "adattivo": 0.44444252117519445,
+      "delta": -0.05365344226730362,
+      "fp_congelato": 86328,
+      "fp_adattivo": 77029,
+      "delta_fp": -9299
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 9,
+      "quota_invertiti": 0.010285714285714285,
+      "auroc_congelato_invertiti": 0.45420663649036364,
+      "auroc_adattivo_invertiti": 0.9100850544822137,
+      "guadagno_invertiti": 0.4558784179918501,
+      "guadagno_altrove": -0.10621930440874758
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 223,
+       "fp_adattivo": 712,
+       "delta_fp": 489,
+       "delta_fpr_medio": 0.6218253968253968
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3413,
+       "fp_adattivo": 4706,
+       "delta_fp": 1293,
+       "delta_fpr_medio": 0.22385415218284696
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 5671,
+       "fp_adattivo": 8226,
+       "delta_fp": 2555,
+       "delta_fpr_medio": 0.2183141019805159
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 77021,
+       "fp_adattivo": 63385,
+       "delta_fp": -13636,
+       "delta_fpr_medio": -0.312122161980163
+      }
+     ]
+    }
+   }
+  },
+  {
+   "seme": 45,
+   "blocchi": 916,
+   "per_modello": {
+    "lr": {
+     "nome": "regressione logistica",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5692453564691052,
+      "adattivo": 0.7927093039659941,
+      "delta": 0.22346394749688892
+     },
+     "fpr_complessivo": {
+      "congelato": 0.6022698423688523,
+      "adattivo": 0.5277123866232777,
+      "delta": -0.0745574557455746,
+      "fp_congelato": 104383,
+      "fp_adattivo": 91461,
+      "delta_fp": -12922
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 174,
+      "quota_invertiti": 0.19885714285714284,
+      "auroc_congelato_invertiti": 0.31919460005854217,
+      "auroc_adattivo_invertiti": 0.8710681636286842,
+      "guadagno_invertiti": 0.5518735635701421,
+      "guadagno_altrove": -0.08159366294905533
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 266,
+       "fp_adattivo": 826,
+       "delta_fp": 560,
+       "delta_fpr_medio": 0.6962903109961933
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3621,
+       "fp_adattivo": 5235,
+       "delta_fp": 1614,
+       "delta_fpr_medio": 0.2927125033311245
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 6676,
+       "fp_adattivo": 8983,
+       "delta_fp": 2307,
+       "delta_fpr_medio": 0.20276583644285082
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 93820,
+       "fp_adattivo": 76417,
+       "delta_fp": -17403,
+       "delta_fpr_medio": -0.26753251761520036
+      }
+     ]
+    },
+    "mlp": {
+     "nome": "MLP, ultimo strato",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.26998098890657646,
+      "adattivo": 0.7624650470727871,
+      "delta": 0.4924840581662106
+     },
+     "fpr_complessivo": {
+      "congelato": 0.4367686768676868,
+      "adattivo": 0.45246255394770246,
+      "delta": 0.015693877080015683,
+      "fp_congelato": 75699,
+      "fp_adattivo": 78419,
+      "delta_fp": 2720
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 145,
+      "quota_invertiti": 0.1657142857142857,
+      "auroc_congelato_invertiti": 0.300220245013236,
+      "auroc_adattivo_invertiti": 0.9365724598125794,
+      "guadagno_invertiti": 0.6363522147993435,
+      "guadagno_altrove": -0.24902715275513146
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 78,
+       "fp_adattivo": 847,
+       "delta_fp": 769,
+       "delta_fpr_medio": 0.8902176255117432
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 422,
+       "fp_adattivo": 5038,
+       "delta_fp": 4616,
+       "delta_fpr_medio": 0.8427884953796824
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 4383,
+       "fp_adattivo": 8782,
+       "delta_fp": 4399,
+       "delta_fpr_medio": 0.39055235375601327
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 70816,
+       "fp_adattivo": 63752,
+       "delta_fp": -7064,
+       "delta_fpr_medio": -0.2013205025269241
+      }
+     ]
+    },
+    "kan": {
+     "nome": "additivo a B-spline, guadagni e intercetta",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5083092059827632,
+      "adattivo": 0.7266795136493854,
+      "delta": 0.21837030766662224
+     },
+     "fpr_complessivo": {
+      "congelato": 0.49604191188349606,
+      "adattivo": 0.43603014147568603,
+      "delta": -0.06001177040781003,
+      "fp_congelato": 85972,
+      "fp_adattivo": 75571,
+      "delta_fp": -10401
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 10,
+      "quota_invertiti": 0.011428571428571429,
+      "auroc_congelato_invertiti": 0.43424055800429984,
+      "auroc_adattivo_invertiti": 0.8865487899196864,
+      "guadagno_invertiti": 0.45230823191538666,
+      "guadagno_altrove": -0.08824224811051644
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 213,
+       "fp_adattivo": 824,
+       "delta_fp": 611,
+       "delta_fpr_medio": 0.7507846728434964
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3404,
+       "fp_adattivo": 4844,
+       "delta_fp": 1440,
+       "delta_fpr_medio": 0.2582486859172946
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 5639,
+       "fp_adattivo": 8112,
+       "delta_fp": 2473,
+       "delta_fpr_medio": 0.21690329964355812
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 76716,
+       "fp_adattivo": 61791,
+       "delta_fp": -14925,
+       "delta_fpr_medio": -0.30372325597547783
+      }
+     ]
+    }
+   }
+  },
+  {
+   "seme": 46,
+   "blocchi": 916,
+   "per_modello": {
+    "lr": {
+     "nome": "regressione logistica",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5692453564691052,
+      "adattivo": 0.7684609294420516,
+      "delta": 0.19921557297294634
+     },
+     "fpr_complessivo": {
+      "congelato": 0.6022698423688523,
+      "adattivo": 0.5322878441690323,
+      "delta": -0.06998199819981998,
+      "fp_congelato": 104383,
+      "fp_adattivo": 92254,
+      "delta_fp": -12129
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 174,
+      "quota_invertiti": 0.19885714285714284,
+      "auroc_congelato_invertiti": 0.31919460005854217,
+      "auroc_adattivo_invertiti": 0.8679009308144879,
+      "guadagno_invertiti": 0.5487063307559458,
+      "guadagno_altrove": -0.0529115825421743
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 266,
+       "fp_adattivo": 813,
+       "delta_fp": 547,
+       "delta_fpr_medio": 0.6888009049773756
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3621,
+       "fp_adattivo": 4892,
+       "delta_fp": 1271,
+       "delta_fpr_medio": 0.24296774143646302
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 6676,
+       "fp_adattivo": 8579,
+       "delta_fp": 1903,
+       "delta_fpr_medio": 0.16096269859719348
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 93820,
+       "fp_adattivo": 77970,
+       "delta_fp": -15850,
+       "delta_fpr_medio": -0.26884366445986174
+      }
+     ]
+    },
+    "mlp": {
+     "nome": "MLP, ultimo strato",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.27234129034470156,
+      "adattivo": 0.697319526470468,
+      "delta": 0.42497823612576646
+     },
+     "fpr_complessivo": {
+      "congelato": 0.4354877795471855,
+      "adattivo": 0.4668697638994669,
+      "delta": 0.0313819843522814,
+      "fp_congelato": 75477,
+      "fp_adattivo": 80916,
+      "delta_fp": 5439
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 156,
+      "quota_invertiti": 0.1782857142857143,
+      "auroc_congelato_invertiti": 0.28161961756440995,
+      "auroc_adattivo_invertiti": 0.9260205471201964,
+      "guadagno_invertiti": 0.6444009295557865,
+      "guadagno_altrove": -0.1515196541025309
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 96,
+       "fp_adattivo": 773,
+       "delta_fp": 677,
+       "delta_fpr_medio": 0.8105580693815988
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 477,
+       "fp_adattivo": 4458,
+       "delta_fp": 3981,
+       "delta_fpr_medio": 0.7298259629594421
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 4094,
+       "fp_adattivo": 7739,
+       "delta_fp": 3645,
+       "delta_fpr_medio": 0.3181917266525117
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 70810,
+       "fp_adattivo": 67946,
+       "delta_fp": -2864,
+       "delta_fpr_medio": -0.20446754545495255
+      }
+     ]
+    },
+    "kan": {
+     "nome": "additivo a B-spline, guadagni e intercetta",
+     "normali_nello_stream": 173316,
+     "blocchi_con_almeno_un_normale": 875,
+     "fpr_medio_per_blocco": {
+      "congelato": 0.5150566424788077,
+      "adattivo": 0.6647132218049078,
+      "delta": 0.1496565793261001
+     },
+     "fpr_complessivo": {
+      "congelato": 0.5033522583027533,
+      "adattivo": 0.4279235615869279,
+      "delta": -0.07542869671582542,
+      "fp_congelato": 87239,
+      "fp_adattivo": 74166,
+      "delta_fp": -13073
+     },
+     "regime_inversione": {
+      "blocchi_misurabili": 875,
+      "blocchi_senza_auroc": 41,
+      "invertiti": 9,
+      "quota_invertiti": 0.010285714285714285,
+      "auroc_congelato_invertiti": 0.4585139347802999,
+      "auroc_adattivo_invertiti": 0.8133850784246405,
+      "guadagno_invertiti": 0.3548711436443406,
+      "guadagno_altrove": -0.07437310344993563
+     },
+     "bande_ricchezza_normali": [
+      {
+       "banda": "0",
+       "blocchi": 41,
+       "normali": 0,
+       "fp_congelato": 0,
+       "fp_adattivo": 0,
+       "delta_fp": 0,
+       "delta_fpr_medio": null
+      },
+      {
+       "banda": "1-9",
+       "blocchi": 221,
+       "normali": 876,
+       "fp_congelato": 218,
+       "fp_adattivo": 729,
+       "delta_fp": 511,
+       "delta_fpr_medio": 0.6549306902248079
+      },
+      {
+       "banda": "10-49",
+       "blocchi": 275,
+       "normali": 5733,
+       "fp_congelato": 3425,
+       "fp_adattivo": 4392,
+       "delta_fp": 967,
+       "delta_fpr_medio": 0.16436381771305825
+      },
+      {
+       "banda": "50-199",
+       "blocchi": 133,
+       "normali": 11936,
+       "fp_congelato": 5908,
+       "fp_adattivo": 7933,
+       "delta_fp": 2025,
+       "delta_fpr_medio": 0.17355542179667102
+      },
+      {
+       "banda": ">=200",
+       "blocchi": 246,
+       "normali": 154771,
+       "fp_congelato": 77688,
+       "fp_adattivo": 61112,
+       "delta_fp": -16576,
+       "delta_fpr_medio": -0.3336304739812736
+      }
+     ]
+    }
+   }
+  }
+ ],
+ "sui_semi": {
+  "lr": {
+   "nome": "regressione logistica",
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "fpr_medio_delta_medio": 0.21069058326613127,
+   "fpr_medio_semi_in_salita": 5,
+   "fpr_complessivo_delta_medio": -0.07161485379307161,
+   "fpr_complessivo_semi_in_salita": 0,
+   "delta_fp_medio": -12412,
+   "invertiti_min": 174,
+   "invertiti_max": 174,
+   "invertiti_medio": 174,
+   "guadagno_invertiti_medio": 0.5529781460330648,
+   "guadagno_invertiti_semi_con_blocchi": 5,
+   "guadagno_altrove_medio": -0.06357397275367573,
+   "guadagno_altrove_semi_con_blocchi": 5
+  },
+  "mlp": {
+   "nome": "MLP, ultimo strato",
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "fpr_medio_delta_medio": 0.4676092864389027,
+   "fpr_medio_semi_in_salita": 5,
+   "fpr_complessivo_delta_medio": 0.038708486233238706,
+   "fpr_complessivo_semi_in_salita": 5,
+   "delta_fp_medio": 6708.8,
+   "invertiti_min": 145,
+   "invertiti_max": 161,
+   "invertiti_medio": 154.4,
+   "guadagno_invertiti_medio": 0.6361460461130677,
+   "guadagno_invertiti_semi_con_blocchi": 5,
+   "guadagno_altrove_medio": -0.1672192175478825,
+   "guadagno_altrove_semi_con_blocchi": 5
+  },
+  "kan": {
+   "nome": "additivo a B-spline, guadagni e intercetta",
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "fpr_medio_delta_medio": 0.18586653749083498,
+   "fpr_medio_semi_in_salita": 5,
+   "fpr_complessivo_delta_medio": -0.05364305661335363,
+   "fpr_complessivo_semi_in_salita": 0,
+   "delta_fp_medio": -9297.2,
+   "invertiti_min": 9,
+   "invertiti_max": 10,
+   "invertiti_medio": 9.4,
+   "guadagno_invertiti_medio": 0.4368704257849606,
+   "guadagno_invertiti_semi_con_blocchi": 5,
+   "guadagno_altrove_medio": -0.08977320552334117,
+   "guadagno_altrove_semi_con_blocchi": 5
+  }
+ },
+ "confronto": {
+  "base": [
+   "replay_C_seme42.json",
+   "replay_C_seme43.json",
+   "replay_C_seme44.json",
+   "replay_C_seme45.json",
+   "replay_C_seme46.json"
+  ],
+  "confronto": [
+   "replay_C_calibrato_seme42.json",
+   "replay_C_calibrato_seme43.json",
+   "replay_C_calibrato_seme44.json",
+   "replay_C_calibrato_seme45.json",
+   "replay_C_calibrato_seme46.json"
+  ],
+  "per_seme_confronto": [
+   {
+    "seme": 42,
+    "blocchi": 916,
+    "per_modello": {
+     "lr": {
+      "nome": "regressione logistica",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.46726512857598534,
+       "adattivo": 0.42520046783243526,
+       "delta": -0.042064660743550086
+      },
+      "fpr_complessivo": {
+       "congelato": 0.4872198758337372,
+       "adattivo": 0.19816404717394817,
+       "delta": -0.28905582865978907,
+       "fp_congelato": 84443,
+       "fp_adattivo": 34345,
+       "delta_fp": -50098
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 174,
+       "quota_invertiti": 0.19885714285714284,
+       "auroc_congelato_invertiti": 0.31919460005854217,
+       "auroc_adattivo_invertiti": 0.8754863302062224,
+       "guadagno_invertiti": 0.5562917301476803,
+       "guadagno_altrove": -0.05597727252112482
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 228,
+        "fp_adattivo": 549,
+        "delta_fp": 321,
+        "delta_fpr_medio": 0.4113463334051569
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 3327,
+        "fp_adattivo": 2755,
+        "delta_fp": -572,
+        "delta_fpr_medio": -0.10672662392202899
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 3671,
+        "fp_adattivo": 5536,
+        "delta_fp": 1865,
+        "delta_fpr_medio": 0.18373064435902198
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 77217,
+        "fp_adattivo": 25505,
+        "delta_fp": -51712,
+        "delta_fpr_medio": -0.4991889103834878
+       }
+      ]
+     },
+     "mlp": {
+      "nome": "MLP, ultimo strato",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.1362786710618993,
+       "adattivo": 0.2937424506633808,
+       "delta": 0.15746377960148147
+      },
+      "fpr_complessivo": {
+       "congelato": 0.2740947171640241,
+       "adattivo": 0.09579034826559579,
+       "delta": -0.17830436889842832,
+       "fp_congelato": 47505,
+       "fp_adattivo": 16602,
+       "delta_fp": -30903
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 154,
+       "quota_invertiti": 0.176,
+       "auroc_congelato_invertiti": 0.28159803684976703,
+       "auroc_adattivo_invertiti": 0.9368491505664651,
+       "guadagno_invertiti": 0.6552511137166981,
+       "guadagno_altrove": -0.09823374331332412
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 7,
+        "fp_adattivo": 412,
+        "delta_fp": 405,
+        "delta_fpr_medio": 0.4758780435251023
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 95,
+        "fp_adattivo": 1786,
+        "delta_fp": 1691,
+        "delta_fpr_medio": 0.3116326941112742
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 490,
+        "fp_adattivo": 3702,
+        "delta_fp": 3212,
+        "delta_fpr_medio": 0.2965064831438346
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 46913,
+        "fp_adattivo": 10702,
+        "delta_fp": -36211,
+        "delta_fpr_medio": -0.3761081040913891
+       }
+      ]
+     },
+     "kan": {
+      "nome": "additivo a B-spline, guadagni e intercetta",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.03939259005694937,
+       "adattivo": 0.2680269935909529,
+       "delta": 0.22863440353400352
+      },
+      "fpr_complessivo": {
+       "congelato": 0.1323882388238824,
+       "adattivo": 0.1128978282443629,
+       "delta": -0.0194904105795195,
+       "fp_congelato": 22945,
+       "fp_adattivo": 19567,
+       "delta_fp": -3378
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 10,
+       "quota_invertiti": 0.011428571428571429,
+       "auroc_congelato_invertiti": 0.4315461544173115,
+       "auroc_adattivo_invertiti": 0.9142194296837591,
+       "guadagno_invertiti": 0.4826732752664476,
+       "guadagno_altrove": -0.0957405903961628
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 7,
+        "fp_adattivo": 316,
+        "delta_fp": 309,
+        "delta_fpr_medio": 0.36299648064353945
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 62,
+        "fp_adattivo": 2028,
+        "delta_fp": 1966,
+        "delta_fpr_medio": 0.3518593830782526
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 501,
+        "fp_adattivo": 3393,
+        "delta_fp": 2892,
+        "delta_fpr_medio": 0.27561320911871023
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 22375,
+        "fp_adattivo": 13830,
+        "delta_fp": -8545,
+        "delta_fpr_medio": -0.05522360280193929
+       }
+      ]
+     }
+    }
+   },
+   {
+    "seme": 43,
+    "blocchi": 916,
+    "per_modello": {
+     "lr": {
+      "nome": "regressione logistica",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.46726512857598534,
+       "adattivo": 0.3950960378900902,
+       "delta": -0.07216909068589517
+      },
+      "fpr_complessivo": {
+       "congelato": 0.4872198758337372,
+       "adattivo": 0.19214036788294214,
+       "delta": -0.2950795079507951,
+       "fp_congelato": 84443,
+       "fp_adattivo": 33301,
+       "delta_fp": -51142
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 174,
+       "quota_invertiti": 0.19885714285714284,
+       "auroc_congelato_invertiti": 0.31919460005854217,
+       "auroc_adattivo_invertiti": 0.8669099261787621,
+       "guadagno_invertiti": 0.5477153261202199,
+       "guadagno_altrove": -0.07288406091892889
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 228,
+        "fp_adattivo": 505,
+        "delta_fp": 277,
+        "delta_fpr_medio": 0.4247863247863248
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 3327,
+        "fp_adattivo": 2357,
+        "delta_fp": -970,
+        "delta_fpr_medio": -0.19340827026838978
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 3671,
+        "fp_adattivo": 4960,
+        "delta_fp": 1289,
+        "delta_fpr_medio": 0.14299659611188745
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 77217,
+        "fp_adattivo": 25479,
+        "delta_fp": -51738,
+        "delta_fpr_medio": -0.499418719865894
+       }
+      ]
+     },
+     "mlp": {
+      "nome": "MLP, ultimo strato",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.14326786493027374,
+       "adattivo": 0.33838176700323314,
+       "delta": 0.1951139020729594
+      },
+      "fpr_complessivo": {
+       "congelato": 0.28685176209928687,
+       "adattivo": 0.14846292321539847,
+       "delta": -0.1383888388838884,
+       "fp_congelato": 49716,
+       "fp_adattivo": 25731,
+       "delta_fp": -23985
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 161,
+       "quota_invertiti": 0.184,
+       "auroc_congelato_invertiti": 0.28772644662150026,
+       "auroc_adattivo_invertiti": 0.9025027939085478,
+       "guadagno_invertiti": 0.6147763472870476,
+       "guadagno_altrove": -0.1556586184720085
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 10,
+        "fp_adattivo": 470,
+        "delta_fp": 460,
+        "delta_fpr_medio": 0.5828664799253035
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 81,
+        "fp_adattivo": 2066,
+        "delta_fp": 1985,
+        "delta_fpr_medio": 0.3556179921020262
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 826,
+        "fp_adattivo": 3548,
+        "delta_fp": 2722,
+        "delta_fpr_medio": 0.26817408777964724
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 48799,
+        "fp_adattivo": 19647,
+        "delta_fp": -29152,
+        "delta_fpr_medio": -0.37215824899350763
+       }
+      ]
+     },
+     "kan": {
+      "nome": "additivo a B-spline, guadagni e intercetta",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.04211881347491145,
+       "adattivo": 0.30896848773796376,
+       "delta": 0.2668496742630523
+      },
+      "fpr_complessivo": {
+       "congelato": 0.13254979344088255,
+       "adattivo": 0.12158715871587158,
+       "delta": -0.010962634725010967,
+       "fp_congelato": 22973,
+       "fp_adattivo": 21073,
+       "delta_fp": -1900
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 9,
+       "quota_invertiti": 0.010285714285714285,
+       "auroc_congelato_invertiti": 0.4520478072249876,
+       "auroc_adattivo_invertiti": 0.8906688673317658,
+       "guadagno_invertiti": 0.4386210601067782,
+       "guadagno_altrove": -0.0842907812513434
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 15,
+        "fp_adattivo": 415,
+        "delta_fp": 400,
+        "delta_fpr_medio": 0.4901996696114343
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 66,
+        "fp_adattivo": 2137,
+        "delta_fp": 2071,
+        "delta_fpr_medio": 0.3638156322857147
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 503,
+        "fp_adattivo": 3365,
+        "delta_fp": 2862,
+        "delta_fpr_medio": 0.27660940572519715
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 22389,
+        "fp_adattivo": 15156,
+        "delta_fp": -7233,
+        "delta_fpr_medio": -0.047475657902353495
+       }
+      ]
+     }
+    }
+   },
+   {
+    "seme": 44,
+    "blocchi": 916,
+    "per_modello": {
+     "lr": {
+      "nome": "regressione logistica",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.46726512857598534,
+       "adattivo": 0.42126880311593273,
+       "delta": -0.04599632546005261
+      },
+      "fpr_complessivo": {
+       "congelato": 0.4872198758337372,
+       "adattivo": 0.19564841099494565,
+       "delta": -0.2915714648387916,
+       "fp_congelato": 84443,
+       "fp_adattivo": 33909,
+       "delta_fp": -50534
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 174,
+       "quota_invertiti": 0.19885714285714284,
+       "auroc_congelato_invertiti": 0.31919460005854217,
+       "auroc_adattivo_invertiti": 0.8794983796298783,
+       "guadagno_invertiti": 0.5603037795713361,
+       "guadagno_altrove": -0.05450328483709531
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 228,
+        "fp_adattivo": 522,
+        "delta_fp": 294,
+        "delta_fpr_medio": 0.4357591754650578
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 3327,
+        "fp_adattivo": 2646,
+        "delta_fp": -681,
+        "delta_fpr_medio": -0.1407678697380209
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 3671,
+        "fp_adattivo": 5421,
+        "delta_fp": 1750,
+        "delta_fpr_medio": 0.1791209825414716
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 77217,
+        "fp_adattivo": 25320,
+        "delta_fp": -51897,
+        "delta_fpr_medio": -0.49455889859912106
+       }
+      ]
+     },
+     "mlp": {
+      "nome": "MLP, ultimo strato",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.14124722898660869,
+       "adattivo": 0.37207305417548897,
+       "delta": 0.23082582518888028
+      },
+      "fpr_complessivo": {
+       "congelato": 0.2931581619700432,
+       "adattivo": 0.18453576126843454,
+       "delta": -0.10862240070160864,
+       "fp_congelato": 50809,
+       "fp_adattivo": 31983,
+       "delta_fp": -18826
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 156,
+       "quota_invertiti": 0.1782857142857143,
+       "auroc_congelato_invertiti": 0.2763630465262902,
+       "auroc_adattivo_invertiti": 0.9063126717327528,
+       "guadagno_invertiti": 0.6299496252064626,
+       "guadagno_altrove": -0.1816569190964175
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 11,
+        "fp_adattivo": 465,
+        "delta_fp": 454,
+        "delta_fpr_medio": 0.577061337355455
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 96,
+        "fp_adattivo": 2410,
+        "delta_fp": 2314,
+        "delta_fpr_medio": 0.3977306895587862
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 520,
+        "fp_adattivo": 4412,
+        "delta_fp": 3892,
+        "delta_fpr_medio": 0.3678689647662745
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 50182,
+        "fp_adattivo": 24696,
+        "delta_fp": -25486,
+        "delta_fpr_medio": -0.34089622137343906
+       }
+      ]
+     },
+     "kan": {
+      "nome": "additivo a B-spline, guadagni e intercetta",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.03935043630673827,
+       "adattivo": 0.3030282684894433,
+       "delta": 0.263677832182705
+      },
+      "fpr_complessivo": {
+       "congelato": 0.13237092940063236,
+       "adattivo": 0.13198435228138197,
+       "delta": -0.0003865771192503864,
+       "fp_congelato": 22942,
+       "fp_adattivo": 22875,
+       "delta_fp": -67
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 9,
+       "quota_invertiti": 0.010285714285714285,
+       "auroc_congelato_invertiti": 0.45420663649036364,
+       "auroc_adattivo_invertiti": 0.9100850544822137,
+       "guadagno_invertiti": 0.4558784179918501,
+       "guadagno_altrove": -0.10621930440874758
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 7,
+        "fp_adattivo": 377,
+        "delta_fp": 370,
+        "delta_fpr_medio": 0.4580406521582992
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 62,
+        "fp_adattivo": 2003,
+        "delta_fp": 1941,
+        "delta_fpr_medio": 0.3616859640332131
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 499,
+        "fp_adattivo": 3746,
+        "delta_fp": 3247,
+        "delta_fpr_medio": 0.30502845601593864
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 22374,
+        "fp_adattivo": 16749,
+        "delta_fp": -5625,
+        "delta_fpr_medio": -0.04285083628605963
+       }
+      ]
+     }
+    }
+   },
+   {
+    "seme": 45,
+    "blocchi": 916,
+    "per_modello": {
+     "lr": {
+      "nome": "regressione logistica",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.46726512857598534,
+       "adattivo": 0.42366222389615055,
+       "delta": -0.0436029046798348
+      },
+      "fpr_complessivo": {
+       "congelato": 0.4872198758337372,
+       "adattivo": 0.15841584158415842,
+       "delta": -0.3288040342495788,
+       "fp_congelato": 84443,
+       "fp_adattivo": 27456,
+       "delta_fp": -56987
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 174,
+       "quota_invertiti": 0.19885714285714284,
+       "auroc_congelato_invertiti": 0.31919460005854217,
+       "auroc_adattivo_invertiti": 0.8710681636286842,
+       "guadagno_invertiti": 0.5518735635701421,
+       "guadagno_altrove": -0.08159366294905533
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 228,
+        "fp_adattivo": 526,
+        "delta_fp": 298,
+        "delta_fpr_medio": 0.4393629246570423
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 3327,
+        "fp_adattivo": 2657,
+        "delta_fp": -670,
+        "delta_fpr_medio": -0.1271525323471556
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 3671,
+        "fp_adattivo": 5482,
+        "delta_fp": 1811,
+        "delta_fpr_medio": 0.18505918937235374
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 77217,
+        "fp_adattivo": 18791,
+        "delta_fp": -58426,
+        "delta_fpr_medio": -0.5077141208744597
+       }
+      ]
+     },
+     "mlp": {
+      "nome": "MLP, ultimo strato",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.150531351478179,
+       "adattivo": 0.43849278141400455,
+       "delta": 0.2879614299358255
+      },
+      "fpr_complessivo": {
+       "congelato": 0.2837937639917838,
+       "adattivo": 0.12893212398162893,
+       "delta": -0.15486164001015487,
+       "fp_congelato": 49186,
+       "fp_adattivo": 22346,
+       "delta_fp": -26840
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 145,
+       "quota_invertiti": 0.1657142857142857,
+       "auroc_congelato_invertiti": 0.300220245013236,
+       "auroc_adattivo_invertiti": 0.9365724598125794,
+       "guadagno_invertiti": 0.6363522147993435,
+       "guadagno_altrove": -0.24902715275513146
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 15,
+        "fp_adattivo": 579,
+        "delta_fp": 564,
+        "delta_fpr_medio": 0.6777957336780867
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 134,
+        "fp_adattivo": 2924,
+        "delta_fp": 2790,
+        "delta_fpr_medio": 0.5067007863763835
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 900,
+        "fp_adattivo": 5172,
+        "delta_fp": 4272,
+        "delta_fpr_medio": 0.39811297491053016
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 48137,
+        "fp_adattivo": 13671,
+        "delta_fp": -34466,
+        "delta_fpr_medio": -0.36633474742120226
+       }
+      ]
+     },
+     "kan": {
+      "nome": "additivo a B-spline, guadagni e intercetta",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.039195191480511864,
+       "adattivo": 0.291005342819538,
+       "delta": 0.2518101513390261
+      },
+      "fpr_complessivo": {
+       "congelato": 0.13226707286113226,
+       "adattivo": 0.10247755544785248,
+       "delta": -0.029789517413279787,
+       "fp_congelato": 22924,
+       "fp_adattivo": 17761,
+       "delta_fp": -5163
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 10,
+       "quota_invertiti": 0.011428571428571429,
+       "auroc_congelato_invertiti": 0.43424055800429984,
+       "auroc_adattivo_invertiti": 0.8865487899196864,
+       "guadagno_invertiti": 0.45230823191538666,
+       "guadagno_altrove": -0.08824224811051644
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 7,
+        "fp_adattivo": 392,
+        "delta_fp": 385,
+        "delta_fpr_medio": 0.4982905982905983
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 59,
+        "fp_adattivo": 1857,
+        "delta_fp": 1798,
+        "delta_fpr_medio": 0.32825180882712146
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 495,
+        "fp_adattivo": 3089,
+        "delta_fp": 2594,
+        "delta_fpr_medio": 0.24660831611633982
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 22363,
+        "fp_adattivo": 12423,
+        "delta_fp": -9940,
+        "delta_fpr_medio": -0.05226216777034937
+       }
+      ]
+     }
+    }
+   },
+   {
+    "seme": 46,
+    "blocchi": 916,
+    "per_modello": {
+     "lr": {
+      "nome": "regressione logistica",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.46726512857598534,
+       "adattivo": 0.3965819571419271,
+       "delta": -0.07068317143405822
+      },
+      "fpr_complessivo": {
+       "congelato": 0.4872198758337372,
+       "adattivo": 0.18273558125043274,
+       "delta": -0.3044842945833045,
+       "fp_congelato": 84443,
+       "fp_adattivo": 31671,
+       "delta_fp": -52772
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 174,
+       "quota_invertiti": 0.19885714285714284,
+       "auroc_congelato_invertiti": 0.31919460005854217,
+       "auroc_adattivo_invertiti": 0.8679009308144879,
+       "guadagno_invertiti": 0.5487063307559458,
+       "guadagno_altrove": -0.0529115825421743
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 228,
+        "fp_adattivo": 525,
+        "delta_fp": 297,
+        "delta_fpr_medio": 0.4010091215973569
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 3327,
+        "fp_adattivo": 2475,
+        "delta_fp": -852,
+        "delta_fpr_medio": -0.15409145442843322
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 3671,
+        "fp_adattivo": 5026,
+        "delta_fp": 1355,
+        "delta_fpr_medio": 0.13333344988444762
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 77217,
+        "fp_adattivo": 23645,
+        "delta_fp": -53572,
+        "delta_fpr_medio": -0.5114999583115009
+       }
+      ]
+     },
+     "mlp": {
+      "nome": "MLP, ultimo strato",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.13627043797404956,
+       "adattivo": 0.38659482583825133,
+       "delta": 0.25032438786420175
+      },
+      "fpr_complessivo": {
+       "congelato": 0.2762872441090263,
+       "adattivo": 0.19641579542569643,
+       "delta": -0.07987144868332985,
+       "fp_congelato": 47885,
+       "fp_adattivo": 34042,
+       "delta_fp": -13843
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 156,
+       "quota_invertiti": 0.1782857142857143,
+       "auroc_congelato_invertiti": 0.28161961756440995,
+       "auroc_adattivo_invertiti": 0.9260205471201964,
+       "guadagno_invertiti": 0.6444009295557865,
+       "guadagno_altrove": -0.1515196541025309
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 9,
+        "fp_adattivo": 497,
+        "delta_fp": 488,
+        "delta_fpr_medio": 0.5610518566400919
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 79,
+        "fp_adattivo": 2497,
+        "delta_fp": 2418,
+        "delta_fpr_medio": 0.44224715200982684
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 484,
+        "fp_adattivo": 4866,
+        "delta_fp": 4382,
+        "delta_fpr_medio": 0.3939846108808925
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 47313,
+        "fp_adattivo": 26182,
+        "delta_fp": -21131,
+        "delta_fpr_medio": -0.32104284953717427
+       }
+      ]
+     },
+     "kan": {
+      "nome": "additivo a B-spline, guadagni e intercetta",
+      "normali_nello_stream": 173316,
+      "blocchi_con_almeno_un_normale": 875,
+      "fpr_medio_per_blocco": {
+       "congelato": 0.03910673116033556,
+       "adattivo": 0.270325002922239,
+       "delta": 0.23121827176190343
+      },
+      "fpr_complessivo": {
+       "congelato": 0.1317016317016317,
+       "adattivo": 0.0801137806088301,
+       "delta": -0.051587851092801604,
+       "fp_congelato": 22826,
+       "fp_adattivo": 13885,
+       "delta_fp": -8941
+      },
+      "regime_inversione": {
+       "blocchi_misurabili": 875,
+       "blocchi_senza_auroc": 41,
+       "invertiti": 9,
+       "quota_invertiti": 0.010285714285714285,
+       "auroc_congelato_invertiti": 0.4585139347802999,
+       "auroc_adattivo_invertiti": 0.8133850784246405,
+       "guadagno_invertiti": 0.3548711436443406,
+       "guadagno_altrove": -0.07437310344993563
+      },
+      "bande_ricchezza_normali": [
+       {
+        "banda": "0",
+        "blocchi": 41,
+        "normali": 0,
+        "fp_congelato": 0,
+        "fp_adattivo": 0,
+        "delta_fp": 0,
+        "delta_fpr_medio": null
+       },
+       {
+        "banda": "1-9",
+        "blocchi": 221,
+        "normali": 876,
+        "fp_congelato": 7,
+        "fp_adattivo": 394,
+        "delta_fp": 387,
+        "delta_fpr_medio": 0.4594124829418947
+       },
+       {
+        "banda": "10-49",
+        "blocchi": 275,
+        "normali": 5733,
+        "fp_congelato": 61,
+        "fp_adattivo": 1765,
+        "delta_fp": 1704,
+        "delta_fpr_medio": 0.31691507970531146
+       },
+       {
+        "banda": "50-199",
+        "blocchi": 133,
+        "normali": 11936,
+        "fp_congelato": 492,
+        "fp_adattivo": 2828,
+        "delta_fp": 2336,
+        "delta_fpr_medio": 0.2215615037682794
+       },
+       {
+        "banda": ">=200",
+        "blocchi": 246,
+        "normali": 154771,
+        "fp_congelato": 22266,
+        "fp_adattivo": 8898,
+        "delta_fp": -13368,
+        "delta_fpr_medio": -0.06436381243347578
+       }
+      ]
+     }
+    }
+   }
+  ],
+  "sui_semi_confronto": {
+   "lr": {
+    "nome": "regressione logistica",
+    "semi": [
+     42,
+     43,
+     44,
+     45,
+     46
+    ],
+    "fpr_medio_delta_medio": -0.05490323060067818,
+    "fpr_medio_semi_in_salita": 0,
+    "fpr_complessivo_delta_medio": -0.3017990260564518,
+    "fpr_complessivo_semi_in_salita": 0,
+    "delta_fp_medio": -52306.6,
+    "invertiti_min": 174,
+    "invertiti_max": 174,
+    "invertiti_medio": 174,
+    "guadagno_invertiti_medio": 0.5529781460330648,
+    "guadagno_invertiti_semi_con_blocchi": 5,
+    "guadagno_altrove_medio": -0.06357397275367573,
+    "guadagno_altrove_semi_con_blocchi": 5
+   },
+   "mlp": {
+    "nome": "MLP, ultimo strato",
+    "semi": [
+     42,
+     43,
+     44,
+     45,
+     46
+    ],
+    "fpr_medio_delta_medio": 0.2243378649326697,
+    "fpr_medio_semi_in_salita": 5,
+    "fpr_complessivo_delta_medio": -0.13200973943548203,
+    "fpr_complessivo_semi_in_salita": 0,
+    "delta_fp_medio": -22879.4,
+    "invertiti_min": 145,
+    "invertiti_max": 161,
+    "invertiti_medio": 154.4,
+    "guadagno_invertiti_medio": 0.6361460461130677,
+    "guadagno_invertiti_semi_con_blocchi": 5,
+    "guadagno_altrove_medio": -0.1672192175478825,
+    "guadagno_altrove_semi_con_blocchi": 5
+   },
+   "kan": {
+    "nome": "additivo a B-spline, guadagni e intercetta",
+    "semi": [
+     42,
+     43,
+     44,
+     45,
+     46
+    ],
+    "fpr_medio_delta_medio": 0.24843806661613807,
+    "fpr_medio_semi_in_salita": 5,
+    "fpr_complessivo_delta_medio": -0.02244339818597245,
+    "fpr_complessivo_semi_in_salita": 0,
+    "delta_fp_medio": -3889.8,
+    "invertiti_min": 9,
+    "invertiti_max": 10,
+    "invertiti_medio": 9.4,
+    "guadagno_invertiti_medio": 0.4368704257849606,
+    "guadagno_invertiti_semi_con_blocchi": 5,
+    "guadagno_altrove_medio": -0.08977320552334117,
+    "guadagno_altrove_semi_con_blocchi": 5
+   }
+  },
+  "auroc_confrontate": 27480,
+  "per_modello": {
+   "lr": {
+    "fpr_medio_base": 0.21069058326613127,
+    "fpr_medio_confronto": -0.05490323060067818,
+    "fpr_complessivo_base": -0.07161485379307161,
+    "fpr_complessivo_confronto": -0.3017990260564518,
+    "delta_fp_base": -12412,
+    "delta_fp_confronto": -52306.6
+   },
+   "mlp": {
+    "fpr_medio_base": 0.4676092864389027,
+    "fpr_medio_confronto": 0.2243378649326697,
+    "fpr_complessivo_base": 0.038708486233238706,
+    "fpr_complessivo_confronto": -0.13200973943548203,
+    "delta_fp_base": 6708.8,
+    "delta_fp_confronto": -22879.4
+   },
+   "kan": {
+    "fpr_medio_base": 0.18586653749083498,
+    "fpr_medio_confronto": 0.24843806661613807,
+    "fpr_complessivo_base": -0.05364305661335363,
+    "fpr_complessivo_confronto": -0.02244339818597245,
+    "delta_fp_base": -9297.2,
+    "delta_fp_confronto": -3889.8
+   }
+  }
+ }
+}
