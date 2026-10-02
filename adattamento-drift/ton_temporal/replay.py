@@ -171,7 +171,6 @@ class ModelloKAN:
     def rappresentazione(self, Z):
         """Un contributo additivo per feature: e' su questi che agiscono i guadagni."""
         B = self._basi(Z)
-        k = self.n_base - 1 + 3 - 2   # base per feature effettive
         per_feature = B.shape[1] // Z.shape[1]
         out = np.zeros((len(Z), Z.shape[1]))
         for j in range(Z.shape[1]):
@@ -190,9 +189,40 @@ class ModelloKAN:
         self.b = float(b)
 
 
-def misure(y, punteggio):
-    """Misure per blocco; None dove non sono definite."""
-    pred = (punteggio > 0).astype(np.uint8)
+def punteggio_a_blocchi(modello, trasformazione, X, parametri, blocco=200_000):
+    """Punteggio del modello su un flusso intero, senza tenerne in memoria la
+    rappresentazione: quella della base B-spline su milioni di righe pesa
+    gigabyte, e il processo viene ucciso senza messaggio."""
+    fuori = np.empty(len(X), dtype=np.float64)
+    for i in range(0, len(X), blocco):
+        R = modello.rappresentazione(trasformazione(X[i:i + blocco]))
+        fuori[i:i + blocco] = R @ parametri[:-1] + parametri[-1]
+    return fuori
+
+
+def _carica_soglia():
+    """soglia_bilanciata.py accanto a questo file, senza dipendere da sys.path."""
+    import importlib.util
+    percorso = Path(__file__).resolve().parent / 'soglia_bilanciata.py'
+    if not percorso.is_file():
+        raise SystemExit(f'manca {percorso}, necessario per --calibrazione')
+    spec = importlib.util.spec_from_file_location('soglia_bilanciata', percorso)
+    modulo = importlib.util.module_from_spec(spec)
+    sys.modules['soglia_bilanciata'] = modulo
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+def misure(y, punteggio, soglia=0.0):
+    """Misure per blocco; None dove non sono definite.
+
+    `soglia` e' il punto di decisione: la predizione e' `punteggio > soglia`.
+    Con il valore predefinito 0.0 si ottiene il riferimento SENZA calibrazione.
+    Con --calibrazione la soglia viene scelta su B e resta identica e fissa
+    nella coppia congelato / adattivo di ciascun modello; l'AUROC non dipende
+    dalla soglia, quindi cambiano solo le misure di decisione.
+    """
+    pred = (punteggio > soglia).astype(np.uint8)
     n = len(y)
     n0 = int((y == 0).sum()); n1 = int((y == 1).sum())
     vp = int(((pred == 1) & (y == 1)).sum()); vn = int(((pred == 0) & (y == 0)).sum())
@@ -203,20 +233,147 @@ def misure(y, punteggio):
            'richiamo_normali': vn / n0 if n0 else NA,
            'falsi_allarmi': fp / n0 if n0 else NA,
            'vp': vp, 'vn': vn, 'fp': fp, 'fn': fn}
-    if n0 and n1:
-        ordine = np.argsort(punteggio)
-        rango = np.empty(n, dtype=float)
-        rango[ordine] = np.arange(1, n + 1)
-        # ranghi medi sui pari merito
-        _, inizio, conteggi = np.unique(punteggio[ordine], return_index=True, return_counts=True)
-        for i0, c in zip(inizio, conteggi):
-            if c > 1:
-                rango[ordine[i0:i0 + c]] = rango[ordine[i0:i0 + c]].mean()
-        somma = rango[y == 1].sum()
-        out['auroc'] = (somma - n1 * (n1 + 1) / 2) / (n0 * n1)
-    else:
-        out['auroc'] = NA
+    out['auroc'] = auroc(y, punteggio)
     return out
+
+
+def auroc(y, punteggio):
+    """AUROC con ranghi medi sui pari merito; None se manca una delle due classi.
+
+    Estratta da misure() perche' la usa anche la stima del verso sulle etichette
+    gia' arrivate: le due devono essere LA STESSA funzione, altrimenti il
+    confronto fra la stima e il valore vero non misurerebbe la stima.
+    """
+    y = np.asarray(y)
+    punteggio = np.asarray(punteggio, dtype=float)
+    n = len(y)
+    n0 = int((y == 0).sum()); n1 = int((y == 1).sum())
+    if not (n0 and n1):
+        return NA
+    ordine = np.argsort(punteggio)
+    rango = np.empty(n, dtype=float)
+    rango[ordine] = np.arange(1, n + 1)
+    _, inizio, conteggi = np.unique(punteggio[ordine], return_index=True, return_counts=True)
+    for i0, c in zip(inizio, conteggi):
+        if c > 1:
+            rango[ordine[i0:i0 + c]] = rango[ordine[i0:i0 + c]].mean()
+    somma = rango[y == 1].sum()
+    return (somma - n1 * (n1 + 1) / 2) / (n0 * n1)
+
+
+def _blocchi_ammissibili(percorso, n_blocchi, ritardo):
+    """I blocchi in cui un aggiornamento e' davvero possibile.
+
+    Il controllo negativo deve pareggiare il numero di aggiornamenti
+    APPLICATI. Estraendo a sorte fra tutti i blocchi, circa il 43% delle
+    estrazioni finisce su un blocco in cui la memoria contiene una sola classe,
+    l'aggiornamento viene saltato dalla guardia, e il controllo ne applica quasi
+    la meta' di quelli che dovrebbe: misurerebbe la differenza fra i conteggi
+    invece della differenza fra i criteri.
+
+    La memoria e' riempita dalle etichette che arrivano, non dalla politica,
+    quindi l'insieme dei blocchi ammissibili e' lo stesso per tutte le politiche
+    e per tutti i modelli dello stesso seme. Lo si legge dal rendiconto della
+    corsa `ogni_blocco`, che per ogni blocco registra se l'aggiornamento e'
+    stato applicato o saltato.
+    """
+    if percorso is None:
+        return np.arange(max(0, n_blocchi - ritardo))
+    with open(percorso, encoding='utf-8') as f:
+        righe = json.load(f)['per_blocco']
+    ammissibili = []
+    for voce in righe:
+        salti_modelli = {voce.get('salto_' + nm) for nm in ('lr', 'mlp', 'kan')}
+        if salti_modelli == {False}:
+            # il blocco le cui etichette erano arrivate, non quello corrente
+            pronte = voce.get('etichette_arrivate_dal_blocco')
+            if pronte is not None:
+                ammissibili.append(int(pronte))
+        elif len(salti_modelli - {None}) > 1:
+            raise SystemExit(
+                f"blocco {voce.get('blocco')}: la guardia sulla memoria non e' "
+                "uguale per i tre modelli, l'insieme ammissibile non e' unico")
+    return np.array(sorted(set(ammissibili)))
+
+
+def _quanti_per_modello(testo, modelli):
+    """Un numero per tutti i modelli, oppure "lr=54,mlp=20,kan=23"."""
+    testo = str(testo)
+    if '=' not in testo:
+        return {nm: int(testo) for nm in modelli}
+    fuori = {}
+    for pezzo in testo.split(','):
+        nome, _, valore = pezzo.partition('=')
+        nome = nome.strip()
+        if nome not in modelli:
+            raise SystemExit(f'modello non riconosciuto in --quanti-aggiornamenti: {nome}')
+        fuori[nome] = int(valore)
+    mancanti = set(modelli) - set(fuori)
+    if mancanti:
+        raise SystemExit(f'--quanti-aggiornamenti non copre: {sorted(mancanti)}')
+    return fuori
+
+
+def decidi(politica, modello, blocco_pronte, righe, blocchi_scelti):
+    """Se aggiornare, con la sola informazione disponibile al momento.
+
+    Tre politiche, piu' un controllo negativo:
+
+      ogni_blocco           aggiorna sempre che si possa. E' quella del §10.
+      evidenza_inversione   aggiorna solo se la stima FUORI CAMPIONE del blocco
+                            le cui etichette sono appena arrivate dice che il
+                            verso e' rovesciato. Se la stima non esiste — fra le
+                            righe campionate manca una classe — la decisione e'
+                            `non_disponibile`, e NON viene confusa con
+                            «nessuna evidenza»: la prima dice che non si sa, la
+                            seconda che si sa e non c'e'.
+      casuale               aggiorna su un insieme di blocchi estratto a sorte e
+                            fissato in anticipo. E' il controllo negativo: se
+                            non viene battuto dalla politica su evidenza, allora
+                            quello che conta e' il NUMERO di aggiornamenti e non
+                            l'inversione.
+
+    Non legge nulla del blocco corrente: solo il rendiconto del blocco
+    `blocco_pronte`, che e' gia' stato predetto e le cui etichette sono arrivate.
+    """
+    if politica == 'ogni_blocco':
+        return 'procedi'
+    if politica == 'casuale':
+        return 'procedi' if blocco_pronte in blocchi_scelti[modello] else 'non_scelto'
+    if politica != 'evidenza_inversione':
+        raise SystemExit(f'politica non riconosciuta: {politica}')
+    if blocco_pronte >= len(righe):
+        return 'non_disponibile'
+    stima = righe[blocco_pronte].get('stima_campione_' + modello)
+    if stima is None or stima['auroc_sul_campione'] is None:
+        return 'non_disponibile'
+    return 'procedi' if stima['auroc_sul_campione'] < 0.5 else 'nessuna_evidenza'
+
+
+def stima_verso(modello, parametri, memoria_X, memoria_y):
+    """Il verso stimato dalle SOLE etichette gia' arrivate, cioe' dalla memoria.
+
+    Risponde alla domanda che il referente pone come primo passo: il verso e'
+    stimabile in esercizio? L'AUROC del blocco corrente richiede le etichette di
+    tutto il blocco e non e' disponibile; questa usa i soli esempi in memoria,
+    che sono quelli le cui etichette sono arrivate.
+
+    Quando in memoria manca una delle due classi la decisione e' **non
+    disponibile**, e non va confusa con «non invertito»: sono due cose diverse e
+    il rendiconto le tiene separate.
+    """
+    y = np.asarray(memoria_y)
+    n0 = int((y == 0).sum()); n1 = int((y == 1).sum())
+    if not (n0 and n1):
+        return {'disponibile': False, 'auroc_in_memoria': NA,
+                'normali_in_memoria': n0, 'attacchi_in_memoria': n1,
+                'verso_stimato_invertito': NA}
+    Z = np.asarray(memoria_X)
+    p = modello.rappresentazione(Z) @ parametri[:-1] + parametri[-1]
+    a = auroc(y, p)
+    return {'disponibile': True, 'auroc_in_memoria': float(a),
+            'normali_in_memoria': n0, 'attacchi_in_memoria': n1,
+            'verso_stimato_invertito': bool(a < 0.5)}
 
 
 def campiona(modo, punteggio_guida, quanti, rng):
@@ -270,6 +427,19 @@ def main(argv=None):
                    help='blocchi di attesa: le etichette di k arrivano a fine k+ritardo')
     p.add_argument('--seme', type=int, default=42)
     p.add_argument('--max-blocchi', type=int, default=None, help='per uno smoke breve')
+    p.add_argument('--politica', default='ogni_blocco',
+                   choices=('ogni_blocco', 'evidenza_inversione', 'casuale'),
+                   help='quando applicare l aggiornamento')
+    p.add_argument('--ammissibili', default=None,
+                   help='solo per --politica casuale: il rendiconto della corsa '
+                        'ogni_blocco dello stesso seme, da cui leggere i blocchi '
+                        'in cui un aggiornamento e davvero possibile')
+    p.add_argument('--quanti-aggiornamenti', default=None,
+                   help='solo per --politica casuale: quanti blocchi scegliere, '
+                        'un numero per tutti o "lr=54,mlp=20,kan=23"')
+    p.add_argument('--calibrazione', default=None,
+                   help='flusso B .npz: la soglia di decisione viene scelta su B '
+                        'col massimo della balanced accuracy, invece di restare a zero')
     p.add_argument('--campionamento', choices=('uniforme', 'strati_punteggio'),
                    default='uniforme',
                    help=("uniforme: l'1%% estratto a caso, come prescrive la scheda. "
@@ -303,6 +473,34 @@ def main(argv=None):
         costo_addestramento[cls.nome] = round(time.monotonic() - t1, 2)
         print('  %-4s addestrato in %.1fs' % (cls.nome, costo_addestramento[cls.nome]), flush=True)
     secondi_iniziale = round(time.monotonic() - t0, 2)
+    congelati_iniziali = {n: np.array(m.parametri(), copy=True) for n, m in modelli.items()}
+
+    # soglia di decisione: zero, oppure scelta su B col massimo della balanced
+    # accuracy. In entrambi i casi e' UNA per modello e resta fissa, identica
+    # per la copia congelata e per quella adattiva.
+    soglie = {nm: 0.0 for nm in modelli}
+    rendiconto_soglie = {'modo': 'zero', 'per_modello': {}}
+    if a.calibrazione is not None:
+        sb = _carica_soglia()
+        B = np.load(a.calibrazione, allow_pickle=True)
+        XB, yB = B['X'], B['y']
+        rendiconto_soglie['modo'] = 'balanced_accuracy_su_B'
+        rendiconto_soglie['file'] = Path(a.calibrazione).name
+        rendiconto_soglie['righe_di_B'] = int(len(yB))
+        for nm, m in modelli.items():
+            # punteggi del modello CONGELATO su B: il modello adattivo su B non
+            # esiste, perche' B precede C e non viene replayato. A blocchi:
+            # la rappresentazione B-spline di milioni di righe non sta in memoria.
+            pB = punteggio_a_blocchi(m, tr, XB, congelati_iniziali[nm])
+            soglie[nm], dettaglio = sb.scegli_soglia(pB, yB)
+            dettaglio['soglia'] = soglie[nm]
+            rendiconto_soglie['per_modello'][nm] = dettaglio
+            print('  %-4s soglia su B: %+.4f (balanced accuracy %.4f, '
+                  '%d candidate a pari merito%s)'
+                  % (nm, soglie[nm], dettaglio['balanced_accuracy'],
+                     dettaglio['candidate_a_pari_merito'],
+                     '' if dettaglio['candidate_contigue'] else ', NON contigue'),
+                  flush=True)
 
     # copia congelata: gli stessi parametri iniziali, mai aggiornati
     congelati = {n: np.array(m.parametri(), copy=True) for n, m in modelli.items()}
@@ -323,6 +521,25 @@ def main(argv=None):
 
     in_attesa = {}          # blocco -> (indici campionati)
     righe = []
+    decisioni = {nm: {} for nm in modelli}
+    blocchi_scelti = {nm: set() for nm in modelli}
+    if a.politica == 'casuale':
+        if a.quanti_aggiornamenti is None:
+            raise SystemExit('--politica casuale richiede --quanti-aggiornamenti')
+        # Il controllo negativo deve pareggiare il numero di aggiornamenti
+        # MODELLO PER MODELLO: la politica su evidenza ne applica un numero
+        # diverso per ciascuno, e confrontarla con un numero unico misurerebbe
+        # la differenza fra i conteggi invece della differenza fra i criteri.
+        quanti_per_modello = _quanti_per_modello(a.quanti_aggiornamenti, modelli)
+        candidati = _blocchi_ammissibili(a.ammissibili, n_blocchi, a.ritardo)
+        for nm in modelli:
+            # un generatore per modello, indipendente dal campionamento: il
+            # controllo non deve dipendere da quali righe sono etichettate
+            rng_pol = np.random.default_rng(
+                10_000 + a.seme * 97 + sum(ord(c) for c in nm))
+            quanti = min(quanti_per_modello[nm], len(candidati))
+            blocchi_scelti[nm] = set(int(x) for x in
+                                     rng_pol.choice(candidati, quanti, replace=False))
     salti = {nm: 0 for nm in modelli}
     aggiornamenti = {nm: 0 for nm in modelli}
     etichette_spese = 0
@@ -336,12 +553,20 @@ def main(argv=None):
         voce = {'blocco': k, 'righe': int(i1 - i0),
                 'frt_inizio_utc': float(frt[i0]), 'frt_fine_utc': float(frt[i1 - 1]),
                 'tipi_presenti': sorted({tipi[t] for t in tp[i0:i1]})}
+        punteggi_emessi = {}
         for nm, m in modelli.items():
             R = m.rappresentazione(Zb)
             pc = R @ congelati[nm][:-1] + congelati[nm][-1]
             pa = R @ adattivi[nm][:-1] + adattivi[nm][-1]
-            voce['congelato_' + nm] = misure(yb, pc)
-            voce['adattivo_' + nm] = misure(yb, pa)
+            s = soglie[nm]
+            voce['congelato_' + nm] = misure(yb, pc, s)
+            voce['adattivo_' + nm] = misure(yb, pa, s)
+            # il verso stimato dalle sole etichette gia' arrivate, prima che
+            # arrivino quelle di questo blocco: e' cio' che una politica
+            # utilizzabile in esercizio avrebbe a disposizione adesso
+            voce['stima_verso_' + nm] = stima_verso(
+                m, adattivi[nm], memoria_X, memoria_y)
+            punteggi_emessi[nm] = pa
 
         # 2. RICHIEDI l'1%, stessi indici per tutti i metodi
         quanti = int(a.budget * (i1 - i0))
@@ -353,6 +578,20 @@ def main(argv=None):
                  + congelati['lr'][-1])
         scelti = campiona(a.campionamento, guida, quanti, rng)
         in_attesa[k] = (i0 + scelti)
+
+        # stima FUORI CAMPIONE del verso: l'AUROC sulle sole righe campionate di
+        # questo blocco, con i punteggi GIA' EMESSI. Il modello che li ha emessi
+        # non aveva visto queste etichette, quindi la stima non e' in-campione
+        # come quella sulla memoria. Diventera' disponibile alla fine del blocco
+        # k+1, quando le etichette arrivano: e' quindi una stima utilizzabile per
+        # decidere sui blocchi successivi, non su questo.
+        for nm in modelli:
+            voce['stima_campione_' + nm] = {
+                'righe_campionate': int(len(scelti)),
+                'normali_campionati': int((yb[scelti] == 0).sum()),
+                'attacchi_campionati': int((yb[scelti] == 1).sum()),
+                'auroc_sul_campione': auroc(yb[scelti], punteggi_emessi[nm][scelti]),
+            }
         etichette_spese += quanti
         voce['etichette_richieste'] = quanti
         voce['row_id_campionati_sha'] = int(np.sum(rid[i0 + scelti]) % 10**9) if quanti else 0
@@ -371,16 +610,28 @@ def main(argv=None):
             voce['memoria_attacchi'] = int((My == 1).sum())
             # 4. AGGIORNA: incide dal blocco k+1, cioe' dal (pronte+ritardo+1)
             for nm, m in modelli.items():
+                # la politica decide SE aggiornare, usando solo informazione
+                # disponibile adesso: la stima fuori campione del blocco
+                # `pronte`, le cui etichette sono appena arrivate.
+                esito = decidi(a.politica, nm, pronte, righe, blocchi_scelti)
+                voce['decisione_' + nm] = esito
+                if esito != 'procedi':
+                    decisioni[nm][esito] = decisioni[nm].get(esito, 0) + 1
+                    voce['salto_' + nm] = False
+                    continue
                 m.applica(adattivi[nm][:-1], adattivi[nm][-1])
                 R = m.rappresentazione(MX)
                 nuovo = aggiorna(R, My)
                 if nuovo is None:
                     salti[nm] += 1
                     voce['salto_' + nm] = True
+                    decisioni[nm]['saltato_memoria_monoclasse'] = \
+                        decisioni[nm].get('saltato_memoria_monoclasse', 0) + 1
                 else:
                     adattivi[nm] = np.concatenate([nuovo[0], [nuovo[1]]])
                     aggiornamenti[nm] += 1
                     voce['salto_' + nm] = False
+                    decisioni[nm]['applicato'] = decisioni[nm].get('applicato', 0) + 1
         righe.append(voce)
         if k % 50 == 0:
             print('  blocco %4d/%d  etichette spese %d' % (k, n_blocchi, etichette_spese), flush=True)
@@ -415,6 +666,11 @@ def main(argv=None):
                      'normali': int((yA == 0).sum())},
         'trasformazione': 'log1p poi standardizzazione, stimata su A',
         'campionamento': a.campionamento,
+        'politica': {'nome': a.politica,
+                     'quanti_aggiornamenti_richiesti': a.quanti_aggiornamenti,
+                     'blocchi_scelti': {nm: sorted(v) for nm, v in blocchi_scelti.items()
+                                        if v} or None},
+        'soglia_di_decisione': rendiconto_soglie,
         'etichette_spese': etichette_spese,
         'quota_etichette_effettiva': etichette_spese / (n_blocchi * a.blocco),
         'riepilogo': riepilogo,
@@ -438,6 +694,7 @@ def main(argv=None):
             'etichette_per_blocco': int(a.budget * a.blocco),
             'aggiornamenti_applicati': aggiornamenti,
             'aggiornamenti_saltati': salti,
+            'decisioni_della_politica': decisioni,
         },
         'per_blocco': righe,
     }

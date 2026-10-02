@@ -109,7 +109,43 @@ Il trasferimento selettivo da `drift-protocollo` si è ridotto a un file solo,
 parametri da quelli su cui si **riporta**, che è esattamente la disciplina degli
 intervalli A/B/C/D.
 
-Al posto delle suite non trasferibili è stata scritta
-`ton_temporal/test_guardia_monoclasse.py`: undici prove sulla regola del salto
-per memoria monoclasse e sulle richieste comuni ai tre metodi, senza dipendenze
-da evidenza preesistente.
+Al posto delle suite non trasferibili sono state scritte
+`ton_temporal/test_guardia_monoclasse.py` — undici prove sulla regola del salto
+per memoria monoclasse e sulle richieste comuni ai tre metodi — e
+`ton_temporal/test_riepiloghi_semi.py` — tredici prove sulle due aggregazioni
+del tasso di falsi allarmi e sul regime di inversione. Nessuna delle due dipende
+da evidenza preesistente: i casi sono costruiti.
+
+## 7. Il terzo modello e il componente del Paper 1: lo stesso strato, un altro regime
+
+Questa sezione corregge due descrizioni precedenti, entrambe imprecise in
+direzioni opposte. La prima chiamava il terzo modello «KAN additiva» senza
+qualificarlo, ed era troppo generosa. La seconda diceva che **non** è il
+componente a B-spline del Paper 1, ed era fuorviante nel verso contrario.
+
+Quello che si può affermare, letto il codice di entrambi: il terzo modello del
+replay — chiamato «l'additivo» per brevità negli altri documenti — è una **KAN a
+singolo strato con edge a B-spline**, e `BSplineKANBinary`
+in `src/kan_bspline.py` è anch'essa a singolo strato con edge a B-spline. La
+forma funzionale è la stessa, `z(x) = Σ_j Σ_k coef_jk · N_k(x_j)`: **non è
+un'architettura diversa**. Il nostro è reimplementato in
+`ton_temporal/replay.py` e non importa quel modulo, ma questo è un fatto sul
+codice, non sulla famiglia di modelli.
+
+Le differenze reali sono nel regime di stima, e sono quelle che contano:
+
+- 8 basi per feature con nodi sul min-max osservato in A, contro 11 con nodi
+  fissi su [−3,5; 3,5];
+- i 64 coefficienti delle spline sono stimati **una volta sola** su un
+  sottocampione di 400.000 righe di A, con una regressione logistica sulle basi
+  concatenate, e poi **congelati**; in `BSplineKANBinary` sono 88 e tutti
+  addestrabili per discesa del gradiente;
+- l'adattamento muove **otto guadagni e un'intercetta**, nove parametri, che in
+  quel componente non esistono.
+
+**Che cosa ne segue per i confini.** I risultati non si confrontano con quelli
+del Paper 1, ma **non perché l'architettura sia diversa**: non lo è. Si bloccano
+sulle feature, che sono quelle di Kamila-5 e non quelle armonizzate di
+kan-ids-v2 (§3), e sul regime di stima appena descritto. Attribuire la
+differenza all'architettura sarebbe un errore, e dire che si confrontano sarebbe
+l'errore opposto.

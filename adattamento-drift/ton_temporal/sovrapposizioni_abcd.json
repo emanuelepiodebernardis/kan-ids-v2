@@ -1,0 +1,144 @@
+{
+ "scopo": "sovrapposizioni dirette fra gli intervalli A, B, C e D",
+ "definizioni": {
+  "impronta": "SHA-256 dei 32 byte degli otto float32, da normalize_raw e fingerprint_rows di audit_ton_full.py",
+  "righe_coinvolte": "righe dell'intervallo la cui impronta compare anche nell'altro intervallo della coppia",
+  "limite": "una coincidenza di impronte dice che il vettore di feature e' lo stesso, non che siano la stessa sessione, lo stesso host o la stessa campagna"
+ },
+ "orologio": "feature_ready_time = ts + duration",
+ "per_intervallo": {
+  "A": {
+   "ruolo": "addestramento iniziale",
+   "righe_valide": 3956308,
+   "righe_normali": 223199,
+   "righe_attacco": 3733109,
+   "impronte_distinte": 249930,
+   "righe_per_impronta": 15.8,
+   "quota_impronte_distinte": 0.063173
+  },
+  "B": {
+   "ruolo": "calibrazione",
+   "righe_valide": 5681198,
+   "righe_normali": 89323,
+   "righe_attacco": 5591875,
+   "impronte_distinte": 405643,
+   "righe_per_impronta": 14.0,
+   "quota_impronte_distinte": 0.071401
+  },
+  "C": {
+   "ruolo": "sviluppo",
+   "righe_valide": 9150673,
+   "righe_normali": 173316,
+   "righe_attacco": 8977357,
+   "impronte_distinte": 3849499,
+   "righe_per_impronta": 2.4,
+   "quota_impronte_distinte": 0.420679
+  },
+  "D": {
+   "ruolo": "valutazione finale",
+   "righe_valide": 3549973,
+   "righe_normali": 309673,
+   "righe_attacco": 3240300,
+   "impronte_distinte": 1972598,
+   "righe_per_impronta": 1.8,
+   "quota_impronte_distinte": 0.555666
+  }
+ },
+ "coppie": {
+  "A-B": {
+   "impronte_comuni": 50882,
+   "righe_di_A_coinvolte": 3688555,
+   "quota_di_A": 0.932323,
+   "righe_normali_di_A_coinvolte": 152041,
+   "quota_normali_di_A": 0.68119,
+   "righe_di_B_coinvolte": 3826246,
+   "quota_di_B": 0.673493,
+   "righe_normali_di_B_coinvolte": 18400,
+   "quota_normali_di_B": 0.205994
+  },
+  "A-C": {
+   "impronte_comuni": 2662,
+   "righe_di_A_coinvolte": 3065275,
+   "quota_di_A": 0.774782,
+   "righe_normali_di_A_coinvolte": 145136,
+   "quota_normali_di_A": 0.650254,
+   "righe_di_C_coinvolte": 1278598,
+   "quota_di_C": 0.139727,
+   "righe_normali_di_C_coinvolte": 46887,
+   "quota_normali_di_C": 0.270529
+  },
+  "A-D": {
+   "impronte_comuni": 10309,
+   "righe_di_A_coinvolte": 3070375,
+   "quota_di_A": 0.776071,
+   "righe_normali_di_A_coinvolte": 31905,
+   "quota_normali_di_A": 0.142944,
+   "righe_di_D_coinvolte": 752213,
+   "quota_di_D": 0.211893,
+   "righe_normali_di_D_coinvolte": 161288,
+   "quota_normali_di_D": 0.520833
+  },
+  "B-C": {
+   "impronte_comuni": 22774,
+   "righe_di_B_coinvolte": 4413652,
+   "quota_di_B": 0.776888,
+   "righe_normali_di_B_coinvolte": 16185,
+   "quota_normali_di_B": 0.181196,
+   "righe_di_C_coinvolte": 2048122,
+   "quota_di_C": 0.223822,
+   "righe_normali_di_C_coinvolte": 57562,
+   "quota_normali_di_C": 0.332122
+  },
+  "B-D": {
+   "impronte_comuni": 13045,
+   "righe_di_B_coinvolte": 3853601,
+   "quota_di_B": 0.678308,
+   "righe_normali_di_B_coinvolte": 7302,
+   "quota_normali_di_B": 0.081748,
+   "righe_di_D_coinvolte": 723418,
+   "quota_di_D": 0.203781,
+   "righe_normali_di_D_coinvolte": 132909,
+   "quota_normali_di_D": 0.429191
+  },
+  "C-D": {
+   "impronte_comuni": 157720,
+   "righe_di_C_coinvolte": 2280019,
+   "quota_di_C": 0.249164,
+   "righe_normali_di_C_coinvolte": 50942,
+   "quota_normali_di_C": 0.293926,
+   "righe_di_D_coinvolte": 903039,
+   "quota_di_D": 0.254379,
+   "righe_normali_di_D_coinvolte": 170090,
+   "quota_normali_di_D": 0.549257
+  }
+ },
+ "secondi": 441.8,
+ "D_contro_A_B_C": {
+  "impronte_distinte_di_D": 1972598,
+  "impronte_di_D_gia_viste": 170383,
+  "quota_impronte_di_D_gia_viste": 0.086375,
+  "righe_di_D_con_impronta_gia_vista": 1321537,
+  "quota_righe_di_D": 0.372267,
+  "righe_normali_di_D_con_impronta_gia_vista": 179691,
+  "quota_normali_di_D": 0.58026,
+  "righe_attacco_di_D_con_impronta_gia_vista": 1141846,
+  "impronte_distinte_in_A_B_C": 4430245,
+  "concentrazione": {
+   "impronte": 170383,
+   "righe": 1321537,
+   "righe_della_impronta_piu_frequente": 49390,
+   "quota_della_impronta_piu_frequente": 0.037373,
+   "impronte_per_meta_delle_righe": 235,
+   "impronte_per_il_90_per_cento": 54821,
+   "righe_delle_prime_dieci": 184682,
+   "quota_delle_prime_dieci": 0.139748
+  }
+ },
+ "registro_lettura": {
+  "file": 23,
+  "righe": 22339021,
+  "invalide": 869,
+  "ts_non_validi": 0,
+  "fuori_da_ogni_intervallo": 0
+ }
+}

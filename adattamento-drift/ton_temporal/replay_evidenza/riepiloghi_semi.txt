@@ -1,0 +1,86 @@
+FPR MEDIO PER BLOCCO contro FPR COMPLESSIVO, per seme
+ seme  mod  medio cong  medio adat    delta  compl cong  compl adat    delta   delta fp
+   42   lr      0.5692      0.7850  +0.2157      0.6023      0.5528  -0.0495     -8,573
+   42  mlp      0.2658      0.7399  +0.4741      0.4259      0.4586  +0.0326     +5,656
+   42  kan      0.5384      0.7200  +0.1816      0.5017      0.4704  -0.0313     -5,433
+   43   lr      0.5692      0.7767  +0.2075      0.6023      0.5052  -0.0970    -16,819
+   43  mlp      0.2620      0.7278  +0.4659      0.4255      0.4523  +0.0268     +4,644
+   43  kan      0.5104      0.7173  +0.2069      0.4990      0.4512  -0.0478     -8,280
+   44   lr      0.5692      0.7768  +0.2076      0.6023      0.5352  -0.0670    -11,617
+   44  mlp      0.2711      0.7517  +0.4806      0.4296      0.5166  +0.0870    +15,085
+   44  kan      0.5120      0.6849  +0.1728      0.4981      0.4444  -0.0537     -9,299
+   45   lr      0.5692      0.7927  +0.2235      0.6023      0.5277  -0.0746    -12,922
+   45  mlp      0.2700      0.7625  +0.4925      0.4368      0.4525  +0.0157     +2,720
+   45  kan      0.5083      0.7267  +0.2184      0.4960      0.4360  -0.0600    -10,401
+   46   lr      0.5692      0.7685  +0.1992      0.6023      0.5323  -0.0700    -12,129
+   46  mlp      0.2723      0.6973  +0.4250      0.4355      0.4669  +0.0314     +5,439
+   46  kan      0.5151      0.6647  +0.1497      0.5034      0.4279  -0.0754    -13,073
+
+REGIME DI INVERSIONE, per seme
+ seme  mod  invertiti  misurabili   quota  guad. invertiti  guad. altrove
+   42   lr        174         875  19.9%           +0.556         -0.056
+   42  mlp        154         875  17.6%           +0.655         -0.098
+   42  kan         10         875   1.1%           +0.483         -0.096
+   43   lr        174         875  19.9%           +0.548         -0.073
+   43  mlp        161         875  18.4%           +0.615         -0.156
+   43  kan          9         875   1.0%           +0.439         -0.084
+   44   lr        174         875  19.9%           +0.560         -0.055
+   44  mlp        156         875  17.8%           +0.630         -0.182
+   44  kan          9         875   1.0%           +0.456         -0.106
+   45   lr        174         875  19.9%           +0.552         -0.082
+   45  mlp        145         875  16.6%           +0.636         -0.249
+   45  kan         10         875   1.1%           +0.452         -0.088
+   46   lr        174         875  19.9%           +0.549         -0.053
+   46  mlp        156         875  17.8%           +0.644         -0.152
+   46  kan          9         875   1.0%           +0.355         -0.074
+
+BANDE DI RICCHEZZA DI NORMALI (primo seme, per modello)
+  lr — seme 42
+     banda  blocchi    normali   fp cong   fp adat  delta fp  delta fpr medio
+         0       41          0         0         0        +0             n.d.
+       1-9      221        876       266       802      +536          +0.6465
+     10-49      275      5,733     3,621     5,172    +1,551          +0.2829
+    50-199      133     11,936     6,676     8,653    +1,977          +0.1666
+     >=200      246    154,771    93,820    81,183   -12,637          -0.2198
+  mlp — seme 42
+     banda  blocchi    normali   fp cong   fp adat  delta fp  delta fpr medio
+         0       41          0         0         0        +0             n.d.
+       1-9      221        876        95       803      +708          +0.8102
+     10-49      275      5,733       440     4,893    +4,453          +0.8120
+    50-199      133     11,936     3,777     8,404    +4,627          +0.4107
+     >=200      246    154,771    69,511    65,379    -4,132          -0.1711
+  kan — seme 42
+     banda  blocchi    normali   fp cong   fp adat  delta fp  delta fpr medio
+         0       41          0         0         0        +0             n.d.
+       1-9      221        876       265       743      +478          +0.5665
+     10-49      275      5,733     3,483     4,915    +1,432          +0.2468
+    50-199      133     11,936     5,770     8,374    +2,604          +0.2255
+     >=200      246    154,771    77,441    67,494    -9,947          -0.2608
+
+SUI SEMI
+  lr: FPR medio per blocco +0.2107 (in salita in 5/5), FPR complessivo -0.0716 (in salita in 0/5), falsi positivi -12,412, invertiti da 174 a 174, guadagno +0.553 dove invertito e -0.064 altrove
+  mlp: FPR medio per blocco +0.4676 (in salita in 5/5), FPR complessivo +0.0387 (in salita in 5/5), falsi positivi +6,709, invertiti da 145 a 161, guadagno +0.636 dove invertito e -0.167 altrove
+  kan: FPR medio per blocco +0.1859 (in salita in 5/5), FPR complessivo -0.0536 (in salita in 0/5), falsi positivi -9,297, invertiti da 9 a 10, guadagno +0.437 dove invertito e -0.090 altrove
+
+VERIFICA CONTRO I VALORI ATTESI
+    lr fpr medio per blocco, delta  +0.2107  atteso +0.211
+    lr fpr complessivo, delta       -0.0716  atteso -0.072
+    lr guadagno dove invertito      +0.5530  atteso +0.553
+    lr guadagno altrove             -0.0636  atteso -0.064
+    lr invertiti min                174
+    lr invertiti max                174
+   mlp fpr medio per blocco, delta  +0.4676  atteso +0.468
+   mlp fpr complessivo, delta       +0.0387  atteso +0.039
+   mlp guadagno dove invertito      +0.6361  atteso +0.636
+   mlp guadagno altrove             -0.1672  atteso -0.167
+   mlp invertiti min                145
+   mlp invertiti max                161
+   kan fpr medio per blocco, delta  +0.1859  atteso +0.186
+   kan fpr complessivo, delta       -0.0536  atteso -0.054
+   kan guadagno dove invertito      +0.4369  atteso +0.437
+   kan guadagno altrove             -0.0898  atteso -0.090
+   kan invertiti min                9
+   kan invertiti max                10
+  tutti i valori attesi coincidono entro 0.0005 (conteggi: esatti)
+
+scritto riepiloghi_semi.json

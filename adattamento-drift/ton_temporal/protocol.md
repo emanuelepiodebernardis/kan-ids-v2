@@ -138,8 +138,8 @@ sovrapposto, con un andamento molto disuguale fra i file: dal 94,3% del nono al
 **Questo controllo da solo non dimostra l'indipendenza dello stream D.** Dice
 che quei vettori di input non erano già comparsi nel campione noto; non dice che
 le righe di D siano indipendenti da quelle di A, B e C, né che appartengano a
-sessioni, host o campagne distinte. L'indipendenza di D resta un'assunzione
-dichiarata, non un risultato misurato.
+sessioni, host o campagne distinte. Il confronto diretto fra i quattro
+intervalli è ora misurato, e il suo esito è al §5bis: **negativo**.
 
 La misura è ottenuta ricostruendo l'archivio delle impronte, che non è
 pubblicato. Il riscontro è però esatto: il codice di riferimento dichiara che
@@ -154,6 +154,74 @@ strumento di valutazione esterna esegue sul proprio `.npz` non è riproducibile.
 L'esposizione **non** misura indipendenza: dice che quei vettori di input erano
 già stati visti, non che le righe siano statisticamente indipendenti.
 
+## 5bis. Sovrapposizioni dirette fra A, B, C e D
+
+Il §5 confronta gli otto input con un campione **esterno**. Questa sezione
+risponde alla domanda diversa, e necessaria prima di usare D: quanto i quattro
+intervalli si somigliano **fra loro**. La misura è prodotta da
+`sovrapposizioni_abcd.py`, con le stesse `normalize_raw` e `fingerprint_rows`
+del §5, così i due numeri sono confrontabili; l'esito completo è in
+`sovrapposizioni_abcd.json`.
+
+**Le righe sono disgiunte, e non per assunzione.** Ogni riga valida cade in un
+solo intervallo, i conteggi per intervallo coincidono con quelli dichiarati nel
+manifest — righe e normali — la loro somma fa le 22.338.152 righe valide, e
+nessuna riga resta fuori. Lo script si ferma se una di queste cose non torna.
+
+**I vettori di feature no.** Le otto feature sono aggregati di flusso, e lo
+stesso vettore ricompare continuamente, con intensità molto diversa fra gli
+intervalli:
+
+| | ruolo | righe valide | impronte distinte | righe per impronta |
+|---|---|---:|---:|---:|
+| A | addestramento iniziale | 3.956.308 | 249.930 | 15,8 |
+| B | calibrazione | 5.681.198 | 405.643 | 14,0 |
+| C | sviluppo | 9.150.673 | 3.849.499 | 2,4 |
+| D | valutazione finale | 3.549.973 | 1.972.598 | 1,8 |
+
+A e B sono quasi interamente ripetizione: in A un vettore vale in media quasi
+sedici righe. C e D sono molto più vari. Questo da solo spiega perché poche
+impronte comuni coprano tante righe.
+
+| coppia | impronte comuni | righe del primo | righe del secondo |
+|---|---:|---|---|
+| A-B | 50.882 | 3.688.555 (93,23%) | 3.826.246 (67,35%) |
+| A-C | 2.662 | 3.065.275 (77,48%) | 1.278.598 (13,97%) |
+| A-D | 10.309 | 3.070.375 (77,61%) | 752.213 (21,19%) |
+| B-C | 22.774 | 4.413.652 (77,69%) | 2.048.122 (22,38%) |
+| B-D | 13.045 | 3.853.601 (67,83%) | 723.418 (20,38%) |
+| C-D | 157.720 | 2.280.019 (24,92%) | 903.039 (25,44%) |
+
+**L'esito che conta.** Delle 1.972.598 impronte distinte di D, **170.383
+(8,64%) compaiono già in A, B o C**, e coprono **1.321.537 righe, il 37,23% di
+D**. La parte che pesa è la classe normale: quelle righe comprendono **179.691
+normali, il 58,03% dei normali di D**, più 1.141.846 attacchi.
+
+**Non è l'effetto di un vettore degenerato.** L'impronta più frequente della
+sovrapposizione vale 49.390 righe, il 3,74%; le prime dieci il 13,97%; servono
+235 impronte per metà delle righe e 54.821 per il 90%. C'è una testa molto
+frequente, ma la coda è larga: la sovrapposizione è una proprietà dello spazio
+di feature, non di una manciata di righe da scartare.
+
+**Non è nemmeno solo il tipo condiviso.** `password` è l'unico tipo presente in
+C e in D, e in D conta 549.383 righe: anche se fossero tutte sovrapposte,
+resterebbero almeno 1.141.846 − 549.383 = **592.463 righe di attacco
+sovrapposte** di tipi che in D compaiono per la prima volta, cioè il 16,7% di D.
+
+**Che cosa ne segue, e che cosa resta indecidibile.** D non è indipendente da A,
+B e C al livello del vettore di feature: un modello può indovinare più di un
+terzo delle righe di D, e più della metà dei suoi normali, su vettori già
+incontrati. Non ne segue che le righe siano la stessa sessione, lo stesso host o
+la stessa campagna: quella distinzione resta non stabilita, qui come al §5, e
+non è ricavabile dalle otto feature.
+
+La conseguenza operativa è al §11, fra i punti aperti: la valutazione finale su
+D va riportata **due volte**, sull'intero stream e sul solo sottoinsieme a
+vettore non visto — 2.228.436 righe, il 62,77% di D, con 129.982 normali, cioè
+una prevalenza di normali del 5,83% invece dell'8,72%. Il secondo è il confronto
+che misura generalizzazione; il primo resta perché è lo stream che la scheda
+definisce.
+
 ## 6. Replay
 
 Per ogni blocco di 10.000 righe in ordine di `feature_ready_time`:
@@ -165,7 +233,36 @@ Per ogni blocco di 10.000 righe in ordine di `feature_ready_time`:
 3. si **attende**: le etichette del blocco *k* arrivano alla fine del blocco
    *k+1*, quindi un aggiornamento incide per la prima volta sul blocco *k+2*;
 4. il modello si **aggiorna** — coefficienti per la regressione logistica,
-   ultimo strato per l'MLP, guadagno e intercetta per la KAN additiva.
+   ultimo strato per l'MLP, guadagni e intercetta per il modello additivo.
+
+**I tre modelli, con precisione.** La regressione logistica agisce sulle otto
+feature. Dell'MLP si aggiorna il solo ultimo strato, sulle attivazioni nascoste
+del modello congelato. Il terzo è una **KAN a singolo strato con edge a
+B-spline**: il punteggio è una somma di funzioni univariate cubiche, una per
+ciascuna delle otto feature, più un guadagno per feature e un'intercetta.
+
+Va detto con precisione che cosa è e che cosa non è, perché una versione
+precedente di questo documento lo descriveva come «non il componente a B-spline
+del Paper 1», e quella formulazione era fuorviante. La **forma funzionale è la
+stessa** di `BSplineKANBinary` in `src/kan_bspline.py`, che è a sua volta a
+singolo strato: in entrambi il punteggio è `z(x) = Σ_j Σ_k coef_jk · N_k(x_j)`.
+Non è un'architettura diversa. Le differenze stanno altrove, e sono tre:
+
+| | `BSplineKANBinary` (Paper 1) | il nostro |
+|---|---|---|
+| basi per feature | 11, nodi fissi su [−3,5; 3,5] | 8, nodi uniformi sul min-max osservato in A |
+| coefficienti delle spline | 88, tutti addestrabili per discesa del gradiente | 64, stimati una volta su un sottocampione di 400.000 righe di A e poi **congelati** |
+| parametri che l'adattamento muove | non previsto | **otto guadagni e l'intercetta**, nove in tutto, che in quel componente non esistono |
+
+È quindi **reimplementato** in `ton_temporal/replay.py`, non importato, e la
+differenza che conta per questo studio non è l'architettura ma il regime di
+stima: dopo A le forme delle spline non cambiano più.
+
+Resta vero, e va detto perché il Paper 1 ha anche una linea su quello, che **non
+è una KAN a più strati**: né il nostro né `BSplineKANBinary` lo sono, quindi il
+confronto con i risultati multi-strato di quella linea non si pone. Nel resto del documento è
+chiamato «l'additivo», che è un nome breve per questa cosa, non una famiglia
+diversa.
 
 Memoria FIFO di 256 esempi, inizializzata da A. Se la memoria contiene una sola
 classe l'aggiornamento si salta e il salto si registra.
@@ -200,6 +297,23 @@ va riportato accanto ai risultati: è un esito del protocollo, non un incidente.
 complessiva è poco informativa. Vanno riportate per blocco le misure sulla
 classe normale, il tasso di falsi allarmi e, per i tipi nuovi, il richiamo per
 tipo.
+
+**Le due aggregazioni del tasso di falsi allarmi.** Su un flusso in cui i
+normali sono concentrati in una minoranza di blocchi le due misure seguenti
+divergono, e per due modelli su tre hanno verso opposto. Vanno riportate
+**affiancate**, ciascuna col suo nome; riportarne una sola senza dichiararla
+rende la conclusione non verificabile.
+
+- **FPR medio per blocco**: media non pesata di `fp/normali` sui blocchi che
+  contengono almeno un normale — su C sono 875 su 916. **Ogni blocco pesa uno**,
+  quindi la misura dice su quanti *blocchi* il rilevatore peggiora.
+- **FPR complessivo**: somma delle matrici di confusione su tutti i blocchi,
+  poi `fp/(fp+vn)`. **Ogni normale pesa uno**, quindi la misura dice quanti
+  *allarmi* in più arrivano all'operatore, e i blocchi ricchi dominano.
+
+Entrambe si ricavano dai rendiconti per blocco con `riepiloghi_semi.py`, che
+verifica da sé la coerenza delle matrici di confusione e la chiusura dei propri
+conti.
 
 ## 7. Che cosa è riusato e che cosa è nuovo
 
@@ -305,46 +419,84 @@ era definita.
 |---|---:|---:|---:|:--:|
 | LR | 0,7149 | 0,7739 | **+0,0590** | 5 su 5 |
 | MLP | 0,7921 | 0,7664 | −0,0257 | 1 su 5 |
-| KAN | 0,8909 | 0,8068 | **−0,0841** | 0 su 5 |
+| additivo | 0,8909 | 0,8068 | **−0,0841** | 0 su 5 |
 
-| modello | ric. normali congelato | ric. normali adattivo | semi in calo |
-|---|---:|---:|:--:|
-| LR | 0,431 | 0,220 | 5 su 5 |
-| MLP | 0,734 | 0,267 | 5 su 5 |
-| KAN | 0,462 | 0,276 | 5 su 5 |
+**Il tasso di falsi allarmi dipende dall'aggregazione, e va dichiarata.** Le due
+misure sono definite al §6 e danno verso opposto su questi dati. Medie sui
+cinque semi:
 
-**Come leggerla, senza abbellirla.** Il richiamo sui normali **peggiora in tutti
-e tre i modelli e in tutti e cinque i semi**: essendo il complemento del tasso
-di falsi allarmi, i falsi allarmi aumentano. Accuratezza e richiamo sugli
-attacchi salgono, ma in un flusso al 98% di attacchi questo dice solo che il
-modello si sposta verso la classe di maggioranza.
+| modello | ric. normali **medio per blocco** | | FPR **medio per blocco** | FPR **complessivo** | falsi positivi |
+|---|---:|---:|---:|---:|---:|
+| LR | 0,431 → 0,220 | | **+0,211** in 5/5 | **−0,072** in 5/5 | −12.412 |
+| MLP | 0,732 → 0,264 | | **+0,468** in 5/5 | **+0,039** in 5/5 | +6.709 |
+| additivo | 0,483 → 0,297 | | **+0,186** in 5/5 | **−0,054** in 5/5 | −9.297 |
 
-Sull'AUROC solo la **regressione logistica** guadagna in modo stabile. La **KAN
-additiva peggiora** in cinque semi su cinque, pur essendo la migliore delle tre
-quando è congelata. L'**MLP non guadagna**: sul solo seme 42 sembrava migliorare
-da 0,798 a 0,833, ma sulle cinque ripetizioni la media è −0,026 e il guadagno è
-positivo in un seme solo. Quella prima lettura era un effetto del seme, ed è la
-ragione per cui le ripetizioni sono state fatte prima di riportare il risultato.
+Una versione precedente di questa tabella riportava 0,734 → 0,267 per l'MLP e
+0,462 → 0,276 per l'additivo: valori non riproducibili, corretti qui con quelli
+che `riepiloghi_semi.py` ricava dai rendiconti pubblicati.
+
+Sul **FPR medio per blocco** i falsi allarmi aumentano in tutti e tre i modelli
+e in tutti e cinque i semi. Sul **FPR complessivo** scendono per la logistica e
+per l'additivo, in cinque semi su cinque, e salgono per il solo MLP. Il
+meccanismo è comune ai tre: l'adattamento **sposta falsi positivi dai blocchi
+ricchi di normali a quelli poveri**, e cambia solo quale trasferimento sia più
+grande. Sul seme 42: la logistica aggiunge 4.064 falsi positivi nei 629 blocchi
+con 1–199 normali e ne toglie 12.637 nei 246 con almeno 200; l'MLP aggiunge
+9.788 e toglie 4.132; l'additivo aggiunge 4.514 e toglie 9.947. Accuratezza e
+richiamo sugli attacchi salgono, ma in un flusso al 98% di attacchi questo dice
+solo che il modello si sposta verso la classe di maggioranza.
+
+Sull'AUROC solo la **regressione logistica** guadagna in modo stabile.
+L'**additivo peggiora** in cinque semi su cinque, pur essendo la migliore delle
+tre quando è congelata. L'**MLP non guadagna**: sul solo seme 42 sembrava
+migliorare da 0,798 a 0,833, ma sulle cinque ripetizioni la media è −0,026 e il
+guadagno è positivo in un seme solo. Quella prima lettura era un effetto del
+seme, ed è la ragione per cui le ripetizioni sono state fatte prima di riportare
+il risultato.
 
 **Quando l'adattamento serve davvero: il regime di inversione.** La misura più
 netta del pilota non sta nelle medie. Il modello congelato ha AUROC **sotto
-0,5** — cioè ordina al contrario — in 174 blocchi su 875 per la logistica, 154
-per l'MLP e **soltanto 10** per la KAN additiva. In quei blocchi l'adattamento
-guadagna moltissimo; in tutti gli altri perde poco ma perde: la logistica
-**+0,556** contro −0,056, l'MLP **+0,655** contro −0,098, la KAN **+0,483**
-contro −0,096.
+0,5** — cioè ordina al contrario — in una minoranza di blocchi, e lì
+l'adattamento guadagna molto mentre altrove perde poco ma perde.
 
-I blocchi invertiti sono quasi tutti quelli di `dos` (122) e `injection` (46),
-cioè i tipi comparsi dopo A, che contiene solo `scanning`; quelli di `ddos`
-(580) e `password` (120) non si invertono quasi mai. La KAN additiva quasi non
-si inverte ed è anche il modello con l'AUROC congelato più alto: non ha quasi
-nulla da correggere, e paga solo il costo dell'aggiornamento.
+La diagnosi è stata fatta **sul seme 42**: 174 blocchi su 875 per la logistica,
+154 per l'MLP, **soltanto 10** per l'additivo; guadagno **+0,556** contro
+−0,056, **+0,655** contro −0,098, **+0,483** contro −0,096.
 
-**Questo assorbe la lettura per ricchezza di normali** riportata qui sotto. I
-blocchi ricchi di normali danno +0,409, ma il **67%** di essi è invertito;
-controllando per l'inversione, i ricchi **non** invertiti danno solo **+0,071**,
-e i poveri non invertiti −0,073. La ricchezza di normali coincide in larga parte
-con l'inversione e non la sostituisce come spiegazione.
+**Sui cinque semi** il regime regge, con stabilità diversa fra i modelli:
+
+| modello | invertiti su 875 | guadagno dove invertito | guadagno altrove |
+|---|---|---:|---:|
+| LR | 174 in tutti e cinque | +0,553 | −0,064 |
+| MLP | da 145 a 161 | +0,636 | −0,167 |
+| additivo | 9 o 10 | +0,437 | −0,090 |
+
+Il 174 costante non è una coincidenza: la logistica congelata è deterministica,
+quindi l'insieme dei blocchi invertiti è una proprietà del modello iniziale e
+non del seme, e fra i semi variano soltanto i guadagni. Per l'MLP e per
+l'additivo dipende dal seme anche il modello iniziale.
+
+**L'inversione segue il tipo di attacco quasi esattamente.** Contando i blocchi
+in cui il tipo compare, fra gli 875 misurabili, per la logistica sul seme 42:
+`dos` 122 invertiti su 123, `injection` 46 su 49, `ddos` 6 su 586, `password` 0
+su 120. `dos` e `injection` sono i primi tipi a comparire dopo A, che contiene
+solo `scanning`. Una versione precedente riportava 580 blocchi di `ddos`:
+il conteggio corretto è 586 con questa definizione, 584 contando i soli blocchi
+in cui `ddos` è l'unico tipo. L'additivo quasi non si inverte ed è anche il
+modello con l'AUROC congelato più alto: non ha quasi nulla da correggere, e paga
+solo il costo dell'aggiornamento.
+
+**Questo assorbe la lettura per ricchezza di normali** riportata qui sotto. Sul
+seme 42 i blocchi ricchi di normali danno +0,409, ma il **67%** di essi è
+invertito — 164 su 246, identico in tutti e cinque i semi, perché l'insieme
+dipende dal solo modello congelato. Controllando per l'inversione, i ricchi
+**non** invertiti danno **+0,071** sul seme 42 e da +0,062 a +0,077 sui cinque,
+e i poveri non invertiti −0,136 sul seme 42 e da −0,136 a −0,220 sui cinque. La
+ricchezza di normali coincide in larga parte con l'inversione e non la
+sostituisce come spiegazione.
+
+Una versione precedente riportava −0,073 per i poveri non invertiti: era il
+guadagno «altrove» di un altro seme, trascritto per errore da un'altra analisi.
 
 **Dove vive il guadagno.** Confrontando il guadagno di AUROC per fascia di
 ricchezza di normali del blocco, i due regimi sono opposti:
@@ -355,6 +507,9 @@ ricchezza di normali del blocco, i due regimi sono opposti:
 | da 10 a 49 | 275 | 0,817 | 0,782 | −0,035 |
 | da 50 a 199 | 133 | 0,733 | 0,700 | −0,032 |
 | almeno 200 | 246 | 0,474 | 0,883 | **+0,409** |
+
+Le quattro fasce sommano agli 875 blocchi misurabili: i 41 blocchi senza
+normali non hanno AUROC definita e non entrano in nessuna fascia.
 
 La media aggregata è quindi una **miscela di due regimi**: i piccoli
 aggiornamenti aiutano quando il blocco contiene abbastanza traffico normale, e
@@ -389,6 +544,221 @@ correzione meno costosa.
 Questi numeri vengono dallo stream di sviluppo C, come previsto: **D non è
 stato toccato**.
 
+## 10bis. Il confronto con la soglia scelta su B
+
+Il §10 è il **riferimento senza calibrazione**: le misure di decisione sono
+calcolate al punto naturale del punteggio, `punteggio > 0`. Resta, e non viene
+toccato. Questa sezione è il confronto successivo, con la soglia scelta su B.
+
+**Come è scelta.** Massimo della balanced accuracy — media del richiamo sui
+normali e del richiamo sugli attacchi — sui punteggi del **modello congelato su
+B**, intervallo che esiste per questo e che non era ancora stato usato. Una
+soglia per modello, **identica e fissa** nella coppia congelato / adattivo. È
+l'unica scelta causalmente ammissibile: B precede C, e il modello adattivo su B
+non esiste perché B non viene replayato. Che la soglia diventi mal tarata per il
+modello adattivo, mentre i suoi punteggi si spostano, non è un difetto del
+disegno: è uno dei risultati.
+
+**I candidati.** Poiché la predizione è `punteggio > soglia`, una soglia pari a
+un valore osservato classifica quel valore come normale. I candidati sono i
+**valori distinti** dei punteggi del modello congelato sull'**intero** B — da
+405.062 a 405.580 secondo il modello e il seme — più un valore sotto il minimo
+osservato, che corrisponde a predire tutto attacco. Con quelli si ottengono
+tutte le coppie (richiamo normali, richiamo attacchi) raggiungibili e nessun'altra.
+
+**La regola di confronto.** Il massimo della balanced accuracy è individuato per
+**uguaglianza esatta** fra float64, non entro una tolleranza. La scelta non è
+una formalità e va misurata: in tutti e quindici i casi — tre modelli per cinque
+semi — il massimo esatto è raggiunto da **un candidato solo**, e lo stesso vale
+con tolleranza 1e-12 e 1e-9; ma con tolleranza **1e-6 pareggiano da 1 a 27
+candidati**, e con un confronto così lasco la soglia cambierebbe. Per questo la
+regola è dichiarata e non sottintesa.
+
+**La regola di parità.** Fra i candidati a pari merito si prende la **mediana
+inferiore**: ordinati i candidati, l'elemento di indice `(n-1)//2` con indici da
+zero. Per un numero dispari è l'elemento centrale, per un numero pari il minore
+dei due centrali; vale senza casi separati. **Su questi dati non è mai stata
+applicata**, perché il massimo esatto è sempre unico. Resta nel codice e
+dichiarata.
+
+**La soglia è scelta separatamente per ogni modello e per ogni seme**, e poi
+resta identica e fissa nella relativa coppia congelato / adattivo.
+
+Candidati, pareggi alle quattro tolleranze, indice scelto e i tre candidati
+immediatamente attorno sono in `soglie_candidati.json`, prodotto da
+`documenta_soglie.py`: così la convenzione è rifacibile e verificabile sul
+numero, non sulla descrizione.
+
+**Che cosa questa convenzione non afferma.** Che la soglia sia stabile. È
+deterministica — dati lo stesso B e lo stesso modello congelato produce sempre
+lo stesso numero — e questo è tutto ciò che è stato misurato. In particolare il
+fatto che per la regressione logistica risulti identica nei cinque semi **non è
+evidenza di robustezza**: segue dal fatto che la logistica congelata è
+deterministica, cioè che il modello è lo stesso, non che la scelta resista a un
+cambiamento dei dati. La stabilità rispetto a ritagli di B, o a un B diverso,
+non è misurata e non va dedotta.
+
+| modello | soglia, semi 42–46 | balanced accuracy su B | alla soglia zero |
+|---|---|---:|---:|
+| LR | +4,3586 in tutti e cinque | 0,6660 | 0,6482 |
+| MLP | da +4,3566 a +6,5286 | da 0,7026 a 0,7098 | ~0,68 |
+| additivo | da +6,3424 a +7,2005 | da 0,8163 a 0,8168 | 0,6646 |
+
+La soglia della LR risulta identica nei cinque semi per la stessa ragione per
+cui lo sono i suoi 174 blocchi invertiti: il modello congelato è deterministico,
+quindi i punteggi su B sono gli stessi. Non è una misura di stabilità della
+soglia, come detto sopra.
+
+**Che cosa la soglia non può cambiare, e non cambia.** L'AUROC è una misura di
+ordinamento e non dipende dal punto di decisione; gli indici campionati non lo
+usano. Lo strumento di confronto lo verifica blocco per blocco e si ferma al
+primo scostamento: **27.480 valori di AUROC identici** — cinque semi per 916
+blocchi per tre modelli per due stati — e indici campionati identici in tutti i
+blocchi. Tutto il §10 sull'inversione resta quindi valido parola per parola.
+
+**Che cosa cambia.** Le misure di decisione, molto, e in due modelli su tre il
+**verso** dell'effetto dell'adattamento si rovescia. Medie sui cinque semi,
+variazione adattivo meno congelato:
+
+| modello | FPR medio per blocco | | FPR complessivo | | falsi positivi | |
+|---|---:|---:|---:|---:|---:|---:|
+| | a zero | su B | a zero | su B | a zero | su B |
+| LR | +0,211 | **−0,055** | −0,072 | −0,302 | −12.412 | −52.307 |
+| MLP | +0,468 | +0,224 | +0,039 | **−0,132** | +6.709 | −22.879 |
+| additivo | +0,186 | +0,248 | −0,054 | −0,022 | −9.297 | −3.890 |
+
+Ogni verso è unanime sui cinque semi. In grassetto i due segni che si
+rovesciano: per la LR sulla media per blocco, per l'MLP sul complessivo.
+
+Il richiamo sui normali, medio per blocco, congelato → adattivo:
+
+| modello | a zero | su B |
+|---|---|---|
+| LR | 0,431 → 0,220 | 0,533 → **0,588** |
+| MLP | 0,732 → 0,264 | 0,858 → 0,634 |
+| additivo | 0,483 → 0,297 | 0,960 → 0,712 |
+
+**La lettura, e la correzione che impone.** Il §10 concludeva che
+l'adattamento peggiora sempre il richiamo sui normali. Con la soglia scelta su B
+quella conclusione **non regge più per la LR**, dove l'adattamento lo migliora,
+da 0,533 a 0,588, e dove i falsi positivi scendono di 52.307 invece di 12.412.
+Per l'MLP resta vera sulla media per blocco ma si rovescia sul complessivo. Per
+il modello additivo regge su entrambe le aggregazioni, ed è l'unico dei tre.
+
+Una parte di quello che avevamo letto come danno dell'adattamento era quindi
+**un effetto del punto di decisione**, non dell'adattamento: i modelli congelati
+alla soglia zero sono mal tarati su un flusso al 98% di attacchi — il richiamo
+sui normali del modello additivo congelato passa da 0,483 a 0,960 solo cambiando
+soglia — e il confronto a soglia zero attribuiva all'aggiornamento una parte di
+quella mala taratura. Il regime di inversione, che è una misura di ordinamento,
+non è intaccato.
+
+## 10ter. Aggiornare solo su evidenza di inversione, con il controllo negativo
+
+Tutto in questa sezione è misurato con la **soglia scelta su B** del §10bis, non
+a zero: il confronto a soglia zero attribuirebbe all'aggiornamento una parte
+della mala taratura del modello congelato. Parametri invariati: blocchi da
+10.000, budget dell'1%, memoria FIFO di 256, ritardo di un blocco.
+
+### Il primo passo: il verso è stimabile dalle sole etichette arrivate?
+
+Vanno distinti due stimatori, perché uno dei due è cieco.
+
+**Dalla memoria, in campione: non funziona.** L'AUROC calcolata sui 256 esempi
+in memoria non riconosce **mai** un blocco invertito — zero su 38 per la
+logistica, zero su 26 per l'MLP, zero su 50 per l'additivo sul seme 42 — e la
+correlazione con il valore vero è +0,125, +0,118 e −0,003. La ragione è
+strutturale: la memoria è l'insieme su cui l'aggiornamento è stato fatto, quindi
+quella stima è in campione e vale quasi sempre circa 1,0.
+
+**Dalle righe campionate, fuori campione: funziona in parte.** L'AUROC calcolata
+sulle sole cento righe campionate del blocco, con i punteggi **già emessi**, è
+fuori campione rispetto al modello che li ha emessi. Sui cinque semi:
+
+| | disponibile | correlazione a *j* | a *j+2* | richiamo a *j+2* | precisione a *j+2* |
+|---|---|---:|---:|---:|---:|
+| logistica | 1.904 blocchi su 4.580 (41,6%) | +0,687 | +0,363 | 37,2% | 17,0% |
+| MLP | idem | +0,692 | +0,325 | 43,9% | 18,1% |
+| additivo | idem | +0,729 | +0,292 | 27,4% | 15,3% |
+
+Tre cose vanno lette insieme. La stima **esiste solo nel 41,6% dei blocchi**,
+perché fra le cento righe campionate il blocco mediano non contiene **nessun**
+normale — media 1,86, e 2.676 blocchi su 4.580 ne hanno zero. Dove esiste,
+segue bene l'AUROC del blocco corrente, +0,69 a +0,73, ma **si degrada a
++0,29 ÷ +0,36 al ritardo che conta**, *j+2*, che è il primo blocco su cui la
+decisione incide. E come regola di decisione a *j+2* la sua **precisione è
+15–18%**: segnala da cinque a sei blocchi per ogni inversione vera.
+
+Dove la stima non esiste la decisione è **dichiarata non disponibile**, e tenuta
+distinta da «nessuna evidenza»: la prima dice che non si sa, la seconda che si
+sa e non c'è. Nel rendiconto sono due conteggi separati.
+
+### Il risparmio è di aggiornamenti, non di etichette
+
+Va detto prima dei numeri, perché altrimenti le tabelle si leggono male. Il
+budget dell'1% si spende **comunque**: le cento righe per blocco vengono
+etichettate indipendentemente da quello che la politica decide di farne. Nelle
+corse qui sotto le etichette spese sono **91.506 per seme in tutte e tre le
+politiche**, identiche. Quello che cambia è il numero di aggiornamenti
+applicati, e quello è il risparmio misurabile. Un risparmio di etichette
+richiederebbe un budget variabile, che in questa fase non è in discussione.
+
+### Le tre politiche, e il controllo negativo
+
+Quattro alternative sugli stessi blocchi, con gli stessi `row_id` campionati e
+la stessa soglia. Il controllo negativo aggiorna su altrettanti blocchi scelti a
+sorte, **modello per modello**, estratti fra i blocchi in cui un aggiornamento è
+davvero possibile: estraendoli fra tutti, il 43% delle estrazioni cadrebbe su un
+blocco con memoria monoclasse e il controllo ne applicherebbe quasi la metà,
+misurando la differenza fra i conteggi invece di quella fra i criteri.
+
+Medie sui cinque semi; `aggiorn.` è il numero medio di aggiornamenti applicati.
+
+| logistica | AUROC | ric. normali | FPR complessivo | aggiorn. |
+|---|---:|---:|---:|---:|
+| congelato | 0,7149 | 0,5327 | 0,4872 | 0 |
+| ogni blocco | 0,7739 | 0,5876 | 0,1854 | 520 |
+| **su evidenza** | **0,7756** | 0,5711 | 0,1944 | **45,2** |
+| casuale, pareggiato | 0,7499 | 0,5501 | 0,2467 | 45,2 |
+
+| MLP | AUROC | ric. normali | FPR complessivo | aggiorn. |
+|---|---:|---:|---:|---:|
+| congelato | 0,7921 | 0,8585 | 0,2828 | 0 |
+| ogni blocco | 0,7664 | 0,6341 | 0,1508 | 520 |
+| **su evidenza** | **0,7956** | 0,6625 | 0,1844 | **33,8** |
+| casuale, pareggiato | 0,7265 | 0,6427 | 0,1625 | 33,8 |
+
+| additivo | AUROC | ric. normali | FPR complessivo | aggiorn. |
+|---|---:|---:|---:|---:|
+| **congelato** | **0,8909** | **0,9602** | 0,1323 | 0 |
+| ogni blocco | 0,8068 | 0,7117 | 0,1098 | 520 |
+| su evidenza | 0,8358 | 0,7552 | 0,0952 | 19,4 |
+| casuale, pareggiato | 0,7384 | 0,6619 | 0,2122 | 19,4 |
+
+### Che cosa ne segue
+
+**La politica su evidenza batte il controllo negativo in tutti e tre i
+modelli**, di +0,026, +0,069 e +0,097 di AUROC. Non è quindi il numero ridotto
+di aggiornamenti a produrre il risultato: è il criterio. È la risposta che il
+controllo negativo esisteva per dare, e sarebbe stata l'altra.
+
+**E batte anche l'aggiornamento continuo, spendendo da un undicesimo a un
+ventisettesimo degli aggiornamenti**: +0,002 per la logistica con 45 anziché
+520, +0,029 per l'MLP con 34, +0,029 per l'additivo con 19. Per l'MLP è l'unica
+politica che batte il congelato, e di poco: 0,7956 contro 0,7921.
+
+**Per il modello additivo nessuna politica batte il congelato.** 0,8909 contro
+0,8358 della migliore. Il risultato del §10 regge: quel modello non ha quasi
+nulla da correggere, e ogni aggiornamento è un costo netto. Il regime di
+inversione lo aveva previsto, e questa sezione lo conferma per via diversa.
+
+Resta il limite da dichiarare accanto a ogni riga di queste tabelle: il
+rivelatore ha precisione 15–18% ed esiste nel 41,6% dei blocchi. **Funziona non
+perché sia preciso, ma perché aggiornare raramente danneggia poco** anche quando
+si sbaglia. Un rivelatore migliore richiederebbe più normali etichettati per
+blocco, cioè il punto aperto 3: una memoria che conservi per classe, o un budget
+maggiore sui blocchi poveri di normali.
+
 ## 11. Punti aperti
 
 1. ~~Base del ramo.~~ **Deciso:** `adapt-01/ton-temporal-pilot` parte
@@ -407,3 +777,23 @@ stato toccato**.
 4. **Righe non valide.** Le 869 righe fuori contratto sono escluse da ogni
    conteggio, come fa lo strumento di riferimento. Vanno contate anche nel
    replay o saltate in silenzio? Qui si propone di saltarle e registrarle.
+5. **Come riportare la valutazione finale su D, dato il §5bis.** Il 37,23% delle
+   righe di D e il 58,03% dei suoi normali hanno un vettore di feature già
+   presente in A, B o C. Qui si propone di riportare la valutazione **due
+   volte**: sull'intero stream D, perché è quello che la scheda definisce, e sul
+   solo sottoinsieme a vettore non visto — 2.228.436 righe, 129.982 normali —
+   perché è quello che misura generalizzazione invece di memoria. Le due misure
+   vanno affiancate come le due aggregazioni del FPR al §6, e la differenza fra
+   loro è essa stessa un risultato. L'alternativa sarebbe ridefinire D, che
+   significherebbe rinunciare a dei tipi di attacco: non si fa senza
+   indicazione.
+6. ~~La regola di parità sulla soglia.~~ **Fatto e misurato al §10bis.** La
+   soglia è scelta su B col massimo della balanced accuracy, identica e fissa
+   nella coppia congelato / adattivo. La regola di parità dichiarata — mediana
+   delle candidate, con numero pari il minore dei due valori centrali — **non è
+   mai servita**: in tutti e quindici i casi il massimo è raggiunto da una
+   candidata sola. Resta nel codice e dichiarata. Quello che resta da decidere è
+   un'altra cosa: il §10bis mostra che due dei tre risultati sulle misure di
+   decisione del §10 erano effetti del punto di decisione, quindi va concordato
+   **quale dei due confronti è quello da riportare nell'articolo**, o se vanno
+   riportati entrambi affiancati come le due aggregazioni del FPR.

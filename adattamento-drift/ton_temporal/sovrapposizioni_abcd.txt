@@ -1,0 +1,31 @@
+
+RIGHE E IMPRONTE PER INTERVALLO
+    ruolo                   righe valide   impronte  righe/impronta  quota distinte
+  A addestramento iniziale     3,956,308    249,930            15.8         6.3173%
+  B calibrazione               5,681,198    405,643            14.0         7.1401%
+  C sviluppo                   9,150,673  3,849,499             2.4        42.0679%
+  D valutazione finale         3,549,973  1,972,598             1.8        55.5666%
+
+SOVRAPPOSIZIONI A COPPIE, sulle impronte
+  coppia  impronte comuni   righe coinvolte nei due intervalli (fra parentesi la quota, poi le sole righe normali)
+     A-B           50,882   A:  3,688,555 (93.23%) norm 68.12%   B:  3,826,246 (67.35%) norm 20.60%
+     A-C            2,662   A:  3,065,275 (77.48%) norm 65.03%   C:  1,278,598 (13.97%) norm 27.05%
+     A-D           10,309   A:  3,070,375 (77.61%) norm 14.29%   D:    752,213 (21.19%) norm 52.08%
+     B-C           22,774   B:  4,413,652 (77.69%) norm 18.12%   C:  2,048,122 (22.38%) norm 33.21%
+     B-D           13,045   B:  3,853,601 (67.83%) norm  8.17%   D:    723,418 (20.38%) norm 42.92%
+     C-D          157,720   C:  2,280,019 (24.92%) norm 29.39%   D:    903,039 (25.44%) norm 54.93%
+
+D CONTRO A, B e C — la domanda da chiudere prima di usare D
+  impronte distinte di D:                  1,972,598
+  di queste, gia' viste in A, B o C:         170,383 (8.64%)
+  righe di D con impronta gia' vista:      1,321,537 (37.23%)
+    di cui normali:                          179,691 (58.03% dei normali di D)
+    di cui attacchi:                       1,141,846
+  impronte distinte in A, B e C:           4,430,245
+
+  QUANTO E' CONCENTRATA quella sovrapposizione
+    impronta piu' frequente:                  49,390 righe (3.74% della sovrapposizione)
+    prime dieci impronte:                    184,682 righe (13.97%)
+    impronte per meta' delle righe:              235
+    impronte per il 90% delle righe:          54,821
+
