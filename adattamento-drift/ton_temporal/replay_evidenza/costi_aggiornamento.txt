@@ -1,0 +1,45 @@
+COSTO DI UN SINGOLO AGGIORNAMENTO
+  mediana fra i semi della mediana per corsa; fra parentesi il minimo e
+  il massimo osservati, che su CPU condivise sono rumore di scheduling
+
+casuale  (5 corse, semi [42, 43, 44, 45, 46], replay mediano 61.9s)
+  modello  aggiorn.  ms mediano  ms medio       (min-max) max/min  s totali  % replay
+  lr             44        7.60     19.31      (2.2-79.4)     36x       1.0      1.5%
+  mlp            35        7.23     17.80      (2.3-60.9)     26x       0.7      1.1%
+  kan            21       14.84     26.43      (6.8-62.1)      9x       0.4      0.7%
+
+evidenza_inversione  (5 corse, semi [42, 43, 44, 45, 46], replay mediano 61.8s)
+  modello  aggiorn.  ms mediano  ms medio       (min-max) max/min  s totali  % replay
+  lr             44        6.91     18.54      (2.3-64.0)     28x       0.9      1.5%
+  mlp            35        8.13     13.00      (1.9-62.1)     32x       0.5      0.7%
+  kan            21       13.09     19.88      (6.5-60.0)      9x       0.3      0.6%
+
+ogni_blocco  (5 corse, semi [42, 43, 44, 45, 46], replay mediano 88.4s)
+  modello  aggiorn.  ms mediano  ms medio       (min-max) max/min  s totali  % replay
+  lr            520        5.09     10.32     (1.9-333.7)    178x       4.8      5.7%
+  mlp           520        6.82      8.54     (1.7-267.8)    158x       4.0      4.5%
+  kan           520       10.96     15.30     (6.1-384.1)     63x       7.1      8.0%
+
+ogni_blocco_soglia_zero  (5 corse, semi [42, 43, 44, 45, 46], replay mediano 86.3s)
+  modello  aggiorn.  ms mediano  ms medio       (min-max) max/min  s totali  % replay
+  lr            520        5.08      9.03      (1.9-97.5)     52x       4.7      5.4%
+  mlp           520        6.49      7.22      (1.5-52.4)     35x       3.8      4.3%
+  kan           520       11.13     12.96      (5.9-65.7)     11x       6.8      7.8%
+
+CHE COSA SI RISPARMIA DAVVERO, da ogni_blocco a evidenza
+  lr    520 -> 44 aggiornamenti   4.8s -> 0.9s   risparmio 3.9s su 88s di replay, cioe il 4.5%
+  mlp   520 -> 35 aggiornamenti   4.0s -> 0.5s   risparmio 3.6s su 88s di replay, cioe il 4.0%
+  kan   520 -> 21 aggiornamenti   9.0s -> 0.3s   risparmio 8.7s su 88s di replay, cioe il 9.8%
+  misurati sugli aggiornamenti: 16.2s; differenza fra i due replay: 26.6s; residuo non attribuito: 10.4s
+
+  Il tempo del replay e dominato dal punteggio dei blocchi, che si
+  paga in tutte le politiche: il numero di aggiornamenti non dimostra
+  un guadagno di latenza ne di memoria.
+
+MACCHINA
+  Intel(R) Xeon(R) Processor @ 2.80GHz, 2 CPU utilizzabili, 8031 MiB di RAM
+  picco RSS del processo: da 1281 a 1339 MiB, dominato dagli
+  array dello stream tenuti in memoria dal banco di prova
+  memoria FIFO: 10,240 byte; stato per modello: lr 8,264, mlp 16,520, kan 16,456
+
+scritto costi_aggiornamento.json

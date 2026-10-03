@@ -1,0 +1,30 @@
+         14274159 function calls (14001968 primitive calls) in 87.777 seconds
+
+   Ordered by: cumulative time
+   List reduced from 855 to 22 due to restriction <22>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.326    0.326   87.778   87.778 /home/claude/drift_strumenti/replay.py:513(main)
+      432    3.145    0.007   45.367    0.105 /home/claude/drift_strumenti/replay.py:168(_basi)
+      431    1.171    0.003   43.397    0.101 /home/claude/drift_strumenti/replay.py:173(rappresentazione)
+      432    0.012    0.000   41.971    0.097 /home/claude/drift_strumenti/replay.py:170(<listcomp>)
+     3456    3.811    0.001   41.959    0.012 /home/claude/drift_strumenti/replay.py:56(base_bspline)
+297216/27648   34.805    0.000   37.802    0.001 /home/claude/drift_strumenti/replay.py:66(_bspline_uno)
+        3    0.341    0.114   36.116   12.039 /home/claude/drift_strumenti/replay.py:265(punteggio_a_blocchi)
+    26/25    0.001    0.000   28.933    1.157 /usr/local/lib/python3.11/dist-packages/sklearn/base.py:1319(wrapper)
+        1    0.062    0.062   20.461   20.461 /home/claude/drift_strumenti/replay.py:115(__init__)
+        1    0.000    0.000   20.397   20.397 /usr/local/lib/python3.11/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:830(fit)
+        1    0.000    0.000   20.397   20.397 /usr/local/lib/python3.11/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:462(_fit)
+        1    0.621    0.621   20.375   20.375 /usr/local/lib/python3.11/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:610(_fit_stochastic)
+    50000    0.989    0.000   11.514    0.000 /usr/local/lib/python3.11/dist-packages/sklearn/neural_network/_multilayer_perceptron.py:301(_backprop)
+       24    0.001    0.000    8.519    0.355 /usr/local/lib/python3.11/dist-packages/sklearn/linear_model/_logistic.py:1086(fit)
+       24    0.007    0.000    8.344    0.348 /usr/local/lib/python3.11/dist-packages/sklearn/linear_model/_logistic.py:86(_logistic_regression_path)
+       24    0.001    0.000    8.319    0.347 /usr/local/lib/python3.11/dist-packages/scipy/optimize/_minimize.py:54(minimize)
+       24    0.008    0.000    8.317    0.347 /usr/local/lib/python3.11/dist-packages/scipy/optimize/_lbfgsb_py.py:294(_minimize_lbfgsb)
+     2078    0.028    0.000    7.919    0.004 /usr/local/lib/python3.11/dist-packages/scipy/optimize/_optimize.py:71(_compute_if_needed)
+     1063    0.002    0.000    7.914    0.007 /usr/local/lib/python3.11/dist-packages/scipy/optimize/_differentiable_functions.py:360(_update_fun)
+     1039    0.005    0.000    7.912    0.008 /usr/local/lib/python3.11/dist-packages/scipy/_lib/_util.py:600(__call__)
+     1039    0.001    0.000    7.905    0.008 /usr/local/lib/python3.11/dist-packages/scipy/optimize/_optimize.py:78(__call__)
+     1039    2.654    0.003    7.872    0.008 /usr/local/lib/python3.11/dist-packages/sklearn/linear_model/_linear_loss.py:269(loss_gradient)
+
+

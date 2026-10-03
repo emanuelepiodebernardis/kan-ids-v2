@@ -1,0 +1,4841 @@
+{
+ "parametri": {
+  "blocco": 10000,
+  "budget": 0.01,
+  "memoria": 256,
+  "ritardo_in_blocchi": 1,
+  "seme": 42,
+  "max_blocchi": null
+ },
+ "flusso": {
+  "file": "C.npz",
+  "righe": 9150673,
+  "blocchi_eseguiti": 916,
+  "normali": 173316,
+  "attacchi": 8977357
+ },
+ "iniziale": {
+  "file": "A.npz",
+  "righe": 3956308,
+  "normali": 223199
+ },
+ "trasformazione": "log1p poi standardizzazione, stimata su A",
+ "campionamento": "uniforme",
+ "politica": {
+  "nome": "ogni_blocco",
+  "quanti_aggiornamenti_richiesti": null,
+  "blocchi_scelti": null
+ },
+ "soglia_di_decisione": {
+  "modo": "balanced_accuracy_su_B",
+  "per_modello": {
+   "lr": {
+    "regola": "massimo della balanced accuracy sull intero B, per uguaglianza esatta fra float64; fra i candidati a pari merito la mediana inferiore, cioe l indice (n-1)//2 sui candidati ordinati",
+    "balanced_accuracy": 0.6660146763833944,
+    "richiamo_normali": 0.3496747758136202,
+    "richiamo_attacchi": 0.9823545769531686,
+    "candidate_totali": 405580,
+    "candidate_a_pari_merito": 1,
+    "candidate_contigue": true,
+    "soglia_minima_a_pari_merito": 4.358559635725276,
+    "soglia_massima_a_pari_merito": 4.358559635725276,
+    "balanced_accuracy_a_zero": 0.6482121003572943,
+    "normali": 89323,
+    "attacchi": 5591875,
+    "soglia": 4.358559635725276
+   },
+   "mlp": {
+    "regola": "massimo della balanced accuracy sull intero B, per uguaglianza esatta fra float64; fra i candidati a pari merito la mediana inferiore, cioe l indice (n-1)//2 sui candidati ordinati",
+    "balanced_accuracy": 0.7088497057136752,
+    "richiamo_normali": 0.4345465333676657,
+    "richiamo_attacchi": 0.9831528780596848,
+    "candidate_totali": 405543,
+    "candidate_a_pari_merito": 1,
+    "candidate_contigue": true,
+    "soglia_minima_a_pari_merito": 5.6713504321974,
+    "soglia_massima_a_pari_merito": 5.6713504321974,
+    "balanced_accuracy_a_zero": 0.6812368651923764,
+    "normali": 89323,
+    "attacchi": 5591875,
+    "soglia": 5.6713504321974
+   },
+   "kan": {
+    "regola": "massimo della balanced accuracy sull intero B, per uguaglianza esatta fra float64; fra i candidati a pari merito la mediana inferiore, cioe l indice (n-1)//2 sui candidati ordinati",
+    "balanced_accuracy": 0.8162655023165132,
+    "richiamo_normali": 0.9878978538562296,
+    "richiamo_attacchi": 0.6446331507767967,
+    "candidate_totali": 405063,
+    "candidate_a_pari_merito": 1,
+    "candidate_contigue": true,
+    "soglia_minima_a_pari_merito": 7.1635667083378625,
+    "soglia_massima_a_pari_merito": 7.1635667083378625,
+    "balanced_accuracy_a_zero": 0.6646333817195681,
+    "normali": 89323,
+    "attacchi": 5591875,
+    "soglia": 7.1635667083378625
+   }
+  },
+  "file": "B.npz",
+  "righe_di_B": 5681198
+ },
+ "etichette_spese": 91506,
+ "righe_scorse": 9150673,
+ "quota_etichette_effettiva": 0.00999992022444688,
+ "quota_etichette_denominatore": "righe effettivamente scorse nel replay",
+ "riepilogo": {
+  "lr": {
+   "salti_per_memoria_monoclasse": 393,
+   "aggiornamenti_applicati": 522,
+   "congelato": {
+    "accuratezza": 0.7170394559003874,
+    "richiamo_attacchi": 0.7204459425989066,
+    "richiamo_normali": 0.5327348714240147,
+    "falsi_allarmi": 0.46726512857598534,
+    "auroc": 0.7148993636934656
+   },
+   "adattivo": {
+    "accuratezza": 0.8735311276497726,
+    "richiamo_attacchi": 0.8711431304693147,
+    "richiamo_normali": 0.5747995321675647,
+    "falsi_allarmi": 0.4252004678324352,
+    "auroc": 0.7806761557030518
+   }
+  },
+  "mlp": {
+   "salti_per_memoria_monoclasse": 393,
+   "aggiornamenti_applicati": 522,
+   "congelato": {
+    "accuratezza": 0.40363516727551146,
+    "richiamo_attacchi": 0.3976872487199755,
+    "richiamo_normali": 0.8637213289381008,
+    "falsi_allarmi": 0.1362786710618993,
+    "auroc": 0.7981671443342657
+   },
+   "adattivo": {
+    "accuratezza": 0.8046870497738732,
+    "richiamo_attacchi": 0.798556803003472,
+    "richiamo_normali": 0.7062575493366192,
+    "falsi_allarmi": 0.29374245066338084,
+    "auroc": 0.8325467358582256
+   }
+  },
+  "kan": {
+   "salti_per_memoria_monoclasse": 393,
+   "aggiornamenti_applicati": 522,
+   "congelato": {
+    "accuratezza": 0.651904509560918,
+    "richiamo_attacchi": 0.6475348511727385,
+    "richiamo_normali": 0.9606074099430507,
+    "falsi_allarmi": 0.03939259005694937,
+    "auroc": 0.8856510531033382
+   },
+   "adattivo": {
+    "accuratezza": 0.7472513241563228,
+    "richiamo_attacchi": 0.7413736984861827,
+    "richiamo_normali": 0.7319730064090471,
+    "falsi_allarmi": 0.2680269935909529,
+    "auroc": 0.7965209068861767
+   }
+  }
+ },
+ "ambiente": {
+  "hardware_misurato": {
+   "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+   "cpu_thread_visibili": 2,
+   "ram_totale_mib": 8031.1,
+   "cpu_utilizzabili_dal_processo": 2,
+   "thread_blas": {
+    "OMP_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null
+   }
+  },
+  "python": "3.11.15",
+  "implementazione": "CPython",
+  "sistema": "Linux 6.18.44-fc-v64",
+  "macchina": "x86_64",
+  "numpy": "2.4.4",
+  "scikit_learn": "1.8.0",
+  "hardware": "solo CPU: nessuna libreria di accelerazione usata"
+ },
+ "comando": "replay.py --iniziale /home/claude/drift_prova/flussi/A.npz --flusso /home/claude/drift_prova/flussi/C.npz --calibrazione /home/claude/drift_prova/flussi/B.npz --politica ogni_blocco --seme 42 --uscita /home/claude/drift_prova/corsa3/tempi/ogni_blocco_seme42.json",
+ "costi": {
+  "secondi_totali": 146.79,
+  "secondi_addestramento_iniziale": 25.86,
+  "secondi_per_modello_iniziale": {
+   "lr": 4.0,
+   "mlp": 13.02,
+   "kan": 6.81
+  },
+  "secondi_replay": 86.62,
+  "secondi_per_blocco": 0.0946,
+  "etichette_richieste": 91506,
+  "etichette_per_blocco": 100,
+  "aggiornamenti_applicati": {
+   "lr": 522,
+   "mlp": 522,
+   "kan": 522
+  },
+  "aggiornamenti_saltati": {
+   "lr": 393,
+   "mlp": 393,
+   "kan": 393
+  },
+  "decisioni_della_politica": {
+   "lr": {
+    "applicato": 522,
+    "saltato_memoria_monoclasse": 393
+   },
+   "mlp": {
+    "applicato": 522,
+    "saltato_memoria_monoclasse": 393
+   },
+   "kan": {
+    "applicato": 522,
+    "saltato_memoria_monoclasse": 393
+   }
+  },
+  "tempo_del_singolo_aggiornamento": {
+   "lr": {
+    "n": 522,
+    "secondi_totali": 4.857,
+    "ms_medio": 9.304,
+    "ms_mediano": 5.191,
+    "ms_minimo": 2.099,
+    "ms_massimo": 61.157
+   },
+   "mlp": {
+    "n": 522,
+    "secondi_totali": 3.075,
+    "ms_medio": 5.891,
+    "ms_mediano": 5.27,
+    "ms_minimo": 1.895,
+    "ms_massimo": 54.927
+   },
+   "kan": {
+    "n": 522,
+    "secondi_totali": 6.755,
+    "ms_medio": 12.94,
+    "ms_mediano": 11.084,
+    "ms_minimo": 6.061,
+    "ms_massimo": 55.429
+   }
+  },
+  "tempo_degli_aggiornamenti_saltati": {
+   "lr": {
+    "n": 393,
+    "secondi_totali": 0.016,
+    "ms_medio": 0.04,
+    "ms_mediano": 0.037,
+    "ms_minimo": 0.03,
+    "ms_massimo": 0.139
+   },
+   "mlp": {
+    "n": 393,
+    "secondi_totali": 0.018,
+    "ms_medio": 0.046,
+    "ms_mediano": 0.039,
+    "ms_minimo": 0.034,
+    "ms_massimo": 0.527
+   },
+   "kan": {
+    "n": 393,
+    "secondi_totali": 2.047,
+    "ms_medio": 5.208,
+    "ms_mediano": 4.797,
+    "ms_minimo": 4.172,
+    "ms_massimo": 10.201
+   }
+  },
+  "tempo_aggiornamento_cosa_comprende": "applica + rappresentazione(memoria) + rifitting dei parametri, cronometrato con time.perf_counter attorno a quel solo tratto; escluso il punteggio del blocco, che si paga in ogni politica",
+  "memoria": {
+   "picco_rss_processo_mib": 1338.3,
+   "byte_memoria_fifo": 10240,
+   "byte_stato_per_modello": {
+    "lr": 8264,
+    "mlp": 16520,
+    "kan": 16456
+   },
+   "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+  },
+  "avvertenza": "il numero di aggiornamenti non dimostra un guadagno di latenza ne di memoria: il costo per aggiornamento e misurato qui e va moltiplicato per il numero, mentre il punteggio di ogni blocco si paga in tutte le politiche"
+ },
+ "per_blocco_rimosso": "le misure per blocco di questa corsa sono identiche a quelle di ../replay_C_calibrato_seme42.json, verificate campo per campo sui 916 blocchi, quindi non sono ripubblicate: questa corsa serve solo per i tempi, misurati con la macchina altrimenti inattiva. Restano qui sotto i soli tempi per blocco.",
+ "ms_aggiornamento_per_blocco": {
+  "1": {
+   "ms_aggiornamento_lr": 3.583,
+   "ms_aggiornamento_mlp": 11.95,
+   "ms_aggiornamento_kan": 16.394
+  },
+  "2": {
+   "ms_aggiornamento_lr": 6.97,
+   "ms_aggiornamento_mlp": 8.091,
+   "ms_aggiornamento_kan": 17.803
+  },
+  "3": {
+   "ms_aggiornamento_lr": 2.699,
+   "ms_aggiornamento_mlp": 7.634,
+   "ms_aggiornamento_kan": 9.862
+  },
+  "4": {
+   "ms_aggiornamento_lr": 7.408,
+   "ms_aggiornamento_mlp": 9.246,
+   "ms_aggiornamento_kan": 23.577
+  },
+  "5": {
+   "ms_aggiornamento_lr": 6.051,
+   "ms_aggiornamento_mlp": 9.983,
+   "ms_aggiornamento_kan": 8.74
+  },
+  "6": {
+   "ms_aggiornamento_lr": 2.509,
+   "ms_aggiornamento_mlp": 54.927,
+   "ms_aggiornamento_kan": 17.594
+  },
+  "7": {
+   "ms_aggiornamento_lr": 3.291,
+   "ms_aggiornamento_mlp": 3.029,
+   "ms_aggiornamento_kan": 8.967
+  },
+  "8": {
+   "ms_aggiornamento_lr": 3.176,
+   "ms_aggiornamento_mlp": 8.196,
+   "ms_aggiornamento_kan": 23.57
+  },
+  "9": {
+   "ms_aggiornamento_lr": 7.071,
+   "ms_aggiornamento_mlp": 8.898,
+   "ms_aggiornamento_kan": 16.933
+  },
+  "10": {
+   "ms_aggiornamento_lr": 7.184,
+   "ms_aggiornamento_mlp": 8.125,
+   "ms_aggiornamento_kan": 17.945
+  },
+  "11": {
+   "ms_aggiornamento_lr": 3.263,
+   "ms_aggiornamento_mlp": 6.603,
+   "ms_aggiornamento_kan": 11.135
+  },
+  "12": {
+   "ms_aggiornamento_lr": 7.659,
+   "ms_aggiornamento_mlp": 9.254,
+   "ms_aggiornamento_kan": 13.663
+  },
+  "13": {
+   "ms_aggiornamento_lr": 11.314,
+   "ms_aggiornamento_mlp": 10.311,
+   "ms_aggiornamento_kan": 13.035
+  },
+  "14": {
+   "ms_aggiornamento_lr": 4.191,
+   "ms_aggiornamento_mlp": 9.592,
+   "ms_aggiornamento_kan": 10.581
+  },
+  "15": {
+   "ms_aggiornamento_lr": 2.73,
+   "ms_aggiornamento_mlp": 51.613,
+   "ms_aggiornamento_kan": 9.861
+  },
+  "16": {
+   "ms_aggiornamento_lr": 4.542,
+   "ms_aggiornamento_mlp": 14.172,
+   "ms_aggiornamento_kan": 17.191
+  },
+  "17": {
+   "ms_aggiornamento_lr": 23.903,
+   "ms_aggiornamento_mlp": 5.753,
+   "ms_aggiornamento_kan": 7.754
+  },
+  "18": {
+   "ms_aggiornamento_lr": 4.008,
+   "ms_aggiornamento_mlp": 9.481,
+   "ms_aggiornamento_kan": 7.923
+  },
+  "19": {
+   "ms_aggiornamento_lr": 11.754,
+   "ms_aggiornamento_mlp": 8.838,
+   "ms_aggiornamento_kan": 31.157
+  },
+  "20": {
+   "ms_aggiornamento_lr": 2.929,
+   "ms_aggiornamento_mlp": 4.77,
+   "ms_aggiornamento_kan": 9.47
+  },
+  "21": {
+   "ms_aggiornamento_lr": 13.387,
+   "ms_aggiornamento_mlp": 6.918,
+   "ms_aggiornamento_kan": 10.081
+  },
+  "22": {
+   "ms_aggiornamento_lr": 6.204,
+   "ms_aggiornamento_mlp": 3.553,
+   "ms_aggiornamento_kan": 10.171
+  },
+  "23": {
+   "ms_aggiornamento_lr": 7.481,
+   "ms_aggiornamento_mlp": 19.839,
+   "ms_aggiornamento_kan": 7.151
+  },
+  "24": {
+   "ms_aggiornamento_lr": 4.339,
+   "ms_aggiornamento_mlp": 4.189,
+   "ms_aggiornamento_kan": 9.418
+  },
+  "25": {
+   "ms_aggiornamento_lr": 6.874,
+   "ms_aggiornamento_mlp": 7.742,
+   "ms_aggiornamento_kan": 15.881
+  },
+  "26": {
+   "ms_aggiornamento_lr": 25.809,
+   "ms_aggiornamento_mlp": 4.452,
+   "ms_aggiornamento_kan": 13.423
+  },
+  "27": {
+   "ms_aggiornamento_lr": 6.764,
+   "ms_aggiornamento_mlp": 13.95,
+   "ms_aggiornamento_kan": 16.16
+  },
+  "28": {
+   "ms_aggiornamento_lr": 7.094,
+   "ms_aggiornamento_mlp": 9.244,
+   "ms_aggiornamento_kan": 14.047
+  },
+  "29": {
+   "ms_aggiornamento_lr": 4.324,
+   "ms_aggiornamento_mlp": 8.13,
+   "ms_aggiornamento_kan": 15.413
+  },
+  "30": {
+   "ms_aggiornamento_lr": 7.314,
+   "ms_aggiornamento_mlp": 7.628,
+   "ms_aggiornamento_kan": 10.734
+  },
+  "31": {
+   "ms_aggiornamento_lr": 4.262,
+   "ms_aggiornamento_mlp": 9.412,
+   "ms_aggiornamento_kan": 15.578
+  },
+  "32": {
+   "ms_aggiornamento_lr": 15.958,
+   "ms_aggiornamento_mlp": 3.561,
+   "ms_aggiornamento_kan": 11.815
+  },
+  "33": {
+   "ms_aggiornamento_lr": 6.557,
+   "ms_aggiornamento_mlp": 7.632,
+   "ms_aggiornamento_kan": 11.084
+  },
+  "34": {
+   "ms_aggiornamento_lr": 22.442,
+   "ms_aggiornamento_mlp": 4.213,
+   "ms_aggiornamento_kan": 9.457
+  },
+  "35": {
+   "ms_aggiornamento_lr": 2.63,
+   "ms_aggiornamento_mlp": 4.117,
+   "ms_aggiornamento_kan": 9.252
+  },
+  "36": {
+   "ms_aggiornamento_lr": 2.769,
+   "ms_aggiornamento_mlp": 7.881,
+   "ms_aggiornamento_kan": 12.966
+  },
+  "37": {
+   "ms_aggiornamento_lr": 37.42,
+   "ms_aggiornamento_mlp": 3.64,
+   "ms_aggiornamento_kan": 8.771
+  },
+  "38": {
+   "ms_aggiornamento_lr": 5.15,
+   "ms_aggiornamento_mlp": 7.674,
+   "ms_aggiornamento_kan": 15.285
+  },
+  "39": {
+   "ms_aggiornamento_lr": 13.889,
+   "ms_aggiornamento_mlp": 6.137,
+   "ms_aggiornamento_kan": 11.362
+  },
+  "40": {
+   "ms_aggiornamento_lr": 3.632,
+   "ms_aggiornamento_mlp": 3.151,
+   "ms_aggiornamento_kan": 9.052
+  },
+  "41": {
+   "ms_aggiornamento_lr": 6.588,
+   "ms_aggiornamento_mlp": 3.36,
+   "ms_aggiornamento_kan": 14.186
+  },
+  "42": {
+   "ms_aggiornamento_lr": 3.217,
+   "ms_aggiornamento_mlp": 4.168,
+   "ms_aggiornamento_kan": 9.388
+  },
+  "43": {
+   "ms_aggiornamento_lr": 3.521,
+   "ms_aggiornamento_mlp": 13.349,
+   "ms_aggiornamento_kan": 10.279
+  },
+  "44": {
+   "ms_aggiornamento_lr": 2.314,
+   "ms_aggiornamento_mlp": 6.532,
+   "ms_aggiornamento_kan": 8.889
+  },
+  "45": {
+   "ms_aggiornamento_lr": 4.865,
+   "ms_aggiornamento_mlp": 6.786,
+   "ms_aggiornamento_kan": 11.797
+  },
+  "46": {
+   "ms_aggiornamento_lr": 3.859,
+   "ms_aggiornamento_mlp": 7.138,
+   "ms_aggiornamento_kan": 13.523
+  },
+  "47": {
+   "ms_aggiornamento_lr": 4.146,
+   "ms_aggiornamento_mlp": 2.752,
+   "ms_aggiornamento_kan": 9.947
+  },
+  "48": {
+   "ms_aggiornamento_lr": 2.492,
+   "ms_aggiornamento_mlp": 6.98,
+   "ms_aggiornamento_kan": 14.827
+  },
+  "49": {
+   "ms_aggiornamento_lr": 6.667,
+   "ms_aggiornamento_mlp": 4.482,
+   "ms_aggiornamento_kan": 11.09
+  },
+  "50": {
+   "ms_aggiornamento_lr": 3.659,
+   "ms_aggiornamento_mlp": 7.224,
+   "ms_aggiornamento_kan": 10.706
+  },
+  "51": {
+   "ms_aggiornamento_lr": 14.473,
+   "ms_aggiornamento_mlp": 5.461,
+   "ms_aggiornamento_kan": 10.499
+  },
+  "52": {
+   "ms_aggiornamento_lr": 4.435,
+   "ms_aggiornamento_mlp": 14.252,
+   "ms_aggiornamento_kan": 16.509
+  },
+  "53": {
+   "ms_aggiornamento_lr": 3.305,
+   "ms_aggiornamento_mlp": 5.465,
+   "ms_aggiornamento_kan": 12.17
+  },
+  "54": {
+   "ms_aggiornamento_lr": 4.334,
+   "ms_aggiornamento_mlp": 8.718,
+   "ms_aggiornamento_kan": 7.921
+  },
+  "55": {
+   "ms_aggiornamento_lr": 11.512,
+   "ms_aggiornamento_mlp": 4.629,
+   "ms_aggiornamento_kan": 8.842
+  },
+  "56": {
+   "ms_aggiornamento_lr": 12.279,
+   "ms_aggiornamento_mlp": 5.918,
+   "ms_aggiornamento_kan": 9.603
+  },
+  "57": {
+   "ms_aggiornamento_lr": 2.848,
+   "ms_aggiornamento_mlp": 3.383,
+   "ms_aggiornamento_kan": 9.949
+  },
+  "58": {
+   "ms_aggiornamento_lr": 6.067,
+   "ms_aggiornamento_mlp": 7.167,
+   "ms_aggiornamento_kan": 15.322
+  },
+  "59": {
+   "ms_aggiornamento_lr": 23.97,
+   "ms_aggiornamento_mlp": 4.739,
+   "ms_aggiornamento_kan": 9.322
+  },
+  "60": {
+   "ms_aggiornamento_lr": 5.911,
+   "ms_aggiornamento_mlp": 7.559,
+   "ms_aggiornamento_kan": 9.663
+  },
+  "61": {
+   "ms_aggiornamento_lr": 14.179,
+   "ms_aggiornamento_mlp": 4.17,
+   "ms_aggiornamento_kan": 9.59
+  },
+  "62": {
+   "ms_aggiornamento_lr": 7.34,
+   "ms_aggiornamento_mlp": 5.102,
+   "ms_aggiornamento_kan": 9.997
+  },
+  "63": {
+   "ms_aggiornamento_lr": 2.628,
+   "ms_aggiornamento_mlp": 8.759,
+   "ms_aggiornamento_kan": 48.155
+  },
+  "64": {
+   "ms_aggiornamento_lr": 3.511,
+   "ms_aggiornamento_mlp": 7.892,
+   "ms_aggiornamento_kan": 10.408
+  },
+  "65": {
+   "ms_aggiornamento_lr": 2.694,
+   "ms_aggiornamento_mlp": 7.061,
+   "ms_aggiornamento_kan": 9.585
+  },
+  "66": {
+   "ms_aggiornamento_lr": 2.099,
+   "ms_aggiornamento_mlp": 7.81,
+   "ms_aggiornamento_kan": 8.312
+  },
+  "67": {
+   "ms_aggiornamento_lr": 29.182,
+   "ms_aggiornamento_mlp": 3.616,
+   "ms_aggiornamento_kan": 8.197
+  },
+  "68": {
+   "ms_aggiornamento_lr": 2.98,
+   "ms_aggiornamento_mlp": 4.578,
+   "ms_aggiornamento_kan": 9.164
+  },
+  "69": {
+   "ms_aggiornamento_lr": 2.51,
+   "ms_aggiornamento_mlp": 6.958,
+   "ms_aggiornamento_kan": 9.618
+  },
+  "70": {
+   "ms_aggiornamento_lr": 38.966,
+   "ms_aggiornamento_mlp": 9.443,
+   "ms_aggiornamento_kan": 9.739
+  },
+  "71": {
+   "ms_aggiornamento_lr": 2.595,
+   "ms_aggiornamento_mlp": 6.497,
+   "ms_aggiornamento_kan": 15.21
+  },
+  "72": {
+   "ms_aggiornamento_lr": 2.621,
+   "ms_aggiornamento_mlp": 6.661,
+   "ms_aggiornamento_kan": 15.502
+  },
+  "73": {
+   "ms_aggiornamento_lr": 7.24,
+   "ms_aggiornamento_mlp": 8.176,
+   "ms_aggiornamento_kan": 18.413
+  },
+  "74": {
+   "ms_aggiornamento_lr": 4.639,
+   "ms_aggiornamento_mlp": 3.154,
+   "ms_aggiornamento_kan": 9.244
+  },
+  "75": {
+   "ms_aggiornamento_lr": 6.889,
+   "ms_aggiornamento_mlp": 10.734,
+   "ms_aggiornamento_kan": 14.527
+  },
+  "76": {
+   "ms_aggiornamento_lr": 7.431,
+   "ms_aggiornamento_mlp": 7.529,
+   "ms_aggiornamento_kan": 9.422
+  },
+  "77": {
+   "ms_aggiornamento_lr": 3.508,
+   "ms_aggiornamento_mlp": 2.845,
+   "ms_aggiornamento_kan": 9.106
+  },
+  "78": {
+   "ms_aggiornamento_lr": 4.908,
+   "ms_aggiornamento_mlp": 8.935,
+   "ms_aggiornamento_kan": 7.517
+  },
+  "79": {
+   "ms_aggiornamento_lr": 6.676,
+   "ms_aggiornamento_mlp": 8.442,
+   "ms_aggiornamento_kan": 11.397
+  },
+  "80": {
+   "ms_aggiornamento_lr": 2.854,
+   "ms_aggiornamento_mlp": 7.51,
+   "ms_aggiornamento_kan": 8.686
+  },
+  "81": {
+   "ms_aggiornamento_lr": 2.555,
+   "ms_aggiornamento_mlp": 13.295,
+   "ms_aggiornamento_kan": 9.951
+  },
+  "82": {
+   "ms_aggiornamento_lr": 15.965,
+   "ms_aggiornamento_mlp": 5.277,
+   "ms_aggiornamento_kan": 8.136
+  },
+  "83": {
+   "ms_aggiornamento_lr": 3.663,
+   "ms_aggiornamento_mlp": 13.816,
+   "ms_aggiornamento_kan": 16.397
+  },
+  "84": {
+   "ms_aggiornamento_lr": 3.272,
+   "ms_aggiornamento_mlp": 7.284,
+   "ms_aggiornamento_kan": 11.013
+  },
+  "85": {
+   "ms_aggiornamento_lr": 3.09,
+   "ms_aggiornamento_mlp": 6.747,
+   "ms_aggiornamento_kan": 16.189
+  },
+  "86": {
+   "ms_aggiornamento_lr": 3.385,
+   "ms_aggiornamento_mlp": 6.591,
+   "ms_aggiornamento_kan": 10.059
+  },
+  "87": {
+   "ms_aggiornamento_lr": 6.266,
+   "ms_aggiornamento_mlp": 6.641,
+   "ms_aggiornamento_kan": 21.11
+  },
+  "88": {
+   "ms_aggiornamento_lr": 3.877,
+   "ms_aggiornamento_mlp": 9.953,
+   "ms_aggiornamento_kan": 14.633
+  },
+  "89": {
+   "ms_aggiornamento_lr": 27.304,
+   "ms_aggiornamento_mlp": 4.349,
+   "ms_aggiornamento_kan": 10.014
+  },
+  "90": {
+   "ms_aggiornamento_lr": 2.905,
+   "ms_aggiornamento_mlp": 8.144,
+   "ms_aggiornamento_kan": 13.107
+  },
+  "91": {
+   "ms_aggiornamento_lr": 2.779,
+   "ms_aggiornamento_mlp": 7.323,
+   "ms_aggiornamento_kan": 15.468
+  },
+  "92": {
+   "ms_aggiornamento_lr": 24.163,
+   "ms_aggiornamento_mlp": 5.27,
+   "ms_aggiornamento_kan": 9.657
+  },
+  "93": {
+   "ms_aggiornamento_lr": 4.375,
+   "ms_aggiornamento_mlp": 5.914,
+   "ms_aggiornamento_kan": 16.245
+  },
+  "94": {
+   "ms_aggiornamento_lr": 4.561,
+   "ms_aggiornamento_mlp": 2.846,
+   "ms_aggiornamento_kan": 13.66
+  },
+  "95": {
+   "ms_aggiornamento_lr": 4.833,
+   "ms_aggiornamento_mlp": 6.014,
+   "ms_aggiornamento_kan": 9.822
+  },
+  "96": {
+   "ms_aggiornamento_lr": 7.115,
+   "ms_aggiornamento_mlp": 7.802,
+   "ms_aggiornamento_kan": 10.024
+  },
+  "97": {
+   "ms_aggiornamento_lr": 7.294,
+   "ms_aggiornamento_mlp": 6.184,
+   "ms_aggiornamento_kan": 11.036
+  },
+  "98": {
+   "ms_aggiornamento_lr": 4.477,
+   "ms_aggiornamento_mlp": 5.086,
+   "ms_aggiornamento_kan": 7.766
+  },
+  "99": {
+   "ms_aggiornamento_lr": 7.431,
+   "ms_aggiornamento_mlp": 7.088,
+   "ms_aggiornamento_kan": 15.681
+  },
+  "100": {
+   "ms_aggiornamento_lr": 2.999,
+   "ms_aggiornamento_mlp": 5.93,
+   "ms_aggiornamento_kan": 11.323
+  },
+  "101": {
+   "ms_aggiornamento_lr": 2.33,
+   "ms_aggiornamento_mlp": 4.323,
+   "ms_aggiornamento_kan": 9.88
+  },
+  "102": {
+   "ms_aggiornamento_lr": 3.739,
+   "ms_aggiornamento_mlp": 4.597,
+   "ms_aggiornamento_kan": 9.494
+  },
+  "103": {
+   "ms_aggiornamento_lr": 3.005,
+   "ms_aggiornamento_mlp": 9.746,
+   "ms_aggiornamento_kan": 13.889
+  },
+  "104": {
+   "ms_aggiornamento_lr": 3.999,
+   "ms_aggiornamento_mlp": 4.577,
+   "ms_aggiornamento_kan": 9.79
+  },
+  "105": {
+   "ms_aggiornamento_lr": 4.001,
+   "ms_aggiornamento_mlp": 4.149,
+   "ms_aggiornamento_kan": 12.374
+  },
+  "106": {
+   "ms_aggiornamento_lr": 7.273,
+   "ms_aggiornamento_mlp": 15.208,
+   "ms_aggiornamento_kan": 16.537
+  },
+  "107": {
+   "ms_aggiornamento_lr": 2.832,
+   "ms_aggiornamento_mlp": 5.109,
+   "ms_aggiornamento_kan": 10.92
+  },
+  "108": {
+   "ms_aggiornamento_lr": 6.517,
+   "ms_aggiornamento_mlp": 11.178,
+   "ms_aggiornamento_kan": 13.012
+  },
+  "109": {
+   "ms_aggiornamento_lr": 6.599,
+   "ms_aggiornamento_mlp": 9.071,
+   "ms_aggiornamento_kan": 8.212
+  },
+  "110": {
+   "ms_aggiornamento_lr": 2.866,
+   "ms_aggiornamento_mlp": 3.214,
+   "ms_aggiornamento_kan": 10.992
+  },
+  "111": {
+   "ms_aggiornamento_lr": 2.634,
+   "ms_aggiornamento_mlp": 15.141,
+   "ms_aggiornamento_kan": 10.482
+  },
+  "112": {
+   "ms_aggiornamento_lr": 6.54,
+   "ms_aggiornamento_mlp": 7.844,
+   "ms_aggiornamento_kan": 39.889
+  },
+  "113": {
+   "ms_aggiornamento_lr": 2.296,
+   "ms_aggiornamento_mlp": 8.167,
+   "ms_aggiornamento_kan": 8.007
+  },
+  "114": {
+   "ms_aggiornamento_lr": 18.15,
+   "ms_aggiornamento_mlp": 3.139,
+   "ms_aggiornamento_kan": 9.257
+  },
+  "115": {
+   "ms_aggiornamento_lr": 3.839,
+   "ms_aggiornamento_mlp": 9.157,
+   "ms_aggiornamento_kan": 9.124
+  },
+  "116": {
+   "ms_aggiornamento_lr": 16.397,
+   "ms_aggiornamento_mlp": 3.151,
+   "ms_aggiornamento_kan": 10.154
+  },
+  "117": {
+   "ms_aggiornamento_lr": 11.754,
+   "ms_aggiornamento_mlp": 4.408,
+   "ms_aggiornamento_kan": 9.958
+  },
+  "118": {
+   "ms_aggiornamento_lr": 3.387,
+   "ms_aggiornamento_mlp": 7.539,
+   "ms_aggiornamento_kan": 11.444
+  },
+  "119": {
+   "ms_aggiornamento_lr": 13.016,
+   "ms_aggiornamento_mlp": 37.883,
+   "ms_aggiornamento_kan": 10.698
+  },
+  "120": {
+   "ms_aggiornamento_lr": 3.666,
+   "ms_aggiornamento_mlp": 6.348,
+   "ms_aggiornamento_kan": 9.14
+  },
+  "121": {
+   "ms_aggiornamento_lr": 4.244,
+   "ms_aggiornamento_mlp": 7.806,
+   "ms_aggiornamento_kan": 14.569
+  },
+  "122": {
+   "ms_aggiornamento_lr": 16.357,
+   "ms_aggiornamento_mlp": 5.323,
+   "ms_aggiornamento_kan": 10.301
+  },
+  "123": {
+   "ms_aggiornamento_lr": 4.199,
+   "ms_aggiornamento_mlp": 18.207,
+   "ms_aggiornamento_kan": 14.102
+  },
+  "124": {
+   "ms_aggiornamento_lr": 7.966,
+   "ms_aggiornamento_mlp": 5.603,
+   "ms_aggiornamento_kan": 18.124
+  },
+  "125": {
+   "ms_aggiornamento_lr": 6.121,
+   "ms_aggiornamento_mlp": 5.517,
+   "ms_aggiornamento_kan": 12.631
+  },
+  "126": {
+   "ms_aggiornamento_lr": 5.63,
+   "ms_aggiornamento_mlp": 8.833,
+   "ms_aggiornamento_kan": 22.937
+  },
+  "127": {
+   "ms_aggiornamento_lr": 10.413,
+   "ms_aggiornamento_mlp": 4.984,
+   "ms_aggiornamento_kan": 21.702
+  },
+  "128": {
+   "ms_aggiornamento_lr": 49.94,
+   "ms_aggiornamento_mlp": 3.597,
+   "ms_aggiornamento_kan": 14.776
+  },
+  "129": {
+   "ms_aggiornamento_lr": 4.147,
+   "ms_aggiornamento_mlp": 5.872,
+   "ms_aggiornamento_kan": 19.817
+  },
+  "130": {
+   "ms_aggiornamento_lr": 13.599,
+   "ms_aggiornamento_mlp": 3.042,
+   "ms_aggiornamento_kan": 11.177
+  },
+  "131": {
+   "ms_aggiornamento_lr": 3.406,
+   "ms_aggiornamento_mlp": 7.428,
+   "ms_aggiornamento_kan": 11.484
+  },
+  "132": {
+   "ms_aggiornamento_lr": 6.386,
+   "ms_aggiornamento_mlp": 7.588,
+   "ms_aggiornamento_kan": 44.607
+  },
+  "133": {
+   "ms_aggiornamento_lr": 3.587,
+   "ms_aggiornamento_mlp": 6.962,
+   "ms_aggiornamento_kan": 19.802
+  },
+  "134": {
+   "ms_aggiornamento_lr": 27.636,
+   "ms_aggiornamento_mlp": 2.914,
+   "ms_aggiornamento_kan": 13.451
+  },
+  "135": {
+   "ms_aggiornamento_lr": 5.837,
+   "ms_aggiornamento_mlp": 7.381,
+   "ms_aggiornamento_kan": 16.915
+  },
+  "136": {
+   "ms_aggiornamento_lr": 6.016,
+   "ms_aggiornamento_mlp": 7.226,
+   "ms_aggiornamento_kan": 13.81
+  },
+  "137": {
+   "ms_aggiornamento_lr": 4.094,
+   "ms_aggiornamento_mlp": 7.354,
+   "ms_aggiornamento_kan": 17.194
+  },
+  "138": {
+   "ms_aggiornamento_lr": 6.993,
+   "ms_aggiornamento_mlp": 6.916,
+   "ms_aggiornamento_kan": 11.87
+  },
+  "139": {
+   "ms_aggiornamento_lr": 3.268,
+   "ms_aggiornamento_mlp": 2.992,
+   "ms_aggiornamento_kan": 11.805
+  },
+  "140": {
+   "ms_aggiornamento_lr": 7.211,
+   "ms_aggiornamento_mlp": 7.115,
+   "ms_aggiornamento_kan": 14.822
+  },
+  "141": {
+   "ms_aggiornamento_lr": 32.056,
+   "ms_aggiornamento_mlp": 3.139,
+   "ms_aggiornamento_kan": 10.395
+  },
+  "142": {
+   "ms_aggiornamento_lr": 10.184,
+   "ms_aggiornamento_mlp": 2.617,
+   "ms_aggiornamento_kan": 9.169
+  },
+  "143": {
+   "ms_aggiornamento_lr": 5.722,
+   "ms_aggiornamento_mlp": 6.447,
+   "ms_aggiornamento_kan": 50.166
+  },
+  "144": {
+   "ms_aggiornamento_lr": 3.268,
+   "ms_aggiornamento_mlp": 2.097,
+   "ms_aggiornamento_kan": 8.22
+  },
+  "145": {
+   "ms_aggiornamento_lr": 5.285,
+   "ms_aggiornamento_mlp": 7.093,
+   "ms_aggiornamento_kan": 17.166
+  },
+  "146": {
+   "ms_aggiornamento_lr": 11.891,
+   "ms_aggiornamento_mlp": 2.984,
+   "ms_aggiornamento_kan": 12.197
+  },
+  "147": {
+   "ms_aggiornamento_lr": 3.567,
+   "ms_aggiornamento_mlp": 2.389,
+   "ms_aggiornamento_kan": 10.507
+  },
+  "148": {
+   "ms_aggiornamento_lr": 6.868,
+   "ms_aggiornamento_mlp": 6.387,
+   "ms_aggiornamento_kan": 8.948
+  },
+  "149": {
+   "ms_aggiornamento_lr": 33.097,
+   "ms_aggiornamento_mlp": 3.149,
+   "ms_aggiornamento_kan": 16.836
+  },
+  "150": {
+   "ms_aggiornamento_lr": 5.286,
+   "ms_aggiornamento_mlp": 6.227,
+   "ms_aggiornamento_kan": 23.214
+  },
+  "151": {
+   "ms_aggiornamento_lr": 11.991,
+   "ms_aggiornamento_mlp": 3.22,
+   "ms_aggiornamento_kan": 8.631
+  },
+  "152": {
+   "ms_aggiornamento_lr": 6.274,
+   "ms_aggiornamento_mlp": 7.016,
+   "ms_aggiornamento_kan": 10.323
+  },
+  "153": {
+   "ms_aggiornamento_lr": 4.91,
+   "ms_aggiornamento_mlp": 6.839,
+   "ms_aggiornamento_kan": 15.853
+  },
+  "154": {
+   "ms_aggiornamento_lr": 3.662,
+   "ms_aggiornamento_mlp": 6.674,
+   "ms_aggiornamento_kan": 12.284
+  },
+  "155": {
+   "ms_aggiornamento_lr": 5.958,
+   "ms_aggiornamento_mlp": 7.354,
+   "ms_aggiornamento_kan": 23.794
+  },
+  "156": {
+   "ms_aggiornamento_lr": 3.277,
+   "ms_aggiornamento_mlp": 7.105,
+   "ms_aggiornamento_kan": 14.079
+  },
+  "157": {
+   "ms_aggiornamento_lr": 5.953,
+   "ms_aggiornamento_mlp": 2.462,
+   "ms_aggiornamento_kan": 55.429
+  },
+  "158": {
+   "ms_aggiornamento_lr": 3.612,
+   "ms_aggiornamento_mlp": 2.552,
+   "ms_aggiornamento_kan": 11.466
+  },
+  "159": {
+   "ms_aggiornamento_lr": 5.385,
+   "ms_aggiornamento_mlp": 2.275,
+   "ms_aggiornamento_kan": 13.934
+  },
+  "160": {
+   "ms_aggiornamento_lr": 43.734,
+   "ms_aggiornamento_mlp": 3.621,
+   "ms_aggiornamento_kan": 9.956
+  },
+  "161": {
+   "ms_aggiornamento_lr": 5.203,
+   "ms_aggiornamento_mlp": 5.549,
+   "ms_aggiornamento_kan": 17.128
+  },
+  "162": {
+   "ms_aggiornamento_lr": 27.062,
+   "ms_aggiornamento_mlp": 3.499,
+   "ms_aggiornamento_kan": 12.384
+  },
+  "163": {
+   "ms_aggiornamento_lr": 6.596,
+   "ms_aggiornamento_mlp": 4.983,
+   "ms_aggiornamento_kan": 21.628
+  },
+  "164": {
+   "ms_aggiornamento_lr": 17.717,
+   "ms_aggiornamento_mlp": 6.188,
+   "ms_aggiornamento_kan": 13.078
+  },
+  "165": {
+   "ms_aggiornamento_lr": 3.863,
+   "ms_aggiornamento_mlp": 2.899,
+   "ms_aggiornamento_kan": 11.703
+  },
+  "166": {
+   "ms_aggiornamento_lr": 7.391,
+   "ms_aggiornamento_mlp": 6.803,
+   "ms_aggiornamento_kan": 10.439
+  },
+  "167": {
+   "ms_aggiornamento_lr": 8.86,
+   "ms_aggiornamento_mlp": 2.381,
+   "ms_aggiornamento_kan": 11.963
+  },
+  "168": {
+   "ms_aggiornamento_lr": 4.772,
+   "ms_aggiornamento_mlp": 3.982,
+   "ms_aggiornamento_kan": 8.316
+  },
+  "169": {
+   "ms_aggiornamento_lr": 3.225,
+   "ms_aggiornamento_mlp": 6.461,
+   "ms_aggiornamento_kan": 8.363
+  },
+  "170": {
+   "ms_aggiornamento_lr": 30.246,
+   "ms_aggiornamento_mlp": 2.877,
+   "ms_aggiornamento_kan": 8.507
+  },
+  "171": {
+   "ms_aggiornamento_lr": 4.006,
+   "ms_aggiornamento_mlp": 5.49,
+   "ms_aggiornamento_kan": 11.621
+  },
+  "172": {
+   "ms_aggiornamento_lr": 3.072,
+   "ms_aggiornamento_mlp": 2.217,
+   "ms_aggiornamento_kan": 16.823
+  },
+  "173": {
+   "ms_aggiornamento_lr": 3.4,
+   "ms_aggiornamento_mlp": 8.005,
+   "ms_aggiornamento_kan": 15.422
+  },
+  "174": {
+   "ms_aggiornamento_lr": 3.282,
+   "ms_aggiornamento_mlp": 9.884,
+   "ms_aggiornamento_kan": 13.603
+  },
+  "175": {
+   "ms_aggiornamento_lr": 5.769,
+   "ms_aggiornamento_mlp": 11.375,
+   "ms_aggiornamento_kan": 25.078
+  },
+  "176": {
+   "ms_aggiornamento_lr": 5.122,
+   "ms_aggiornamento_mlp": 15.191,
+   "ms_aggiornamento_kan": 17.111
+  },
+  "177": {
+   "ms_aggiornamento_lr": 4.775,
+   "ms_aggiornamento_mlp": 7.807,
+   "ms_aggiornamento_kan": 11.614
+  },
+  "178": {
+   "ms_aggiornamento_lr": 4.34,
+   "ms_aggiornamento_mlp": 14.893,
+   "ms_aggiornamento_kan": 22.364
+  },
+  "179": {
+   "ms_aggiornamento_lr": 9.401,
+   "ms_aggiornamento_mlp": 8.537,
+   "ms_aggiornamento_kan": 18.061
+  },
+  "180": {
+   "ms_aggiornamento_lr": 4.355,
+   "ms_aggiornamento_mlp": 13.582,
+   "ms_aggiornamento_kan": 16.729
+  },
+  "181": {
+   "ms_aggiornamento_lr": 5.848,
+   "ms_aggiornamento_mlp": 9.032,
+   "ms_aggiornamento_kan": 10.614
+  },
+  "182": {
+   "ms_aggiornamento_lr": 11.427,
+   "ms_aggiornamento_mlp": 14.49,
+   "ms_aggiornamento_kan": 12.266
+  },
+  "183": {
+   "ms_aggiornamento_lr": 6.491,
+   "ms_aggiornamento_mlp": 14.883,
+   "ms_aggiornamento_kan": 15.8
+  },
+  "184": {
+   "ms_aggiornamento_lr": 16.352,
+   "ms_aggiornamento_mlp": 6.529,
+   "ms_aggiornamento_kan": 19.382
+  },
+  "185": {
+   "ms_aggiornamento_lr": 56.662,
+   "ms_aggiornamento_mlp": 10.555,
+   "ms_aggiornamento_kan": 13.846
+  },
+  "186": {
+   "ms_aggiornamento_lr": 8.485,
+   "ms_aggiornamento_mlp": 10.655,
+   "ms_aggiornamento_kan": 12.166
+  },
+  "187": {
+   "ms_aggiornamento_lr": 7.006,
+   "ms_aggiornamento_mlp": 16.096,
+   "ms_aggiornamento_kan": 15.798
+  },
+  "188": {
+   "ms_aggiornamento_lr": 3.927,
+   "ms_aggiornamento_mlp": 9.157,
+   "ms_aggiornamento_kan": 22.374
+  },
+  "189": {
+   "ms_aggiornamento_lr": 3.248,
+   "ms_aggiornamento_mlp": 3.299,
+   "ms_aggiornamento_kan": 13.111
+  },
+  "190": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.046,
+   "ms_aggiornamento_kan": 8.889
+  },
+  "191": {
+   "ms_aggiornamento_lr": 43.002,
+   "ms_aggiornamento_mlp": 3.121,
+   "ms_aggiornamento_kan": 14.169
+  },
+  "192": {
+   "ms_aggiornamento_lr": 3.87,
+   "ms_aggiornamento_mlp": 3.567,
+   "ms_aggiornamento_kan": 9.628
+  },
+  "193": {
+   "ms_aggiornamento_lr": 2.881,
+   "ms_aggiornamento_mlp": 8.936,
+   "ms_aggiornamento_kan": 14.973
+  },
+  "194": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.076,
+   "ms_aggiornamento_kan": 4.635
+  },
+  "195": {
+   "ms_aggiornamento_lr": 0.049,
+   "ms_aggiornamento_mlp": 0.061,
+   "ms_aggiornamento_kan": 7.935
+  },
+  "196": {
+   "ms_aggiornamento_lr": 5.491,
+   "ms_aggiornamento_mlp": 9.32,
+   "ms_aggiornamento_kan": 16.511
+  },
+  "197": {
+   "ms_aggiornamento_lr": 3.526,
+   "ms_aggiornamento_mlp": 7.522,
+   "ms_aggiornamento_kan": 10.483
+  },
+  "198": {
+   "ms_aggiornamento_lr": 8.143,
+   "ms_aggiornamento_mlp": 6.251,
+   "ms_aggiornamento_kan": 36.83
+  },
+  "199": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.048,
+   "ms_aggiornamento_kan": 5.332
+  },
+  "200": {
+   "ms_aggiornamento_lr": 0.053,
+   "ms_aggiornamento_mlp": 0.059,
+   "ms_aggiornamento_kan": 7.496
+  },
+  "201": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.003
+  },
+  "202": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.278
+  },
+  "203": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.046,
+   "ms_aggiornamento_kan": 5.867
+  },
+  "204": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.046,
+   "ms_aggiornamento_kan": 5.778
+  },
+  "205": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.265
+  },
+  "206": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.527
+  },
+  "207": {
+   "ms_aggiornamento_lr": 5.271,
+   "ms_aggiornamento_mlp": 2.766,
+   "ms_aggiornamento_kan": 13.887
+  },
+  "208": {
+   "ms_aggiornamento_lr": 6.714,
+   "ms_aggiornamento_mlp": 10.583,
+   "ms_aggiornamento_kan": 31.177
+  },
+  "209": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.998
+  },
+  "210": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.559
+  },
+  "211": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.794
+  },
+  "212": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.457
+  },
+  "213": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.144
+  },
+  "214": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.527,
+   "ms_aggiornamento_kan": 4.393
+  },
+  "215": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.096
+  },
+  "216": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.061,
+   "ms_aggiornamento_kan": 4.723
+  },
+  "217": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.632
+  },
+  "218": {
+   "ms_aggiornamento_lr": 2.706,
+   "ms_aggiornamento_mlp": 2.739,
+   "ms_aggiornamento_kan": 11.942
+  },
+  "219": {
+   "ms_aggiornamento_lr": 2.521,
+   "ms_aggiornamento_mlp": 6.233,
+   "ms_aggiornamento_kan": 9.661
+  },
+  "220": {
+   "ms_aggiornamento_lr": 2.897,
+   "ms_aggiornamento_mlp": 2.664,
+   "ms_aggiornamento_kan": 8.817
+  },
+  "221": {
+   "ms_aggiornamento_lr": 0.06,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.612
+  },
+  "222": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.428
+  },
+  "223": {
+   "ms_aggiornamento_lr": 4.472,
+   "ms_aggiornamento_mlp": 7.77,
+   "ms_aggiornamento_kan": 18.213
+  },
+  "224": {
+   "ms_aggiornamento_lr": 2.32,
+   "ms_aggiornamento_mlp": 33.678,
+   "ms_aggiornamento_kan": 9.824
+  },
+  "225": {
+   "ms_aggiornamento_lr": 10.527,
+   "ms_aggiornamento_mlp": 6.461,
+   "ms_aggiornamento_kan": 11.344
+  },
+  "226": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.565
+  },
+  "227": {
+   "ms_aggiornamento_lr": 0.052,
+   "ms_aggiornamento_mlp": 0.052,
+   "ms_aggiornamento_kan": 4.395
+  },
+  "228": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.538
+  },
+  "229": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.436
+  },
+  "230": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.745
+  },
+  "231": {
+   "ms_aggiornamento_lr": 49.929,
+   "ms_aggiornamento_mlp": 2.5,
+   "ms_aggiornamento_kan": 7.406
+  },
+  "232": {
+   "ms_aggiornamento_lr": 5.213,
+   "ms_aggiornamento_mlp": 6.818,
+   "ms_aggiornamento_kan": 17.88
+  },
+  "233": {
+   "ms_aggiornamento_lr": 10.984,
+   "ms_aggiornamento_mlp": 3.27,
+   "ms_aggiornamento_kan": 10.535
+  },
+  "234": {
+   "ms_aggiornamento_lr": 2.967,
+   "ms_aggiornamento_mlp": 7.018,
+   "ms_aggiornamento_kan": 9.495
+  },
+  "235": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.996
+  },
+  "236": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.919
+  },
+  "237": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.84
+  },
+  "238": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.307
+  },
+  "239": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.404
+  },
+  "240": {
+   "ms_aggiornamento_lr": 61.157,
+   "ms_aggiornamento_mlp": 2.856,
+   "ms_aggiornamento_kan": 8.248
+  },
+  "241": {
+   "ms_aggiornamento_lr": 8.115,
+   "ms_aggiornamento_mlp": 2.91,
+   "ms_aggiornamento_kan": 16.754
+  },
+  "242": {
+   "ms_aggiornamento_lr": 3.834,
+   "ms_aggiornamento_mlp": 3.055,
+   "ms_aggiornamento_kan": 7.447
+  },
+  "243": {
+   "ms_aggiornamento_lr": 2.871,
+   "ms_aggiornamento_mlp": 7.359,
+   "ms_aggiornamento_kan": 8.255
+  },
+  "244": {
+   "ms_aggiornamento_lr": 28.534,
+   "ms_aggiornamento_mlp": 4.767,
+   "ms_aggiornamento_kan": 13.067
+  },
+  "245": {
+   "ms_aggiornamento_lr": 0.056,
+   "ms_aggiornamento_mlp": 0.057,
+   "ms_aggiornamento_kan": 8.102
+  },
+  "246": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.055,
+   "ms_aggiornamento_kan": 4.785
+  },
+  "247": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 6.497
+  },
+  "248": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 7.357
+  },
+  "249": {
+   "ms_aggiornamento_lr": 0.076,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.064
+  },
+  "250": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.741
+  },
+  "251": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.763
+  },
+  "252": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.565
+  },
+  "253": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.687
+  },
+  "254": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.74
+  },
+  "255": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.436
+  },
+  "256": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.415
+  },
+  "257": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.328
+  },
+  "258": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.489
+  },
+  "259": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.708
+  },
+  "260": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.426
+  },
+  "261": {
+   "ms_aggiornamento_lr": 0.098,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.434
+  },
+  "262": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.31
+  },
+  "263": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.311
+  },
+  "264": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.952
+  },
+  "265": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.766
+  },
+  "266": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.94
+  },
+  "267": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.391
+  },
+  "268": {
+   "ms_aggiornamento_lr": 47.488,
+   "ms_aggiornamento_mlp": 2.862,
+   "ms_aggiornamento_kan": 9.729
+  },
+  "269": {
+   "ms_aggiornamento_lr": 11.871,
+   "ms_aggiornamento_mlp": 3.348,
+   "ms_aggiornamento_kan": 15.494
+  },
+  "270": {
+   "ms_aggiornamento_lr": 0.047,
+   "ms_aggiornamento_mlp": 0.053,
+   "ms_aggiornamento_kan": 4.365
+  },
+  "271": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.782
+  },
+  "272": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.696
+  },
+  "273": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 5.151
+  },
+  "274": {
+   "ms_aggiornamento_lr": 58.158,
+   "ms_aggiornamento_mlp": 2.552,
+   "ms_aggiornamento_kan": 14.219
+  },
+  "275": {
+   "ms_aggiornamento_lr": 14.278,
+   "ms_aggiornamento_mlp": 2.865,
+   "ms_aggiornamento_kan": 9.833
+  },
+  "276": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.815
+  },
+  "277": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.3
+  },
+  "278": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.158
+  },
+  "279": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.665
+  },
+  "280": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.753
+  },
+  "281": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.436
+  },
+  "282": {
+   "ms_aggiornamento_lr": 3.095,
+   "ms_aggiornamento_mlp": 2.497,
+   "ms_aggiornamento_kan": 17.392
+  },
+  "283": {
+   "ms_aggiornamento_lr": 7.086,
+   "ms_aggiornamento_mlp": 2.812,
+   "ms_aggiornamento_kan": 24.644
+  },
+  "284": {
+   "ms_aggiornamento_lr": 13.58,
+   "ms_aggiornamento_mlp": 2.598,
+   "ms_aggiornamento_kan": 12.473
+  },
+  "285": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.055,
+   "ms_aggiornamento_kan": 6.064
+  },
+  "286": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.628
+  },
+  "287": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.072,
+   "ms_aggiornamento_kan": 4.767
+  },
+  "288": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.706
+  },
+  "289": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.566
+  },
+  "290": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.777
+  },
+  "291": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.021
+  },
+  "292": {
+   "ms_aggiornamento_lr": 0.053,
+   "ms_aggiornamento_mlp": 0.057,
+   "ms_aggiornamento_kan": 4.824
+  },
+  "293": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.941
+  },
+  "294": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.405
+  },
+  "295": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 4.542
+  },
+  "296": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.447
+  },
+  "297": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 6.065
+  },
+  "298": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.85
+  },
+  "299": {
+   "ms_aggiornamento_lr": 0.068,
+   "ms_aggiornamento_mlp": 0.046,
+   "ms_aggiornamento_kan": 5.122
+  },
+  "300": {
+   "ms_aggiornamento_lr": 0.043,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.733
+  },
+  "301": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.052,
+   "ms_aggiornamento_kan": 4.462
+  },
+  "302": {
+   "ms_aggiornamento_lr": 0.042,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.674
+  },
+  "303": {
+   "ms_aggiornamento_lr": 0.057,
+   "ms_aggiornamento_mlp": 0.071,
+   "ms_aggiornamento_kan": 7.988
+  },
+  "304": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.807
+  },
+  "305": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 6.7
+  },
+  "306": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.611
+  },
+  "307": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.761
+  },
+  "308": {
+   "ms_aggiornamento_lr": 0.054,
+   "ms_aggiornamento_mlp": 0.06,
+   "ms_aggiornamento_kan": 8.74
+  },
+  "309": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.637
+  },
+  "310": {
+   "ms_aggiornamento_lr": 0.045,
+   "ms_aggiornamento_mlp": 0.058,
+   "ms_aggiornamento_kan": 4.366
+  },
+  "311": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.468
+  },
+  "312": {
+   "ms_aggiornamento_lr": 0.052,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 5.843
+  },
+  "313": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.475
+  },
+  "314": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.644
+  },
+  "315": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.587
+  },
+  "316": {
+   "ms_aggiornamento_lr": 0.049,
+   "ms_aggiornamento_mlp": 0.064,
+   "ms_aggiornamento_kan": 7.989
+  },
+  "317": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.797
+  },
+  "318": {
+   "ms_aggiornamento_lr": 0.042,
+   "ms_aggiornamento_mlp": 0.055,
+   "ms_aggiornamento_kan": 4.953
+  },
+  "319": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.008
+  },
+  "320": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.39
+  },
+  "321": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.95
+  },
+  "322": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.199
+  },
+  "323": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.085,
+   "ms_aggiornamento_kan": 4.8
+  },
+  "324": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.773
+  },
+  "325": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.363
+  },
+  "326": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.271
+  },
+  "327": {
+   "ms_aggiornamento_lr": 2.989,
+   "ms_aggiornamento_mlp": 6.126,
+   "ms_aggiornamento_kan": 10.359
+  },
+  "328": {
+   "ms_aggiornamento_lr": 3.042,
+   "ms_aggiornamento_mlp": 6.426,
+   "ms_aggiornamento_kan": 11.177
+  },
+  "329": {
+   "ms_aggiornamento_lr": 7.251,
+   "ms_aggiornamento_mlp": 2.898,
+   "ms_aggiornamento_kan": 11.627
+  },
+  "330": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.109,
+   "ms_aggiornamento_kan": 4.445
+  },
+  "331": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.454
+  },
+  "332": {
+   "ms_aggiornamento_lr": 0.075,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.599
+  },
+  "333": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.034,
+   "ms_aggiornamento_kan": 6.471
+  },
+  "334": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.66
+  },
+  "335": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.688
+  },
+  "336": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.59
+  },
+  "337": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.773
+  },
+  "338": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.476
+  },
+  "339": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.493
+  },
+  "340": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.726
+  },
+  "341": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.573
+  },
+  "342": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.048,
+   "ms_aggiornamento_kan": 4.377
+  },
+  "343": {
+   "ms_aggiornamento_lr": 0.052,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.565
+  },
+  "344": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.164
+  },
+  "345": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.591
+  },
+  "346": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 7.171
+  },
+  "347": {
+   "ms_aggiornamento_lr": 0.054,
+   "ms_aggiornamento_mlp": 0.064,
+   "ms_aggiornamento_kan": 8.602
+  },
+  "348": {
+   "ms_aggiornamento_lr": 0.054,
+   "ms_aggiornamento_mlp": 0.095,
+   "ms_aggiornamento_kan": 8.423
+  },
+  "349": {
+   "ms_aggiornamento_lr": 0.056,
+   "ms_aggiornamento_mlp": 0.061,
+   "ms_aggiornamento_kan": 8.664
+  },
+  "350": {
+   "ms_aggiornamento_lr": 0.061,
+   "ms_aggiornamento_mlp": 0.067,
+   "ms_aggiornamento_kan": 8.022
+  },
+  "351": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.385
+  },
+  "352": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.552
+  },
+  "353": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.054,
+   "ms_aggiornamento_kan": 8.142
+  },
+  "354": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.056,
+   "ms_aggiornamento_kan": 7.163
+  },
+  "355": {
+   "ms_aggiornamento_lr": 0.045,
+   "ms_aggiornamento_mlp": 0.059,
+   "ms_aggiornamento_kan": 7.391
+  },
+  "356": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.709
+  },
+  "357": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.32
+  },
+  "358": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.011
+  },
+  "359": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.067,
+   "ms_aggiornamento_kan": 4.785
+  },
+  "360": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.324
+  },
+  "361": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.624
+  },
+  "362": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.303
+  },
+  "363": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.074,
+   "ms_aggiornamento_kan": 4.466
+  },
+  "364": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.046,
+   "ms_aggiornamento_kan": 4.652
+  },
+  "365": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.831
+  },
+  "366": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.053,
+   "ms_aggiornamento_kan": 4.359
+  },
+  "367": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.082
+  },
+  "368": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.919
+  },
+  "369": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.631
+  },
+  "370": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.528
+  },
+  "371": {
+   "ms_aggiornamento_lr": 0.042,
+   "ms_aggiornamento_mlp": 0.05,
+   "ms_aggiornamento_kan": 5.429
+  },
+  "372": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.062,
+   "ms_aggiornamento_kan": 6.821
+  },
+  "373": {
+   "ms_aggiornamento_lr": 25.52,
+   "ms_aggiornamento_mlp": 3.053,
+   "ms_aggiornamento_kan": 9.113
+  },
+  "374": {
+   "ms_aggiornamento_lr": 6.991,
+   "ms_aggiornamento_mlp": 7.383,
+   "ms_aggiornamento_kan": 8.642
+  },
+  "375": {
+   "ms_aggiornamento_lr": 3.547,
+   "ms_aggiornamento_mlp": 3.969,
+   "ms_aggiornamento_kan": 7.885
+  },
+  "376": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.576
+  },
+  "377": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.721
+  },
+  "378": {
+   "ms_aggiornamento_lr": 7.603,
+   "ms_aggiornamento_mlp": 8.269,
+   "ms_aggiornamento_kan": 18.001
+  },
+  "379": {
+   "ms_aggiornamento_lr": 31.577,
+   "ms_aggiornamento_mlp": 2.719,
+   "ms_aggiornamento_kan": 8.993
+  },
+  "380": {
+   "ms_aggiornamento_lr": 0.081,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 4.419
+  },
+  "381": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 5.728
+  },
+  "382": {
+   "ms_aggiornamento_lr": 0.047,
+   "ms_aggiornamento_mlp": 0.055,
+   "ms_aggiornamento_kan": 4.822
+  },
+  "383": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.054,
+   "ms_aggiornamento_kan": 4.522
+  },
+  "384": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.206
+  },
+  "385": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.893
+  },
+  "386": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.093,
+   "ms_aggiornamento_kan": 5.729
+  },
+  "387": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.052,
+   "ms_aggiornamento_kan": 4.678
+  },
+  "388": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.656
+  },
+  "389": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.797
+  },
+  "390": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.25
+  },
+  "391": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.081,
+   "ms_aggiornamento_kan": 4.732
+  },
+  "392": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.202
+  },
+  "393": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.498
+  },
+  "394": {
+   "ms_aggiornamento_lr": 0.042,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.502
+  },
+  "395": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.555
+  },
+  "396": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.059,
+   "ms_aggiornamento_kan": 4.749
+  },
+  "397": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.924
+  },
+  "398": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.581
+  },
+  "399": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.06
+  },
+  "400": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.526
+  },
+  "401": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.072,
+   "ms_aggiornamento_kan": 4.461
+  },
+  "402": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.527
+  },
+  "403": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 6.125
+  },
+  "404": {
+   "ms_aggiornamento_lr": 0.043,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.447
+  },
+  "405": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 6.915
+  },
+  "406": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.451
+  },
+  "407": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.05,
+   "ms_aggiornamento_kan": 4.803
+  },
+  "408": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.114
+  },
+  "409": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.55
+  },
+  "410": {
+   "ms_aggiornamento_lr": 0.043,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.426
+  },
+  "411": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.708
+  },
+  "412": {
+   "ms_aggiornamento_lr": 0.072,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 5.379
+  },
+  "413": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.488
+  },
+  "414": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.053,
+   "ms_aggiornamento_kan": 5.48
+  },
+  "415": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.508
+  },
+  "416": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.884
+  },
+  "417": {
+   "ms_aggiornamento_lr": 0.048,
+   "ms_aggiornamento_mlp": 0.06,
+   "ms_aggiornamento_kan": 7.879
+  },
+  "418": {
+   "ms_aggiornamento_lr": 0.053,
+   "ms_aggiornamento_mlp": 0.059,
+   "ms_aggiornamento_kan": 4.615
+  },
+  "419": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.144
+  },
+  "420": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.377
+  },
+  "421": {
+   "ms_aggiornamento_lr": 0.048,
+   "ms_aggiornamento_mlp": 0.092,
+   "ms_aggiornamento_kan": 4.91
+  },
+  "422": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.274
+  },
+  "423": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.173
+  },
+  "424": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.909
+  },
+  "425": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.748
+  },
+  "426": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.805
+  },
+  "427": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.587
+  },
+  "428": {
+   "ms_aggiornamento_lr": 0.054,
+   "ms_aggiornamento_mlp": 0.059,
+   "ms_aggiornamento_kan": 7.915
+  },
+  "429": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.664
+  },
+  "430": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.63
+  },
+  "431": {
+   "ms_aggiornamento_lr": 0.139,
+   "ms_aggiornamento_mlp": 0.053,
+   "ms_aggiornamento_kan": 5.869
+  },
+  "432": {
+   "ms_aggiornamento_lr": 0.053,
+   "ms_aggiornamento_mlp": 0.07,
+   "ms_aggiornamento_kan": 7.988
+  },
+  "433": {
+   "ms_aggiornamento_lr": 0.051,
+   "ms_aggiornamento_mlp": 0.056,
+   "ms_aggiornamento_kan": 5.563
+  },
+  "434": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.571
+  },
+  "435": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.519
+  },
+  "436": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.341
+  },
+  "437": {
+   "ms_aggiornamento_lr": 0.064,
+   "ms_aggiornamento_mlp": 0.045,
+   "ms_aggiornamento_kan": 5.207
+  },
+  "438": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.698
+  },
+  "439": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.143
+  },
+  "440": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.216
+  },
+  "441": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.722
+  },
+  "442": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.668
+  },
+  "443": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.711
+  },
+  "444": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.538
+  },
+  "445": {
+   "ms_aggiornamento_lr": 0.043,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 4.56
+  },
+  "446": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.96
+  },
+  "447": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.086,
+   "ms_aggiornamento_kan": 4.753
+  },
+  "448": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.609
+  },
+  "449": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.774
+  },
+  "450": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.518
+  },
+  "451": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 5.136
+  },
+  "452": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.863
+  },
+  "453": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.793
+  },
+  "454": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.837
+  },
+  "455": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.72
+  },
+  "456": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.089,
+   "ms_aggiornamento_kan": 4.341
+  },
+  "457": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.096
+  },
+  "458": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.417
+  },
+  "459": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.68
+  },
+  "460": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.558
+  },
+  "461": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.57
+  },
+  "462": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.329
+  },
+  "463": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.057
+  },
+  "464": {
+   "ms_aggiornamento_lr": 2.957,
+   "ms_aggiornamento_mlp": 6.844,
+   "ms_aggiornamento_kan": 16.415
+  },
+  "465": {
+   "ms_aggiornamento_lr": 27.882,
+   "ms_aggiornamento_mlp": 3.534,
+   "ms_aggiornamento_kan": 10.28
+  },
+  "466": {
+   "ms_aggiornamento_lr": 2.862,
+   "ms_aggiornamento_mlp": 2.67,
+   "ms_aggiornamento_kan": 9.649
+  },
+  "467": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.05,
+   "ms_aggiornamento_kan": 4.581
+  },
+  "468": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.497
+  },
+  "469": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.948
+  },
+  "470": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.707
+  },
+  "471": {
+   "ms_aggiornamento_lr": 2.961,
+   "ms_aggiornamento_mlp": 6.03,
+   "ms_aggiornamento_kan": 7.913
+  },
+  "472": {
+   "ms_aggiornamento_lr": 7.124,
+   "ms_aggiornamento_mlp": 6.92,
+   "ms_aggiornamento_kan": 11.097
+  },
+  "473": {
+   "ms_aggiornamento_lr": 0.062,
+   "ms_aggiornamento_mlp": 0.066,
+   "ms_aggiornamento_kan": 7.733
+  },
+  "474": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.045,
+   "ms_aggiornamento_kan": 5.164
+  },
+  "475": {
+   "ms_aggiornamento_lr": 0.042,
+   "ms_aggiornamento_mlp": 0.086,
+   "ms_aggiornamento_kan": 4.361
+  },
+  "476": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 4.967
+  },
+  "477": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.073,
+   "ms_aggiornamento_kan": 4.618
+  },
+  "478": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 6.924
+  },
+  "479": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.617
+  },
+  "480": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.236
+  },
+  "481": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.553
+  },
+  "482": {
+   "ms_aggiornamento_lr": 0.052,
+   "ms_aggiornamento_mlp": 0.055,
+   "ms_aggiornamento_kan": 4.456
+  },
+  "483": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.087
+  },
+  "484": {
+   "ms_aggiornamento_lr": 0.047,
+   "ms_aggiornamento_mlp": 0.052,
+   "ms_aggiornamento_kan": 4.449
+  },
+  "485": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.045,
+   "ms_aggiornamento_kan": 4.566
+  },
+  "486": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.495
+  },
+  "487": {
+   "ms_aggiornamento_lr": 0.047,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.517
+  },
+  "488": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.053,
+   "ms_aggiornamento_kan": 6.081
+  },
+  "489": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.366
+  },
+  "490": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 5.632
+  },
+  "491": {
+   "ms_aggiornamento_lr": 0.047,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.684
+  },
+  "492": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 4.748
+  },
+  "493": {
+   "ms_aggiornamento_lr": 0.03,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.893
+  },
+  "494": {
+   "ms_aggiornamento_lr": 5.684,
+   "ms_aggiornamento_mlp": 7.913,
+   "ms_aggiornamento_kan": 9.924
+  },
+  "495": {
+   "ms_aggiornamento_lr": 4.082,
+   "ms_aggiornamento_mlp": 2.767,
+   "ms_aggiornamento_kan": 33.328
+  },
+  "496": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.724
+  },
+  "497": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.172
+  },
+  "498": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.392
+  },
+  "499": {
+   "ms_aggiornamento_lr": 0.048,
+   "ms_aggiornamento_mlp": 0.068,
+   "ms_aggiornamento_kan": 8.081
+  },
+  "500": {
+   "ms_aggiornamento_lr": 3.467,
+   "ms_aggiornamento_mlp": 6.342,
+   "ms_aggiornamento_kan": 10.448
+  },
+  "501": {
+   "ms_aggiornamento_lr": 7.954,
+   "ms_aggiornamento_mlp": 7.187,
+   "ms_aggiornamento_kan": 35.934
+  },
+  "502": {
+   "ms_aggiornamento_lr": 3.422,
+   "ms_aggiornamento_mlp": 2.617,
+   "ms_aggiornamento_kan": 9.941
+  },
+  "503": {
+   "ms_aggiornamento_lr": 2.356,
+   "ms_aggiornamento_mlp": 5.757,
+   "ms_aggiornamento_kan": 40.818
+  },
+  "504": {
+   "ms_aggiornamento_lr": 2.848,
+   "ms_aggiornamento_mlp": 2.92,
+   "ms_aggiornamento_kan": 8.02
+  },
+  "505": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.713
+  },
+  "506": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.62
+  },
+  "507": {
+   "ms_aggiornamento_lr": 0.072,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 4.359
+  },
+  "508": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.067,
+   "ms_aggiornamento_kan": 4.552
+  },
+  "509": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.375
+  },
+  "510": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.072,
+   "ms_aggiornamento_kan": 4.822
+  },
+  "511": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.398
+  },
+  "512": {
+   "ms_aggiornamento_lr": 2.435,
+   "ms_aggiornamento_mlp": 1.914,
+   "ms_aggiornamento_kan": 6.061
+  },
+  "513": {
+   "ms_aggiornamento_lr": 6.213,
+   "ms_aggiornamento_mlp": 6.581,
+   "ms_aggiornamento_kan": 16.63
+  },
+  "514": {
+   "ms_aggiornamento_lr": 2.223,
+   "ms_aggiornamento_mlp": 5.307,
+   "ms_aggiornamento_kan": 11.781
+  },
+  "515": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 6.218
+  },
+  "516": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 6.706
+  },
+  "517": {
+   "ms_aggiornamento_lr": 7.399,
+   "ms_aggiornamento_mlp": 2.576,
+   "ms_aggiornamento_kan": 8.681
+  },
+  "518": {
+   "ms_aggiornamento_lr": 7.127,
+   "ms_aggiornamento_mlp": 6.95,
+   "ms_aggiornamento_kan": 9.081
+  },
+  "519": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.052,
+   "ms_aggiornamento_kan": 7.443
+  },
+  "520": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.599
+  },
+  "521": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 7.951
+  },
+  "522": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.275
+  },
+  "523": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.067,
+   "ms_aggiornamento_kan": 7.979
+  },
+  "524": {
+   "ms_aggiornamento_lr": 34.633,
+   "ms_aggiornamento_mlp": 2.582,
+   "ms_aggiornamento_kan": 7.197
+  },
+  "525": {
+   "ms_aggiornamento_lr": 6.933,
+   "ms_aggiornamento_mlp": 6.785,
+   "ms_aggiornamento_kan": 11.177
+  },
+  "526": {
+   "ms_aggiornamento_lr": 3.079,
+   "ms_aggiornamento_mlp": 2.284,
+   "ms_aggiornamento_kan": 6.934
+  },
+  "527": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.724
+  },
+  "528": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.504
+  },
+  "529": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 7.001
+  },
+  "530": {
+   "ms_aggiornamento_lr": 0.03,
+   "ms_aggiornamento_mlp": 0.073,
+   "ms_aggiornamento_kan": 4.444
+  },
+  "531": {
+   "ms_aggiornamento_lr": 2.315,
+   "ms_aggiornamento_mlp": 5.421,
+   "ms_aggiornamento_kan": 9.789
+  },
+  "532": {
+   "ms_aggiornamento_lr": 7.572,
+   "ms_aggiornamento_mlp": 3.397,
+   "ms_aggiornamento_kan": 17.42
+  },
+  "533": {
+   "ms_aggiornamento_lr": 2.303,
+   "ms_aggiornamento_mlp": 2.269,
+   "ms_aggiornamento_kan": 6.244
+  },
+  "534": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.635
+  },
+  "535": {
+   "ms_aggiornamento_lr": 3.571,
+   "ms_aggiornamento_mlp": 6.834,
+   "ms_aggiornamento_kan": 9.945
+  },
+  "536": {
+   "ms_aggiornamento_lr": 37.543,
+   "ms_aggiornamento_mlp": 3.302,
+   "ms_aggiornamento_kan": 8.948
+  },
+  "537": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 10.201
+  },
+  "538": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.613
+  },
+  "539": {
+   "ms_aggiornamento_lr": 46.552,
+   "ms_aggiornamento_mlp": 3.59,
+   "ms_aggiornamento_kan": 8.622
+  },
+  "540": {
+   "ms_aggiornamento_lr": 2.992,
+   "ms_aggiornamento_mlp": 2.531,
+   "ms_aggiornamento_kan": 8.119
+  },
+  "541": {
+   "ms_aggiornamento_lr": 7.864,
+   "ms_aggiornamento_mlp": 7.367,
+   "ms_aggiornamento_kan": 8.125
+  },
+  "542": {
+   "ms_aggiornamento_lr": 0.043,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 4.287
+  },
+  "543": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 4.625
+  },
+  "544": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.539
+  },
+  "545": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.534
+  },
+  "546": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.537
+  },
+  "547": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.932
+  },
+  "548": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 4.527
+  },
+  "549": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.072,
+   "ms_aggiornamento_kan": 4.532
+  },
+  "550": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.41
+  },
+  "551": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.561
+  },
+  "552": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.203
+  },
+  "553": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.833
+  },
+  "554": {
+   "ms_aggiornamento_lr": 0.049,
+   "ms_aggiornamento_mlp": 0.063,
+   "ms_aggiornamento_kan": 5.942
+  },
+  "555": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.624
+  },
+  "556": {
+   "ms_aggiornamento_lr": 46.68,
+   "ms_aggiornamento_mlp": 2.784,
+   "ms_aggiornamento_kan": 7.063
+  },
+  "557": {
+   "ms_aggiornamento_lr": 2.758,
+   "ms_aggiornamento_mlp": 2.536,
+   "ms_aggiornamento_kan": 7.995
+  },
+  "558": {
+   "ms_aggiornamento_lr": 4.754,
+   "ms_aggiornamento_mlp": 2.76,
+   "ms_aggiornamento_kan": 8.381
+  },
+  "559": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.076
+  },
+  "560": {
+   "ms_aggiornamento_lr": 50.579,
+   "ms_aggiornamento_mlp": 4.337,
+   "ms_aggiornamento_kan": 13.199
+  },
+  "561": {
+   "ms_aggiornamento_lr": 2.916,
+   "ms_aggiornamento_mlp": 3.526,
+   "ms_aggiornamento_kan": 6.723
+  },
+  "562": {
+   "ms_aggiornamento_lr": 7.619,
+   "ms_aggiornamento_mlp": 2.653,
+   "ms_aggiornamento_kan": 13.424
+  },
+  "563": {
+   "ms_aggiornamento_lr": 11.924,
+   "ms_aggiornamento_mlp": 2.919,
+   "ms_aggiornamento_kan": 9.682
+  },
+  "564": {
+   "ms_aggiornamento_lr": 4.896,
+   "ms_aggiornamento_mlp": 3.558,
+   "ms_aggiornamento_kan": 16.413
+  },
+  "565": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.091
+  },
+  "566": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.896
+  },
+  "567": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.403
+  },
+  "568": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.778
+  },
+  "569": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.49
+  },
+  "570": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.057,
+   "ms_aggiornamento_kan": 8.627
+  },
+  "571": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.975
+  },
+  "572": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.355
+  },
+  "573": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.092,
+   "ms_aggiornamento_kan": 4.481
+  },
+  "574": {
+   "ms_aggiornamento_lr": 2.101,
+   "ms_aggiornamento_mlp": 2.252,
+   "ms_aggiornamento_kan": 12.693
+  },
+  "575": {
+   "ms_aggiornamento_lr": 3.787,
+   "ms_aggiornamento_mlp": 5.182,
+   "ms_aggiornamento_kan": 11.369
+  },
+  "576": {
+   "ms_aggiornamento_lr": 2.248,
+   "ms_aggiornamento_mlp": 6.381,
+   "ms_aggiornamento_kan": 7.783
+  },
+  "577": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.06,
+   "ms_aggiornamento_kan": 7.877
+  },
+  "578": {
+   "ms_aggiornamento_lr": 3.176,
+   "ms_aggiornamento_mlp": 2.61,
+   "ms_aggiornamento_kan": 9.725
+  },
+  "579": {
+   "ms_aggiornamento_lr": 5.942,
+   "ms_aggiornamento_mlp": 7.129,
+   "ms_aggiornamento_kan": 16.754
+  },
+  "580": {
+   "ms_aggiornamento_lr": 11.216,
+   "ms_aggiornamento_mlp": 3.202,
+   "ms_aggiornamento_kan": 11.881
+  },
+  "581": {
+   "ms_aggiornamento_lr": 3.528,
+   "ms_aggiornamento_mlp": 2.479,
+   "ms_aggiornamento_kan": 14.095
+  },
+  "582": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.367
+  },
+  "583": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.28
+  },
+  "584": {
+   "ms_aggiornamento_lr": 40.589,
+   "ms_aggiornamento_mlp": 3.431,
+   "ms_aggiornamento_kan": 6.823
+  },
+  "585": {
+   "ms_aggiornamento_lr": 4.989,
+   "ms_aggiornamento_mlp": 4.168,
+   "ms_aggiornamento_kan": 15.746
+  },
+  "586": {
+   "ms_aggiornamento_lr": 2.392,
+   "ms_aggiornamento_mlp": 6.977,
+   "ms_aggiornamento_kan": 17.206
+  },
+  "587": {
+   "ms_aggiornamento_lr": 2.532,
+   "ms_aggiornamento_mlp": 2.953,
+   "ms_aggiornamento_kan": 9.191
+  },
+  "588": {
+   "ms_aggiornamento_lr": 10.763,
+   "ms_aggiornamento_mlp": 2.839,
+   "ms_aggiornamento_kan": 29.735
+  },
+  "589": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.351
+  },
+  "590": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 5.581
+  },
+  "591": {
+   "ms_aggiornamento_lr": 0.05,
+   "ms_aggiornamento_mlp": 0.061,
+   "ms_aggiornamento_kan": 6.307
+  },
+  "592": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 7.287
+  },
+  "593": {
+   "ms_aggiornamento_lr": 0.054,
+   "ms_aggiornamento_mlp": 0.061,
+   "ms_aggiornamento_kan": 7.816
+  },
+  "594": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.786
+  },
+  "595": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 4.956
+  },
+  "596": {
+   "ms_aggiornamento_lr": 0.055,
+   "ms_aggiornamento_mlp": 0.062,
+   "ms_aggiornamento_kan": 8.243
+  },
+  "597": {
+   "ms_aggiornamento_lr": 0.046,
+   "ms_aggiornamento_mlp": 0.051,
+   "ms_aggiornamento_kan": 5.24
+  },
+  "598": {
+   "ms_aggiornamento_lr": 0.045,
+   "ms_aggiornamento_mlp": 0.048,
+   "ms_aggiornamento_kan": 7.487
+  },
+  "599": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.495
+  },
+  "600": {
+   "ms_aggiornamento_lr": 0.069,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 4.53
+  },
+  "601": {
+   "ms_aggiornamento_lr": 48.97,
+   "ms_aggiornamento_mlp": 3.043,
+   "ms_aggiornamento_kan": 8.668
+  },
+  "602": {
+   "ms_aggiornamento_lr": 3.952,
+   "ms_aggiornamento_mlp": 2.541,
+   "ms_aggiornamento_kan": 6.501
+  },
+  "603": {
+   "ms_aggiornamento_lr": 6.889,
+   "ms_aggiornamento_mlp": 7.019,
+   "ms_aggiornamento_kan": 15.137
+  },
+  "604": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 5.098
+  },
+  "605": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.862
+  },
+  "606": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.574
+  },
+  "607": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.621
+  },
+  "608": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.621
+  },
+  "609": {
+   "ms_aggiornamento_lr": 0.048,
+   "ms_aggiornamento_mlp": 0.058,
+   "ms_aggiornamento_kan": 4.341
+  },
+  "610": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.043,
+   "ms_aggiornamento_kan": 4.678
+  },
+  "611": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.241
+  },
+  "612": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 6.616
+  },
+  "613": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.387
+  },
+  "614": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.773
+  },
+  "615": {
+   "ms_aggiornamento_lr": 5.441,
+   "ms_aggiornamento_mlp": 2.24,
+   "ms_aggiornamento_kan": 7.619
+  },
+  "616": {
+   "ms_aggiornamento_lr": 2.519,
+   "ms_aggiornamento_mlp": 26.064,
+   "ms_aggiornamento_kan": 9.119
+  },
+  "617": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.034,
+   "ms_aggiornamento_kan": 4.682
+  },
+  "618": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.746
+  },
+  "619": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.318
+  },
+  "620": {
+   "ms_aggiornamento_lr": 3.403,
+   "ms_aggiornamento_mlp": 6.483,
+   "ms_aggiornamento_kan": 9.111
+  },
+  "621": {
+   "ms_aggiornamento_lr": 6.423,
+   "ms_aggiornamento_mlp": 4.151,
+   "ms_aggiornamento_kan": 14.584
+  },
+  "622": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.922
+  },
+  "623": {
+   "ms_aggiornamento_lr": 2.824,
+   "ms_aggiornamento_mlp": 6.911,
+   "ms_aggiornamento_kan": 9.807
+  },
+  "624": {
+   "ms_aggiornamento_lr": 24.727,
+   "ms_aggiornamento_mlp": 2.775,
+   "ms_aggiornamento_kan": 27.589
+  },
+  "625": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.617
+  },
+  "626": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.85
+  },
+  "627": {
+   "ms_aggiornamento_lr": 40.133,
+   "ms_aggiornamento_mlp": 2.776,
+   "ms_aggiornamento_kan": 10.792
+  },
+  "628": {
+   "ms_aggiornamento_lr": 3.888,
+   "ms_aggiornamento_mlp": 6.748,
+   "ms_aggiornamento_kan": 7.889
+  },
+  "629": {
+   "ms_aggiornamento_lr": 7.235,
+   "ms_aggiornamento_mlp": 4.391,
+   "ms_aggiornamento_kan": 24.818
+  },
+  "630": {
+   "ms_aggiornamento_lr": 0.049,
+   "ms_aggiornamento_mlp": 0.057,
+   "ms_aggiornamento_kan": 4.804
+  },
+  "631": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.851
+  },
+  "632": {
+   "ms_aggiornamento_lr": 0.045,
+   "ms_aggiornamento_mlp": 0.066,
+   "ms_aggiornamento_kan": 5.848
+  },
+  "633": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.054,
+   "ms_aggiornamento_kan": 6.052
+  },
+  "634": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.533
+  },
+  "635": {
+   "ms_aggiornamento_lr": 48.278,
+   "ms_aggiornamento_mlp": 2.579,
+   "ms_aggiornamento_kan": 8.545
+  },
+  "636": {
+   "ms_aggiornamento_lr": 6.051,
+   "ms_aggiornamento_mlp": 2.325,
+   "ms_aggiornamento_kan": 8.226
+  },
+  "637": {
+   "ms_aggiornamento_lr": 13.434,
+   "ms_aggiornamento_mlp": 2.857,
+   "ms_aggiornamento_kan": 8.402
+  },
+  "638": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.104,
+   "ms_aggiornamento_kan": 7.14
+  },
+  "639": {
+   "ms_aggiornamento_lr": 2.536,
+   "ms_aggiornamento_mlp": 3.171,
+   "ms_aggiornamento_kan": 27.161
+  },
+  "640": {
+   "ms_aggiornamento_lr": 4.263,
+   "ms_aggiornamento_mlp": 2.59,
+   "ms_aggiornamento_kan": 16.478
+  },
+  "641": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.017
+  },
+  "642": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.734
+  },
+  "643": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.04,
+   "ms_aggiornamento_kan": 5.132
+  },
+  "644": {
+   "ms_aggiornamento_lr": 47.861,
+   "ms_aggiornamento_mlp": 2.828,
+   "ms_aggiornamento_kan": 9.492
+  },
+  "645": {
+   "ms_aggiornamento_lr": 5.916,
+   "ms_aggiornamento_mlp": 6.996,
+   "ms_aggiornamento_kan": 8.895
+  },
+  "646": {
+   "ms_aggiornamento_lr": 3.373,
+   "ms_aggiornamento_mlp": 3.707,
+   "ms_aggiornamento_kan": 7.741
+  },
+  "647": {
+   "ms_aggiornamento_lr": 3.255,
+   "ms_aggiornamento_mlp": 2.574,
+   "ms_aggiornamento_kan": 11.008
+  },
+  "648": {
+   "ms_aggiornamento_lr": 6.568,
+   "ms_aggiornamento_mlp": 6.622,
+   "ms_aggiornamento_kan": 11.751
+  },
+  "649": {
+   "ms_aggiornamento_lr": 2.261,
+   "ms_aggiornamento_mlp": 2.291,
+   "ms_aggiornamento_kan": 12.498
+  },
+  "650": {
+   "ms_aggiornamento_lr": 2.855,
+   "ms_aggiornamento_mlp": 2.184,
+   "ms_aggiornamento_kan": 9.008
+  },
+  "651": {
+   "ms_aggiornamento_lr": 0.068,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.386
+  },
+  "652": {
+   "ms_aggiornamento_lr": 0.052,
+   "ms_aggiornamento_mlp": 0.081,
+   "ms_aggiornamento_kan": 7.174
+  },
+  "653": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.167
+  },
+  "654": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.044,
+   "ms_aggiornamento_kan": 4.573
+  },
+  "655": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.41
+  },
+  "656": {
+   "ms_aggiornamento_lr": 0.049,
+   "ms_aggiornamento_mlp": 0.063,
+   "ms_aggiornamento_kan": 4.468
+  },
+  "657": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.628
+  },
+  "658": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.795
+  },
+  "659": {
+   "ms_aggiornamento_lr": 2.355,
+   "ms_aggiornamento_mlp": 2.249,
+   "ms_aggiornamento_kan": 7.921
+  },
+  "660": {
+   "ms_aggiornamento_lr": 2.569,
+   "ms_aggiornamento_mlp": 6.235,
+   "ms_aggiornamento_kan": 17.063
+  },
+  "661": {
+   "ms_aggiornamento_lr": 5.022,
+   "ms_aggiornamento_mlp": 6.558,
+   "ms_aggiornamento_kan": 9.122
+  },
+  "662": {
+   "ms_aggiornamento_lr": 7.162,
+   "ms_aggiornamento_mlp": 5.903,
+   "ms_aggiornamento_kan": 7.403
+  },
+  "663": {
+   "ms_aggiornamento_lr": 6.78,
+   "ms_aggiornamento_mlp": 4.404,
+   "ms_aggiornamento_kan": 11.074
+  },
+  "664": {
+   "ms_aggiornamento_lr": 3.577,
+   "ms_aggiornamento_mlp": 2.961,
+   "ms_aggiornamento_kan": 12.139
+  },
+  "665": {
+   "ms_aggiornamento_lr": 3.452,
+   "ms_aggiornamento_mlp": 5.747,
+   "ms_aggiornamento_kan": 16.307
+  },
+  "666": {
+   "ms_aggiornamento_lr": 3.16,
+   "ms_aggiornamento_mlp": 3.02,
+   "ms_aggiornamento_kan": 12.321
+  },
+  "667": {
+   "ms_aggiornamento_lr": 7.476,
+   "ms_aggiornamento_mlp": 6.318,
+   "ms_aggiornamento_kan": 15.725
+  },
+  "668": {
+   "ms_aggiornamento_lr": 7.916,
+   "ms_aggiornamento_mlp": 3.298,
+   "ms_aggiornamento_kan": 11.069
+  },
+  "669": {
+   "ms_aggiornamento_lr": 6.171,
+   "ms_aggiornamento_mlp": 37.155,
+   "ms_aggiornamento_kan": 18.569
+  },
+  "670": {
+   "ms_aggiornamento_lr": 3.308,
+   "ms_aggiornamento_mlp": 3.236,
+   "ms_aggiornamento_kan": 11.326
+  },
+  "671": {
+   "ms_aggiornamento_lr": 4.855,
+   "ms_aggiornamento_mlp": 8.998,
+   "ms_aggiornamento_kan": 27.605
+  },
+  "672": {
+   "ms_aggiornamento_lr": 5.316,
+   "ms_aggiornamento_mlp": 5.833,
+   "ms_aggiornamento_kan": 23.256
+  },
+  "673": {
+   "ms_aggiornamento_lr": 7.438,
+   "ms_aggiornamento_mlp": 8.902,
+   "ms_aggiornamento_kan": 15.454
+  },
+  "674": {
+   "ms_aggiornamento_lr": 4.749,
+   "ms_aggiornamento_mlp": 5.404,
+   "ms_aggiornamento_kan": 17.854
+  },
+  "675": {
+   "ms_aggiornamento_lr": 6.857,
+   "ms_aggiornamento_mlp": 8.074,
+   "ms_aggiornamento_kan": 15.004
+  },
+  "676": {
+   "ms_aggiornamento_lr": 7.106,
+   "ms_aggiornamento_mlp": 7.232,
+   "ms_aggiornamento_kan": 16.684
+  },
+  "677": {
+   "ms_aggiornamento_lr": 5.101,
+   "ms_aggiornamento_mlp": 3.645,
+   "ms_aggiornamento_kan": 16.659
+  },
+  "678": {
+   "ms_aggiornamento_lr": 6.694,
+   "ms_aggiornamento_mlp": 23.854,
+   "ms_aggiornamento_kan": 11.846
+  },
+  "679": {
+   "ms_aggiornamento_lr": 3.434,
+   "ms_aggiornamento_mlp": 3.499,
+   "ms_aggiornamento_kan": 12.649
+  },
+  "680": {
+   "ms_aggiornamento_lr": 7.917,
+   "ms_aggiornamento_mlp": 7.437,
+   "ms_aggiornamento_kan": 18.132
+  },
+  "681": {
+   "ms_aggiornamento_lr": 9.331,
+   "ms_aggiornamento_mlp": 8.525,
+   "ms_aggiornamento_kan": 15.881
+  },
+  "682": {
+   "ms_aggiornamento_lr": 3.773,
+   "ms_aggiornamento_mlp": 3.766,
+   "ms_aggiornamento_kan": 13.864
+  },
+  "683": {
+   "ms_aggiornamento_lr": 19.201,
+   "ms_aggiornamento_mlp": 6.025,
+   "ms_aggiornamento_kan": 15.648
+  },
+  "684": {
+   "ms_aggiornamento_lr": 2.737,
+   "ms_aggiornamento_mlp": 6.311,
+   "ms_aggiornamento_kan": 22.633
+  },
+  "685": {
+   "ms_aggiornamento_lr": 2.414,
+   "ms_aggiornamento_mlp": 4.42,
+   "ms_aggiornamento_kan": 10.671
+  },
+  "686": {
+   "ms_aggiornamento_lr": 5.424,
+   "ms_aggiornamento_mlp": 7.085,
+   "ms_aggiornamento_kan": 9.727
+  },
+  "687": {
+   "ms_aggiornamento_lr": 33.529,
+   "ms_aggiornamento_mlp": 5.819,
+   "ms_aggiornamento_kan": 20.773
+  },
+  "688": {
+   "ms_aggiornamento_lr": 7.015,
+   "ms_aggiornamento_mlp": 7.793,
+   "ms_aggiornamento_kan": 23.627
+  },
+  "689": {
+   "ms_aggiornamento_lr": 3.835,
+   "ms_aggiornamento_mlp": 4.492,
+   "ms_aggiornamento_kan": 11.07
+  },
+  "690": {
+   "ms_aggiornamento_lr": 3.893,
+   "ms_aggiornamento_mlp": 7.931,
+   "ms_aggiornamento_kan": 15.622
+  },
+  "691": {
+   "ms_aggiornamento_lr": 3.568,
+   "ms_aggiornamento_mlp": 6.049,
+   "ms_aggiornamento_kan": 11.475
+  },
+  "692": {
+   "ms_aggiornamento_lr": 6.746,
+   "ms_aggiornamento_mlp": 8.623,
+   "ms_aggiornamento_kan": 15.297
+  },
+  "693": {
+   "ms_aggiornamento_lr": 10.939,
+   "ms_aggiornamento_mlp": 7.241,
+   "ms_aggiornamento_kan": 10.783
+  },
+  "694": {
+   "ms_aggiornamento_lr": 2.999,
+   "ms_aggiornamento_mlp": 3.265,
+   "ms_aggiornamento_kan": 11.056
+  },
+  "695": {
+   "ms_aggiornamento_lr": 5.686,
+   "ms_aggiornamento_mlp": 6.995,
+   "ms_aggiornamento_kan": 8.573
+  },
+  "696": {
+   "ms_aggiornamento_lr": 3.052,
+   "ms_aggiornamento_mlp": 6.049,
+   "ms_aggiornamento_kan": 7.042
+  },
+  "697": {
+   "ms_aggiornamento_lr": 6.701,
+   "ms_aggiornamento_mlp": 2.61,
+   "ms_aggiornamento_kan": 15.875
+  },
+  "698": {
+   "ms_aggiornamento_lr": 2.43,
+   "ms_aggiornamento_mlp": 6.553,
+   "ms_aggiornamento_kan": 8.965
+  },
+  "699": {
+   "ms_aggiornamento_lr": 4.128,
+   "ms_aggiornamento_mlp": 2.577,
+   "ms_aggiornamento_kan": 14.69
+  },
+  "700": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.485
+  },
+  "701": {
+   "ms_aggiornamento_lr": 58.221,
+   "ms_aggiornamento_mlp": 2.455,
+   "ms_aggiornamento_kan": 8.849
+  },
+  "702": {
+   "ms_aggiornamento_lr": 2.482,
+   "ms_aggiornamento_mlp": 2.75,
+   "ms_aggiornamento_kan": 9.614
+  },
+  "703": {
+   "ms_aggiornamento_lr": 3.236,
+   "ms_aggiornamento_mlp": 5.845,
+   "ms_aggiornamento_kan": 11.4
+  },
+  "704": {
+   "ms_aggiornamento_lr": 12.548,
+   "ms_aggiornamento_mlp": 2.806,
+   "ms_aggiornamento_kan": 8.12
+  },
+  "705": {
+   "ms_aggiornamento_lr": 4.997,
+   "ms_aggiornamento_mlp": 2.241,
+   "ms_aggiornamento_kan": 7.378
+  },
+  "706": {
+   "ms_aggiornamento_lr": 6.129,
+   "ms_aggiornamento_mlp": 5.458,
+   "ms_aggiornamento_kan": 15.552
+  },
+  "707": {
+   "ms_aggiornamento_lr": 5.163,
+   "ms_aggiornamento_mlp": 6.857,
+   "ms_aggiornamento_kan": 9.195
+  },
+  "708": {
+   "ms_aggiornamento_lr": 5.795,
+   "ms_aggiornamento_mlp": 7.168,
+   "ms_aggiornamento_kan": 9.505
+  },
+  "709": {
+   "ms_aggiornamento_lr": 21.386,
+   "ms_aggiornamento_mlp": 3.361,
+   "ms_aggiornamento_kan": 10.078
+  },
+  "710": {
+   "ms_aggiornamento_lr": 4.847,
+   "ms_aggiornamento_mlp": 2.268,
+   "ms_aggiornamento_kan": 8.552
+  },
+  "711": {
+   "ms_aggiornamento_lr": 8.0,
+   "ms_aggiornamento_mlp": 8.278,
+   "ms_aggiornamento_kan": 9.709
+  },
+  "712": {
+   "ms_aggiornamento_lr": 4.01,
+   "ms_aggiornamento_mlp": 2.712,
+   "ms_aggiornamento_kan": 7.925
+  },
+  "713": {
+   "ms_aggiornamento_lr": 8.775,
+   "ms_aggiornamento_mlp": 2.933,
+   "ms_aggiornamento_kan": 7.118
+  },
+  "714": {
+   "ms_aggiornamento_lr": 14.799,
+   "ms_aggiornamento_mlp": 3.269,
+   "ms_aggiornamento_kan": 11.074
+  },
+  "715": {
+   "ms_aggiornamento_lr": 2.421,
+   "ms_aggiornamento_mlp": 2.63,
+   "ms_aggiornamento_kan": 9.196
+  },
+  "716": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.056,
+   "ms_aggiornamento_kan": 4.737
+  },
+  "717": {
+   "ms_aggiornamento_lr": 3.625,
+   "ms_aggiornamento_mlp": 10.671,
+   "ms_aggiornamento_kan": 10.098
+  },
+  "718": {
+   "ms_aggiornamento_lr": 7.275,
+   "ms_aggiornamento_mlp": 5.686,
+   "ms_aggiornamento_kan": 11.313
+  },
+  "719": {
+   "ms_aggiornamento_lr": 4.283,
+   "ms_aggiornamento_mlp": 6.788,
+   "ms_aggiornamento_kan": 8.385
+  },
+  "720": {
+   "ms_aggiornamento_lr": 13.1,
+   "ms_aggiornamento_mlp": 2.633,
+   "ms_aggiornamento_kan": 8.498
+  },
+  "721": {
+   "ms_aggiornamento_lr": 6.641,
+   "ms_aggiornamento_mlp": 4.968,
+   "ms_aggiornamento_kan": 15.656
+  },
+  "722": {
+   "ms_aggiornamento_lr": 8.905,
+   "ms_aggiornamento_mlp": 7.65,
+   "ms_aggiornamento_kan": 16.629
+  },
+  "723": {
+   "ms_aggiornamento_lr": 4.9,
+   "ms_aggiornamento_mlp": 3.169,
+   "ms_aggiornamento_kan": 9.513
+  },
+  "724": {
+   "ms_aggiornamento_lr": 2.21,
+   "ms_aggiornamento_mlp": 2.283,
+   "ms_aggiornamento_kan": 12.469
+  },
+  "725": {
+   "ms_aggiornamento_lr": 2.674,
+   "ms_aggiornamento_mlp": 2.685,
+   "ms_aggiornamento_kan": 9.109
+  },
+  "726": {
+   "ms_aggiornamento_lr": 3.166,
+   "ms_aggiornamento_mlp": 2.47,
+   "ms_aggiornamento_kan": 12.683
+  },
+  "727": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.903
+  },
+  "728": {
+   "ms_aggiornamento_lr": 0.031,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 5.158
+  },
+  "729": {
+   "ms_aggiornamento_lr": 2.244,
+   "ms_aggiornamento_mlp": 5.834,
+   "ms_aggiornamento_kan": 8.958
+  },
+  "730": {
+   "ms_aggiornamento_lr": 2.513,
+   "ms_aggiornamento_mlp": 6.402,
+   "ms_aggiornamento_kan": 10.331
+  },
+  "731": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.449
+  },
+  "732": {
+   "ms_aggiornamento_lr": 0.048,
+   "ms_aggiornamento_mlp": 0.056,
+   "ms_aggiornamento_kan": 7.371
+  },
+  "733": {
+   "ms_aggiornamento_lr": 0.054,
+   "ms_aggiornamento_mlp": 0.099,
+   "ms_aggiornamento_kan": 7.583
+  },
+  "734": {
+   "ms_aggiornamento_lr": 44.431,
+   "ms_aggiornamento_mlp": 2.538,
+   "ms_aggiornamento_kan": 8.416
+  },
+  "735": {
+   "ms_aggiornamento_lr": 5.242,
+   "ms_aggiornamento_mlp": 1.976,
+   "ms_aggiornamento_kan": 7.336
+  },
+  "736": {
+   "ms_aggiornamento_lr": 14.742,
+   "ms_aggiornamento_mlp": 2.675,
+   "ms_aggiornamento_kan": 8.231
+  },
+  "737": {
+   "ms_aggiornamento_lr": 4.236,
+   "ms_aggiornamento_mlp": 2.868,
+   "ms_aggiornamento_kan": 7.201
+  },
+  "738": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 8.504
+  },
+  "739": {
+   "ms_aggiornamento_lr": 51.362,
+   "ms_aggiornamento_mlp": 2.037,
+   "ms_aggiornamento_kan": 7.335
+  },
+  "740": {
+   "ms_aggiornamento_lr": 2.261,
+   "ms_aggiornamento_mlp": 2.2,
+   "ms_aggiornamento_kan": 6.292
+  },
+  "741": {
+   "ms_aggiornamento_lr": 2.402,
+   "ms_aggiornamento_mlp": 5.275,
+   "ms_aggiornamento_kan": 7.968
+  },
+  "742": {
+   "ms_aggiornamento_lr": 0.04,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 8.522
+  },
+  "743": {
+   "ms_aggiornamento_lr": 0.037,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.295
+  },
+  "744": {
+   "ms_aggiornamento_lr": 0.03,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.356
+  },
+  "745": {
+   "ms_aggiornamento_lr": 54.036,
+   "ms_aggiornamento_mlp": 2.601,
+   "ms_aggiornamento_kan": 7.584
+  },
+  "746": {
+   "ms_aggiornamento_lr": 4.447,
+   "ms_aggiornamento_mlp": 2.161,
+   "ms_aggiornamento_kan": 8.217
+  },
+  "747": {
+   "ms_aggiornamento_lr": 10.875,
+   "ms_aggiornamento_mlp": 2.599,
+   "ms_aggiornamento_kan": 8.397
+  },
+  "748": {
+   "ms_aggiornamento_lr": 14.357,
+   "ms_aggiornamento_mlp": 2.402,
+   "ms_aggiornamento_kan": 8.181
+  },
+  "749": {
+   "ms_aggiornamento_lr": 4.057,
+   "ms_aggiornamento_mlp": 2.577,
+   "ms_aggiornamento_kan": 12.927
+  },
+  "750": {
+   "ms_aggiornamento_lr": 0.03,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.678
+  },
+  "751": {
+   "ms_aggiornamento_lr": 47.925,
+   "ms_aggiornamento_mlp": 3.009,
+   "ms_aggiornamento_kan": 8.51
+  },
+  "752": {
+   "ms_aggiornamento_lr": 12.692,
+   "ms_aggiornamento_mlp": 3.069,
+   "ms_aggiornamento_kan": 9.038
+  },
+  "753": {
+   "ms_aggiornamento_lr": 7.086,
+   "ms_aggiornamento_mlp": 2.38,
+   "ms_aggiornamento_kan": 8.793
+  },
+  "754": {
+   "ms_aggiornamento_lr": 37.244,
+   "ms_aggiornamento_mlp": 2.923,
+   "ms_aggiornamento_kan": 8.9
+  },
+  "755": {
+   "ms_aggiornamento_lr": 3.311,
+   "ms_aggiornamento_mlp": 6.719,
+   "ms_aggiornamento_kan": 11.123
+  },
+  "756": {
+   "ms_aggiornamento_lr": 3.356,
+   "ms_aggiornamento_mlp": 2.736,
+   "ms_aggiornamento_kan": 8.039
+  },
+  "757": {
+   "ms_aggiornamento_lr": 3.036,
+   "ms_aggiornamento_mlp": 6.981,
+   "ms_aggiornamento_kan": 7.95
+  },
+  "758": {
+   "ms_aggiornamento_lr": 15.768,
+   "ms_aggiornamento_mlp": 2.799,
+   "ms_aggiornamento_kan": 6.591
+  },
+  "759": {
+   "ms_aggiornamento_lr": 13.743,
+   "ms_aggiornamento_mlp": 2.998,
+   "ms_aggiornamento_kan": 6.924
+  },
+  "760": {
+   "ms_aggiornamento_lr": 2.289,
+   "ms_aggiornamento_mlp": 2.83,
+   "ms_aggiornamento_kan": 7.027
+  },
+  "761": {
+   "ms_aggiornamento_lr": 6.781,
+   "ms_aggiornamento_mlp": 2.791,
+   "ms_aggiornamento_kan": 6.868
+  },
+  "762": {
+   "ms_aggiornamento_lr": 18.983,
+   "ms_aggiornamento_mlp": 2.322,
+   "ms_aggiornamento_kan": 6.313
+  },
+  "763": {
+   "ms_aggiornamento_lr": 2.468,
+   "ms_aggiornamento_mlp": 2.53,
+   "ms_aggiornamento_kan": 7.341
+  },
+  "764": {
+   "ms_aggiornamento_lr": 2.523,
+   "ms_aggiornamento_mlp": 2.15,
+   "ms_aggiornamento_kan": 6.068
+  },
+  "765": {
+   "ms_aggiornamento_lr": 18.534,
+   "ms_aggiornamento_mlp": 3.033,
+   "ms_aggiornamento_kan": 6.63
+  },
+  "766": {
+   "ms_aggiornamento_lr": 2.421,
+   "ms_aggiornamento_mlp": 2.42,
+   "ms_aggiornamento_kan": 6.757
+  },
+  "767": {
+   "ms_aggiornamento_lr": 6.705,
+   "ms_aggiornamento_mlp": 6.437,
+   "ms_aggiornamento_kan": 10.615
+  },
+  "768": {
+   "ms_aggiornamento_lr": 2.658,
+   "ms_aggiornamento_mlp": 1.895,
+   "ms_aggiornamento_kan": 7.157
+  },
+  "769": {
+   "ms_aggiornamento_lr": 2.636,
+   "ms_aggiornamento_mlp": 5.761,
+   "ms_aggiornamento_kan": 10.034
+  },
+  "770": {
+   "ms_aggiornamento_lr": 18.921,
+   "ms_aggiornamento_mlp": 4.234,
+   "ms_aggiornamento_kan": 12.453
+  },
+  "771": {
+   "ms_aggiornamento_lr": 8.618,
+   "ms_aggiornamento_mlp": 13.956,
+   "ms_aggiornamento_kan": 36.479
+  },
+  "772": {
+   "ms_aggiornamento_lr": 3.857,
+   "ms_aggiornamento_mlp": 4.343,
+   "ms_aggiornamento_kan": 11.594
+  },
+  "773": {
+   "ms_aggiornamento_lr": 4.188,
+   "ms_aggiornamento_mlp": 13.437,
+   "ms_aggiornamento_kan": 19.021
+  },
+  "774": {
+   "ms_aggiornamento_lr": 13.51,
+   "ms_aggiornamento_mlp": 7.398,
+   "ms_aggiornamento_kan": 16.597
+  },
+  "775": {
+   "ms_aggiornamento_lr": 3.661,
+   "ms_aggiornamento_mlp": 4.887,
+   "ms_aggiornamento_kan": 11.367
+  },
+  "776": {
+   "ms_aggiornamento_lr": 4.749,
+   "ms_aggiornamento_mlp": 14.82,
+   "ms_aggiornamento_kan": 19.797
+  },
+  "777": {
+   "ms_aggiornamento_lr": 2.555,
+   "ms_aggiornamento_mlp": 4.778,
+   "ms_aggiornamento_kan": 13.665
+  },
+  "778": {
+   "ms_aggiornamento_lr": 5.191,
+   "ms_aggiornamento_mlp": 7.706,
+   "ms_aggiornamento_kan": 20.264
+  },
+  "779": {
+   "ms_aggiornamento_lr": 12.827,
+   "ms_aggiornamento_mlp": 4.279,
+   "ms_aggiornamento_kan": 13.537
+  },
+  "780": {
+   "ms_aggiornamento_lr": 6.461,
+   "ms_aggiornamento_mlp": 8.113,
+   "ms_aggiornamento_kan": 16.11
+  },
+  "781": {
+   "ms_aggiornamento_lr": 2.375,
+   "ms_aggiornamento_mlp": 3.425,
+   "ms_aggiornamento_kan": 9.306
+  },
+  "782": {
+   "ms_aggiornamento_lr": 8.084,
+   "ms_aggiornamento_mlp": 2.289,
+   "ms_aggiornamento_kan": 8.656
+  },
+  "783": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 5.175
+  },
+  "784": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.324
+  },
+  "785": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.041,
+   "ms_aggiornamento_kan": 4.781
+  },
+  "786": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 4.778
+  },
+  "787": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.902
+  },
+  "788": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.089,
+   "ms_aggiornamento_kan": 4.81
+  },
+  "789": {
+   "ms_aggiornamento_lr": 0.041,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 5.31
+  },
+  "790": {
+   "ms_aggiornamento_lr": 0.038,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 5.452
+  },
+  "791": {
+   "ms_aggiornamento_lr": 0.035,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.85
+  },
+  "792": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 5.646
+  },
+  "793": {
+   "ms_aggiornamento_lr": 0.039,
+   "ms_aggiornamento_mlp": 0.089,
+   "ms_aggiornamento_kan": 5.08
+  },
+  "794": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 4.469
+  },
+  "795": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.228
+  },
+  "796": {
+   "ms_aggiornamento_lr": 0.03,
+   "ms_aggiornamento_mlp": 0.035,
+   "ms_aggiornamento_kan": 5.839
+  },
+  "797": {
+   "ms_aggiornamento_lr": 47.066,
+   "ms_aggiornamento_mlp": 3.208,
+   "ms_aggiornamento_kan": 9.924
+  },
+  "798": {
+   "ms_aggiornamento_lr": 3.957,
+   "ms_aggiornamento_mlp": 2.873,
+   "ms_aggiornamento_kan": 11.008
+  },
+  "799": {
+   "ms_aggiornamento_lr": 8.619,
+   "ms_aggiornamento_mlp": 3.272,
+   "ms_aggiornamento_kan": 15.736
+  },
+  "800": {
+   "ms_aggiornamento_lr": 7.917,
+   "ms_aggiornamento_mlp": 4.296,
+   "ms_aggiornamento_kan": 8.215
+  },
+  "801": {
+   "ms_aggiornamento_lr": 3.786,
+   "ms_aggiornamento_mlp": 7.871,
+   "ms_aggiornamento_kan": 17.986
+  },
+  "802": {
+   "ms_aggiornamento_lr": 13.945,
+   "ms_aggiornamento_mlp": 3.078,
+   "ms_aggiornamento_kan": 10.905
+  },
+  "803": {
+   "ms_aggiornamento_lr": 6.205,
+   "ms_aggiornamento_mlp": 7.895,
+   "ms_aggiornamento_kan": 20.37
+  },
+  "804": {
+   "ms_aggiornamento_lr": 3.892,
+   "ms_aggiornamento_mlp": 4.237,
+   "ms_aggiornamento_kan": 13.23
+  },
+  "805": {
+   "ms_aggiornamento_lr": 4.304,
+   "ms_aggiornamento_mlp": 7.865,
+   "ms_aggiornamento_kan": 22.216
+  },
+  "806": {
+   "ms_aggiornamento_lr": 4.604,
+   "ms_aggiornamento_mlp": 3.83,
+   "ms_aggiornamento_kan": 12.614
+  },
+  "807": {
+   "ms_aggiornamento_lr": 2.894,
+   "ms_aggiornamento_mlp": 3.261,
+   "ms_aggiornamento_kan": 8.948
+  },
+  "808": {
+   "ms_aggiornamento_lr": 4.635,
+   "ms_aggiornamento_mlp": 7.099,
+   "ms_aggiornamento_kan": 16.814
+  },
+  "809": {
+   "ms_aggiornamento_lr": 16.14,
+   "ms_aggiornamento_mlp": 3.255,
+   "ms_aggiornamento_kan": 10.957
+  },
+  "810": {
+   "ms_aggiornamento_lr": 2.353,
+   "ms_aggiornamento_mlp": 2.195,
+   "ms_aggiornamento_kan": 8.327
+  },
+  "811": {
+   "ms_aggiornamento_lr": 5.067,
+   "ms_aggiornamento_mlp": 7.07,
+   "ms_aggiornamento_kan": 15.638
+  },
+  "812": {
+   "ms_aggiornamento_lr": 3.545,
+   "ms_aggiornamento_mlp": 3.284,
+   "ms_aggiornamento_kan": 9.674
+  },
+  "813": {
+   "ms_aggiornamento_lr": 3.973,
+   "ms_aggiornamento_mlp": 6.017,
+   "ms_aggiornamento_kan": 15.398
+  },
+  "814": {
+   "ms_aggiornamento_lr": 7.658,
+   "ms_aggiornamento_mlp": 2.523,
+   "ms_aggiornamento_kan": 16.554
+  },
+  "815": {
+   "ms_aggiornamento_lr": 8.099,
+   "ms_aggiornamento_mlp": 3.703,
+   "ms_aggiornamento_kan": 10.98
+  },
+  "816": {
+   "ms_aggiornamento_lr": 2.648,
+   "ms_aggiornamento_mlp": 2.566,
+   "ms_aggiornamento_kan": 11.818
+  },
+  "817": {
+   "ms_aggiornamento_lr": 3.368,
+   "ms_aggiornamento_mlp": 6.555,
+   "ms_aggiornamento_kan": 9.462
+  },
+  "818": {
+   "ms_aggiornamento_lr": 26.683,
+   "ms_aggiornamento_mlp": 4.623,
+   "ms_aggiornamento_kan": 19.804
+  },
+  "819": {
+   "ms_aggiornamento_lr": 5.359,
+   "ms_aggiornamento_mlp": 6.654,
+   "ms_aggiornamento_kan": 10.993
+  },
+  "820": {
+   "ms_aggiornamento_lr": 7.404,
+   "ms_aggiornamento_mlp": 2.937,
+   "ms_aggiornamento_kan": 22.809
+  },
+  "821": {
+   "ms_aggiornamento_lr": 7.393,
+   "ms_aggiornamento_mlp": 3.367,
+   "ms_aggiornamento_kan": 10.269
+  },
+  "822": {
+   "ms_aggiornamento_lr": 5.588,
+   "ms_aggiornamento_mlp": 4.242,
+   "ms_aggiornamento_kan": 14.339
+  },
+  "823": {
+   "ms_aggiornamento_lr": 2.725,
+   "ms_aggiornamento_mlp": 6.557,
+   "ms_aggiornamento_kan": 17.979
+  },
+  "824": {
+   "ms_aggiornamento_lr": 0.033,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 5.148
+  },
+  "825": {
+   "ms_aggiornamento_lr": 2.847,
+   "ms_aggiornamento_mlp": 6.917,
+   "ms_aggiornamento_kan": 9.376
+  },
+  "826": {
+   "ms_aggiornamento_lr": 2.793,
+   "ms_aggiornamento_mlp": 2.052,
+   "ms_aggiornamento_kan": 13.54
+  },
+  "827": {
+   "ms_aggiornamento_lr": 4.523,
+   "ms_aggiornamento_mlp": 3.206,
+   "ms_aggiornamento_kan": 17.053
+  },
+  "828": {
+   "ms_aggiornamento_lr": 2.493,
+   "ms_aggiornamento_mlp": 5.767,
+   "ms_aggiornamento_kan": 18.768
+  },
+  "829": {
+   "ms_aggiornamento_lr": 10.085,
+   "ms_aggiornamento_mlp": 2.327,
+   "ms_aggiornamento_kan": 9.682
+  },
+  "830": {
+   "ms_aggiornamento_lr": 2.65,
+   "ms_aggiornamento_mlp": 1.987,
+   "ms_aggiornamento_kan": 9.909
+  },
+  "831": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.037,
+   "ms_aggiornamento_kan": 4.596
+  },
+  "832": {
+   "ms_aggiornamento_lr": 2.751,
+   "ms_aggiornamento_mlp": 18.792,
+   "ms_aggiornamento_kan": 42.875
+  },
+  "833": {
+   "ms_aggiornamento_lr": 5.645,
+   "ms_aggiornamento_mlp": 2.286,
+   "ms_aggiornamento_kan": 12.827
+  },
+  "834": {
+   "ms_aggiornamento_lr": 4.58,
+   "ms_aggiornamento_mlp": 2.504,
+   "ms_aggiornamento_kan": 22.005
+  },
+  "835": {
+   "ms_aggiornamento_lr": 2.464,
+   "ms_aggiornamento_mlp": 5.882,
+   "ms_aggiornamento_kan": 8.178
+  },
+  "836": {
+   "ms_aggiornamento_lr": 6.781,
+   "ms_aggiornamento_mlp": 2.196,
+   "ms_aggiornamento_kan": 7.286
+  },
+  "837": {
+   "ms_aggiornamento_lr": 14.436,
+   "ms_aggiornamento_mlp": 2.477,
+   "ms_aggiornamento_kan": 9.827
+  },
+  "838": {
+   "ms_aggiornamento_lr": 3.694,
+   "ms_aggiornamento_mlp": 6.192,
+   "ms_aggiornamento_kan": 14.735
+  },
+  "839": {
+   "ms_aggiornamento_lr": 7.071,
+   "ms_aggiornamento_mlp": 2.449,
+   "ms_aggiornamento_kan": 7.667
+  },
+  "840": {
+   "ms_aggiornamento_lr": 12.933,
+   "ms_aggiornamento_mlp": 2.67,
+   "ms_aggiornamento_kan": 6.792
+  },
+  "841": {
+   "ms_aggiornamento_lr": 7.617,
+   "ms_aggiornamento_mlp": 6.814,
+   "ms_aggiornamento_kan": 8.119
+  },
+  "842": {
+   "ms_aggiornamento_lr": 6.997,
+   "ms_aggiornamento_mlp": 2.42,
+   "ms_aggiornamento_kan": 15.069
+  },
+  "843": {
+   "ms_aggiornamento_lr": 12.639,
+   "ms_aggiornamento_mlp": 2.267,
+   "ms_aggiornamento_kan": 10.797
+  },
+  "844": {
+   "ms_aggiornamento_lr": 7.567,
+   "ms_aggiornamento_mlp": 3.644,
+   "ms_aggiornamento_kan": 16.921
+  },
+  "845": {
+   "ms_aggiornamento_lr": 6.844,
+   "ms_aggiornamento_mlp": 6.757,
+   "ms_aggiornamento_kan": 15.249
+  },
+  "846": {
+   "ms_aggiornamento_lr": 2.598,
+   "ms_aggiornamento_mlp": 6.762,
+   "ms_aggiornamento_kan": 10.599
+  },
+  "847": {
+   "ms_aggiornamento_lr": 8.382,
+   "ms_aggiornamento_mlp": 7.142,
+   "ms_aggiornamento_kan": 12.91
+  },
+  "848": {
+   "ms_aggiornamento_lr": 3.756,
+   "ms_aggiornamento_mlp": 2.632,
+   "ms_aggiornamento_kan": 16.152
+  },
+  "849": {
+   "ms_aggiornamento_lr": 8.175,
+   "ms_aggiornamento_mlp": 7.69,
+   "ms_aggiornamento_kan": 15.969
+  },
+  "850": {
+   "ms_aggiornamento_lr": 6.936,
+   "ms_aggiornamento_mlp": 2.393,
+   "ms_aggiornamento_kan": 14.69
+  },
+  "851": {
+   "ms_aggiornamento_lr": 7.355,
+   "ms_aggiornamento_mlp": 6.897,
+   "ms_aggiornamento_kan": 22.178
+  },
+  "852": {
+   "ms_aggiornamento_lr": 4.409,
+   "ms_aggiornamento_mlp": 6.535,
+   "ms_aggiornamento_kan": 12.883
+  },
+  "853": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.039,
+   "ms_aggiornamento_kan": 4.972
+  },
+  "854": {
+   "ms_aggiornamento_lr": 2.927,
+   "ms_aggiornamento_mlp": 2.504,
+   "ms_aggiornamento_kan": 6.966
+  },
+  "855": {
+   "ms_aggiornamento_lr": 6.368,
+   "ms_aggiornamento_mlp": 2.022,
+   "ms_aggiornamento_kan": 6.552
+  },
+  "856": {
+   "ms_aggiornamento_lr": 0.032,
+   "ms_aggiornamento_mlp": 0.038,
+   "ms_aggiornamento_kan": 6.396
+  },
+  "857": {
+   "ms_aggiornamento_lr": 47.598,
+   "ms_aggiornamento_mlp": 2.986,
+   "ms_aggiornamento_kan": 9.954
+  },
+  "858": {
+   "ms_aggiornamento_lr": 4.098,
+   "ms_aggiornamento_mlp": 7.765,
+   "ms_aggiornamento_kan": 20.731
+  },
+  "859": {
+   "ms_aggiornamento_lr": 3.651,
+   "ms_aggiornamento_mlp": 2.606,
+   "ms_aggiornamento_kan": 10.647
+  },
+  "860": {
+   "ms_aggiornamento_lr": 2.888,
+   "ms_aggiornamento_mlp": 6.602,
+   "ms_aggiornamento_kan": 15.674
+  },
+  "861": {
+   "ms_aggiornamento_lr": 12.84,
+   "ms_aggiornamento_mlp": 3.944,
+   "ms_aggiornamento_kan": 11.948
+  },
+  "862": {
+   "ms_aggiornamento_lr": 3.366,
+   "ms_aggiornamento_mlp": 6.056,
+   "ms_aggiornamento_kan": 13.515
+  },
+  "863": {
+   "ms_aggiornamento_lr": 44.271,
+   "ms_aggiornamento_mlp": 3.288,
+   "ms_aggiornamento_kan": 10.74
+  },
+  "864": {
+   "ms_aggiornamento_lr": 3.585,
+   "ms_aggiornamento_mlp": 8.333,
+   "ms_aggiornamento_kan": 11.704
+  },
+  "865": {
+   "ms_aggiornamento_lr": 0.031,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 5.688
+  },
+  "866": {
+   "ms_aggiornamento_lr": 53.605,
+   "ms_aggiornamento_mlp": 2.464,
+   "ms_aggiornamento_kan": 6.81
+  },
+  "867": {
+   "ms_aggiornamento_lr": 5.037,
+   "ms_aggiornamento_mlp": 2.536,
+   "ms_aggiornamento_kan": 6.169
+  },
+  "868": {
+   "ms_aggiornamento_lr": 7.645,
+   "ms_aggiornamento_mlp": 7.964,
+   "ms_aggiornamento_kan": 17.42
+  },
+  "869": {
+   "ms_aggiornamento_lr": 0.044,
+   "ms_aggiornamento_mlp": 0.1,
+   "ms_aggiornamento_kan": 4.891
+  },
+  "870": {
+   "ms_aggiornamento_lr": 57.331,
+   "ms_aggiornamento_mlp": 2.421,
+   "ms_aggiornamento_kan": 7.095
+  },
+  "871": {
+   "ms_aggiornamento_lr": 3.306,
+   "ms_aggiornamento_mlp": 6.532,
+   "ms_aggiornamento_kan": 17.722
+  },
+  "872": {
+   "ms_aggiornamento_lr": 5.661,
+   "ms_aggiornamento_mlp": 4.469,
+   "ms_aggiornamento_kan": 17.968
+  },
+  "873": {
+   "ms_aggiornamento_lr": 6.848,
+   "ms_aggiornamento_mlp": 2.68,
+   "ms_aggiornamento_kan": 12.837
+  },
+  "874": {
+   "ms_aggiornamento_lr": 2.679,
+   "ms_aggiornamento_mlp": 2.717,
+   "ms_aggiornamento_kan": 9.0
+  },
+  "875": {
+   "ms_aggiornamento_lr": 2.885,
+   "ms_aggiornamento_mlp": 5.791,
+   "ms_aggiornamento_kan": 15.962
+  },
+  "876": {
+   "ms_aggiornamento_lr": 4.365,
+   "ms_aggiornamento_mlp": 2.85,
+   "ms_aggiornamento_kan": 10.522
+  },
+  "877": {
+   "ms_aggiornamento_lr": 3.934,
+   "ms_aggiornamento_mlp": 6.613,
+   "ms_aggiornamento_kan": 10.774
+  },
+  "878": {
+   "ms_aggiornamento_lr": 0.036,
+   "ms_aggiornamento_mlp": 0.042,
+   "ms_aggiornamento_kan": 5.468
+  },
+  "879": {
+   "ms_aggiornamento_lr": 3.079,
+   "ms_aggiornamento_mlp": 2.384,
+   "ms_aggiornamento_kan": 13.875
+  },
+  "880": {
+   "ms_aggiornamento_lr": 47.491,
+   "ms_aggiornamento_mlp": 2.905,
+   "ms_aggiornamento_kan": 11.216
+  },
+  "881": {
+   "ms_aggiornamento_lr": 3.099,
+   "ms_aggiornamento_mlp": 6.135,
+   "ms_aggiornamento_kan": 9.568
+  },
+  "882": {
+   "ms_aggiornamento_lr": 4.934,
+   "ms_aggiornamento_mlp": 2.129,
+   "ms_aggiornamento_kan": 7.958
+  },
+  "883": {
+   "ms_aggiornamento_lr": 2.349,
+   "ms_aggiornamento_mlp": 2.303,
+   "ms_aggiornamento_kan": 8.446
+  },
+  "884": {
+   "ms_aggiornamento_lr": 2.769,
+   "ms_aggiornamento_mlp": 2.052,
+   "ms_aggiornamento_kan": 7.949
+  },
+  "885": {
+   "ms_aggiornamento_lr": 6.927,
+   "ms_aggiornamento_mlp": 7.621,
+   "ms_aggiornamento_kan": 10.149
+  },
+  "886": {
+   "ms_aggiornamento_lr": 5.796,
+   "ms_aggiornamento_mlp": 6.55,
+   "ms_aggiornamento_kan": 17.716
+  },
+  "887": {
+   "ms_aggiornamento_lr": 7.976,
+   "ms_aggiornamento_mlp": 2.35,
+   "ms_aggiornamento_kan": 12.198
+  },
+  "888": {
+   "ms_aggiornamento_lr": 6.551,
+   "ms_aggiornamento_mlp": 6.48,
+   "ms_aggiornamento_kan": 14.527
+  },
+  "889": {
+   "ms_aggiornamento_lr": 7.146,
+   "ms_aggiornamento_mlp": 2.709,
+   "ms_aggiornamento_kan": 14.451
+  },
+  "890": {
+   "ms_aggiornamento_lr": 6.676,
+   "ms_aggiornamento_mlp": 2.395,
+   "ms_aggiornamento_kan": 15.59
+  },
+  "891": {
+   "ms_aggiornamento_lr": 9.496,
+   "ms_aggiornamento_mlp": 2.588,
+   "ms_aggiornamento_kan": 10.624
+  },
+  "892": {
+   "ms_aggiornamento_lr": 6.639,
+   "ms_aggiornamento_mlp": 2.537,
+   "ms_aggiornamento_kan": 12.986
+  },
+  "893": {
+   "ms_aggiornamento_lr": 2.684,
+   "ms_aggiornamento_mlp": 2.528,
+   "ms_aggiornamento_kan": 7.96
+  },
+  "894": {
+   "ms_aggiornamento_lr": 2.68,
+   "ms_aggiornamento_mlp": 5.279,
+   "ms_aggiornamento_kan": 9.788
+  },
+  "895": {
+   "ms_aggiornamento_lr": 6.59,
+   "ms_aggiornamento_mlp": 6.241,
+   "ms_aggiornamento_kan": 16.731
+  },
+  "896": {
+   "ms_aggiornamento_lr": 6.248,
+   "ms_aggiornamento_mlp": 2.344,
+   "ms_aggiornamento_kan": 8.464
+  },
+  "897": {
+   "ms_aggiornamento_lr": 2.717,
+   "ms_aggiornamento_mlp": 6.49,
+   "ms_aggiornamento_kan": 9.688
+  },
+  "898": {
+   "ms_aggiornamento_lr": 3.6,
+   "ms_aggiornamento_mlp": 6.613,
+   "ms_aggiornamento_kan": 10.223
+  },
+  "899": {
+   "ms_aggiornamento_lr": 4.634,
+   "ms_aggiornamento_mlp": 2.234,
+   "ms_aggiornamento_kan": 13.776
+  },
+  "900": {
+   "ms_aggiornamento_lr": 21.814,
+   "ms_aggiornamento_mlp": 3.05,
+   "ms_aggiornamento_kan": 9.736
+  },
+  "901": {
+   "ms_aggiornamento_lr": 3.685,
+   "ms_aggiornamento_mlp": 6.593,
+   "ms_aggiornamento_kan": 16.114
+  },
+  "902": {
+   "ms_aggiornamento_lr": 25.847,
+   "ms_aggiornamento_mlp": 2.679,
+   "ms_aggiornamento_kan": 8.854
+  },
+  "903": {
+   "ms_aggiornamento_lr": 2.785,
+   "ms_aggiornamento_mlp": 5.876,
+   "ms_aggiornamento_kan": 8.641
+  },
+  "904": {
+   "ms_aggiornamento_lr": 30.231,
+   "ms_aggiornamento_mlp": 3.433,
+   "ms_aggiornamento_kan": 9.938
+  },
+  "905": {
+   "ms_aggiornamento_lr": 4.812,
+   "ms_aggiornamento_mlp": 5.592,
+   "ms_aggiornamento_kan": 14.425
+  },
+  "906": {
+   "ms_aggiornamento_lr": 35.487,
+   "ms_aggiornamento_mlp": 3.122,
+   "ms_aggiornamento_kan": 11.546
+  },
+  "907": {
+   "ms_aggiornamento_lr": 5.414,
+   "ms_aggiornamento_mlp": 2.081,
+   "ms_aggiornamento_kan": 6.656
+  },
+  "908": {
+   "ms_aggiornamento_lr": 0.034,
+   "ms_aggiornamento_mlp": 0.036,
+   "ms_aggiornamento_kan": 4.473
+  },
+  "909": {
+   "ms_aggiornamento_lr": 3.966,
+   "ms_aggiornamento_mlp": 7.598,
+   "ms_aggiornamento_kan": 10.755
+  },
+  "910": {
+   "ms_aggiornamento_lr": 4.149,
+   "ms_aggiornamento_mlp": 6.751,
+   "ms_aggiornamento_kan": 15.75
+  },
+  "911": {
+   "ms_aggiornamento_lr": 5.065,
+   "ms_aggiornamento_mlp": 3.157,
+   "ms_aggiornamento_kan": 12.754
+  },
+  "912": {
+   "ms_aggiornamento_lr": 2.751,
+   "ms_aggiornamento_mlp": 9.483,
+   "ms_aggiornamento_kan": 16.062
+  },
+  "913": {
+   "ms_aggiornamento_lr": 2.663,
+   "ms_aggiornamento_mlp": 2.411,
+   "ms_aggiornamento_kan": 9.233
+  },
+  "914": {
+   "ms_aggiornamento_lr": 3.975,
+   "ms_aggiornamento_mlp": 2.168,
+   "ms_aggiornamento_kan": 13.826
+  },
+  "915": {
+   "ms_aggiornamento_lr": 3.126,
+   "ms_aggiornamento_mlp": 4.648,
+   "ms_aggiornamento_kan": 9.7
+  }
+ }
+}

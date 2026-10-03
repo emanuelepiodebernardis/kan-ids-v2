@@ -246,7 +246,8 @@ def _due_insiemi():
         b1 = blocco(i, normali=10, fp_cong=5, fp_adat=7, modelli=RS.MODELLI)
         b2 = blocco(i, normali=10, fp_cong=1, fp_adat=2, modelli=RS.MODELLI)
         for b in (b1, b2):
-            b['row_id_campionati_sha'] = 1000 + i
+            b['row_id_campionati_sha256'] = RS.imp.impronta([1000 + i, 2000 + i])
+            b['row_id_campionati_somma_storica'] = 3000 + 2 * i
         base.append(b1)
         conf.append(b2)
     return {7: base}, {7: conf}
@@ -275,8 +276,39 @@ def test_il_confronto_rifiuta_un_auroc_diverso():
 
 def test_il_confronto_rifiuta_indici_campionati_diversi():
     b, c = _due_insiemi()
-    c[7][2]['row_id_campionati_sha'] = 999999
+    c[7][2]['row_id_campionati_sha256'] = RS.imp.impronta([1, 2, 3])
     with pytest.raises(RS.Incoerenza, match='indici campionati diversi'):
+        RS.confronta(b, c, _aggr(b), _aggr(c))
+
+
+def test_il_confronto_vede_il_digest_quando_c_e():
+    """Il confronto dichiara su che cosa si e' basato: qui sul digest."""
+    b, c = _due_insiemi()
+    esito = RS.confronta(b, c, _aggr(b), _aggr(c))
+    assert esito['indici_campionati']['forza_minima'] == RS.imp.DIGEST
+    assert esito['indici_campionati']['blocchi_confrontati'] == 3
+
+
+def test_il_confronto_ripiega_sulla_somma_storica_e_lo_dichiara():
+    """Sui rendiconti vecchi il digest non c'e': il confronto resta possibile ma
+    piu' debole, e deve dirlo invece di passare in silenzio."""
+    b, c = _due_insiemi()
+    for insieme in (b, c):
+        for voce in insieme[7]:
+            del voce['row_id_campionati_sha256']
+    esito = RS.confronta(b, c, _aggr(b), _aggr(c))
+    assert esito['indici_campionati']['forza_minima'] == RS.imp.SOMMA_STORICA
+    assert 'piu\' debole' in esito['indici_campionati']['descrizione']
+
+
+def test_il_confronto_rifiuta_un_campione_non_verificabile():
+    """Senza nessuno dei due campi non c'e' niente da verificare: non si passa."""
+    b, c = _due_insiemi()
+    for insieme in (b, c):
+        for voce in insieme[7]:
+            del voce['row_id_campionati_sha256']
+            del voce['row_id_campionati_somma_storica']
+    with pytest.raises(RS.Incoerenza, match='non sono verificabili'):
         RS.confronta(b, c, _aggr(b), _aggr(c))
 
 

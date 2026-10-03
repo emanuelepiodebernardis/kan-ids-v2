@@ -63,7 +63,8 @@ SUI SEMI
   kan: FPR medio per blocco +0.1859 (in salita in 5/5), FPR complessivo -0.0536 (in salita in 0/5), falsi positivi -9,297, invertiti da 9 a 10, guadagno +0.437 dove invertito e -0.090 altrove
 
 SOGLIA A ZERO contro SOGLIA SCELTA SU B
-  AUROC identiche verificate: 27,480 misure, e indici campionati identici in tutti i blocchi
+  AUROC identiche verificate: 27,480 misure
+  indici campionati identici, verificati sullo SHA-256 della serializzazione dichiarata (4,580 blocchi confrontati)
 
 Richiamo sui normali, media per blocco sui semi
   mod  zero cong  zero adat |     B cong     B adat
@@ -98,4 +99,4 @@ VERIFICA CONTRO I VALORI ATTESI
    kan invertiti max                10
   tutti i valori attesi coincidono entro 0.0005 (conteggi: esatti)
 
-scritto confronto_soglia.json
+scritto riepiloghi/confronto_soglia.json

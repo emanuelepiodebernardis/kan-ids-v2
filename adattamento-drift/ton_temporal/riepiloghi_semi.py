@@ -48,8 +48,15 @@ Uso
 
 import argparse
 import json
+import sys
 import statistics as st
 from pathlib import Path
+
+# `impronta_campione.py` sta accanto a questo file; la riga qui sotto serve
+# perche' lo strumento funzioni anche quando viene caricato per percorso (dalle
+# suite di test) e non eseguito come script dalla propria cartella.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import impronta_campione as imp
 
 MODELLI = ('lr', 'mlp', 'kan')
 
@@ -317,6 +324,7 @@ def confronta(blocchi_base, blocchi_conf, aggr_base, aggr_conf):
         raise Incoerenza(f'semi diversi fra i due insiemi: {sorted(blocchi_base)} '
                          f'contro {sorted(blocchi_conf)}')
     controllati = 0
+    campione = imp.Riepilogo()
     for seme in blocchi_base:
         b1, b2 = blocchi_base[seme], blocchi_conf[seme]
         if len(b1) != len(b2):
@@ -331,9 +339,16 @@ def confronta(blocchi_base, blocchi_conf, aggr_base, aggr_conf):
                             f'contro {y[k]["auroc"]!r}. La soglia non puo\' '
                             'cambiare una misura di ordinamento.')
                     controllati += 1
-            if x.get('row_id_campionati_sha') != y.get('row_id_campionati_sha'):
+            uguali, forza = imp.confronta(x, y)
+            if uguali is False:
                 raise Incoerenza(f'seme {seme}, blocco {i}: indici campionati diversi')
+            if forza == imp.ASSENTE:
+                raise Incoerenza(
+                    f'seme {seme}, blocco {i}: gli indici campionati non sono '
+                    'verificabili, manca sia il digest sia il campo storico')
+            campione.aggiungi(forza)
     return {'auroc_confrontate': controllati,
+            'indici_campionati': campione.rendiconto(),
             'per_modello': {m: {
                 'fpr_medio_base': aggr_base[m]['fpr_medio_delta_medio'],
                 'fpr_medio_confronto': aggr_conf[m]['fpr_medio_delta_medio'],
@@ -346,8 +361,8 @@ def confronta(blocchi_base, blocchi_conf, aggr_base, aggr_conf):
 
 def stampa_confronto(per_seme_base, per_seme_conf, esito):
     print('SOGLIA A ZERO contro SOGLIA SCELTA SU B')
-    print(f'  AUROC identiche verificate: {esito["auroc_confrontate"]:,} misure, '
-          'e indici campionati identici in tutti i blocchi')
+    print(f'  AUROC identiche verificate: {esito["auroc_confrontate"]:,} misure')
+    print('  ' + esito['indici_campionati']['descrizione'])
     print()
     print('Richiamo sui normali, media per blocco sui semi')
     print(f'{"mod":>5} {"zero cong":>10} {"zero adat":>10} | {"B cong":>10} {"B adat":>10}')

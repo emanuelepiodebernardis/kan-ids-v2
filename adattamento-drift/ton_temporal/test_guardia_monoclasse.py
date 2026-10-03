@@ -178,12 +178,16 @@ def test_il_campionamento_non_dipende_dal_modello(tmp_path):
     secondo = _rendiconto_di_prova(tmp_path / 'b', quota_normali=0.4)
     for r in primo['per_blocco']:
         assert 'etichette_richieste' in r
-        assert 'row_id_campionati_sha' in r
-    impronte_1 = [r['row_id_campionati_sha'] for r in primo['per_blocco']]
-    impronte_2 = [r['row_id_campionati_sha'] for r in secondo['per_blocco']]
+        assert 'row_id_campionati_sha256' in r
+        # il campo storico resta, col nome che dice che e' una somma
+        assert 'row_id_campionati_somma_storica' in r
+    impronte_1 = [r['row_id_campionati_sha256'] for r in primo['per_blocco']]
+    impronte_2 = [r['row_id_campionati_sha256'] for r in secondo['per_blocco']]
     assert impronte_1 == impronte_2, (
         'con lo stesso seme gli indici campionati devono essere identici')
-    assert any(x for x in impronte_1), 'nessun indice campionato: la prova e vuota'
+    vuoto = R.impronta_row_id([])
+    assert any(x != vuoto for x in impronte_1), \
+        'nessun indice campionato: la prova e vuota'
 
 
 def test_il_campionatore_e_deterministico_e_indipendente_dai_modelli():

@@ -38,7 +38,9 @@ viene piu' toccata, quindi non usa informazione dei flussi successivi.
 """
 
 import argparse
+import hashlib
 import json
+import os
 import platform
 import sys
 import time
@@ -189,6 +191,171 @@ class ModelloKAN:
         self.b = float(b)
 
 
+def descrizione_hardware():
+    """Hardware su cui la corsa e' avvenuta, letto dal sistema, non dichiarato a mano.
+
+    Deve funzionare su Linux e su Windows, perche' le corse si fanno su una
+    macchina e le prove si eseguono anche sull'altra. Ogni voce porta accanto il
+    **metodo** con cui e' stata ottenuta: quando una lettura non e' possibile il
+    rendiconto dice perche', invece di lasciare un campo vuoto che sembra una
+    misura mancata.
+    """
+    d = {'cpu': 'non leggibile', 'cpu_thread_visibili': NA,
+         'ram_totale_mib': NA, 'metodo_cpu': 'nessuno', 'metodo_ram': 'nessuno'}
+    # --- CPU
+    try:
+        testo = Path('/proc/cpuinfo').read_text(encoding='utf-8', errors='replace')
+        nomi = [r.split(':', 1)[1].strip() for r in testo.splitlines()
+                if r.startswith('model name')]
+        if nomi:
+            d['cpu'] = nomi[0]
+            d['cpu_thread_visibili'] = len(nomi)
+            d['metodo_cpu'] = '/proc/cpuinfo'
+    except OSError:
+        pass
+    if d['metodo_cpu'] == 'nessuno':
+        nome = (os.environ.get('PROCESSOR_IDENTIFIER')
+                or platform.processor() or platform.machine())
+        if nome:
+            d['cpu'] = nome.strip()
+            d['metodo_cpu'] = ('PROCESSOR_IDENTIFIER'
+                               if os.environ.get('PROCESSOR_IDENTIFIER')
+                               else 'platform.processor')
+        if os.cpu_count():
+            d['cpu_thread_visibili'] = os.cpu_count()
+    # --- RAM totale
+    try:
+        for r in Path('/proc/meminfo').read_text(encoding='utf-8').splitlines():
+            if r.startswith('MemTotal'):
+                d['ram_totale_mib'] = round(int(r.split()[1]) / 1024, 1)
+                d['metodo_ram'] = '/proc/meminfo'
+                break
+    except OSError:
+        pass
+    if d['metodo_ram'] == 'nessuno' and sys.platform == 'win32':
+        try:
+            import ctypes
+
+            class _Memoria(ctypes.Structure):
+                _fields_ = [('dwLength', ctypes.c_ulong),
+                            ('dwMemoryLoad', ctypes.c_ulong),
+                            ('ullTotalPhys', ctypes.c_ulonglong),
+                            ('ullAvailPhys', ctypes.c_ulonglong),
+                            ('ullTotalPageFile', ctypes.c_ulonglong),
+                            ('ullAvailPageFile', ctypes.c_ulonglong),
+                            ('ullTotalVirtual', ctypes.c_ulonglong),
+                            ('ullAvailVirtual', ctypes.c_ulonglong),
+                            ('ullAvailExtendedVirtual', ctypes.c_ulonglong)]
+
+            m = _Memoria()
+            m.dwLength = ctypes.sizeof(_Memoria)
+            if ctypes.windll.kernel32.GlobalMemoryStatusEx(ctypes.byref(m)):
+                d['ram_totale_mib'] = round(m.ullTotalPhys / 1024 ** 2, 1)
+                d['metodo_ram'] = 'GlobalMemoryStatusEx'
+        except Exception:
+            pass
+    if d['metodo_ram'] == 'nessuno':
+        try:
+            n = os.sysconf('SC_PHYS_PAGES') * os.sysconf('SC_PAGE_SIZE')
+            d['ram_totale_mib'] = round(n / 1024 ** 2, 1)
+            d['metodo_ram'] = 'os.sysconf'
+        except (AttributeError, ValueError, OSError):
+            pass
+    d['cpu_utilizzabili_dal_processo'] = (
+        len(os.sched_getaffinity(0)) if hasattr(os, 'sched_getaffinity')
+        else (os.cpu_count() or NA))
+    d['thread_blas'] = {v: os.environ.get(v) for v in
+                        ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'MKL_NUM_THREADS')}
+    return d
+
+
+def picco_rss(forza_senza_resource=False):
+    """Picco di memoria residente del processo, in MiB, col metodo usato.
+
+    Ritorna (valore, metodo). Il valore e' None solo se nessuna via e'
+    disponibile, e in quel caso il metodo lo dichiara: un campo vuoto senza
+    spiegazione si leggerebbe come una misura andata male.
+
+    `forza_senza_resource` serve alle prove per esercitare la via di riserva
+    anche dove `resource` esiste.
+    """
+    if not forza_senza_resource:
+        try:
+            import resource
+        except ImportError:
+            pass
+        else:
+            v = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+            # Linux conta in kibibyte, macOS in byte
+            fattore = 1024 if sys.platform.startswith('linux') else 1024 ** 2
+            return round(v / fattore, 1), 'resource.getrusage'
+    if sys.platform == 'win32':
+        try:
+            import ctypes
+
+            class _Contatori(ctypes.Structure):
+                _fields_ = [('cb', ctypes.c_ulong),
+                            ('PageFaultCount', ctypes.c_ulong),
+                            ('PeakWorkingSetSize', ctypes.c_size_t),
+                            ('WorkingSetSize', ctypes.c_size_t),
+                            ('QuotaPeakPagedPoolUsage', ctypes.c_size_t),
+                            ('QuotaPagedPoolUsage', ctypes.c_size_t),
+                            ('QuotaPeakNonPagedPoolUsage', ctypes.c_size_t),
+                            ('QuotaNonPagedPoolUsage', ctypes.c_size_t),
+                            ('PagefileUsage', ctypes.c_size_t),
+                            ('PeakPagefileUsage', ctypes.c_size_t)]
+
+            c = _Contatori()
+            c.cb = ctypes.sizeof(_Contatori)
+            ok = ctypes.windll.psapi.GetProcessMemoryInfo(
+                ctypes.windll.kernel32.GetCurrentProcess(), ctypes.byref(c), c.cb)
+            if ok:
+                return round(c.PeakWorkingSetSize / 1024 ** 2, 1), 'GetProcessMemoryInfo'
+        except Exception:
+            pass
+    return NA, 'non disponibile su questa piattaforma'
+
+
+def picco_rss_mib():
+    """Il solo valore, per compatibilita' con chi legge un numero."""
+    return picco_rss()[0]
+
+
+def riassumi_tempi(valori):
+    """n, totale e quantili dei tempi di un singolo aggiornamento, in millisecondi."""
+    if not valori:
+        return {'n': 0, 'secondi_totali': 0.0, 'ms_medio': NA, 'ms_mediano': NA,
+                'ms_minimo': NA, 'ms_massimo': NA}
+    v = sorted(valori)
+    return {'n': len(v),
+            'secondi_totali': round(sum(v), 3),
+            'ms_medio': round(1000 * sum(v) / len(v), 3),
+            'ms_mediano': round(1000 * v[(len(v) - 1) // 2], 3),
+            'ms_minimo': round(1000 * v[0], 3),
+            'ms_massimo': round(1000 * v[-1], 3)}
+
+
+def impronta_row_id(row_id):
+    """SHA-256 della sequenza dei row_id campionati, su una serializzazione dichiarata.
+
+    Serializzazione: i row_id **nell'ordine in cui il campionatore li ha
+    restituiti**, convertiti in interi decimali senza zeri iniziali, uniti da una
+    virgola, codificati in UTF-8. L'ordine e' parte dell'impronta di proposito:
+    due politiche devono ricevere gli stessi record **nello stesso ordine**, e un
+    digest insensibile all'ordine non lo verificherebbe.
+
+    Sostituisce un campo precedente che conteneva `sum(row_id) % 10**9`. Quella
+    somma era insensibile all'ordine e alle permutazioni, e due insiemi diversi
+    con la stessa somma si costruiscono scambiando +1 e -1 fra due id: usarla
+    come prova che gli indici campionati coincidono era un controllo molto piu'
+    debole di quanto il nome `_sha` suggerisse.
+    """
+    if len(row_id) == 0:
+        return hashlib.sha256(b'').hexdigest()
+    testo = ','.join(str(int(x)) for x in row_id)
+    return hashlib.sha256(testo.encode('utf-8')).hexdigest()
+
+
 def punteggio_a_blocchi(modello, trasformazione, X, parametri, blocco=200_000):
     """Punteggio del modello su un flusso intero, senza tenerne in memoria la
     rappresentazione: quella della base B-spline su milioni di righe pesa
@@ -259,6 +426,29 @@ def auroc(y, punteggio):
             rango[ordine[i0:i0 + c]] = rango[ordine[i0:i0 + c]].mean()
     somma = rango[y == 1].sum()
     return (somma - n1 * (n1 + 1) / 2) / (n0 * n1)
+
+
+def scrivi_compatto(documento):
+    """JSON con i metadati indentati e UN BLOCCO PER RIGA.
+
+    Con l'indentazione piena un rendiconto di 916 blocchi occupa 93.000 righe, e
+    un commit che ne porta una decina rende il diff del PR illeggibile a occhio
+    pur pesando pochi megabyte compressi. Qui i metadati restano indentati,
+    perche' sono quelli che si leggono, e ogni blocco sta su una riga sola: il
+    file resta JSON valido — `json.load` lo apre senza sapere nulla di questo —
+    diventa circa 930 righe, e un diff mostra esattamente quali blocchi sono
+    cambiati invece di spalmare la differenza su migliaia di righe.
+    """
+    blocchi = documento.get('per_blocco')
+    testa = {k: v for k, v in documento.items() if k != 'per_blocco'}
+    pezzi = [json.dumps(testa, ensure_ascii=False, indent=1, allow_nan=False)[:-2]]
+    if blocchi is None:
+        return pezzi[0] + '\n}\n'
+    pezzi.append(',\n "per_blocco": [\n')
+    righe = ['  ' + json.dumps(b, ensure_ascii=False, allow_nan=False) for b in blocchi]
+    pezzi.append(',\n'.join(righe))
+    pezzi.append('\n ]\n}\n')
+    return ''.join(pezzi)
 
 
 def _blocchi_ammissibili(percorso, n_blocchi, ritardo):
@@ -543,11 +733,20 @@ def main(argv=None):
     salti = {nm: 0 for nm in modelli}
     aggiornamenti = {nm: 0 for nm in modelli}
     etichette_spese = 0
+    righe_scorse = 0
+    # residuo 3: il tempo del SINGOLO aggiornamento, per modello, misurato sul
+    # tratto che un sistema reale pagherebbe (rappresentazione della memoria +
+    # rifitting dei parametri), separato dal costo del replay.
+    tempi_aggiornamento = {nm: [] for nm in modelli}
+    tempi_aggiornamento_saltati = {nm: [] for nm in modelli}
+    byte_stato_adattamento = {nm: 0 for nm in modelli}
+    byte_memoria_fifo = 0
     t_flusso = time.monotonic()
 
     for k in range(n_blocchi):
         i0, i1 = k * a.blocco, min((k + 1) * a.blocco, n)
         Zb = tr(X[i0:i1]); yb = y[i0:i1]
+        righe_scorse += int(i1 - i0)
 
         # 1. PREVEDI, con i parametri correnti; nulla viene ricalcolato dopo
         voce = {'blocco': k, 'righe': int(i1 - i0),
@@ -594,7 +793,13 @@ def main(argv=None):
             }
         etichette_spese += quanti
         voce['etichette_richieste'] = quanti
-        voce['row_id_campionati_sha'] = int(np.sum(rid[i0 + scelti]) % 10**9) if quanti else 0
+        # Il campo storico e' una SOMMA modulo 10^9, non un digest: insensibile
+        # all'ordine e banale da far collidere. Resta per continuita' con i
+        # rendiconti gia' pubblicati, col nome che dice cosa e'; il confronto fra
+        # politiche usa il digest vero qui sotto.
+        voce['row_id_campionati_somma_storica'] = (
+            int(np.sum(rid[i0 + scelti]) % 10**9) if quanti else 0)
+        voce['row_id_campionati_sha256'] = impronta_row_id(rid[i0 + scelti])
 
         # 3. ATTENDI: a fine blocco k arrivano le etichette del blocco k-ritardo
         pronte = k - a.ritardo
@@ -619,15 +824,23 @@ def main(argv=None):
                     decisioni[nm][esito] = decisioni[nm].get(esito, 0) + 1
                     voce['salto_' + nm] = False
                     continue
+                t_agg = time.perf_counter()
                 m.applica(adattivi[nm][:-1], adattivi[nm][-1])
                 R = m.rappresentazione(MX)
                 nuovo = aggiorna(R, My)
+                d_agg = time.perf_counter() - t_agg
+                voce['ms_aggiornamento_' + nm] = round(1000 * d_agg, 3)
+                byte_memoria_fifo = max(byte_memoria_fifo, MX.nbytes + My.nbytes)
+                byte_stato_adattamento[nm] = max(
+                    byte_stato_adattamento[nm], R.nbytes + adattivi[nm].nbytes)
                 if nuovo is None:
+                    tempi_aggiornamento_saltati[nm].append(d_agg)
                     salti[nm] += 1
                     voce['salto_' + nm] = True
                     decisioni[nm]['saltato_memoria_monoclasse'] = \
                         decisioni[nm].get('saltato_memoria_monoclasse', 0) + 1
                 else:
+                    tempi_aggiornamento[nm].append(d_agg)
                     adattivi[nm] = np.concatenate([nuovo[0], [nuovo[1]]])
                     aggiornamenti[nm] += 1
                     voce['salto_' + nm] = False
@@ -672,9 +885,14 @@ def main(argv=None):
                                         if v} or None},
         'soglia_di_decisione': rendiconto_soglie,
         'etichette_spese': etichette_spese,
-        'quota_etichette_effettiva': etichette_spese / (n_blocchi * a.blocco),
+        # righe EFFETTIVAMENTE scorse, non blocchi x dimensione: l'ultimo blocco
+        # e' incompleto e il prodotto sovrastima il denominatore
+        'righe_scorse': int(righe_scorse),
+        'quota_etichette_effettiva': etichette_spese / righe_scorse,
+        'quota_etichette_denominatore': 'righe effettivamente scorse nel replay',
         'riepilogo': riepilogo,
         'ambiente': {
+            'hardware_misurato': descrizione_hardware(),
             'python': platform.python_version(),
             'implementazione': platform.python_implementation(),
             'sistema': platform.system() + ' ' + platform.release(),
@@ -695,13 +913,34 @@ def main(argv=None):
             'aggiornamenti_applicati': aggiornamenti,
             'aggiornamenti_saltati': salti,
             'decisioni_della_politica': decisioni,
+            'tempo_del_singolo_aggiornamento': {
+                nm: riassumi_tempi(tempi_aggiornamento[nm]) for nm in modelli},
+            'tempo_degli_aggiornamenti_saltati': {
+                nm: riassumi_tempi(tempi_aggiornamento_saltati[nm]) for nm in modelli},
+            'tempo_aggiornamento_cosa_comprende':
+                'applica + rappresentazione(memoria) + rifitting dei parametri, '
+                'cronometrato con time.perf_counter attorno a quel solo tratto; '
+                'escluso il punteggio del blocco, che si paga in ogni politica',
+            'memoria': {
+                'picco_rss_processo_mib': picco_rss()[0],
+                'picco_rss_metodo': picco_rss()[1],
+                'byte_memoria_fifo': int(byte_memoria_fifo),
+                'byte_stato_per_modello': {nm: int(v) for nm, v
+                                           in byte_stato_adattamento.items()},
+                'nota': 'il picco RSS e dominato dagli array dello stream tenuti '
+                        'in memoria dal banco di prova, non dall\'adattamento: non '
+                        'e la memoria che un sistema in linea userebbe',
+            },
+            'avvertenza': 'il numero di aggiornamenti non dimostra un guadagno di '
+                          'latenza ne di memoria: il costo per aggiornamento e '
+                          'misurato qui e va moltiplicato per il numero, mentre il '
+                          'punteggio di ogni blocco si paga in tutte le politiche',
         },
         'per_blocco': righe,
     }
     u = Path(a.uscita)
     u.parent.mkdir(parents=True, exist_ok=True)
-    u.write_text(json.dumps(fuori, ensure_ascii=False, indent=2, allow_nan=False) + '\n',
-                 encoding='utf-8')
+    u.write_text(scrivi_compatto(fuori), encoding='utf-8')
 
     print()
     print('blocchi %d   etichette spese %d (%.4f delle righe)'

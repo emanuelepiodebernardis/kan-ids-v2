@@ -258,6 +258,157 @@ def controlla(d):
                     confrontate += 1
     e.aggiungi(3, 'la soglia non cambia l\'AUROC', auroc_ok,
                f'{confrontate:,} valori confrontati fra soglia zero e soglia su B')
+
+    # ----------------------------------------------------------------------
+    # 16-20: i residui del riesame del 3 ottobre
+    # ----------------------------------------------------------------------
+    tutti = [r for ins in ('zero', 'calibrato', 'evidenza_pol', 'casuale')
+             for r in d[ins].values()]
+    blocchi = [b for r in tutti for b in r['per_blocco']]
+
+    # --- 16: il digest delle righe campionate
+    esadecimali = set('0123456789abcdef')
+    digest = [b.get('row_id_campionati_sha256') for b in blocchi]
+    forma_ok = bool(digest) and all(
+        isinstance(x, str) and len(x) == 64 and set(x) <= esadecimali for x in digest)
+    e.aggiungi(16, 'ogni blocco porta uno SHA-256 delle righe campionate', forma_ok,
+               f'{len(digest):,} voci, 64 cifre esadecimali')
+    vuoto = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+    distinti = len({x for x in digest if x != vuoto})
+    con_campione = sum(1 for b in blocchi if b.get('etichette_richieste'))
+    e.aggiungi(16, 'i digest distinguono i blocchi', distinti > 0.9 * con_campione / 20,
+               f'{distinti:,} digest distinti su {con_campione:,} blocchi campionati')
+    e.aggiungi(16, 'il campo storico resta, col nome che dice che e una somma',
+               all('row_id_campionati_somma_storica' in b for b in blocchi),
+               'continuita con i rendiconti gia pubblicati')
+    e.aggiungi(16, 'la serializzazione e dichiarata nei documenti',
+               presente(testi, 'SHA-256') and
+               (presente(testi, 'separati da virgola') or
+                presente(testi, 'separati da virgole')),
+               'un terzo puo ricalcolare l\'impronta')
+    e.aggiungi(16, 'e dichiarato che il campo storico era una somma',
+               presente(testi, 'era una somma') or presente(testi, 'e una somma'),
+               'il difetto e detto, non nascosto')
+
+    # --- 17: il denominatore della quota di etichette
+    quota_ok = all(
+        r['righe_scorse'] == r['flusso']['righe'] and
+        abs(r['quota_etichette_effettiva']
+            - r['etichette_spese'] / r['righe_scorse']) < 1e-15
+        for r in tutti)
+    e.aggiungi(17, 'la quota di etichette usa le righe scorse', quota_ok,
+               f'{len(tutti)} rendiconti')
+    quote = sorted({r['quota_etichette_effettiva'] for r in tutti})
+    e.aggiungi(17, 'la quota e 91.506 su 9.150.673',
+               len(quote) == 1 and abs(quote[0] - 0.01) < 1e-5,
+               f'valore esatto {quote[0]:.7f}, cioe l\'1% a meno '
+               'dell\'arrotondamento sul blocco finale')
+    e.aggiungi(17, 'il blocco incompleto e dichiarato nei documenti',
+               presente(testi, '673'),
+               'l\'ultimo blocco di C ha 673 righe e chiede 6 etichette')
+    e.aggiungi(17, 'i documenti riportano numeratore e denominatore',
+               presente(testi, '91.506', '9.150.673'),
+               'la quota si ricalcola a mano dal documento')
+    e.aggiungi(17, 'il numero sbagliato e dichiarato come tale',
+               (not presente(testi, '0,009990')) or
+               presente(testi, 'versione precedente') or
+               presente(testi, 'pubblicato prima'),
+               '0,009990 non puo comparire come se fosse il valore')
+
+    # --- 18: il costo di un aggiornamento, e cosa non dimostra
+    costi = [r['costi'] for r in tutti]
+    tempi_ok = all(
+        c['tempo_del_singolo_aggiornamento'][m]['n'] == c['aggiornamenti_applicati'][m]
+        for c in costi for m in MODELLI)
+    e.aggiungi(18, 'il tempo del singolo aggiornamento e misurato per modello',
+               tempi_ok, 'conteggi coerenti con gli aggiornamenti applicati')
+    def picco_dichiarato(m):
+        if m.get('picco_rss_processo_mib') is None:
+            return 'non disponibile' in m.get('picco_rss_metodo', '')
+        return m['picco_rss_processo_mib'] > 0
+    mem_ok = all(picco_dichiarato(c['memoria']) and
+                 c['memoria']['byte_memoria_fifo'] > 0 for c in costi)
+    metodi = sorted({c['memoria'].get('picco_rss_metodo') for c in costi}
+                    - {None})
+    quanti_senza = sum(1 for c in costi if 'picco_rss_metodo' not in c['memoria'])
+    dettaglio = 'picco RSS misurato in tutti i rendiconti'
+    if metodi:
+        dettaglio += '; metodo: ' + ', '.join(metodi)
+    if quanti_senza:
+        dettaglio += (f'; in {quanti_senza} rendiconti il campo del metodo non c\'e '
+                      'perche precedono questa correzione, e il sistema e in ambiente')
+    e.aggiungi(18, 'la memoria e misurata, col metodo dichiarato', mem_ok, dettaglio)
+    hw = [r['ambiente'].get('hardware_misurato') for r in tutti]
+    e.aggiungi(18, 'l\'hardware e letto dal sistema',
+               all(h and h.get('cpu') and h.get('ram_totale_mib') for h in hw),
+               'CPU, RAM, thread utilizzabili')
+    e.aggiungi(18, 'i documenti riportano il costo per aggiornamento',
+               presente(testi, 'per aggiornamento') and
+               presente(testi, 'millisecondi'),
+               'con la mediana, non la sola media')
+    e.aggiungi(18, 'i documenti negano il guadagno non misurato',
+               presente(testi, 'non dimostra un guadagno'),
+               'il numero di aggiornamenti non e latenza ne memoria')
+
+    # --- 19: il vantaggio della politica, formulato come media
+    conf = d['confronto_politiche'] or {}
+    dett = conf.get('per_seme') or {}
+    non_uniformi = []
+    for m, v in dett.items():
+        c = v.get('confronti', {}).get('evidenza contro casuale', {}).get('auroc')
+        if c and not c['uniforme']:
+            non_uniformi.append((m, c['quanti_semi_su']))
+    e.aggiungi(19, 'il confronto e misurato seme per seme', bool(dett),
+               'il rendiconto riporta i singoli semi, non solo le medie')
+    e.aggiungi(19, 'i casi in cui il confronto si rovescia sono registrati',
+               bool(non_uniformi),
+               '; '.join(f'{m} {q}' for m, q in non_uniformi) or 'nessuno trovato')
+    e.aggiungi(19, 'i documenti dicono che il vantaggio e una media',
+               presente(testi, 'in media') and
+               (presente(testi, 'non su tutti i semi') or
+                presente(testi, 'non in tutti i semi')),
+               'non un fatto uniforme')
+    e.aggiungi(19, 'il seme che si rovescia e nominato', presente(testi, 'seme 44'),
+               'LR -0,0317 e MLP -0,0132 contro il casuale')
+    e.aggiungi(19, 'l\'FPR sta accanto all\'AUROC nel confronto',
+               presente(testi, '0,1844') and presente(testi, '0,1625'),
+               'sull\'MLP il controllo casuale ha meno falsi allarmi')
+    tab = (conf.get('tabella') or {})
+    peggio, citati = [], True
+    for m in MODELLI:
+        v = tab.get(m, {})
+        if not v:
+            citati = False
+            continue
+        if v['casuale']['richiamo_attacchi'] > v['evidenza']['richiamo_attacchi']:
+            peggio.append(m)
+            for politica in ('evidenza', 'casuale'):
+                x = ('%.4f' % v[politica]['richiamo_attacchi']).replace('.', ',')
+                citati = citati and presente(testi, x)
+    e.aggiungi(19, 'il richiamo sugli attacchi sta accanto all\'AUROC',
+               bool(peggio) and citati,
+               'il casuale ha richiamo migliore su: ' + ', '.join(peggio))
+    e.aggiungi(19, 'i risultati sono dichiarati esplorativi',
+               presente(testi, 'esplorativi') and
+               (presente(testi, 'significatività statistica') or
+                presente(testi, 'significativita statistica')),
+               'nessuna superiorita generale, nessuna significativita calcolata')
+    e.aggiungi(19, 'e dichiarato che il casuale e un solo sorteggio',
+               presente(testi, 'una sola pianificazione') or
+               presente(testi, 'un solo sorteggio'),
+               'nessun margine di errore sul controllo')
+
+    # --- 20: il protocollo su D come lo ha fissato il referente
+    e.aggiungi(20, 'D intero e l\'analisi principale',
+               presente(testi, 'analisi principale') and presente(testi, 'D intero'),
+               'nessuna riga esclusa dallo stream')
+    e.aggiungi(20, 'il sottoinsieme a vettore non visto e supplementare',
+               presente(testi, 'supplementare'),
+               'sulle stesse predizioni del replay completo')
+    e.aggiungi(20, 'nessuna scelta di modello o politica sui risultati di D',
+               presente(testi, 'nessuna scelta') or
+               presente(testi, 'non si scelgono'),
+               'D resta riservato')
     return e
 
 
@@ -267,7 +418,8 @@ def principale(argv=None):
     a = p.parse_args(argv)
     d = carica(a.cartella)
     print('RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE')
-    print('  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di conferma')
+    print('  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di '
+          'conferma, 16-20 dai residui del riesame del 3 ottobre')
     print()
     tutto = controlla(d).stampa()
     print()

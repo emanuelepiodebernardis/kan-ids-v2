@@ -1,5 +1,5 @@
 RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE
-  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di conferma
+  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di conferma, 16-20 dai residui del riesame del 3 ottobre
 
 OK      1  due aggregazioni del FPR, nominate e definite                    nomi e definizione presenti nei documenti
 OK      1  nessuna frase assoluta sui falsi allarmi                         ogni «aumentano sempre» ha l'aggregazione dichiarata o e' un ritiro
@@ -34,8 +34,34 @@ OK      6  rapporto col componente del Paper 1 dichiarato per quello che e  stes
 OK      6  e dichiarato che non e a piu strati                              il contrasto che regge
 OK      6  i tre documenti sono allineati sul nome                          protocollo, sintesi e nota
 OK      3  la soglia non cambia l'AUROC                                     27,480 valori confrontati fra soglia zero e soglia su B
+OK     16  ogni blocco porta uno SHA-256 delle righe campionate             18,320 voci, 64 cifre esadecimali
+OK     16  i digest distinguono i blocchi                                   4,580 digest distinti su 18,320 blocchi campionati
+OK     16  il campo storico resta, col nome che dice che e una somma        continuita con i rendiconti gia pubblicati
+OK     16  la serializzazione e dichiarata nei documenti                    un terzo puo ricalcolare l'impronta
+OK     16  e dichiarato che il campo storico era una somma                  il difetto e detto, non nascosto
+OK     17  la quota di etichette usa le righe scorse                        20 rendiconti
+OK     17  la quota e 91.506 su 9.150.673                                   valore esatto 0.0099999, cioe l'1% a meno dell'arrotondamento sul blocco finale
+OK     17  il blocco incompleto e dichiarato nei documenti                  l'ultimo blocco di C ha 673 righe e chiede 6 etichette
+OK     17  i documenti riportano numeratore e denominatore                  la quota si ricalcola a mano dal documento
+OK     17  il numero sbagliato e dichiarato come tale                       0,009990 non puo comparire come se fosse il valore
+OK     18  il tempo del singolo aggiornamento e misurato per modello        conteggi coerenti con gli aggiornamenti applicati
+OK     18  la memoria e misurata, col metodo dichiarato                     picco RSS misurato in tutti i rendiconti; in 20 rendiconti il campo del metodo non c'e perche precedono questa correzione, e il sistema e in ambiente
+OK     18  l'hardware e letto dal sistema                                   CPU, RAM, thread utilizzabili
+OK     18  i documenti riportano il costo per aggiornamento                 con la mediana, non la sola media
+OK     18  i documenti negano il guadagno non misurato                      il numero di aggiornamenti non e latenza ne memoria
+OK     19  il confronto e misurato seme per seme                            il rendiconto riporta i singoli semi, non solo le medie
+OK     19  i casi in cui il confronto si rovescia sono registrati           lr 4/5; mlp 4/5
+OK     19  i documenti dicono che il vantaggio e una media                  non un fatto uniforme
+OK     19  il seme che si rovescia e nominato                               LR -0,0317 e MLP -0,0132 contro il casuale
+OK     19  l'FPR sta accanto all'AUROC nel confronto                        sull'MLP il controllo casuale ha meno falsi allarmi
+OK     19  il richiamo sugli attacchi sta accanto all'AUROC                 il casuale ha richiamo migliore su: mlp, kan
+OK     19  i risultati sono dichiarati esplorativi                          nessuna superiorita generale, nessuna significativita calcolata
+OK     19  e dichiarato che il casuale e un solo sorteggio                  nessun margine di errore sul controllo
+OK     20  D intero e l'analisi principale                                  nessuna riga esclusa dallo stream
+OK     20  il sottoinsieme a vettore non visto e supplementare              sulle stesse predizioni del replay completo
+OK     20  nessuna scelta di modello o politica sui risultati di D          D resta riservato
 
-33 controlli su 33 passati
+59 controlli su 59 passati
 
 NON VERIFICABILE DA QUI, e quindi non dato per fatto:
      8  «puoi proseguire»: eseguito, ma il commit non e ancora spinto

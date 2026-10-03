@@ -216,3 +216,108 @@ def test_una_guardia_diversa_fra_modelli_e_un_errore(tmp_path):
     p.write_text(json.dumps({'per_blocco': righe}), encoding='utf-8')
     with pytest.raises(SystemExit, match="non e' uguale per i tre modelli"):
         RP._blocchi_ammissibili(p, 3, 1)
+
+
+# --------------------------------------------------------------------------
+# Il confronto seme per seme: una media favorevole non e' un fatto uniforme
+# --------------------------------------------------------------------------
+
+def _carica_confronto():
+    for c in (QUI / 'confronto_politiche.py', QUI.parent / 'confronto_politiche.py',
+              QUI.parent / 'ton_temporal' / 'confronto_politiche.py'):
+        if c.is_file():
+            spec = importlib.util.spec_from_file_location('confronto_politiche', c)
+            m = importlib.util.module_from_spec(spec)
+            sys.modules['confronto_politiche'] = m
+            spec.loader.exec_module(m)
+            return m
+    pytest.skip('confronto_politiche.py non trovato accanto alla suite')
+
+
+CP = _carica_confronto()
+
+
+def _cella(auroc, fp, normali=1000, attacchi=1000):
+    return {'righe': normali + attacchi, 'normali': normali, 'attacchi': attacchi,
+            'fp': fp, 'vn': normali - fp, 'vp': attacchi, 'fn': 0,
+            'auroc': auroc, 'accuratezza': 0.5, 'richiamo_attacchi': 1.0,
+            'richiamo_normali': 1 - fp / normali,
+            'falsi_allarmi': fp / normali}
+
+
+def _insieme(valori, aggiornamenti=10):
+    """`valori`: {seme: {politica: (auroc, fp)}} -> insiemi per politica."""
+    politiche = sorted({p for v in valori.values() for p in v})
+    insiemi = {}
+    for p in politiche:
+        insiemi[p] = {}
+        for seme, v in valori.items():
+            auroc, fp = v[p]
+            blocco = {'blocco': 0, 'etichette_richieste': 1,
+                      'row_id_campionati_sha256': 'x' * 64}
+            for m in MODELLI:
+                blocco['adattivo_' + m] = _cella(auroc, fp)
+                blocco['congelato_' + m] = _cella(0.70, 100)
+            insiemi[p][seme] = {
+                'parametri': {'seme': seme},
+                'per_blocco': [blocco],
+                'costi': {'decisioni_della_politica':
+                          {m: {'applicato': aggiornamenti} for m in MODELLI}},
+            }
+    return insiemi
+
+
+def test_un_vantaggio_uniforme_e_dichiarato_uniforme():
+    valori = {s: {'evidenza': (0.80, 50), 'casuale': (0.75, 90)}
+              for s in (42, 43, 44, 45, 46)}
+    d = CP.per_seme(_insieme(valori))
+    c = d['lr']['confronti']['evidenza contro casuale']['auroc']
+    assert c['uniforme'] is True and c['quanti_semi_su'] == '5/5'
+    assert c['delta_medio'] == 0.05
+
+
+def test_un_seme_che_si_rovescia_rende_il_confronto_non_uniforme():
+    """Il caso reale: su un seme l'evidenza perde contro il casuale. La media
+    resta favorevole, e per questo da sola sarebbe fuorviante."""
+    valori = {s: {'evidenza': (0.80, 50), 'casuale': (0.75, 90)}
+              for s in (42, 43, 45, 46)}
+    valori[44] = {'evidenza': (0.72, 50), 'casuale': (0.75, 90)}
+    c = CP.per_seme(_insieme(valori))['lr']['confronti'][
+        'evidenza contro casuale']['auroc']
+    assert c['uniforme'] is False
+    assert c['quanti_semi_su'] == '4/5'
+    assert c['semi_in_cui_vince'] == [42, 43, 45, 46]
+    assert c['delta_minimo'] == -0.03
+    assert c['delta_medio'] > 0, 'la media resta favorevole: e questo il punto'
+
+
+def test_sull_fpr_vince_il_valore_piu_basso():
+    """Il verso del confronto dipende dalla misura: un FPR piu' alto e' peggio,
+    anche quando l'AUROC e' migliore."""
+    valori = {s: {'evidenza': (0.80, 184), 'casuale': (0.75, 162)}
+              for s in (42, 43, 44, 45, 46)}
+    conf = CP.per_seme(_insieme(valori))['lr']['confronti']['evidenza contro casuale']
+    assert conf['auroc']['quanti_semi_su'] == '5/5'
+    assert conf['fpr_complessivo']['quanti_semi_su'] == '0/5'
+    assert conf['fpr_complessivo']['verso_favorevole'] == 'basso'
+    assert conf['fpr_complessivo']['delta_medio'] > 0
+
+
+def test_il_richiamo_sui_normali_e_il_complemento_dell_fpr_medio():
+    valori = {42: {'evidenza': (0.80, 250), 'casuale': (0.75, 100)}}
+    v = CP.per_seme(_insieme(valori))['lr']['per_seme'][42]
+    assert v['evidenza']['richiamo_normali_medio_per_blocco'] == 0.75
+    assert v['casuale']['richiamo_normali_medio_per_blocco'] == 0.90
+
+
+def test_il_congelato_compare_una_volta_sola_e_senza_aggiornamenti():
+    valori = {s: {'evidenza': (0.80, 50), 'casuale': (0.75, 90)} for s in (42, 43)}
+    v = CP.per_seme(_insieme(valori))['mlp']['per_seme'][42]
+    assert v['congelato']['aggiornamenti'] == 0
+    assert v['congelato']['auroc'] == 0.70
+
+
+def test_senza_il_casuale_il_confronto_col_controllo_non_viene_inventato():
+    valori = {s: {'evidenza': (0.80, 50)} for s in (42, 43)}
+    confronti = CP.per_seme(_insieme(valori))['lr']['confronti']
+    assert 'evidenza contro casuale' not in confronti

@@ -1245,11 +1245,11 @@
    "replay_C_seme46.json"
   ],
   "confronto": [
-   "replay_C_calibrato_seme42.json",
-   "replay_C_calibrato_seme43.json",
-   "replay_C_calibrato_seme44.json",
-   "replay_C_calibrato_seme45.json",
-   "replay_C_calibrato_seme46.json"
+   "ogni_blocco_seme42.json",
+   "ogni_blocco_seme43.json",
+   "ogni_blocco_seme44.json",
+   "ogni_blocco_seme45.json",
+   "ogni_blocco_seme46.json"
   ],
   "per_seme_confronto": [
    {
@@ -2477,6 +2477,16 @@
    }
   },
   "auroc_confrontate": 27480,
+  "indici_campionati": {
+   "blocchi_confrontati": 4580,
+   "forza_minima": "digest",
+   "per_forza": {
+    "digest": 4580,
+    "somma_storica": 0,
+    "assente": 0
+   },
+   "descrizione": "indici campionati identici, verificati sullo SHA-256 della serializzazione dichiarata (4,580 blocchi confrontati)"
+  },
   "per_modello": {
    "lr": {
     "fpr_medio_base": 0.21069058326613127,

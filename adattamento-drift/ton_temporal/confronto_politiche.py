@@ -50,8 +50,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 import statistics as st
 from pathlib import Path
+
+# `impronta_campione.py` sta accanto a questo file; la riga qui sotto serve
+# perche' lo strumento funzioni anche quando viene caricato per percorso (dalle
+# suite di test) e non eseguito come script dalla propria cartella.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import impronta_campione as imp
 
 MODELLI = ('lr', 'mlp', 'kan')
 RITARDO_EFFETTIVO = 2      # un aggiornamento incide dal blocco j+2
@@ -82,6 +89,19 @@ def fpr_complessivo(blocchi, chiave):
     return fp / (fp + vn)
 
 
+def richiamo_attacchi(blocchi, chiave):
+    """Richiamo sugli attacchi, aggregato: somma vp su somma attacchi.
+
+    Il relatore chiede di affiancare FPR **e richiamo** all'AUROC, perche' una
+    politica puo' migliorare l'ordinamento e intanto perdere attacchi. Qui il
+    richiamo e' aggregato come l'FPR complessivo — ogni attacco pesa uno — cosi'
+    le due misure di decisione si leggono sulla stessa base.
+    """
+    vp = sum(b[chiave]['vp'] for b in blocchi)
+    fn = sum(b[chiave]['fn'] for b in blocchi)
+    return vp / (vp + fn) if (vp + fn) else float('nan')
+
+
 def auroc_media(blocchi, chiave):
     v = [b[chiave]['auroc'] for b in blocchi if b[chiave]['auroc'] is not None]
     return st.mean(v)
@@ -95,6 +115,7 @@ def controlla_invarianti(insiemi):
         if sorted(insiemi[nome]) != semi:
             raise Incoerenza(f'semi diversi fra {nomi[0]} e {nome}')
     confrontate = 0
+    campione = imp.Riepilogo()
     for seme in semi:
         riferimento = insiemi[nomi[0]][seme]['per_blocco']
         for nome in nomi[1:]:
@@ -111,10 +132,16 @@ def controlla_invarianti(insiemi):
                             'congelata non si aggiorna in nessuna politica, '
                             'quindi non puo\' dipendere dalla politica.')
                     confrontate += 1
-                if x.get('row_id_campionati_sha') != y.get('row_id_campionati_sha'):
+                uguali, forza = imp.confronta(x, y)
+                if uguali is False:
                     raise Incoerenza(f'seme {seme}, blocco {i}: indici campionati '
                                      f'diversi fra {nomi[0]} e {nome}')
-    return confrontate
+                if forza == imp.ASSENTE:
+                    raise Incoerenza(
+                        f'seme {seme}, blocco {i}: indici campionati non '
+                        f'verificabili fra {nomi[0]} e {nome}')
+                campione.aggiungi(forza)
+    return confrontate, campione.rendiconto()
 
 
 def controlla_pareggio(insiemi):
@@ -198,6 +225,78 @@ def correlazione(coppie):
     return num / den if den else float('nan')
 
 
+def per_seme(insiemi):
+    """Le stesse misure della tabella, ma seme per seme, senza medie.
+
+    Perche' serve
+    -------------
+    La media sui cinque semi dice di quanto una politica vince in media, non che
+    vinca sempre. La frase «batte il controllo in tutti e tre i modelli» era una
+    media presentata come un fatto uniforme: su un seme il confronto si rovescia.
+    Qui ogni seme resta visibile e il conteggio delle vittorie e' calcolato,
+    cosi' che nessun documento possa sostituire un conteggio con un'impressione.
+
+    Il verso del confronto dipende dalla misura: per l'AUROC e per il richiamo
+    sui normali vince il valore piu' alto, per l'FPR complessivo il piu' basso.
+    """
+    fuori = {}
+    for m in MODELLI:
+        semi = {}
+        for seme in sorted(insiemi[next(iter(insiemi))]):
+            voce = {}
+            for nome, insieme in insiemi.items():
+                bl = insieme[seme]['per_blocco']
+                voce[nome] = {
+                    'auroc': round(auroc_media(bl, f'adattivo_{m}'), 4),
+                    'richiamo_normali_medio_per_blocco': round(
+                        1 - fpr_medio(bl, f'adattivo_{m}'), 4),
+                    'fpr_complessivo': round(fpr_complessivo(bl, f'adattivo_{m}'), 4),
+                    'richiamo_attacchi': round(richiamo_attacchi(bl, f'adattivo_{m}'), 4),
+                    'aggiornamenti': insieme[seme]['costi'][
+                        'decisioni_della_politica'][m].get('applicato', 0),
+                }
+            bl = insiemi[next(iter(insiemi))][seme]['per_blocco']
+            voce['congelato'] = {
+                'auroc': round(auroc_media(bl, f'congelato_{m}'), 4),
+                'richiamo_normali_medio_per_blocco': round(
+                    1 - fpr_medio(bl, f'congelato_{m}'), 4),
+                'fpr_complessivo': round(fpr_complessivo(bl, f'congelato_{m}'), 4),
+                'richiamo_attacchi': round(richiamo_attacchi(bl, f'congelato_{m}'), 4),
+                'aggiornamenti': 0,
+            }
+            semi[seme] = voce
+        fuori[m] = {'per_seme': semi, 'confronti': conteggia_vittorie(semi)}
+    return fuori
+
+
+def conteggia_vittorie(semi):
+    """Su quanti semi un confronto vale, e con quale scarto minimo e massimo."""
+    coppie = [('evidenza', 'casuale'), ('evidenza', 'congelato'),
+              ('evidenza', 'ogni_blocco'), ('ogni_blocco', 'congelato')]
+    misure = {'auroc': 'alto', 'richiamo_normali_medio_per_blocco': 'alto',
+              'fpr_complessivo': 'basso', 'richiamo_attacchi': 'alto'}
+    fuori = {}
+    for a, b in coppie:
+        if any(a not in v or b not in v for v in semi.values()):
+            continue
+        voce = {}
+        for misura, verso in misure.items():
+            delta = {s: round(v[a][misura] - v[b][misura], 4) for s, v in semi.items()}
+            vince = [s for s, d in delta.items() if (d > 0 if verso == 'alto' else d < 0)]
+            voce[misura] = {
+                'delta_per_seme': delta,
+                'semi_in_cui_vince': sorted(vince),
+                'quanti_semi_su': f'{len(vince)}/{len(delta)}',
+                'delta_medio': round(st.mean(delta.values()), 4),
+                'delta_minimo': min(delta.values()),
+                'delta_massimo': max(delta.values()),
+                'uniforme': len(vince) == len(delta),
+                'verso_favorevole': verso,
+            }
+        fuori[f'{a} contro {b}'] = voce
+    return fuori
+
+
 def tabella(insiemi):
     """Per modello e per politica: AUROC, richiamo sui normali, FPR, aggiornamenti."""
     fuori = {}
@@ -211,6 +310,9 @@ def tabella(insiemi):
                         for d in primo.values()), 4),
             'fpr_complessivo': round(st.mean(fpr_complessivo(d['per_blocco'], f'congelato_{m}')
                                              for d in primo.values()), 4),
+            'richiamo_attacchi': round(st.mean(
+                richiamo_attacchi(d['per_blocco'], f'congelato_{m}')
+                for d in primo.values()), 4),
             'aggiornamenti': 0,
         }}
         for nome, insieme in insiemi.items():
@@ -222,6 +324,9 @@ def tabella(insiemi):
                             for d in insieme.values()), 4),
                 'fpr_complessivo': round(st.mean(fpr_complessivo(d['per_blocco'], f'adattivo_{m}')
                                                  for d in insieme.values()), 4),
+                'richiamo_attacchi': round(st.mean(
+                    richiamo_attacchi(d['per_blocco'], f'adattivo_{m}')
+                    for d in insieme.values()), 4),
                 'aggiornamenti': round(st.mean(
                     d['costi']['decisioni_della_politica'][m].get('applicato', 0)
                     for d in insieme.values()), 1),
@@ -230,21 +335,44 @@ def tabella(insiemi):
     return fuori
 
 
-def stampa(tab, stim, pareggio, confrontate, semi):
+def stampa(tab, dettaglio, stim, pareggio, confrontate, semi, campione):
     print(f'POLITICHE DI AGGIORNAMENTO — {len(semi)} semi {semi}')
     print(f'  copia congelata identica fra le politiche: {confrontate:,} misure '
-          'verificate, e indici campionati identici')
+          'verificate')
+    print('  ' + campione['descrizione'])
     if pareggio:
         print('  il controllo casuale pareggia gli aggiornamenti dell\'evidenza, '
               'modello per modello')
     print()
     for m, voce in tab.items():
         print(f'{m}')
-        print(f'  {"politica":<22} {"AUROC":>8} {"ric.norm":>9} {"FPR compl":>10} {"aggiorn.":>9}')
+        print(f'  {"politica":<22} {"AUROC":>8} {"ric.norm":>9} {"FPR compl":>10} '
+              f'{"ric.att":>8} {"aggiorn.":>9}')
         for nome, v in voce.items():
             print(f'  {nome:<22} {v["auroc"]:>8.4f} '
                   f'{v["richiamo_normali_medio_per_blocco"]:>9.4f} '
-                  f'{v["fpr_complessivo"]:>10.4f} {v["aggiornamenti"]:>9}')
+                  f'{v["fpr_complessivo"]:>10.4f} {v["richiamo_attacchi"]:>8.4f} '
+                  f'{v["aggiornamenti"]:>9}')
+        print()
+    print('SEME PER SEME — dove il confronto vale e dove si rovescia')
+    for m, v in dettaglio.items():
+        print(f'{m}')
+        for etichetta, conf in v['confronti'].items():
+            for misura in ('auroc', 'fpr_complessivo', 'richiamo_attacchi'):
+                c = conf[misura]
+                nome = {'auroc': 'AUROC', 'fpr_complessivo': 'FPR compl.',
+                        'richiamo_attacchi': 'ric. att.'}[misura]
+                segno = '+' if c['verso_favorevole'] == 'alto' else '-'
+                print(f'  {etichetta:<26} {nome:<11} vince in {c["quanti_semi_su"]:>5} '
+                      f'semi   delta medio {c["delta_medio"]:+.4f}   '
+                      f'da {c["delta_minimo"]:+.4f} a {c["delta_massimo"]:+.4f}'
+                      + ('' if c['uniforme'] else '   NON uniforme'))
+                if not c['uniforme']:
+                    perdenti = [s for s in v['per_seme']
+                                if s not in c['semi_in_cui_vince']]
+                    print(f'  {"":<26} {"":<11} si rovescia sui semi '
+                          + ', '.join(str(s) for s in perdenti)
+                          + f'   (meglio il valore piu\' {"alto" if segno == "+" else "basso"})')
         print()
     print('PRIMO PASSO — il verso e\' stimabile dalle sole etichette arrivate?')
     for m, v in stim.items():
@@ -274,26 +402,38 @@ def principale(argv=None):
     if a.casuale:
         insiemi['casuale'] = carica(a.casuale)
 
-    confrontate = controlla_invarianti(insiemi)
+    confrontate, campione = controlla_invarianti(insiemi)
     pareggio = controlla_pareggio(insiemi)
     tab = tabella(insiemi)
+    dettaglio = per_seme(insiemi)
     stim = stimabilita(insiemi['ogni_blocco'])
     semi = sorted(insiemi['ogni_blocco'])
-    stampa(tab, stim, pareggio, confrontate, semi)
+    stampa(tab, dettaglio, stim, pareggio, confrontate, semi, campione)
 
     if a.uscita:
         a.uscita.write_text(json.dumps({
             'semi': semi,
             'politiche': list(insiemi),
             'misure_congelate_confrontate': confrontate,
+            'indici_campionati': campione,
             'aggiornamenti_pareggiati': pareggio,
             'tabella': tab,
+            'per_seme': dettaglio,
             'stimabilita_del_verso': stim,
             'note': {
                 'congelato': 'la copia congelata e la stessa in tutte le politiche, '
                              'e il controllo 1 lo verifica',
                 'ritardo_effettivo': 'un aggiornamento deciso con le etichette del '
                                      'blocco j incide dal blocco j+2',
+                'medie_e_semi': 'la tabella riporta medie sui semi; `per_seme` '
+                                'riporta i singoli semi e conta su quanti un '
+                                'confronto vale. Una media favorevole non '
+                                'autorizza a dire che il confronto valga su '
+                                'tutti i semi',
+                'controllo_casuale': 'una sola pianificazione casuale per modello '
+                                     'e per seme: il confronto con il casuale e '
+                                     'un solo sorteggio, non una distribuzione, '
+                                     'quindi non ha un margine di errore',
             },
         }, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
         print(f'\nscritto {a.uscita}')

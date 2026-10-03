@@ -83,4 +83,4 @@ VERIFICA CONTRO I VALORI ATTESI
    kan invertiti max                10
   tutti i valori attesi coincidono entro 0.0005 (conteggi: esatti)
 
-scritto riepiloghi_semi.json
+scritto riepiloghi/riepiloghi_semi.json

@@ -477,6 +477,7 @@ def calibrati():
 def test_la_soglia_non_cambia_l_auroc(rendiconti, calibrati):
     """L'invariante del §10bis: una soglia non puo' cambiare un ordinamento."""
     confrontate = 0
+    forze = set()
     for s in SEMI:
         base, cal = rendiconti[s], calibrati[s]['per_blocco']
         assert len(base) == len(cal)
@@ -487,9 +488,26 @@ def test_la_soglia_non_cambia_l_auroc(rendiconti, calibrati):
                     assert x[k]['auroc'] == y[k]['auroc'], \
                         f'seme {s}, blocco {i}, {k}: AUROC diversa'
                     confrontate += 1
-            assert x.get('row_id_campionati_sha') == y.get('row_id_campionati_sha')
+            uguali, forza = _impronta().confronta(x, y)
+            assert uguali, f'seme {s}, blocco {i}: indici campionati diversi'
+            forze.add(forza)
+    assert forze and 'assente' not in forze, \
+        'gli indici campionati non sono verificabili in qualche blocco'
     assert confrontate == 5 * 916 * 3 * 2 == 27480
     assert presente(_testi_documenti(), '27.480'), 'il conteggio non compare nei documenti'
+
+
+def _impronta():
+    """Il modulo che confronta gli indici campionati, caricato per percorso."""
+    for c in (QUI / 'impronta_campione.py', QUI.parent / 'impronta_campione.py',
+              QUI.parent / 'ton_temporal' / 'impronta_campione.py'):
+        if c.is_file():
+            spec = importlib.util.spec_from_file_location('impronta_campione', c)
+            m = importlib.util.module_from_spec(spec)
+            sys.modules['impronta_campione'] = m
+            spec.loader.exec_module(m)
+            return m
+    pytest.skip('impronta_campione.py non trovato accanto alla suite')
 
 
 def _testi_documenti():
@@ -547,3 +565,194 @@ def test_la_soglia_e_identica_nella_coppia_congelato_adattivo(calibrati):
             assert 'soglia' in v and isinstance(v['soglia'], float)
         # il rendiconto ha una voce per modello, non per coppia modello/stato
         assert set(d) == set(MODELLI)
+
+
+# --------------------------------------------------------------------------
+# I numeri dei blocchi incompleti, ricontati dal manifest
+# --------------------------------------------------------------------------
+
+def _manifest():
+    for c in (CARTELLA_DOC / 'split_manifest.json',
+              CARTELLA_DOC.parent / 'split_manifest.json'):
+        if c.is_file():
+            with open(c, encoding='utf-8') as f:
+                return json.load(f)['intervalli']
+    pytest.skip('split_manifest.json non trovato')
+
+
+def test_i_blocchi_incompleti_sono_quelli_del_manifest(testi):
+    """Il difetto che il residuo 2 ha fatto emergere.
+
+    La riga sui blocchi dichiarava B 1.199, C 677 e D 9.968: tre numeri che non
+    sono `righe_valide mod 10.000`. Non cambiavano un risultato, ma sono i
+    numeri con cui si ricalcola la quota di etichette, che era appunto
+    sbagliata. Qui si ricontano dal manifest e si pretende che compaiano nei
+    documenti, scritti nella convenzione italiana.
+    """
+    for nome, v in _manifest().items():
+        resto = v['righe_valide'] % 10000
+        assert resto == v['righe_blocco_finale'], \
+            f'{nome}: il manifest non chiude su se stesso'
+        completi = v['righe_valide'] // 10000
+        assert completi == v['blocchi_completi_da_10000']
+        atteso = f'{resto:,}'.replace(',', '.')
+        assert presente(testi, atteso), \
+            f'{nome}: le {atteso} righe del blocco finale non compaiono'
+        assert v['budget_etichette_blocco_finale'] == int(0.01 * resto)
+
+
+def test_i_vecchi_numeri_dei_blocchi_non_tornano(testi):
+    """Le tre cifre corrette non devono rientrare da una copia vecchia."""
+    for sbagliato in ('B 568 più 1.199', 'C 915 più 677', 'D 354 più 9.968'):
+        for nome, t in testi.items():
+            assert sbagliato not in t, f'{nome}: {sbagliato} e rientrato'
+
+
+def test_nessun_segnaposto_e_rimasto_nei_documenti(testi):
+    """Durante la stesura i numeri non ancora misurati sono marcati con `@@`.
+
+    Un segnaposto dimenticato in un documento consegnato sarebbe l'errore
+    peggiore fra quelli possibili, perche' sembrerebbe un numero.
+    """
+    for nome, t in testi.items():
+        assert '@@' not in t, f'{nome}: segnaposto non sostituito'
+
+
+# --------------------------------------------------------------------------
+# I numeri dei residui 3 e 5, ricalcolati dall'evidenza
+# --------------------------------------------------------------------------
+
+def _tempi(nome):
+    p = CARTELLA_EV / 'tempi' / nome
+    if not p.is_file():
+        pytest.skip(f'{nome} non trovato')
+    with open(p, encoding='utf-8') as f:
+        return json.load(f)
+
+
+def test_il_costo_per_aggiornamento_e_quello_registrato(testi):
+    """Il residuo 3: ogni numero della tabella dei costi viene dal rendiconto."""
+    d = _tempi('ogni_blocco_seme42_costi.json')
+    c = d['costi']
+    for m in MODELLI:
+        a = c['tempo_del_singolo_aggiornamento'][m]
+        assert presente(testi, dec(a['ms_mediano'], 2)), \
+            f'{m}: la mediana {dec(a["ms_mediano"], 2)} ms non compare'
+        assert presente(testi, dec(a['secondi_totali'], 1)), \
+            f'{m}: i {dec(a["secondi_totali"], 1)} s di aggiornamento non compaiono'
+        quota = a['secondi_totali'] / c['secondi_replay']
+        assert presente(testi, f'{quota * 100:.1f}%'.replace('.', ',')), \
+            f'{m}: la quota {quota:.1%} non compare'
+
+
+def test_il_conto_fra_le_due_politiche_torna(testi):
+    """I totali e il residuo non attribuito sono aritmetica, non stime."""
+    o = _tempi('ogni_blocco_seme42_costi.json')['costi']
+    e = _tempi('evidenza_seme42_costi.json')['costi']
+
+    def totale(c):
+        return sum(c['tempo_del_singolo_aggiornamento'][m]['secondi_totali']
+                   + c['tempo_degli_aggiornamenti_saltati'][m]['secondi_totali']
+                   for m in MODELLI)
+
+    assert presente(testi, dec(totale(o), 1)), 'il totale di ogni_blocco non compare'
+    assert presente(testi, dec(totale(e), 1)), 'il totale dell\'evidenza non compare'
+    differenza = o['secondi_replay'] - e['secondi_replay']
+    residuo = differenza - (totale(o) - totale(e))
+    assert presente(testi, dec(differenza, 1)), 'la differenza fra i replay non compare'
+    assert presente(testi, dec(residuo, 1)), 'il residuo non attribuito non compare'
+    assert presente(testi, 'non è attribuito') or presente(testi, 'non attribuito'), \
+        'il residuo va dichiarato come non attribuito'
+
+
+def test_la_memoria_dichiarata_e_quella_misurata(testi):
+    m = _tempi('ogni_blocco_seme42_costi.json')['costi']['memoria']
+    assert presente(testi, f'{m["picco_rss_processo_mib"]:,.0f}'.replace(',', '.'))
+    assert presente(testi, f'{m["byte_memoria_fifo"]:,}'.replace(',', '.'))
+    assert presente(testi, 'non è la memoria') or presente(testi, 'Non è la memoria')
+
+
+def _confronto_politiche():
+    p = CARTELLA_EV / 'confronto_politiche.json'
+    if not p.is_file():
+        pytest.skip('confronto_politiche.json non trovato')
+    with open(p, encoding='utf-8') as f:
+        return json.load(f)
+
+
+def test_i_delta_per_seme_sono_quelli_misurati(testi):
+    """Il residuo 5: le tabelle per seme non sono trascritte a mano."""
+    d = _confronto_politiche()['per_seme']
+    for m in MODELLI:
+        c = d[m]['confronti']['evidenza contro casuale']
+        for misura in ('auroc', 'fpr_complessivo'):
+            for seme, delta in c[misura]['delta_per_seme'].items():
+                assert presente(testi, dec(delta, 3, segno=True)), \
+                    f'{m} {misura} seme {seme}: {dec(delta, 3, True)} non compare'
+            quanti = c[misura]['quanti_semi_su']
+            n = quanti.split('/')[0]
+            assert presente(testi, f'{n} su 5') or presente(testi, f'{n}/5'), \
+                f'{m} {misura}: il conteggio {quanti} non compare'
+
+
+def test_il_vantaggio_non_e_dichiarato_uniforme_dove_non_lo_e(testi):
+    """La frase vietata: «in tutti e tre i modelli» senza «in media» davanti."""
+    d = _confronto_politiche()['per_seme']
+    non_uniformi = [m for m in MODELLI
+                    if not d[m]['confronti']['evidenza contro casuale']['auroc']['uniforme']]
+    assert non_uniformi, 'nessun confronto non uniforme: il test non prova nulla'
+    for nome, t in testi.items():
+        i = 0
+        while True:
+            i = t.find('batte il controllo', i)
+            if i == -1:
+                break
+            intorno = t[max(0, i - 120):i + 200]
+            assert 'in media' in intorno or 'media' in intorno, \
+                f'{nome}: «batte il controllo» senza dire che e una media: {intorno[:150]}'
+            i += 1
+    assert presente(testi, 'seme 44'), 'il seme in cui si rovescia non e nominato'
+
+
+def test_l_fpr_del_controllo_casuale_sta_accanto_all_auroc(testi):
+    """Sull'MLP il sorteggio ha meno falsi allarmi: va scritto, non omesso."""
+    tab = _confronto_politiche()['tabella']['mlp']
+    assert tab['casuale']['fpr_complessivo'] < tab['evidenza']['fpr_complessivo']
+    assert presente(testi, dec(tab['evidenza']['fpr_complessivo'], 4))
+    assert presente(testi, dec(tab['casuale']['fpr_complessivo'], 4))
+
+
+def test_una_sola_pianificazione_casuale_e_dichiarata(testi):
+    assert presente(testi, 'una sola pianificazione') or \
+        presente(testi, 'un solo sorteggio'), \
+        'il controllo casuale e un solo sorteggio per modello e per seme'
+
+
+def test_il_richiamo_sugli_attacchi_sta_accanto_all_auroc(testi):
+    """Il relatore chiede di affiancare FPR **e richiamo** all'AUROC.
+
+    Sul richiamo degli attacchi il controllo casuale fa meglio su due modelli su
+    tre: e' il compromesso che la sola AUROC nasconde, e va scritto.
+    """
+    d = _confronto_politiche()
+    tab = d['tabella']
+    peggio = [m for m in MODELLI
+              if tab[m]['casuale']['richiamo_attacchi'] > tab[m]['evidenza']['richiamo_attacchi']]
+    assert peggio, 'nessun modello in cui il casuale ha richiamo migliore: il test non prova nulla'
+    for m in peggio:
+        for politica in ('evidenza', 'casuale'):
+            v = tab[m][politica]['richiamo_attacchi']
+            assert presente(testi, dec(v, 4)), \
+                f'{m} {politica}: il richiamo {dec(v, 4)} non compare nei documenti'
+    for m in MODELLI:
+        c = d['per_seme'][m]['confronti']['evidenza contro casuale']['richiamo_attacchi']
+        for seme, delta in c['delta_per_seme'].items():
+            assert presente(testi, dec(delta, 3, segno=True)), \
+                f'{m} richiamo attacchi seme {seme}: {dec(delta, 3, True)} non compare'
+
+
+def test_i_risultati_sono_dichiarati_esplorativi(testi):
+    """Nessuna superiorita generale, nessuna significativita calcolata."""
+    assert presente(testi, 'esplorativi')
+    assert presente(testi, 'significatività statistica') or \
+        presente(testi, 'significativita statistica')
