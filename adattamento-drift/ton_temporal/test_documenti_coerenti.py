@@ -24,6 +24,7 @@ se non si trovano la suite viene saltata invece di passare in silenzio.
 from __future__ import annotations
 
 import importlib.util
+import re
 import json
 import statistics as st
 import sys
@@ -756,3 +757,77 @@ def test_i_risultati_sono_dichiarati_esplorativi(testi):
     assert presente(testi, 'esplorativi')
     assert presente(testi, 'significatività statistica') or \
         presente(testi, 'significativita statistica')
+
+
+# --------------------------------------------------------------------------
+# I blocchi di comando devono essere incollabili
+# --------------------------------------------------------------------------
+
+DOCUMENTI_CON_COMANDI = ('protocol.md', 'sintesi_pilota.md', 'ambiente_e_comandi.md',
+                         'nota_confini_componenti.md', 'replay_evidenza/LEGGIMI.md')
+
+
+def _blocchi_recintati(testo):
+    """I blocchi fra ``` con il loro numero di riga d'inizio."""
+    fuori, dentro, inizio, corrente = [], False, 0, []
+    for n, riga in enumerate(testo.split('\n'), 1):
+        if riga.startswith('```'):
+            if dentro:
+                fuori.append((inizio, corrente)); corrente = []
+            else:
+                inizio = n
+            dentro = not dentro
+        elif dentro:
+            corrente.append((n, riga))
+    return fuori, dentro
+
+
+def test_i_comandi_dei_documenti_sono_incollabili():
+    """Il difetto che un riavvolgimento automatico ha introdotto una volta.
+
+    Riavvolgendo i paragrafi per tenerli a 79 colonne, alcune righe **dentro i
+    blocchi di comando** sono state fuse fra loro: `cd replay_evidenza Z="..."`
+    su una riga, due `python` di fila, una barra di continuazione rimasta sola.
+    Incollato, un blocco così esegue comandi diversi da quelli scritti, e il
+    lettore non ha modo di accorgersene.
+
+    Qui ogni riga di ogni blocco viene esaminata per i segni di quella fusione.
+    Non è una prova sul contenuto dei comandi: è una prova sulla loro forma, che
+    è esattamente ciò che un riavvolgimento rompe.
+    """
+    guai = []
+    for nome in DOCUMENTI_CON_COMANDI:
+        p = CARTELLA_DOC / nome
+        if not p.is_file():
+            continue
+        testo = p.read_text(encoding='utf-8')
+        blocchi, aperto = _blocchi_recintati(testo)
+        assert not aperto, f'{nome}: un blocco ``` non è chiuso'
+        for _, righe in blocchi:
+            for n, r in righe:
+                comandi = r.count('python ') + r.count('git ')
+                if comandi > 1:
+                    guai.append(f'{nome}:{n} due comandi sulla stessa riga: {r[:70]}')
+                if r.strip() == '\\':
+                    guai.append(f'{nome}:{n} barra di continuazione rimasta sola')
+                if '...' in r:
+                    guai.append(f'{nome}:{n} ellissi dentro un comando: {r[:70]}')
+                if re.match(r'^\$?\w+\s*=', r) and comandi:
+                    guai.append(f'{nome}:{n} assegnazione e comando sulla stessa riga')
+                if re.match(r'^\w+\s*=', r) and not comandi and r.count('=') > 1:
+                    guai.append(f'{nome}:{n} più definizioni sulla stessa riga: {r[:70]}')
+    assert not guai, 'blocchi di comando non incollabili:\n  ' + '\n  '.join(guai)
+
+
+def test_i_comandi_non_tornano_a_spezzarsi_su_piu_righe():
+    """Nessuna continuazione con la barra: una riga spezzata, incollata male, è
+    il modo più facile per eseguire metà di un comando."""
+    for nome in DOCUMENTI_CON_COMANDI:
+        p = CARTELLA_DOC / nome
+        if not p.is_file():
+            continue
+        blocchi, _ = _blocchi_recintati(p.read_text(encoding='utf-8'))
+        for _, righe in blocchi:
+            for n, r in righe:
+                assert not r.rstrip().endswith('\\'), \
+                    f'{nome}:{n} comando spezzato su più righe: {r[:70]}'

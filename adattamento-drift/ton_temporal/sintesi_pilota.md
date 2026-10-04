@@ -336,11 +336,20 @@ il solo tratto che un sistema reale pagherebbe in più — applicare i parametri
 correnti, calcolare la rappresentazione della memoria, rifittare — e i numeri
 sono questi.
 
-| | ms per aggiornamento (mediana) | secondi in aggiornamento, 520 aggiornamenti | quota del replay |
+I numeri della tabella vengono da **una misura dedicata**: una sola corsa, seme
+42, politica `ogni blocco`, **522 aggiornamenti applicati** e 393 tentativi
+fermati dalla guardia, con la macchina altrimenti inattiva. Non sono una media
+sui cinque semi.
+
+| misura dedicata, seme 42 | ms per aggiornamento (mediana) | secondi in aggiornamento, 522 aggiornamenti | quota del replay |
 |---|---:|---:|---:|
 | logistica | 5,19 ms | 4,9 s | 5,6% |
 | MLP | 5,27 ms | 3,1 s | 3,5% |
 | additivo | 11,08 ms | 6,8 s | 7,8% |
+
+Le stesse misure su tutti e venti i rendiconti, dove gli aggiornamenti applicati
+sono 520 in media, stanno in `replay_evidenza/costi_aggiornamento.json`; là i
+valori massimi sono inquinati dal carico sulla macchina, come detto sotto.
 
 Passando da `ogni blocco` alla politica su evidenza il tempo speso negli
 aggiornamenti, contando anche i tentativi fermati dalla guardia, scende da 16,8

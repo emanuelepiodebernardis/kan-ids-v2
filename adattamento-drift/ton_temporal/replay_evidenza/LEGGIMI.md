@@ -136,21 +136,26 @@ rifatte due corse sole, in sequenza, con la macchina altrimenti inattiva:
 
 ## Come rifare tutto
 
-```
-cd replay_evidenza Z="replay_C_seme42.json replay_C_seme43.json
-replay_C_seme44.json replay_C_seme45.json replay_C_seme46.json"
-B="replay_C_calibrato_seme42.json replay_C_calibrato_seme43.json
-replay_C_calibrato_seme44.json replay_C_calibrato_seme45.json
-replay_C_calibrato_seme46.json"
+Da dentro questa cartella, su Linux e macOS. Ogni comando sta su una riga sola:
+si incolla come e' scritto.
 
-python ../riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json
---verifica python ../riepiloghi_semi.py --rendiconti $Z --confronto $B --uscita
-confronto_soglia.json --verifica python ../confronto_politiche.py --ogni-blocco
-$B \
-    --evidenza replay_C_evidenza_seme4*.json --casuale replay_C_casuale_seme4*.json \
-    --uscita confronto_politiche.json
-python ../costi_aggiornamento.py --rendiconti replay_C_*seme4?.json \
-    --uscita costi_aggiornamento.json
+```
+Z="replay_C_seme42.json replay_C_seme43.json replay_C_seme44.json replay_C_seme45.json replay_C_seme46.json"
+B="replay_C_calibrato_seme42.json replay_C_calibrato_seme43.json replay_C_calibrato_seme44.json replay_C_calibrato_seme45.json replay_C_calibrato_seme46.json"
+python ../riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json --verifica
+python ../riepiloghi_semi.py --rendiconti $Z --confronto $B --uscita confronto_soglia.json --verifica
+python ../confronto_politiche.py --ogni-blocco $B --evidenza replay_C_evidenza_seme4?.json --casuale replay_C_casuale_seme4?.json --uscita confronto_politiche.json
+python ../costi_aggiornamento.py --rendiconti replay_C_*seme4?.json --uscita costi_aggiornamento.json
+```
+
+In PowerShell, con le liste separate da virgole e il globbing risolto prima:
+
+```
+$Z = "replay_C_seme42.json","replay_C_seme43.json","replay_C_seme44.json","replay_C_seme45.json","replay_C_seme46.json"
+$B = "replay_C_calibrato_seme42.json","replay_C_calibrato_seme43.json","replay_C_calibrato_seme44.json","replay_C_calibrato_seme45.json","replay_C_calibrato_seme46.json"
+python ..\riepiloghi_semi.py --rendiconti $Z --confronto $B --verifica
+python ..\confronto_politiche.py --ogni-blocco $B --evidenza (Get-Item replay_C_evidenza_seme4*.json).Name --casuale (Get-Item replay_C_casuale_seme4*.json).Name
+python ..\costi_aggiornamento.py --rendiconti (Get-Item replay_C_*seme4?.json).Name
 ```
 
 Gli script non si limitano a calcolare. `riepiloghi_semi.py` verifica che in
@@ -165,17 +170,21 @@ fermano al primo scostamento.
 
 ## Come rifare le corse da zero
 
+Le quattro corse del **seme 42**. Per gli altri semi si cambiano i `42` e i
+conteggi di `--quanti-aggiornamenti`, elencati sotto.
+
 ```
-B="--iniziale A.npz --flusso C.npz" python replay.py $B --seme <n> --uscita
-replay_C_seme<n>.json python replay.py $B --calibrazione B.npz --seme <n>
---uscita replay_C_calibrato_seme<n>.json python replay.py $B --calibrazione
-B.npz --politica evidenza_inversione --seme <n> \
-    --uscita replay_C_evidenza_seme<n>.json
-python replay.py $B --calibrazione B.npz --politica casuale \
-    --quanti-aggiornamenti "lr=54,mlp=20,kan=23" \
-    --ammissibili replay_C_calibrato_seme<n>.json --seme <n> \
-    --uscita replay_C_casuale_seme<n>.json
+python ../replay.py --iniziale A.npz --flusso C.npz --seme 42 --uscita replay_C_seme42.json
+python ../replay.py --iniziale A.npz --flusso C.npz --calibrazione B.npz --seme 42 --uscita replay_C_calibrato_seme42.json
+python ../replay.py --iniziale A.npz --flusso C.npz --calibrazione B.npz --politica evidenza_inversione --seme 42 --uscita replay_C_evidenza_seme42.json
+python ../replay.py --iniziale A.npz --flusso C.npz --calibrazione B.npz --politica casuale --quanti-aggiornamenti "lr=54,mlp=20,kan=23" --ammissibili replay_C_calibrato_seme42.json --seme 42 --uscita replay_C_casuale_seme42.json
 ```
+
+I conteggi per il controllo casuale, uno per seme: 42 `lr=54,mlp=20,kan=23`;
+43 `lr=43,mlp=35,kan=16`; 44 `lr=44,mlp=45,kan=24`; 45 `lr=49,mlp=30,kan=13`;
+46 `lr=36,mlp=39,kan=21`. Sono gli aggiornamenti applicati dalla politica su
+evidenza dello stesso seme, che si leggono in `costi.decisioni_della_politica`:
+cambiarli renderebbe il controllo non pareggiato.
 
 I conteggi da passare al controllo casuale sono quelli applicati dalla politica
 su evidenza dello stesso seme, che si leggono in

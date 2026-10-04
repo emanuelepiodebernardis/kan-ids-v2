@@ -62,8 +62,9 @@ Un vettore di feature non può quindi esistere prima della fine del flusso. Si
 adotta
 
 ```
-t_start            = ts t_end              = ts + duration feature_ready_time =
-t_end
+t_start            = ts
+t_end              = ts + duration
+feature_ready_time = t_end
 ```
 
 Questa non è una sottigliezza. Misurato sui 23 file:
