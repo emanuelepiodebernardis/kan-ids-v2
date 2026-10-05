@@ -25,28 +25,35 @@ un singolo aggiornamento sta al minimo come 29 a 1 sulle corse dedicate, e come
 ## La suite di test
 
 ```
+cd <repo>
 python -m pytest ton_temporal -q
 ```
 
-Attesi: **195 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
-`test_*.py` della cartella `ton_temporal/`. Erano **139** due commit prima e
-**193** al commit `7ea4a94`; le due prove in più presidiano la forma dei blocchi
-di comando di questo documento e del `LEGGIMI`, dopo che un riavvolgimento
-automatico ne aveva fuse alcune righe.
+Attesi: **239 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
+`test_*.py` della cartella `ton_temporal/`. Per file: `test_documenti_coerenti.py`
+64, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 23,
+`test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
+`test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
+`test_guardia_monoclasse.py` 11.
 
-I 56 in più rispetto a 139 sono le due suite nuove del ciclo —
-`test_impronta_campione.py`, 16 prove, e `test_misure_di_costo.py`, 17 — più i
-23 aggiunti a quelle esistenti: `test_documenti_coerenti.py` passa da 44 a 58,
-`test_politiche.py` da 17 a 23, `test_riepiloghi_semi.py` da 18 a 21. Invariate
-`test_soglia.py` con 26, `test_sovrapposizioni.py` con 23 e
-`test_guardia_monoclasse.py` con 11. Su
-**I 193 non sono il totale del repository.** Lanciando `pytest` dalla radice del
-repository si raccolgono anche le suite delle altre linee di lavoro: su quella
-copia il totale misurato è **829 passate e 1 saltata**, di cui 195 sono queste.
-I due numeri vanno citati separatamente, perché misurano cose diverse: 193 è
-ADAPT-01, 827 è tutto il repository. Il conteggio della radice dipende da quali
-altre cartelle sono presenti nella copia di lavoro, quindi non è una proprietà
-del ramo.
+La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
+`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** ora. I 44 di questo
+ciclo sono le 38 di `test_figure.py` e 6 aggiunte a `test_documenti_coerenti.py`
+— la cartella dichiarata in ogni blocco di comandi, l'esistenza dei file che i
+comandi citano, le frasi troncate, il confronto fra il numero di prove
+dichiarato qui e quello che la raccolta trova davvero — perché questo conteggio
+è già rimasto indietro due volte — e l'encoding con cui gli script scrivono la
+propria uscita, dopo che `verifica_richieste.py > verifica_richieste.txt` è
+caduto su Windows perché `cp1252` non ha il meno tipografico.
+
+**I 239 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+repository si raccolgono anche le suite delle altre linee di lavoro: al commit
+`5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
+quindi ora ci si attendono **873 passate e 1 saltata**. I due numeri vanno
+citati separatamente, perché misurano cose diverse: 239 è ADAPT-01, 873 è tutto
+il repository. Il conteggio della radice dipende da quali altre cartelle sono
+presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
+ramo.
 
 Una versione precedente di questo documento dichiarava «11 test superati» e
 citava conteggi di 634 e 643 test misurati su un altro ramo: nessuno dei due
@@ -101,18 +108,23 @@ macchina, circa 48 minuti.
 
 ## Comandi, nell'ordine
 
-I dati grezzi non sono redistribuiti, quindi tre percorsi dipendono dalla
-macchina e sono le **sole** cose da sostituire: `<dati>` è la cartella con i 23
+I dati grezzi non sono redistribuiti, quindi quattro percorsi dipendono dalla
+macchina e sono le **sole** cose da sostituire: `<repo>` è la cartella del
+clone di questo repository, `<dati>` è la cartella con i 23
 `Network_dataset_*.csv`, `<lab>` un clone di `ids-update-lab`, `<noto>` il
 `train_test_network.csv` il cui SHA-256 è
 `26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974`. Tutto il
-resto dei comandi è letterale e si incolla così com'è. I comandi sono su una
-riga sola di proposito: una riga spezzata, incollata, diventa due comandi
-sbagliati.
+resto dei comandi è letterale e si incolla così com'è.
+
+**Ogni blocco comincia con il `cd` da cui va eseguito**, perché lo stesso
+comando riesce da una cartella e fallisce da un'altra: senza quella riga chi
+legge deve indovinarla. I comandi sono su una riga sola di proposito: una riga
+spezzata, incollata, diventa due comandi sbagliati.
 
 **1. Ricostruire le impronte degli input già visti**
 
 ```
+cd <repo>/ton_temporal
 python impronte_note.py --sorgente <noto> --audit <lab>/research028/vendor/audit_ton_full.py --uscita impronte_note.npz --esigi-sorgente
 ```
 
@@ -122,6 +134,7 @@ metadati dichiarati: 92.330 impronte uniche da 211.043 righe.
 **2. Inventario dei 23 file**
 
 ```
+cd <repo>/ton_temporal
 python inventario_ton.py --dati <dati> --audit <lab>/research028/vendor/audit_ton_full.py --manifest <lab>/research028/inputs/ton_iot_mirror_v1_manifest.json --impronte impronte_note.npz --uscita inventario --riprendi
 ```
 
@@ -133,12 +146,14 @@ Ripartibile: rilanciandolo salta i file già fatti. Produce
 **3. Copertura, con lo strumento del referente, senza modifiche**
 
 ```
+cd <repo>/ton_temporal
 python <lab>/research028/tools/coverage028.py --input inventario/hourly_counts_frt.csv --output inventario/copertura_frt
 ```
 
 **4. Costruire i flussi ordinati per feature_ready_time**
 
 ```
+cd <repo>/ton_temporal
 python costruisci_flusso.py --dati <dati> --audit <lab>/research028/vendor/audit_ton_full.py --manifest <lab>/research028/inputs/ton_iot_mirror_v1_manifest.json --inizio 2019-04-02 --fine-esclusa 2019-04-05 --giorni-extra 2019-04-23 --uscita flussi/A.npz
 ```
 
@@ -154,6 +169,7 @@ autorizzata.
 **4bis. Le sovrapposizioni dirette fra A, B, C e D**
 
 ```
+cd <repo>/ton_temporal
 python sovrapposizioni_abcd.py --csv <dati> --manifest <lab>/research028/inputs/ton_iot_mirror_v1_manifest.json --audit <lab>/research028/vendor/audit_ton_full.py --uscita sovrapposizioni_abcd.json
 ```
 
@@ -170,6 +186,7 @@ nel nome del file — e i conteggi di `--quanti-aggiornamenti`, che sono quelli
 della politica su evidenza dello stesso seme.
 
 ```
+cd <repo>/ton_temporal
 python replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --seme 42 --uscita replay_C_seme42.json
 python replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --calibrazione flussi/B.npz --seme 42 --uscita replay_C_calibrato_seme42.json
 python replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --calibrazione flussi/B.npz --politica evidenza_inversione --seme 42 --uscita replay_C_evidenza_seme42.json
@@ -193,6 +210,7 @@ renderebbe il controllo non pareggiato. Per la variante scartata,
 **6. I candidati della soglia e la regola di confronto**
 
 ```
+cd <repo>/ton_temporal
 python documenta_soglie.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --semi 42 43 44 45 46 --uscita replay_evidenza/soglie_candidati.json
 ```
 
@@ -201,6 +219,7 @@ python documenta_soglie.py --iniziale flussi/A.npz --calibrazione flussi/B.npz -
 Su Linux e macOS, da dentro `replay_evidenza`:
 
 ```
+cd <repo>/ton_temporal/replay_evidenza
 Z="replay_C_seme42.json replay_C_seme43.json replay_C_seme44.json replay_C_seme45.json replay_C_seme46.json"
 B="replay_C_calibrato_seme42.json replay_C_calibrato_seme43.json replay_C_calibrato_seme44.json replay_C_calibrato_seme45.json replay_C_calibrato_seme46.json"
 python ../riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json --verifica
@@ -213,6 +232,7 @@ In PowerShell, dove le liste si scrivono con le virgole e il globbing va risolto
 prima:
 
 ```
+cd <repo>/ton_temporal/replay_evidenza
 $Z = "replay_C_seme42.json","replay_C_seme43.json","replay_C_seme44.json","replay_C_seme45.json","replay_C_seme46.json"
 $B = "replay_C_calibrato_seme42.json","replay_C_calibrato_seme43.json","replay_C_calibrato_seme44.json","replay_C_calibrato_seme45.json","replay_C_calibrato_seme46.json"
 python ..\riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json --verifica
@@ -224,15 +244,33 @@ python ..\costi_aggiornamento.py --rendiconti (Get-Item replay_C_*seme4?.json).N
 Il glob `replay_C_*seme4?.json` prende le venti corse e lascia fuori la variante
 scartata, il cui nome finisce in `_strati_punteggio`.
 
-**8. Le curve**
+**8. Le figure**
 
 ```
-python curve_replay.py --rendiconto replay_C_seme42.json --modello lr --uscita figure
+cd <repo>/ton_temporal
+python curve_replay.py --rendiconto replay_evidenza/replay_C_calibrato_seme42.json --politiche ogni_blocco=replay_evidenza/replay_C_calibrato_seme42.json evidenza=replay_evidenza/replay_C_evidenza_seme42.json casuale=replay_evidenza/replay_C_casuale_seme42.json --modello lr --uscita figure
+python curve_replay.py --rendiconto replay_evidenza/replay_C_calibrato_seme42.json --politiche ogni_blocco=replay_evidenza/replay_C_calibrato_seme42.json evidenza=replay_evidenza/replay_C_evidenza_seme42.json casuale=replay_evidenza/replay_C_casuale_seme42.json --modello mlp --uscita figure
+python curve_replay.py --rendiconto replay_evidenza/replay_C_calibrato_seme42.json --politiche ogni_blocco=replay_evidenza/replay_C_calibrato_seme42.json evidenza=replay_evidenza/replay_C_evidenza_seme42.json casuale=replay_evidenza/replay_C_casuale_seme42.json --modello kan --uscita figure
 ```
+
+Tre comandi, uno per modello, che producono i quattordici PNG di `figure/`.
+Il terzo stampa anche l'astensione dichiarata su `recupero_kan.png`: sul modello
+additivo gli episodi di inversione sono tre, lunghi 7, 2 e 1 blocchi, e uno solo
+arriva al minimo di cinque, quindi la figura non viene prodotta.
+`figure/LEGGIMI.md` dichiara per ciascuna figura la provenienza e l'impronta dei
+rendiconti.
+
+La versione precedente di questo passo era **un comando solo e sbagliato**:
+`python curve_replay.py --rendiconto replay_C_seme42.json`. Lo script sta in
+`ton_temporal/`, il rendiconto in `ton_temporal/replay_evidenza/`, quindi quel
+comando falliva da entrambe le cartelle; e citava la corsa a soglia zero, che è
+la ragione per cui le sei figure pubblicate erano state prodotte da quella
+corsa invece che dalle corse calibrate.
 
 **9. Le richieste del referente, controllate sul materiale**
 
 ```
+cd <repo>/ton_temporal
 python verifica_richieste.py --cartella .
 ```
 

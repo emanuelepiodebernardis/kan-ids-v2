@@ -667,9 +667,11 @@ stabilità della soglia, come detto sopra.
 **Che cosa la soglia non può cambiare, e non cambia.** L'AUROC è una misura di
 ordinamento e non dipende dal punto di decisione; gli indici campionati non lo
 usano. Lo strumento di confronto lo verifica blocco per blocco e si ferma al
-primo scostamento: **27.480 valori di AUROC identici** — cinque semi per 916
-blocchi per tre modelli per due stati — e indici campionati identici in tutti i
-blocchi. Tutto il §10 sull'inversione resta quindi valido parola per parola.
+primo scostamento: **27.480 coppie di AUROC confrontate e identiche** — cinque
+semi per 916 blocchi per tre modelli per due stati — e indici campionati
+identici in tutti i blocchi. Di quelle coppie, 26.250 sono su valori definiti e
+1.230 sono blocchi in cui l'AUROC non è definita in nessuna delle due varianti,
+perché mancano i normali: il confronto le attraversa, ma non sono misure. Tutto il §10 sull'inversione resta quindi valido parola per parola.
 
 **Che cosa cambia.** Le misure di decisione, molto, e in due modelli su tre il
 **verso** dell'effetto dell'adattamento si rovescia. Medie sui cinque semi,
@@ -795,9 +797,13 @@ Medie sui cinque semi; `aggiorn.` è il numero medio di aggiornamenti applicati.
 ### Che cosa ne segue
 
 **Sull'AUROC la politica su evidenza batte il controllo negativo in media su
-tutti e tre i modelli**, di +0,026, +0,069 e +0,097. Non è quindi il numero
-ridotto di aggiornamenti a produrre il risultato: è il criterio. È la risposta
-che il controllo negativo esisteva per dare, e sarebbe stata l'altra.
+tutti e tre i modelli**, di +0,026, +0,069 e +0,097. Il confronto è a parità di
+aggiornamenti, quindi il margine non viene dall'averne spesi di meno: viene dal
+criterio con cui si sceglie quando spenderli. È la risposta che il controllo
+negativo esisteva per dare, e sarebbe stata l'altra. È però un margine **medio**
+sull'AUROC, misurato contro **un solo sorteggio** per modello e per seme: se
+cada fuori dalla variabilità del sorteggio non è stabilito, ed è quello che il
+prossimo esperimento deve misurare.
 
 La formulazione precedente di questo paragrafo diceva «in tutti e tre i
 modelli» riferendosi alla media, e andava letta come se il confronto valesse
@@ -851,9 +857,9 @@ errore. Il conteggio dei semi in cui vale è l'unica forma di robustezza
 disponibile qui, e per questo è riportato.
 
 **La politica su evidenza fa quanto o meglio dell'aggiornamento continuo
-spendendo da un undicesimo a un ventisettesimo degli aggiornamenti**: in media
-+0,002 per la logistica con 45 anziché 520, +0,029 per l'MLP con 34, +0,029 per
-l'additivo con 19. Anche qui le medie nascondono il dettaglio: sulla logistica
+spendendo una frazione degli aggiornamenti**: in media sui cinque semi +0,002
+per la logistica con 45,2 anziché 520, +0,029 per l'MLP con 33,8 e +0,029 per
+l'additivo con 19,4, cioè da 11,5 a 26,8 volte meno. Anche qui le medie nascondono il dettaglio: sulla logistica
 il confronto con `ogni blocco` si rovescia su tre semi su cinque. Per l'MLP la
 politica su evidenza è l'unica che batte il congelato in media — 0,7956 contro
 0,7921 — ma per seme lo batte su tre su cinque, e sul seme 44 perde di 0,054.
@@ -944,6 +950,67 @@ rapporto per ciascun modello invece di lasciarlo sottinteso.
 
 I numeri si rifanno con `costi_aggiornamento.py`, che rifiuta i rendiconti
 prodotti prima di questa correzione invece di interpretarli.
+
+## 10quinquies. Le figure
+
+Quattordici figure in `figure/`, prodotte da `curve_replay.py` dai soli
+rendiconti, tutte sul **seme 42**. `figure/LEGGIMI.md` dichiara per ciascuna che
+cosa mostra, da quale file viene — con l'impronta SHA-256 dei tre rendiconti —
+e il comando che la rifà. Le cinque forme sono: le curve per blocco, il guadagno
+per fascia di ricchezza di normali, gli attacchi non rilevati cumulati, il
+confronto fra le quattro politiche, e il recupero dopo l'inizio di
+un'inversione.
+
+Tre scelte vanno dichiarate qui, perché cambiano che cosa la figura afferma.
+
+**La media progressiva invece della media mobile.** Nel confronto fra politiche
+il riquadro di destra riporta la media dell'AUROC dal primo blocco fino a
+quello corrente. Non è una scelta estetica: il valore finale di quella curva
+**è** l'AUROC media di quella corsa, cioè il valore del **seme 42** nel campo
+`per_seme` di `confronto_politiche.json`, che il §10ter cita per i numeri per
+seme; quindi la figura e il testo non possono dire due numeri diversi. Una media mobile avrebbe un valore finale che non corrisponde a
+nulla di scritto. Le medie sui cinque semi riportate nella tabella riassuntiva
+sono un'altra aggregazione e **non** coincidono con la fine della curva: per
+l'MLP su evidenza la corsa del seme 42 chiude a 0,8475 mentre la media sui
+cinque semi è 0,7956. Lo stesso vale per i conteggi di aggiornamenti scritti in
+didascalia, che sono quelli del seme 42 (522, e 54 per la logistica su
+evidenza) e non le medie sui semi (520 e 45,2).
+
+**La copia congelata è confrontata, non assunta.** Le quattro politiche
+condividono la stessa copia congelata per costruzione. `curve_replay.py` non lo
+dà per buono: confronta blocco per blocco i falsi negativi e le AUROC della
+copia congelata di ogni rendiconto e si ferma se divergono, perché in quel caso
+la figura metterebbe a confronto corse che non sono confrontabili.
+
+**Il recupero media solo gli episodi che si possono seguire.** Gli episodi di
+inversione hanno lunghezze molto diverse — sulla logistica 122, 36, 10 blocchi e
+sei episodi di un blocco solo — e mediarli tutti a un dato ritardo mescolerebbe
+episodi ancora in corso con episodi finiti da tempo. Si mediano quindi i soli
+episodi lunghi almeno cinque blocchi, i singoli episodi restano disegnati sotto
+la media, e gli esclusi sono scritti in didascalia. Sull'additivo gli episodi
+sono tre, lunghi 7, 2 e 1 blocchi: uno solo arriva al minimo, e la figura **non
+viene prodotta**. Il programma si astiene da sé e lo dichiara nel proprio
+resoconto: `recupero_kan.png` non è un file dimenticato.
+
+Due proprietà sono presidiate da prove e non dall'occhio. La prima: le
+grandezze che i documenti citano dalle figure sono ricalcolate dai rendiconti e
+confrontate con quello che la figura disegna. Sono quattro, e vale la pena dire
+quali, perché il resto non è coperto: il valore finale della media progressiva,
+confrontato con la tabella **per seme** di `confronto_politiche.json` e non con
+la media sui cinque semi; la somma dei falsi negativi di ciascuna curva
+cumulata; gli episodi di inversione, le loro lunghezze in ordine di tempo e
+quali di essi la figura del recupero media; i quattro guadagni per fascia, con
+i conteggi dei blocchi. Non sono invece verificati i conteggi di aggiornamenti
+scritti in didascalia, che vengono letti dal rendiconto senza essere
+ricalcolati. La seconda: nessuna figura si salva se un testo esce dal foglio. Una
+didascalia troppo lunga non fa cadere il disegno — viene tagliata dal bordo in
+silenzio, e la figura resta pubblicabile con mezza frase. Il controllo misura
+dopo l'impaginazione dove finisce davvero ogni testo e rifiuta il salvataggio;
+è nato da un difetto vero, trovato guardando una figura già prodotta.
+
+Le figure usano la stessa convenzione numerica dei documenti anche sugli assi —
+virgola decimale, punto per le migliaia, meno tipografico — perché un asse che
+scrive «0.2» accanto a un testo che scrive «0,2» si legge come due misure.
 
 ## 11. Punti aperti
 

@@ -140,6 +140,7 @@ Da dentro questa cartella, su Linux e macOS. Ogni comando sta su una riga sola:
 si incolla come e' scritto.
 
 ```
+cd <repo>/ton_temporal/replay_evidenza
 Z="replay_C_seme42.json replay_C_seme43.json replay_C_seme44.json replay_C_seme45.json replay_C_seme46.json"
 B="replay_C_calibrato_seme42.json replay_C_calibrato_seme43.json replay_C_calibrato_seme44.json replay_C_calibrato_seme45.json replay_C_calibrato_seme46.json"
 python ../riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json --verifica
@@ -151,6 +152,7 @@ python ../costi_aggiornamento.py --rendiconti replay_C_*seme4?.json --uscita cos
 In PowerShell, con le liste separate da virgole e il globbing risolto prima:
 
 ```
+cd <repo>/ton_temporal/replay_evidenza
 $Z = "replay_C_seme42.json","replay_C_seme43.json","replay_C_seme44.json","replay_C_seme45.json","replay_C_seme46.json"
 $B = "replay_C_calibrato_seme42.json","replay_C_calibrato_seme43.json","replay_C_calibrato_seme44.json","replay_C_calibrato_seme45.json","replay_C_calibrato_seme46.json"
 python ..\riepiloghi_semi.py --rendiconti $Z --confronto $B --verifica
@@ -174,6 +176,7 @@ Le quattro corse del **seme 42**. Per gli altri semi si cambiano i `42` e i
 conteggi di `--quanti-aggiornamenti`, elencati sotto.
 
 ```
+cd <repo>/ton_temporal/replay_evidenza
 python ../replay.py --iniziale A.npz --flusso C.npz --seme 42 --uscita replay_C_seme42.json
 python ../replay.py --iniziale A.npz --flusso C.npz --calibrazione B.npz --seme 42 --uscita replay_C_calibrato_seme42.json
 python ../replay.py --iniziale A.npz --flusso C.npz --calibrazione B.npz --politica evidenza_inversione --seme 42 --uscita replay_C_evidenza_seme42.json

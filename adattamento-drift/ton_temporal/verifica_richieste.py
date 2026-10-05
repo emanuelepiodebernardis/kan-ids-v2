@@ -18,6 +18,7 @@ Uso
 
 from __future__ import annotations
 
+import sys
 import argparse
 import json
 import statistics as st
@@ -48,7 +49,8 @@ class Esito:
 def carica(cartella):
     ev = cartella / 'replay_evidenza'
     dati = {'cartella': cartella, 'evidenza': ev, 'testi': {}}
-    for nome in ('protocol.md', 'sintesi_pilota.md', 'nota_confini_componenti.md'):
+    for nome in ('protocol.md', 'sintesi_pilota.md', 'nota_confini_componenti.md',
+                 'rapporto_pilota.md'):
         p = cartella / nome
         if p.is_file():
             dati['testi'][nome] = ' '.join(p.read_text(encoding='utf-8').split())
@@ -73,6 +75,16 @@ def carica(cartella):
     p = cartella / 'sovrapposizioni_abcd.json'
     dati['sovrapposizioni'] = json.load(open(p, encoding='utf-8')) if p.is_file() else None
     return dati
+
+
+def italiano(n):
+    """Un intero nella convenzione dei documenti: punto per le migliaia.
+
+    Senza questo l'uscita del controllo scrive «27,480» mentre i documenti che
+    sta controllando scrivono «27.480»: due convenzioni per lo stesso numero.
+    """
+    return f'{abs(int(n)):,}'.replace(',', '.') if n >= 0 else \
+        '\u2212' + f'{abs(int(n)):,}'.replace(',', '.')
 
 
 def presente(testi, *frammenti):
@@ -194,7 +206,7 @@ def controlla(d):
     uguali = all(etichette['calibrato'][s] == etichette['evidenza_pol'][s]
                  == etichette['casuale'][s] for s in SEMI)
     e.aggiungi(4, 'le etichette spese sono le stesse in tutte le politiche', uguali,
-               f"{etichette['calibrato'][42]:,} per seme in tutte e tre")
+               f"{italiano(etichette['calibrato'][42])} per seme in tutte e tre")
     e.aggiungi(4, 'il risparmio dichiarato e di aggiornamenti, non di etichette',
                presente(testi, 'risparmio misurabile è di aggiornamenti') or
                presente(testi, 'di aggiornamenti, non di etichette'),
@@ -257,7 +269,7 @@ def controlla(d):
                         auroc_ok = False
                     confrontate += 1
     e.aggiungi(3, 'la soglia non cambia l\'AUROC', auroc_ok,
-               f'{confrontate:,} valori confrontati fra soglia zero e soglia su B')
+               f'{italiano(confrontate)} coppie confrontate fra soglia zero e soglia su B')
 
     # ----------------------------------------------------------------------
     # 16-20: i residui del riesame del 3 ottobre
@@ -272,12 +284,13 @@ def controlla(d):
     forma_ok = bool(digest) and all(
         isinstance(x, str) and len(x) == 64 and set(x) <= esadecimali for x in digest)
     e.aggiungi(16, 'ogni blocco porta uno SHA-256 delle righe campionate', forma_ok,
-               f'{len(digest):,} voci, 64 cifre esadecimali')
+               f'{italiano(len(digest))} voci, 64 cifre esadecimali')
     vuoto = 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
     distinti = len({x for x in digest if x != vuoto})
     con_campione = sum(1 for b in blocchi if b.get('etichette_richieste'))
     e.aggiungi(16, 'i digest distinguono i blocchi', distinti > 0.9 * con_campione / 20,
-               f'{distinti:,} digest distinti su {con_campione:,} blocchi campionati')
+               f'{italiano(distinti)} digest distinti su {italiano(con_campione)} '
+               'blocchi campionati')
     e.aggiungi(16, 'il campo storico resta, col nome che dice che e una somma',
                all('row_id_campionati_somma_storica' in b for b in blocchi),
                'continuita con i rendiconti gia pubblicati')
@@ -369,7 +382,7 @@ def controlla(d):
                 presente(testi, 'non in tutti i semi')),
                'non un fatto uniforme')
     e.aggiungi(19, 'il seme che si rovescia e nominato', presente(testi, 'seme 44'),
-               'LR -0,0317 e MLP -0,0132 contro il casuale')
+               'LR \u22120,0317 e MLP \u22120,0132 contro il casuale')
     e.aggiungi(19, 'l\'FPR sta accanto all\'AUROC nel confronto',
                presente(testi, '0,1844') and presente(testi, '0,1625'),
                'sull\'MLP il controllo casuale ha meno falsi allarmi')
@@ -409,17 +422,82 @@ def controlla(d):
                presente(testi, 'nessuna scelta') or
                presente(testi, 'non si scelgono'),
                'D resta riservato')
+
+    # ----------------------------------------------------------------------
+    # 21: la nota del rapporto del pilota, che la scheda chiede per il 15 ottobre
+    # ----------------------------------------------------------------------
+    nota = d['cartella'] / 'rapporto_pilota.md'
+    testo = nota.read_text(encoding='utf-8') if nota.is_file() else ''
+    piatto = ' '.join(testo.split())
+    e.aggiungi(21, 'la nota del pilota esiste', bool(testo),
+               'rapporto_pilota.md' if testo else 'manca il file')
+    parti = {'osservazioni': '## Osservazioni',
+             'limiti': '## Limiti',
+             'blocchi': '## Che cosa e bloccato',
+             'prossimo esperimento': '## Il prossimo esperimento'}
+    # il confronto ignora gli accenti, che nei titoli ci sono
+    senza_accenti = piatto.replace('\u00e8', 'e').replace('\u00e0', 'a')
+    mancanti = [k for k, v in parti.items() if v not in senza_accenti]
+    e.aggiungi(21, 'la nota ha le quattro parti che la scheda chiede',
+               not mancanti,
+               'osservazioni, limiti, blocchi, prossimo esperimento'
+               if not mancanti else 'mancano: ' + ', '.join(mancanti))
+    parole = len(testo.split())
+    e.aggiungi(21, 'la nota sta nelle due pagine chieste', 200 < parole <= 1200,
+               f'{parole} parole')
+    e.aggiungi(21, 'la nota dichiara che D e bloccato in attesa',
+               'riservato' in piatto and 'autorizzazione' in piatto,
+               'il blocco e detto dove la scheda lo chiede')
+    e.aggiungi(21, 'la nota propone un esperimento che non tocca D',
+               'non tocca D' in piatto or 'senza toccare D' in piatto,
+               'il prossimo passo resta dentro C')
+
+    # --- 21bis: le figure, citate e presenti
+    figure = d['cartella'] / 'figure'
+    presenti = {q.name for q in figure.glob('*.png')} if figure.is_dir() else set()
+    e.aggiungi(21, 'le figure sono pubblicate', len(presenti) >= 14,
+               f'{len(presenti)} PNG in figure/')
+    e.aggiungi(21, 'le figure dichiarano da dove vengono',
+               (figure / 'LEGGIMI.md').is_file(),
+               'provenienza e comando per rifarle')
+    import re as _re
+    citate = set()
+    for nome, testo_doc in testi.items():
+        citate |= set(_re.findall(r'[a-z_]+_(?:lr|mlp|kan)\.png', testo_doc))
+    assenti = {c for c in citate if c not in presenti and c != 'recupero_kan.png'}
+    e.aggiungi(21, 'i documenti citano solo figure che esistono', not assenti,
+               f'{len(citate)} figure citate' if not assenti
+               else 'citate e assenti: ' + ', '.join(sorted(assenti)))
     return e
 
 
+def uscita_in_utf8():
+    """Dichiara UTF-8 sull'uscita standard, invece di affidarsi al sistema.
+
+    Senza questo, su Windows `python ... > file.txt` usa cp1252 e cade con
+    UnicodeEncodeError sul primo carattere che quella tabella non ha. E'
+    successo davvero, sul meno tipografico U+2212 introdotto per allineare
+    l'uscita alla convenzione numerica dei documenti: a schermo si vedeva, ma
+    la riga che salva il risultato su file si fermava a meta'. L'uscita di
+    questi programmi finisce in file versionati, quindi il suo encoding e' una
+    proprieta' da dichiarare, non da ereditare.
+    """
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except (AttributeError, ValueError, OSError):
+        pass          # flussi che non si possono riconfigurare: si prosegue
+
+
 def principale(argv=None):
+    uscita_in_utf8()
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('--cartella', required=True, type=Path)
     a = p.parse_args(argv)
     d = carica(a.cartella)
     print('RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE')
     print('  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di '
-          'conferma, 16-20 dai residui del riesame del 3 ottobre')
+          'conferma, 16-20 dai residui del riesame del 3 ottobre, 21 la nota '
+          'del pilota e le figure')
     print()
     tutto = controlla(d).stampa()
     print()
@@ -428,7 +506,6 @@ def principale(argv=None):
         '8  «puoi proseguire»: eseguito, ma il commit non e ancora spinto',
         '11 «pubblica nello stesso PR»: i file sono pronti, il push e manuale',
         '11 la descrizione del PR e ancora quella vecchia e va aggiornata',
-        '14 il 15 ottobre per il rapporto del pilot',
         '15 indicare il nuovo commit in Trello: dopo il push',
     ):
         print('     ' + voce)

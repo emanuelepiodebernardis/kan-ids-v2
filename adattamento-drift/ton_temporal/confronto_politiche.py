@@ -390,7 +390,25 @@ def stampa(tab, dettaglio, stim, pareggio, confrontate, semi, campione):
         print(f'precisione {a["precisione"]:.1%}' if a['precisione'] is not None else 'precisione n.d.')
 
 
+def uscita_in_utf8():
+    """Dichiara UTF-8 sull'uscita standard, invece di affidarsi al sistema.
+
+    Senza questo, su Windows `python ... > file.txt` usa cp1252 e cade con
+    UnicodeEncodeError sul primo carattere che quella tabella non ha. E'
+    successo davvero, sul meno tipografico U+2212 introdotto per allineare
+    l'uscita alla convenzione numerica dei documenti: a schermo si vedeva, ma
+    la riga che salva il risultato su file si fermava a meta'. L'uscita di
+    questi programmi finisce in file versionati, quindi il suo encoding e' una
+    proprieta' da dichiarare, non da ereditare.
+    """
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except (AttributeError, ValueError, OSError):
+        pass          # flussi che non si possono riconfigurare: si prosegue
+
+
 def principale(argv=None):
+    uscita_in_utf8()
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('--ogni-blocco', nargs='+', required=True, type=Path)
     p.add_argument('--evidenza', nargs='+', required=True, type=Path)

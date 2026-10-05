@@ -28,11 +28,14 @@ correggere.
 
 **Da quel risultato è nata una regola operativa, ed è stata verificata.**
 Aggiornare **solo su evidenza di inversione** fa quanto o meglio
-dell'aggiornamento continuo spendendo da un undicesimo a un ventisettesimo
-degli aggiornamenti, e sull'AUROC **batte il controllo negativo** — una
+dell'aggiornamento continuo spendendo, in media sui cinque semi, 45,2
+aggiornamenti anziché 520 per la logistica, 33,8 per l'MLP e 19,4 per
+l'additivo — da 11,5 a 26,8 volte meno — e sull'AUROC **batte il controllo negativo** — una
 politica che aggiorna sullo stesso numero di blocchi scelti a sorte — **in
-media** su tutti e tre i modelli, di +0,026, +0,069 e +0,097. Non è quindi il
-risparmio a produrre il risultato, è il criterio.
+media** su tutti e tre i modelli, di +0,026, +0,069 e +0,097. Il confronto è a
+parità di aggiornamenti, quindi il margine non viene dall'averne spesi di meno:
+viene dal criterio. È però un margine medio sull'AUROC, misurato contro un solo
+sorteggio, e se cada fuori dalla variabilità del sorteggio resta da stabilire.
 
 La formulazione precisa conta, perché una versione precedente diceva «in tutti
 e tre i modelli» intendendo la media. Il confronto **non è uniforme sui semi**
@@ -54,7 +57,8 @@ nessuna significatività statistica calcolata. Il dettaglio è al §6.
    zero, due dei tre risultati sulle misure di decisione si rovesciano: una
    parte di quello che avevamo attribuito all'adattamento era mala taratura del
    modello congelato (§3bis). L'AUROC non ne è toccata, ed è verificato su
-   27.480 valori.
+   27.480 coppie: 26.250 su valori definiti e 1.230 in cui la misura non è
+   definita in nessuna delle due varianti.
 3. **Il rivelatore di inversione è debole.** Esiste solo nel 41,6% dei blocchi,
    perché fra le cento righe campionate il blocco mediano non contiene nessun
    normale, e come regola di decisione ha precisione 15–18%. Funziona non perché
@@ -67,10 +71,26 @@ nessuna significatività statistica calcolata. Il dettaglio è al §6.
    righe dallo stream e senza scegliere modello o politica sui risultati di D
    (§5).
 
-**Per il modello additivo nessuna politica batte il congelato**: 0,8909 contro
-0,8358 della migliore, e **su tutti e cinque i semi**, con ciascuna delle tre
-politiche. È il risultato più scomodo e, essendo l'unico uniforme, il più
-solido.
+**Per il modello additivo nessuna politica batte il congelato**, su tutti e
+cinque i semi e con ciascuna delle tre politiche: in media sui semi 0,8909
+contro 0,8358 della migliore, che è `su evidenza` su quattro semi e `ogni
+blocco` sul seme 44. È il risultato più scomodo e, essendo l'unico uniforme,
+il più solido. In `figure/politiche_kan.png` si vede come: la media progressiva
+del congelato chiude sopra quella di ogni politica e resta stabilmente sopra
+dal blocco 213 in poi; prima, in 175 blocchi su 213, almeno una politica sta
+davanti, mai tutte e tre insieme. Il vantaggio è sul flusso intero, non in ogni
+suo punto. Sul seme 42
+la politica casuale perde su quel modello più attacchi del congelato: 3.356.503
+contro 3.157.627.
+
+**Le figure.** Quattordici in `figure/`, sul seme 42, prodotte dai soli
+rendiconti; `figure/LEGGIMI.md` dichiara per ciascuna la provenienza e il
+comando che la rifà, e il §10quinquies del protocollo le tre scelte che
+cambiano quello che una figura afferma. Quella che risponde alla domanda della
+scheda è `attacchi_non_rilevati_<modello>.png`: falsi negativi cumulati,
+congelato contro adattivo, con la differenza accanto. Sul seme 42 la logistica
+chiude a 1.377.545 attacchi non rilevati in meno su 8.977.357. Il conteggio
+dipende dal punto di decisione, e la didascalia lo dichiara dentro la figura.
 
 **Le correzioni di questo ciclo.** Cinque difetti segnalati nel riesame del 3
 ottobre, corretti nel codice e rimisurati con una riesecuzione completa delle
@@ -275,9 +295,11 @@ peggiorano, la seconda quanti *allarmi* in più arrivano all'operatore.
 
 Il §3 è calcolato alla soglia zero. Scegliendo la soglia su B col massimo della
 balanced accuracy — una per modello, identica e fissa nella coppia congelato /
-adattivo — l'AUROC non cambia di un valore: **27.480 misure verificate
+adattivo — l'AUROC non cambia di un valore: **27.480 coppie verificate
 identiche**, cinque semi per 916 blocchi per tre modelli per due stati, e gli
-indici campionati identici in tutti i blocchi. Il §1 resta quindi valido parola
+indici campionati identici in tutti i blocchi. Di quelle coppie 26.250 sono su
+valori definiti; nelle altre 1.230 l'AUROC non è definita in nessuna delle due
+varianti. Il §1 resta quindi valido parola
 per parola. Cambiano le misure di decisione:
 
 | | FPR medio per blocco | | FPR complessivo | | falsi positivi | |
@@ -448,6 +470,13 @@ del singolo aggiornamento, la memoria e l'hardware sono al §4bis.
 
 ## 6. L'esperimento proposto, eseguito: aggiornare solo su evidenza di inversione
 
+Le quattro politiche sugli stessi blocchi sono in `figure/politiche_lr.png`,
+`politiche_mlp.png` e `politiche_kan.png`: a sinistra gli attacchi non rilevati
+cumulati, a destra la media progressiva dell'AUROC, il cui valore finale è
+l'AUROC media di quella corsa — il **seme 42**, cioè il valore nel campo
+`per_seme` di `confronto_politiche.json`, non la media sui cinque semi delle
+tabelle di questa sezione.
+
 Era la proposta del primo ciclo. È stata eseguita su C, con la soglia del
 §3bis, parametri invariati, cinque semi, e con il controllo negativo.
 
@@ -523,8 +552,9 @@ distribuzione di pianificazioni casuali, quindi il confronto non ha un margine
 di errore: cinque semi danno cinque confronti, non una stima della variabilità
 del sorteggio. Dire di più richiederebbe più pianificazioni per seme.
 
-**Batte anche l'aggiornamento continuo spendendo da un undicesimo a un
-ventisettesimo degli aggiornamenti**, in media. Anche questo non è uniforme:
+**Batte anche l'aggiornamento continuo spendendo una frazione degli
+aggiornamenti**: in media sui cinque semi 45,2 contro 520 per la logistica,
+33,8 per l'MLP e 19,4 per l'additivo, cioè da 11,5 a 26,8 volte meno. Anche questo non è uniforme:
 sulla logistica il confronto con `ogni blocco` si rovescia su tre semi su
 cinque, pur restando in media positivo (+0,002). Per l'MLP la politica su
 evidenza è l'unica che batte il congelato **in media** — 0,7956 contro 0,7921 —
@@ -535,8 +565,8 @@ cinque i semi.
 **Per il modello additivo nessuna politica batte il congelato**: 0,8909 contro
 0,8358 della migliore, e questo su **tutti e cinque i semi** con tutte e tre le
 politiche — l'unico confronto di questa sezione che è uniforme. Il §1 lo aveva
-previsto — quel modello si inverte dieci volte su 875, non ha quasi nulla da
-correggere — e qui la previsione si verifica per una via diversa.
+previsto — quel modello si inverte in 9 o 10 blocchi su 875 a seconda del
+seme, non ha quasi nulla da correggere — e qui la previsione si verifica per una via diversa.
 
 Il limite va detto accanto a ogni riga: il rivelatore ha precisione 15–18% ed
 esiste nel 41,6% dei blocchi. **Funziona non perché sia preciso, ma perché

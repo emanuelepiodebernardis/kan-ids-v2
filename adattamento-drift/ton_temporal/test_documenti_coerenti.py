@@ -831,3 +831,258 @@ def test_i_comandi_non_tornano_a_spezzarsi_su_piu_righe():
             for n, r in righe:
                 assert not r.rstrip().endswith('\\'), \
                     f'{nome}:{n} comando spezzato su più righe: {r[:70]}'
+
+
+def _comandi_dei_blocchi(nome):
+    """(riga, comando, cartella dichiarata) per ogni comando dei blocchi di `nome`.
+
+    La cartella e' quella dichiarata dall'ultimo `cd` incontrato **dentro lo
+    stesso blocco**, espressa rispetto alla radice del repository. `None`
+    significa che il blocco non l'ha dichiarata.
+    """
+    p = CARTELLA_DOC / nome
+    if not p.is_file():
+        return []
+    blocchi, _ = _blocchi_recintati(p.read_text(encoding='utf-8'))
+    fuori = []
+    for k, (_, righe) in enumerate(blocchi):
+        cartella = None
+        for n, r in righe:
+            s = r.strip()
+            if s.startswith('cd '):
+                cartella = s[3:].strip().strip('"').replace('\\', '/')
+                continue
+            if s.startswith('python ') or s.startswith('git '):
+                fuori.append((n, s, cartella, k))
+    return fuori
+
+
+def test_ogni_blocco_di_comandi_dichiara_la_cartella():
+    """Da dove si esegue un comando non e' un dettaglio: lo stesso comando
+    riesce da una cartella e fallisce da un'altra, e il documento che non lo
+    dice obbliga chi legge a indovinare.
+    """
+    muti = []
+    for nome in DOCUMENTI_CON_COMANDI:
+        for n, comando, cartella, _ in _comandi_dei_blocchi(nome):
+            if cartella is None:
+                muti.append(f'{nome}:{n} {comando[:68]}')
+    assert not muti, ('comandi senza cartella dichiarata:\n  '
+                      + '\n  '.join(muti))
+
+
+def test_i_file_citati_nei_comandi_esistono_dove_il_comando_li_cerca():
+    """Un comando che cita un file inesistente non e' un comando: e' un errore
+    in attesa di essere incollato. Qui ogni percorso viene risolto rispetto
+    alla cartella che il blocco dichiara, e cercato sul disco.
+    """
+    if not (CARTELLA_DOC / 'replay.py').is_file():
+        pytest.skip('copia parziale del repository: i percorsi non si risolvono')
+    radice = CARTELLA_DOC.parent
+    mancanti = []
+    for nome in DOCUMENTI_CON_COMANDI:
+        prodotti, blocco_corrente = set(), None
+        for n, comando, cartella, blocco in _comandi_dei_blocchi(nome):
+            if blocco != blocco_corrente:
+                prodotti, blocco_corrente = set(), blocco
+            if cartella is None:
+                continue          # lo dice gia' l'altra prova
+            # `<repo>` e' la radice del clone, dichiarata nei documenti. Si
+            # traduce il prefisso logico invece di comporre percorsi, perche'
+            # la cartella che contiene i documenti puo' avere un altro nome in
+            # una copia di lavoro.
+            c = cartella.rstrip('/')
+            if c == '<repo>/ton_temporal':
+                base = CARTELLA_DOC
+            elif c.startswith('<repo>/ton_temporal/'):
+                base = CARTELLA_DOC / c[len('<repo>/ton_temporal/'):]
+            elif c == '<repo>':
+                base = radice
+            else:
+                base = radice / c
+            pezzi = comando.split()
+            for i, pezzo in enumerate(pezzi):
+                q = pezzo.strip('"')
+                if not q.endswith('.py') and not q.endswith('.json'):
+                    continue
+                if '<' in q or '*' in q or '?' in q or '$' in q or '(' in q:
+                    continue      # segnaposto, glob o variabile di shell
+                # il valore che segue --uscita e' prodotto dal comando, non
+                # letto: pretenderlo gia' sul disco sarebbe un controesenso
+                if i and pezzi[i - 1] in ('--uscita', '--output', '>'):
+                    prodotti.add(q)
+                    continue
+                # un argomento puo' avere la forma nome=percorso
+                q = q.split('=', 1)[1] if '=' in q else q
+                if q in prodotti:
+                    continue      # lo produce un comando precedente del blocco
+                if not (base / q.replace('\\', '/')).exists():
+                    mancanti.append(f'{nome}:{n} da {cartella}/ non esiste {q}')
+    assert not mancanti, ('file citati dai comandi e non trovati:\n  '
+                          + '\n  '.join(mancanti))
+
+
+def test_nessun_paragrafo_di_prosa_finisce_tronco():
+    """Una frase tagliata a meta' non fa cadere niente e si legge male una volta
+    sola: e' il difetto piu' facile da lasciare in un documento lungo, e ce n'e'
+    stato uno pubblicato — «...`test_guardia_monoclasse.py` con 11. Su» —
+    seguito dal paragrafo successivo come se niente fosse.
+
+    Due criteri, perche' il troncamento si presenta in due forme.
+
+    1. Un paragrafo che chiude su una riga vuota senza punteggiatura finale.
+       Non vale se il paragrafo introduce un blocco di comandi: li' la frase
+       continua legittimamente nel blocco.
+    2. Una riga che chiude una frase col punto e lascia una o due parole
+       orfane, subito sopra un capoverso nuovo: e' la forma esatta del difetto
+       pubblicato. Un criterio piu' largo — «riga piu' corta delle altre» —
+       segnalava quindici righe sane, riavvolte a 79 colonne davanti a una
+       parola lunga, e sarebbe stato abbandonato al primo falso allarme.
+    """
+    chiusure = ('.', ':', '?', '!', '\u00bb', ')', ']', '*', '`', '|', '-', ',',
+                ';', '"', '\u201d', '\u2014')
+    tronchi = []
+    for nome in DOCUMENTI_CON_COMANDI + ('nota_confini_componenti.md',):
+        p = CARTELLA_DOC / nome
+        if not p.is_file():
+            continue
+        righe = p.read_text(encoding='utf-8').split('\n')
+        dentro = False
+        for i, riga in enumerate(righe):
+            if riga.startswith('```'):
+                dentro = not dentro
+                continue
+            if dentro:
+                continue
+            s = riga.rstrip()
+            # prosa: niente titoli, citazioni, tabelle, elenchi, continuazioni
+            if (not s or s != s.lstrip()
+                    or s.startswith(('#', '>', '|', '-', '*'))
+                    or re.match(r'^\d+\.', s)):
+                continue
+            if s.endswith(chiusure):
+                continue
+            dopo = righe[i + 1].rstrip() if i + 1 < len(righe) else ''
+            if dopo.strip() == '':
+                # un paragrafo che introduce un blocco finisce senza punto
+                dopodopo = righe[i + 2].strip() if i + 2 < len(righe) else ''
+                if not dopodopo.startswith('```'):
+                    tronchi.append(f'{nome}:{i + 1} chiude senza punto: ...{s[-54:]}')
+            elif re.match(r'^\*\*[^*]*\.\*\*', dopo.lstrip()):
+                # Il residuo tipico di una frase cancellata: la riga chiude
+                # una frase col punto, restano una o due parole orfane, e
+                # subito sotto comincia un capoverso nuovo. Il capoverso si
+                # riconosce dal titolino in grassetto che **contiene** il punto
+                # fermo, come «**I 193 non sono il totale.**»: un grassetto
+                # senza punto, come «**affiancate**, ciascuna», e' invece una
+                # frase che prosegue dalla riga sopra. Senza questa distinzione
+                # la prova segnalava tre righe sane ogni una guasta.
+                coda = s.rsplit('. ', 1)[-1] if '. ' in s else ''
+                if coda and len(coda) <= 15:
+                    tronchi.append(
+                        f'{nome}:{i + 1} resto di frase «{coda}» prima di un '
+                        f'capoverso nuovo')
+    assert not tronchi, ('frasi che sembrano troncate:\n  '
+                         + '\n  '.join(tronchi))
+
+
+def test_il_conteggio_delle_prove_dichiarato_e_quello_vero():
+    """Il residuo che e' tornato due volte: un numero di prove rimasto indietro.
+
+    Prima «11 test superati» con conteggi di 634 e 643 misurati su un altro
+    ramo; poi 193 e 827 dopo che erano diventati 195 e 829. Un numero scritto a
+    mano invecchia al commit successivo, e nessuno se ne accorge finche' non lo
+    rilegge chi ha chiesto il controllo.
+
+    Qui il numero dichiarato viene confrontato con la raccolta vera, fatta in un
+    sottoprocesso con `--collect-only`, che **non esegue** le prove e quindi non
+    rientra qui dentro.
+    """
+    doc = CARTELLA_DOC / 'ambiente_e_comandi.md'
+    if not doc.is_file():
+        pytest.skip('ambiente_e_comandi.md non presente')
+    testo = doc.read_text(encoding='utf-8')
+    m = re.search(r'Attesi:\s*\*\*(\d+) test superati\*\*', testo)
+    assert m, 'il documento non dichiara piu il numero di prove attese'
+    dichiarato = int(m.group(1))
+
+    import subprocess
+    r = subprocess.run(
+        [sys.executable, '-m', 'pytest', '--collect-only', '-q',
+         '-p', 'no:cacheprovider', str(CARTELLA_DOC)],
+        capture_output=True, text=True, timeout=300)
+    raccolti = sum(1 for riga in r.stdout.splitlines() if '::' in riga)
+    assert raccolti, 'la raccolta non ha prodotto nulla:\n' + r.stdout[-800:]
+    assert dichiarato == raccolti, (
+        f'il documento dichiara {dichiarato} prove, la raccolta ne trova '
+        f'{raccolti}')
+
+    # e il dettaglio per file, che il documento elenca accanto al totale
+    per_file = {}
+    for riga in r.stdout.splitlines():
+        if '::' in riga:
+            f = riga.split('::')[0].split('/')[-1]
+            per_file[f] = per_file.get(f, 0) + 1
+    sbagliati = []
+    for f, quante in sorted(per_file.items()):
+        m = re.search(r'`' + re.escape(f) + r'`\s*\n?\s*(\d+)', testo)
+        if m and int(m.group(1)) != quante:
+            sbagliati.append(f'{f}: dichiarate {m.group(1)}, raccolte {quante}')
+    assert not sbagliati, ('conteggi per file non aggiornati:\n  '
+                           + '\n  '.join(sbagliati))
+
+
+SCRITTORI = ('verifica_richieste.py', 'riepiloghi_semi.py',
+             'confronto_politiche.py', 'costi_aggiornamento.py',
+             'curve_replay.py')
+
+
+def test_gli_script_dichiarano_l_encoding_della_propria_uscita():
+    """Il difetto arrivato dalla macchina Windows, e il terzo di questa serie.
+
+    L'uscita di questi programmi finisce in file versionati — per esempio
+    `verifica_richieste.txt` — con un `>` che la redirige. Su Windows Python
+    sceglie allora `cp1252`, dove il meno tipografico U+2212 non esiste, e il
+    comando cade con `UnicodeEncodeError` a meta' file. A schermo funzionava:
+    la console gestisce UTF-8, la redirezione no.
+
+    Oggi solo `verifica_richieste.py` stampa caratteri fuori da cp1252, ma gli
+    altri quattro stampano su flussi che possono essere rediretti allo stesso
+    modo, e basta un accento aggiunto domani. L'encoding dell'uscita e' quindi
+    dichiarato in tutti e cinque, e qui si verifica che la dichiarazione ci sia.
+    """
+    senza = []
+    for nome in SCRITTORI:
+        p = CARTELLA_DOC / nome
+        if not p.is_file():
+            continue
+        if 'sys.stdout.reconfigure' not in p.read_text(encoding='utf-8'):
+            senza.append(nome)
+    assert not senza, ('script che lasciano al sistema l\'encoding della propria '
+                       'uscita: ' + ', '.join(senza))
+
+
+def test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno():
+    """La prova vera: si rilancia il controllo con l'uscita forzata a cp1252,
+    che e' esattamente la condizione in cui cadeva su Windows."""
+    p = CARTELLA_DOC / 'verifica_richieste.py'
+    if not p.is_file() or not (CARTELLA_DOC / 'sovrapposizioni_abcd.json').is_file():
+        pytest.skip('copia parziale: il controllo non ha tutto il materiale')
+    import subprocess, os, tempfile
+    ambiente = dict(os.environ, PYTHONIOENCODING='cp1252')
+    with tempfile.TemporaryDirectory() as d:
+        destinazione = Path(d) / 'uscita.txt'
+        with open(destinazione, 'wb') as f:
+            r = subprocess.run([sys.executable, str(p), '--cartella',
+                                str(CARTELLA_DOC)],
+                               stdout=f, stderr=subprocess.PIPE, env=ambiente,
+                               timeout=300)
+        assert b'UnicodeEncodeError' not in r.stderr, (
+            'l\'uscita cade su un encoding senza il meno tipografico:\n'
+            + r.stderr.decode('utf-8', 'replace')[-600:])
+        testo = destinazione.read_text(encoding='utf-8')
+        assert '−' in testo, (
+            'il meno tipografico non e arrivato nel file: o non c\'e piu, o '
+            'e stato sostituito in silenzio')
+        assert testo.rstrip().endswith('dopo il push'), \
+            'il file si ferma prima della fine'

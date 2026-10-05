@@ -36,6 +36,7 @@ Uso
 
 from __future__ import annotations
 
+import sys
 import argparse
 import json
 import statistics as st
@@ -231,7 +232,25 @@ def stampa(riassunto, confronto):
         print('  un guadagno di latenza ne di memoria.')
 
 
+def uscita_in_utf8():
+    """Dichiara UTF-8 sull'uscita standard, invece di affidarsi al sistema.
+
+    Senza questo, su Windows `python ... > file.txt` usa cp1252 e cade con
+    UnicodeEncodeError sul primo carattere che quella tabella non ha. E'
+    successo davvero, sul meno tipografico U+2212 introdotto per allineare
+    l'uscita alla convenzione numerica dei documenti: a schermo si vedeva, ma
+    la riga che salva il risultato su file si fermava a meta'. L'uscita di
+    questi programmi finisce in file versionati, quindi il suo encoding e' una
+    proprieta' da dichiarare, non da ereditare.
+    """
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except (AttributeError, ValueError, OSError):
+        pass          # flussi che non si possono riconfigurare: si prosegue
+
+
 def principale(argv=None):
+    uscita_in_utf8()
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('--rendiconti', nargs='+', required=True, type=Path)
     p.add_argument('--uscita', type=Path)
