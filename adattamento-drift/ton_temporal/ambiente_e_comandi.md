@@ -29,28 +29,29 @@ cd <repo>
 python -m pytest ton_temporal -q
 ```
 
-Attesi: **239 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
+Attesi: **240 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
 `test_*.py` della cartella `ton_temporal/`. Per file: `test_documenti_coerenti.py`
-64, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 23,
+65, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 23,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
-`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** ora. I 44 di questo
-ciclo sono le 38 di `test_figure.py` e 6 aggiunte a `test_documenti_coerenti.py`
+`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`, **240** ora. I 45 di questo
+ciclo e dal precedente sono le 38 di `test_figure.py` e 7 aggiunte a
+`test_documenti_coerenti.py`
 — la cartella dichiarata in ogni blocco di comandi, l'esistenza dei file che i
 comandi citano, le frasi troncate, il confronto fra il numero di prove
 dichiarato qui e quello che la raccolta trova davvero — perché questo conteggio
-è già rimasto indietro due volte — e l'encoding con cui gli script scrivono la
-propria uscita, dopo che `verifica_richieste.py > verifica_richieste.txt` è
-caduto su Windows perché `cp1252` non ha il meno tipografico.
+è già rimasto indietro due volte — e l'encoding dell'uscita dei controlli,
+presidiato sia sul programma sia **sul file consegnato**.
 
-**I 239 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 240 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: al commit
 `5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **873 passate e 1 saltata**. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 239 è ADAPT-01, 873 è tutto
+quindi ora ci si attendono **874 passate e 1 saltata**: a `5a24cf1` ne sono state
+misurate 873 con 239 prove di ADAPT-01. I due numeri vanno
+citati separatamente, perché misurano cose diverse: 240 è ADAPT-01, 874 è tutto
 il repository. Il conteggio della radice dipende da quali altre cartelle sono
 presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
 ramo.
@@ -90,9 +91,12 @@ mediana.
 | MLP | 5,27 ms | 3,1 s | 3,5% |
 | additivo | 11,08 ms | 6,8 s | 7,8% |
 
-Le stesse misure su tutti e venti i rendiconti — dove gli aggiornamenti
-applicati sono 520 in media — si ottengono con `costi_aggiornamento.py` e stanno
-in `replay_evidenza/costi_aggiornamento.json`.
+Le stesse misure su tutti e venti i rendiconti si ottengono con
+`costi_aggiornamento.py` e stanno in `replay_evidenza/costi_aggiornamento.json`.
+Là gli aggiornamenti applicati sono in media 276,4 sulle sessanta misure, cioè
+venti rendiconti per tre modelli: 520 nelle sole dieci corse `ogni blocco` e
+32,8 nelle altre dieci. Una versione precedente di questa riga attribuiva il 520
+a tutti e venti i rendiconti.
 
 **Memoria.** Picco di memoria residente del processo: circa 1.338 MiB,
 dominato dagli array dello stream che il banco di prova tiene in memoria. Lo
@@ -272,11 +276,22 @@ corsa invece che dalle corse calibrate.
 ```
 cd <repo>/ton_temporal
 python verifica_richieste.py --cartella .
+python verifica_richieste.py --cartella . --uscita verifica_richieste.txt
 ```
 
 Traduce ogni richiesta delle lettere e del riesame in un controllo eseguibile
 sui file del ramo, ed elenca a parte quello che un programma non può
 verificare.
+
+Il secondo comando salva il rendiconto nel file versionato. **Si usa `--uscita`
+e non la redirezione della shell**: su PowerShell `> file.txt` riscrive l'uscita
+in UTF-16 e la rilegge con una code page che non è UTF-8, e il risultato è un
+file che git tratta come binario e in cui il meno tipografico diventa `Ôê`. È
+successo ed è stato pubblicato così, dopo che una correzione precedente aveva
+tolto l'errore rumoroso — il comando cadeva con `UnicodeEncodeError` — lasciando
+al suo posto un errore muto. Con `--uscita` il file lo scrive il programma, in
+UTF-8 senza BOM, e una prova controlla il file consegnato e non solo il
+programma che lo produce.
 
 ## Note di riproducibilità
 

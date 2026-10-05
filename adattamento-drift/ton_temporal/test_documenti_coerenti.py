@@ -1086,3 +1086,48 @@ def test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno():
             'e stato sostituito in silenzio')
         assert testo.rstrip().endswith('dopo il push'), \
             'il file si ferma prima della fine'
+
+
+def test_il_rendiconto_dei_controlli_e_un_file_di_testo_utf8():
+    """La prova che mancava, e che avrebbe intercettato un difetto pubblicato.
+
+    Le due prove sull'encoding guardavano il **programma**: che dichiarasse
+    UTF-8 e che non cadesse sotto `cp1252`. Nessuna guardava il **file
+    consegnato**. Cosi' `verifica_richieste.txt` e' stato pubblicato in UTF-16
+    con BOM, con il meno tipografico corrotto in `OeaeAE`, perche' la
+    redirezione di PowerShell riscrive l'uscita in UTF-16 e la rilegge con una
+    code page diversa: git lo trattava come binario e nessuna prova se ne
+    accorgeva.
+
+    La correzione sta a monte — il file lo scrive il programma, con `--uscita`,
+    non la shell — ma la lezione sta qui: quello che si pubblica va controllato
+    sul file pubblicato, non sul programma che lo produce.
+    """
+    p = CARTELLA_DOC / 'verifica_richieste.txt'
+    if not p.is_file():
+        pytest.skip('verifica_richieste.txt non presente')
+    grezzo = p.read_bytes()
+
+    assert not grezzo.startswith(b'\xff\xfe') and not grezzo.startswith(b'\xfe\xff'), \
+        'il file e in UTF-16: probabilmente prodotto con la redirezione della shell'
+    assert not grezzo.startswith(b'\xef\xbb\xbf'), 'il file ha un BOM UTF-8'
+    try:
+        testo = grezzo.decode('utf-8')
+    except UnicodeDecodeError as e:
+        raise AssertionError(f'il file non e UTF-8 valido: {e}')
+
+    assert '−' in testo, (
+        'il meno tipografico non c\'e: o e stato sostituito dal trattino, o '
+        'l\'encoding l\'ha corrotto')
+    for rovinato in ('ÔêÆ', 'âˆ’', '�'):
+        assert rovinato not in testo, (
+            f'nel file c\'e la sequenza {rovinato!r}: e il meno tipografico '
+            f'passato attraverso una code page sbagliata')
+    assert testo.rstrip().endswith('dopo il push'), \
+        'il rendiconto non arriva in fondo'
+    atteso = sum(1 for r in testo.split('\n') if r.startswith('OK '))
+    dichiarato = re.search(r'(\d+) controlli su (\d+) passati', testo)
+    assert dichiarato, 'il file non dichiara quanti controlli sono passati'
+    assert int(dichiarato.group(1)) == atteso, (
+        f'il file dichiara {dichiarato.group(1)} controlli passati ma ne elenca '
+        f'{atteso}')

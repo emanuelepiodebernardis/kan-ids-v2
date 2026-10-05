@@ -872,7 +872,10 @@ conta da sé, e dichiara quando un confronto **non** è uniforme.
 
 **Per il modello additivo nessuna politica batte il congelato.** 0,8909 contro
 0,8358 della migliore, e **su tutti e cinque i semi con tutte e tre le
-politiche**: è l'unico confronto di questa sezione che vale su ogni seme. Il
+politiche**: sull'AUROC il congelato vince 15 confronti su 15, tre politiche
+per cinque semi. Non è l'unico confronto uniforme della sezione — `confronto_politiche.json`
+ne marca quindici — ma è l'unico **modello** in cui l'adattamento non aiuta mai.
+Il
 risultato del §10 regge: quel modello non ha quasi nulla da correggere, e ogni
 aggiornamento è un costo netto. Il regime di inversione lo aveva previsto, e
 questa sezione lo conferma per via diversa.

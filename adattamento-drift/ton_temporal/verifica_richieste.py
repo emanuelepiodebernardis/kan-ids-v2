@@ -474,13 +474,8 @@ def controlla(d):
 def uscita_in_utf8():
     """Dichiara UTF-8 sull'uscita standard, invece di affidarsi al sistema.
 
-    Senza questo, su Windows `python ... > file.txt` usa cp1252 e cade con
-    UnicodeEncodeError sul primo carattere che quella tabella non ha. E'
-    successo davvero, sul meno tipografico U+2212 introdotto per allineare
-    l'uscita alla convenzione numerica dei documenti: a schermo si vedeva, ma
-    la riga che salva il risultato su file si fermava a meta'. L'uscita di
-    questi programmi finisce in file versionati, quindi il suo encoding e' una
-    proprieta' da dichiarare, non da ereditare.
+    Serve per quello che si stampa a schermo. **Non basta** per salvare su
+    file: vedi `--uscita`.
     """
     try:
         sys.stdout.reconfigure(encoding='utf-8')
@@ -489,10 +484,35 @@ def uscita_in_utf8():
 
 
 def principale(argv=None):
+    """Il rendiconto a schermo, e con `--uscita` anche su file.
+
+    Il file **non** va prodotto con la redirezione della shell. Su PowerShell
+    `python ... > file.txt` riscrive l'uscita in UTF-16 e la rilegge con una
+    code page che non e' UTF-8: il risultato e' un file che git tratta come
+    binario e in cui il meno tipografico diventa `OeaeAE`. E' successo, ed e'
+    stato pubblicato cosi'. Peggio del difetto precedente, in cui lo stesso
+    comando cadeva con UnicodeEncodeError: un errore rumoroso era diventato
+    muto. Con `--uscita` il file lo scrive questo programma, in UTF-8 senza
+    BOM, e nessuna shell sta in mezzo.
+    """
     uscita_in_utf8()
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument('--cartella', required=True, type=Path)
+    p.add_argument('--uscita', type=Path,
+                   help='scrive il rendiconto in questo file, in UTF-8 senza '
+                        'BOM; da preferire alla redirezione della shell')
     a = p.parse_args(argv)
+    if a.uscita is not None:
+        import io, contextlib
+        raccolto = io.StringIO()
+        with contextlib.redirect_stdout(raccolto):
+            esito = principale(['--cartella', str(a.cartella)])
+        testo = raccolto.getvalue()
+        with open(a.uscita, 'w', encoding='utf-8', newline='\n') as f:
+            f.write(testo)
+        sys.stdout.write(testo)
+        print(f'\nscritto {a.uscita} in UTF-8 senza BOM, {len(testo)} caratteri')
+        return esito
     d = carica(a.cartella)
     print('RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE')
     print('  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di '

@@ -74,8 +74,9 @@ nessuna significatività statistica calcolata. Il dettaglio è al §6.
 **Per il modello additivo nessuna politica batte il congelato**, su tutti e
 cinque i semi e con ciascuna delle tre politiche: in media sui semi 0,8909
 contro 0,8358 della migliore, che è `su evidenza` su quattro semi e `ogni
-blocco` sul seme 44. È il risultato più scomodo e, essendo l'unico uniforme,
-il più solido. In `figure/politiche_kan.png` si vede come: la media progressiva
+blocco` sul seme 44. È il risultato più scomodo, ed è solido perché uniforme:
+sull'AUROC il congelato vince 15 confronti su 15, tre politiche per cinque semi.
+È l'unico modello in cui l'adattamento non aiuta mai. In `figure/politiche_kan.png` si vede come: la media progressiva
 del congelato chiude sopra quella di ogni politica e resta stabilmente sopra
 dal blocco 213 in poi; prima, in 175 blocchi su 213, almeno una politica sta
 davanti, mai tutte e tre insieme. Il vantaggio è sul flusso intero, non in ogni
@@ -564,7 +565,10 @@ cinque i semi.
 
 **Per il modello additivo nessuna politica batte il congelato**: 0,8909 contro
 0,8358 della migliore, e questo su **tutti e cinque i semi** con tutte e tre le
-politiche — l'unico confronto di questa sezione che è uniforme. Il §1 lo aveva
+politiche: sull'AUROC il congelato vince 15 confronti su 15, tre politiche per
+cinque semi. È l'unico modello in cui l'adattamento non aiuta mai; confronti
+uniformi ce ne sono altri — `confronto_politiche.json` ne marca quindici in
+tutto — ma vanno tutti nella direzione opposta. Il §1 lo aveva
 previsto — quel modello si inverte in 9 o 10 blocchi su 875 a seconda del
 seme, non ha quasi nulla da correggere — e qui la previsione si verifica per una via diversa.
 

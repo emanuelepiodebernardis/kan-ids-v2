@@ -33,8 +33,9 @@ fa meglio per l'MLP (0,1625 contro 0,1844) e sul richiamo degli attacchi fa
 meglio su due modelli su tre (per l'MLP 0,7789 contro 0,7088).
 
 **Per il modello additivo nessuna politica batte il congelato**, su tutti e
-cinque i semi e con ciascuna delle tre politiche: è il risultato più scomodo e,
-essendo l'unico uniforme, il più solido. Uniforme è la direzione, non i numeri:
+cinque i semi e con ciascuna delle tre politiche — sull'AUROC il congelato vince
+15 confronti su 15. È il risultato più scomodo, ed è solido perché uniforme: è
+l'unico modello in cui l'adattamento non aiuta mai. Uniforme è la direzione, non i numeri:
 0,8909 contro 0,8358 sono medie sui semi, e per seme il congelato va da 0,8857
 a 0,8944 mentre `su evidenza`, che è la migliore su quattro semi su cinque, va
 da 0,7885 a 0,8814; sul seme 44 la migliore è `ogni blocco`, con 0,7926. Il vantaggio è sul flusso
