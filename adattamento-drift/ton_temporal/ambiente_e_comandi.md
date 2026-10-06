@@ -26,32 +26,34 @@ un singolo aggiornamento sta al minimo come 29 a 1 sulle corse dedicate, e come
 
 ```
 cd <repo>
-python -m pytest ton_temporal -q
+python -m pytest adattamento-drift/ton_temporal -q
 ```
 
-Attesi: **240 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
+Attesi: **242 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
 `test_*.py` della cartella `ton_temporal/`. Per file: `test_documenti_coerenti.py`
-65, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 23,
+67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 23,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
-`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`, **240** ora. I 45 di questo
-ciclo e dal precedente sono le 38 di `test_figure.py` e 7 aggiunte a
+`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`, **240** a `3861a5d`, **242** ora. I 47 di questo
+ciclo e dal precedente sono le 38 di `test_figure.py` e 9 aggiunte a
 `test_documenti_coerenti.py`
 — la cartella dichiarata in ogni blocco di comandi, l'esistenza dei file che i
 comandi citano, le frasi troncate, il confronto fra il numero di prove
 dichiarato qui e quello che la raccolta trova davvero — perché questo conteggio
 è già rimasto indietro due volte — e l'encoding dell'uscita dei controlli,
-presidiato sia sul programma sia **sul file consegnato**.
+presidiato sia sul programma sia **sul file consegnato**; e i percorsi dei
+comandi, che devono attraversare `adattamento-drift/` e citare i flussi
+relativamente alla cartella da cui il comando si esegue.
 
-**I 240 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 242 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: al commit
 `5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **874 passate e 1 saltata**: a `5a24cf1` ne sono state
-misurate 873 con 239 prove di ADAPT-01. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 240 è ADAPT-01, 874 è tutto
+quindi ora ci si attendono **876 passate e 1 saltata**: a `3861a5d` ne sono state
+misurate 874 con 240 prove di ADAPT-01. I due numeri vanno
+citati separatamente, perché misurano cose diverse: 242 è ADAPT-01, 876 è tutto
 il repository. Il conteggio della radice dipende da quali altre cartelle sono
 presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
 ramo.
@@ -114,7 +116,8 @@ macchina, circa 48 minuti.
 
 I dati grezzi non sono redistribuiti, quindi quattro percorsi dipendono dalla
 macchina e sono le **sole** cose da sostituire: `<repo>` è la cartella del
-clone di questo repository, `<dati>` è la cartella con i 23
+clone di questo repository — quella che contiene `adattamento-drift/`, non la
+cartella di lavoro — `<dati>` è la cartella con i 23
 `Network_dataset_*.csv`, `<lab>` un clone di `ids-update-lab`, `<noto>` il
 `train_test_network.csv` il cui SHA-256 è
 `26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974`. Tutto il
@@ -128,7 +131,7 @@ spezzata, incollata, diventa due comandi sbagliati.
 **1. Ricostruire le impronte degli input già visti**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python impronte_note.py --sorgente <noto> --audit <lab>/research028/vendor/audit_ton_full.py --uscita impronte_note.npz --esigi-sorgente
 ```
 
@@ -138,7 +141,7 @@ metadati dichiarati: 92.330 impronte uniche da 211.043 righe.
 **2. Inventario dei 23 file**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python inventario_ton.py --dati <dati> --audit <lab>/research028/vendor/audit_ton_full.py --manifest <lab>/research028/inputs/ton_iot_mirror_v1_manifest.json --impronte impronte_note.npz --uscita inventario --riprendi
 ```
 
@@ -150,14 +153,14 @@ Ripartibile: rilanciandolo salta i file già fatti. Produce
 **3. Copertura, con lo strumento del referente, senza modifiche**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python <lab>/research028/tools/coverage028.py --input inventario/hourly_counts_frt.csv --output inventario/copertura_frt
 ```
 
 **4. Costruire i flussi ordinati per feature_ready_time**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python costruisci_flusso.py --dati <dati> --audit <lab>/research028/vendor/audit_ton_full.py --manifest <lab>/research028/inputs/ton_iot_mirror_v1_manifest.json --inizio 2019-04-02 --fine-esclusa 2019-04-05 --giorni-extra 2019-04-23 --uscita flussi/A.npz
 ```
 
@@ -173,7 +176,7 @@ autorizzata.
 **4bis. Le sovrapposizioni dirette fra A, B, C e D**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python sovrapposizioni_abcd.py --csv <dati> --manifest <lab>/research028/inputs/ton_iot_mirror_v1_manifest.json --audit <lab>/research028/vendor/audit_ton_full.py --uscita sovrapposizioni_abcd.json
 ```
 
@@ -190,7 +193,7 @@ nel nome del file — e i conteggi di `--quanti-aggiornamenti`, che sono quelli
 della politica su evidenza dello stesso seme.
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --seme 42 --uscita replay_C_seme42.json
 python replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --calibrazione flussi/B.npz --seme 42 --uscita replay_C_calibrato_seme42.json
 python replay.py --iniziale flussi/A.npz --flusso flussi/C.npz --calibrazione flussi/B.npz --politica evidenza_inversione --seme 42 --uscita replay_C_evidenza_seme42.json
@@ -214,7 +217,7 @@ renderebbe il controllo non pareggiato. Per la variante scartata,
 **6. I candidati della soglia e la regola di confronto**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python documenta_soglie.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --semi 42 43 44 45 46 --uscita replay_evidenza/soglie_candidati.json
 ```
 
@@ -223,7 +226,7 @@ python documenta_soglie.py --iniziale flussi/A.npz --calibrazione flussi/B.npz -
 Su Linux e macOS, da dentro `replay_evidenza`:
 
 ```
-cd <repo>/ton_temporal/replay_evidenza
+cd <repo>/adattamento-drift/ton_temporal/replay_evidenza
 Z="replay_C_seme42.json replay_C_seme43.json replay_C_seme44.json replay_C_seme45.json replay_C_seme46.json"
 B="replay_C_calibrato_seme42.json replay_C_calibrato_seme43.json replay_C_calibrato_seme44.json replay_C_calibrato_seme45.json replay_C_calibrato_seme46.json"
 python ../riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json --verifica
@@ -236,7 +239,7 @@ In PowerShell, dove le liste si scrivono con le virgole e il globbing va risolto
 prima:
 
 ```
-cd <repo>/ton_temporal/replay_evidenza
+cd <repo>/adattamento-drift/ton_temporal/replay_evidenza
 $Z = "replay_C_seme42.json","replay_C_seme43.json","replay_C_seme44.json","replay_C_seme45.json","replay_C_seme46.json"
 $B = "replay_C_calibrato_seme42.json","replay_C_calibrato_seme43.json","replay_C_calibrato_seme44.json","replay_C_calibrato_seme45.json","replay_C_calibrato_seme46.json"
 python ..\riepiloghi_semi.py --rendiconti $Z --uscita riepiloghi_semi.json --verifica
@@ -251,7 +254,7 @@ scartata, il cui nome finisce in `_strati_punteggio`.
 **8. Le figure**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python curve_replay.py --rendiconto replay_evidenza/replay_C_calibrato_seme42.json --politiche ogni_blocco=replay_evidenza/replay_C_calibrato_seme42.json evidenza=replay_evidenza/replay_C_evidenza_seme42.json casuale=replay_evidenza/replay_C_casuale_seme42.json --modello lr --uscita figure
 python curve_replay.py --rendiconto replay_evidenza/replay_C_calibrato_seme42.json --politiche ogni_blocco=replay_evidenza/replay_C_calibrato_seme42.json evidenza=replay_evidenza/replay_C_evidenza_seme42.json casuale=replay_evidenza/replay_C_casuale_seme42.json --modello mlp --uscita figure
 python curve_replay.py --rendiconto replay_evidenza/replay_C_calibrato_seme42.json --politiche ogni_blocco=replay_evidenza/replay_C_calibrato_seme42.json evidenza=replay_evidenza/replay_C_evidenza_seme42.json casuale=replay_evidenza/replay_C_casuale_seme42.json --modello kan --uscita figure
@@ -274,7 +277,7 @@ corsa invece che dalle corse calibrate.
 **9. Le richieste del referente, controllate sul materiale**
 
 ```
-cd <repo>/ton_temporal
+cd <repo>/adattamento-drift/ton_temporal
 python verifica_richieste.py --cartella .
 python verifica_richieste.py --cartella . --uscita verifica_richieste.txt
 ```

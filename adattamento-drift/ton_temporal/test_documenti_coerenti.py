@@ -892,10 +892,11 @@ def test_i_file_citati_nei_comandi_esistono_dove_il_comando_li_cerca():
             # la cartella che contiene i documenti puo' avere un altro nome in
             # una copia di lavoro.
             c = cartella.rstrip('/')
-            if c == '<repo>/ton_temporal':
+            dentro = '<repo>/adattamento-drift/ton_temporal'
+            if c == dentro:
                 base = CARTELLA_DOC
-            elif c.startswith('<repo>/ton_temporal/'):
-                base = CARTELLA_DOC / c[len('<repo>/ton_temporal/'):]
+            elif c.startswith(dentro + '/'):
+                base = CARTELLA_DOC / c[len(dentro) + 1:]
             elif c == '<repo>':
                 base = radice
             else:
@@ -1131,3 +1132,57 @@ def test_il_rendiconto_dei_controlli_e_un_file_di_testo_utf8():
     assert int(dichiarato.group(1)) == atteso, (
         f'il file dichiara {dichiarato.group(1)} controlli passati ma ne elenca '
         f'{atteso}')
+
+
+def test_i_flussi_citati_seguono_la_cartella_da_cui_si_esegue():
+    """I file di dati non stanno nel repository, quindi la loro esistenza non si
+    puo' controllare: si controlla che il percorso sia coerente con il `cd`.
+
+    I flussi stanno in `ton_temporal/flussi/`. Un comando eseguito da
+    `ton_temporal` li cita come `flussi/A.npz`; uno eseguito da
+    `ton_temporal/replay_evidenza` deve citarli come `../flussi/A.npz`. Il
+    `LEGGIMI` di `replay_evidenza` scriveva `A.npz` e basta: il comando, copiato
+    com'era, cercava i flussi nella cartella sbagliata.
+    """
+    guai = []
+    for nome in DOCUMENTI_CON_COMANDI:
+        for n, comando, cartella, _ in _comandi_dei_blocchi(nome):
+            if cartella is None:
+                continue
+            for pezzo in comando.split():
+                q = pezzo.strip('"').split('=', 1)[-1]
+                # solo i tre flussi, che stanno in `flussi/`. `impronte_note.npz`
+                # e' prodotto nella cartella corrente e non c'entra.
+                if not any(q.endswith(f + '.npz') for f in ('A', 'B', 'C')):
+                    continue
+                atteso = ('flussi/' if cartella.rstrip('/').endswith('ton_temporal')
+                          else '../flussi/')
+                if not q.startswith(atteso):
+                    guai.append(f'{nome}:{n} da {cartella}/ il flusso dovrebbe '
+                                f'essere {atteso}..., invece e {q}')
+    assert not guai, ('percorsi dei flussi incoerenti con la cartella:\n  '
+                      + '\n  '.join(guai))
+
+
+def test_i_comandi_che_partono_dalla_radice_del_clone_la_attraversano():
+    """`<repo>` e' la radice del clone, dentro cui sta `adattamento-drift/`.
+
+    I documenti dicevano `cd <repo>/ton_temporal`, saltando quel livello: i
+    comandi non trovavano niente. Qui si pretende che ogni cartella dichiarata
+    sia la radice del clone oppure cominci da `adattamento-drift/`, e che un
+    `pytest` lanciato dalla radice indichi il percorso completo della suite.
+    """
+    guai = []
+    for nome in DOCUMENTI_CON_COMANDI:
+        for n, comando, cartella, _ in _comandi_dei_blocchi(nome):
+            if cartella is None:
+                continue
+            c = cartella.rstrip('/')
+            if c != '<repo>' and not c.startswith('<repo>/adattamento-drift'):
+                guai.append(f'{nome}:{n} cartella {c}: manca adattamento-drift')
+            if c == '<repo>' and 'pytest' in comando and 'ton_temporal' in comando:
+                if 'adattamento-drift/ton_temporal' not in comando:
+                    guai.append(f'{nome}:{n} pytest dalla radice del clone senza '
+                                f'adattamento-drift: {comando[:60]}')
+    assert not guai, ('percorsi che non attraversano adattamento-drift:\n  '
+                      + '\n  '.join(guai))
