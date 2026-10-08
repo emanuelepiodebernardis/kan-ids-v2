@@ -504,6 +504,32 @@ def _quanti_per_modello(testo, modelli):
     return fuori
 
 
+def _seme_politica_effettivo(seme, seme_politica):
+    """Seme del calendario della politica, con default storico."""
+    return seme if seme_politica is None else seme_politica
+
+
+def scegli_blocchi_casuali(modelli, candidati, quanti_per_modello, seme, seme_politica=None):
+    """Calendario del controllo casuale, separato dagli altri usi di `--seme`.
+
+    Se `seme_politica` non e' passato, il seme effettivo coincide con `seme`:
+    e' il comportamento dei rendiconti gia' pubblicati. Passarlo cambia solo i
+    blocchi scelti dal controllo negativo, non inizializzazione, campionamento
+    delle etichette, soglie o conteggi richiesti.
+    """
+    seme_pol = _seme_politica_effettivo(seme, seme_politica)
+    fuori = {}
+    for nm in modelli:
+        # un generatore per modello, indipendente dal campionamento: il
+        # controllo non deve dipendere da quali righe sono etichettate
+        rng_pol = np.random.default_rng(
+            10_000 + seme_pol * 97 + sum(ord(c) for c in nm))
+        quanti = min(quanti_per_modello[nm], len(candidati))
+        fuori[nm] = set(int(x) for x in
+                        rng_pol.choice(candidati, quanti, replace=False))
+    return fuori
+
+
 def decidi(politica, modello, blocco_pronte, righe, blocchi_scelti):
     """Se aggiornare, con la sola informazione disponibile al momento.
 
@@ -616,6 +642,10 @@ def main(argv=None):
     p.add_argument('--ritardo', type=int, default=1,
                    help='blocchi di attesa: le etichette di k arrivano a fine k+ritardo')
     p.add_argument('--seme', type=int, default=42)
+    p.add_argument('--seme-politica', type=int, default=None,
+                   help='solo per --politica casuale: seme del calendario dei '
+                        'blocchi scelti. Se omesso coincide con --seme, per '
+                        'riprodurre i rendiconti storici')
     p.add_argument('--max-blocchi', type=int, default=None, help='per uno smoke breve')
     p.add_argument('--politica', default='ogni_blocco',
                    choices=('ogni_blocco', 'evidenza_inversione', 'casuale'),
@@ -722,14 +752,8 @@ def main(argv=None):
         # la differenza fra i conteggi invece della differenza fra i criteri.
         quanti_per_modello = _quanti_per_modello(a.quanti_aggiornamenti, modelli)
         candidati = _blocchi_ammissibili(a.ammissibili, n_blocchi, a.ritardo)
-        for nm in modelli:
-            # un generatore per modello, indipendente dal campionamento: il
-            # controllo non deve dipendere da quali righe sono etichettate
-            rng_pol = np.random.default_rng(
-                10_000 + a.seme * 97 + sum(ord(c) for c in nm))
-            quanti = min(quanti_per_modello[nm], len(candidati))
-            blocchi_scelti[nm] = set(int(x) for x in
-                                     rng_pol.choice(candidati, quanti, replace=False))
+        blocchi_scelti = scegli_blocchi_casuali(
+            modelli, candidati, quanti_per_modello, a.seme, a.seme_politica)
     salti = {nm: 0 for nm in modelli}
     aggiornamenti = {nm: 0 for nm in modelli}
     etichette_spese = 0
@@ -871,6 +895,9 @@ def main(argv=None):
     fuori = {
         'parametri': {'blocco': a.blocco, 'budget': a.budget, 'memoria': a.memoria,
                       'ritardo_in_blocchi': a.ritardo, 'seme': a.seme,
+                      'seme_politica': _seme_politica_effettivo(
+                          a.seme, a.seme_politica),
+                      'seme_politica_esplicito': a.seme_politica is not None,
                       'max_blocchi': a.max_blocchi},
         'flusso': {'file': Path(a.flusso).name, 'righe': int(n),
                    'blocchi_eseguiti': n_blocchi,
@@ -880,6 +907,8 @@ def main(argv=None):
         'trasformazione': 'log1p poi standardizzazione, stimata su A',
         'campionamento': a.campionamento,
         'politica': {'nome': a.politica,
+                     'seme': _seme_politica_effettivo(a.seme, a.seme_politica)
+                     if a.politica == 'casuale' else None,
                      'quanti_aggiornamenti_richiesti': a.quanti_aggiornamenti,
                      'blocchi_scelti': {nm: sorted(v) for nm, v in blocchi_scelti.items()
                                         if v} or None},

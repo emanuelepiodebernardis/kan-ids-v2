@@ -218,6 +218,38 @@ def test_una_guardia_diversa_fra_modelli_e_un_errore(tmp_path):
         RP._blocchi_ammissibili(p, 3, 1)
 
 
+def test_il_seme_politica_omesso_riproduce_il_calendario_storico():
+    candidati = list(range(20))
+    quanti = {'lr': 5, 'mlp': 4, 'kan': 3}
+    storico = RP.scegli_blocchi_casuali(MODELLI, candidati, quanti, seme=42)
+    esplicito = RP.scegli_blocchi_casuali(MODELLI, candidati, quanti, seme=42,
+                                          seme_politica=42)
+    assert storico == esplicito
+
+
+def test_il_seme_politica_cambia_solo_il_calendario():
+    candidati = list(range(60))
+    quanti = {'lr': 8, 'mlp': 7, 'kan': 6}
+    a = RP.scegli_blocchi_casuali(MODELLI, candidati, quanti, seme=42,
+                                  seme_politica=1000)
+    b = RP.scegli_blocchi_casuali(MODELLI, candidati, quanti, seme=42,
+                                  seme_politica=1001)
+    assert a != b
+    for m in MODELLI:
+        assert len(a[m]) == quanti[m]
+        assert len(b[m]) == quanti[m]
+        assert a[m] <= set(candidati)
+        assert b[m] <= set(candidati)
+
+
+def test_il_seme_politica_non_cambia_i_conteggi_richiesti():
+    candidati = list(range(5))
+    quanti = {'lr': 8, 'mlp': 3, 'kan': 0}
+    scelti = RP.scegli_blocchi_casuali(MODELLI, candidati, quanti, seme=42,
+                                       seme_politica=99)
+    assert {m: len(v) for m, v in scelti.items()} == {'lr': 5, 'mlp': 3, 'kan': 0}
+
+
 # --------------------------------------------------------------------------
 # Il confronto seme per seme: una media favorevole non e' un fatto uniforme
 # --------------------------------------------------------------------------

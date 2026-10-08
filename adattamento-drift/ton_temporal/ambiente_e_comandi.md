@@ -29,31 +29,33 @@ cd <repo>
 python -m pytest adattamento-drift/ton_temporal -q
 ```
 
-Attesi: **242 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
+Attesi: **245 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
 `test_*.py` della cartella `ton_temporal/`. Per file: `test_documenti_coerenti.py`
-67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 23,
+67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
-`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`, **240** a `3861a5d`, **242** ora. I 47 di questo
-ciclo e dal precedente sono le 38 di `test_figure.py` e 9 aggiunte a
-`test_documenti_coerenti.py`
-— la cartella dichiarata in ogni blocco di comandi, l'esistenza dei file che i
-comandi citano, le frasi troncate, il confronto fra il numero di prove
-dichiarato qui e quello che la raccolta trova davvero — perché questo conteggio
-è già rimasto indietro due volte — e l'encoding dell'uscita dei controlli,
-presidiato sia sul programma sia **sul file consegnato**; e i percorsi dei
-comandi, che devono attraversare `adattamento-drift/` e citare i flussi
-relativamente alla cartella da cui il comando si esegue.
+`c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
+**240** a `3861a5d`, **242** a `7f154ed`, **245** ora. I 50 di questo ciclo e
+dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
+`test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
+separato della politica — la cartella dichiarata in ogni blocco di comandi,
+l'esistenza dei file che i comandi citano, le frasi troncate, il confronto fra
+il numero di prove dichiarato qui e quello che la raccolta trova davvero —
+perché questo conteggio è già rimasto indietro due volte — e l'encoding
+dell'uscita dei controlli, presidiato sia sul programma sia **sul file
+consegnato**; e i percorsi dei comandi, che devono attraversare
+`adattamento-drift/` e citare i flussi relativamente alla cartella da cui il
+comando si esegue.
 
-**I 242 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 245 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: al commit
 `5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **876 passate e 1 saltata**: a `3861a5d` ne sono state
+quindi ora ci si attendono **879 passate e 1 saltata**: a `3861a5d` ne sono state
 misurate 874 con 240 prove di ADAPT-01. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 242 è ADAPT-01, 876 è tutto
+citati separatamente, perché misurano cose diverse: 245 è ADAPT-01, 879 è tutto
 il repository. Il conteggio della radice dipende da quali altre cartelle sono
 presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
 ramo.
