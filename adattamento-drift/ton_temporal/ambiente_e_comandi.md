@@ -1,6 +1,6 @@
 # Ambiente, costi e comandi riproducibili
 
-ADAPT-01, aggiornato al 3 ottobre 2026. Tutti i risultati di questo PR sono
+ADAPT-01, aggiornato al 9 ottobre 2026. Tutti i risultati di questo PR sono
 prodotti dai comandi qui sotto, nell'ordine indicato.
 
 ## Ambiente
@@ -21,6 +21,28 @@ latenza di un sistema in esercizio: a parità di modello il massimo del tempo di
 un singolo aggiornamento sta al minimo come 29 a 1 sulle corse dedicate, e come
 178 a 1 sulle corse eseguite mentre girava altro lavoro.
 `costi_aggiornamento.py` riporta quel rapporto per ciascun modello.
+
+La nuova serie C e i controlli appaiati del 9 ottobre sono stati eseguiti in
+un secondo ambiente, registrato nei nuovi rendiconti e distinto da quello del
+pilota storico:
+
+- commit di partenza dei rendiconti: `ef0eaad07cfde5e2324df07d66b648e3c2a533b0`
+- Python 3.13.2, CPython
+- numpy 2.3.4, scikit-learn 1.7.2
+- Windows 11, AMD64, solo CPU
+- CPU `Intel64 Family 6 Model 186 Stepping 3, GenuineIntel`, 12 thread visibili
+  al processo, 16.067 MiB di RAM
+- nessuna variabile `OMP_NUM_THREADS`, `OPENBLAS_NUM_THREADS` o
+  `MKL_NUM_THREADS` impostata
+
+Gli input usati da quella serie sono gli stessi tre flussi ricostruiti dai CSV
+originali, con queste impronte SHA-256:
+
+| flusso | SHA-256 |
+|---|---|
+| A.npz | `ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432` |
+| B.npz | `e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0` |
+| C.npz | `3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d` |
 
 ## La suite di test
 
@@ -215,6 +237,72 @@ al controllo casuale sono quelli applicati dalla politica su evidenza **dello
 stesso seme**, che si leggono in `costi.decisioni_della_politica`: cambiarli
 renderebbe il controllo non pareggiato. Per la variante scartata,
 `--campionamento strati_punteggio`.
+
+**5bis. Estensione C, controlli appaiati e riallineamento mirato**
+
+La campagna estesa conserva i cinque semi di base 42, 43, 44, 45 e 46 e produce
+venti calendari casuali per ciascun seme. Il seme della politica e' separato
+dal seme di base con la regola `seme_base * 1000 + calendario`, cosi'
+l'inizializzazione, i campioni di etichette e le soglie restano legati al seme
+di base, mentre cambia soltanto il calendario del controllo casuale.
+
+Prima della campagna completa e' stata eseguita una corsa singola per stimare i
+tempi: 333,26 secondi, stima sequenziale per 100 corse 9,26 ore sulla macchina
+Windows descritta sopra. La campagna completa scrive fuori Git i rendiconti
+interi e in Git solo il riepilogo leggero:
+
+```
+cd <repo>/adattamento-drift/ton_temporal
+python estensione_calendari_C.py --fermati-dopo 1 --collegamento-archivio "https://drive.google.com/file/d/1X5d8sQDtt7iSowaEKs2oKqqQSQBxOJnZ/view?usp=drive_link"
+python estensione_calendari_C.py --salta-esistenti --collegamento-archivio "https://drive.google.com/file/d/1X5d8sQDtt7iSowaEKs2oKqqQSQBxOJnZ/view?usp=drive_link"
+```
+
+I cento rendiconti completi della campagna casuale restano in
+`adattamento-drift/archivio_esterno/estensione_C_calendari/`; lo zip
+`rendiconti_estensione_C_calendari.zip` ha SHA-256
+`cb21394a8c8c0fc9acd3361f6ae14dddb385971a36a6d3929450b796ee43bfda` ed e'
+collegato qui:
+`https://drive.google.com/file/d/1X5d8sQDtt7iSowaEKs2oKqqQSQBxOJnZ/view?usp=drive_link`.
+Il riepilogo versionato e' `estensione_C_calendari/riepilogo.json` e registra
+configurazione, semi, seme della politica, blocchi scelti, metriche e SHA-256
+dei rendiconti.
+
+Il confronto appaiato non usa i vecchi rendiconti evidence, perche' la nuova
+serie e' stata eseguita in un ambiente diverso e le soglie non coincidono con
+quelle storiche. I controlli evidence e calibrato dei cinque semi vengono quindi
+ricostruiti nello stesso ambiente della nuova serie, poi confrontati
+automaticamente con i cento casuali:
+
+```
+cd <repo>/adattamento-drift/ton_temporal
+python controlli_appaiati_C.py --salta-esistenti
+```
+
+Il controllo verifica, per ciascun seme e calendario, soglie, digest delle
+misure frozen per blocco, digest dei campioni di etichette e numero di
+aggiornamenti richiesti. Soglie, frozen e campioni coincidono; i conteggi degli
+aggiornamenti richiedono il riallineamento mirato di 60 casuali, tutti dei semi
+42, 43 e 45. I 100 rendiconti originali non vengono sovrascritti.
+
+```
+cd <repo>/adattamento-drift/ton_temporal
+python controlli_appaiati_C.py --solo-riepilogo --riallinea-casuali --salta-esistenti --workers 2
+```
+
+Gli archivi completi dei controlli appaiati stanno sotto
+`adattamento-drift/archivio_esterno/controlli_appaiati_C/`, fuori Git:
+
+| contenuto | archivio | SHA-256 |
+|---|---|---|
+| 10 rendiconti calibrato/evidence nuovi | `rendiconti_controlli_appaiati_C.zip` | `4d29bd4cdee29cfd5e686d409c1b5b6ff5c75ed1a3f94ca41b0d0240bee4237e` |
+| 60 casuali riallineati | `rendiconti_casuali_riallineati_C.zip` | `6eb5ee0ae8a73731e300823eda7cc0adaf211e001a777978b5a57b3958459fe5` |
+
+Il riepilogo versionato `controlli_appaiati_C/riepilogo.json` registra commit,
+versioni dell'ambiente tramite i rendiconti, hash degli input, archivi, SHA-256,
+semi, calendari e confronti. Il campo
+`tutti_appaiati_dopo_riallineamento` vale `true`: dopo i 60 rendiconti
+riallineati, soglie, frozen, digest dei campioni e conteggi degli aggiornamenti
+sono appaiati rispetto ai nuovi controlli evidence.
 
 **6. I candidati della soglia e la regola di confronto**
 
