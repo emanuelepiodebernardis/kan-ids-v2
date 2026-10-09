@@ -292,10 +292,10 @@ python controlli_appaiati_C.py --solo-riepilogo --riallinea-casuali --salta-esis
 Gli archivi completi dei controlli appaiati stanno sotto
 `adattamento-drift/archivio_esterno/controlli_appaiati_C/`, fuori Git:
 
-| contenuto | archivio | SHA-256 |
-|---|---|---|
-| 10 rendiconti calibrato/evidence nuovi | `rendiconti_controlli_appaiati_C.zip` | `4d29bd4cdee29cfd5e686d409c1b5b6ff5c75ed1a3f94ca41b0d0240bee4237e` |
-| 60 casuali riallineati | `rendiconti_casuali_riallineati_C.zip` | `6eb5ee0ae8a73731e300823eda7cc0adaf211e001a777978b5a57b3958459fe5` |
+| contenuto | archivio | SHA-256 | collegamento |
+|---|---|---|---|
+| 10 rendiconti calibrato/evidence nuovi | `rendiconti_controlli_appaiati_C.zip` | `4d29bd4cdee29cfd5e686d409c1b5b6ff5c75ed1a3f94ca41b0d0240bee4237e` | `https://drive.google.com/file/d/1OgVKO7t74Yi7Q8Gy_k-aWZQg9mb1i4vb/view?usp=drive_link` |
+| 60 casuali riallineati | `rendiconti_casuali_riallineati_C.zip` | `6eb5ee0ae8a73731e300823eda7cc0adaf211e001a777978b5a57b3958459fe5` | `https://drive.google.com/file/d/1Wum41yN4wHKJb3tsNTPqndY59MYzjqC_/view?usp=drive_link` |
 
 Il riepilogo versionato `controlli_appaiati_C/riepilogo.json` registra commit,
 versioni dell'ambiente tramite i rendiconti, hash degli input, archivi, SHA-256,
