@@ -1,0 +1,520 @@
+{
+ "parametri": {
+  "blocco": 10000,
+  "budget": 0.01,
+  "memoria": 256,
+  "ritardo_in_blocchi": 1,
+  "seme": 42,
+  "max_blocchi": null
+ },
+ "flusso": {
+  "file": "C.npz",
+  "righe": 9150673,
+  "blocchi_eseguiti": 916,
+  "normali": 173316,
+  "attacchi": 8977357
+ },
+ "iniziale": {
+  "file": "A.npz",
+  "righe": 3956308,
+  "normali": 223199
+ },
+ "trasformazione": "log1p poi standardizzazione, stimata su A",
+ "campionamento": "uniforme",
+ "politica": {
+  "nome": "evidenza_inversione",
+  "quanti_aggiornamenti_richiesti": null,
+  "blocchi_scelti": null
+ },
+ "soglia_di_decisione": {
+  "modo": "balanced_accuracy_su_B",
+  "per_modello": {
+   "lr": {
+    "regola": "massimo della balanced accuracy sull intero B, per uguaglianza esatta fra float64; fra i candidati a pari merito la mediana inferiore, cioe l indice (n-1)//2 sui candidati ordinati",
+    "balanced_accuracy": 0.6660146763833944,
+    "richiamo_normali": 0.3496747758136202,
+    "richiamo_attacchi": 0.9823545769531686,
+    "candidate_totali": 405580,
+    "candidate_a_pari_merito": 1,
+    "candidate_contigue": true,
+    "soglia_minima_a_pari_merito": 4.358559635725276,
+    "soglia_massima_a_pari_merito": 4.358559635725276,
+    "balanced_accuracy_a_zero": 0.6482121003572943,
+    "normali": 89323,
+    "attacchi": 5591875,
+    "soglia": 4.358559635725276
+   },
+   "mlp": {
+    "regola": "massimo della balanced accuracy sull intero B, per uguaglianza esatta fra float64; fra i candidati a pari merito la mediana inferiore, cioe l indice (n-1)//2 sui candidati ordinati",
+    "balanced_accuracy": 0.7088497057136752,
+    "richiamo_normali": 0.4345465333676657,
+    "richiamo_attacchi": 0.9831528780596848,
+    "candidate_totali": 405543,
+    "candidate_a_pari_merito": 1,
+    "candidate_contigue": true,
+    "soglia_minima_a_pari_merito": 5.6713504321974,
+    "soglia_massima_a_pari_merito": 5.6713504321974,
+    "balanced_accuracy_a_zero": 0.6812368651923764,
+    "normali": 89323,
+    "attacchi": 5591875,
+    "soglia": 5.6713504321974
+   },
+   "kan": {
+    "regola": "massimo della balanced accuracy sull intero B, per uguaglianza esatta fra float64; fra i candidati a pari merito la mediana inferiore, cioe l indice (n-1)//2 sui candidati ordinati",
+    "balanced_accuracy": 0.8162655023165132,
+    "richiamo_normali": 0.9878978538562296,
+    "richiamo_attacchi": 0.6446331507767967,
+    "candidate_totali": 405063,
+    "candidate_a_pari_merito": 1,
+    "candidate_contigue": true,
+    "soglia_minima_a_pari_merito": 7.1635667083378625,
+    "soglia_massima_a_pari_merito": 7.1635667083378625,
+    "balanced_accuracy_a_zero": 0.6646333817195681,
+    "normali": 89323,
+    "attacchi": 5591875,
+    "soglia": 7.1635667083378625
+   }
+  },
+  "file": "B.npz",
+  "righe_di_B": 5681198
+ },
+ "etichette_spese": 91506,
+ "righe_scorse": 9150673,
+ "quota_etichette_effettiva": 0.00999992022444688,
+ "quota_etichette_denominatore": "righe effettivamente scorse nel replay",
+ "riepilogo": {
+  "lr": {
+   "salti_per_memoria_monoclasse": 0,
+   "aggiornamenti_applicati": 54,
+   "congelato": {
+    "accuratezza": 0.7170394559003874,
+    "richiamo_attacchi": 0.7204459425989066,
+    "richiamo_normali": 0.5327348714240147,
+    "falsi_allarmi": 0.46726512857598534,
+    "auroc": 0.7148993636934656
+   },
+   "adattivo": {
+    "accuratezza": 0.8316341312120012,
+    "richiamo_attacchi": 0.82907739822213,
+    "richiamo_normali": 0.5833867751650389,
+    "falsi_allarmi": 0.41661322483496105,
+    "auroc": 0.7651533192045121
+   }
+  },
+  "mlp": {
+   "salti_per_memoria_monoclasse": 0,
+   "aggiornamenti_applicati": 20,
+   "congelato": {
+    "accuratezza": 0.40363516727551146,
+    "richiamo_attacchi": 0.3976872487199755,
+    "richiamo_normali": 0.8637213289381008,
+    "falsi_allarmi": 0.1362786710618993,
+    "auroc": 0.7981671443342657
+   },
+   "adattivo": {
+    "accuratezza": 0.7888867345912521,
+    "richiamo_attacchi": 0.7881563415188074,
+    "richiamo_normali": 0.6535156159743143,
+    "falsi_allarmi": 0.34648438402568577,
+    "auroc": 0.8475097741782486
+   }
+  },
+  "kan": {
+   "salti_per_memoria_monoclasse": 0,
+   "aggiornamenti_applicati": 23,
+   "congelato": {
+    "accuratezza": 0.651904509560918,
+    "richiamo_attacchi": 0.6475348511727385,
+    "richiamo_normali": 0.9606074099430507,
+    "falsi_allarmi": 0.03939259005694937,
+    "auroc": 0.8856510531033382
+   },
+   "adattivo": {
+    "accuratezza": 0.7305324571591713,
+    "richiamo_attacchi": 0.7227933773517833,
+    "richiamo_normali": 0.6593511938858623,
+    "falsi_allarmi": 0.3406488061141377,
+    "auroc": 0.8049471878027453
+   }
+  }
+ },
+ "ambiente": {
+  "hardware_misurato": {
+   "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+   "cpu_thread_visibili": 2,
+   "ram_totale_mib": 8031.1,
+   "cpu_utilizzabili_dal_processo": 2,
+   "thread_blas": {
+    "OMP_NUM_THREADS": null,
+    "OPENBLAS_NUM_THREADS": null,
+    "MKL_NUM_THREADS": null
+   }
+  },
+  "python": "3.11.15",
+  "implementazione": "CPython",
+  "sistema": "Linux 6.18.44-fc-v64",
+  "macchina": "x86_64",
+  "numpy": "2.4.4",
+  "scikit_learn": "1.8.0",
+  "hardware": "solo CPU: nessuna libreria di accelerazione usata"
+ },
+ "comando": "replay.py --iniziale /home/claude/drift_prova/flussi/A.npz --flusso /home/claude/drift_prova/flussi/C.npz --calibrazione /home/claude/drift_prova/flussi/B.npz --politica evidenza_inversione --seme 42 --uscita /home/claude/drift_prova/corsa3/tempi/evidenza_seme42.json",
+ "costi": {
+  "secondi_totali": 122.8,
+  "secondi_addestramento_iniziale": 27.36,
+  "secondi_per_modello_iniziale": {
+   "lr": 4.27,
+   "mlp": 13.54,
+   "kan": 7.45
+  },
+  "secondi_replay": 61.63,
+  "secondi_per_blocco": 0.0673,
+  "etichette_richieste": 91506,
+  "etichette_per_blocco": 100,
+  "aggiornamenti_applicati": {
+   "lr": 54,
+   "mlp": 20,
+   "kan": 23
+  },
+  "aggiornamenti_saltati": {
+   "lr": 0,
+   "mlp": 0,
+   "kan": 0
+  },
+  "decisioni_della_politica": {
+   "lr": {
+    "nessuna_evidenza": 327,
+    "applicato": 54,
+    "non_disponibile": 534
+   },
+   "mlp": {
+    "nessuna_evidenza": 361,
+    "applicato": 20,
+    "non_disponibile": 534
+   },
+   "kan": {
+    "nessuna_evidenza": 358,
+    "non_disponibile": 534,
+    "applicato": 23
+   }
+  },
+  "tempo_del_singolo_aggiornamento": {
+   "lr": {
+    "n": 54,
+    "secondi_totali": 1.033,
+    "ms_medio": 19.123,
+    "ms_mediano": 6.256,
+    "ms_minimo": 2.368,
+    "ms_massimo": 59.624
+   },
+   "mlp": {
+    "n": 20,
+    "secondi_totali": 0.124,
+    "ms_medio": 6.209,
+    "ms_mediano": 5.445,
+    "ms_minimo": 2.076,
+    "ms_massimo": 17.642
+   },
+   "kan": {
+    "n": 23,
+    "secondi_totali": 0.588,
+    "ms_medio": 25.568,
+    "ms_mediano": 13.711,
+    "ms_minimo": 7.952,
+    "ms_massimo": 71.74
+   }
+  },
+  "tempo_degli_aggiornamenti_saltati": {
+   "lr": {
+    "n": 0,
+    "secondi_totali": 0.0,
+    "ms_medio": null,
+    "ms_mediano": null,
+    "ms_minimo": null,
+    "ms_massimo": null
+   },
+   "mlp": {
+    "n": 0,
+    "secondi_totali": 0.0,
+    "ms_medio": null,
+    "ms_mediano": null,
+    "ms_minimo": null,
+    "ms_massimo": null
+   },
+   "kan": {
+    "n": 0,
+    "secondi_totali": 0.0,
+    "ms_medio": null,
+    "ms_mediano": null,
+    "ms_minimo": null,
+    "ms_massimo": null
+   }
+  },
+  "tempo_aggiornamento_cosa_comprende": "applica + rappresentazione(memoria) + rifitting dei parametri, cronometrato con time.perf_counter attorno a quel solo tratto; escluso il punteggio del blocco, che si paga in ogni politica",
+  "memoria": {
+   "picco_rss_processo_mib": 1338.2,
+   "byte_memoria_fifo": 10240,
+   "byte_stato_per_modello": {
+    "lr": 8264,
+    "mlp": 16520,
+    "kan": 16456
+   },
+   "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+  },
+  "avvertenza": "il numero di aggiornamenti non dimostra un guadagno di latenza ne di memoria: il costo per aggiornamento e misurato qui e va moltiplicato per il numero, mentre il punteggio di ogni blocco si paga in tutte le politiche"
+ },
+ "per_blocco_rimosso": "le misure per blocco di questa corsa sono identiche a quelle di ../replay_C_evidenza_seme42.json, verificate campo per campo sui 916 blocchi, quindi non sono ripubblicate: questa corsa serve solo per i tempi, misurati con la macchina altrimenti inattiva. Restano qui sotto i soli tempi per blocco.",
+ "ms_aggiornamento_per_blocco": {
+  "2": {
+   "ms_aggiornamento_lr": 3.107,
+   "ms_aggiornamento_mlp": 7.619
+  },
+  "13": {
+   "ms_aggiornamento_lr": 50.431,
+   "ms_aggiornamento_mlp": 4.759
+  },
+  "124": {
+   "ms_aggiornamento_lr": 4.853,
+   "ms_aggiornamento_mlp": 16.354
+  },
+  "125": {
+   "ms_aggiornamento_lr": 40.724
+  },
+  "128": {
+   "ms_aggiornamento_kan": 10.662
+  },
+  "130": {
+   "ms_aggiornamento_lr": 57.482,
+   "ms_aggiornamento_mlp": 2.799
+  },
+  "131": {
+   "ms_aggiornamento_kan": 17.589
+  },
+  "132": {
+   "ms_aggiornamento_lr": 43.065,
+   "ms_aggiornamento_mlp": 4.085
+  },
+  "133": {
+   "ms_aggiornamento_lr": 3.17,
+   "ms_aggiornamento_mlp": 7.025
+  },
+  "152": {
+   "ms_aggiornamento_kan": 61.335
+  },
+  "153": {
+   "ms_aggiornamento_kan": 13.711
+  },
+  "172": {
+   "ms_aggiornamento_mlp": 17.642
+  },
+  "173": {
+   "ms_aggiornamento_mlp": 5.445
+  },
+  "196": {
+   "ms_aggiornamento_lr": 52.143,
+   "ms_aggiornamento_mlp": 4.328,
+   "ms_aggiornamento_kan": 9.844
+  },
+  "207": {
+   "ms_aggiornamento_lr": 5.704,
+   "ms_aggiornamento_mlp": 2.076,
+   "ms_aggiornamento_kan": 8.44
+  },
+  "218": {
+   "ms_aggiornamento_kan": 51.471
+  },
+  "232": {
+   "ms_aggiornamento_lr": 3.421
+  },
+  "242": {
+   "ms_aggiornamento_lr": 7.259,
+   "ms_aggiornamento_kan": 7.952
+  },
+  "282": {
+   "ms_aggiornamento_lr": 35.295,
+   "ms_aggiornamento_mlp": 3.08,
+   "ms_aggiornamento_kan": 10.659
+  },
+  "327": {
+   "ms_aggiornamento_kan": 71.74
+  },
+  "373": {
+   "ms_aggiornamento_kan": 10.036
+  },
+  "494": {
+   "ms_aggiornamento_lr": 46.669
+  },
+  "500": {
+   "ms_aggiornamento_lr": 44.532,
+   "ms_aggiornamento_kan": 9.511
+  },
+  "503": {
+   "ms_aggiornamento_kan": 45.449
+  },
+  "512": {
+   "ms_aggiornamento_lr": 2.368
+  },
+  "535": {
+   "ms_aggiornamento_lr": 49.696,
+   "ms_aggiornamento_kan": 8.227
+  },
+  "539": {
+   "ms_aggiornamento_kan": 45.002
+  },
+  "574": {
+   "ms_aggiornamento_lr": 18.416
+  },
+  "578": {
+   "ms_aggiornamento_lr": 6.017
+  },
+  "584": {
+   "ms_aggiornamento_lr": 2.922,
+   "ms_aggiornamento_mlp": 8.261
+  },
+  "585": {
+   "ms_aggiornamento_lr": 5.494
+  },
+  "586": {
+   "ms_aggiornamento_lr": 2.492,
+   "ms_aggiornamento_mlp": 2.158
+  },
+  "627": {
+   "ms_aggiornamento_lr": 3.085
+  },
+  "639": {
+   "ms_aggiornamento_kan": 51.086
+  },
+  "644": {
+   "ms_aggiornamento_mlp": 3.214
+  },
+  "662": {
+   "ms_aggiornamento_kan": 8.379
+  },
+  "667": {
+   "ms_aggiornamento_kan": 49.988
+  },
+  "706": {
+   "ms_aggiornamento_lr": 3.235
+  },
+  "712": {
+   "ms_aggiornamento_lr": 6.256
+  },
+  "799": {
+   "ms_aggiornamento_mlp": 7.846
+  },
+  "803": {
+   "ms_aggiornamento_lr": 34.533
+  },
+  "805": {
+   "ms_aggiornamento_lr": 11.113
+  },
+  "806": {
+   "ms_aggiornamento_mlp": 6.844
+  },
+  "807": {
+   "ms_aggiornamento_lr": 6.865
+  },
+  "811": {
+   "ms_aggiornamento_lr": 3.366
+  },
+  "814": {
+   "ms_aggiornamento_kan": 48.984
+  },
+  "816": {
+   "ms_aggiornamento_lr": 4.183
+  },
+  "817": {
+   "ms_aggiornamento_lr": 5.926,
+   "ms_aggiornamento_mlp": 5.951,
+   "ms_aggiornamento_kan": 15.357
+  },
+  "820": {
+   "ms_aggiornamento_lr": 52.76
+  },
+  "826": {
+   "ms_aggiornamento_lr": 2.921
+  },
+  "827": {
+   "ms_aggiornamento_lr": 2.575
+  },
+  "837": {
+   "ms_aggiornamento_lr": 3.379
+  },
+  "840": {
+   "ms_aggiornamento_lr": 45.843
+  },
+  "842": {
+   "ms_aggiornamento_kan": 15.104
+  },
+  "844": {
+   "ms_aggiornamento_lr": 23.614
+  },
+  "845": {
+   "ms_aggiornamento_lr": 15.131
+  },
+  "851": {
+   "ms_aggiornamento_lr": 7.392
+  },
+  "854": {
+   "ms_aggiornamento_lr": 59.624
+  },
+  "857": {
+   "ms_aggiornamento_lr": 4.309
+  },
+  "860": {
+   "ms_aggiornamento_lr": 2.63
+  },
+  "863": {
+   "ms_aggiornamento_lr": 8.384
+  },
+  "866": {
+   "ms_aggiornamento_lr": 3.037
+  },
+  "871": {
+   "ms_aggiornamento_lr": 43.191
+  },
+  "874": {
+   "ms_aggiornamento_lr": 48.376
+  },
+  "875": {
+   "ms_aggiornamento_mlp": 6.061
+  },
+  "876": {
+   "ms_aggiornamento_lr": 8.297
+  },
+  "879": {
+   "ms_aggiornamento_lr": 3.25
+  },
+  "880": {
+   "ms_aggiornamento_mlp": 5.798
+  },
+  "894": {
+   "ms_aggiornamento_lr": 4.006,
+   "ms_aggiornamento_kan": 9.262
+  },
+  "897": {
+   "ms_aggiornamento_kan": 8.273
+  },
+  "900": {
+   "ms_aggiornamento_lr": 49.637
+  },
+  "901": {
+   "ms_aggiornamento_lr": 3.01
+  },
+  "904": {
+   "ms_aggiornamento_mlp": 2.83
+  },
+  "909": {
+   "ms_aggiornamento_lr": 59.214
+  },
+  "910": {
+   "ms_aggiornamento_lr": 3.962
+  },
+  "911": {
+   "ms_aggiornamento_lr": 9.282
+  },
+  "912": {
+   "ms_aggiornamento_lr": 4.978
+  }
+ }
+}

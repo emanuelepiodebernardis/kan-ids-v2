@@ -1,0 +1,1206 @@
+{
+ "calibrazione": {
+  "file": "B.npz",
+  "righe": 5681198,
+  "normali": 89323,
+  "attacchi": 5591875,
+  "nota": "la soglia e scelta sull INTERO B, non su un suo ritaglio"
+ },
+ "convenzione": {
+  "predizione": "attacco se punteggio > soglia; un punteggio pari alla soglia e classificato normale",
+  "per_modello_e_per_seme": "una soglia per ciascuna coppia (modello, seme), poi identica e fissa nella coppia congelato/adattivo",
+  "non_afferma": "che la soglia sia stabile fra semi o fra ritagli di B: e una convenzione deterministica, la stabilita non e misurata"
+ },
+ "per_seme": {
+  "42": {
+   "lr": {
+    "candidati_distinti": 405580,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.6660146763833944,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 65664,
+    "candidati_contigui": true,
+    "soglia": 4.358559635725276,
+    "richiamo_normali_su_B": 0.3496747758136202,
+    "richiamo_attacchi_su_B": 0.9823545769531686,
+    "balanced_accuracy_alla_soglia_zero": 0.6482121003572943,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 65661,
+      "soglia": 4.3578671074757755,
+      "balanced_accuracy": 0.6660092575518712,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823549346149547,
+      "scelto": false
+     },
+     {
+      "indice": 65662,
+      "soglia": 4.357911097119685,
+      "balanced_accuracy": 0.6660091681364249,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823547557840617,
+      "scelto": false
+     },
+     {
+      "indice": 65663,
+      "soglia": 4.357915639416292,
+      "balanced_accuracy": 0.6660090787209783,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": false
+     },
+     {
+      "indice": 65664,
+      "soglia": 4.358559635725276,
+      "balanced_accuracy": 0.6660146763833944,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": true
+     },
+     {
+      "indice": 65665,
+      "soglia": 4.359214504756877,
+      "balanced_accuracy": 0.6660145869679479,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823543981222757,
+      "scelto": false
+     },
+     {
+      "indice": 65666,
+      "soglia": 4.35961876455385,
+      "balanced_accuracy": 0.6660144975525014,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823542192913826,
+      "scelto": false
+     },
+     {
+      "indice": 65667,
+      "soglia": 4.35966485187635,
+      "balanced_accuracy": 0.6660144081370549,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823540404604896,
+      "scelto": false
+     }
+    ]
+   },
+   "mlp": {
+    "candidati_distinti": 405543,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.7088497057136752,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 19
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 65649,
+    "candidati_contigui": true,
+    "soglia": 5.6713504321974,
+    "richiamo_normali_su_B": 0.4345465333676657,
+    "richiamo_attacchi_su_B": 0.9831528780596848,
+    "balanced_accuracy_alla_soglia_zero": 0.6812368651923764,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 65646,
+      "soglia": 5.671256720350279,
+      "balanced_accuracy": 0.7088442868821521,
+      "richiamo_normali": 0.4345353380428333,
+      "richiamo_attacchi": 0.9831532357214708,
+      "scelto": false
+     },
+     {
+      "indice": 65647,
+      "soglia": 5.6712598917550086,
+      "balanced_accuracy": 0.7088441974667056,
+      "richiamo_normali": 0.4345353380428333,
+      "richiamo_attacchi": 0.9831530568905779,
+      "scelto": false
+     },
+     {
+      "indice": 65648,
+      "soglia": 5.671330005929931,
+      "balanced_accuracy": 0.7088441080512591,
+      "richiamo_normali": 0.4345353380428333,
+      "richiamo_attacchi": 0.9831528780596848,
+      "scelto": false
+     },
+     {
+      "indice": 65649,
+      "soglia": 5.6713504321974,
+      "balanced_accuracy": 0.7088497057136752,
+      "richiamo_normali": 0.4345465333676657,
+      "richiamo_attacchi": 0.9831528780596848,
+      "scelto": true
+     },
+     {
+      "indice": 65650,
+      "soglia": 5.671587853307223,
+      "balanced_accuracy": 0.7088496162982287,
+      "richiamo_normali": 0.4345465333676657,
+      "richiamo_attacchi": 0.9831526992287918,
+      "scelto": false
+     },
+     {
+      "indice": 65651,
+      "soglia": 5.671599452235249,
+      "balanced_accuracy": 0.7088495268827821,
+      "richiamo_normali": 0.4345465333676657,
+      "richiamo_attacchi": 0.9831525203978987,
+      "scelto": false
+     },
+     {
+      "indice": 65652,
+      "soglia": 5.671600491850031,
+      "balanced_accuracy": 0.7088494374673358,
+      "richiamo_normali": 0.4345465333676657,
+      "richiamo_attacchi": 0.9831523415670057,
+      "scelto": false
+     }
+    ]
+   },
+   "kan": {
+    "candidati_distinti": 405063,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.8162655023165132,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 13
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 164450,
+    "candidati_contigui": true,
+    "soglia": 7.1635667083378625,
+    "richiamo_normali_su_B": 0.9878978538562296,
+    "richiamo_attacchi_su_B": 0.6446331507767967,
+    "balanced_accuracy_alla_soglia_zero": 0.6646333817195681,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 164447,
+      "soglia": 7.158846645368655,
+      "balanced_accuracy": 0.81626008348499,
+      "richiamo_normali": 0.9878866585313973,
+      "richiamo_attacchi": 0.6446335084385828,
+      "scelto": false
+     },
+     {
+      "indice": 164448,
+      "soglia": 7.159793385473819,
+      "balanced_accuracy": 0.8162599940695435,
+      "richiamo_normali": 0.9878866585313973,
+      "richiamo_attacchi": 0.6446333296076897,
+      "scelto": false
+     },
+     {
+      "indice": 164449,
+      "soglia": 7.162388508271906,
+      "balanced_accuracy": 0.816259904654097,
+      "richiamo_normali": 0.9878866585313973,
+      "richiamo_attacchi": 0.6446331507767967,
+      "scelto": false
+     },
+     {
+      "indice": 164450,
+      "soglia": 7.1635667083378625,
+      "balanced_accuracy": 0.8162655023165132,
+      "richiamo_normali": 0.9878978538562296,
+      "richiamo_attacchi": 0.6446331507767967,
+      "scelto": true
+     },
+     {
+      "indice": 164451,
+      "soglia": 7.164510848618377,
+      "balanced_accuracy": 0.8162654129010667,
+      "richiamo_normali": 0.9878978538562296,
+      "richiamo_attacchi": 0.6446329719459036,
+      "scelto": false
+     },
+     {
+      "indice": 164452,
+      "soglia": 7.164656711866849,
+      "balanced_accuracy": 0.8162653234856201,
+      "richiamo_normali": 0.9878978538562296,
+      "richiamo_attacchi": 0.6446327931150106,
+      "scelto": false
+     },
+     {
+      "indice": 164453,
+      "soglia": 7.165855531685077,
+      "balanced_accuracy": 0.8162652340701736,
+      "richiamo_normali": 0.9878978538562296,
+      "richiamo_attacchi": 0.6446326142841176,
+      "scelto": false
+     }
+    ]
+   }
+  },
+  "43": {
+   "lr": {
+    "candidati_distinti": 405580,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.6660146763833944,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 65664,
+    "candidati_contigui": true,
+    "soglia": 4.358559635725276,
+    "richiamo_normali_su_B": 0.3496747758136202,
+    "richiamo_attacchi_su_B": 0.9823545769531686,
+    "balanced_accuracy_alla_soglia_zero": 0.6482121003572943,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 65661,
+      "soglia": 4.3578671074757755,
+      "balanced_accuracy": 0.6660092575518712,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823549346149547,
+      "scelto": false
+     },
+     {
+      "indice": 65662,
+      "soglia": 4.357911097119685,
+      "balanced_accuracy": 0.6660091681364249,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823547557840617,
+      "scelto": false
+     },
+     {
+      "indice": 65663,
+      "soglia": 4.357915639416292,
+      "balanced_accuracy": 0.6660090787209783,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": false
+     },
+     {
+      "indice": 65664,
+      "soglia": 4.358559635725276,
+      "balanced_accuracy": 0.6660146763833944,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": true
+     },
+     {
+      "indice": 65665,
+      "soglia": 4.359214504756877,
+      "balanced_accuracy": 0.6660145869679479,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823543981222757,
+      "scelto": false
+     },
+     {
+      "indice": 65666,
+      "soglia": 4.35961876455385,
+      "balanced_accuracy": 0.6660144975525014,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823542192913826,
+      "scelto": false
+     },
+     {
+      "indice": 65667,
+      "soglia": 4.35966485187635,
+      "balanced_accuracy": 0.6660144081370549,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823540404604896,
+      "scelto": false
+     }
+    ]
+   },
+   "mlp": {
+    "candidati_distinti": 405573,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.7057048648286153,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 72557,
+    "candidati_contigui": true,
+    "soglia": 6.528606175827424,
+    "richiamo_normali_su_B": 0.43018035668304916,
+    "richiamo_attacchi_su_B": 0.9812293729741813,
+    "balanced_accuracy_alla_soglia_zero": 0.684581373066887,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 72554,
+      "soglia": 6.528149388749554,
+      "balanced_accuracy": 0.7056937589192294,
+      "richiamo_normali": 0.43015796603338446,
+      "richiamo_attacchi": 0.9812295518050743,
+      "scelto": false
+     },
+     {
+      "indice": 72555,
+      "soglia": 6.528237226129974,
+      "balanced_accuracy": 0.7056936695037829,
+      "richiamo_normali": 0.43015796603338446,
+      "richiamo_attacchi": 0.9812293729741813,
+      "scelto": false
+     },
+     {
+      "indice": 72556,
+      "soglia": 6.528604844452008,
+      "balanced_accuracy": 0.705699267166199,
+      "richiamo_normali": 0.4301691613582168,
+      "richiamo_attacchi": 0.9812293729741813,
+      "scelto": false
+     },
+     {
+      "indice": 72557,
+      "soglia": 6.528606175827424,
+      "balanced_accuracy": 0.7057048648286153,
+      "richiamo_normali": 0.43018035668304916,
+      "richiamo_attacchi": 0.9812293729741813,
+      "scelto": true
+     },
+     {
+      "indice": 72558,
+      "soglia": 6.528673443487289,
+      "balanced_accuracy": 0.7057047754131687,
+      "richiamo_normali": 0.43018035668304916,
+      "richiamo_attacchi": 0.9812291941432882,
+      "scelto": false
+     },
+     {
+      "indice": 72559,
+      "soglia": 6.528749676147619,
+      "balanced_accuracy": 0.7057046859977222,
+      "richiamo_normali": 0.43018035668304916,
+      "richiamo_attacchi": 0.9812290153123953,
+      "scelto": false
+     },
+     {
+      "indice": 72560,
+      "soglia": 6.528781501429862,
+      "balanced_accuracy": 0.7057045965822757,
+      "richiamo_normali": 0.43018035668304916,
+      "richiamo_attacchi": 0.9812288364815022,
+      "scelto": false
+     }
+    ]
+   },
+   "kan": {
+    "candidati_distinti": 405062,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.8163432030622171,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 163303,
+    "candidati_contigui": true,
+    "soglia": 6.34238759489234,
+    "richiamo_normali_su_B": 0.9878418772320678,
+    "richiamo_attacchi_su_B": 0.6448445288923662,
+    "balanced_accuracy_alla_soglia_zero": 0.6654199696568532,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 163300,
+      "soglia": 6.340225187925263,
+      "balanced_accuracy": 0.8163320971528312,
+      "richiamo_normali": 0.9878194865824032,
+      "richiamo_attacchi": 0.6448447077232592,
+      "scelto": false
+     },
+     {
+      "indice": 163301,
+      "soglia": 6.34112990530647,
+      "balanced_accuracy": 0.8163320077373847,
+      "richiamo_normali": 0.9878194865824032,
+      "richiamo_attacchi": 0.6448445288923662,
+      "scelto": false
+     },
+     {
+      "indice": 163302,
+      "soglia": 6.342263589001192,
+      "balanced_accuracy": 0.8163376053998008,
+      "richiamo_normali": 0.9878306819072356,
+      "richiamo_attacchi": 0.6448445288923662,
+      "scelto": false
+     },
+     {
+      "indice": 163303,
+      "soglia": 6.34238759489234,
+      "balanced_accuracy": 0.8163432030622171,
+      "richiamo_normali": 0.9878418772320678,
+      "richiamo_attacchi": 0.6448445288923662,
+      "scelto": true
+     },
+     {
+      "indice": 163304,
+      "soglia": 6.3431126420069255,
+      "balanced_accuracy": 0.8163431136467705,
+      "richiamo_normali": 0.9878418772320678,
+      "richiamo_attacchi": 0.6448443500614731,
+      "scelto": false
+     },
+     {
+      "indice": 163305,
+      "soglia": 6.343273664088416,
+      "balanced_accuracy": 0.816343024231324,
+      "richiamo_normali": 0.9878418772320678,
+      "richiamo_attacchi": 0.6448441712305801,
+      "scelto": false
+     },
+     {
+      "indice": 163306,
+      "soglia": 6.343769178824589,
+      "balanced_accuracy": 0.8163429348158775,
+      "richiamo_normali": 0.9878418772320678,
+      "richiamo_attacchi": 0.644843992399687,
+      "scelto": false
+     }
+    ]
+   }
+  },
+  "44": {
+   "lr": {
+    "candidati_distinti": 405580,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.6660146763833944,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 65664,
+    "candidati_contigui": true,
+    "soglia": 4.358559635725276,
+    "richiamo_normali_su_B": 0.3496747758136202,
+    "richiamo_attacchi_su_B": 0.9823545769531686,
+    "balanced_accuracy_alla_soglia_zero": 0.6482121003572943,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 65661,
+      "soglia": 4.3578671074757755,
+      "balanced_accuracy": 0.6660092575518712,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823549346149547,
+      "scelto": false
+     },
+     {
+      "indice": 65662,
+      "soglia": 4.357911097119685,
+      "balanced_accuracy": 0.6660091681364249,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823547557840617,
+      "scelto": false
+     },
+     {
+      "indice": 65663,
+      "soglia": 4.357915639416292,
+      "balanced_accuracy": 0.6660090787209783,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": false
+     },
+     {
+      "indice": 65664,
+      "soglia": 4.358559635725276,
+      "balanced_accuracy": 0.6660146763833944,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": true
+     },
+     {
+      "indice": 65665,
+      "soglia": 4.359214504756877,
+      "balanced_accuracy": 0.6660145869679479,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823543981222757,
+      "scelto": false
+     },
+     {
+      "indice": 65666,
+      "soglia": 4.35961876455385,
+      "balanced_accuracy": 0.6660144975525014,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823542192913826,
+      "scelto": false
+     },
+     {
+      "indice": 65667,
+      "soglia": 4.35966485187635,
+      "balanced_accuracy": 0.6660144081370549,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823540404604896,
+      "scelto": false
+     }
+    ]
+   },
+   "mlp": {
+    "candidati_distinti": 405577,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.7087779993805872,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 25
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 58845,
+    "candidati_contigui": true,
+    "soglia": 5.214210106631555,
+    "richiamo_normali_su_B": 0.4331918990629513,
+    "richiamo_attacchi_su_B": 0.9843640996982229,
+    "balanced_accuracy_alla_soglia_zero": 0.6806667977803916,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 58842,
+      "soglia": 5.214114057473843,
+      "balanced_accuracy": 0.708772580549064,
+      "richiamo_normali": 0.43318070373811896,
+      "richiamo_attacchi": 0.984364457360009,
+      "scelto": false
+     },
+     {
+      "indice": 58843,
+      "soglia": 5.214154379069424,
+      "balanced_accuracy": 0.7087724911336174,
+      "richiamo_normali": 0.43318070373811896,
+      "richiamo_attacchi": 0.9843642785291159,
+      "scelto": false
+     },
+     {
+      "indice": 58844,
+      "soglia": 5.214179819509102,
+      "balanced_accuracy": 0.7087724017181709,
+      "richiamo_normali": 0.43318070373811896,
+      "richiamo_attacchi": 0.9843640996982229,
+      "scelto": false
+     },
+     {
+      "indice": 58845,
+      "soglia": 5.214210106631555,
+      "balanced_accuracy": 0.7087779993805872,
+      "richiamo_normali": 0.4331918990629513,
+      "richiamo_attacchi": 0.9843640996982229,
+      "scelto": true
+     },
+     {
+      "indice": 58846,
+      "soglia": 5.214275763105647,
+      "balanced_accuracy": 0.7087779099651406,
+      "richiamo_normali": 0.4331918990629513,
+      "richiamo_attacchi": 0.9843639208673298,
+      "scelto": false
+     },
+     {
+      "indice": 58847,
+      "soglia": 5.214384980525601,
+      "balanced_accuracy": 0.7087778205496941,
+      "richiamo_normali": 0.4331918990629513,
+      "richiamo_attacchi": 0.9843637420364368,
+      "scelto": false
+     },
+     {
+      "indice": 58848,
+      "soglia": 5.214656768099186,
+      "balanced_accuracy": 0.7087777311342476,
+      "richiamo_normali": 0.4331918990629513,
+      "richiamo_attacchi": 0.9843635632055437,
+      "scelto": false
+     }
+    ]
+   },
+   "kan": {
+    "candidati_distinti": 405063,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.8163175947337983,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 163641,
+    "candidati_contigui": true,
+    "soglia": 6.794776284908941,
+    "richiamo_normali_su_B": 0.9878530725569002,
+    "richiamo_attacchi_su_B": 0.6447821169106963,
+    "balanced_accuracy_alla_soglia_zero": 0.6655034494505075,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 163638,
+      "soglia": 6.794660356948644,
+      "balanced_accuracy": 0.8163064888244125,
+      "richiamo_normali": 0.9878306819072356,
+      "richiamo_attacchi": 0.6447822957415894,
+      "scelto": false
+     },
+     {
+      "indice": 163639,
+      "soglia": 6.794691860385696,
+      "balanced_accuracy": 0.8163120864868286,
+      "richiamo_normali": 0.9878418772320678,
+      "richiamo_attacchi": 0.6447822957415894,
+      "scelto": false
+     },
+     {
+      "indice": 163640,
+      "soglia": 6.794699338410308,
+      "balanced_accuracy": 0.8163119970713821,
+      "richiamo_normali": 0.9878418772320678,
+      "richiamo_attacchi": 0.6447821169106963,
+      "scelto": false
+     },
+     {
+      "indice": 163641,
+      "soglia": 6.794776284908941,
+      "balanced_accuracy": 0.8163175947337983,
+      "richiamo_normali": 0.9878530725569002,
+      "richiamo_attacchi": 0.6447821169106963,
+      "scelto": true
+     },
+     {
+      "indice": 163642,
+      "soglia": 6.795287909244146,
+      "balanced_accuracy": 0.8163175053183518,
+      "richiamo_normali": 0.9878530725569002,
+      "richiamo_attacchi": 0.6447819380798033,
+      "scelto": false
+     },
+     {
+      "indice": 163643,
+      "soglia": 6.795298796497845,
+      "balanced_accuracy": 0.8163174159029052,
+      "richiamo_normali": 0.9878530725569002,
+      "richiamo_attacchi": 0.6447817592489102,
+      "scelto": false
+     },
+     {
+      "indice": 163644,
+      "soglia": 6.795348639037601,
+      "balanced_accuracy": 0.8163173264874588,
+      "richiamo_normali": 0.9878530725569002,
+      "richiamo_attacchi": 0.6447815804180173,
+      "scelto": false
+     }
+    ]
+   }
+  },
+  "45": {
+   "lr": {
+    "candidati_distinti": 405580,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.6660146763833944,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 65664,
+    "candidati_contigui": true,
+    "soglia": 4.358559635725276,
+    "richiamo_normali_su_B": 0.3496747758136202,
+    "richiamo_attacchi_su_B": 0.9823545769531686,
+    "balanced_accuracy_alla_soglia_zero": 0.6482121003572943,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 65661,
+      "soglia": 4.3578671074757755,
+      "balanced_accuracy": 0.6660092575518712,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823549346149547,
+      "scelto": false
+     },
+     {
+      "indice": 65662,
+      "soglia": 4.357911097119685,
+      "balanced_accuracy": 0.6660091681364249,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823547557840617,
+      "scelto": false
+     },
+     {
+      "indice": 65663,
+      "soglia": 4.357915639416292,
+      "balanced_accuracy": 0.6660090787209783,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": false
+     },
+     {
+      "indice": 65664,
+      "soglia": 4.358559635725276,
+      "balanced_accuracy": 0.6660146763833944,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": true
+     },
+     {
+      "indice": 65665,
+      "soglia": 4.359214504756877,
+      "balanced_accuracy": 0.6660145869679479,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823543981222757,
+      "scelto": false
+     },
+     {
+      "indice": 65666,
+      "soglia": 4.35961876455385,
+      "balanced_accuracy": 0.6660144975525014,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823542192913826,
+      "scelto": false
+     },
+     {
+      "indice": 65667,
+      "soglia": 4.35966485187635,
+      "balanced_accuracy": 0.6660144081370549,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823540404604896,
+      "scelto": false
+     }
+    ]
+   },
+   "mlp": {
+    "candidati_distinti": 405551,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.702550664957311,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 27
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 79057,
+    "candidati_contigui": true,
+    "soglia": 4.749945620136703,
+    "richiamo_normali_su_B": 0.4247618194641918,
+    "richiamo_attacchi_su_B": 0.9803395104504303,
+    "balanced_accuracy_alla_soglia_zero": 0.6797194002502696,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 79054,
+      "soglia": 4.749926054777134,
+      "balanced_accuracy": 0.702545246125788,
+      "richiamo_normali": 0.4247506241393594,
+      "richiamo_attacchi": 0.9803398681122164,
+      "scelto": false
+     },
+     {
+      "indice": 79055,
+      "soglia": 4.749938600260634,
+      "balanced_accuracy": 0.7025451567103413,
+      "richiamo_normali": 0.4247506241393594,
+      "richiamo_attacchi": 0.9803396892813233,
+      "scelto": false
+     },
+     {
+      "indice": 79056,
+      "soglia": 4.749938951878505,
+      "balanced_accuracy": 0.7025450672948949,
+      "richiamo_normali": 0.4247506241393594,
+      "richiamo_attacchi": 0.9803395104504303,
+      "scelto": false
+     },
+     {
+      "indice": 79057,
+      "soglia": 4.749945620136703,
+      "balanced_accuracy": 0.702550664957311,
+      "richiamo_normali": 0.4247618194641918,
+      "richiamo_attacchi": 0.9803395104504303,
+      "scelto": true
+     },
+     {
+      "indice": 79058,
+      "soglia": 4.7499563613038305,
+      "balanced_accuracy": 0.7025505755418645,
+      "richiamo_normali": 0.4247618194641918,
+      "richiamo_attacchi": 0.9803393316195372,
+      "scelto": false
+     },
+     {
+      "indice": 79059,
+      "soglia": 4.749963074172612,
+      "balanced_accuracy": 0.702550486126418,
+      "richiamo_normali": 0.4247618194641918,
+      "richiamo_attacchi": 0.9803391527886443,
+      "scelto": false
+     },
+     {
+      "indice": 79060,
+      "soglia": 4.749964538172765,
+      "balanced_accuracy": 0.7025503967109714,
+      "richiamo_normali": 0.4247618194641918,
+      "richiamo_attacchi": 0.9803389739577512,
+      "scelto": false
+     }
+    ]
+   },
+   "kan": {
+    "candidati_distinti": 405062,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.8163807626590373,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 21
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 164107,
+    "candidati_contigui": true,
+    "soglia": 6.9306060415400985,
+    "richiamo_normali_su_B": 0.9880657837287149,
+    "richiamo_attacchi_su_B": 0.6446957415893596,
+    "balanced_accuracy_alla_soglia_zero": 0.6659741895861453,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 164104,
+      "soglia": 6.928861412604839,
+      "balanced_accuracy": 0.8163753438275141,
+      "richiamo_normali": 0.9880545884038825,
+      "richiamo_attacchi": 0.6446960992511457,
+      "scelto": false
+     },
+     {
+      "indice": 164105,
+      "soglia": 6.928903719174357,
+      "balanced_accuracy": 0.8163752544120675,
+      "richiamo_normali": 0.9880545884038825,
+      "richiamo_attacchi": 0.6446959204202526,
+      "scelto": false
+     },
+     {
+      "indice": 164106,
+      "soglia": 6.929915628016158,
+      "balanced_accuracy": 0.8163751649966211,
+      "richiamo_normali": 0.9880545884038825,
+      "richiamo_attacchi": 0.6446957415893596,
+      "scelto": false
+     },
+     {
+      "indice": 164107,
+      "soglia": 6.9306060415400985,
+      "balanced_accuracy": 0.8163807626590373,
+      "richiamo_normali": 0.9880657837287149,
+      "richiamo_attacchi": 0.6446957415893596,
+      "scelto": true
+     },
+     {
+      "indice": 164108,
+      "soglia": 6.930787493430522,
+      "balanced_accuracy": 0.8163806732435908,
+      "richiamo_normali": 0.9880657837287149,
+      "richiamo_attacchi": 0.6446955627584665,
+      "scelto": false
+     },
+     {
+      "indice": 164109,
+      "soglia": 6.9308420231589665,
+      "balanced_accuracy": 0.8163805838281442,
+      "richiamo_normali": 0.9880657837287149,
+      "richiamo_attacchi": 0.6446953839275735,
+      "scelto": false
+     },
+     {
+      "indice": 164110,
+      "soglia": 6.931358832099262,
+      "balanced_accuracy": 0.8163804944126977,
+      "richiamo_normali": 0.9880657837287149,
+      "richiamo_attacchi": 0.6446952050966804,
+      "scelto": false
+     }
+    ]
+   }
+  },
+  "46": {
+   "lr": {
+    "candidati_distinti": 405580,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.6660146763833944,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 12
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 65664,
+    "candidati_contigui": true,
+    "soglia": 4.358559635725276,
+    "richiamo_normali_su_B": 0.3496747758136202,
+    "richiamo_attacchi_su_B": 0.9823545769531686,
+    "balanced_accuracy_alla_soglia_zero": 0.6482121003572943,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 65661,
+      "soglia": 4.3578671074757755,
+      "balanced_accuracy": 0.6660092575518712,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823549346149547,
+      "scelto": false
+     },
+     {
+      "indice": 65662,
+      "soglia": 4.357911097119685,
+      "balanced_accuracy": 0.6660091681364249,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823547557840617,
+      "scelto": false
+     },
+     {
+      "indice": 65663,
+      "soglia": 4.357915639416292,
+      "balanced_accuracy": 0.6660090787209783,
+      "richiamo_normali": 0.3496635804887879,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": false
+     },
+     {
+      "indice": 65664,
+      "soglia": 4.358559635725276,
+      "balanced_accuracy": 0.6660146763833944,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823545769531686,
+      "scelto": true
+     },
+     {
+      "indice": 65665,
+      "soglia": 4.359214504756877,
+      "balanced_accuracy": 0.6660145869679479,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823543981222757,
+      "scelto": false
+     },
+     {
+      "indice": 65666,
+      "soglia": 4.35961876455385,
+      "balanced_accuracy": 0.6660144975525014,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823542192913826,
+      "scelto": false
+     },
+     {
+      "indice": 65667,
+      "soglia": 4.35966485187635,
+      "balanced_accuracy": 0.6660144081370549,
+      "richiamo_normali": 0.3496747758136202,
+      "richiamo_attacchi": 0.9823540404604896,
+      "scelto": false
+     }
+    ]
+   },
+   "mlp": {
+    "candidati_distinti": 405565,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.7097786095772186,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 1
+    },
+    "scelta_invariante_fino_a": "entro_1e-06",
+    "indice_scelto": 57045,
+    "candidati_contigui": true,
+    "soglia": 4.356608982060337,
+    "richiamo_normali_su_B": 0.4330911411394602,
+    "richiamo_attacchi_su_B": 0.9864660780149771,
+    "balanced_accuracy_alla_soglia_zero": 0.6792273582897015,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 57042,
+      "soglia": 4.356568035313103,
+      "balanced_accuracy": 0.7097620309315775,
+      "richiamo_normali": 0.43304635984013073,
+      "richiamo_attacchi": 0.9864777020230244,
+      "scelto": false
+     },
+     {
+      "indice": 57043,
+      "soglia": 4.356581202949613,
+      "balanced_accuracy": 0.7097598849608612,
+      "richiamo_normali": 0.43304635984013073,
+      "richiamo_attacchi": 0.9864734100815916,
+      "scelto": false
+     },
+     {
+      "indice": 57044,
+      "soglia": 4.356595532672188,
+      "balanced_accuracy": 0.7097636048989004,
+      "richiamo_normali": 0.43305755516496314,
+      "richiamo_attacchi": 0.9864696546328379,
+      "scelto": false
+     },
+     {
+      "indice": 57045,
+      "soglia": 4.356608982060337,
+      "balanced_accuracy": 0.7097786095772186,
+      "richiamo_normali": 0.4330911411394602,
+      "richiamo_attacchi": 0.9864660780149771,
+      "scelto": true
+     },
+     {
+      "indice": 57046,
+      "soglia": 4.356622994605331,
+      "balanced_accuracy": 0.7097767318528417,
+      "richiamo_normali": 0.4330911411394602,
+      "richiamo_attacchi": 0.9864623225662233,
+      "scelto": false
+     },
+     {
+      "indice": 57047,
+      "soglia": 4.356637195373352,
+      "balanced_accuracy": 0.7097751223748044,
+      "richiamo_normali": 0.4330911411394602,
+      "richiamo_attacchi": 0.9864591036101487,
+      "scelto": false
+     },
+     {
+      "indice": 57048,
+      "soglia": 4.3566503768102365,
+      "balanced_accuracy": 0.709773155234981,
+      "richiamo_normali": 0.4330911411394602,
+      "richiamo_attacchi": 0.9864551693305018,
+      "scelto": false
+     }
+    ]
+   },
+   "kan": {
+    "candidati_distinti": 405063,
+    "nota_candidati": "valori distinti dei punteggi sull intero B, piu un valore sotto il minimo che predice tutto attacco",
+    "regola_di_confronto": "massimo della balanced accuracy, individuato per uguaglianza esatta fra float64",
+    "regola_di_parita": "mediana inferiore dei candidati a pari merito: indice (n-1)//2 sui candidati ordinati, indici da zero",
+    "balanced_accuracy_massima": 0.8167792512819263,
+    "candidati_a_pari_merito": {
+     "esatta": 1,
+     "entro_1e-12": 1,
+     "entro_1e-09": 1,
+     "entro_1e-06": 3
+    },
+    "scelta_invariante_fino_a": "entro_1e-09",
+    "indice_scelto": 164032,
+    "candidati_contigui": true,
+    "soglia": 7.200543353957556,
+    "richiamo_normali_su_B": 0.988838261142147,
+    "richiamo_attacchi_su_B": 0.6447202414217056,
+    "balanced_accuracy_alla_soglia_zero": 0.6644220605749008,
+    "intorno_del_candidato_scelto": [
+     {
+      "indice": 164029,
+      "soglia": 7.199466563580334,
+      "balanced_accuracy": 0.8167681453725405,
+      "richiamo_normali": 0.9888158704924823,
+      "richiamo_attacchi": 0.6447204202525987,
+      "scelto": false
+     },
+     {
+      "indice": 164030,
+      "soglia": 7.199726484677726,
+      "balanced_accuracy": 0.816768055957094,
+      "richiamo_normali": 0.9888158704924823,
+      "richiamo_attacchi": 0.6447202414217056,
+      "scelto": false
+     },
+     {
+      "indice": 164031,
+      "soglia": 7.200278708422967,
+      "balanced_accuracy": 0.8167736536195102,
+      "richiamo_normali": 0.9888270658173147,
+      "richiamo_attacchi": 0.6447202414217056,
+      "scelto": false
+     },
+     {
+      "indice": 164032,
+      "soglia": 7.200543353957556,
+      "balanced_accuracy": 0.8167792512819263,
+      "richiamo_normali": 0.988838261142147,
+      "richiamo_attacchi": 0.6447202414217056,
+      "scelto": true
+     },
+     {
+      "indice": 164033,
+      "soglia": 7.201753689079414,
+      "balanced_accuracy": 0.8167791618664798,
+      "richiamo_normali": 0.988838261142147,
+      "richiamo_attacchi": 0.6447200625908126,
+      "scelto": false
+     },
+     {
+      "indice": 164034,
+      "soglia": 7.201856926962396,
+      "balanced_accuracy": 0.8167790724510333,
+      "richiamo_normali": 0.988838261142147,
+      "richiamo_attacchi": 0.6447198837599195,
+      "scelto": false
+     },
+     {
+      "indice": 164035,
+      "soglia": 7.202269547558737,
+      "balanced_accuracy": 0.7857358976914534,
+      "richiamo_normali": 0.9892077068616146,
+      "richiamo_attacchi": 0.5822640885212921,
+      "scelto": false
+     }
+    ]
+   }
+  }
+ },
+ "riepilogo": {
+  "casi": 15,
+  "casi_con_un_solo_candidato_a_pari_merito": 15,
+  "casi_invarianti_fino_a_1e-09": 15,
+  "pari_merito_con_tolleranza_1e-06": {
+   "minimo": 1,
+   "massimo": 27
+  },
+  "nota": "a uguaglianza esatta la regola di parita non e mai stata applicata: il massimo e sempre raggiunto da un candidato solo. Con una tolleranza di 1e-6, pero, pareggiano fino a decine di candidati e la regola diventerebbe operativa: per questo la regola di confronto va dichiarata e non sottintesa."
+ }
+}

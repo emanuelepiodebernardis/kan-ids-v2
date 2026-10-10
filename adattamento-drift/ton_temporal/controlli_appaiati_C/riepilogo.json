@@ -1,0 +1,5152 @@
+{
+  "configurazione": {
+    "semi_base": [
+      42,
+      43,
+      44,
+      45,
+      46
+    ],
+    "calendari_per_seme": 20,
+    "flusso": "C",
+    "D_usato": false
+  },
+  "commit": "ef0eaad07cfde5e2324df07d66b648e3c2a533b0",
+  "input": {
+    "flussi": {
+      "A.npz": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\ton_temporal\\flussi\\A.npz",
+      "B.npz": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\ton_temporal\\flussi\\B.npz",
+      "C.npz": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\ton_temporal\\flussi\\C.npz"
+    },
+    "sha256": {
+      "A.npz": "ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432",
+      "B.npz": "e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0",
+      "C.npz": "3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d"
+    }
+  },
+  "casuali_esistenti": {
+    "cartella": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\archivio_esterno\\estensione_C_calendari\\rendiconti",
+    "archivio_esterno": "https://drive.google.com/file/d/1X5d8sQDtt7iSowaEKs2oKqqQSQBxOJnZ/view?usp=drive_link"
+  },
+  "rendiconti_controllo": {
+    "cartella_locale_esterna": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\archivio_esterno\\controlli_appaiati_C\\rendiconti",
+    "archivio_zip": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\archivio_esterno\\controlli_appaiati_C\\rendiconti_controlli_appaiati_C.zip",
+    "sha256": "4d29bd4cdee29cfd5e686d409c1b5b6ff5c75ed1a3f94ca41b0d0240bee4237e",
+    "collegamento": "https://drive.google.com/file/d/1OgVKO7t74Yi7Q8Gy_k-aWZQg9mb1i4vb/view?usp=drive_link",
+    "file_presenti": [
+      "replay_C_calibrato_seme42.json",
+      "replay_C_calibrato_seme43.json",
+      "replay_C_calibrato_seme44.json",
+      "replay_C_calibrato_seme45.json",
+      "replay_C_calibrato_seme46.json",
+      "replay_C_evidenza_seme42.json",
+      "replay_C_evidenza_seme43.json",
+      "replay_C_evidenza_seme44.json",
+      "replay_C_evidenza_seme45.json",
+      "replay_C_evidenza_seme46.json"
+    ]
+  },
+  "rendiconti_casuali_riallineati": {
+    "cartella_locale_esterna": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\archivio_esterno\\controlli_appaiati_C\\rendiconti_casuali_riallineati",
+    "archivio_zip": "C:\\Users\\emanu\\KAN-IDS v2\\adattamento-drift\\archivio_esterno\\controlli_appaiati_C\\rendiconti_casuali_riallineati_C.zip",
+    "sha256": "6eb5ee0ae8a73731e300823eda7cc0adaf211e001a777978b5a57b3958459fe5",
+    "collegamento": "https://drive.google.com/file/d/1Wum41yN4wHKJb3tsNTPqndY59MYzjqC_/view?usp=drive_link",
+    "file_presenti": [
+      "replay_C_casuale_seme42_cal00.json",
+      "replay_C_casuale_seme42_cal01.json",
+      "replay_C_casuale_seme42_cal02.json",
+      "replay_C_casuale_seme42_cal03.json",
+      "replay_C_casuale_seme42_cal04.json",
+      "replay_C_casuale_seme42_cal05.json",
+      "replay_C_casuale_seme42_cal06.json",
+      "replay_C_casuale_seme42_cal07.json",
+      "replay_C_casuale_seme42_cal08.json",
+      "replay_C_casuale_seme42_cal09.json",
+      "replay_C_casuale_seme42_cal10.json",
+      "replay_C_casuale_seme42_cal11.json",
+      "replay_C_casuale_seme42_cal12.json",
+      "replay_C_casuale_seme42_cal13.json",
+      "replay_C_casuale_seme42_cal14.json",
+      "replay_C_casuale_seme42_cal15.json",
+      "replay_C_casuale_seme42_cal16.json",
+      "replay_C_casuale_seme42_cal17.json",
+      "replay_C_casuale_seme42_cal18.json",
+      "replay_C_casuale_seme42_cal19.json",
+      "replay_C_casuale_seme43_cal00.json",
+      "replay_C_casuale_seme43_cal01.json",
+      "replay_C_casuale_seme43_cal02.json",
+      "replay_C_casuale_seme43_cal03.json",
+      "replay_C_casuale_seme43_cal04.json",
+      "replay_C_casuale_seme43_cal05.json",
+      "replay_C_casuale_seme43_cal06.json",
+      "replay_C_casuale_seme43_cal07.json",
+      "replay_C_casuale_seme43_cal08.json",
+      "replay_C_casuale_seme43_cal09.json",
+      "replay_C_casuale_seme43_cal10.json",
+      "replay_C_casuale_seme43_cal11.json",
+      "replay_C_casuale_seme43_cal12.json",
+      "replay_C_casuale_seme43_cal13.json",
+      "replay_C_casuale_seme43_cal14.json",
+      "replay_C_casuale_seme43_cal15.json",
+      "replay_C_casuale_seme43_cal16.json",
+      "replay_C_casuale_seme43_cal17.json",
+      "replay_C_casuale_seme43_cal18.json",
+      "replay_C_casuale_seme43_cal19.json",
+      "replay_C_casuale_seme45_cal00.json",
+      "replay_C_casuale_seme45_cal01.json",
+      "replay_C_casuale_seme45_cal02.json",
+      "replay_C_casuale_seme45_cal03.json",
+      "replay_C_casuale_seme45_cal04.json",
+      "replay_C_casuale_seme45_cal05.json",
+      "replay_C_casuale_seme45_cal06.json",
+      "replay_C_casuale_seme45_cal07.json",
+      "replay_C_casuale_seme45_cal08.json",
+      "replay_C_casuale_seme45_cal09.json",
+      "replay_C_casuale_seme45_cal10.json",
+      "replay_C_casuale_seme45_cal11.json",
+      "replay_C_casuale_seme45_cal12.json",
+      "replay_C_casuale_seme45_cal13.json",
+      "replay_C_casuale_seme45_cal14.json",
+      "replay_C_casuale_seme45_cal15.json",
+      "replay_C_casuale_seme45_cal16.json",
+      "replay_C_casuale_seme45_cal17.json",
+      "replay_C_casuale_seme45_cal18.json",
+      "replay_C_casuale_seme45_cal19.json"
+    ]
+  },
+  "eseguiti_in_questa_corsa": [],
+  "riallineati_in_questa_corsa": [],
+  "confronti": [
+    {
+      "seme": 42,
+      "evidenza": {
+        "file": "replay_C_evidenza_seme42.json",
+        "sha256": "13a9b555dbfc082f5375e1b8b7487700334b8248f5c86e5dd115611d93b8b8b1",
+        "soglie": {
+          "lr": 4.35859176978924,
+          "mlp": 3.927754309707872,
+          "kan": 6.718248715196884
+        },
+        "digest_frozen": {
+          "lr": "25ffc734a20cb38b5151d263354f37742cbd16ea025bd5f72b0f623c899ec671",
+          "mlp": "e9d49433bfae0b7556b9d24b1b3623c0e4775a5fd89b5049fc2aa78f9d442714",
+          "kan": "185c2ec0a7357020dfa01735a7825179cb772b34100bf020b3213352b3534dc3"
+        },
+        "digest_campioni": "a110a954c568a431345e4422549a0efb44402e9f9abf7f37eac97aa83a29792f",
+        "aggiornamenti_applicati": {
+          "lr": 54,
+          "mlp": 31,
+          "kan": 23
+        }
+      },
+      "calibrato": {
+        "file": "replay_C_calibrato_seme42.json",
+        "sha256": "15ef13ce7a384c456deb0fcf37aeda1fb041bf544bc97088acce897c496c7f78",
+        "soglie_coincidenti_con_evidenza": true,
+        "frozen_coincidente_con_evidenza": true,
+        "campioni_coincidenti_con_evidenza": true
+      },
+      "casuali": [
+        {
+          "calendario": 0,
+          "file": "replay_C_casuale_seme42_cal00.json",
+          "sha256": "746bee08f0c1f8105a10ed7c385f56281bd969a875972958559d6b413609fb1e",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "c6517fbd143e5ae658d723f8f2235514c7b22a4289d178640b7262b55934362a",
+            "mlp": "74ec2e95778e342ffd62330ea5cef291824acdb422f8a4d8d0c32c6983e2f57c",
+            "kan": "033d1c3781c4233ee7e00893ec2f63b7a33622b1ebb1b00c17a869a1d44b9ce6"
+          }
+        },
+        {
+          "calendario": 1,
+          "file": "replay_C_casuale_seme42_cal01.json",
+          "sha256": "fad1ec1ce7a9b2e6a0407c9beb377a3a4316801ff7ac2f68a42b3ab91ef65ae4",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "8d13c79108d3d7e3f281d8eaf81e84ab4cf20a8cb0680b5452c6070c6ae64dfc",
+            "mlp": "766a8b04bfeca30e086a6265519ba2fb5c218cb1bfe23f01973f3618d87410ac",
+            "kan": "b09521ed3fd09c7dfedaa2d32b97e6c938b8d9885e7a7bba5bfadfbf5ff27253"
+          }
+        },
+        {
+          "calendario": 2,
+          "file": "replay_C_casuale_seme42_cal02.json",
+          "sha256": "40547dda39595c3abc56fd63263d61d073356285b4697337dc183940c7242e6c",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "871ab1e098ae6eec8d30e25c3dded1cbc92d90bd0878f306fe4617841ec26e2e",
+            "mlp": "e9fbf01ede3ff4186980d644e66009e9ee628fedea1cca9dc05a2ab56731b0ab",
+            "kan": "96a05b30a51f6b721c89d8dfbb967a7c6395a9cf137782d95abcd7e5f357bf34"
+          }
+        },
+        {
+          "calendario": 3,
+          "file": "replay_C_casuale_seme42_cal03.json",
+          "sha256": "65408ea09a86ef8af912e3c5422e0b81db2b3ab786640633056de83b7834dd2b",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "16a2a135ccc411260bae225409598a920ae2feec71ab1078b501d8109c8319ef",
+            "mlp": "9f8ecbf16951c7e0e9687f64def2c5f294f252ec01e3f8b2a443c11c07b3ff94",
+            "kan": "1f9dd8a9cc7f33d78260ad8269297985da48ab92712e8ad5088ed081565dc35b"
+          }
+        },
+        {
+          "calendario": 4,
+          "file": "replay_C_casuale_seme42_cal04.json",
+          "sha256": "70d1cac5c191aa9207c6d506f951e68301d908bf466a1bae40ed57abcd296abf",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "19fd383900dddc88497f3f2b742649fd822153ef59c522e601c2a54633be0474",
+            "mlp": "a26765a6b705c95c705df55d396cfcf104d927c1da7f1fe295bd14ba3317be6a",
+            "kan": "796e8c15dc97a903723244aa24bcc29e44537a6e3e733ad6496c590273cda4b7"
+          }
+        },
+        {
+          "calendario": 5,
+          "file": "replay_C_casuale_seme42_cal05.json",
+          "sha256": "b06001d395d410ddd1606f2641ec8842eb7f87d75b6dfc9948ddcc131b7c5fcf",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "08383c18ad2555c4c25136d245937753b522e673c423d194bf1a45c5c0a553bd",
+            "mlp": "b48909c5fea4f47f2f543622e4fdad947014af785bc7b93b9657f2aff9d90030",
+            "kan": "84fdfbfa0b47cd5e98fa354de57673b50148cc09a2ca1c4fa5924afa4c3b186d"
+          }
+        },
+        {
+          "calendario": 6,
+          "file": "replay_C_casuale_seme42_cal06.json",
+          "sha256": "a5e9358f39c4edada60a0c19d9bf80b6ff0f6f3b79f14ba6e8b4c18cd6f3cf07",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "350cc14b1ab47f0303772a4ad44e46bf45ebd512f1a3190c6e0b254c0a335eb2",
+            "mlp": "12a503d08b774fff5a51ab1edc0b409609c8dafa2b678ffcbe0e24dc54dcb775",
+            "kan": "021ce6252518ffa37333d222c42abee46a8aa02b2f16ea547f11448d9e0e99f3"
+          }
+        },
+        {
+          "calendario": 7,
+          "file": "replay_C_casuale_seme42_cal07.json",
+          "sha256": "40ee1c45002233abc61d59ef89ce89e11c081887d71998d53c11d86cb110f75b",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "81e63cbf506acde1368d347acae20ace083d7f5e25f29fb43840e382ae2491c0",
+            "mlp": "0b0a85748e06bdc267d6103c723c66f6fb225971a6cd4c341d9dfceed24ee876",
+            "kan": "e06b4520a12f0fe1e566eb210ad870858526fc2775fe2890abe166b22bd3a8c9"
+          }
+        },
+        {
+          "calendario": 8,
+          "file": "replay_C_casuale_seme42_cal08.json",
+          "sha256": "02f5b39ad611fa66898fc1fc128db7bbc14041e1496eeefd32fce10be8c0ffa9",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ab4c9f5fea42f429e3f64e3579a6ab3c73617e4fa1da63f6d1db543e30ca87eb",
+            "mlp": "9ea2d57c36f6123417ce67544e7d5b598493f32aff6e59afbb71ccba798d5c3b",
+            "kan": "c372ae33e26e00b21d58bdaf8621c40fd344b10c3bb73140365b39e9c188716c"
+          }
+        },
+        {
+          "calendario": 9,
+          "file": "replay_C_casuale_seme42_cal09.json",
+          "sha256": "261e3a28604cd04c076641d531cffa620e61029e591f85d6591c1653b097ce1f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "f1f98cacfb6cba92b5568f02fe2a0675e1bf051ecf61ef878e73ae9537b7dcd4",
+            "mlp": "231c4bc5d332980ed95c7d0472bec6901a34b1f68225e58fd1725aacf8cbc42b",
+            "kan": "ce2d606b201f228201fb981c184bc7d5ddca17c854fd1795a5b92e89f7a378f0"
+          }
+        },
+        {
+          "calendario": 10,
+          "file": "replay_C_casuale_seme42_cal10.json",
+          "sha256": "98d3e893545bd0ee0ec2ab9447698a0258c57c011a77e9a48b00a7bce96ae522",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "f20a809e9fdbe9cce5ccb5520619d6831d8fc8d37c485563adc322ef1c8f8f07",
+            "mlp": "7a39849ae4a9dbfcfa6b3d2d4a4c4ba2f2b12ff02c296b09ea58f24615531df5",
+            "kan": "1e1ff923867d016b11746cebf4b9889ba5791f76a9ab4cc94ab1a225a93678a6"
+          }
+        },
+        {
+          "calendario": 11,
+          "file": "replay_C_casuale_seme42_cal11.json",
+          "sha256": "a96a0d3176c14796209d7186e3421359854a5fc15f7a728fb2dea1f4e252d0f9",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "548d8d78c6a19807f6f4c8b3e8a4117632cde289fb91d5856abb04c972fcedd8",
+            "mlp": "9a5d4ee0ca96c159317650f63e6ef6f2b423bccb63363bee86090c144cf2fcf3",
+            "kan": "dc4975974b38e1103ed907ee0edef5efe752d36d9a3a9360099213075e5318a7"
+          }
+        },
+        {
+          "calendario": 12,
+          "file": "replay_C_casuale_seme42_cal12.json",
+          "sha256": "3c30ea09007877fd2d615c17957752193a76f564d03b6494dbb030d30fe4feb3",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "710a9322693ffc8df7c61108ee1fa220b76bd0f0f543426a32c3386c2425a30a",
+            "mlp": "95542e547e213f0c76755a98d82140340156e7ad101784be363f48d9a7827031",
+            "kan": "6aaa11c2cae0a7b2699cf341dbe51b8890196b03380f3bc6aba32160809dc9cb"
+          }
+        },
+        {
+          "calendario": 13,
+          "file": "replay_C_casuale_seme42_cal13.json",
+          "sha256": "8cc3f1b8d8f542dfd47746028df4e688730d2da5c639fbf451ca2688a4fb24dd",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "aa1ce272a3ce33372cac1384dddf13d7fc996d7ff2b80ee32d41c086b6c51731",
+            "mlp": "92c8cd04c48ee1935e3cbdb56a1dfcb0fbe18aa320e0d044c2adf9ea7fc04fb2",
+            "kan": "45bdd309ae946422612ab47a652d20435cce037dff893794a4a1d1ee51ef9813"
+          }
+        },
+        {
+          "calendario": 14,
+          "file": "replay_C_casuale_seme42_cal14.json",
+          "sha256": "49d7b82ed184971450a9aa18417ff4eeda9e5091ac24da6b50b367ec508a676e",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "325225160991cc835207f1eb3f08fe789677b0b3321928fee1b7f3e91f056d37",
+            "mlp": "a572e7062d4751aaddbb204c0d2a8795e380c4c1fa533f059f0bfca999662c84",
+            "kan": "04fa26f0b08631052d9c73f08fc1614961dcf2fe527b9eac45b1633ad9f5209e"
+          }
+        },
+        {
+          "calendario": 15,
+          "file": "replay_C_casuale_seme42_cal15.json",
+          "sha256": "37dccde073cd14052612c3b41998fb4ac20b1b2df203694686081b8021adc60c",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "22477d4404ae923880aff51e31e624757841d6356cd8ccd10943908f5845bc43",
+            "mlp": "6f9b8e6e8d89a3f7c03daee0f83ff0086361d55798d2b3710cd30341fc6dd478",
+            "kan": "35077441d4b88db65c14aa2e3de7da287b60206d04ee8b32b671b3e82733c764"
+          }
+        },
+        {
+          "calendario": 16,
+          "file": "replay_C_casuale_seme42_cal16.json",
+          "sha256": "175e361c209c3aea2ea8180062215826f875962b0e33463e6db8c7732445ff03",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "0be5333112face5d3267bd80cf1710932312652c408615a07a56b70db5d4a71b",
+            "mlp": "d5acac39dfee6f8f656cff8ad20076a371fab9a615dc89c3b8366ce2f167a40b",
+            "kan": "dc160c863e4b10e68cc92bd0792711c3415809f53007e75f112dd1cedb012ec2"
+          }
+        },
+        {
+          "calendario": 17,
+          "file": "replay_C_casuale_seme42_cal17.json",
+          "sha256": "05b3e7d2c78f6982e41d73d49f59a89e7bb872fab15f612909a6bd4e2c398dc7",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "2584c2327b038c7ef3af90dc5e8d3ba45a92651cfcab6efdb0af4c482b8af293",
+            "mlp": "83d64776cd7bda3dfef55d80a20e3761d2d4a83135f914a53b2ec74f4c9a758c",
+            "kan": "006b055264feb4acd484c8b78c56fa9654763cdee81f4ec2b10336fe88509faa"
+          }
+        },
+        {
+          "calendario": 18,
+          "file": "replay_C_casuale_seme42_cal18.json",
+          "sha256": "630169333f657262407d30531a67d3f692b0013bc34a2ccd1f82f9657ff98a1d",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "b24b5a3f55bea751da7385d5a0f23b45fb52f4189469b441d51efd1b0af66b9d",
+            "mlp": "318163eeead5ec19240e6e705ada237726e0737a754e448189b6d07fe772ce40",
+            "kan": "b74172a478d06457795f11c96aed45c9828c6a94ca73fd1c43ed6c998099c034"
+          }
+        },
+        {
+          "calendario": 19,
+          "file": "replay_C_casuale_seme42_cal19.json",
+          "sha256": "7a1c281119778be28436fb3313eb9f4def1c50c679d1cb1e0c54814238b084d7",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 54,
+            "mlp": 20,
+            "kan": 23
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 54,
+            "mlp": 31,
+            "kan": 23
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "1f7e16af21482bc1f428849acff8b2413ff5e6c9c9bee3cc92d6c71c0ca54de0",
+            "mlp": "dc5f0af364222d495c1c6f628fe9e3ba01cc5ef605deaece7058c382da48656e",
+            "kan": "4a1601e9a4669f73003683234bb107bfb8793c1e6fa82648388b46fb539d7b19"
+          }
+        }
+      ],
+      "tutti_i_casuali_appaiati": false
+    },
+    {
+      "seme": 43,
+      "evidenza": {
+        "file": "replay_C_evidenza_seme43.json",
+        "sha256": "8a6f259e9a7bbf388872cd866130e930efaa5791239356559ecdbaa46a3dcbbe",
+        "soglie": {
+          "lr": 4.35859176978924,
+          "mlp": 6.345281416699265,
+          "kan": 6.34291919605157
+        },
+        "digest_frozen": {
+          "lr": "25ffc734a20cb38b5151d263354f37742cbd16ea025bd5f72b0f623c899ec671",
+          "mlp": "959cf9b7d03f4e96ec9e3358354f19774e3bdb0b62eebb14df4a4b327c9936ed",
+          "kan": "74be41c6621e1bc6845db44ac0230554e8c2fa75a7ca2e18ab2da34d356b986e"
+        },
+        "digest_campioni": "4da56232c1ec796158a6e4a320a25b6ecd7776ce0af3f2a4e35fd64930efc4bd",
+        "aggiornamenti_applicati": {
+          "lr": 43,
+          "mlp": 36,
+          "kan": 16
+        }
+      },
+      "calibrato": {
+        "file": "replay_C_calibrato_seme43.json",
+        "sha256": "c3ff7f4273a408b750f6505dc12fec60d1f38fe200e23a7d6f0a7351f743dac1",
+        "soglie_coincidenti_con_evidenza": true,
+        "frozen_coincidente_con_evidenza": true,
+        "campioni_coincidenti_con_evidenza": true
+      },
+      "casuali": [
+        {
+          "calendario": 0,
+          "file": "replay_C_casuale_seme43_cal00.json",
+          "sha256": "284c2ab016551da170bb75dc1922e220e426cd7a8570370bf113d345af6bb0f6",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "6bab1686b3a0f25684edcbb953158a2456b4bd24a6fff4c13dd65c2a41b2dabe",
+            "mlp": "0204d5562e62aa23e829c7870c1af631f0603ee41b01232cc08b18f785272d3f",
+            "kan": "3f18e7b11889d1492813b7079c1563d58eb3c82508294173a9d694dc5cec1d04"
+          }
+        },
+        {
+          "calendario": 1,
+          "file": "replay_C_casuale_seme43_cal01.json",
+          "sha256": "d28c1df12b46fa05b1212e75ddbf582f160a41440b9f6792123f2b21f159f7ca",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ccfb1d8a5dfe284ca5b8265618a686deed20b1204b620051198d57507fe1d49c",
+            "mlp": "0ec539996fec36fccaa800d14e08d32e40a0d0b139990627d5eeb55a44c5b33b",
+            "kan": "69c508ef05250e341eb3a4b2286917eb288d99d280de969eaba174a8a3493471"
+          }
+        },
+        {
+          "calendario": 2,
+          "file": "replay_C_casuale_seme43_cal02.json",
+          "sha256": "0a577537b0d574984ac3b8376db7eae2da46cb662f7f72672949a943afb7f81a",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "43134705864a494f5d4e8ed75855b8e12df456c38ea00d09b4e99911ecedd498",
+            "mlp": "0e4b45a6a46a4ce0173921d6fcd2af51407403ebca3fafd2db5ba21e9180b346",
+            "kan": "5b3c11d597c1ea3d27ec9f887369ab516e9b5c34db0cc36c34556516e5ec49a4"
+          }
+        },
+        {
+          "calendario": 3,
+          "file": "replay_C_casuale_seme43_cal03.json",
+          "sha256": "1aca8947a47a1996920a27986aafc05af12ba837481d6162d7aca182542d63e0",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "59c318733a1eee097a7fb263c90e226e61b0ac2455c674b8f0db54e3aad5f07a",
+            "mlp": "2aca9e7a910d6686d17f33e144a27aa47d709615a6e7e9f57ec6634faa2e9a52",
+            "kan": "e1eabe2aac2562fd0f695ce2ab11ace3385ff8bcb5411c7eaf51f863bfd4fd4c"
+          }
+        },
+        {
+          "calendario": 4,
+          "file": "replay_C_casuale_seme43_cal04.json",
+          "sha256": "698e0ad3d9ad69d65791cf0a9f8a3eba95a6df531a317da90daa201d17794f73",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ab968c8f0c9b656d6b5e580e6c4676639b22530b7b43199836e26d2f8383f8d6",
+            "mlp": "c3b895431efdaa18312190b807481de97435ac142df38923d11ae55801c3f643",
+            "kan": "21ff41991a3c1a0daf6c7198a9ea6eee1b3ec5418ce9fa03e33368e0554250e6"
+          }
+        },
+        {
+          "calendario": 5,
+          "file": "replay_C_casuale_seme43_cal05.json",
+          "sha256": "e94dda621d525c72a5568dca1a639dcca6a507855458bd541845b43502ac285d",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "8a7458b7ce8433235fa1f6b7c810e1690fac35b1263fb15d3e241f4fc0d1bbef",
+            "mlp": "5a7d328383f75fbb7449bc90487fc2e1be049c70bab3e52c80587c82fbaf6868",
+            "kan": "a6bd2bbb46ee139396bba063a44bad31ea1ba8c094c69bc54a539f7f6e8b818b"
+          }
+        },
+        {
+          "calendario": 6,
+          "file": "replay_C_casuale_seme43_cal06.json",
+          "sha256": "7e4acabefe963a1b6e95abaaefe4a3727b5f87b2a023fd039019d6ac49d22ffd",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "742db034d449d4f3774183e491e1e3e3a40e824767d843bfa573814d3e207008",
+            "mlp": "479f53515846818837b2e6c05415ccd5094d0d70566fe7aff53b0b89f93aa01c",
+            "kan": "37b22e47fafe402ea2089b47618ab0524c64fb327a7572ca5d6e4516835b16cb"
+          }
+        },
+        {
+          "calendario": 7,
+          "file": "replay_C_casuale_seme43_cal07.json",
+          "sha256": "a10c415e6984a6ff8788c115eed3ce356353264fd66c7c3af17a03b9748f85c8",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "64f26c3820f60ee8aa33de00dcc1297fc784ed0e922c36511e27dd009a7a746e",
+            "mlp": "5dd519872ba7544c9d8e45a07fb62a25c5d1aed2f0bb388320e279a2bc13317c",
+            "kan": "93cf37470ea73e659f581e445986ab219ca55b0792f5a7681b70c258d2b67d81"
+          }
+        },
+        {
+          "calendario": 8,
+          "file": "replay_C_casuale_seme43_cal08.json",
+          "sha256": "ce9dab4b3a25a20f4e1427de91527b0715d2390af5da005d6d13183a945abe1c",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "874da2f69f2c3e0c6145cdeeb0517b34ca80e8a797cd4beb4afe81f183cd78a3",
+            "mlp": "f3dcd9657c2dfb0399d3d2be02f8eb6a1e1b49e5e34c51ae58de9e0feb1eaaea",
+            "kan": "4b7de287cbcf67f1eace3c03be40132b48f2b41884d252882f3953a4bdb445d4"
+          }
+        },
+        {
+          "calendario": 9,
+          "file": "replay_C_casuale_seme43_cal09.json",
+          "sha256": "86558a69aebdf4f7d347312134575560ce10634d0459e906f62817d006e66da3",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "f9e14d2af6b798c636f2cbc468a1659a21d173cd9b6272fbed021c5b7b709260",
+            "mlp": "8b06b90de41d9cb1a82cdd75517db4e899daadc97c71e57da784a505cc553d6e",
+            "kan": "40a21af721835c9c5b5ccea9e0817466a7d51d748b2a42d3b84a13bf525fc420"
+          }
+        },
+        {
+          "calendario": 10,
+          "file": "replay_C_casuale_seme43_cal10.json",
+          "sha256": "6dcc5bdce85270094c1f11d5659bafda52cc817b33e9f6a33d4e849539550043",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "893af89f52684bd85b63fb0dba2a0c55b02be5f96a37d869f22ec5e360c487db",
+            "mlp": "22b5515944200bc59f617978d9f254bb9501cd84d4128c54ce11f1fdc23142fb",
+            "kan": "2740ae5aae443f455b90bd9dd2bfa806b4ba2aa8fec171c15106acef25da106a"
+          }
+        },
+        {
+          "calendario": 11,
+          "file": "replay_C_casuale_seme43_cal11.json",
+          "sha256": "d04c07481987a05b6a4c2006d3a1d0a689f41da48aae30dc692d47c555bc8a40",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "973d23a2965721e8df191307d2e5b1dbf3464a49f54e53f62e73fe10e8b0258e",
+            "mlp": "3cd72d96c16bf40265bdbfd42707b28cbfba0bfba50607923ea24142fc725a51",
+            "kan": "67b79ff616939f8a51361d89f3ffe8e4ed4c042402f42ede012ad7df8fce7452"
+          }
+        },
+        {
+          "calendario": 12,
+          "file": "replay_C_casuale_seme43_cal12.json",
+          "sha256": "f0285f5b06f4bf067aa3ef142a07b753bcfa80681b5ab143e1ae1fce74f29b82",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "40d9dd20a416b3e1e7373a884b95443cf3ba7f9bd226b7e10887a254b7b2829c",
+            "mlp": "1ec2ba9b9ef5dc7e031e9d3b69c790538991d3248fe935644c260039be36f432",
+            "kan": "c52abc6271a8834917baa369f1e1423030c24793c0961d7d4e22f024fa2abf1e"
+          }
+        },
+        {
+          "calendario": 13,
+          "file": "replay_C_casuale_seme43_cal13.json",
+          "sha256": "5adb65cb3831ba3db6ccb66c62f549b85b1cb38c0f4db04220fdae0c04ebe5b7",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "761bc68beae0eeb667f50809cac2407bdd4c59f0ed8ca82f969cca435aa7d04d",
+            "mlp": "6cf73c4fc2761fb1b090927a747e500fe48c44672f5d48778af6eb4620a23108",
+            "kan": "d8c947f3044909c81254177b11a04267a886b06a262b936e3bb230915f0dfb35"
+          }
+        },
+        {
+          "calendario": 14,
+          "file": "replay_C_casuale_seme43_cal14.json",
+          "sha256": "830600802af12e9359df3fb9e670faebbb1422bfd4d65fe49ba74fdf98b5eedc",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "592392c0df2ada448657284cc34703a7fec945a06e40f2fd0d779ebf14a7db6b",
+            "mlp": "b7f74be770b844ceab8853e2c6e3777eeb3e8cef2a0e556014c5573febe39a0f",
+            "kan": "51298fb422a46ed091dc1399cd91223ee74eb6be98804b14aee18e83ee11dcf6"
+          }
+        },
+        {
+          "calendario": 15,
+          "file": "replay_C_casuale_seme43_cal15.json",
+          "sha256": "1609b9b59c93419da046588b3c2ddb7aa7efa076268542a1690d78ef2055142f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "793becf93911edd5ef0f72105b82f72bb5e788e5827c2d2b2917b43f4c68dba1",
+            "mlp": "2bcf4540107012a46dfd42112f0afc3476e3b4b6b651c1715b764daad776706d",
+            "kan": "2377a9718415baecacec0ce7753d354b79b588f88c921912800407fd298d7514"
+          }
+        },
+        {
+          "calendario": 16,
+          "file": "replay_C_casuale_seme43_cal16.json",
+          "sha256": "739f5c836a0dd25f95a0431497cc74f3d2bd793d696479a9bcdbb2e0fb405ee3",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "1c4d3f92ef3b28795722c7b0d95447f84b559eb492b3e863b3e669574736b366",
+            "mlp": "7efe28bada42bd4adaee201592a5429697f2e5ad2f2f9a4686195fa2c8eaa93f",
+            "kan": "0e6e5bebd4e2be7eb54a54f06b378267ae3278796b50c485367fd8358aad99e1"
+          }
+        },
+        {
+          "calendario": 17,
+          "file": "replay_C_casuale_seme43_cal17.json",
+          "sha256": "8ca0f914556435dd8b7d86d001989d90c6bbe73d18ac10fd69a8461b3ca97089",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "bebdc8632cb74475c3d24d8680beafc8c697af8bf7136673014c7098289c318d",
+            "mlp": "b56030ae6d01b326eda8091de40abbffe94e1f37ef49f4d13ddf13d176abfc51",
+            "kan": "fb9a4839a8cba5e4b90905299dbe0f8a45777d78c1f8e1cd3230a80d018ba1f2"
+          }
+        },
+        {
+          "calendario": 18,
+          "file": "replay_C_casuale_seme43_cal18.json",
+          "sha256": "f95ec4294a6f2cc173aa76d95af68a06ec84524a28e9f6783129ff750b58e9d0",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "184532dcbf0d5b3edea7c3af4aee59cf459d87f97ed17e5b8e37dbba80d09ff2",
+            "mlp": "c8f4f98ffb6dc24d49863c440fd94c5ddcb6682481b0a910e3c63312f5c846d9",
+            "kan": "e70a09978f5b7895da2b638c839576ccac847d10089553558199cfe22cecfd8d"
+          }
+        },
+        {
+          "calendario": 19,
+          "file": "replay_C_casuale_seme43_cal19.json",
+          "sha256": "189d207369e622c6da5c2eaea4465a05de4457f7e34315f7eaf1c774bd8ecb0f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 43,
+            "mlp": 35,
+            "kan": 16
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 43,
+            "mlp": 36,
+            "kan": 16
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ab3f05ce9a6d80e77bdb54125761ad91f33332def6988fa42db9d23eb65de456",
+            "mlp": "3e3cf57fd7eb84b248d5814673209affd5c4a895082aaabdf58b6808b789d0b1",
+            "kan": "4a533ed4549145925705423386fccc30c445cfaa3be8a4a326df6047b487ff76"
+          }
+        }
+      ],
+      "tutti_i_casuali_appaiati": false
+    },
+    {
+      "seme": 44,
+      "evidenza": {
+        "file": "replay_C_evidenza_seme44.json",
+        "sha256": "bb9ecc81884eb2c67d510bd2db21dd6f9ff7468e86a34a78272c64ec38878295",
+        "soglie": {
+          "lr": 4.35859176978924,
+          "mlp": 5.21568115031242,
+          "kan": 6.790640298617642
+        },
+        "digest_frozen": {
+          "lr": "25ffc734a20cb38b5151d263354f37742cbd16ea025bd5f72b0f623c899ec671",
+          "mlp": "86a07097e9c88f5cf8eef82058b934468b9e3e833ef43605f58a1eb3915f0d7b",
+          "kan": "3f30765931cc5af24aba5f0994a473531abfb835619178d3924a98d327b90980"
+        },
+        "digest_campioni": "e4419e81b90440385f46df0dd9b206f32b30a60daffd03c1d4ad34af993c8873",
+        "aggiornamenti_applicati": {
+          "lr": 44,
+          "mlp": 45,
+          "kan": 24
+        }
+      },
+      "calibrato": {
+        "file": "replay_C_calibrato_seme44.json",
+        "sha256": "883d8ab305fd15b830487a4b609074fd36633759207e62106dd23d27a47ada8c",
+        "soglie_coincidenti_con_evidenza": true,
+        "frozen_coincidente_con_evidenza": true,
+        "campioni_coincidenti_con_evidenza": true
+      },
+      "casuali": [
+        {
+          "calendario": 0,
+          "file": "replay_C_casuale_seme44_cal00.json",
+          "sha256": "7b17125fb39ab8ca39f0bb8c2ffd7bcb6d40e179881648cf0406136aa9d1d352",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "30ea574c3a28e36785aa9f6e6a2e40d94d100e020438137a03a5c24087f28c67",
+            "mlp": "ae094cec6f2aa328b043033be57c99c8b898ca697c991821369bb8a09554cabc",
+            "kan": "c1a987e0fff676e503215738570b28c9f17212be25571073b2b2f189a1450205"
+          }
+        },
+        {
+          "calendario": 1,
+          "file": "replay_C_casuale_seme44_cal01.json",
+          "sha256": "e3bce6a535f1289c462314f543e2d56a86fb4715da85913ce4c4344bc0f2589d",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "d11dce4570fcff9e2c103231c627cdcb9216b66462ce3ba097674f4c64b885ff",
+            "mlp": "49486e8a95de8548a2a3c8e519e5ee3dae841eab2b466e0abae8a01a1607e514",
+            "kan": "e9bd2397e80b7349d3a2bff0530016ebc883ec6f3e85694650b26811c698e24b"
+          }
+        },
+        {
+          "calendario": 2,
+          "file": "replay_C_casuale_seme44_cal02.json",
+          "sha256": "5e3ace50ab5bda881e4e371aac24626fee7e62b102f6f6286b881dddf6d66163",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "7ca5181527ebb3487f72fe4ea892a9f41cd829db55ad0909ca79ed05d14a206b",
+            "mlp": "6eadc7abf0778e0abd6b0cb8b3c846fe2e5d599a7cce6ef5b25284a20ef7f6db",
+            "kan": "6e37e700718199606ec31057372a054f6737e0b4f2c66f25c774488720ec1cb8"
+          }
+        },
+        {
+          "calendario": 3,
+          "file": "replay_C_casuale_seme44_cal03.json",
+          "sha256": "32d6c9304cbc708eeea40d08d1ecb404c9302eaff33a06db3d0bf32f79e8b4be",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "389fd311e500b8610e18cea1a8212bcb74131819221fd6016b8117063fcea54b",
+            "mlp": "bbadc6f04ed4277d9c6e54dd38af747aeb1e0c0f3bf269b7c3bda89a18f4ab92",
+            "kan": "88fe6cc3b2ead36ddc2e67a0f0eaf0d1528d6f3df2379b6b3a2683f14f830be7"
+          }
+        },
+        {
+          "calendario": 4,
+          "file": "replay_C_casuale_seme44_cal04.json",
+          "sha256": "3d18b2cc85f324d8e561651af01e286ba648e1c1d9f029940b2cac76f09efe5b",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "9ca3a75ca48883cf798234ab308941254f475070fb5ccc5c031cd73b38f09302",
+            "mlp": "97c1e4ec342f1fd8effd6ad2ac8a59aa33cd1873c4e815669f1210e251436ca2",
+            "kan": "6c49e40bb28aa99236bffd84061a974c51c4e6cb97768c5d8901738c947f267e"
+          }
+        },
+        {
+          "calendario": 5,
+          "file": "replay_C_casuale_seme44_cal05.json",
+          "sha256": "75c4f4af34c25a1e2d3e1bb6be2b6f912d9698c8705aa71a17d2b432f47bd9a7",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "e103427dd0325cb2c82a1660bf4fc7c55970f7c22ac855512c56806a0ffde518",
+            "mlp": "65e141756f9230d053bab876bd57176a7867f4e5bb3200d5d35ffc3360d016ff",
+            "kan": "3cfa1df6c4e019ba7775ef4f620bf8bb736f5116432ad19ec2f2d11cfa14ef8c"
+          }
+        },
+        {
+          "calendario": 6,
+          "file": "replay_C_casuale_seme44_cal06.json",
+          "sha256": "1b2b4d6f1b873a9c0484d736075a71b36eab0314aac4d1df5f6731ed3ef9bedb",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "015b6e428c5e082d6c80053535d6a6b24ac33aea1a7a3880e8f4989e8717a868",
+            "mlp": "f945fca47aea5a7150683d079226e4dc609edff015d449b74f02f9920a52532a",
+            "kan": "cf35afdf8951133b5a7a95d3acb095e947815b3b18fb1528ef5bddc4eade38b5"
+          }
+        },
+        {
+          "calendario": 7,
+          "file": "replay_C_casuale_seme44_cal07.json",
+          "sha256": "538d2d967f95ff2039847a5e51a39d552b65ace692b51959133d84be1685076f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "f9dd5371110e3d263469ab8c08d53a96a1ad5e625fe0acf7e81462ba6fe782a8",
+            "mlp": "8923046d6e6cd9c02c2a5fc568e976c6d95934cb16ee112b531a599b2ff02cd7",
+            "kan": "45e4438aceac37c733b55c142bb195ebb77348256b0590f6deeaf6e9b20050ee"
+          }
+        },
+        {
+          "calendario": 8,
+          "file": "replay_C_casuale_seme44_cal08.json",
+          "sha256": "ed422c3ba899f806c681c63bde16eded4327847e6a4f4b6eff5c1eddac113d6e",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "7c62f44f931ee6b750d835e547a5356274c0e68e7d1838b368bb21c8a1411f61",
+            "mlp": "91e4162a0128877cde193f04092e1433bae76e426f35b136a3e7f8721184ad22",
+            "kan": "06a081b16fa184131e5708cd3f000735e87eb6b9b4a348a9a946495a8f9ac683"
+          }
+        },
+        {
+          "calendario": 9,
+          "file": "replay_C_casuale_seme44_cal09.json",
+          "sha256": "1ee71651132261eed8fd47ab3b519bc96ba0b2e839d8a040203ddf6e8e8f0d28",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "4cedde75f5917cd5e75c0bdd96668138c279798a2f516c5cbcab04146f381d02",
+            "mlp": "6bf958273b535f6a668890c462e64a0e7b9b4bf2c4b40fa1a818c31c64f4e13f",
+            "kan": "b13dc5022de46d02a189ff95855ecf3f6feb5e9affcc7b488b66ce29c2b68c78"
+          }
+        },
+        {
+          "calendario": 10,
+          "file": "replay_C_casuale_seme44_cal10.json",
+          "sha256": "dd531f49dfc28988e13999d3bac4c5ab9a9fc9d82b8ea37648ecbb922da9713a",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "b6fe3d669e338674eb5b5a598dd7e8e6495b91f3a245f399fa8a6afd84466394",
+            "mlp": "47039e173e911a110d6de4ef4b52bebc05857e70b8ec7753988dc521b731e00b",
+            "kan": "a1af210f996fd7023aafedd4b129df28c167d2c60cfa7a582e353ef4169f3d46"
+          }
+        },
+        {
+          "calendario": 11,
+          "file": "replay_C_casuale_seme44_cal11.json",
+          "sha256": "dc0296ca78cf595194f1f8d7ce975c2fbbc61b0728dd5e5797c4f84fd615b2d5",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "87469e94ed3b31a375e1734be474e80d1e68972b614dd420fa72795874c6b0a2",
+            "mlp": "3f0f211fee99349d3363204587c9584f881e558304fd5f5061eddfeab9692dec",
+            "kan": "b0dc033e9c19d921c2ed7120b516eb2acc328b9b20ba737845fb97a99d7674c8"
+          }
+        },
+        {
+          "calendario": 12,
+          "file": "replay_C_casuale_seme44_cal12.json",
+          "sha256": "e896de51d4cc18da04d01e471582f32cfd0a9f0f3dd5fe0d44b72ea8f611ac9b",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "a40bf997265be17007dceb20e9168aec0f34db5038eb99159774bfea688d9626",
+            "mlp": "1f31c6857f4030b10cfefc68fbcfdba0e01fcde916ee7ad7b376a7f7775302de",
+            "kan": "f5b137187b7f553620ddcb0a4717ee3302e5370ec987181be06c3fd5fc48e86b"
+          }
+        },
+        {
+          "calendario": 13,
+          "file": "replay_C_casuale_seme44_cal13.json",
+          "sha256": "f2f7eceda6cb37a9cefcb6b6377b97f1896a9d075d22ba0fbe7bbbd3bd32628b",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "add5073bdee895d89011ceb944d73a8fd96d3d913c4895b5b5e5370a150ca342",
+            "mlp": "2a933dca5b56b09ec9f0fc1a3325b027e67da190fb87018ff07c1e5163c87510",
+            "kan": "d60b960534a3a2f8e2fdf5e26d6ccb4cf87c1feac669c7a076c678cd162cf102"
+          }
+        },
+        {
+          "calendario": 14,
+          "file": "replay_C_casuale_seme44_cal14.json",
+          "sha256": "819686af32bb142c68734aaba70e3b6e191941db7a77f8f6314b03c379a3d682",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "48384da66e6d62cd698eee6e12c11e57f2a202b8d5da50b5791b65af7644b82d",
+            "mlp": "478028ee74a119a6ed24d0f62766f03a1b0c82f904fd43d2cb05bc6ae176f036",
+            "kan": "eff44e628d93a0db4b1339b56749277e93dc264756a7356a50f8a8c0f85751d2"
+          }
+        },
+        {
+          "calendario": 15,
+          "file": "replay_C_casuale_seme44_cal15.json",
+          "sha256": "3066471cfcff1a5b50b19e980d4792c2b0ae32f7699579d514f172f12aafa7ff",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "5eab7f7940bf5bbe23feecbcf57bd46beee27c089d6b875468283001d27695da",
+            "mlp": "60663a3f390473709d0a8cc4b8b7cdf1d6d29a814e429fdf02db3824cd9f37f0",
+            "kan": "47dd338406fb918409fe817221ae1c602a4982fae6d816dcc7bcae2962600a93"
+          }
+        },
+        {
+          "calendario": 16,
+          "file": "replay_C_casuale_seme44_cal16.json",
+          "sha256": "9281e63a5ae3c323e6d51f4fa883b32c81c3594304e8bf57608a0572f02ccdae",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "4c87471457e399dfc9983352647feb3a57a5b9bd7add3d0e9bd3dbbba57380ae",
+            "mlp": "2245922bf6069c1e21d545c8813258c8bb54767e7cee2e76a2a25ab4e2fac30a",
+            "kan": "7b6286e61fef97b524d601f8d8dd95e0d8303f23fa67de19b0b949c87016797b"
+          }
+        },
+        {
+          "calendario": 17,
+          "file": "replay_C_casuale_seme44_cal17.json",
+          "sha256": "7e5cbd471abde99a47e58f3cfcfda3d18aac2bebd72adc7056e2ec89fb113523",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "6bb9946a71cefb7b62d7affe09175e51daa1a9bdfa36753941998d535959552f",
+            "mlp": "339974b2b10884198f7be8e58c3953154c654f5584a2dee2f64f801d8837d6f6",
+            "kan": "a167ddc0bbc2c8a57baa7a6185974c096ce28ff16a1f547a701da84d16ec2862"
+          }
+        },
+        {
+          "calendario": 18,
+          "file": "replay_C_casuale_seme44_cal18.json",
+          "sha256": "235e3a96039e84de196abbdcd774ae2e20f6969921c0cedc5ffbb1399d7a5d96",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "3a8d9a3b1cb238fcc8fd187a78b5233c60c71fb9383c68b9459e2cddaa9ab57b",
+            "mlp": "3d9b72ec22b9289522666f9f9ae4735a70ea5af3646a9141b23a70ba20cf6733",
+            "kan": "356df07850cdcc0c63a31c0769cc5168be0d44ab4da3a54da339dda64af52c05"
+          }
+        },
+        {
+          "calendario": 19,
+          "file": "replay_C_casuale_seme44_cal19.json",
+          "sha256": "8603c34a13b11c117a05068ab5fcf1a95143acf355e2b90f2bf70815ce9177d2",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 44,
+            "mlp": 45,
+            "kan": 24
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "c5c62f2e6cc43d831af15eab1e0a9b9f77e166fca817a2cb7b759427200d8880",
+            "mlp": "0792ef8a14ca0eba42436ccfc4c03dc8ef5bbf5492f0d96466796fdb2f200310",
+            "kan": "298cf08923bb6d310d653582b21526e1d0fa52815197326c0c60451670893349"
+          }
+        }
+      ],
+      "tutti_i_casuali_appaiati": true
+    },
+    {
+      "seme": 45,
+      "evidenza": {
+        "file": "replay_C_evidenza_seme45.json",
+        "sha256": "d96238d73e6f74366198e6b4319a2bebbaf5bc0acf0bfa9573f22928d0404107",
+        "soglie": {
+          "lr": 4.35859176978924,
+          "mlp": 4.721159725498239,
+          "kan": 7.167052360323443
+        },
+        "digest_frozen": {
+          "lr": "25ffc734a20cb38b5151d263354f37742cbd16ea025bd5f72b0f623c899ec671",
+          "mlp": "b1ad03e545bc1a22876aa5d6e815f181fb43062a09aa1337b9eae03883fdca89",
+          "kan": "c676f43f619effe58fad1d29054994eafc93ba0bed996bc6ad69534aa9957bbb"
+        },
+        "digest_campioni": "d95589c620f5557328b3b54678cb41726851bafa5d122774823fe2ae03b15025",
+        "aggiornamenti_applicati": {
+          "lr": 49,
+          "mlp": 30,
+          "kan": 9
+        }
+      },
+      "calibrato": {
+        "file": "replay_C_calibrato_seme45.json",
+        "sha256": "4f7afac506c8e56ca936a45061e0ed31f6ef1c283b055b1929decf26b5afda5e",
+        "soglie_coincidenti_con_evidenza": true,
+        "frozen_coincidente_con_evidenza": true,
+        "campioni_coincidenti_con_evidenza": true
+      },
+      "casuali": [
+        {
+          "calendario": 0,
+          "file": "replay_C_casuale_seme45_cal00.json",
+          "sha256": "e4816bd7cc571a6ad19986d6e988bf9d57ca3bf435c15fa5dfe47e2a53bc4fff",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "e4c695eb2d740280cf90ad745c77208c372f638f11b10e8f4845f7f38274b02b",
+            "mlp": "aa8023a4978f2046ae367fa591c1e3691b705a9b8aca679cfdb8679a8b221bb2",
+            "kan": "1f62711ef21c26aaa34bd71ebf645a5d428823e5f36dc1640a3942604123163b"
+          }
+        },
+        {
+          "calendario": 1,
+          "file": "replay_C_casuale_seme45_cal01.json",
+          "sha256": "4429a65bf6718afd88b639e4acfb2ffe15c0851cc76f1a82e12c69ede46e7d38",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ffd6bafba4772b21a80dc8cb6351499beec3fb61f10ad9fac4c02c39ebabed71",
+            "mlp": "bd63f42d2d5fb9ce5fd7fd6e46a9da7956ab569b37b1595fd36f912048c1fc75",
+            "kan": "6bd6eb11593e6a6c8d876c24b85341e8659b36229c5035a98db8255ca67ad730"
+          }
+        },
+        {
+          "calendario": 2,
+          "file": "replay_C_casuale_seme45_cal02.json",
+          "sha256": "853a37994fa8e806001c578397fa3d9e76d1166be966b53b52ea819bc6e7da35",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "6ae30131eb822ec56f3a77479cc4ef2147f00279a97ac3b9e7f0c9215f347b23",
+            "mlp": "42c14faadcb0e17a12ed9b594209a48d0d11d26db9a01a33aaabb55c8d37b1cf",
+            "kan": "8f9a42654f05ca0d77f242c2c51ea12ed241a3ec7cffa5e4de538a3434b05609"
+          }
+        },
+        {
+          "calendario": 3,
+          "file": "replay_C_casuale_seme45_cal03.json",
+          "sha256": "f51281a03b468fb83357005afa3715d8f269c47443be6cb244c059cd4dda64bd",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "382566374f84cee0a307b4a37b45811009e3e52410981718bfe136e2690190e0",
+            "mlp": "44ca36791e657fcc1d26d5d8f4478851ebb8c23ce631cdb9bbb48d2f57a8875d",
+            "kan": "f1f0fca41d61eb1daa7f1a29012093ec4a3679c93fef3f69281badb153a7edb3"
+          }
+        },
+        {
+          "calendario": 4,
+          "file": "replay_C_casuale_seme45_cal04.json",
+          "sha256": "ea71e649466feead3b31669723eb0c1f05745e80f591321d9de44a83a2dda2e4",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "a606fabbba5302f62c938fcd62eee3ee92387f39d11171ad8f0910b8c8d00a68",
+            "mlp": "2e93e73077c8495082d85b8fda51ef7587e1877b121c2ea3f90c1b22cb84c61e",
+            "kan": "667bce445559323e23089313ea8bbabbbb415bb730f32362378bed8a3b8c8dbf"
+          }
+        },
+        {
+          "calendario": 5,
+          "file": "replay_C_casuale_seme45_cal05.json",
+          "sha256": "65558d80766aa43aa087e4d5d4257c9bbc7ffa17f2ab16b1b240026a617bb6f8",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "cfeaf7a8e2a138bb24107dc04505ba1cadb50c06692c8a655fcb6c3f129e390c",
+            "mlp": "c8ecd450a2a85bfef70bfa5d7afbaa0e77a0bb284aae1c54cfcf2c06e23a67ef",
+            "kan": "55b2b07adb0b7b64541916cdc16c441919dc9141d59bb48017a415b8c3affb92"
+          }
+        },
+        {
+          "calendario": 6,
+          "file": "replay_C_casuale_seme45_cal06.json",
+          "sha256": "484511d929ca30c5fd14d40a23ff2b492fab48a2621bb302344d90f7d852efae",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "7e2c61ef4fa0677001f3cf8dd18ef5122792364c93c074e3d7fc36e521df9f9f",
+            "mlp": "9d881726c50775f6a72ef1aa1e705a22b7a22bf94363a367e475e6e27f425fbe",
+            "kan": "0153c2c6b4aa5a340f4e66a59f1e01c743d197c69db76e04b4ab28a04b5bdb5c"
+          }
+        },
+        {
+          "calendario": 7,
+          "file": "replay_C_casuale_seme45_cal07.json",
+          "sha256": "4e307397f0524cc90265cacf86a6832bd61c377afd1c1c47b4d92f1d1b94337e",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "079646205183479e77e708bb3a604efe361fafd7b31c73fdfc9fd14ea2f4c370",
+            "mlp": "f961d5ebeedf83d4f253a5d734dfe8eef836c1d1b87ad1f74c0dfafc8a5cc821",
+            "kan": "527b7e096e68c21a2716ea49d5ba5e4b590aa1a498948b08db7b5cb2b5ce359e"
+          }
+        },
+        {
+          "calendario": 8,
+          "file": "replay_C_casuale_seme45_cal08.json",
+          "sha256": "09115608e63049a44c80bc8e87aee19e6791c2612efdd1ae8fa66981472f041c",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "dac339c31de9bc816fe9974fc6eda699b240ae881d3559d98fa8023ed030fef5",
+            "mlp": "119f1344666aa4a4d1c8790ebb3c9716ef788ebcf114aa042072e730f53b6daf",
+            "kan": "c3defe8d09839263e9e89f23a7b79ed53a1d644e3461a5e0572e009c749daec0"
+          }
+        },
+        {
+          "calendario": 9,
+          "file": "replay_C_casuale_seme45_cal09.json",
+          "sha256": "cec8737f1726e084ce0821b31a96bdfbb7d75d9423928ffa682e63ac50a4cbc5",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ecde263af7908acae7b4462180d008481794821c85ec0284641e8bec1d6f657d",
+            "mlp": "b146863adccf9cf0735280d43aead6007e0f9273f3bdee4bfb6644ac69854ebd",
+            "kan": "a03b34ee31a780570f512c6d4867516bf14c77d7c28f767e8328e34e5c111c6b"
+          }
+        },
+        {
+          "calendario": 10,
+          "file": "replay_C_casuale_seme45_cal10.json",
+          "sha256": "aaa38f0c9b173518f70788505d004cb0e519b390daac90a6523e0b0d8d6548d5",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "2188a944b6a6619ee0108448a7634932d62a6cd46054b83eff139eb357714698",
+            "mlp": "55725bf141d1fd76c6c7a14f6cea72ede24b3b2c04671bafeb1b7b9c4c156a60",
+            "kan": "8429f7cb2d60bfcc8fd0819d9bf3aee0d24c4bcd79c4d0a8ab84e6d0cfdf055a"
+          }
+        },
+        {
+          "calendario": 11,
+          "file": "replay_C_casuale_seme45_cal11.json",
+          "sha256": "b1b35cf8a148156bdfe889b3c880f93ad9f538970e1e053593fc472e0021332b",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "ca10f5166ada64208867d577c4ddf99ebb441b187e12f30fdd3db45107c4fb26",
+            "mlp": "7c112d126b41373799cb2e9b1088bf835a945a366a4c5cc4d3fa53908ec8cff2",
+            "kan": "ba35d105c30bc7a83613514dfa390f9a4053184d220eb1bf07cfd51c9681222c"
+          }
+        },
+        {
+          "calendario": 12,
+          "file": "replay_C_casuale_seme45_cal12.json",
+          "sha256": "96d413450d170cb902eaf732ab6bda40eb98514fddb8bc2491bffb358681b176",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "018d7e23d9b5c2687147c0e2c46db175e1e363559964c5879a5e2c58f659f1dd",
+            "mlp": "063a8ada10af1d7c66a45c0c0b39a04ee439912c88a12724f1319ea4e09a4c62",
+            "kan": "f19c511c04e60acea2f7940153aa3354f33928044d8981d7b91b5a7ee9fe7f26"
+          }
+        },
+        {
+          "calendario": 13,
+          "file": "replay_C_casuale_seme45_cal13.json",
+          "sha256": "9b620418608d3ae0206d13350b38fa876307fa72d4f05e6320ab6579632b0658",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "28975704d9ee601936f5996a50d3fc12b0734f94811146f172bdbb86c4b4a8e5",
+            "mlp": "67e1cbee97a921f4c8f3f459cf546aab54d63f41d2004c49fef39ca7e6896597",
+            "kan": "b5bedf7c58fa84ea1d3706b789a9f0986a83a0f9b90e55bc5cf57a5549ab7894"
+          }
+        },
+        {
+          "calendario": 14,
+          "file": "replay_C_casuale_seme45_cal14.json",
+          "sha256": "cb90c4461010d5a7ce3c3100c4e23f5f921a9ea3ef44b216248ade2839a6a0a1",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "6640d14e0d85b2725c51690fc2281ef62705b59ce691013c66a2da75adb98efa",
+            "mlp": "f2d0f2e77a2f4cf41fda260dfb323c9ff70e88545ba03a1f46468906071b55a8",
+            "kan": "1304cdfe22e088ea0000c969c22a43a6a5449d5ce9ea939570e5302e31cbf322"
+          }
+        },
+        {
+          "calendario": 15,
+          "file": "replay_C_casuale_seme45_cal15.json",
+          "sha256": "105db1054044e979b5277ab2325a5fbce6501267e7cc3c41e08025f1ab470c40",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "f2d7f76612887db0315a9cb9b95a3073eed8b3d9fe4b8eaa0c435241c4014d1b",
+            "mlp": "3595c4af7f9570ac0240b6398d6f2655a49e12c9ef9cf4ba6195353dbb887385",
+            "kan": "360df1a91f5b9b6774084ff7affebbe340e3bd4af59be6bb307f2630eff51848"
+          }
+        },
+        {
+          "calendario": 16,
+          "file": "replay_C_casuale_seme45_cal16.json",
+          "sha256": "f6ba81fcafa6a5203baebc9a9de491af0f5d1e54b7bf0343ee108936a5e48655",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "e0fb533851056912f20cdf7be27160d23c70e8c86ea2b33314532725b155d198",
+            "mlp": "8dfc90ed7d1b31b7f177f66d2b65942900699afd666ce127d029d603936f1f71",
+            "kan": "4aac1f6f099d201afa183fcfb80acfe4a4c6f20928dd379c2cc4bc5cb7b24551"
+          }
+        },
+        {
+          "calendario": 17,
+          "file": "replay_C_casuale_seme45_cal17.json",
+          "sha256": "a886c1aaac0d6deda3de56d1526e9c9a73dc23262948b6dd4f8c636e799c0988",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "2987a97863ff4e670922a281fe8ecc889be8d90c5afa673dd86cd4d805b9ca6d",
+            "mlp": "68dc0a5132ad5ed6ff9e89e3b4d5dbc471c9ee3d70ec8e561f3e02359486de37",
+            "kan": "3b3987ef56e992ebede618aa4e124f54e46fa9df3f44a1c7c8c713fce4c565ea"
+          }
+        },
+        {
+          "calendario": 18,
+          "file": "replay_C_casuale_seme45_cal18.json",
+          "sha256": "c8cb35b849e4fb026f67b95785424242624de4853b8df85aa63af92a60025c7f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "75601cb315bd96bec7134e93958829ac349e7f7dc616ced75f0f8cc430fe6560",
+            "mlp": "3a17f40be550a220f27805ac262002015dfd5df66eb01fd2a79bb08845d4f4b6",
+            "kan": "aed0f6664d461a6619219530c909c0cdafa438ed0720d7138979c0db0f9651c4"
+          }
+        },
+        {
+          "calendario": 19,
+          "file": "replay_C_casuale_seme45_cal19.json",
+          "sha256": "a03689ddd4e35f5dda10f68b570004f154301180ab369f76f641f8b0f4b26ea5",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 13
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 49,
+            "mlp": 30,
+            "kan": 9
+          },
+          "aggiornamenti_da_riallineare": true,
+          "digest_blocchi_scelti": {
+            "lr": "b84e54f18dbb0ae83c0bd9a1a2cc21cc90635bd04e77631e7232f77d22297307",
+            "mlp": "e2de5f02887bf99e7800fb066843e309cc976b37c8d39e4b274d9c189884687a",
+            "kan": "61b8385feae016b861f639058490a583d8f719af75866a49c835816254572533"
+          }
+        }
+      ],
+      "tutti_i_casuali_appaiati": false
+    },
+    {
+      "seme": 46,
+      "evidenza": {
+        "file": "replay_C_evidenza_seme46.json",
+        "sha256": "aa4550e58e9acee1ca341fa5f16c8960cea3ab4ae7517ed764a6601ffc25f844",
+        "soglie": {
+          "lr": 4.35859176978924,
+          "mlp": 4.3577257327532735,
+          "kan": 7.177678953025797
+        },
+        "digest_frozen": {
+          "lr": "25ffc734a20cb38b5151d263354f37742cbd16ea025bd5f72b0f623c899ec671",
+          "mlp": "68cf7d40c04d90dc3a2c486481367746d396230b4a8255a09c67f683e87f1b94",
+          "kan": "35e0c023e0b160a20da9046dfc608a55d47301b3a1c4483f82351e680f417615"
+        },
+        "digest_campioni": "b3d4f341e4ba47ca4b150fd8f432937bf10c5cb5b705ad504f31c36ae9dbe469",
+        "aggiornamenti_applicati": {
+          "lr": 36,
+          "mlp": 39,
+          "kan": 21
+        }
+      },
+      "calibrato": {
+        "file": "replay_C_calibrato_seme46.json",
+        "sha256": "b6f18916bf774e95c63bfdab5752e0af22deaf172e49c78d1446fd9715ea7b78",
+        "soglie_coincidenti_con_evidenza": true,
+        "frozen_coincidente_con_evidenza": true,
+        "campioni_coincidenti_con_evidenza": true
+      },
+      "casuali": [
+        {
+          "calendario": 0,
+          "file": "replay_C_casuale_seme46_cal00.json",
+          "sha256": "5f954789faf91fcdee4a87398b7e201e1b101e7abc421dbb995c095589aa9420",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "5715e2883bdc84278a6e2c1c474abba009cb1a7888c5c888c35083eefa7fd7ea",
+            "mlp": "060e978e0968bf912e7e04b41e885494d3a75d4a47a248e6eea11ef462b15356",
+            "kan": "9d390b1795622634bde5374f28e8c991678ffdbe69d1ee9c935ae39865b536b3"
+          }
+        },
+        {
+          "calendario": 1,
+          "file": "replay_C_casuale_seme46_cal01.json",
+          "sha256": "ab2e3dce3e0a5e616295d16286cb388d4ceb7ed13afdc4f006900e8aa2c10c1c",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "c6dad2856a66ccc42b21cb6457c4097689e3eef0829a3bee528d5de552c11629",
+            "mlp": "8b8f1855ef41e710fb1048d6524b51c92e04d0c8676cc412fa4af13565a11091",
+            "kan": "ba1eb56f5fac4f0b2f393c7c5d0db2d25900e872b70717f1e7a22c16f6c4667d"
+          }
+        },
+        {
+          "calendario": 2,
+          "file": "replay_C_casuale_seme46_cal02.json",
+          "sha256": "37575c60a6499b4320baecdfcab401c942b3fe69e388c10b16f8c39e2eb2a3ca",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "06ca3d950fa88c357ce3627f81523c0631edbd70e5ddba0f9bba705842c3db78",
+            "mlp": "70487e5c259abc1b9cb7f99356b911aed323081d1271ee7349fe214f50bf3305",
+            "kan": "22e937c7fe17af851368dc20c9c23345f9555ed36375225cc6cd1adee3a57968"
+          }
+        },
+        {
+          "calendario": 3,
+          "file": "replay_C_casuale_seme46_cal03.json",
+          "sha256": "b0bc9bd5baa949c518438ef479d961b8c0c150ad7d395bc209e2f32e688b7f4f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "889b035372d0eb9ed2b00855cf937f55491da648cec92c1b015b73d870f36f34",
+            "mlp": "e6544689b2935b4e09568198fb89c58b3b9848330cd3a00135a953f51c4d7cca",
+            "kan": "b3455a515e5751e389a840affb37127ff1f7564b265cb9dc657bd0b4f632a36f"
+          }
+        },
+        {
+          "calendario": 4,
+          "file": "replay_C_casuale_seme46_cal04.json",
+          "sha256": "9d07504e16744f2a2f805be17b158d7eb04eb589ba883d35c22438ba540827eb",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "630766bd24edd0a1a6569764c300a7b9e0dfe98b08eccc209d2331f03cf0b437",
+            "mlp": "6855d5d620a9b4280bb951e057a265d3f875fbaad179092e2c4f7de824cbc4fa",
+            "kan": "6826a184242a1e45fd877953bc94478b6eea0c9c2d04a2c737c5e169fcbcfde8"
+          }
+        },
+        {
+          "calendario": 5,
+          "file": "replay_C_casuale_seme46_cal05.json",
+          "sha256": "43d690b0766e64e862160e7f765036c47a9426213707554ec81d2ec7bfa02b66",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "b6e06ad9e59cc80a20fc75b3f2e52df6743080f88ed66264621edba887396897",
+            "mlp": "c5f2e03c399eb33f695f744ff133a9df63b5258d39d983430bef1ba0c61a6180",
+            "kan": "325b019c36abdc20d992131d819a4efc3bfa5d805b5ffad6478a060bc17f8bb2"
+          }
+        },
+        {
+          "calendario": 6,
+          "file": "replay_C_casuale_seme46_cal06.json",
+          "sha256": "6e67e958a55ff874fa5fad4580014da44b600ce11a92ff49d7f81930da519f6c",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "6b4394f3629b3402fb05c20905245ac2b074f0418fe42798c2aae4c7fc86fcae",
+            "mlp": "97a2f9c86dbb06db2d30aafea3749430cf1f6e4f47b4c386aac556a3daf264df",
+            "kan": "4a4c61334371153c8ba229d8c8db0ec6a34bc75de527dd8c34eae66c25855cd3"
+          }
+        },
+        {
+          "calendario": 7,
+          "file": "replay_C_casuale_seme46_cal07.json",
+          "sha256": "61d2ddbead3c53450a51bbedf62ce45a8c3cd9629f485078c9e4405084a13a8d",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "6d5a1e34517d299302f0c0bec896c8b1965b55fe0c16281f341e4d286a679176",
+            "mlp": "28d178a67ff3d22ad60467813af3d67e76dae2d2a271487c8f680db508e595d4",
+            "kan": "966eca3b6e742ee7fb293b1dca6f522a5f3f000194059c5f7f6abb81631507ac"
+          }
+        },
+        {
+          "calendario": 8,
+          "file": "replay_C_casuale_seme46_cal08.json",
+          "sha256": "09564e0a685a7ea66bc06d7a69f59e2d64e7cc47196384fbcd538efec208bf62",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "5e13b52c848fd202fa7c2c377c22bd5e8e7d7fdc97c41c9b6ebef05e9ddaebd0",
+            "mlp": "0fefa264bb6098b4adc3cd893bf0692853969e540e2830d497cced0183aebc89",
+            "kan": "b46ffd69a75b18c10d466340e7c1dac66c9a5a3f7c19e5320f530f9e9ae0efe8"
+          }
+        },
+        {
+          "calendario": 9,
+          "file": "replay_C_casuale_seme46_cal09.json",
+          "sha256": "b80be62085d34f36ff28b24a037f52c5f677d19b25b6820a594ff046a201929f",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "5d144825a4cf11c9691180e0049a1b0a39a78c2190e26b212d09512ae61f758c",
+            "mlp": "4f4ef6da7125fb713b3a6572eb542422abb58102a26023942bc7dfa5cd743374",
+            "kan": "b758ab4acd5acce1446b5df22fd176808313c4cd028715119c2f70032ddba897"
+          }
+        },
+        {
+          "calendario": 10,
+          "file": "replay_C_casuale_seme46_cal10.json",
+          "sha256": "3f45908d25f48618f973345200026ebf582e56b2957cf1c3dbba0757614902f0",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "5ff88b022300f46b4d60d0a1fe6280432b0e273bc5da1c428f5010260edadbef",
+            "mlp": "0c63bf01ae9ed83bbd670e6925585267cbbb81a12821b9605134b7c73adabb5a",
+            "kan": "a7226578db8739e37be1862d35e8d6662f24ad4e1efd48c50920e410d7fef2a1"
+          }
+        },
+        {
+          "calendario": 11,
+          "file": "replay_C_casuale_seme46_cal11.json",
+          "sha256": "98167f8fb05c49285d9a0264b57e14bc37240d692b4c35f813ca9a701c9517ad",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "0e58ce18e65ee990599d2678bf0ce97fa5c2349bf5c2a4747b5ebc3bb922b511",
+            "mlp": "bd980eed7c71654074979b4357d882ce64c78051a8cf4e1228de1d94cc66011b",
+            "kan": "1a382ece32041b6012f14f8d62689ae54e875bc3197d269dcc333231d16e975e"
+          }
+        },
+        {
+          "calendario": 12,
+          "file": "replay_C_casuale_seme46_cal12.json",
+          "sha256": "07f028544056399024998ab779e66f10ba363749d2e78adf2a9d867d909dc314",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "49aecc4ae2f52f8fcba91e9a8d1684b11f4f03c9a7ea379676f811cfe0975751",
+            "mlp": "5b06749f85a488e057be59b29aed5c0dc7cf66806d345a8b1f845295148f5d7d",
+            "kan": "d2d6c18e0a034676c34ed5af3a6434de3423f0399f5950424bcca4ff96eacd6f"
+          }
+        },
+        {
+          "calendario": 13,
+          "file": "replay_C_casuale_seme46_cal13.json",
+          "sha256": "1b875d940d14213b8ccb044381dffa40a9f85347a74ea9b652dc7249b0e28260",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "8616ce6fe2bf3a371534cf91f54fc6c7f37d2e4f264a6af9f3921b841e3b0530",
+            "mlp": "b486dfe75ec49053496e01f649c80b2261b1d8ee0cb324c4b4db9c2d2357fa3b",
+            "kan": "964b0008b05974cc0862ca521c08e9a3c98cdaadaf0c1623e7ada8850a16c87f"
+          }
+        },
+        {
+          "calendario": 14,
+          "file": "replay_C_casuale_seme46_cal14.json",
+          "sha256": "5144ab68bc93f174929d602caba31d485586774036b3514e6328d65aadf5c4fe",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "0decdf2322ee8bee507621e5835baedf22ba0f79d496d1d744e9c2ec1f4ec53d",
+            "mlp": "cdb930f9c8df24fb6adf21b325ad509e43d7a5a9655cecda2ee36f18f5fa4d9c",
+            "kan": "167886f75a387ce98ccfab4277d76495b328d01e44cf9b85f6e392da35222352"
+          }
+        },
+        {
+          "calendario": 15,
+          "file": "replay_C_casuale_seme46_cal15.json",
+          "sha256": "1a950946b390f920efd1e5a158ef23115d1c5fbb2e283bb3eabbcd87e6915d98",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "3deb7d7612eaf5e13c0a01e9213cfd5b00aac4fbaf248a00996414ac87c224d2",
+            "mlp": "410089a7923f9796376bdf7b0fe2e805a3a89b840bfd7eb3c4656831d6693d3b",
+            "kan": "556632b3422f958ebc49cbc0a9ea461b25f12eb3aa8589a3c80c2941ba71acf8"
+          }
+        },
+        {
+          "calendario": 16,
+          "file": "replay_C_casuale_seme46_cal16.json",
+          "sha256": "2ed0c6845a0c9937ebbd831b0bdcb63b02e90167ea3012cfca7f16e4dc00cc57",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "a830c0b16638da42c921534bcf09ed9a22244448c5882360b1a60344be4b71eb",
+            "mlp": "02c1e96fc9be1595061197d18d488d4adfa60385afaad2c53ed9ab87115166ce",
+            "kan": "c44010d5fc276abf77218b3a5a0896043565d39c1e8a1be41c9b1f05ea0ff07d"
+          }
+        },
+        {
+          "calendario": 17,
+          "file": "replay_C_casuale_seme46_cal17.json",
+          "sha256": "990f63c00a3363de799ba0696fb8c73e794c0367d788cde0c4489b6f4d052ea7",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "28361971e5bb751a4ae8943e16c84dd198267130c9d469b3ad14933c645f1d99",
+            "mlp": "e99d8b6e09a053710d2473e3bb3696edfca6b140e8630d40ddcd536485ac3c6a",
+            "kan": "9e57e6a1de6daca4d4ca4b4bd62a6c7744f499f9f8450bd6a1ef2b867b798bbc"
+          }
+        },
+        {
+          "calendario": 18,
+          "file": "replay_C_casuale_seme46_cal18.json",
+          "sha256": "972d80feada216c2324ff46a5970a8b9eb35fdaeed1f345f030c4c4ecf94efb1",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "1c571b06b7ca49fe820339363eaf58242f068645794540985ff72cc097bbb715",
+            "mlp": "3e9e331ac9742a0962d7141e792675168a8462978da1f68ebcb8eec8de0301a3",
+            "kan": "888f2f952d91a3cf015efe3ef5b9bd69082c94276af11a3ee6e8c92fee12cc2f"
+          }
+        },
+        {
+          "calendario": 19,
+          "file": "replay_C_casuale_seme46_cal19.json",
+          "sha256": "78d5eefe065dcbd206794026ea09aaa363eedb96e51006d79362746c0624f767",
+          "soglie_coincidenti": true,
+          "frozen_coincidente": true,
+          "campioni_coincidenti": true,
+          "aggiornamenti_richiesti": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_evidenza": {
+            "lr": 36,
+            "mlp": 39,
+            "kan": 21
+          },
+          "aggiornamenti_da_riallineare": false,
+          "digest_blocchi_scelti": {
+            "lr": "903493ede96f477f34007703cde884514ed5501ff157b058106ccc5a5dfe04b3",
+            "mlp": "65c7220d66519a2bde6f3652e23ea77cc2f98ace692f8528c1d3cdb3966b14ed",
+            "kan": "c0c63133d5940cf643ec4d9495372246d43de393c3e1661d6b8f7ba74253d23b"
+          }
+        }
+      ],
+      "tutti_i_casuali_appaiati": true
+    }
+  ],
+  "casuali_da_riallineare": [
+    {
+      "seme": 42,
+      "calendario": 0,
+      "file": "replay_C_casuale_seme42_cal00.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 1,
+      "file": "replay_C_casuale_seme42_cal01.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 2,
+      "file": "replay_C_casuale_seme42_cal02.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 3,
+      "file": "replay_C_casuale_seme42_cal03.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 4,
+      "file": "replay_C_casuale_seme42_cal04.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 5,
+      "file": "replay_C_casuale_seme42_cal05.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 6,
+      "file": "replay_C_casuale_seme42_cal06.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 7,
+      "file": "replay_C_casuale_seme42_cal07.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 8,
+      "file": "replay_C_casuale_seme42_cal08.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 9,
+      "file": "replay_C_casuale_seme42_cal09.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 10,
+      "file": "replay_C_casuale_seme42_cal10.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 11,
+      "file": "replay_C_casuale_seme42_cal11.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 12,
+      "file": "replay_C_casuale_seme42_cal12.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 13,
+      "file": "replay_C_casuale_seme42_cal13.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 14,
+      "file": "replay_C_casuale_seme42_cal14.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 15,
+      "file": "replay_C_casuale_seme42_cal15.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 16,
+      "file": "replay_C_casuale_seme42_cal16.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 17,
+      "file": "replay_C_casuale_seme42_cal17.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 18,
+      "file": "replay_C_casuale_seme42_cal18.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 42,
+      "calendario": 19,
+      "file": "replay_C_casuale_seme42_cal19.json",
+      "richiesti_attuali": {
+        "lr": 54,
+        "mlp": 20,
+        "kan": 23
+      },
+      "richiesti_appaiati": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 0,
+      "file": "replay_C_casuale_seme43_cal00.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 1,
+      "file": "replay_C_casuale_seme43_cal01.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 2,
+      "file": "replay_C_casuale_seme43_cal02.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 3,
+      "file": "replay_C_casuale_seme43_cal03.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 4,
+      "file": "replay_C_casuale_seme43_cal04.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 5,
+      "file": "replay_C_casuale_seme43_cal05.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 6,
+      "file": "replay_C_casuale_seme43_cal06.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 7,
+      "file": "replay_C_casuale_seme43_cal07.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 8,
+      "file": "replay_C_casuale_seme43_cal08.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 9,
+      "file": "replay_C_casuale_seme43_cal09.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 10,
+      "file": "replay_C_casuale_seme43_cal10.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 11,
+      "file": "replay_C_casuale_seme43_cal11.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 12,
+      "file": "replay_C_casuale_seme43_cal12.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 13,
+      "file": "replay_C_casuale_seme43_cal13.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 14,
+      "file": "replay_C_casuale_seme43_cal14.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 15,
+      "file": "replay_C_casuale_seme43_cal15.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 16,
+      "file": "replay_C_casuale_seme43_cal16.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 17,
+      "file": "replay_C_casuale_seme43_cal17.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 18,
+      "file": "replay_C_casuale_seme43_cal18.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 43,
+      "calendario": 19,
+      "file": "replay_C_casuale_seme43_cal19.json",
+      "richiesti_attuali": {
+        "lr": 43,
+        "mlp": 35,
+        "kan": 16
+      },
+      "richiesti_appaiati": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 0,
+      "file": "replay_C_casuale_seme45_cal00.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 1,
+      "file": "replay_C_casuale_seme45_cal01.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 2,
+      "file": "replay_C_casuale_seme45_cal02.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 3,
+      "file": "replay_C_casuale_seme45_cal03.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 4,
+      "file": "replay_C_casuale_seme45_cal04.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 5,
+      "file": "replay_C_casuale_seme45_cal05.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 6,
+      "file": "replay_C_casuale_seme45_cal06.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 7,
+      "file": "replay_C_casuale_seme45_cal07.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 8,
+      "file": "replay_C_casuale_seme45_cal08.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 9,
+      "file": "replay_C_casuale_seme45_cal09.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 10,
+      "file": "replay_C_casuale_seme45_cal10.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 11,
+      "file": "replay_C_casuale_seme45_cal11.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 12,
+      "file": "replay_C_casuale_seme45_cal12.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 13,
+      "file": "replay_C_casuale_seme45_cal13.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 14,
+      "file": "replay_C_casuale_seme45_cal14.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 15,
+      "file": "replay_C_casuale_seme45_cal15.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 16,
+      "file": "replay_C_casuale_seme45_cal16.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 17,
+      "file": "replay_C_casuale_seme45_cal17.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 18,
+      "file": "replay_C_casuale_seme45_cal18.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    },
+    {
+      "seme": 45,
+      "calendario": 19,
+      "file": "replay_C_casuale_seme45_cal19.json",
+      "richiesti_attuali": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 13
+      },
+      "richiesti_appaiati": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      }
+    }
+  ],
+  "confronti_riallineati": [
+    {
+      "file": "replay_C_casuale_seme42_cal00.json",
+      "sha256": "934f0fc447bf7856296ee1633cbbe022c025cbf86d9b6285337525b9f887a6e5",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "c6517fbd143e5ae658d723f8f2235514c7b22a4289d178640b7262b55934362a",
+        "mlp": "09587f7654847146081c92459dc1f451e9b5dcf737c2de8ccd0b2a4703b4ddbb",
+        "kan": "033d1c3781c4233ee7e00893ec2f63b7a33622b1ebb1b00c17a869a1d44b9ce6"
+      },
+      "seme": 42,
+      "calendario": 0,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal00.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal01.json",
+      "sha256": "89c29924be8183b3a72f5b9efe5a3c593e430134bcfd0ef02dd891ff8b9cf9c2",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "8d13c79108d3d7e3f281d8eaf81e84ab4cf20a8cb0680b5452c6070c6ae64dfc",
+        "mlp": "caddd8744531acbf57f5e23e838223b21a71cbb642dff4daf1391d88e76130d6",
+        "kan": "b09521ed3fd09c7dfedaa2d32b97e6c938b8d9885e7a7bba5bfadfbf5ff27253"
+      },
+      "seme": 42,
+      "calendario": 1,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal01.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal02.json",
+      "sha256": "ece715368d643c8a934111806c99fc9d414ce27a5050d515db2b4f41690dbcf2",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "871ab1e098ae6eec8d30e25c3dded1cbc92d90bd0878f306fe4617841ec26e2e",
+        "mlp": "f6ab70bd9f2b76bc587f85db202edf7db0f89fbac45c46cc02c07342d408ceaa",
+        "kan": "96a05b30a51f6b721c89d8dfbb967a7c6395a9cf137782d95abcd7e5f357bf34"
+      },
+      "seme": 42,
+      "calendario": 2,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal02.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal03.json",
+      "sha256": "9cf58dc51d1b164a67e96b32e3b09cdae5b94de73c044dbedb00b8a7f7a4e63c",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "16a2a135ccc411260bae225409598a920ae2feec71ab1078b501d8109c8319ef",
+        "mlp": "ad400d548b393a4cba70aff81e76ea5f8d0c46389aeb066034f0d307f6681194",
+        "kan": "1f9dd8a9cc7f33d78260ad8269297985da48ab92712e8ad5088ed081565dc35b"
+      },
+      "seme": 42,
+      "calendario": 3,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal03.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal04.json",
+      "sha256": "583fd0f1724b031d4bb5f161f15a316d6e77b2d7876adbc1c77a0883abad2b6d",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "19fd383900dddc88497f3f2b742649fd822153ef59c522e601c2a54633be0474",
+        "mlp": "b3a99e5240c726351769ea0b6f539c8c33c7630743789aca097f19a6ca877d2c",
+        "kan": "796e8c15dc97a903723244aa24bcc29e44537a6e3e733ad6496c590273cda4b7"
+      },
+      "seme": 42,
+      "calendario": 4,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal04.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal05.json",
+      "sha256": "4ec0515f7c1e9a169052d6dee20be84a2f581d512e8a4bd2e18d0a84d7df76da",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "08383c18ad2555c4c25136d245937753b522e673c423d194bf1a45c5c0a553bd",
+        "mlp": "5efea5c4a17291489b81bc9a47f36036424417301a1858bb76058443c4ee4a16",
+        "kan": "84fdfbfa0b47cd5e98fa354de57673b50148cc09a2ca1c4fa5924afa4c3b186d"
+      },
+      "seme": 42,
+      "calendario": 5,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal05.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal06.json",
+      "sha256": "b99016ab6cdbd2d8e098c4c87a79bd3760508ac820947bcb935ac8f21e418b09",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "350cc14b1ab47f0303772a4ad44e46bf45ebd512f1a3190c6e0b254c0a335eb2",
+        "mlp": "d78090075ad60c0833bf351200fff0c3ffd7fd989f240e832e581214b46789db",
+        "kan": "021ce6252518ffa37333d222c42abee46a8aa02b2f16ea547f11448d9e0e99f3"
+      },
+      "seme": 42,
+      "calendario": 6,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal06.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal07.json",
+      "sha256": "b3e0f9a6a5cb393cfc1049f68a2ec420cfc383b9152e14ff9c434b12ac4c9e14",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "81e63cbf506acde1368d347acae20ace083d7f5e25f29fb43840e382ae2491c0",
+        "mlp": "c663fb8939143d89ce6553c92ffd9cbc7ee43bee18e944cdb8179ba83316805b",
+        "kan": "e06b4520a12f0fe1e566eb210ad870858526fc2775fe2890abe166b22bd3a8c9"
+      },
+      "seme": 42,
+      "calendario": 7,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal07.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal08.json",
+      "sha256": "3be3ed860c0811b59ef7d12a6e58b8091313f0f921f808ee8655039a85d5cb62",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ab4c9f5fea42f429e3f64e3579a6ab3c73617e4fa1da63f6d1db543e30ca87eb",
+        "mlp": "387e0af198dccdbf7b3572f54bb913d000c5366c4ea8b483720b28408ea2106a",
+        "kan": "c372ae33e26e00b21d58bdaf8621c40fd344b10c3bb73140365b39e9c188716c"
+      },
+      "seme": 42,
+      "calendario": 8,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal08.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal09.json",
+      "sha256": "14204610b7e13ed92be7827f4bebc21adefb2c64cb7bd48f071b1b7a89ba59b3",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "f1f98cacfb6cba92b5568f02fe2a0675e1bf051ecf61ef878e73ae9537b7dcd4",
+        "mlp": "21005bb7027c6b8cc54ab16260b810a345f033f24f9f66374535704dce4a7772",
+        "kan": "ce2d606b201f228201fb981c184bc7d5ddca17c854fd1795a5b92e89f7a378f0"
+      },
+      "seme": 42,
+      "calendario": 9,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal09.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal10.json",
+      "sha256": "8e373cb5ac79042372e4613f7e3097f23ff4e007b0205ac722d8d2ebf7a83121",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "f20a809e9fdbe9cce5ccb5520619d6831d8fc8d37c485563adc322ef1c8f8f07",
+        "mlp": "90179a18abc3ff6d01171cfea3124b26401111d42d1f83f1441dc2041ef0fdac",
+        "kan": "1e1ff923867d016b11746cebf4b9889ba5791f76a9ab4cc94ab1a225a93678a6"
+      },
+      "seme": 42,
+      "calendario": 10,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal10.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal11.json",
+      "sha256": "c5f3c741f5324ec59071a7e48b8dcc27d10bed30f66c481623e3bcfc0aec708d",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "548d8d78c6a19807f6f4c8b3e8a4117632cde289fb91d5856abb04c972fcedd8",
+        "mlp": "1a5fa052256d58b7194521e1445fe37b90028e58b81bbc8a69a0b62c39fefcb8",
+        "kan": "dc4975974b38e1103ed907ee0edef5efe752d36d9a3a9360099213075e5318a7"
+      },
+      "seme": 42,
+      "calendario": 11,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal11.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal12.json",
+      "sha256": "cab2aae928e33ff68526efe1a6ce9367d83415d95614a7de5680f3609ec3c3b7",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "710a9322693ffc8df7c61108ee1fa220b76bd0f0f543426a32c3386c2425a30a",
+        "mlp": "60ee816a8140628922c8842cdb41109f95289742a9d3b1700a24bc1187446f98",
+        "kan": "6aaa11c2cae0a7b2699cf341dbe51b8890196b03380f3bc6aba32160809dc9cb"
+      },
+      "seme": 42,
+      "calendario": 12,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal12.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal13.json",
+      "sha256": "bf77c6f44e5e98cf7b5d4f928e16cdcd3121ee33a0ebaf753954dc477e302bf7",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "aa1ce272a3ce33372cac1384dddf13d7fc996d7ff2b80ee32d41c086b6c51731",
+        "mlp": "c524a1940bba0904500ee53e26f230d46b466c4a7791271e38d9fe3218919c43",
+        "kan": "45bdd309ae946422612ab47a652d20435cce037dff893794a4a1d1ee51ef9813"
+      },
+      "seme": 42,
+      "calendario": 13,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal13.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal14.json",
+      "sha256": "2bbeb963c187e7a3292debe055ac5bcfd6a993a69f83e5d231d8ae46b0a8c39e",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "325225160991cc835207f1eb3f08fe789677b0b3321928fee1b7f3e91f056d37",
+        "mlp": "ba9bd90850b38fcdfd03aa95c061ee17cc574323c5dc470e3d4a2c5cf63df00d",
+        "kan": "04fa26f0b08631052d9c73f08fc1614961dcf2fe527b9eac45b1633ad9f5209e"
+      },
+      "seme": 42,
+      "calendario": 14,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal14.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal15.json",
+      "sha256": "6611f2ce641e19cd972e89e1c5bfbad17d4759a98c56548335b83153570829f3",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "22477d4404ae923880aff51e31e624757841d6356cd8ccd10943908f5845bc43",
+        "mlp": "01e654dae1f4918421711caf08d17bc5d5a28da4083b754fa83c8cb4402182ed",
+        "kan": "35077441d4b88db65c14aa2e3de7da287b60206d04ee8b32b671b3e82733c764"
+      },
+      "seme": 42,
+      "calendario": 15,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal15.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal16.json",
+      "sha256": "37c6f33b7e5320dda4833440a6732a851a008a42f928340e4680932d4c09847d",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "0be5333112face5d3267bd80cf1710932312652c408615a07a56b70db5d4a71b",
+        "mlp": "73a425c74fca24ce75d685147f4be4f3e392e2e3a372d3e893a599e3553c1f81",
+        "kan": "dc160c863e4b10e68cc92bd0792711c3415809f53007e75f112dd1cedb012ec2"
+      },
+      "seme": 42,
+      "calendario": 16,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal16.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal17.json",
+      "sha256": "0cbafbe6f01a7fd7eefa2f6b204cf55e8be9d972775ce688d491a59a424fa02a",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "2584c2327b038c7ef3af90dc5e8d3ba45a92651cfcab6efdb0af4c482b8af293",
+        "mlp": "b1956b40242c28cde393f2c927b71c9a76b7ccb969e1559f060371c94e10d47b",
+        "kan": "006b055264feb4acd484c8b78c56fa9654763cdee81f4ec2b10336fe88509faa"
+      },
+      "seme": 42,
+      "calendario": 17,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal17.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal18.json",
+      "sha256": "2a260d8e5d3740a9d9fb75c224ad58a49de64ad5367dad4133d573bc7535cc02",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "b24b5a3f55bea751da7385d5a0f23b45fb52f4189469b441d51efd1b0af66b9d",
+        "mlp": "749027bd619536e330679f68acab4e04e3b9438271b4edd2195b07f7a03930ee",
+        "kan": "b74172a478d06457795f11c96aed45c9828c6a94ca73fd1c43ed6c998099c034"
+      },
+      "seme": 42,
+      "calendario": 18,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal18.json"
+    },
+    {
+      "file": "replay_C_casuale_seme42_cal19.json",
+      "sha256": "37da6ec20eb4ff0383c76fa6fd2a599c8c1df38f85965e97c9ba0c8d4ac2fc64",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 54,
+        "mlp": 31,
+        "kan": 23
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "1f7e16af21482bc1f428849acff8b2413ff5e6c9c9bee3cc92d6c71c0ca54de0",
+        "mlp": "041d37e79b437d878e3d530a977f5328add1336e93c30656792df2e8e4a400f5",
+        "kan": "4a1601e9a4669f73003683234bb107bfb8793c1e6fa82648388b46fb539d7b19"
+      },
+      "seme": 42,
+      "calendario": 19,
+      "sostituisce_per_confronto": "replay_C_casuale_seme42_cal19.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal00.json",
+      "sha256": "bf84e55e8b794074c3123017fa0f659a158e02f3b37a7e470a89a43b236b6777",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "6bab1686b3a0f25684edcbb953158a2456b4bd24a6fff4c13dd65c2a41b2dabe",
+        "mlp": "d68f1becc7230213a7232508d908cb892518658ab544fec86dab81760094cf9d",
+        "kan": "3f18e7b11889d1492813b7079c1563d58eb3c82508294173a9d694dc5cec1d04"
+      },
+      "seme": 43,
+      "calendario": 0,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal00.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal01.json",
+      "sha256": "531581f2402dc650aa371281e1b74fa1ec27b50e4833801b8cb7565adb8f0a9d",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ccfb1d8a5dfe284ca5b8265618a686deed20b1204b620051198d57507fe1d49c",
+        "mlp": "054aaa7a7b0836728f90648ecf425fc97499f38fd8e4e11cba4f60baba698598",
+        "kan": "69c508ef05250e341eb3a4b2286917eb288d99d280de969eaba174a8a3493471"
+      },
+      "seme": 43,
+      "calendario": 1,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal01.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal02.json",
+      "sha256": "4c91c9efc91277450b82231426077e909ce036ccbf0839a520960ca9e503ae45",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "43134705864a494f5d4e8ed75855b8e12df456c38ea00d09b4e99911ecedd498",
+        "mlp": "ca60eb9e605b8f5578a14a632e1d98144baa77177b1bf6a2f7bd032d9656290b",
+        "kan": "5b3c11d597c1ea3d27ec9f887369ab516e9b5c34db0cc36c34556516e5ec49a4"
+      },
+      "seme": 43,
+      "calendario": 2,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal02.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal03.json",
+      "sha256": "f6efa8bf2aa730be38f571671b36069d97186c4c17f355ee900746d6b4d2b93b",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "59c318733a1eee097a7fb263c90e226e61b0ac2455c674b8f0db54e3aad5f07a",
+        "mlp": "b0ef6f56b46df747b19138640cd98c797a3d4fda7cbc68379e894ed538c98993",
+        "kan": "e1eabe2aac2562fd0f695ce2ab11ace3385ff8bcb5411c7eaf51f863bfd4fd4c"
+      },
+      "seme": 43,
+      "calendario": 3,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal03.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal04.json",
+      "sha256": "d200f266acebd3a4c90b2a7ae445c999354a376638a02d44c4789b8514fa5970",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ab968c8f0c9b656d6b5e580e6c4676639b22530b7b43199836e26d2f8383f8d6",
+        "mlp": "0f7e5e398b99bf102a50922c6761d38d4828e22a385d5f5730dd074d1195ab70",
+        "kan": "21ff41991a3c1a0daf6c7198a9ea6eee1b3ec5418ce9fa03e33368e0554250e6"
+      },
+      "seme": 43,
+      "calendario": 4,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal04.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal05.json",
+      "sha256": "50a886f7081bc3113e34882c676ff40e91a702cd4ea9bb8f2b22cf31ef9ed30f",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "8a7458b7ce8433235fa1f6b7c810e1690fac35b1263fb15d3e241f4fc0d1bbef",
+        "mlp": "216b024afbe12d4c72434e8e3a7188ebae1adb94b4e16fa1fb74eb97ab5d1c71",
+        "kan": "a6bd2bbb46ee139396bba063a44bad31ea1ba8c094c69bc54a539f7f6e8b818b"
+      },
+      "seme": 43,
+      "calendario": 5,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal05.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal06.json",
+      "sha256": "5ff2cd8512edc527e9ecc1e9aeabcb0be8c63c9eba49b9f9bd71a6fc5c027a56",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "742db034d449d4f3774183e491e1e3e3a40e824767d843bfa573814d3e207008",
+        "mlp": "f9dc81d2f589366991322ab9e5b989f355c64464bf3c738dbcfe1b1084c83578",
+        "kan": "37b22e47fafe402ea2089b47618ab0524c64fb327a7572ca5d6e4516835b16cb"
+      },
+      "seme": 43,
+      "calendario": 6,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal06.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal07.json",
+      "sha256": "d2e119699aa122e3a29fbef53247b4b61cd4c438d4e02731e6dbce9033fe132c",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "64f26c3820f60ee8aa33de00dcc1297fc784ed0e922c36511e27dd009a7a746e",
+        "mlp": "b53e03c01a6e9372db9167317402f00c0a0a3c4a8c8140810ef85e2fc71a5fe6",
+        "kan": "93cf37470ea73e659f581e445986ab219ca55b0792f5a7681b70c258d2b67d81"
+      },
+      "seme": 43,
+      "calendario": 7,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal07.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal08.json",
+      "sha256": "fa8a3dc1b8dd1e73f198abd6222f888769bc5f9f65bb55a15195ed15ff7a327f",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "874da2f69f2c3e0c6145cdeeb0517b34ca80e8a797cd4beb4afe81f183cd78a3",
+        "mlp": "828692b1e9ae226b285ff84d811d63fc63c62a38f41a2f1be194a62f16611930",
+        "kan": "4b7de287cbcf67f1eace3c03be40132b48f2b41884d252882f3953a4bdb445d4"
+      },
+      "seme": 43,
+      "calendario": 8,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal08.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal09.json",
+      "sha256": "f79c144db2526455ab7f9fd6ad336cfd949592665f87fd76949732fad2061860",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "f9e14d2af6b798c636f2cbc468a1659a21d173cd9b6272fbed021c5b7b709260",
+        "mlp": "d5b0a4aa9c907b0ff12055ab0d945d720f9c866f414503266e2659117d30bae0",
+        "kan": "40a21af721835c9c5b5ccea9e0817466a7d51d748b2a42d3b84a13bf525fc420"
+      },
+      "seme": 43,
+      "calendario": 9,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal09.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal10.json",
+      "sha256": "55fdc42d70e5e4f9bcaaa5df35b1d85edb8e09c403e0ef09bc90c4a5cc500029",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "893af89f52684bd85b63fb0dba2a0c55b02be5f96a37d869f22ec5e360c487db",
+        "mlp": "4629092cb4d51523369570baa7144bdaf715ca04aeb7cb39893790e3b10398bc",
+        "kan": "2740ae5aae443f455b90bd9dd2bfa806b4ba2aa8fec171c15106acef25da106a"
+      },
+      "seme": 43,
+      "calendario": 10,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal10.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal11.json",
+      "sha256": "1176bad20ec37c3b7c7e59a7973c8dfdd0d5e31b87d6aad64df2d950975917da",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "973d23a2965721e8df191307d2e5b1dbf3464a49f54e53f62e73fe10e8b0258e",
+        "mlp": "b0fa7ece31aec4840ad1d87aa12be09cbac75a8e7ba67ed89f1cb1ed7e57b124",
+        "kan": "67b79ff616939f8a51361d89f3ffe8e4ed4c042402f42ede012ad7df8fce7452"
+      },
+      "seme": 43,
+      "calendario": 11,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal11.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal12.json",
+      "sha256": "b1e7ff95f7932844a413065c578e290d31c08c6cd219c3fe7d5ab4cc764d7028",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "40d9dd20a416b3e1e7373a884b95443cf3ba7f9bd226b7e10887a254b7b2829c",
+        "mlp": "8c22170bb1942222298e126cfd6d50030697ca505945dce1a2fd8168311e396d",
+        "kan": "c52abc6271a8834917baa369f1e1423030c24793c0961d7d4e22f024fa2abf1e"
+      },
+      "seme": 43,
+      "calendario": 12,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal12.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal13.json",
+      "sha256": "29c30007915f73dc5faf63c3fbc26300bc074eec5d64949435f1bf5d832b1547",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "761bc68beae0eeb667f50809cac2407bdd4c59f0ed8ca82f969cca435aa7d04d",
+        "mlp": "d0704ddaa69ab325dd7face4d7f49785be9285ecb2700bcf413f80d3232e0736",
+        "kan": "d8c947f3044909c81254177b11a04267a886b06a262b936e3bb230915f0dfb35"
+      },
+      "seme": 43,
+      "calendario": 13,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal13.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal14.json",
+      "sha256": "cc7ec7ec7ed3547bb9bc8172b6d59d85be071af124c91bc64b76b87e58644b97",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "592392c0df2ada448657284cc34703a7fec945a06e40f2fd0d779ebf14a7db6b",
+        "mlp": "aba9516fe619df45c2bb7dcce551e2f2f5e6509488e268c2c2ae9b9baf597145",
+        "kan": "51298fb422a46ed091dc1399cd91223ee74eb6be98804b14aee18e83ee11dcf6"
+      },
+      "seme": 43,
+      "calendario": 14,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal14.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal15.json",
+      "sha256": "99cb85009647c0e5565dc9a67b3fa3c311040fb17ad1f2a25d5f60997da8b30d",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "793becf93911edd5ef0f72105b82f72bb5e788e5827c2d2b2917b43f4c68dba1",
+        "mlp": "f4ae9c31ff3357a26559f5c030024fad9840b69ac26621928a38a9e9c06b823b",
+        "kan": "2377a9718415baecacec0ce7753d354b79b588f88c921912800407fd298d7514"
+      },
+      "seme": 43,
+      "calendario": 15,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal15.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal16.json",
+      "sha256": "09dea9eba413575fe4daf32a76cc1eddfdd7ca73b37353bb4405f5f60e6252b0",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "1c4d3f92ef3b28795722c7b0d95447f84b559eb492b3e863b3e669574736b366",
+        "mlp": "ec700e1e3b7904b038636097888d356a59d52ced5aa77eb124a8f4e3ae991064",
+        "kan": "0e6e5bebd4e2be7eb54a54f06b378267ae3278796b50c485367fd8358aad99e1"
+      },
+      "seme": 43,
+      "calendario": 16,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal16.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal17.json",
+      "sha256": "a445034ae2a597358af09346f21729b5a80c6024eaa0ab242975cae9f0485b2b",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "bebdc8632cb74475c3d24d8680beafc8c697af8bf7136673014c7098289c318d",
+        "mlp": "4cab0a5c46708af9bba4b5585a5655926805597e0097b301693906a1f2b441d6",
+        "kan": "fb9a4839a8cba5e4b90905299dbe0f8a45777d78c1f8e1cd3230a80d018ba1f2"
+      },
+      "seme": 43,
+      "calendario": 17,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal17.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal18.json",
+      "sha256": "2eec167bfb4a66f376356902f0f4c271309677c4f93ffd9100504f1b58661b8e",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "184532dcbf0d5b3edea7c3af4aee59cf459d87f97ed17e5b8e37dbba80d09ff2",
+        "mlp": "91aed46a7e78eecdccab0f34db19a3dfe5fecc800c07ffd5b3d13c58277d6b52",
+        "kan": "e70a09978f5b7895da2b638c839576ccac847d10089553558199cfe22cecfd8d"
+      },
+      "seme": 43,
+      "calendario": 18,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal18.json"
+    },
+    {
+      "file": "replay_C_casuale_seme43_cal19.json",
+      "sha256": "c270028cb0db124862ff52563ed25079079c0a2680f0ff7ac492ea75af2da4d2",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 43,
+        "mlp": 36,
+        "kan": 16
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ab3f05ce9a6d80e77bdb54125761ad91f33332def6988fa42db9d23eb65de456",
+        "mlp": "a636dc93b95bc6a5ecfb70537e72fcf369a0d733dd5232550ad86dc894d0249b",
+        "kan": "4a533ed4549145925705423386fccc30c445cfaa3be8a4a326df6047b487ff76"
+      },
+      "seme": 43,
+      "calendario": 19,
+      "sostituisce_per_confronto": "replay_C_casuale_seme43_cal19.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal00.json",
+      "sha256": "9e64e1ddf929588dcfa25fe65a2f65630a62195e9ebedf5d8b5bfe63788d8145",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "e4c695eb2d740280cf90ad745c77208c372f638f11b10e8f4845f7f38274b02b",
+        "mlp": "aa8023a4978f2046ae367fa591c1e3691b705a9b8aca679cfdb8679a8b221bb2",
+        "kan": "b3d8272411a79bbbbf68417869c9e437f21a6f1df2c5ac52c468257bfa15cd6d"
+      },
+      "seme": 45,
+      "calendario": 0,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal00.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal01.json",
+      "sha256": "ee7f2f0325d7a1d04c853c7c6797f24b45043558a845132a5a775f75c071ce8e",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ffd6bafba4772b21a80dc8cb6351499beec3fb61f10ad9fac4c02c39ebabed71",
+        "mlp": "bd63f42d2d5fb9ce5fd7fd6e46a9da7956ab569b37b1595fd36f912048c1fc75",
+        "kan": "934dc138680dd70e8a0768fce1702d70f548c5742dd870731e45dd347bfc1011"
+      },
+      "seme": 45,
+      "calendario": 1,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal01.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal02.json",
+      "sha256": "ecfcd3b08bc7ac45209d885b665ba10ce2dbbf3265ca3e9f70ac572b65cefc0d",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "6ae30131eb822ec56f3a77479cc4ef2147f00279a97ac3b9e7f0c9215f347b23",
+        "mlp": "42c14faadcb0e17a12ed9b594209a48d0d11d26db9a01a33aaabb55c8d37b1cf",
+        "kan": "633b9674639c8a95b46ee4c2fd370115e908fb6e57a2ca804b442a490c671d2b"
+      },
+      "seme": 45,
+      "calendario": 2,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal02.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal03.json",
+      "sha256": "48fede4ca0f029a4375b7d2289f83ce02ef292d7f08c5c65870d82ff0d1c2c6f",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "382566374f84cee0a307b4a37b45811009e3e52410981718bfe136e2690190e0",
+        "mlp": "44ca36791e657fcc1d26d5d8f4478851ebb8c23ce631cdb9bbb48d2f57a8875d",
+        "kan": "1d20916347325081ca138af40a242aa7114232b9c10e875def8a4ac3d41fd7bb"
+      },
+      "seme": 45,
+      "calendario": 3,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal03.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal04.json",
+      "sha256": "f6e5e815c361c9213e563fb5bd5ae4c5b2637713d186cb3f2d7fbaf047bde129",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "a606fabbba5302f62c938fcd62eee3ee92387f39d11171ad8f0910b8c8d00a68",
+        "mlp": "2e93e73077c8495082d85b8fda51ef7587e1877b121c2ea3f90c1b22cb84c61e",
+        "kan": "22cb2bcbacc917b847ccec0cc3c229a9456367fe1f065f657b8e0c0a1ababba0"
+      },
+      "seme": 45,
+      "calendario": 4,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal04.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal05.json",
+      "sha256": "b7d0b29ff7a9acc97bc08767458bec925824dacf8c1c128c014da6c443bd9181",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "cfeaf7a8e2a138bb24107dc04505ba1cadb50c06692c8a655fcb6c3f129e390c",
+        "mlp": "c8ecd450a2a85bfef70bfa5d7afbaa0e77a0bb284aae1c54cfcf2c06e23a67ef",
+        "kan": "26577a0823f853d5fba3813d852260d085c54c7c85514cd6c29a75b71645acd0"
+      },
+      "seme": 45,
+      "calendario": 5,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal05.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal06.json",
+      "sha256": "0fe1efbff8d33690ef31f560165de925640756bfceb3e3dbdfd6aedb9452ec0c",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "7e2c61ef4fa0677001f3cf8dd18ef5122792364c93c074e3d7fc36e521df9f9f",
+        "mlp": "9d881726c50775f6a72ef1aa1e705a22b7a22bf94363a367e475e6e27f425fbe",
+        "kan": "555408644fc79d8492594235526cc9d7a2370141726e594833c52b62ae7b8b35"
+      },
+      "seme": 45,
+      "calendario": 6,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal06.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal07.json",
+      "sha256": "964d7668012a6faf099877c3ab56d05f08edbaa12530049ac1f0a852654ca3ed",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "079646205183479e77e708bb3a604efe361fafd7b31c73fdfc9fd14ea2f4c370",
+        "mlp": "f961d5ebeedf83d4f253a5d734dfe8eef836c1d1b87ad1f74c0dfafc8a5cc821",
+        "kan": "2778b0285d7421ac354e5fab8f21ddd4601f8e38ba2db682783bbea59dd5dcf9"
+      },
+      "seme": 45,
+      "calendario": 7,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal07.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal08.json",
+      "sha256": "5d315f334fbf567edf680db0d02cfad4034d20e96dde5fcaab6df28a9288b51e",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "dac339c31de9bc816fe9974fc6eda699b240ae881d3559d98fa8023ed030fef5",
+        "mlp": "119f1344666aa4a4d1c8790ebb3c9716ef788ebcf114aa042072e730f53b6daf",
+        "kan": "8e1eafd91887b1171ec190b33f7c8423e55a69138a83b2ce7d15b199454bf64c"
+      },
+      "seme": 45,
+      "calendario": 8,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal08.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal09.json",
+      "sha256": "03a9bd80bb59a82b7ea36cfa939cc13b6a7ff255342ffb2648feb0d98eb893fb",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ecde263af7908acae7b4462180d008481794821c85ec0284641e8bec1d6f657d",
+        "mlp": "b146863adccf9cf0735280d43aead6007e0f9273f3bdee4bfb6644ac69854ebd",
+        "kan": "cd7b70f6ccc612b1b84f987d9503ad29aef0ac17a6700b0f66b87e05f6e14723"
+      },
+      "seme": 45,
+      "calendario": 9,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal09.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal10.json",
+      "sha256": "4886d54c3a87c284278e16cc653294be96c12d3327fd0a34300ca7c9b867b9af",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "2188a944b6a6619ee0108448a7634932d62a6cd46054b83eff139eb357714698",
+        "mlp": "55725bf141d1fd76c6c7a14f6cea72ede24b3b2c04671bafeb1b7b9c4c156a60",
+        "kan": "67b9d9e95105f80bfb00a682fa19bcbaaee73ada7cb2c4193c8cf11bacad26dc"
+      },
+      "seme": 45,
+      "calendario": 10,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal10.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal11.json",
+      "sha256": "5172833045e802af3020ae22427243f9f13a3dc723ed4193b3024017d19c5bfc",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "ca10f5166ada64208867d577c4ddf99ebb441b187e12f30fdd3db45107c4fb26",
+        "mlp": "7c112d126b41373799cb2e9b1088bf835a945a366a4c5cc4d3fa53908ec8cff2",
+        "kan": "2f37bae3782c0a2ace71893ed796817c6b50009ba1653463d38b408c046841ee"
+      },
+      "seme": 45,
+      "calendario": 11,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal11.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal12.json",
+      "sha256": "20aacb0281142c748f7aa7c7f7031db386349e06b27c09627caf0a75739b02d9",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "018d7e23d9b5c2687147c0e2c46db175e1e363559964c5879a5e2c58f659f1dd",
+        "mlp": "063a8ada10af1d7c66a45c0c0b39a04ee439912c88a12724f1319ea4e09a4c62",
+        "kan": "e2783a11af7203f3749ab8572a6859cd5b9b047770487c9f46492673c974c4f5"
+      },
+      "seme": 45,
+      "calendario": 12,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal12.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal13.json",
+      "sha256": "c94126ab5be816b4e8730887bbd214d96a916f443f0230ea52f851e86784456f",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "28975704d9ee601936f5996a50d3fc12b0734f94811146f172bdbb86c4b4a8e5",
+        "mlp": "67e1cbee97a921f4c8f3f459cf546aab54d63f41d2004c49fef39ca7e6896597",
+        "kan": "944b5c7e0ec41e483c483c22563ccc1b046310c66442b7cf1d03bc4e0d381483"
+      },
+      "seme": 45,
+      "calendario": 13,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal13.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal14.json",
+      "sha256": "7e29b751d8b2e20ad34935bf1e4f93935cba6af8981feca40f05c83a3ac44623",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "6640d14e0d85b2725c51690fc2281ef62705b59ce691013c66a2da75adb98efa",
+        "mlp": "f2d0f2e77a2f4cf41fda260dfb323c9ff70e88545ba03a1f46468906071b55a8",
+        "kan": "73ff2da76ed7a71a47d982a249f1327f453c26dea954c258ecf86426824de31b"
+      },
+      "seme": 45,
+      "calendario": 14,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal14.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal15.json",
+      "sha256": "376f16574ef14fb34bff048c59803c2619328e1fcc3f2a3bf8901b9d4dd6edbf",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "f2d7f76612887db0315a9cb9b95a3073eed8b3d9fe4b8eaa0c435241c4014d1b",
+        "mlp": "3595c4af7f9570ac0240b6398d6f2655a49e12c9ef9cf4ba6195353dbb887385",
+        "kan": "c38ccef6b1ccd676a3908ce65c6cd8b62cf9b609e1a0691f514dcae993d122a5"
+      },
+      "seme": 45,
+      "calendario": 15,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal15.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal16.json",
+      "sha256": "d38822114781f60572dd6881e01cae3e9eadd526e23f6beb8859bf797a799213",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "e0fb533851056912f20cdf7be27160d23c70e8c86ea2b33314532725b155d198",
+        "mlp": "8dfc90ed7d1b31b7f177f66d2b65942900699afd666ce127d029d603936f1f71",
+        "kan": "1218a4ce98096041428cec8cb479a7f3f4adb3aadd01e5419111cca8d4fd36e8"
+      },
+      "seme": 45,
+      "calendario": 16,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal16.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal17.json",
+      "sha256": "3da5809326a7a1ebe83afa02af115f5585aa2ed99a9261c34fd1484c8fc7a024",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "2987a97863ff4e670922a281fe8ecc889be8d90c5afa673dd86cd4d805b9ca6d",
+        "mlp": "68dc0a5132ad5ed6ff9e89e3b4d5dbc471c9ee3d70ec8e561f3e02359486de37",
+        "kan": "1436b14d8ede50591e395b7756634c050a7ca0cde8853967721f0b337753e9be"
+      },
+      "seme": 45,
+      "calendario": 17,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal17.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal18.json",
+      "sha256": "ab51ec63fed64708a07eba922d735c67899d0ad8c0fd5b5389f636a816223000",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "75601cb315bd96bec7134e93958829ac349e7f7dc616ced75f0f8cc430fe6560",
+        "mlp": "3a17f40be550a220f27805ac262002015dfd5df66eb01fd2a79bb08845d4f4b6",
+        "kan": "73e879c0ea53dcb606f07123a15a32b6230371cb697290d4c164680c2a908aba"
+      },
+      "seme": 45,
+      "calendario": 18,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal18.json"
+    },
+    {
+      "file": "replay_C_casuale_seme45_cal19.json",
+      "sha256": "0d2db8248783c513710023bf2d647930c0de59bf9a33f50c7854931491d281c8",
+      "soglie_coincidenti": true,
+      "frozen_coincidente": true,
+      "campioni_coincidenti": true,
+      "aggiornamenti_richiesti": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_evidenza": {
+        "lr": 49,
+        "mlp": 30,
+        "kan": 9
+      },
+      "aggiornamenti_da_riallineare": false,
+      "digest_blocchi_scelti": {
+        "lr": "b84e54f18dbb0ae83c0bd9a1a2cc21cc90635bd04e77631e7232f77d22297307",
+        "mlp": "e2de5f02887bf99e7800fb066843e309cc976b37c8d39e4b274d9c189884687a",
+        "kan": "ab71077ebb790395a6c69fd748225d68d73e0cec5438cae23c60c72f6804ec8b"
+      },
+      "seme": 45,
+      "calendario": 19,
+      "sostituisce_per_confronto": "replay_C_casuale_seme45_cal19.json"
+    }
+  ],
+  "tutti_appaiati_senza_riallineamento": false,
+  "tutti_appaiati_dopo_riallineamento": true
+}

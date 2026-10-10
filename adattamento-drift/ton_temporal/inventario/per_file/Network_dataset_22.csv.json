@@ -1,0 +1,2677 @@
+{
+  "file": "Network_dataset_22.csv",
+  "sha256": "a1f6009f2be53bc1fba90f044d07ff5a9c5cfe4912b56690d8f02fb75aa335c0",
+  "byte": 153268181,
+  "righe": 1000000,
+  "stage": {
+    "all_source": 1000000,
+    "invalid_raw_contract": 690,
+    "valid_raw_contract": 999310,
+    "known_input_overlap": 416995,
+    "candidate_unseen_input": 582315
+  },
+  "label_valide": {
+    "1": 765012,
+    "0": 234298
+  },
+  "tipi_valide": {
+    "xss": 488585,
+    "normal": 234298,
+    "ransomware": 72805,
+    "backdoor": 203622
+  },
+  "ts_primo_valido": 1556363201.0,
+  "ts_ultimo_valido": 1556485532.0,
+  "ts_primo_valido_iso": "2019-04-27T11:06:41+00:00",
+  "ts_ultimo_valido_iso": "2019-04-28T21:05:32+00:00",
+  "salti_indietro_nel_ts": 3,
+  "righe_con_ts_non_valido": 0,
+  "righe_con_label_sconosciuta": 0,
+  "zeri_negativi_canonicalizzati": 0,
+  "campi_invalidi": {
+    "src_bytes": {
+      "non_numeric": 690
+    }
+  },
+  "esempi_invalidi": [
+    {
+      "source_row_index_zero_based": 495380,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 495383,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 495393,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 495396,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    },
+    {
+      "source_row_index_zero_based": 495397,
+      "fields": {
+        "src_bytes": {
+          "value": "0.0.0.0",
+          "reason": "non_numeric"
+        }
+      }
+    }
+  ],
+  "impronte_note_osservate": 4009,
+  "tempi": {
+    "righe": 1000000,
+    "celle_orarie": [
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "xss",
+        "rows": 279237
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3758
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "xss",
+        "rows": 268661
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2457
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "xss",
+        "rows": 10576
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 1301
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "xss",
+        "rows": 279237
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3758
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "xss",
+        "rows": 209348
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2919
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "xss",
+        "rows": 200572
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1895
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "xss",
+        "rows": 8776
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 1024
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "xss",
+        "rows": 209348
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2919
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 38
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 52526
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 35848
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 44
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 38
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 16634
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 38
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 52482
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 101882
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 49294
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 23713
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 380
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 77789
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 49294
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 101502
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 49294
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 44132
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 23471
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 13450
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 310
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 234
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 30448
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 23161
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 43898
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 23471
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2566
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 2
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1663
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 2
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 32
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 871
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2534
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 2
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3692
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1867
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 3631
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 61
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1866
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3692
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1867
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3546
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15121
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 3437
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15121
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 109
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3546
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15121
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15347
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3192
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 3091
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 559
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14788
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 101
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15347
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3192
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2828
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2720
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 661
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14704
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 108
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2828
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15348
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1751
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1649
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 658
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14690
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 102
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15348
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1751
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15345
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1295
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 633
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1197
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14712
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15345
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1295
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1557
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1460
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 632
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14733
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 97
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1557
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15360
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1332
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1228
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 637
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14723
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 104
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15360
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1332
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15352
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1198
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1098
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 648
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14704
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 100
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15352
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1198
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15151
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1206
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 655
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1102
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14496
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 104
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15151
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1206
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14184
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1193
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1093
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 602
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 13582
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 100
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14184
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1193
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1319
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 13321
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1204
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 623
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 115
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 12698
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1319
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 13321
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1666
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 11463
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1548
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 569
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 118
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 10894
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1666
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 11463
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1342
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22809
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1238
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1013
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 21796
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 104
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1342
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22809
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 88
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 2224
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 78
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 79
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 2145
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 10
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 88
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 2224
+      }
+    ],
+    "celle_orarie_frt": [
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "xss",
+        "rows": 279225
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3754
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "xss",
+        "rows": 268649
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2453
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "xss",
+        "rows": 10576
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 1301
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "xss",
+        "rows": 279225
+      },
+      {
+        "utc_hour": "2019-04-27T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3754
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2923
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "xss",
+        "rows": 209360
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1899
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "xss",
+        "rows": 200584
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "xss",
+        "rows": 8776
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 1024
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2923
+      },
+      {
+        "utc_hour": "2019-04-27T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "xss",
+        "rows": 209360
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 38
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 52526
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 35848
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 44
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 38
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 16634
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 38
+      },
+      {
+        "utc_hour": "2019-04-28T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 52482
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 101882
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 49294
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 23713
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 380
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 77789
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 49294
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 101502
+      },
+      {
+        "utc_hour": "2019-04-28T04:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 49294
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 44129
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 23471
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 13447
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 310
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 234
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 30448
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 23161
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 43895
+      },
+      {
+        "utc_hour": "2019-04-28T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 23471
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2569
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 2
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1666
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 2
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "invalid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 32
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 871
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2537
+      },
+      {
+        "utc_hour": "2019-04-28T06:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "ransomware",
+        "rows": 2
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3686
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1858
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 3625
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 61
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1857
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3686
+      },
+      {
+        "utc_hour": "2019-04-28T07:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1858
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3549
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15121
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 3440
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15121
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 109
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3549
+      },
+      {
+        "utc_hour": "2019-04-28T08:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15121
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15347
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 3190
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 3089
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 559
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14788
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 101
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15347
+      },
+      {
+        "utc_hour": "2019-04-28T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 3190
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 2828
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2720
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 661
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14704
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 108
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 2828
+      },
+      {
+        "utc_hour": "2019-04-28T10:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1752
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15348
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1650
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 658
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14690
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 102
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1752
+      },
+      {
+        "utc_hour": "2019-04-28T11:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15348
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1295
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15345
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1197
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 633
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14712
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1295
+      },
+      {
+        "utc_hour": "2019-04-28T12:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15345
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1556
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1459
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 632
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14733
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 97
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1556
+      },
+      {
+        "utc_hour": "2019-04-28T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15365
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1333
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15360
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1229
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 637
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14723
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 104
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1333
+      },
+      {
+        "utc_hour": "2019-04-28T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15360
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1197
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15352
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1097
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 648
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14704
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 100
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1197
+      },
+      {
+        "utc_hour": "2019-04-28T15:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15352
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1206
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15151
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1102
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 655
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14496
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 104
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1206
+      },
+      {
+        "utc_hour": "2019-04-28T16:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 15151
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1194
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14184
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1094
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 602
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 13582
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 100
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1194
+      },
+      {
+        "utc_hour": "2019-04-28T17:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 14184
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1319
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 13321
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1204
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 623
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 115
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 12698
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1319
+      },
+      {
+        "utc_hour": "2019-04-28T18:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 13321
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 11456
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1666
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1548
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 560
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 10896
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 118
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 11456
+      },
+      {
+        "utc_hour": "2019-04-28T19:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1666
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1343
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22809
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1239
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 1013
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 21796
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 104
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1343
+      },
+      {
+        "utc_hour": "2019-04-28T20:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 22809
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 89
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 2224
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 79
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 79
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 2145
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 10
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 89
+      },
+      {
+        "utc_hour": "2019-04-28T21:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 2224
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-28T22:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-29T05:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 16
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 9
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 7
+      },
+      {
+        "utc_hour": "2019-04-29T09:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "backdoor",
+        "rows": 16
+      }
+    ],
+    "ts_min": 1556363201.0,
+    "ts_max": 1556485532.0,
+    "feature_ready_time_min": 1556363201.003351,
+    "feature_ready_time_max": 1556531125.96333,
+    "durata_massima_secondi": 93516.92917,
+    "duration_non_numeriche": 0,
+    "duration_negative": 0,
+    "coppie_fuori_ordine_per_ts": 3,
+    "coppie_fuori_ordine_per_feature_ready_time": 335762
+  },
+  "celle_giornaliere": [
+    {
+      "utc_day": "2019-04-27",
+      "stage": "all_source",
+      "label": "1",
+      "type": "xss",
+      "rows": 488585
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 6677
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "xss",
+      "rows": 469233
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "candidate_unseen_input",
+      "label": "0",
+      "type": "normal",
+      "rows": 4352
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "xss",
+      "rows": 19352
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 2325
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "xss",
+      "rows": 488585
+    },
+    {
+      "utc_day": "2019-04-27",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 6677
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "all_source",
+      "label": "1",
+      "type": "ransomware",
+      "rows": 72805
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 228311
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "all_source",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 203622
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "candidate_unseen_input",
+      "label": "0",
+      "type": "normal",
+      "rows": 100448
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "ransomware",
+      "rows": 312
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 7970
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "invalid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 690
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "ransomware",
+      "rows": 72493
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 127173
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 195652
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "ransomware",
+      "rows": 72805
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 227621
+    },
+    {
+      "utc_day": "2019-04-28",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "backdoor",
+      "rows": 203622
+    }
+  ],
+  "secondi_impiegati": 35.2,
+  "coerenza_orario_vs_giornaliero": {
+    "coincide": true,
+    "celle_orarie_arrotolate": 21,
+    "celle_giornaliere": 21
+  }
+}

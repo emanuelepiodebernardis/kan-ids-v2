@@ -1,0 +1,48 @@
+{
+  "stage": "028",
+  "purpose": "metadata_only_candidate_coverage",
+  "source_csv_name": "hourly_counts_frt.csv",
+  "source_csv_sha256": "11ffd671e3784e523c7ef7c42517eb1d13f6ea57fc045ee716637d9c241e15a1",
+  "input_bin_seconds": 3600,
+  "analysis_population": "valid_raw_contract; includes known-vector overlaps",
+  "collection_start_utc": "2019-04-02T09:00:00+00:00",
+  "collection_end_exclusive_utc": "2019-04-29T15:00:00+00:00",
+  "rows": 22338152,
+  "calibration_hours": [
+    6,
+    12,
+    24
+  ],
+  "additional_fit_width_multipliers": [
+    1,
+    2,
+    4
+  ],
+  "anchor_rule": "end of each occupied UTC 6/12/24-hour grid block",
+  "candidate_filter": "nonempty time intervals ending before final observed bin end; no class/count/performance filter",
+  "test_end_rule": "end of final observed time bin; common subsequent test for A and B",
+  "interval_semantics": "left inclusive, right exclusive",
+  "B_fit_rule": "A_fit union B_fit_added; both calibration sets excluded",
+  "known_type_rule": "positive-label type occurs in fitting rows; calibration types never define knowledge",
+  "unseen_B_group_meaning": "absent from B fitting; not necessarily absent from calibration",
+  "never_exposed_group_meaning": "absent from all A/B fitting and calibration rows",
+  "predictions_computed": false,
+  "models_loaded": false,
+  "training_performed": false,
+  "split_selected": false,
+  "threshold_selected": false,
+  "candidate_count": 129,
+  "candidates_with_all_four_test_groups": 0,
+  "candidates_with_two_class_fit_and_cal_roles": 66,
+  "candidates_with_both_properties": 0,
+  "limitations": [
+    "Counts establish label-type coverage, not predictive performance or a usable detector.",
+    "Type labels do not establish attack-instance, session, host, or campaign independence.",
+    "attack_unseen_B means unseen in fitting only; coverage_unseen_exposure.csv separates calibration-exposed from never-exposed attack types.",
+    "No session purge/gap applied: these are candidate counts before final split enforcement.",
+    "No quality scores, model predictions, or optimization over outcomes are used.",
+    "Full collection was already explored; future series must be described as prespecified after exploratory analysis.",
+    "An empty common-test group is reported as zero and must not later be silently removed or relabelled.",
+    "Histogram counts must be recomputed after any session purge, validity rule, or training subsampling."
+  ]
+}

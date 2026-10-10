@@ -1,0 +1,206 @@
+{
+  "versione": 1,
+  "data_utc": "2026-09-29",
+  "scopo": "partizione temporale di TON_IoT (parte Network) in quattro intervalli disgiunti per lo studio dell'adattamento con etichette scarse e ritardate",
+  "orologio": {
+    "campo": "feature_ready_time",
+    "definizione": "feature_ready_time = ts + duration",
+    "motivo": "fra le otto feature c'e' duration, nota solo a flusso terminato: il vettore non esiste prima della fine del flusso, quindi l'ordine in cui il modello puo' vederlo e' quello di t_end, non di ts",
+    "confini": "semiaperti a sinistra inclusa, giorni UTC pieni",
+    "nota": "gli intervalli sono definiti sul feature_ready_time, non sul ts: assegnare per ts e ordinare per feature_ready_time renderebbe disponibile in un intervallo una riga assegnata al precedente"
+  },
+  "regole_rispettate": {
+    "prevalenza": "osservata, nessun riequilibrio",
+    "blocchi": 10000,
+    "ordine_dei_blocchi": "feature_ready_time crescente",
+    "budget_etichette": "1% del blocco: 100 per blocco completo, floor(0,01*n) sull'ultimo",
+    "ritardo": "le etichette del blocco k arrivano a fine blocco k+1; un aggiornamento incide dal blocco k+2",
+    "memoria": "FIFO di 256, inizializzata da A",
+    "memoria_monoclasse": "aggiornamento saltato e registrato",
+    "seme": 42,
+    "hardware": "solo CPU in questa fase",
+    "predizioni_passate": "mai ricalcolate"
+  },
+  "intervalli": {
+    "A": {
+      "ruolo": "addestramento iniziale",
+      "giorni_utc": [
+        "2019-04-02",
+        "2019-04-03",
+        "2019-04-04",
+        "2019-04-23"
+      ],
+      "inizio_utc": "2019-04-02T00:00:00+00:00",
+      "fine_esclusa_utc": "2019-04-24T00:00:00+00:00",
+      "righe_valide": 3956308,
+      "normali": 223199,
+      "attacchi": 3733109,
+      "quota_normali": 0.056416,
+      "righe_esposte": 3305632,
+      "quota_esposta": 0.835535,
+      "tipi_di_attacco": {
+        "scanning": 3733109
+      },
+      "tipi_nuovi_in_questo_intervallo": [
+        "scanning"
+      ],
+      "blocchi_completi_da_10000": 395,
+      "righe_blocco_finale": 6308,
+      "budget_etichette_blocco_completo": 100,
+      "budget_etichette_blocco_finale": 63
+    },
+    "B": {
+      "ruolo": "calibrazione",
+      "giorni_utc": [
+        "2019-04-24"
+      ],
+      "inizio_utc": "2019-04-24T00:00:00+00:00",
+      "fine_esclusa_utc": "2019-04-25T00:00:00+00:00",
+      "righe_valide": 5681198,
+      "normali": 89323,
+      "attacchi": 5591875,
+      "quota_normali": 0.015723,
+      "righe_esposte": 4757881,
+      "quota_esposta": 0.837478,
+      "tipi_di_attacco": {
+        "dos": 2184823,
+        "scanning": 3407052
+      },
+      "tipi_nuovi_in_questo_intervallo": [
+        "dos"
+      ],
+      "blocchi_completi_da_10000": 568,
+      "righe_blocco_finale": 1198,
+      "budget_etichette_blocco_completo": 100,
+      "budget_etichette_blocco_finale": 11
+    },
+    "C": {
+      "ruolo": "sviluppo",
+      "giorni_utc": [
+        "2019-04-25",
+        "2019-04-26"
+      ],
+      "inizio_utc": "2019-04-25T00:00:00+00:00",
+      "fine_esclusa_utc": "2019-04-27T00:00:00+00:00",
+      "righe_valide": 9150673,
+      "normali": 173316,
+      "attacchi": 8977357,
+      "quota_normali": 0.01894,
+      "righe_esposte": 3203756,
+      "quota_esposta": 0.350112,
+      "tipi_di_attacco": {
+        "ddos": 6165008,
+        "dos": 1190505,
+        "injection": 452659,
+        "password": 1169185
+      },
+      "tipi_nuovi_in_questo_intervallo": [
+        "ddos",
+        "injection",
+        "password"
+      ],
+      "blocchi_completi_da_10000": 915,
+      "righe_blocco_finale": 673,
+      "budget_etichette_blocco_completo": 100,
+      "budget_etichette_blocco_finale": 6
+    },
+    "D": {
+      "ruolo": "valutazione finale",
+      "giorni_utc": [
+        "2019-04-27",
+        "2019-04-28",
+        "2019-04-29"
+      ],
+      "inizio_utc": "2019-04-27T00:00:00+00:00",
+      "fine_esclusa_utc": "2019-04-30T00:00:00+00:00",
+      "righe_valide": 3549973,
+      "normali": 309673,
+      "attacchi": 3240300,
+      "quota_normali": 0.087232,
+      "righe_esposte": 889093,
+      "quota_esposta": 0.250451,
+      "tipi_di_attacco": {
+        "backdoor": 508116,
+        "mitm": 1052,
+        "password": 549383,
+        "ransomware": 72805,
+        "xss": 2108944
+      },
+      "tipi_nuovi_in_questo_intervallo": [
+        "backdoor",
+        "mitm",
+        "ransomware",
+        "xss"
+      ],
+      "blocchi_completi_da_10000": 354,
+      "righe_blocco_finale": 9973,
+      "budget_etichette_blocco_completo": 100,
+      "budget_etichette_blocco_finale": 99
+    }
+  },
+  "riepilogo": {
+    "righe_totali": 22339021,
+    "righe_valide": 22338152,
+    "righe_invalide": 869,
+    "quota_esposta_complessiva": 0.544197,
+    "partizione_completa": true,
+    "giorni_utc_con_dati": 10,
+    "intervallo_osservato": "2019-04-02 .. 2019-04-29 UTC, con interruzione dal 5 al 22 aprile",
+    "rotture_della_catena_fra_file": 0,
+    "coppie_fuori_ordine_per_ts": 21,
+    "coppie_fuori_ordine_per_feature_ready_time": 8703109,
+    "durata_massima_secondi": 93516.92917
+  },
+  "esposizione": {
+    "definizione": "quota di righe valide la cui impronta compare fra gli input gia' visti attraverso il campione del lavoro precedente",
+    "impronte_note_uniche": 92330,
+    "sorgente_note": "train_test_network.csv",
+    "sorgente_note_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+    "riscontro_metadati_originale": {
+      "impronte_uniche": 92330,
+      "impronte_uniche_attese": 92330,
+      "righe_sorgente": 211043,
+      "righe_sorgente_attese": 211043,
+      "coincide": true
+    },
+    "limite": "ricostruzione dichiarata: l'archivio originale non e' pubblicato, quindi il suo SHA-256 non e' riproducibile e frozen020/tools/evaluate_external.py non e' eseguibile cosi' com'e'",
+    "denominazione": "controllo delle sovrapposizioni degli otto input con il CSV noto",
+    "non_dimostra": "l'indipendenza dello stream D"
+  },
+  "provenienza": {
+    "data_inventory.csv": "75d715617b3f8376bc0b7501eadb860c039ff383be8599edf3752d9ea18c1ee5",
+    "daily_counts.csv": "d5f5a81b89acfeea1912244ea248366da5fbf4df526c3a2234baef03db29affb",
+    "hourly_counts.csv": "2c1e1640bb140f829a1a26808400052d9d772df0ea7db8eec525b980e4a50ea0",
+    "hourly_counts_frt.csv": "11ffd671e3784e523c7ef7c42517eb1d13f6ea57fc045ee716637d9c241e15a1",
+    "diagnostics.json": "c41c7ae3f186c95d479332873cacb882ba0d46f311b68b255694c0336ed80a58",
+    "impronte_note.npz": "787edf4f5e85e8feae0315db822a1a74ef8566e3625f5f95389c3fd68506397b",
+    "strumenti_riusati": {
+      "modulo": "research028/vendor/audit_ton_full.py",
+      "funzioni": [
+        "audit_csv",
+        "normalize_raw",
+        "fingerprint_rows",
+        "parse_timestamp",
+        "timestamp_iso"
+      ],
+      "non_eseguibili": [
+        "run_audit (ricevuta di acquisizione assente)",
+        "load_known (archivio delle impronte non pubblicato)",
+        "diagnose_ton028.py (verify_kit: 22 voci su 42 assenti)"
+      ]
+    },
+    "verifica_sha256_fonte": {
+      "ricevuta": "research030/training/vendor/source_manifest.json",
+      "sha256_coincidenti": 23,
+      "su": 23,
+      "hash_authority": [
+        "locally_computed_not_publisher_verified"
+      ]
+    }
+  },
+  "intervalli_base_ramo": {
+    "ramo": "adapt-01/ton-temporal-pilot",
+    "base": "main 69618ee",
+    "trasferimento": "selettivo da drift-protocollo b3d1bef, provenienza dichiarata nel PR"
+  }
+}

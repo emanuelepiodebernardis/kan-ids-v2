@@ -1,0 +1,10 @@
+{
+  "definizione": "feature_ready_time = ts + duration (fine del flusso)",
+  "motivo": "le otto feature comprendono duration, nota solo a flusso terminato: un vettore di feature non esiste prima di t_end",
+  "durata_massima_secondi": 93516.92917,
+  "coppie_fuori_ordine_per_ts": 21,
+  "coppie_fuori_ordine_per_feature_ready_time": 8703109,
+  "duration_non_numeriche": 0,
+  "duration_negative": 0,
+  "conseguenza": "un ordinamento per feature_ready_time non coincide con l'ordine dei file: le righe vanno riordinate prima di formare i blocchi"
+}
