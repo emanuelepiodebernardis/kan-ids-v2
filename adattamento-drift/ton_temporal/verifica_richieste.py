@@ -573,10 +573,10 @@ def principale(argv=None):
     print()
     print('NON VERIFICABILE DA QUI, e quindi non dato per fatto:')
     for voce in (
-        '8  «puoi proseguire»: eseguito, ma il commit non e ancora spinto',
-        '11 «pubblica nello stesso PR»: i file sono pronti, il push e manuale',
-        '11 la descrizione del PR e ancora quella vecchia e va aggiornata',
-        '15 indicare il nuovo commit in Trello: dopo il push',
+        '8  «puoi proseguire»: eseguito; la pubblicazione remota si verifica fuori da qui',
+        '11 «pubblica nello stesso PR»: file nel ramo; descrizione PR da aggiornare a mano',
+        '11 descrizione PR preparata fuori dal repository, da incollare su GitHub',
+        '15 indicare il nuovo commit in Trello: dopo il controllo finale',
     ):
         print('     ' + voce)
     return 0 if tutto else 1

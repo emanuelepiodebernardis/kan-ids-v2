@@ -1085,7 +1085,7 @@ def test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno():
         assert '−' in testo, (
             'il meno tipografico non e arrivato nel file: o non c\'e piu, o '
             'e stato sostituito in silenzio')
-        assert testo.rstrip().endswith('dopo il push'), \
+        assert testo.rstrip().endswith('dopo il controllo finale'), \
             'il file si ferma prima della fine'
 
 
@@ -1124,7 +1124,7 @@ def test_il_rendiconto_dei_controlli_e_un_file_di_testo_utf8():
         assert rovinato not in testo, (
             f'nel file c\'e la sequenza {rovinato!r}: e il meno tipografico '
             f'passato attraverso una code page sbagliata')
-    assert testo.rstrip().endswith('dopo il push'), \
+    assert testo.rstrip().endswith('dopo il controllo finale'), \
         'il rendiconto non arriva in fondo'
     atteso = sum(1 for r in testo.split('\n') if r.startswith('OK '))
     dichiarato = re.search(r'(\d+) controlli su (\d+) passati', testo)

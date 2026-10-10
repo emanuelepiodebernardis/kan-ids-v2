@@ -79,7 +79,7 @@ OK     21  i documenti citano solo figure che esistono                      4 fi
 74 controlli su 74 passati
 
 NON VERIFICABILE DA QUI, e quindi non dato per fatto:
-     8  «puoi proseguire»: eseguito, ma il commit non e ancora spinto
-     11 «pubblica nello stesso PR»: i file sono pronti, il push e manuale
-     11 la descrizione del PR e ancora quella vecchia e va aggiornata
-     15 indicare il nuovo commit in Trello: dopo il push
+     8  «puoi proseguire»: eseguito; la pubblicazione remota si verifica fuori da qui
+     11 «pubblica nello stesso PR»: file nel ramo; descrizione PR da aggiornare a mano
+     11 descrizione PR preparata fuori dal repository, da incollare su GitHub
+     15 indicare il nuovo commit in Trello: dopo il controllo finale
