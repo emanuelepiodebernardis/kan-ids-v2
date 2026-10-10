@@ -26,26 +26,24 @@ invertiti, 46 di `injection` su 49, 6 di `ddos` su 586, 0 di `password` su 120.
 Il modello additivo si inverte in 9 o 10 blocchi su 875 e non ha quasi nulla da
 correggere.
 
-**Da quel risultato è nata una regola operativa, ed è stata verificata.**
-Aggiornare **solo su evidenza di inversione** fa quanto o meglio
-dell'aggiornamento continuo spendendo, in media sui cinque semi, 45,2
-aggiornamenti anziché 520 per la logistica, 33,8 per l'MLP e 19,4 per
-l'additivo — da 11,5 a 26,8 volte meno — e sull'AUROC **batte il controllo negativo** — una
-politica che aggiorna sullo stesso numero di blocchi scelti a sorte — **in
-media** su tutti e tre i modelli, di +0,026, +0,069 e +0,097. Il confronto è a
-parità di aggiornamenti, quindi il margine non viene dall'averne spesi di meno:
-viene dal criterio. È però un margine medio sull'AUROC, misurato contro un solo
-sorteggio, e se cada fuori dalla variabilità del sorteggio resta da stabilire.
+**Da quel risultato è nata una regola operativa, ed è stata verificata su una
+serie finale appaiata.** La nuova serie C usa 100 rendiconti effettivi: i 40
+casuali originali dei semi 44 e 46, conservati, più 60 casuali riallineati per
+i semi 42, 43 e 45. I 100 originali restano archiviati. Il confronto finale non
+dipende più da un solo sorteggio: per ogni seme ci sono 20 calendari casuali,
+con soglie, inizializzazione, digest delle etichette, misure frozen e numero di
+aggiornamenti effettivamente applicati appaiati ai controlli evidence nello
+stesso ambiente.
 
-La formulazione precisa conta, perché una versione precedente diceva «in tutti
-e tre i modelli» intendendo la media. Il confronto **non è uniforme sui semi**
-— vince su 4 semi su 5 per logistica e MLP, 5 su 5 per l'additivo, e si
-rovescia sul seme 44 — e **non si estende alle misure di decisione**: sull'FPR
-complessivo il sorteggio fa meglio per l'MLP (0,1625 contro 0,1844) e sul
-richiamo degli attacchi fa meglio su due modelli su tre (per l'MLP 0,7789
-contro 0,7088). Il controllo casuale, poi, è **un solo sorteggio** per modello
-e per seme: non ha un margine di errore. Sono risultati esplorativi su C, senza
-nessuna significatività statistica calcolata. Il dettaglio è al §6.
+Sull'AUROC media, la politica **solo su evidenza di inversione** sta sopra la
+media dei calendari casuali in tutti e tre i modelli: +0,0217 per la logistica,
++0,0559 per l'MLP, +0,0719 per l'additivo. Il risultato non va però letto come
+superiorità generale: rispetto ai calendari casuali evidence riduce il richiamo
+degli attacchi in tutti e tre i modelli (−0,0198, −0,0564, −0,0424). Sul FPR
+complessivo invece produce meno falsi allarmi dei calendari casuali
+(−0,0567, −0,0452, −0,1008). Il compromesso è quindi più netto di prima:
+migliore ordinamento medio, meno falsi allarmi complessivi, ma anche meno
+attacchi richiamati. Il dettaglio è al §6.
 
 **Quattro cose che vanno dette con il risultato.**
 
@@ -71,12 +69,12 @@ nessuna significatività statistica calcolata. Il dettaglio è al §6.
    righe dallo stream e senza scegliere modello o politica sui risultati di D
    (§5).
 
-**Per il modello additivo nessuna politica batte il congelato**, su tutti e
-cinque i semi e con ciascuna delle tre politiche: in media sui semi 0,8909
-contro 0,8358 della migliore, che è `su evidenza` su quattro semi e `ogni
-blocco` sul seme 44. È il risultato più scomodo, ed è solido perché uniforme:
-sull'AUROC il congelato vince 15 confronti su 15, tre politiche per cinque semi.
-È l'unico modello in cui l'adattamento non aiuta mai. In `figure/politiche_kan.png` si vede come: la media progressiva
+**Per il modello additivo il congelato resta sopra**, anche nella serie finale:
+AUROC media 0,8911 contro 0,8341 di evidence, 0,8073 di `ogni blocco` e 0,7621
+dei calendari casuali. È il risultato più scomodo, ed è quello da tenere in
+primo piano quando si interpreta il compromesso: sull'additivo l'adattamento
+riduce i falsi allarmi complessivi, ma non batte il congelato sull'ordinamento.
+In `figure/politiche_kan.png` si vede come: la media progressiva
 del congelato chiude sopra quella di ogni politica e resta stabilmente sopra
 dal blocco 213 in poi; prima, in 175 blocchi su 213, almeno una politica sta
 davanti, mai tutte e tre insieme. Il vantaggio è sul flusso intero, non in ogni
@@ -479,7 +477,12 @@ l'AUROC media di quella corsa — il **seme 42**, cioè il valore nel campo
 tabelle di questa sezione.
 
 Era la proposta del primo ciclo. È stata eseguita su C, con la soglia del
-§3bis, parametri invariati, cinque semi, e con il controllo negativo.
+§3bis, parametri invariati, cinque semi, e con il controllo negativo. Il
+confronto finale usa la serie appaiata del 10 ottobre: 100 rendiconti effettivi
+dei calendari casuali, cioè 40 originali conservati e 60 riallineati, più i 10
+controlli calibrato/evidence nello stesso ambiente. I 100 rendiconti originali
+sono conservati nell'archivio esterno; nessun nuovo training è richiesto per i
+numeri qui sotto.
 
 **Il primo passo, che veniva prima di tutto: il verso è stimabile in esercizio?**
 Sì, ma male, e soltanto fuori campione. La stima calcolata sui 256 esempi in
@@ -501,76 +504,77 @@ identiche. Cambia il numero di aggiornamenti applicati, e quello è il risparmio
 misurabile; un risparmio di etichette richiederebbe un budget variabile, fuori
 discussione in questa fase.
 
-**Le quattro alternative**, medie sui cinque semi, AUROC e aggiornamenti
-applicati:
+**Le quattro alternative**, medie sui cinque semi nella serie finale C, AUROC e
+aggiornamenti applicati:
 
 | | congelato | ogni blocco | su evidenza | casuale, pareggiato |
 |---|---:|---:|---:|---:|
-| logistica | 0,7149 | 0,7739 (520) | **0,7756 (45)** | 0,7499 (45) |
-| MLP | 0,7921 | 0,7664 (520) | **0,7956 (34)** | 0,7265 (34) |
-| additivo | **0,8909** | 0,8068 (520) | 0,8358 (19) | 0,7384 (19) |
+| logistica | 0,7149 | 0,7739 (520) | **0,7756 (45)** | 0,7539 (45) |
+| MLP | 0,7933 | 0,7674 (520) | **0,7939 (34)** | 0,7380 (34) |
+| additivo | **0,8911** | 0,8073 (520) | 0,8341 (19) | 0,7621 (19) |
 
-**Il confronto con il controllo negativo, formulato come i dati lo
-sostengono.** Sull'AUROC la politica su evidenza batte il controllo casuale
-**in media** su tutti e tre i modelli — +0,026, +0,069, +0,097 — e **non su
-tutti i semi**: vince su quattro semi su cinque per la logistica e per l'MLP,
-su cinque su cinque per l'additivo. Dove si rovescia è il **seme 44**:
-logistica −0,032, MLP −0,013.
+**Le distribuzioni dei 20 calendari casuali per seme**, riassunte sull'AUROC.
+La colonna casuale è `min / mediana / media / max`; le altre tre colonne sono i
+controlli appaiati dello stesso seme.
 
-| evidenza − casuale, AUROC | 42 | 43 | 44 | 45 | 46 | media | vince |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| logistica | +0,029 | +0,039 | **−0,032** | +0,023 | +0,069 | +0,026 | 4/5 |
-| MLP | +0,046 | +0,037 | **−0,013** | +0,192 | +0,084 | +0,069 | 4/5 |
-| additivo | +0,084 | +0,131 | +0,049 | +0,117 | +0,107 | +0,097 | 5/5 |
+| modello | seme | casuale | evidence | congelato | ogni blocco |
+|---|---:|---:|---:|---:|---:|
+| logistica | 42 | 0,6901 / 0,7658 / 0,7668 / 0,8312 | 0,7652 | 0,7149 | 0,7807 |
+| logistica | 43 | 0,6884 / 0,7538 / 0,7482 / 0,8139 | 0,7851 | 0,7149 | 0,7654 |
+| logistica | 44 | 0,6874 / 0,7648 / 0,7582 / 0,8053 | 0,7643 | 0,7149 | 0,7827 |
+| logistica | 45 | 0,6432 / 0,7444 / 0,7284 / 0,7938 | 0,7431 | 0,7149 | 0,7593 |
+| logistica | 46 | 0,7013 / 0,7720 / 0,7681 / 0,8307 | 0,8202 | 0,7149 | 0,7816 |
+| MLP | 42 | 0,6630 / 0,7987 / 0,7873 / 0,8637 | 0,8353 | 0,8028 | 0,8386 |
+| MLP | 43 | 0,6450 / 0,7231 / 0,7177 / 0,7946 | 0,7973 | 0,7626 | 0,7484 |
+| MLP | 44 | 0,6306 / 0,7220 / 0,7179 / 0,7866 | 0,7392 | 0,7939 | 0,7570 |
+| MLP | 45 | 0,6126 / 0,6981 / 0,6958 / 0,7697 | 0,7861 | 0,8057 | 0,7016 |
+| MLP | 46 | 0,6638 / 0,7764 / 0,7714 / 0,8567 | 0,8119 | 0,8013 | 0,7914 |
+| additivo | 42 | 0,6898 / 0,7472 / 0,7454 / 0,8436 | 0,8065 | 0,8842 | 0,7966 |
+| additivo | 43 | 0,6984 / 0,7648 / 0,7678 / 0,8726 | 0,8554 | 0,8886 | 0,8108 |
+| additivo | 44 | 0,6136 / 0,7436 / 0,7464 / 0,8598 | 0,7898 | 0,8932 | 0,7927 |
+| additivo | 45 | 0,4205 / 0,7492 / 0,7416 / 0,8754 | 0,8375 | 0,8955 | 0,8124 |
+| additivo | 46 | 0,7311 / 0,8197 / 0,8095 / 0,8812 | 0,8812 | 0,8939 | 0,8237 |
 
-**Sulle misure di decisione il confronto non regge allo stesso modo.** Sull'FPR
-complessivo, per l'MLP il controllo casuale produce **meno** falsi allarmi su
-quattro semi su cinque e anche in aggregato, 0,1625 contro 0,1844; per la
-logistica la politica vince su quattro semi su cinque, per l'additivo su
-cinque. Sul **richiamo degli attacchi**, che è la misura per cui il rilevatore
-esiste, il sorteggio fa meglio su due modelli su tre: in aggregato 0,7088
-contro 0,7789 per l'MLP e 0,6597 contro 0,7129 per l'additivo, mentre per la
-logistica la politica resta avanti di poco, 0,8199 contro 0,8136.
+**Il confronto con i calendari casuali, formulato come i dati lo sostengono.**
+Sull'AUROC la politica su evidenza batte la media dei venti calendari casuali
+in tutti e tre i modelli. Sulle misure di decisione il quadro è più ambivalente:
+riduce l'FPR complessivo rispetto al casuale, ma riduce anche il richiamo degli
+attacchi.
 
-| evidenza − casuale | AUROC | FPR complessivo | richiamo attacchi |
+| evidence − media casuale | AUROC | FPR complessivo | richiamo attacchi |
 |---|---:|---:|---:|
-| logistica | +0,026 (4/5) | −0,052 (4/5) | +0,006 (3/5) |
-| MLP | +0,069 (4/5) | +0,022 (1/5) | −0,070 (2/5) |
-| additivo | +0,097 (5/5) | −0,117 (5/5) | −0,053 (1/5) |
+| logistica | +0,0217 | −0,0567 | −0,0198 |
+| MLP | +0,0559 | −0,0452 | −0,0564 |
+| additivo | +0,0719 | −0,1008 | −0,0424 |
 
-Fra parentesi i semi su cui il confronto è favorevole; sull'FPR il verso
-favorevole è il valore più basso. Quindi: il criterio batte il sorteggio
-**sull'ordinamento**, in media e non su tutti i semi, e su due modelli su tre
-**perde attacchi**. Rispetto al congelato, invece, il richiamo sugli attacchi
-migliora su tutti e cinque i semi per la logistica, +0,099 in media, e per
-l'MLP, +0,309.
+Sull'FPR il verso favorevole è il valore più basso. Quindi: il criterio batte
+la media dei calendari casuali **sull'ordinamento**, riduce i falsi allarmi
+complessivi, ma **perde richiamo sugli attacchi**. Rispetto al congelato, il
+richiamo degli attacchi migliora per logistica e MLP; per l'additivo il
+miglioramento è minimo (+0,0095) e l'AUROC del congelato resta superiore
+(0,8911 contro 0,8341).
 
 Sono risultati **esplorativi su C**: nessuna superiorità generale dimostrata,
 nessuna significatività statistica calcolata.
 
-**Il controllo casuale è un solo sorteggio per modello e per seme.** Non è una
-distribuzione di pianificazioni casuali, quindi il confronto non ha un margine
-di errore: cinque semi danno cinque confronti, non una stima della variabilità
-del sorteggio. Dire di più richiederebbe più pianificazioni per seme.
+**Il controllo casuale ora è una distribuzione di calendari.** Per ogni seme ci
+sono 20 pianificazioni casuali, e il confronto con evidence usa la media di
+quelle distribuzioni. Questo non è ancora una conferma su un altro stream: è una
+stima della variabilità del controllo negativo dentro C.
 
-**Batte anche l'aggiornamento continuo spendendo una frazione degli
-aggiornamenti**: in media sui cinque semi 45,2 contro 520 per la logistica,
-33,8 per l'MLP e 19,4 per l'additivo, cioè da 11,5 a 26,8 volte meno. Anche questo non è uniforme:
-sulla logistica il confronto con `ogni blocco` si rovescia su tre semi su
-cinque, pur restando in media positivo (+0,002). Per l'MLP la politica su
-evidenza è l'unica che batte il congelato **in media** — 0,7956 contro 0,7921 —
-ma per seme lo batte su tre su cinque, e sul seme 44 perde di 0,054. Per la
-logistica tutte le politiche battono il congelato, e questo sì su tutti e
-cinque i semi.
+**Rispetto all'aggiornamento continuo**, evidence usa una frazione degli
+aggiornamenti — in media 45,2 contro 520 per la logistica, 33,8 per l'MLP e
+19,4 per l'additivo — e resta appena sopra `ogni blocco` sull'AUROC media
+(+0,0017, +0,0266, +0,0268). Anche qui il compromesso va scritto accanto al
+numero: il richiamo degli attacchi è più basso di `ogni blocco` in tutti e tre
+i modelli, e sull'FPR complessivo evidence è peggiore di `ogni blocco` per
+logistica e MLP.
 
-**Per il modello additivo nessuna politica batte il congelato**: 0,8909 contro
-0,8358 della migliore, e questo su **tutti e cinque i semi** con tutte e tre le
-politiche: sull'AUROC il congelato vince 15 confronti su 15, tre politiche per
-cinque semi. È l'unico modello in cui l'adattamento non aiuta mai; confronti
-uniformi ce ne sono altri — `confronto_politiche.json` ne marca quindici in
-tutto — ma vanno tutti nella direzione opposta. Il §1 lo aveva
-previsto — quel modello si inverte in 9 o 10 blocchi su 875 a seconda del
-seme, non ha quasi nulla da correggere — e qui la previsione si verifica per una via diversa.
+**Per il modello additivo nessuna politica batte il congelato**: 0,8911 contro
+0,8341 di evidence, 0,8073 di `ogni blocco` e 0,7621 della media dei calendari
+casuali. Il §1 lo aveva previsto — quel modello si inverte in 9 o 10 blocchi su
+875 a seconda del seme, non ha quasi nulla da correggere — e qui la previsione
+si verifica per una via diversa.
 
 Il limite va detto accanto a ogni riga: il rivelatore ha precisione 15–18% ed
 esiste nel 41,6% dei blocchi. **Funziona non perché sia preciso, ma perché
@@ -578,8 +582,10 @@ aggiornare raramente danneggia poco anche quando si sbaglia.** Un rivelatore
 migliore richiede più normali etichettati per blocco, cioè la questione del
 budget al §7.
 
-**Costo**: venti esecuzioni da circa quattro minuti su CPU, meno di un'ora e
-mezza in tutto.
+**Costo**: la serie estesa ha richiesto 100 corse casuali più i controlli
+appaiati e il riallineamento mirato. I rendiconti completi stanno negli archivi
+esterni dichiarati in `ambiente_e_comandi.md`; in Git resta il riepilogo
+leggero ricalcolabile.
 
 ## 7. Che cosa resta da concordare
 
@@ -596,7 +602,7 @@ mezza in tutto.
   riscontro sulla versione aggiornata.
 - Se il passo successivo sia **migliorare il rivelatore** — più normali
   etichettati per blocco, memoria per classe — oppure portare il risultato del
-  §6 così com'è: una politica che con quaranta aggiornamenti su 915 blocchi fa
-  quanto o meglio di cinquecentoventi e che, in media sui cinque semi, batte il
-  controllo casuale sull'AUROC — con il seme in cui si rovescia e l'FPR dell'MLP
-  dichiarati accanto al risultato.
+  §6 così com'è: una politica che con quaranta aggiornamenti su 915 blocchi
+  migliora l'AUROC media rispetto ai calendari casuali e riduce i falsi
+  allarmi complessivi, ma perde richiamo sugli attacchi e non supera il
+  congelato dell'additivo.

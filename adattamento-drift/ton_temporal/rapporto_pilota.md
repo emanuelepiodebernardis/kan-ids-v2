@@ -1,118 +1,76 @@
 # Nota del pilota — ADAPT-01, stream di sviluppo C
 
-4 ottobre 2026. I numeri vengono dai rendiconti pubblicati nel Draft PR #2 e si
-rifanno con i comandi di `ambiente_e_comandi.md`. I rinvii come «§3» sono alle
-sezioni della **sintesi**, quelli come «§11.3» ai punti aperti del
-**protocollo**.
+10 ottobre 2026. I numeri vengono dalla serie finale C: 100 rendiconti
+effettivi dei calendari casuali, 40 originali conservati e 60 riallineati, più
+i 10 controlli calibrato/evidence nello stesso ambiente. Il riepilogo leggero è
+`serie_finale_C/riepilogo.json`; i rendiconti completi stanno negli archivi
+esterni dichiarati in `ambiente_e_comandi.md`.
 
 ## Osservazioni
 
-**Il guadagno dell'adattamento non è diffuso: vive dove il modello congelato
-sbaglia verso.** Il congelato ordina al contrario — AUROC sotto 0,5 — in una
-minoranza di blocchi, e solo lì l'adattamento guadagna molto: in media sui
-cinque semi +0,553 di AUROC per la logistica nei blocchi invertiti, contro
-−0,064 negli altri. L'inversione segue il tipo di attacco quasi esattamente:
-122 blocchi di `dos` su 123 sono invertiti, 46 di `injection` su 49, 6 di
-`ddos` su 586, 0 di `password` su 120 (§2).
+**Il confronto è ora appaiato.** La serie finale conserva tutti i 100 casuali
+originali, ma per il confronto usa i 40 originali dei semi 44 e 46 e i 60
+riallineati dei semi 42, 43 e 45. Per ogni rendiconto finale coincidono con il
+controllo evidence dello stesso seme: soglie, misure frozen per blocco, digest
+dei campioni di etichette, aggiornamenti richiesti e aggiornamenti
+effettivamente applicati.
 
-**Da lì è nata una regola operativa, ed è stata eseguita.** Aggiornare solo su
-evidenza di inversione fa quanto o meglio dell'aggiornamento continuo spendendo
-molti meno aggiornamenti — in media sui cinque semi 45,2 contro 520 per la
-logistica, 33,8 per l'MLP e 19,4 per l'additivo — e sull'AUROC batte in media
-il controllo negativo, che aggiorna lo stesso numero di volte su blocchi scelti
-a sorte, di +0,026, +0,069 e +0,097. Il confronto è a parità di aggiornamenti, quindi il margine
-non viene dall'averne spesi di meno; ma è un margine medio sull'AUROC, misurato
-contro un solo sorteggio per modello e per seme, e non si sa ancora se cada
-fuori dal rumore del sorteggio: è questo che il prossimo esperimento deve
-stabilire (§6).
+**Evidence migliora l'AUROC media rispetto ai calendari casuali, ma non è una
+superiorità generale.** Le medie sui cinque semi sono: logistica 0,7756 contro
+0,7539, MLP 0,7939 contro 0,7380, additivo 0,8341 contro 0,7621. Nello stesso
+confronto evidence riduce il FPR complessivo, ma riduce anche il richiamo degli
+attacchi: −0,0198 per la logistica, −0,0564 per l'MLP, −0,0424 per l'additivo.
+Il risultato da evidenziare è quindi il compromesso: migliore ordinamento medio
+e meno falsi allarmi complessivi, al prezzo di meno attacchi richiamati.
 
-**Lo stesso confronto non è uniforme, e va detto con il risultato.** Vince su 4
-semi su 5 per logistica e MLP, su 5 su 5 per l'additivo, e si rovescia sul seme
-44. Non si estende alle misure di decisione: sull'FPR complessivo il sorteggio
-fa meglio per l'MLP (0,1625 contro 0,1844) e sul richiamo degli attacchi fa
-meglio su due modelli su tre (per l'MLP 0,7789 contro 0,7088).
+**Distribuzioni AUROC dei 20 calendari casuali per seme.** Ogni cella casuale è
+`min/mediana/media/max`; le altre colonne sono i controlli appaiati.
 
-**Per il modello additivo nessuna politica batte il congelato**, su tutti e
-cinque i semi e con ciascuna delle tre politiche — sull'AUROC il congelato vince
-15 confronti su 15. È il risultato più scomodo, ed è solido perché uniforme: è
-l'unico modello in cui l'adattamento non aiuta mai. Uniforme è la direzione, non i numeri:
-0,8909 contro 0,8358 sono medie sui semi, e per seme il congelato va da 0,8857
-a 0,8944 mentre `su evidenza`, che è la migliore su quattro semi su cinque, va
-da 0,7885 a 0,8814; sul seme 44 la migliore è `ogni blocco`, con 0,7926. Il vantaggio è sul flusso
-intero e non in ogni suo punto — fino al blocco 212 almeno una politica sta
-davanti, in 175 blocchi su 213, mai tutte e tre insieme — e sul seme 42 la politica casuale arriva a perdere più attacchi del
-congelato: 3.356.503 contro 3.157.627 (`figure/politiche_kan.png`).
+| modello | seme | casuale | evidence | frozen | ogni blocco |
+|---|---:|---:|---:|---:|---:|
+| LR | 42 | 0,690/0,766/0,767/0,831 | 0,765 | 0,715 | 0,781 |
+| LR | 43 | 0,688/0,754/0,748/0,814 | 0,785 | 0,715 | 0,765 |
+| LR | 44 | 0,687/0,765/0,758/0,805 | 0,764 | 0,715 | 0,783 |
+| LR | 45 | 0,643/0,744/0,728/0,794 | 0,743 | 0,715 | 0,759 |
+| LR | 46 | 0,701/0,772/0,768/0,831 | 0,820 | 0,715 | 0,782 |
+| MLP | 42 | 0,663/0,799/0,787/0,864 | 0,835 | 0,803 | 0,839 |
+| MLP | 43 | 0,645/0,723/0,718/0,795 | 0,797 | 0,763 | 0,748 |
+| MLP | 44 | 0,631/0,722/0,718/0,787 | 0,739 | 0,794 | 0,757 |
+| MLP | 45 | 0,613/0,698/0,696/0,770 | 0,786 | 0,806 | 0,702 |
+| MLP | 46 | 0,664/0,776/0,771/0,857 | 0,812 | 0,801 | 0,791 |
+| additivo | 42 | 0,690/0,747/0,745/0,844 | 0,806 | 0,884 | 0,797 |
+| additivo | 43 | 0,698/0,765/0,768/0,873 | 0,855 | 0,889 | 0,811 |
+| additivo | 44 | 0,614/0,744/0,746/0,860 | 0,790 | 0,893 | 0,793 |
+| additivo | 45 | 0,421/0,749/0,742/0,875 | 0,837 | 0,895 | 0,812 |
+| additivo | 46 | 0,731/0,820/0,810/0,881 | 0,881 | 0,894 | 0,824 |
 
-**Dove l'adattamento guadagna dipende da quanti normali il blocco contiene.**
-In tutti e tre i modelli il guadagno medio di AUROC è positivo solo nei 246
-blocchi con almeno 200 normali, e negativo nelle tre fasce più povere; questo
-vale su tutti e cinque i semi. I valori, **sul seme 42**, sono per la logistica
-+0,409 contro −0,132, −0,035 e −0,032 (`figure/guadagno_per_fascia_lr.png`); le
-quattro fasce contano 221, 275, 133 e 246 blocchi fra gli 875 in cui l'AUROC è
-definita.
-
-**Due scelte di misura cambiano la conclusione, non solo il valore.**
-L'aggregazione del tasso di falsi allarmi — media per blocco oppure somma delle
-matrici di confusione — dà verso opposto per due modelli su tre (§3). E con la
-soglia scelta su B invece che a zero, due dei tre risultati sulle misure di
-decisione si rovesciano: una parte di quello che era stato attribuito
-all'adattamento era mala taratura del congelato (§3bis). L'AUROC non ne è
-toccata, su 27.480 coppie confrontate di cui 26.250 su valori definiti.
-
-**Il costo di un aggiornamento è ora misurato e non stimato.** Mediane di 5,19,
-5,27 e 11,08 ms per logistica, MLP e additivo, pari al 5,6%, 3,5% e 7,8% del
-tempo di replay (§4bis).
+**Il congelato dell'additivo resta il riferimento più alto sull'AUROC.** In
+media sui semi vale 0,8911, contro 0,8341 di evidence, 0,8073 di ogni blocco e
+0,7621 dei calendari casuali. L'adattamento sull'additivo riduce i falsi
+allarmi complessivi, ma non supera il modello congelato sull'ordinamento.
 
 ## Limiti
 
-Sono risultati **esplorativi su C**, senza nessuna significatività statistica
-calcolata; C è lo stream di sviluppo e serve a formulare ipotesi, non a
-confermarle. Il controllo casuale è **un solo sorteggio** per modello e per
-seme: non ha un margine di errore, quindi i margini sull'AUROC vanno letti come
-indicazioni e non come distanze stabilite. Il rivelatore di inversione è debole:
-esiste solo nel 41,6% dei blocchi — fra le cento righe campionate il blocco
-mediano non contiene nessun normale — e come regola di decisione ha precisione
-15–18%; funziona non perché sia preciso, ma perché aggiornare raramente
-danneggia poco anche quando sbaglia. Le misure di tempo vengono da una macchina
-virtuale con due CPU condivise: sulle corse dedicate il rapporto fra massimo e
-minimo dello stesso modello è 29 volte per la logistica e per l'MLP e 9 per
-l'additivo, e sulle venti corse pubblicate, eseguite mentre girava altro
-lavoro, arriva a 178. Valgono come ordine di grandezza e come rapporto fra
-modelli, non come latenza in esercizio. D non è indipendente da A, B e C: il
-37,23% delle sue righe e il 58,03% dei suoi normali hanno un vettore di feature
-già visto.
+Sono risultati esplorativi su C, senza significatività statistica calcolata e
+senza conferma su uno stream successivo. Il controllo casuale ha ora una
+distribuzione di 20 calendari per seme, ma resta dentro C. Il rivelatore di
+inversione è debole: esiste solo nel 41,6% dei blocchi e ha precisione 15–18%.
+Le misure di tempo vengono da macchine condivise e valgono come ordine di
+grandezza, non come latenza in esercizio. D non è indipendente da A, B e C: il
+37,23% delle sue righe e il 58,03% dei suoi normali hanno un vettore già visto.
 
 ## Che cosa è bloccato
 
-**Lo stream D è riservato e resta intoccato.** Il protocollo di valutazione è
-fissato — D intero come analisi principale, il sottoinsieme a vettore non visto
-come analisi supplementare sulle stesse predizioni, nessuna riga tolta dallo
-stream, nessuna scelta di modello o politica fatta sui suoi risultati — ma D
-non viene eseguito finché non arriva l'autorizzazione. È l'unico blocco che
-ferma del lavoro già pronto.
-
-Restano in attesa di una decisione, e non fermano l'esecuzione: quale dei due
-confronti sulla soglia riportare nell'articolo, o se affiancarli come le due
-aggregazioni dell'FPR (§11.6); se cambiare budget o memoria sui blocchi poveri
-di normali, dato che la scheda fissa i parametri (§11.3); e se le 869 righe
-fuori contratto vadano contate nel replay o saltate e registrate (§11.4).
+**Lo stream D è riservato e resta intoccato.** Il protocollo è fissato: D intero
+come analisi principale, sottoinsieme a vettore non visto come analisi
+supplementare sulle stesse predizioni, nessuna scelta di modello o politica sui
+risultati di D. L'esecuzione su D resta bloccata fino ad autorizzazione.
 
 ## Il prossimo esperimento
 
-**Primo, dare un margine di errore al controllo negativo.** Oggi il sorteggio è
-uno solo per modello e per seme, ed è la debolezza del risultato centrale:
-ripeterlo con venti o trenta sorteggi indipendenti, a parità di aggiornamenti,
-darebbe la distribuzione dei risultati casuali e direbbe se +0,026 cade dentro
-o fuori. Costa solo tempo di calcolo su C, non etichette nuove, e non tocca D.
-
-**Secondo, attaccare il punto in cui il metodo fallisce.** Il guadagno vive nei
-blocchi ricchi di normali e il rivelatore è cieco proprio dove i normali
-mancano: le due osservazioni indicano lo stesso posto. La prova naturale è una
-memoria che conservi i campioni per classe invece che in ordine di arrivo, a
-parità di dimensione, così che anche i blocchi poveri abbiano qualcosa su cui
-misurare il verso. La stratificazione sul punteggio è già stata provata e non
-rimedia. Questo però cambia un parametro fissato dalla scheda, quindi non lo si
-fa senza una decisione.
-
-Se sono d'accordo, si parte dal primo, che è l'unico che rafforza un risultato
-già scritto senza cambiare nessun parametro.
+Il passo naturale è decidere se migliorare il rivelatore dentro C, senza toccare
+D: più normali etichettati nei blocchi poveri, oppure memoria che conservi
+campioni per classe a parità di dimensione. La serie finale chiude il confronto
+casuale; il punto aperto ora è se il compromesso evidence — AUROC più alta e
+meno falsi allarmi, ma meno richiamo degli attacchi — sia accettabile o vada
+corretto cambiando il rivelatore.

@@ -1035,7 +1035,7 @@ def test_il_conteggio_delle_prove_dichiarato_e_quello_vero():
 
 SCRITTORI = ('verifica_richieste.py', 'riepiloghi_semi.py',
              'confronto_politiche.py', 'costi_aggiornamento.py',
-             'curve_replay.py')
+             'curve_replay.py', 'riepilogo_finale_C.py')
 
 
 def test_gli_script_dichiarano_l_encoding_della_propria_uscita():

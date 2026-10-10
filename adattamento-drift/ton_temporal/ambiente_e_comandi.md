@@ -1,6 +1,6 @@
 # Ambiente, costi e comandi riproducibili
 
-ADAPT-01, aggiornato al 9 ottobre 2026. Tutti i risultati di questo PR sono
+ADAPT-01, aggiornato al 10 ottobre 2026. Tutti i risultati di questo PR sono
 prodotti dai comandi qui sotto, nell'ordine indicato.
 
 ## Ambiente
@@ -51,17 +51,17 @@ cd <repo>
 python -m pytest adattamento-drift/ton_temporal -q
 ```
 
-Attesi: **245 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
+Attesi: **251 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
 `test_*.py` della cartella `ton_temporal/`. Per file: `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
-`test_guardia_monoclasse.py` 11.
+`test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
-**240** a `3861a5d`, **242** a `7f154ed`, **245** ora. I 50 di questo ciclo e
-dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
+**240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** ora.
+I 56 di questo ciclo e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
 l'esistenza dei file che i comandi citano, le frasi troncate, il confronto fra
@@ -70,14 +70,17 @@ perché questo conteggio è già rimasto indietro due volte — e l'encoding
 dell'uscita dei controlli, presidiato sia sul programma sia **sul file
 consegnato**; e i percorsi dei comandi, che devono attraversare
 `adattamento-drift/` e citare i flussi relativamente alla cartella da cui il
-comando si esegue.
+comando si esegue. Le 6 prove nuove presidiano la serie finale C: 40 rendiconti
+originali conservati, 60 riallineati, e test negativi su soglie, misure
+frozen, campioni, aggiornamenti richiesti e aggiornamenti effettivamente
+applicati.
 
-**I 245 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 251 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: al commit
 `5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **879 passate e 1 saltata**: a `3861a5d` ne sono state
+quindi ora ci si attendono **885 passate e 1 saltata**: a `3861a5d` ne sono state
 misurate 874 con 240 prove di ADAPT-01. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 245 è ADAPT-01, 879 è tutto
+citati separatamente, perché misurano cose diverse: 251 è ADAPT-01, 885 è tutto
 il repository. Il conteggio della radice dipende da quali altre cartelle sono
 presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
 ramo.
@@ -279,10 +282,11 @@ python controlli_appaiati_C.py --salta-esistenti
 ```
 
 Il controllo verifica, per ciascun seme e calendario, soglie, digest delle
-misure frozen per blocco, digest dei campioni di etichette e numero di
-aggiornamenti richiesti. Soglie, frozen e campioni coincidono; i conteggi degli
-aggiornamenti richiedono il riallineamento mirato di 60 casuali, tutti dei semi
-42, 43 e 45. I 100 rendiconti originali non vengono sovrascritti.
+misure frozen per blocco, digest dei campioni di etichette, aggiornamenti
+richiesti e aggiornamenti effettivamente applicati. Soglie, frozen e campioni
+coincidono; i conteggi degli aggiornamenti richiedono il riallineamento mirato
+di 60 casuali, tutti dei semi 42, 43 e 45. I 100 rendiconti originali non
+vengono sovrascritti.
 
 ```
 cd <repo>/adattamento-drift/ton_temporal
@@ -303,6 +307,22 @@ semi, calendari e confronti. Il campo
 `tutti_appaiati_dopo_riallineamento` vale `true`: dopo i 60 rendiconti
 riallineati, soglie, frozen, digest dei campioni e conteggi degli aggiornamenti
 sono appaiati rispetto ai nuovi controlli evidence.
+
+La serie finale usata nelle sintesi e nei confronti si costruisce dai
+rendiconti completi conservati, senza nuovi training:
+
+```
+cd <repo>/adattamento-drift/ton_temporal
+python riepilogo_finale_C.py
+```
+
+Il riepilogo leggero versionato è `serie_finale_C/riepilogo.json`. Registra i
+100 rendiconti originali conservati, la serie effettiva di confronto
+(`40 originali conservati + 60 riallineati`), i 10 controlli
+calibrato/evidence, le impronte SHA-256 dei file usati e le distribuzioni per
+seme. Lo stesso controllo è richiamato da `verifica_richieste.py`: le invarianti
+richieste sono soglie, frozen, campioni, aggiornamenti richiesti e
+aggiornamenti effettivamente applicati su tutta la serie finale.
 
 **6. I candidati della soglia e la regola di confronto**
 

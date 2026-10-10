@@ -29,6 +29,13 @@ OK      5  controllo diretto delle sovrapposizioni A/B/C/D                  sovr
 OK      5  le sei coppie sono riportate                                     A-B, A-C, A-D, B-C, B-D, C-D
 OK      5  esito su D riportato nei documenti                               righe e normali di D
 OK     13  D non usato per addestrare ne per valutare                       tutte le corse sono sul flusso C
+OK     13  serie finale C ricalcolata dai rendiconti completi               riepilogo_finale_C.py
+OK     13  i 100 casuali originali sono conservati                          100 rendiconti originali
+OK     13  la serie finale usa 40 originali e 60 riallineati                40 originali, 60 riallineati
+OK     13  controlli calibrato/evidence presenti per i cinque semi          10 rendiconti
+OK     13  invarianti richieste su tutta la serie finale                    soglie, frozen, campioni, aggiornamenti applicati e richiesti
+OK     13  i controlli calibrato/evidence sono inclusi nella verifica       cinque evidence e cinque ogni-blocco nello stesso ambiente
+OK     13  D resta fuori anche dalla serie finale C                         campo D_usato=false nel riepilogo finale
 OK      6  modello descritto con precisione                                 strato, base, sottocampione, parametri aggiornati
 OK      6  rapporto col componente del Paper 1 dichiarato per quello che e  stessa forma funzionale, differenza nel regime di stima
 OK      6  e dichiarato che non e a piu strati                              il contrasto che regge
@@ -49,27 +56,27 @@ OK     18  la memoria e misurata, col metodo dichiarato                     picc
 OK     18  l'hardware e letto dal sistema                                   CPU, RAM, thread utilizzabili
 OK     18  i documenti riportano il costo per aggiornamento                 con la mediana, non la sola media
 OK     18  i documenti negano il guadagno non misurato                      il numero di aggiornamenti non e latenza ne memoria
-OK     19  il confronto e misurato seme per seme                            il rendiconto riporta i singoli semi, non solo le medie
-OK     19  i casi in cui il confronto si rovescia sono registrati           lr 4/5; mlp 4/5
-OK     19  i documenti dicono che il vantaggio e una media                  non un fatto uniforme
-OK     19  il seme che si rovescia e nominato                               LR −0,0317 e MLP −0,0132 contro il casuale
-OK     19  l'FPR sta accanto all'AUROC nel confronto                        sull'MLP il controllo casuale ha meno falsi allarmi
-OK     19  il richiamo sugli attacchi sta accanto all'AUROC                 il casuale ha richiamo migliore su: mlp, kan
+OK     19  il confronto finale e misurato su 20 calendari per seme          100 rendiconti effettivi nella serie finale
+OK     19  i documenti dichiarano 40 originali e 60 sostituzioni            composizione della serie finale
+OK     19  evidence migliora l'AUROC media rispetto ai casuali              lr +0.0217, mlp +0.0559, kan +0.0719
+OK     19  l'FPR complessivo sta accanto all'AUROC                          lr −0.0567, mlp −0.0452, kan −0.1008
+OK     19  il richiamo degli attacchi sta accanto all'AUROC                 lr −0.0198, mlp −0.0564, kan −0.0424
+OK     19  il compromesso e dichiarato senza superiorita generale           AUROC, FPR e richiamo letti insieme
+OK     19  l'additivo congelato resta sopra evidence sull'AUROC             0.8911 contro 0.8341
 OK     19  i risultati sono dichiarati esplorativi                          nessuna superiorita generale, nessuna significativita calcolata
-OK     19  e dichiarato che il casuale e un solo sorteggio                  nessun margine di errore sul controllo
 OK     20  D intero e l'analisi principale                                  nessuna riga esclusa dallo stream
 OK     20  il sottoinsieme a vettore non visto e supplementare              sulle stesse predizioni del replay completo
 OK     20  nessuna scelta di modello o politica sui risultati di D          D resta riservato
 OK     21  la nota del pilota esiste                                        rapporto_pilota.md
 OK     21  la nota ha le quattro parti che la scheda chiede                 osservazioni, limiti, blocchi, prossimo esperimento
-OK     21  la nota sta nelle due pagine chieste                             1197 parole
+OK     21  la nota sta nelle due pagine chieste                             691 parole
 OK     21  la nota dichiara che D e bloccato in attesa                      il blocco e detto dove la scheda lo chiede
 OK     21  la nota propone un esperimento che non tocca D                   il prossimo passo resta dentro C
 OK     21  le figure sono pubblicate                                        14 PNG in figure/
 OK     21  le figure dichiarano da dove vengono                             provenienza e comando per rifarle
-OK     21  i documenti citano solo figure che esistono                      5 figure citate
+OK     21  i documenti citano solo figure che esistono                      4 figure citate
 
-67 controlli su 67 passati
+74 controlli su 74 passati
 
 NON VERIFICABILE DA QUI, e quindi non dato per fatto:
      8  «puoi proseguire»: eseguito, ma il commit non e ancora spinto

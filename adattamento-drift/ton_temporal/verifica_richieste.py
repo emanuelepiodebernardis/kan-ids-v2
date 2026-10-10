@@ -24,6 +24,8 @@ import json
 import statistics as st
 from pathlib import Path
 
+import riepilogo_finale_C as finale_C
+
 SEMI = (42, 43, 44, 45, 46)
 MODELLI = ('lr', 'mlp', 'kan')
 
@@ -74,6 +76,10 @@ def carica(cartella):
         dati[nome] = json.load(open(p, encoding='utf-8')) if p.is_file() else None
     p = cartella / 'sovrapposizioni_abcd.json'
     dati['sovrapposizioni'] = json.load(open(p, encoding='utf-8')) if p.is_file() else None
+    try:
+        dati['serie_finale_C'] = finale_C.costruisci_riepilogo(cartella)
+    except finale_C.IncoerenzaFinale as exc:
+        dati['serie_finale_C'] = {'errore': str(exc)}
     return dati
 
 
@@ -85,6 +91,13 @@ def italiano(n):
     """
     return f'{abs(int(n)):,}'.replace(',', '.') if n >= 0 else \
         '\u2212' + f'{abs(int(n)):,}'.replace(',', '.')
+
+
+def decimale(x, cifre=4, segno=True):
+    s = f'{abs(float(x)):.{cifre}f}'
+    if segno:
+        return ('+' if x >= 0 else '\u2212') + s
+    return ('\u2212' if x < 0 else '') + s
 
 
 def presente(testi, *frammenti):
@@ -233,6 +246,43 @@ def controlla(d):
                    for r in d[nome].values()),
                'tutte le corse sono sul flusso C')
 
+    # --- 13bis: serie finale C, dopo controlli appaiati e riallineamento
+    sf = d.get('serie_finale_C') or {}
+    conteggi = sf.get('conteggi') or {}
+    verifiche = sf.get('verifiche') or {}
+    errore = sf.get('errore')
+    e.aggiungi(13, 'serie finale C ricalcolata dai rendiconti completi',
+               bool(sf) and not errore,
+               'riepilogo_finale_C.py' if not errore else errore)
+    e.aggiungi(13, 'i 100 casuali originali sono conservati',
+               conteggi.get('originali_conservati') == 100,
+               f"{conteggi.get('originali_conservati', 0)} rendiconti originali")
+    e.aggiungi(13, 'la serie finale usa 40 originali e 60 riallineati',
+               conteggi.get('finali_originali_conservati') == 40 and
+               conteggi.get('finali_riallineati') == 60 and
+               conteggi.get('finali_totali') == 100,
+               f"{conteggi.get('finali_originali_conservati', 0)} originali, "
+               f"{conteggi.get('finali_riallineati', 0)} riallineati")
+    e.aggiungi(13, 'controlli calibrato/evidence presenti per i cinque semi',
+               conteggi.get('controlli_calibrato_evidence') == 10,
+               f"{conteggi.get('controlli_calibrato_evidence', 0)} rendiconti")
+    invarianti = ('soglie', 'frozen', 'campioni',
+                  'aggiornamenti_applicati', 'aggiornamenti_richiesti')
+    finali = sf.get('serie_finale') or []
+    inv_ok = bool(finali) and all(
+        voce.get('invarianti', {}).get(k) is True
+        for voce in finali for k in invarianti)
+    e.aggiungi(13, 'invarianti richieste su tutta la serie finale',
+               verifiche.get('tutte_invarianti_finali') is True and inv_ok,
+               'soglie, frozen, campioni, aggiornamenti applicati e richiesti')
+    controlli_ok = bool(sf.get('per_seme')) and verifiche.get('controlli_calibrato_evidence_10') is True
+    e.aggiungi(13, 'i controlli calibrato/evidence sono inclusi nella verifica',
+               controlli_ok,
+               'cinque evidence e cinque ogni-blocco nello stesso ambiente')
+    e.aggiungi(13, 'D resta fuori anche dalla serie finale C',
+               verifiche.get('D_usato') is False,
+               'campo D_usato=false nel riepilogo finale')
+
     # --- 6 e 11: il modello additivo, e l'allineamento
     e.aggiungi(6, 'modello descritto con precisione',
                presente(testi, 'singolo strato', 'edge a B-spline',
@@ -363,53 +413,53 @@ def controlla(d):
                presente(testi, 'non dimostra un guadagno'),
                'il numero di aggiornamenti non e latenza ne memoria')
 
-    # --- 19: il vantaggio della politica, formulato come media
-    conf = d['confronto_politiche'] or {}
-    dett = conf.get('per_seme') or {}
-    non_uniformi = []
-    for m, v in dett.items():
-        c = v.get('confronti', {}).get('evidenza contro casuale', {}).get('auroc')
-        if c and not c['uniforme']:
-            non_uniformi.append((m, c['quanti_semi_su']))
-    e.aggiungi(19, 'il confronto e misurato seme per seme', bool(dett),
-               'il rendiconto riporta i singoli semi, non solo le medie')
-    e.aggiungi(19, 'i casi in cui il confronto si rovescia sono registrati',
-               bool(non_uniformi),
-               '; '.join(f'{m} {q}' for m, q in non_uniformi) or 'nessuno trovato')
-    e.aggiungi(19, 'i documenti dicono che il vantaggio e una media',
-               presente(testi, 'in media') and
-               (presente(testi, 'non su tutti i semi') or
-                presente(testi, 'non in tutti i semi')),
-               'non un fatto uniforme')
-    e.aggiungi(19, 'il seme che si rovescia e nominato', presente(testi, 'seme 44'),
-               'LR \u22120,0317 e MLP \u22120,0132 contro il casuale')
-    e.aggiungi(19, 'l\'FPR sta accanto all\'AUROC nel confronto',
-               presente(testi, '0,1844') and presente(testi, '0,1625'),
-               'sull\'MLP il controllo casuale ha meno falsi allarmi')
-    tab = (conf.get('tabella') or {})
-    peggio, citati = [], True
-    for m in MODELLI:
-        v = tab.get(m, {})
-        if not v:
-            citati = False
-            continue
-        if v['casuale']['richiamo_attacchi'] > v['evidenza']['richiamo_attacchi']:
-            peggio.append(m)
-            for politica in ('evidenza', 'casuale'):
-                x = ('%.4f' % v[politica]['richiamo_attacchi']).replace('.', ',')
-                citati = citati and presente(testi, x)
-    e.aggiungi(19, 'il richiamo sugli attacchi sta accanto all\'AUROC',
-               bool(peggio) and citati,
-               'il casuale ha richiamo migliore su: ' + ', '.join(peggio))
+    # --- 19: il confronto finale sui 100 rendiconti effettivi
+    sf = d.get('serie_finale_C') or {}
+    agg = sf.get('aggregato') or {}
+    per_seme_finale = sf.get('per_seme') or {}
+    e.aggiungi(19, 'il confronto finale e misurato su 20 calendari per seme',
+               bool(per_seme_finale) and all(
+                   per_seme_finale[str(s)]['modelli'][m]['casuale_finale']['auroc']['n'] == 20
+                   for s in SEMI for m in MODELLI),
+               '100 rendiconti effettivi nella serie finale')
+    e.aggiungi(19, 'i documenti dichiarano 40 originali e 60 sostituzioni',
+               presente(testi, '40 originali', '60 riallineati'),
+               'composizione della serie finale')
+    auroc_ok = bool(agg) and all(
+        agg[m]['auroc']['delta_evidenza_meno_casuale'] > 0
+        for m in MODELLI)
+    e.aggiungi(19, 'evidence migliora l\'AUROC media rispetto ai casuali',
+               auroc_ok,
+               ', '.join(f"{m} {decimale(agg[m]['auroc']['delta_evidenza_meno_casuale'])}"
+                         for m in MODELLI) if agg else 'assente')
+    fpr_ok = bool(agg) and all(
+        agg[m]['fpr_complessivo']['delta_evidenza_meno_casuale'] < 0
+        for m in MODELLI)
+    e.aggiungi(19, 'l\'FPR complessivo sta accanto all\'AUROC',
+               fpr_ok and presente(testi, 'FPR complessivo'),
+               ', '.join(f"{m} {decimale(agg[m]['fpr_complessivo']['delta_evidenza_meno_casuale'])}"
+                         for m in MODELLI) if agg else 'assente')
+    recall_ok = bool(agg) and all(
+        agg[m]['richiamo_attacchi']['delta_evidenza_meno_casuale'] < 0
+        for m in MODELLI)
+    e.aggiungi(19, 'il richiamo degli attacchi sta accanto all\'AUROC',
+               recall_ok and presente(testi, 'richiamo degli attacchi'),
+               ', '.join(f"{m} {decimale(agg[m]['richiamo_attacchi']['delta_evidenza_meno_casuale'])}"
+                         for m in MODELLI) if agg else 'assente')
+    e.aggiungi(19, 'il compromesso e dichiarato senza superiorita generale',
+               presente(testi, 'superiorità generale') or
+               presente(testi, 'superiorita generale'),
+               'AUROC, FPR e richiamo letti insieme')
+    kan = (agg.get('kan') or {}).get('auroc') or {}
+    e.aggiungi(19, 'l\'additivo congelato resta sopra evidence sull\'AUROC',
+               bool(kan) and kan.get('frozen_media_semi') > kan.get('evidenza_media_semi'),
+               f"{kan.get('frozen_media_semi', 0):.4f} contro "
+               f"{kan.get('evidenza_media_semi', 0):.4f}" if kan else 'assente')
     e.aggiungi(19, 'i risultati sono dichiarati esplorativi',
                presente(testi, 'esplorativi') and
                (presente(testi, 'significatività statistica') or
                 presente(testi, 'significativita statistica')),
                'nessuna superiorita generale, nessuna significativita calcolata')
-    e.aggiungi(19, 'e dichiarato che il casuale e un solo sorteggio',
-               presente(testi, 'una sola pianificazione') or
-               presente(testi, 'un solo sorteggio'),
-               'nessun margine di errore sul controllo')
 
     # --- 20: il protocollo su D come lo ha fissato il referente
     e.aggiungi(20, 'D intero e l\'analisi principale',
