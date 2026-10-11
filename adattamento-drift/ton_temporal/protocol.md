@@ -453,6 +453,10 @@ limite esplicito sull'indipendenza di D.
 
 ## 10. Primo replay eseguito su C
 
+Questa sezione documenta la **serie storica del primo ciclo**. I numeri
+servono a spiegare da dove nasce la diagnosi; il confronto finale con i 100
+rendiconti effettivi della serie C è nel §10ter e nella sintesi del pilota.
+
 Eseguito con i parametri della scheda — blocchi di 10.000 in ordine di
 `feature_ready_time`, budget 1%, ritardo di un blocco, memoria FIFO di 256
 inizializzata da A, seme 42, solo CPU. 916 blocchi, 91.506 etichette spese,
@@ -771,43 +775,67 @@ estrazioni cadrebbe su un blocco con memoria monoclasse e il controllo ne
 applicherebbe quasi la metà, misurando la differenza fra i conteggi invece di
 quella fra i criteri.
 
-Medie sui cinque semi; `aggiorn.` è il numero medio di aggiornamenti applicati.
+Medie sui cinque semi della **serie finale C**: 100 rendiconti effettivi, cioè
+40 originali conservati e 60 riallineati. I 100 rendiconti originali restano
+conservati negli archivi esterni. `aggiorn.` è il numero medio di aggiornamenti
+effettivamente applicati.
 
 | logistica | AUROC | ric. normali | FPR complessivo | aggiorn. |
 |---|---:|---:|---:|---:|
 | congelato | 0,7149 | 0,5327 | 0,4872 | 0 |
 | ogni blocco | 0,7739 | 0,5876 | 0,1854 | 520 |
 | **su evidenza** | **0,7756** | 0,5711 | 0,1944 | **45,2** |
-| casuale, pareggiato | 0,7499 | 0,5501 | 0,2467 | 45,2 |
+| casuale, pareggiato | 0,7539 | 0,5921 | 0,2510 | 45,2 |
 
 | MLP | AUROC | ric. normali | FPR complessivo | aggiorn. |
 |---|---:|---:|---:|---:|
-| congelato | 0,7921 | 0,8585 | 0,2828 | 0 |
-| ogni blocco | 0,7664 | 0,6341 | 0,1508 | 520 |
-| **su evidenza** | **0,7956** | 0,6625 | 0,1844 | **33,8** |
-| casuale, pareggiato | 0,7265 | 0,6427 | 0,1625 | 33,8 |
+| congelato | 0,7933 | 0,8579 | 0,2860 | 0 |
+| ogni blocco | 0,7674 | 0,6115 | 0,1707 | 520 |
+| **su evidenza** | **0,7939** | 0,6354 | 0,1993 | **36,2** |
+| casuale, pareggiato | 0,7380 | 0,6214 | 0,2445 | 36,2 |
 
 | additivo | AUROC | ric. normali | FPR complessivo | aggiorn. |
 |---|---:|---:|---:|---:|
-| **congelato** | **0,8909** | **0,9602** | 0,1323 | 0 |
-| ogni blocco | 0,8068 | 0,7117 | 0,1098 | 520 |
-| su evidenza | 0,8358 | 0,7552 | 0,0952 | 19,4 |
-| casuale, pareggiato | 0,7384 | 0,6619 | 0,2122 | 19,4 |
+| **congelato** | **0,8911** | **0,9601** | 0,1324 | 0 |
+| ogni blocco | 0,8073 | 0,7088 | 0,1135 | 520 |
+| su evidenza | 0,8341 | 0,7627 | 0,0936 | 18,6 |
+| casuale, pareggiato | 0,7621 | 0,6875 | 0,1944 | 18,6 |
 
 ### Che cosa ne segue
 
-**Sull'AUROC la politica su evidenza batte il controllo negativo in media su
-tutti e tre i modelli**, di +0,026, +0,069 e +0,097. Il confronto è a parità di
-aggiornamenti, quindi il margine non viene dall'averne spesi di meno: viene dal
-criterio con cui si sceglie quando spenderli. È la risposta che il controllo
-negativo esisteva per dare, e sarebbe stata l'altra. È però un margine **medio**
-sull'AUROC, misurato contro **un solo sorteggio** per modello e per seme: se
-cada fuori dalla variabilità del sorteggio non è stabilito, ed è quello che il
-prossimo esperimento deve misurare.
+**Sull'AUROC la politica su evidenza batte la media dei venti calendari casuali
+per seme in tutti e tre i modelli**, di +0,0217, +0,0559 e +0,0719. Il
+confronto è a parità di aggiornamenti effettivamente applicati, quindi il
+margine non viene dall'averne spesi di più: viene dal criterio con cui si
+sceglie quando spenderli.
 
-La formulazione precedente di questo paragrafo diceva «in tutti e tre i
-modelli» riferendosi alla media, e andava letta come se il confronto valesse
-sempre. Non vale sempre, e il dettaglio per seme è questo.
+Il risultato non è una superiorità generale. Sull'FPR complessivo il verso
+favorevole è il valore più basso, ed evidence sta sotto la media casuale nei
+tre modelli: −0,0567, −0,0452 e −0,1008. Sul richiamo degli attacchi, invece,
+evidence sta sotto la media casuale nei tre modelli: −0,0198, −0,0564 e
+−0,0424. Il compromesso finale è quindi: migliore ordinamento medio, meno
+falsi allarmi complessivi, ma anche meno attacchi richiamati.
+
+**Rispetto all'aggiornamento continuo**, evidence usa molti meno aggiornamenti:
+45,2 contro 520 per la logistica, 36,2 per l'MLP e 18,6 per l'additivo. Resta
+appena sopra `ogni blocco` sull'AUROC media (+0,0017, +0,0266, +0,0268), ma il
+richiamo degli attacchi è più basso in tutti e tre i modelli, e sull'FPR
+complessivo evidence è peggiore di `ogni blocco` per logistica e MLP.
+
+**Per il modello additivo nessuna politica batte il congelato sull'AUROC
+media.** Il congelato vale 0,8911, contro 0,8341 di evidence, 0,8073 di
+`ogni blocco` e 0,7621 della media dei calendari casuali. Il regime di
+inversione lo aveva previsto: quel modello si inverte poco e ha quasi nulla da
+correggere.
+
+Le distribuzioni per seme e per calendario non sono più quelle del primo
+sorteggio storico: sono nel riepilogo finale `serie_finale_C/riepilogo.json`,
+costruito dai rendiconti completi, e nella sintesi del pilota.
+
+**Dettaglio storico del primo sorteggio casuale.** Le tabelle che seguono non
+sono la serie finale C: restano qui per documentare il rilievo precedente, cioè
+che il vantaggio medio non era uniforme sui semi e che FPR e richiamo dovevano
+stare accanto all'AUROC.
 
 | evidenza − casuale, AUROC | 42 | 43 | 44 | 45 | 46 | media | semi in cui vince |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -815,20 +843,18 @@ sempre. Non vale sempre, e il dettaglio per seme è questo.
 | MLP | +0,046 | +0,037 | **−0,013** | +0,192 | +0,084 | +0,069 | 4 su 5 |
 | additivo | +0,084 | +0,131 | +0,049 | +0,117 | +0,107 | +0,097 | 5 su 5 |
 
+Nel primo sorteggio il seme 44 era quindi il caso in cui il confronto
+sull'AUROC si rovesciava per logistica e MLP.
+
 | evidenza − casuale, FPR complessivo | 42 | 43 | 44 | 45 | 46 | semi in cui vince |
 |---|---:|---:|---:|---:|---:|---:|
 | logistica | −0,102 | **+0,076** | −0,024 | −0,098 | −0,114 | 4 su 5 |
 | MLP | **+0,065** | **+0,113** | **+0,004** | −0,117 | **+0,044** | 1 su 5 |
 | additivo | −0,109 | −0,248 | −0,062 | −0,019 | −0,147 | 5 su 5 |
 
-Sull'FPR complessivo il verso favorevole è il valore più basso. Per l'MLP il
-controllo casuale produce **meno falsi allarmi su quattro semi su cinque**, e
-anche in aggregato: **0,1625 contro 0,1844**. Il criterio batte il sorteggio
-sull'ordinamento, non su ogni misura.
-
-E non lo batte sul richiamo degli attacchi, che è la misura per cui il
-rilevatore esiste. Aggregato come l'FPR — ogni attacco pesa uno — il confronto
-con il controllo casuale è questo.
+Sull'FPR complessivo il verso favorevole è il valore più basso. Nel primo
+sorteggio, per l'MLP, il controllo casuale produceva meno falsi allarmi anche
+in aggregato: 0,1625 contro 0,1844.
 
 | evidenza − casuale, richiamo attacchi | 42 | 43 | 44 | 45 | 46 | media | semi in cui vince |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -836,49 +862,10 @@ con il controllo casuale è questo.
 | MLP | +0,045 | **−0,160** | **−0,084** | **−0,176** | +0,025 | −0,070 | 2 su 5 |
 | additivo | +0,101 | **−0,217** | **−0,011** | **−0,107** | **−0,033** | −0,053 | 1 su 5 |
 
-In aggregato il richiamo sugli attacchi della politica su evidenza è 0,8199
-contro 0,8136 del casuale per la logistica, **0,7088 contro 0,7789** per l'MLP
-e
-**0,6597 contro 0,7129** per l'additivo. Il quadro complessivo è quindi: il
-criterio guadagna sull'**ordinamento**, in media e non su tutti i semi, e su
-due modelli su tre **perde attacchi** rispetto al sorteggio. Rispetto al
-congelato, invece, il richiamo sugli attacchi migliora su tutti e cinque i semi
-per la logistica, +0,099 in media, e per l'MLP, +0,309.
-
-Questi sono risultati **esplorativi sullo stream di sviluppo C**: non è stata
-dimostrata nessuna superiorità generale, non è stata calcolata nessuna
-significatività statistica, e il controllo casuale è un solo sorteggio per
-modello e per seme.
-
-Va dichiarato anche il limite del controllo: **una sola pianificazione casuale
-per modello e per seme**. Cinque semi danno cinque confronti, non una stima
-della variabilità del sorteggio, quindi il confronto non ha un margine di
-errore. Il conteggio dei semi in cui vale è l'unica forma di robustezza
-disponibile qui, e per questo è riportato.
-
-**La politica su evidenza fa quanto o meglio dell'aggiornamento continuo
-spendendo una frazione degli aggiornamenti**: in media sui cinque semi +0,002
-per la logistica con 45,2 anziché 520, +0,029 per l'MLP con 33,8 e +0,029 per
-l'additivo con 19,4, cioè da 11,5 a 26,8 volte meno. Anche qui le medie nascondono il dettaglio: sulla logistica
-il confronto con `ogni blocco` si rovescia su tre semi su cinque. Per l'MLP la
-politica su evidenza è l'unica che batte il congelato in media — 0,7956 contro
-0,7921 — ma per seme lo batte su tre su cinque, e sul seme 44 perde di 0,054.
-Per la logistica tutte le politiche battono il congelato, su tutti e cinque i
-semi.
-
-I numeri per seme, con il conteggio dei semi in cui ciascun confronto vale,
-sono in `confronto_politiche.json`, campo `per_seme`: lo strumento li calcola e
-conta da sé, e dichiara quando un confronto **non** è uniforme.
-
-**Per il modello additivo nessuna politica batte il congelato.** 0,8909 contro
-0,8358 della migliore, e **su tutti e cinque i semi con tutte e tre le
-politiche**: sull'AUROC il congelato vince 15 confronti su 15, tre politiche
-per cinque semi. Non è l'unico confronto uniforme della sezione — `confronto_politiche.json`
-ne marca quindici — ma è l'unico **modello** in cui l'adattamento non aiuta mai.
-Il
-risultato del §10 regge: quel modello non ha quasi nulla da correggere, e ogni
-aggiornamento è un costo netto. Il regime di inversione lo aveva previsto, e
-questa sezione lo conferma per via diversa.
+In aggregato, sempre nel primo sorteggio, il richiamo sugli attacchi era
+0,8199 contro 0,8136 per la logistica, 0,7088 contro 0,7789 per l'MLP e
+0,6597 contro 0,7129 per l'additivo. Questo è il motivo per cui il confronto
+finale non viene mai formulato come superiorità generale.
 
 Resta il limite da dichiarare accanto a ogni riga di queste tabelle: il
 rivelatore ha precisione 15–18% ed esiste nel 41,6% dei blocchi. **Funziona non
@@ -889,8 +876,9 @@ budget maggiore sui blocchi poveri di normali.
 
 ## 10quater. Il costo di un aggiornamento, misurato
 
-Il risparmio della politica si misura in **numero di aggiornamenti**: in media
-45,2 per la logistica, 33,8 per l'MLP e 19,4 per l'additivo, contro 520. Da
+Il risparmio della politica si misura in **numero di aggiornamenti**: nella
+serie finale C, in media 45,2 per la logistica, 36,2 per l'MLP e 18,6 per
+l'additivo, contro 520. Da
 quel numero non segue nessun guadagno di latenza né di memoria, e finché il
 costo del singolo aggiornamento non era misurato quell'inferenza era implicita.
 Il rendiconto ora cronometra, con `time.perf_counter`, il solo tratto che un
@@ -957,12 +945,13 @@ prodotti prima di questa correzione invece di interpretarli.
 ## 10quinquies. Le figure
 
 Quattordici figure in `figure/`, prodotte da `curve_replay.py` dai soli
-rendiconti, tutte sul **seme 42**. `figure/LEGGIMI.md` dichiara per ciascuna che
-cosa mostra, da quale file viene — con l'impronta SHA-256 dei tre rendiconti —
-e il comando che la rifà. Le cinque forme sono: le curve per blocco, il guadagno
-per fascia di ricchezza di normali, gli attacchi non rilevati cumulati, il
-confronto fra le quattro politiche, e il recupero dopo l'inizio di
-un'inversione.
+rendiconti, tutte sul **seme 42**. Sono figure della **serie storica del
+pilota**, non le distribuzioni della serie finale C sui 100 rendiconti
+effettivi. `figure/LEGGIMI.md` dichiara per ciascuna che cosa mostra, da quale
+file viene — con l'impronta SHA-256 dei tre rendiconti — e il comando che la
+rifà. Le cinque forme sono: le curve per blocco, il guadagno per fascia di
+ricchezza di normali, gli attacchi non rilevati cumulati, il confronto fra le
+quattro politiche, e il recupero dopo l'inizio di un'inversione.
 
 Tre scelte vanno dichiarate qui, perché cambiano che cosa la figura afferma.
 
@@ -974,10 +963,10 @@ quello corrente. Non è una scelta estetica: il valore finale di quella curva
 seme; quindi la figura e il testo non possono dire due numeri diversi. Una media mobile avrebbe un valore finale che non corrisponde a
 nulla di scritto. Le medie sui cinque semi riportate nella tabella riassuntiva
 sono un'altra aggregazione e **non** coincidono con la fine della curva: per
-l'MLP su evidenza la corsa del seme 42 chiude a 0,8475 mentre la media sui
-cinque semi è 0,7956. Lo stesso vale per i conteggi di aggiornamenti scritti in
-didascalia, che sono quelli del seme 42 (522, e 54 per la logistica su
-evidenza) e non le medie sui semi (520 e 45,2).
+l'MLP su evidenza la corsa storica del seme 42 chiude a 0,8475, diversa dalla
+media storica sui cinque semi. Lo stesso vale per i conteggi di aggiornamenti
+scritti in didascalia, che sono quelli del seme 42 (522, e 54 per la logistica
+su evidenza) e non le medie sui semi (520 e 45,2).
 
 **La copia congelata è confrontata, non assunta.** Le quattro politiche
 condividono la stessa copia congelata per costruzione. `curve_replay.py` non lo
