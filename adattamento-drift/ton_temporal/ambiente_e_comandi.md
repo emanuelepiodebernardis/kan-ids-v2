@@ -90,6 +90,11 @@ citava conteggi di 634 e 643 test misurati su un altro ramo: nessuno dei due
 numeri era verificabile qui, ed entrambi sono stati sostituiti con il conteggio
 misurato su questo ramo.
 
+La suite completa di ADAPT-01 attraversa anche la serie finale C. Per eseguirla
+in una copia nuova non bastano i riepiloghi in Git: gli archivi esterni devono
+essere presenti ed estratti nelle cartelle documentate sotto
+`adattamento-drift/archivio_esterno/`.
+
 ## Costi misurati
 
 Dal campo `costi` del rendiconto, corsa di riferimento con seme 42 su C
@@ -288,6 +293,11 @@ coincidono; i conteggi degli aggiornamenti richiedono il riallineamento mirato
 di 60 casuali, tutti dei semi 42, 43 e 45. I 100 rendiconti originali non
 vengono sovrascritti.
 
+L'esito di `controlli_appaiati_C.py` non basta, da solo, a validare la serie
+finale: quel programma controlla i confronti appaiati e prepara il
+riallineamento. La validazione finale e' il passo successivo, con
+`riepilogo_finale_C.py`, poi richiamato anche da `verifica_richieste.py`.
+
 ```
 cd <repo>/adattamento-drift/ton_temporal
 python controlli_appaiati_C.py --solo-riepilogo --riallinea-casuali --salta-esistenti --workers 2
@@ -376,6 +386,10 @@ additivo gli episodi di inversione sono tre, lunghi 7, 2 e 1 blocchi, e uno solo
 arriva al minimo di cinque, quindi la figura non viene prodotta.
 `figure/LEGGIMI.md` dichiara per ciascuna figura la provenienza e l'impronta dei
 rendiconti.
+
+Queste figure appartengono alla serie storica del pilota sul seme 42: servono a
+illustrare il meccanismo dei blocchi e delle politiche, non sono le
+distribuzioni della serie finale C sui 100 rendiconti effettivi.
 
 La versione precedente di questo passo era **un comando solo e sbagliato**:
 `python curve_replay.py --rendiconto replay_C_seme42.json`. Lo script sta in

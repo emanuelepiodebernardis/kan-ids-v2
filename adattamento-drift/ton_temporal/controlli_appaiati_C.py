@@ -13,6 +13,11 @@ Il confronto verifica, per ogni seme:
 
 Se i conteggi degli aggiornamenti differiscono dai conteggi richiesti dai
 casuali esistenti, il riepilogo elenca i semi e i rendiconti da riallineare.
+
+Questo script non e' il validatore finale della serie C. Serve a produrre i
+controlli calibrato/evidence e i casuali riallineati; la validazione finale
+dei 100 rendiconti effettivi, inclusi gli originali conservati, e' affidata a
+`riepilogo_finale_C.py` ed e' richiamata da `verifica_richieste.py`.
 """
 
 from __future__ import annotations

@@ -12,6 +12,11 @@ riga orizzontale è **appendice tecnica**: le sezioni numerate da 0 a 7, citate
 nel testo come «§0 … §7», con i numeri e il modo in cui sono stati ottenuti.
 Nessun risultato sta soltanto in appendice.
 
+Le sezioni storiche del pilota restano in appendice per documentare il percorso:
+§1-§5 e le figure in `figure/` appartengono alla serie storica sul seme 42 e ai
+rendiconti del primo ciclo. La serie finale appaiata e' invece quella del §6:
+100 rendiconti effettivi, 40 originali conservati e 60 riallineati.
+
 **La domanda.** Quando piccoli aggiornamenti permettono a un rilevatore di
 riconoscere meglio gli attacchi dopo un cambiamento del traffico, con poche
 etichette e in ritardo.
@@ -349,7 +354,7 @@ regione «attacco».
 ## 4bis. Quanto costa un aggiornamento, e cosa il risparmio non dimostra
 
 Il confronto fra le politiche si misura in **numero di aggiornamenti**: in
-media 45,2 per la logistica, 33,8 per l'MLP e 19,4 per l'additivo, contro 520.
+media 45,2 per la logistica, 36,2 per l'MLP e 18,6 per l'additivo, contro 520.
 Da quel numero non segue nessun guadagno di latenza né di memoria, e finché il
 costo del singolo aggiornamento non era misurato la frase «aggiornare meno
 costa meno» era un'inferenza, non un risultato. Adesso il rendiconto cronometra
@@ -563,8 +568,8 @@ quelle distribuzioni. Questo non è ancora una conferma su un altro stream: è u
 stima della variabilità del controllo negativo dentro C.
 
 **Rispetto all'aggiornamento continuo**, evidence usa una frazione degli
-aggiornamenti — in media 45,2 contro 520 per la logistica, 33,8 per l'MLP e
-19,4 per l'additivo — e resta appena sopra `ogni blocco` sull'AUROC media
+aggiornamenti — in media 45,2 contro 520 per la logistica, 36,2 per l'MLP e
+18,6 per l'additivo — e resta appena sopra `ogni blocco` sull'AUROC media
 (+0,0017, +0,0266, +0,0268). Anche qui il compromesso va scritto accanto al
 numero: il richiamo degli attacchi è più basso di `ogni blocco` in tutti e tre
 i modelli, e sull'FPR complessivo evidence è peggiore di `ogni blocco` per
