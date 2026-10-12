@@ -1,0 +1,85 @@
+RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE
+  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di conferma, 16-20 dai residui del riesame del 3 ottobre, 21 la nota del pilota e le figure
+
+OK      1  due aggregazioni del FPR, nominate e definite                    nomi e definizione presenti nei documenti
+OK      1  nessuna frase assoluta sui falsi allarmi                         ogni «aumentano sempre» ha l'aggregazione dichiarata o e' un ritiro
+OK      1  entrambe le aggregazioni nel riepilogo pubblicato                riepiloghi_semi.json
+OK      2  cinque rendiconti per blocco a soglia zero                       semi presenti: [42, 43, 44, 45, 46]
+OK      2  script dei riepiloghi presente                                   riepiloghi_semi.py
+OK      2  riepiloghi per seme, non solo in media                           una voce per ciascuno dei cinque semi
+OK      2  il seme 42 e dichiarato come tale nei documenti                  la diagnosi e attribuita al seme su cui e stata fatta
+OK      3  riferimento senza calibrazione conservato                        i cinque rendiconti a soglia zero dichiarano modo=zero
+OK      3  soglia scelta su B col massimo della balanced accuracy           cinque rendiconti calibrati
+OK      9  scelta sull'intero B                                             5.681.198 righe, cioe l intervallo intero
+OK      9  candidati documentati                                            15 casi in soglie_candidati.json
+OK      9  regola di confronto documentata e misurata                       uguaglianza esatta: un candidato solo in 15/15; a 1e-6 fino a 27
+OK      9  mediana inferiore dichiarata nei documenti                       formulazione del referente
+OK     10  una soglia per ogni modello e per ogni seme                      15 scelte registrate
+OK     10  soglia identica nella coppia congelato/adattivo                  ai blocchi 0 e 1 le due copie danno le stesse misure
+OK     10  nessuna pretesa di stabilita della soglia                        dichiarato nel protocollo
+OK      4  politica su evidenza di inversione eseguita                      semi: [42, 43, 44, 45, 46]
+OK      4  controllo negativo eseguito e pareggiato                         aggiornamenti pareggiati modello per modello
+OK      4  primo passo: quando il verso e stimabile                         disponibile nel 41.6% dei blocchi
+OK      4  primo passo: utilita per i blocchi futuri                        correlazione riportata per ritardi da j a j+5
+OK      4  decisione «non disponibile» quando manca una classe              conteggio separato da «nessuna evidenza»
+OK      4  le etichette spese sono le stesse in tutte le politiche          91.506 per seme in tutte e tre
+OK      4  il risparmio dichiarato e di aggiornamenti, non di etichette     dichiarato nei documenti
+OK     12  budget, FIFO e ritardo invariati in tutte le corse               blocco 10.000, budget 0,01, memoria 256, ritardo 1
+OK      5  controllo diretto delle sovrapposizioni A/B/C/D                  sovrapposizioni_abcd.json
+OK      5  le sei coppie sono riportate                                     A-B, A-C, A-D, B-C, B-D, C-D
+OK      5  esito su D riportato nei documenti                               righe e normali di D
+OK     13  D non usato per addestrare ne per valutare                       tutte le corse sono sul flusso C
+OK     13  serie finale C ricalcolata dai rendiconti completi               riepilogo_finale_C.py
+OK     13  i 100 casuali originali sono conservati                          100 rendiconti originali
+OK     13  la serie finale usa 40 originali e 60 riallineati                40 originali, 60 riallineati
+OK     13  controlli calibrato/evidence presenti per i cinque semi          10 rendiconti
+OK     13  invarianti richieste su tutta la serie finale                    soglie, frozen, campioni, aggiornamenti applicati e richiesti
+OK     13  i controlli calibrato/evidence sono inclusi nella verifica       cinque evidence e cinque ogni-blocco nello stesso ambiente
+OK     13  D resta fuori anche dalla serie finale C                         campo D_usato=false nel riepilogo finale
+OK      6  modello descritto con precisione                                 strato, base, sottocampione, parametri aggiornati
+OK      6  rapporto col componente del Paper 1 dichiarato per quello che e  stessa forma funzionale, differenza nel regime di stima
+OK      6  e dichiarato che non e a piu strati                              il contrasto che regge
+OK      6  i tre documenti sono allineati sul nome                          protocollo, sintesi e nota
+OK      3  la soglia non cambia l'AUROC                                     27.480 coppie confrontate fra soglia zero e soglia su B
+OK     16  ogni blocco porta uno SHA-256 delle righe campionate             18.320 voci, 64 cifre esadecimali
+OK     16  i digest distinguono i blocchi                                   4.580 digest distinti su 18.320 blocchi campionati
+OK     16  il campo storico resta, col nome che dice che e una somma        continuita con i rendiconti gia pubblicati
+OK     16  la serializzazione e dichiarata nei documenti                    un terzo puo ricalcolare l'impronta
+OK     16  e dichiarato che il campo storico era una somma                  il difetto e detto, non nascosto
+OK     17  la quota di etichette usa le righe scorse                        20 rendiconti
+OK     17  la quota e 91.506 su 9.150.673                                   valore esatto 0.0099999, cioe l'1% a meno dell'arrotondamento sul blocco finale
+OK     17  il blocco incompleto e dichiarato nei documenti                  l'ultimo blocco di C ha 673 righe e chiede 6 etichette
+OK     17  i documenti riportano numeratore e denominatore                  la quota si ricalcola a mano dal documento
+OK     17  il numero sbagliato e dichiarato come tale                       0,009990 non puo comparire come se fosse il valore
+OK     18  il tempo del singolo aggiornamento e misurato per modello        conteggi coerenti con gli aggiornamenti applicati
+OK     18  la memoria e misurata, col metodo dichiarato                     picco RSS misurato in tutti i rendiconti; in 20 rendiconti il campo del metodo non c'e perche precedono questa correzione, e il sistema e in ambiente
+OK     18  l'hardware e letto dal sistema                                   CPU, RAM, thread utilizzabili
+OK     18  i documenti riportano il costo per aggiornamento                 con la mediana, non la sola media
+OK     18  i documenti negano il guadagno non misurato                      il numero di aggiornamenti non e latenza ne memoria
+OK     19  il confronto finale e misurato su 20 calendari per seme          100 rendiconti effettivi nella serie finale
+OK     19  i documenti dichiarano 40 originali e 60 sostituzioni            composizione della serie finale
+OK     19  evidence migliora l'AUROC media rispetto ai casuali              lr +0.0217, mlp +0.0559, kan +0.0719
+OK     19  l'FPR complessivo sta accanto all'AUROC                          lr −0.0567, mlp −0.0452, kan −0.1008
+OK     19  il richiamo degli attacchi sta accanto all'AUROC                 lr −0.0198, mlp −0.0564, kan −0.0424
+OK     19  il compromesso e dichiarato senza superiorita generale           AUROC, FPR e richiamo letti insieme
+OK     19  l'additivo congelato resta sopra evidence sull'AUROC             0.8911 contro 0.8341
+OK     19  i risultati sono dichiarati esplorativi                          nessuna superiorita generale, nessuna significativita calcolata
+OK     20  D intero e l'analisi principale                                  nessuna riga esclusa dallo stream
+OK     20  il sottoinsieme a vettore non visto e supplementare              sulle stesse predizioni del replay completo
+OK     20  nessuna scelta di modello o politica sui risultati di D          D resta riservato
+OK     21  la nota del pilota esiste                                        rapporto_pilota.md
+OK     21  la nota ha le quattro parti che la scheda chiede                 osservazioni, limiti, blocchi, prossimo esperimento
+OK     21  la nota sta nelle due pagine chieste                             691 parole
+OK     21  la nota dichiara che D e bloccato in attesa                      il blocco e detto dove la scheda lo chiede
+OK     21  la nota propone un esperimento che non tocca D                   il prossimo passo resta dentro C
+OK     21  le figure sono pubblicate                                        14 PNG in figure/
+OK     21  le figure dichiarano da dove vengono                             provenienza e comando per rifarle
+OK     21  i documenti citano solo figure che esistono                      4 figure citate
+
+74 controlli su 74 passati
+
+NON VERIFICABILE DA QUI, e quindi non dato per fatto:
+     8  «puoi proseguire»: eseguito; la pubblicazione remota si verifica fuori da qui
+     11 «pubblica nello stesso PR»: file nel ramo; descrizione PR da aggiornare a mano
+     11 descrizione PR preparata fuori dal repository, da incollare su GitHub
+     15 indicare il nuovo commit in Trello: dopo il controllo finale

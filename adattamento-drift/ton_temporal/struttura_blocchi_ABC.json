@@ -1,0 +1,35 @@
+{
+  "A": {
+    "righe": 3956308,
+    "blocchi": 396,
+    "normali": 223199,
+    "quota_normali": 0.05641598176886127,
+    "normali_per_blocco_media": 563.6338383838383,
+    "normali_per_blocco_mediana": 28.0,
+    "blocchi_con_zero_normali": 9,
+    "blocchi_con_meno_di_10": 88,
+    "quota_normali_nel_5pc_piu_ricco": 0.8512582941679846
+  },
+  "B": {
+    "righe": 5681198,
+    "blocchi": 569,
+    "normali": 89323,
+    "quota_normali": 0.01572256414932203,
+    "normali_per_blocco_media": 156.98242530755712,
+    "normali_per_blocco_mediana": 150.0,
+    "blocchi_con_zero_normali": 4,
+    "blocchi_con_meno_di_10": 28,
+    "quota_normali_nel_5pc_piu_ricco": 0.15201012057364843
+  },
+  "C": {
+    "righe": 9150673,
+    "blocchi": 916,
+    "normali": 173316,
+    "quota_normali": 0.01894024625292588,
+    "normali_per_blocco_media": 189.20960698689956,
+    "normali_per_blocco_mediana": 24.0,
+    "blocchi_con_zero_normali": 41,
+    "blocchi_con_meno_di_10": 262,
+    "quota_normali_nel_5pc_piu_ricco": 0.46873918161046874
+  }
+}

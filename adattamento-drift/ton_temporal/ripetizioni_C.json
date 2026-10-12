@@ -1,0 +1,61 @@
+{
+  "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "blocchi": 915,
+  "per_modello": {
+    "lr": {
+      "auroc_congelato_medio": 0.7148993636934656,
+      "auroc_adattivo_medio": 0.773931183704239,
+      "guadagno_auroc_medio": 0.05903182001077327,
+      "semi_con_guadagno_positivo": 5,
+      "ric_norm_congelato_medio": 0.4307546435308948,
+      "ric_norm_adattivo_medio": 0.2200640602647635,
+      "semi_con_ric_norm_in_calo": 5
+    },
+    "mlp": {
+      "auroc_congelato_medio": 0.7920727465995021,
+      "auroc_adattivo_medio": 0.766392029103546,
+      "guadagno_auroc_medio": -0.02568071749595626,
+      "semi_con_guadagno_positivo": 1,
+      "ric_norm_congelato_medio": 0.7317660317597604,
+      "ric_norm_adattivo_medio": 0.26415674532085776,
+      "semi_con_ric_norm_in_calo": 5
+    },
+    "kan": {
+      "auroc_congelato_medio": 0.8908705819399048,
+      "auroc_adattivo_medio": 0.8067700456176065,
+      "guadagno_auroc_medio": -0.08410053632229837,
+      "semi_con_guadagno_positivo": 0,
+      "ric_norm_congelato_medio": 0.48316181195539326,
+      "ric_norm_adattivo_medio": 0.2972952744645583,
+      "semi_con_ric_norm_in_calo": 5
+    }
+  },
+  "salti_per_memoria_monoclasse": {
+    "valori": [
+      393,
+      399,
+      395,
+      414,
+      374
+    ],
+    "media": 395.0,
+    "quota_media": 0.43169398907103823
+  },
+  "esperimento_campionamento": {
+    "descrizione": "stesso budget dell 1% distribuito su dieci fasce del punteggio della LR congelata; nessun uso delle etichette; punteggio unico per tutti i metodi, indici condivisi",
+    "salti_uniforme": 393,
+    "salti_stratificato": 421,
+    "differenze_auroc": {
+      "lr": -0.0034158250908725707,
+      "mlp": 0.011607391581509252,
+      "kan": 0.015819800626168723
+    },
+    "esito": "negativo: non riduce i salti e non migliora le misure"
+  }
+}

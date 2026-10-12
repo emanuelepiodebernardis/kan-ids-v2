@@ -1,0 +1,1675 @@
+{
+ "per_politica": {
+  "casuale": {
+   "corse": 5,
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "secondi_replay_mediano": 61.88,
+   "per_modello": {
+    "lr": {
+     "applicati_mediano": 44,
+     "ms_mediano_fra_i_semi": 7.599,
+     "ms_medio_fra_i_semi": 19.314,
+     "ms_minimo_osservato": 2.205,
+     "ms_massimo_osservato": 79.361,
+     "rapporto_massimo_su_minimo": 36.0,
+     "secondi_negli_aggiornamenti_mediano": 0.96,
+     "secondi_in_aggiornamento_totali_mediano": 0.96,
+     "quota_del_replay_mediana": 0.0153
+    },
+    "mlp": {
+     "applicati_mediano": 35,
+     "ms_mediano_fra_i_semi": 7.228,
+     "ms_medio_fra_i_semi": 17.803,
+     "ms_minimo_osservato": 2.332,
+     "ms_massimo_osservato": 60.928,
+     "rapporto_massimo_su_minimo": 26.1,
+     "secondi_negli_aggiornamenti_mediano": 0.657,
+     "secondi_in_aggiornamento_totali_mediano": 0.657,
+     "quota_del_replay_mediana": 0.0108
+    },
+    "kan": {
+     "applicati_mediano": 21,
+     "ms_mediano_fra_i_semi": 14.839,
+     "ms_medio_fra_i_semi": 26.425,
+     "ms_minimo_osservato": 6.79,
+     "ms_massimo_osservato": 62.072,
+     "rapporto_massimo_su_minimo": 9.1,
+     "secondi_negli_aggiornamenti_mediano": 0.41,
+     "secondi_in_aggiornamento_totali_mediano": 0.41,
+     "quota_del_replay_mediana": 0.0067
+    }
+   }
+  },
+  "evidenza_inversione": {
+   "corse": 5,
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "secondi_replay_mediano": 61.81,
+   "per_modello": {
+    "lr": {
+     "applicati_mediano": 44,
+     "ms_mediano_fra_i_semi": 6.906,
+     "ms_medio_fra_i_semi": 18.54,
+     "ms_minimo_osservato": 2.321,
+     "ms_massimo_osservato": 63.969,
+     "rapporto_massimo_su_minimo": 27.6,
+     "secondi_negli_aggiornamenti_mediano": 0.904,
+     "secondi_in_aggiornamento_totali_mediano": 0.904,
+     "quota_del_replay_mediana": 0.0146
+    },
+    "mlp": {
+     "applicati_mediano": 35,
+     "ms_mediano_fra_i_semi": 8.13,
+     "ms_medio_fra_i_semi": 12.999,
+     "ms_minimo_osservato": 1.935,
+     "ms_massimo_osservato": 62.133,
+     "rapporto_massimo_su_minimo": 32.1,
+     "secondi_negli_aggiornamenti_mediano": 0.45,
+     "secondi_in_aggiornamento_totali_mediano": 0.45,
+     "quota_del_replay_mediana": 0.0073
+    },
+    "kan": {
+     "applicati_mediano": 21,
+     "ms_mediano_fra_i_semi": 13.094,
+     "ms_medio_fra_i_semi": 19.884,
+     "ms_minimo_osservato": 6.45,
+     "ms_massimo_osservato": 59.955,
+     "rapporto_massimo_su_minimo": 9.3,
+     "secondi_negli_aggiornamenti_mediano": 0.35,
+     "secondi_in_aggiornamento_totali_mediano": 0.35,
+     "quota_del_replay_mediana": 0.0057
+    }
+   }
+  },
+  "ogni_blocco": {
+   "corse": 5,
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "secondi_replay_mediano": 88.4,
+   "per_modello": {
+    "lr": {
+     "applicati_mediano": 520,
+     "ms_mediano_fra_i_semi": 5.092,
+     "ms_medio_fra_i_semi": 10.323,
+     "ms_minimo_osservato": 1.877,
+     "ms_massimo_osservato": 333.744,
+     "rapporto_massimo_su_minimo": 177.8,
+     "secondi_negli_aggiornamenti_mediano": 4.833,
+     "secondi_in_aggiornamento_totali_mediano": 4.85,
+     "quota_del_replay_mediana": 0.0567
+    },
+    "mlp": {
+     "applicati_mediano": 520,
+     "ms_mediano_fra_i_semi": 6.815,
+     "ms_medio_fra_i_semi": 8.541,
+     "ms_minimo_osservato": 1.692,
+     "ms_massimo_osservato": 267.843,
+     "rapporto_massimo_su_minimo": 158.3,
+     "secondi_negli_aggiornamenti_mediano": 3.984,
+     "secondi_in_aggiornamento_totali_mediano": 4.002,
+     "quota_del_replay_mediana": 0.0451
+    },
+    "kan": {
+     "applicati_mediano": 520,
+     "ms_mediano_fra_i_semi": 10.962,
+     "ms_medio_fra_i_semi": 15.297,
+     "ms_minimo_osservato": 6.063,
+     "ms_massimo_osservato": 384.122,
+     "rapporto_massimo_su_minimo": 63.4,
+     "secondi_negli_aggiornamenti_mediano": 7.087,
+     "secondi_in_aggiornamento_totali_mediano": 9.037,
+     "quota_del_replay_mediana": 0.0802
+    }
+   }
+  },
+  "ogni_blocco_soglia_zero": {
+   "corse": 5,
+   "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+   ],
+   "secondi_replay_mediano": 86.26,
+   "per_modello": {
+    "lr": {
+     "applicati_mediano": 520,
+     "ms_mediano_fra_i_semi": 5.079,
+     "ms_medio_fra_i_semi": 9.033,
+     "ms_minimo_osservato": 1.862,
+     "ms_massimo_osservato": 97.526,
+     "rapporto_massimo_su_minimo": 52.4,
+     "secondi_negli_aggiornamenti_mediano": 4.666,
+     "secondi_in_aggiornamento_totali_mediano": 4.681,
+     "quota_del_replay_mediana": 0.0544
+    },
+    "mlp": {
+     "applicati_mediano": 520,
+     "ms_mediano_fra_i_semi": 6.489,
+     "ms_medio_fra_i_semi": 7.22,
+     "ms_minimo_osservato": 1.492,
+     "ms_massimo_osservato": 52.444,
+     "rapporto_massimo_su_minimo": 35.2,
+     "secondi_negli_aggiornamenti_mediano": 3.788,
+     "secondi_in_aggiornamento_totali_mediano": 3.804,
+     "quota_del_replay_mediana": 0.0433
+    },
+    "kan": {
+     "applicati_mediano": 520,
+     "ms_mediano_fra_i_semi": 11.133,
+     "ms_medio_fra_i_semi": 12.961,
+     "ms_minimo_osservato": 5.929,
+     "ms_massimo_osservato": 65.672,
+     "rapporto_massimo_su_minimo": 11.1,
+     "secondi_negli_aggiornamenti_mediano": 6.758,
+     "secondi_in_aggiornamento_totali_mediano": 8.765,
+     "quota_del_replay_mediana": 0.0783
+    }
+   }
+  }
+ },
+ "risparmio_evidenza_contro_ogni_blocco": {
+  "per_modello": {
+   "lr": {
+    "aggiornamenti": [
+     520,
+     44
+    ],
+    "secondi_in_aggiornamento": [
+     4.85,
+     0.904
+    ],
+    "secondi_risparmiati": 3.946,
+    "quota_del_replay_risparmiata": 0.0446,
+    "secondi_replay_di_riferimento": 88.4
+   },
+   "mlp": {
+    "aggiornamenti": [
+     520,
+     35
+    ],
+    "secondi_in_aggiornamento": [
+     4.002,
+     0.45
+    ],
+    "secondi_risparmiati": 3.552,
+    "quota_del_replay_risparmiata": 0.0402,
+    "secondi_replay_di_riferimento": 88.4
+   },
+   "kan": {
+    "aggiornamenti": [
+     520,
+     21
+    ],
+    "secondi_in_aggiornamento": [
+     9.037,
+     0.35
+    ],
+    "secondi_risparmiati": 8.687,
+    "quota_del_replay_risparmiata": 0.0983,
+    "secondi_replay_di_riferimento": 88.4
+   }
+  },
+  "quadratura": {
+   "secondi_risparmiati_misurati_sugli_aggiornamenti": 16.2,
+   "secondi_di_differenza_fra_i_due_replay": 26.6,
+   "residuo_non_attribuito": 10.4,
+   "nota": "la differenza fra i due tempi di replay e piu grande della somma dei tempi di aggiornamento risparmiati. Il residuo non e attribuito: il banco di prova non cronometra separatamente le altre parti del ciclo, e su due CPU condivise attribuirlo sarebbe una congettura. In ogni caso il conto non cambia la conclusione, perche anche prendendo tutta la differenza si tratta di decine di secondi su un replay che ne costa quasi novanta per 9,15 milioni di righe"
+  }
+ },
+ "macchina": {
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+  "cpu_thread_visibili": 2,
+  "ram_totale_mib": 8031.1,
+  "cpu_utilizzabili_dal_processo": 2,
+  "thread_blas": {
+   "OMP_NUM_THREADS": null,
+   "OPENBLAS_NUM_THREADS": null,
+   "MKL_NUM_THREADS": null
+  }
+ },
+ "memoria": {
+  "picco_rss_minimo_mib": 1280.9,
+  "picco_rss_massimo_mib": 1339.1,
+  "picco_rss_metodi": [
+   "non dichiarato"
+  ],
+  "byte_memoria_fifo": 10240,
+  "byte_stato_per_modello": {
+   "lr": 8264,
+   "mlp": 16520,
+   "kan": 16456
+  }
+ },
+ "limiti": {
+  "misura_del_tempo": "macchina virtuale a due CPU condivise: il rapporto fra minimo e massimo di uno stesso modello e riportato per ciascuno in rapporto_massimo_su_minimo ed e rumore di scheduling, non varianza del calcolo. Ordine di grandezza e rapporto fra modelli, non latenza in esercizio",
+  "cosa_non_dimostra": "il numero di aggiornamenti non dimostra un guadagno di latenza ne di memoria: il punteggio di ogni blocco si paga in tutte le politiche, e il risparmio sugli aggiornamenti e una frazione piccola del tempo del replay"
+ },
+ "dettaglio_per_corsa": {
+  "ogni_blocco": [
+   {
+    "file": "replay_C_calibrato_seme42.json",
+    "seme": 42,
+    "politica": "ogni_blocco",
+    "secondi_replay": 88.59,
+    "secondi_addestramento_iniziale": 27.92,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1337.9,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 522,
+      "ms_mediano": 5.188,
+      "ms_medio": 9.615,
+      "ms_minimo": 2.044,
+      "ms_massimo": 87.872,
+      "secondi_negli_aggiornamenti": 5.019,
+      "saltati": 393,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 5.036,
+      "quota_del_replay": 0.0567,
+      "quota_del_replay_con_i_saltati": 0.0568
+     },
+     "mlp": {
+      "applicati": 522,
+      "ms_mediano": 4.5,
+      "ms_medio": 5.934,
+      "ms_minimo": 1.937,
+      "ms_massimo": 47.386,
+      "secondi_negli_aggiornamenti": 3.098,
+      "saltati": 393,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 3.115,
+      "quota_del_replay": 0.035,
+      "quota_del_replay_con_i_saltati": 0.0352
+     },
+     "kan": {
+      "applicati": 522,
+      "ms_mediano": 11.536,
+      "ms_medio": 13.836,
+      "ms_minimo": 6.063,
+      "ms_massimo": 71.642,
+      "secondi_negli_aggiornamenti": 7.222,
+      "saltati": 393,
+      "secondi_negli_aggiornamenti_saltati": 2.037,
+      "secondi_in_aggiornamento_totali": 9.259,
+      "quota_del_replay": 0.0815,
+      "quota_del_replay_con_i_saltati": 0.1045
+     }
+    }
+   },
+   {
+    "file": "replay_C_calibrato_seme43.json",
+    "seme": 43,
+    "politica": "ogni_blocco",
+    "secondi_replay": 105.54,
+    "secondi_addestramento_iniziale": 39.18,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.5,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 516,
+      "ms_mediano": 5.092,
+      "ms_medio": 15.193,
+      "ms_minimo": 1.877,
+      "ms_massimo": 333.744,
+      "secondi_negli_aggiornamenti": 7.84,
+      "saltati": 399,
+      "secondi_negli_aggiornamenti_saltati": 0.021,
+      "secondi_in_aggiornamento_totali": 7.861,
+      "quota_del_replay": 0.0743,
+      "quota_del_replay_con_i_saltati": 0.0745
+     },
+     "mlp": {
+      "applicati": 516,
+      "ms_mediano": 7.479,
+      "ms_medio": 14.882,
+      "ms_minimo": 1.852,
+      "ms_massimo": 267.843,
+      "secondi_negli_aggiornamenti": 7.679,
+      "saltati": 399,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 7.696,
+      "quota_del_replay": 0.0728,
+      "quota_del_replay_con_i_saltati": 0.0729
+     },
+     "kan": {
+      "applicati": 516,
+      "ms_mediano": 11.851,
+      "ms_medio": 24.265,
+      "ms_minimo": 6.141,
+      "ms_massimo": 384.122,
+      "secondi_negli_aggiornamenti": 12.521,
+      "saltati": 399,
+      "secondi_negli_aggiornamenti_saltati": 2.06,
+      "secondi_in_aggiornamento_totali": 14.581,
+      "quota_del_replay": 0.1186,
+      "quota_del_replay_con_i_saltati": 0.1382
+     }
+    }
+   },
+   {
+    "file": "replay_C_calibrato_seme44.json",
+    "seme": 44,
+    "politica": "ogni_blocco",
+    "secondi_replay": 85.65,
+    "secondi_addestramento_iniziale": 30.39,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.0,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 520,
+      "ms_mediano": 4.551,
+      "ms_medio": 9.154,
+      "ms_minimo": 1.942,
+      "ms_massimo": 76.878,
+      "secondi_negli_aggiornamenti": 4.76,
+      "saltati": 395,
+      "secondi_negli_aggiornamenti_saltati": 0.02,
+      "secondi_in_aggiornamento_totali": 4.78,
+      "quota_del_replay": 0.0556,
+      "quota_del_replay_con_i_saltati": 0.0558
+     },
+     "mlp": {
+      "applicati": 520,
+      "ms_mediano": 5.852,
+      "ms_medio": 6.265,
+      "ms_minimo": 1.692,
+      "ms_massimo": 49.34,
+      "secondi_negli_aggiornamenti": 3.258,
+      "saltati": 395,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 3.275,
+      "quota_del_replay": 0.038,
+      "quota_del_replay_con_i_saltati": 0.0382
+     },
+     "kan": {
+      "applicati": 520,
+      "ms_mediano": 10.334,
+      "ms_medio": 12.322,
+      "ms_minimo": 6.28,
+      "ms_massimo": 49.164,
+      "secondi_negli_aggiornamenti": 6.407,
+      "saltati": 395,
+      "secondi_negli_aggiornamenti_saltati": 1.99,
+      "secondi_in_aggiornamento_totali": 8.397,
+      "quota_del_replay": 0.0748,
+      "quota_del_replay_con_i_saltati": 0.098
+     }
+    }
+   },
+   {
+    "file": "replay_C_calibrato_seme45.json",
+    "seme": 45,
+    "politica": "ogni_blocco",
+    "secondi_replay": 85.15,
+    "secondi_addestramento_iniziale": 42.46,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.2,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 501,
+      "ms_mediano": 5.759,
+      "ms_medio": 9.647,
+      "ms_minimo": 2.057,
+      "ms_massimo": 67.049,
+      "secondi_negli_aggiornamenti": 4.833,
+      "saltati": 414,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 4.85,
+      "quota_del_replay": 0.0568,
+      "quota_del_replay_con_i_saltati": 0.057
+     },
+     "mlp": {
+      "applicati": 501,
+      "ms_mediano": 7.37,
+      "ms_medio": 8.258,
+      "ms_minimo": 1.853,
+      "ms_massimo": 49.424,
+      "secondi_negli_aggiornamenti": 4.137,
+      "saltati": 414,
+      "secondi_negli_aggiornamenti_saltati": 0.018,
+      "secondi_in_aggiornamento_totali": 4.155,
+      "quota_del_replay": 0.0486,
+      "quota_del_replay_con_i_saltati": 0.0488
+     },
+     "kan": {
+      "applicati": 501,
+      "ms_mediano": 10.735,
+      "ms_medio": 12.964,
+      "ms_minimo": 6.105,
+      "ms_massimo": 52.37,
+      "secondi_negli_aggiornamenti": 6.495,
+      "saltati": 414,
+      "secondi_negli_aggiornamenti_saltati": 2.075,
+      "secondi_in_aggiornamento_totali": 8.57,
+      "quota_del_replay": 0.0763,
+      "quota_del_replay_con_i_saltati": 0.1006
+     }
+    }
+   },
+   {
+    "file": "replay_C_calibrato_seme46.json",
+    "seme": 46,
+    "politica": "ogni_blocco",
+    "secondi_replay": 88.4,
+    "secondi_addestramento_iniziale": 31.04,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.7,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 541,
+      "ms_mediano": 4.567,
+      "ms_medio": 8.004,
+      "ms_minimo": 2.045,
+      "ms_massimo": 65.211,
+      "secondi_negli_aggiornamenti": 4.33,
+      "saltati": 374,
+      "secondi_negli_aggiornamenti_saltati": 0.016,
+      "secondi_in_aggiornamento_totali": 4.346,
+      "quota_del_replay": 0.049,
+      "quota_del_replay_con_i_saltati": 0.0492
+     },
+     "mlp": {
+      "applicati": 541,
+      "ms_mediano": 6.815,
+      "ms_medio": 7.364,
+      "ms_minimo": 2.01,
+      "ms_massimo": 109.041,
+      "secondi_negli_aggiornamenti": 3.984,
+      "saltati": 374,
+      "secondi_negli_aggiornamenti_saltati": 0.018,
+      "secondi_in_aggiornamento_totali": 4.002,
+      "quota_del_replay": 0.0451,
+      "quota_del_replay_con_i_saltati": 0.0453
+     },
+     "kan": {
+      "applicati": 541,
+      "ms_mediano": 10.962,
+      "ms_medio": 13.1,
+      "ms_minimo": 6.155,
+      "ms_massimo": 50.884,
+      "secondi_negli_aggiornamenti": 7.087,
+      "saltati": 374,
+      "secondi_negli_aggiornamenti_saltati": 1.95,
+      "secondi_in_aggiornamento_totali": 9.037,
+      "quota_del_replay": 0.0802,
+      "quota_del_replay_con_i_saltati": 0.1022
+     }
+    }
+   }
+  ],
+  "casuale": [
+   {
+    "file": "replay_C_casuale_seme42.json",
+    "seme": 42,
+    "politica": "casuale",
+    "secondi_replay": 61.88,
+    "secondi_addestramento_iniziale": 27.36,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1339.1,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 54,
+      "ms_mediano": 4.799,
+      "ms_medio": 14.489,
+      "ms_minimo": 2.275,
+      "ms_massimo": 55.943,
+      "secondi_negli_aggiornamenti": 0.782,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.782,
+      "quota_del_replay": 0.0126,
+      "quota_del_replay_con_i_saltati": 0.0126
+     },
+     "mlp": {
+      "applicati": 20,
+      "ms_mediano": 7.228,
+      "ms_medio": 17.494,
+      "ms_minimo": 2.332,
+      "ms_massimo": 52.66,
+      "secondi_negli_aggiornamenti": 0.35,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.35,
+      "quota_del_replay": 0.0057,
+      "quota_del_replay_con_i_saltati": 0.0057
+     },
+     "kan": {
+      "applicati": 23,
+      "ms_mediano": 44.851,
+      "ms_medio": 33.925,
+      "ms_minimo": 8.39,
+      "ms_massimo": 62.072,
+      "secondi_negli_aggiornamenti": 0.78,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.78,
+      "quota_del_replay": 0.0126,
+      "quota_del_replay_con_i_saltati": 0.0126
+     }
+    }
+   },
+   {
+    "file": "replay_C_casuale_seme43.json",
+    "seme": 43,
+    "politica": "casuale",
+    "secondi_replay": 62.6,
+    "secondi_addestramento_iniziale": 38.93,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.3,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 43,
+      "ms_mediano": 8.382,
+      "ms_medio": 24.859,
+      "ms_minimo": 2.284,
+      "ms_massimo": 62.236,
+      "secondi_negli_aggiornamenti": 1.069,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 1.069,
+      "quota_del_replay": 0.0171,
+      "quota_del_replay_con_i_saltati": 0.0171
+     },
+     "mlp": {
+      "applicati": 35,
+      "ms_mediano": 9.379,
+      "ms_medio": 19.898,
+      "ms_minimo": 2.583,
+      "ms_massimo": 60.387,
+      "secondi_negli_aggiornamenti": 0.696,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.696,
+      "quota_del_replay": 0.0111,
+      "quota_del_replay_con_i_saltati": 0.0111
+     },
+     "kan": {
+      "applicati": 16,
+      "ms_mediano": 14.125,
+      "ms_medio": 25.414,
+      "ms_minimo": 8.762,
+      "ms_massimo": 59.772,
+      "secondi_negli_aggiornamenti": 0.407,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.407,
+      "quota_del_replay": 0.0065,
+      "quota_del_replay_con_i_saltati": 0.0065
+     }
+    }
+   },
+   {
+    "file": "replay_C_casuale_seme44.json",
+    "seme": 44,
+    "politica": "casuale",
+    "secondi_replay": 62.55,
+    "secondi_addestramento_iniziale": 29.62,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1337.3,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 44,
+      "ms_mediano": 7.91,
+      "ms_medio": 21.808,
+      "ms_minimo": 2.348,
+      "ms_massimo": 79.361,
+      "secondi_negli_aggiornamenti": 0.96,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.96,
+      "quota_del_replay": 0.0153,
+      "quota_del_replay_con_i_saltati": 0.0153
+     },
+     "mlp": {
+      "applicati": 45,
+      "ms_mediano": 7.074,
+      "ms_medio": 19.526,
+      "ms_minimo": 2.492,
+      "ms_massimo": 58.622,
+      "secondi_negli_aggiornamenti": 0.879,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.879,
+      "quota_del_replay": 0.0141,
+      "quota_del_replay_con_i_saltati": 0.0141
+     },
+     "kan": {
+      "applicati": 24,
+      "ms_mediano": 14.839,
+      "ms_medio": 23.516,
+      "ms_minimo": 8.944,
+      "ms_massimo": 58.648,
+      "secondi_negli_aggiornamenti": 0.564,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.564,
+      "quota_del_replay": 0.009,
+      "quota_del_replay_con_i_saltati": 0.009
+     }
+    }
+   },
+   {
+    "file": "replay_C_casuale_seme45.json",
+    "seme": 45,
+    "politica": "casuale",
+    "secondi_replay": 60.11,
+    "secondi_addestramento_iniziale": 41.88,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.9,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 49,
+      "ms_mediano": 7.599,
+      "ms_medio": 24.154,
+      "ms_minimo": 2.205,
+      "ms_massimo": 60.885,
+      "secondi_negli_aggiornamenti": 1.184,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 1.184,
+      "quota_del_replay": 0.0197,
+      "quota_del_replay_con_i_saltati": 0.0197
+     },
+     "mlp": {
+      "applicati": 30,
+      "ms_mediano": 6.252,
+      "ms_medio": 15.243,
+      "ms_minimo": 2.497,
+      "ms_massimo": 59.296,
+      "secondi_negli_aggiornamenti": 0.457,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.457,
+      "quota_del_replay": 0.0076,
+      "quota_del_replay_con_i_saltati": 0.0076
+     },
+     "kan": {
+      "applicati": 13,
+      "ms_mediano": 19.69,
+      "ms_medio": 29.741,
+      "ms_minimo": 9.958,
+      "ms_massimo": 56.321,
+      "secondi_negli_aggiornamenti": 0.387,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.387,
+      "quota_del_replay": 0.0064,
+      "quota_del_replay_con_i_saltati": 0.0064
+     }
+    }
+   },
+   {
+    "file": "replay_C_casuale_seme46.json",
+    "seme": 46,
+    "politica": "casuale",
+    "secondi_replay": 60.85,
+    "secondi_addestramento_iniziale": 30.82,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.7,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 36,
+      "ms_mediano": 3.702,
+      "ms_medio": 11.259,
+      "ms_minimo": 2.277,
+      "ms_massimo": 62.604,
+      "secondi_negli_aggiornamenti": 0.405,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.405,
+      "quota_del_replay": 0.0067,
+      "quota_del_replay_con_i_saltati": 0.0067
+     },
+     "mlp": {
+      "applicati": 39,
+      "ms_mediano": 8.363,
+      "ms_medio": 16.856,
+      "ms_minimo": 2.538,
+      "ms_massimo": 60.928,
+      "secondi_negli_aggiornamenti": 0.657,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.657,
+      "quota_del_replay": 0.0108,
+      "quota_del_replay_con_i_saltati": 0.0108
+     },
+     "kan": {
+      "applicati": 21,
+      "ms_mediano": 12.193,
+      "ms_medio": 19.527,
+      "ms_minimo": 6.79,
+      "ms_massimo": 56.687,
+      "secondi_negli_aggiornamenti": 0.41,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.41,
+      "quota_del_replay": 0.0067,
+      "quota_del_replay_con_i_saltati": 0.0067
+     }
+    }
+   }
+  ],
+  "evidenza_inversione": [
+   {
+    "file": "replay_C_evidenza_seme42.json",
+    "seme": 42,
+    "politica": "evidenza_inversione",
+    "secondi_replay": 61.83,
+    "secondi_addestramento_iniziale": 28.01,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.8,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 54,
+      "ms_mediano": 6.354,
+      "ms_medio": 16.745,
+      "ms_minimo": 2.394,
+      "ms_massimo": 54.394,
+      "secondi_negli_aggiornamenti": 0.904,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.904,
+      "quota_del_replay": 0.0146,
+      "quota_del_replay_con_i_saltati": 0.0146
+     },
+     "mlp": {
+      "applicati": 20,
+      "ms_mediano": 6.87,
+      "ms_medio": 8.58,
+      "ms_minimo": 2.177,
+      "ms_massimo": 48.299,
+      "secondi_negli_aggiornamenti": 0.172,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.172,
+      "quota_del_replay": 0.0028,
+      "quota_del_replay_con_i_saltati": 0.0028
+     },
+     "kan": {
+      "applicati": 23,
+      "ms_mediano": 13.094,
+      "ms_medio": 17.582,
+      "ms_minimo": 8.243,
+      "ms_massimo": 51.379,
+      "secondi_negli_aggiornamenti": 0.404,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.404,
+      "quota_del_replay": 0.0065,
+      "quota_del_replay_con_i_saltati": 0.0065
+     }
+    }
+   },
+   {
+    "file": "replay_C_evidenza_seme43.json",
+    "seme": 43,
+    "politica": "evidenza_inversione",
+    "secondi_replay": 62.44,
+    "secondi_addestramento_iniziale": 38.23,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.4,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 43,
+      "ms_mediano": 6.906,
+      "ms_medio": 18.848,
+      "ms_minimo": 2.321,
+      "ms_massimo": 63.969,
+      "secondi_negli_aggiornamenti": 0.81,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.81,
+      "quota_del_replay": 0.013,
+      "quota_del_replay_con_i_saltati": 0.013
+     },
+     "mlp": {
+      "applicati": 35,
+      "ms_mediano": 9.194,
+      "ms_medio": 18.335,
+      "ms_minimo": 2.494,
+      "ms_massimo": 62.133,
+      "secondi_negli_aggiornamenti": 0.642,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.642,
+      "quota_del_replay": 0.0103,
+      "quota_del_replay_con_i_saltati": 0.0103
+     },
+     "kan": {
+      "applicati": 16,
+      "ms_mediano": 10.862,
+      "ms_medio": 21.418,
+      "ms_minimo": 7.575,
+      "ms_massimo": 53.248,
+      "secondi_negli_aggiornamenti": 0.343,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.343,
+      "quota_del_replay": 0.0055,
+      "quota_del_replay_con_i_saltati": 0.0055
+     }
+    }
+   },
+   {
+    "file": "replay_C_evidenza_seme44.json",
+    "seme": 44,
+    "politica": "evidenza_inversione",
+    "secondi_replay": 61.14,
+    "secondi_addestramento_iniziale": 30.46,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.1,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 44,
+      "ms_mediano": 8.124,
+      "ms_medio": 22.114,
+      "ms_minimo": 2.371,
+      "ms_massimo": 61.713,
+      "secondi_negli_aggiornamenti": 0.973,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.973,
+      "quota_del_replay": 0.0159,
+      "quota_del_replay_con_i_saltati": 0.0159
+     },
+     "mlp": {
+      "applicati": 45,
+      "ms_mediano": 6.328,
+      "ms_medio": 9.915,
+      "ms_minimo": 1.935,
+      "ms_massimo": 62.005,
+      "secondi_negli_aggiornamenti": 0.446,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.446,
+      "quota_del_replay": 0.0073,
+      "quota_del_replay_con_i_saltati": 0.0073
+     },
+     "kan": {
+      "applicati": 24,
+      "ms_mediano": 12.119,
+      "ms_medio": 17.515,
+      "ms_minimo": 6.45,
+      "ms_massimo": 58.877,
+      "secondi_negli_aggiornamenti": 0.42,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.42,
+      "quota_del_replay": 0.0069,
+      "quota_del_replay_con_i_saltati": 0.0069
+     }
+    }
+   },
+   {
+    "file": "replay_C_evidenza_seme45.json",
+    "seme": 45,
+    "politica": "evidenza_inversione",
+    "secondi_replay": 61.43,
+    "secondi_addestramento_iniziale": 41.94,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1338.4,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 49,
+      "ms_mediano": 7.486,
+      "ms_medio": 19.932,
+      "ms_minimo": 2.358,
+      "ms_massimo": 56.762,
+      "secondi_negli_aggiornamenti": 0.977,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.977,
+      "quota_del_replay": 0.0159,
+      "quota_del_replay_con_i_saltati": 0.0159
+     },
+     "mlp": {
+      "applicati": 30,
+      "ms_mediano": 9.168,
+      "ms_medio": 15.005,
+      "ms_minimo": 2.434,
+      "ms_massimo": 48.531,
+      "secondi_negli_aggiornamenti": 0.45,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.45,
+      "quota_del_replay": 0.0073,
+      "quota_del_replay_con_i_saltati": 0.0073
+     },
+     "kan": {
+      "applicati": 13,
+      "ms_mediano": 16.078,
+      "ms_medio": 26.231,
+      "ms_minimo": 7.395,
+      "ms_massimo": 56.632,
+      "secondi_negli_aggiornamenti": 0.341,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.341,
+      "quota_del_replay": 0.0056,
+      "quota_del_replay_con_i_saltati": 0.0056
+     }
+    }
+   },
+   {
+    "file": "replay_C_evidenza_seme46.json",
+    "seme": 46,
+    "politica": "evidenza_inversione",
+    "secondi_replay": 61.81,
+    "secondi_addestramento_iniziale": 30.1,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1337.7,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 36,
+      "ms_mediano": 5.388,
+      "ms_medio": 15.061,
+      "ms_minimo": 2.542,
+      "ms_massimo": 56.731,
+      "secondi_negli_aggiornamenti": 0.542,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.542,
+      "quota_del_replay": 0.0088,
+      "quota_del_replay_con_i_saltati": 0.0088
+     },
+     "mlp": {
+      "applicati": 39,
+      "ms_mediano": 8.13,
+      "ms_medio": 13.16,
+      "ms_minimo": 3.11,
+      "ms_massimo": 58.459,
+      "secondi_negli_aggiornamenti": 0.513,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.513,
+      "quota_del_replay": 0.0083,
+      "quota_del_replay_con_i_saltati": 0.0083
+     },
+     "kan": {
+      "applicati": 21,
+      "ms_mediano": 14.069,
+      "ms_medio": 16.673,
+      "ms_minimo": 7.024,
+      "ms_massimo": 59.955,
+      "secondi_negli_aggiornamenti": 0.35,
+      "saltati": 0,
+      "secondi_negli_aggiornamenti_saltati": 0.0,
+      "secondi_in_aggiornamento_totali": 0.35,
+      "quota_del_replay": 0.0057,
+      "quota_del_replay_con_i_saltati": 0.0057
+     }
+    }
+   }
+  ],
+  "ogni_blocco_soglia_zero": [
+   {
+    "file": "replay_C_seme42.json",
+    "seme": 42,
+    "politica": "ogni_blocco_soglia_zero",
+    "secondi_replay": 86.85,
+    "secondi_addestramento_iniziale": 32.76,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1281.3,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 522,
+      "ms_mediano": 4.863,
+      "ms_medio": 8.613,
+      "ms_minimo": 1.862,
+      "ms_massimo": 59.863,
+      "secondi_negli_aggiornamenti": 4.496,
+      "saltati": 393,
+      "secondi_negli_aggiornamenti_saltati": 0.016,
+      "secondi_in_aggiornamento_totali": 4.512,
+      "quota_del_replay": 0.0518,
+      "quota_del_replay_con_i_saltati": 0.052
+     },
+     "mlp": {
+      "applicati": 522,
+      "ms_mediano": 5.498,
+      "ms_medio": 5.973,
+      "ms_minimo": 1.963,
+      "ms_massimo": 50.293,
+      "secondi_negli_aggiornamenti": 3.118,
+      "saltati": 393,
+      "secondi_negli_aggiornamenti_saltati": 0.018,
+      "secondi_in_aggiornamento_totali": 3.136,
+      "quota_del_replay": 0.0359,
+      "quota_del_replay_con_i_saltati": 0.0361
+     },
+     "kan": {
+      "applicati": 522,
+      "ms_mediano": 11.334,
+      "ms_medio": 13.551,
+      "ms_minimo": 5.929,
+      "ms_massimo": 55.672,
+      "secondi_negli_aggiornamenti": 7.074,
+      "saltati": 393,
+      "secondi_negli_aggiornamenti_saltati": 2.026,
+      "secondi_in_aggiornamento_totali": 9.1,
+      "quota_del_replay": 0.0815,
+      "quota_del_replay_con_i_saltati": 0.1048
+     }
+    }
+   },
+   {
+    "file": "replay_C_seme43.json",
+    "seme": 43,
+    "politica": "ogni_blocco_soglia_zero",
+    "secondi_replay": 86.26,
+    "secondi_addestramento_iniziale": 39.12,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1281.1,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 516,
+      "ms_mediano": 5.128,
+      "ms_medio": 9.043,
+      "ms_minimo": 1.938,
+      "ms_massimo": 97.526,
+      "secondi_negli_aggiornamenti": 4.666,
+      "saltati": 399,
+      "secondi_negli_aggiornamenti_saltati": 0.015,
+      "secondi_in_aggiornamento_totali": 4.681,
+      "quota_del_replay": 0.0541,
+      "quota_del_replay_con_i_saltati": 0.0543
+     },
+     "mlp": {
+      "applicati": 516,
+      "ms_mediano": 7.177,
+      "ms_medio": 8.446,
+      "ms_minimo": 1.74,
+      "ms_massimo": 47.63,
+      "secondi_negli_aggiornamenti": 4.358,
+      "saltati": 399,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 4.375,
+      "quota_del_replay": 0.0505,
+      "quota_del_replay_con_i_saltati": 0.0507
+     },
+     "kan": {
+      "applicati": 516,
+      "ms_mediano": 11.133,
+      "ms_medio": 13.098,
+      "ms_minimo": 6.211,
+      "ms_massimo": 50.717,
+      "secondi_negli_aggiornamenti": 6.758,
+      "saltati": 399,
+      "secondi_negli_aggiornamenti_saltati": 2.007,
+      "secondi_in_aggiornamento_totali": 8.765,
+      "quota_del_replay": 0.0783,
+      "quota_del_replay_con_i_saltati": 0.1016
+     }
+    }
+   },
+   {
+    "file": "replay_C_seme44.json",
+    "seme": 44,
+    "politica": "ogni_blocco_soglia_zero",
+    "secondi_replay": 85.43,
+    "secondi_addestramento_iniziale": 30.67,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1281.2,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 520,
+      "ms_mediano": 5.079,
+      "ms_medio": 9.374,
+      "ms_minimo": 1.908,
+      "ms_massimo": 63.829,
+      "secondi_negli_aggiornamenti": 4.874,
+      "saltati": 395,
+      "secondi_negli_aggiornamenti_saltati": 0.016,
+      "secondi_in_aggiornamento_totali": 4.89,
+      "quota_del_replay": 0.0571,
+      "quota_del_replay_con_i_saltati": 0.0572
+     },
+     "mlp": {
+      "applicati": 520,
+      "ms_mediano": 5.68,
+      "ms_medio": 6.339,
+      "ms_minimo": 1.492,
+      "ms_massimo": 51.494,
+      "secondi_negli_aggiornamenti": 3.296,
+      "saltati": 395,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 3.313,
+      "quota_del_replay": 0.0386,
+      "quota_del_replay_con_i_saltati": 0.0388
+     },
+     "kan": {
+      "applicati": 520,
+      "ms_mediano": 10.562,
+      "ms_medio": 12.608,
+      "ms_minimo": 6.09,
+      "ms_massimo": 65.672,
+      "secondi_negli_aggiornamenti": 6.556,
+      "saltati": 395,
+      "secondi_negli_aggiornamenti_saltati": 1.976,
+      "secondi_in_aggiornamento_totali": 8.532,
+      "quota_del_replay": 0.0767,
+      "quota_del_replay_con_i_saltati": 0.0999
+     }
+    }
+   },
+   {
+    "file": "replay_C_seme45.json",
+    "seme": 45,
+    "politica": "ogni_blocco_soglia_zero",
+    "secondi_replay": 85.67,
+    "secondi_addestramento_iniziale": 41.54,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1280.9,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 501,
+      "ms_mediano": 5.39,
+      "ms_medio": 9.302,
+      "ms_minimo": 2.039,
+      "ms_massimo": 62.444,
+      "secondi_negli_aggiornamenti": 4.66,
+      "saltati": 414,
+      "secondi_negli_aggiornamenti_saltati": 0.017,
+      "secondi_in_aggiornamento_totali": 4.677,
+      "quota_del_replay": 0.0544,
+      "quota_del_replay_con_i_saltati": 0.0546
+     },
+     "mlp": {
+      "applicati": 501,
+      "ms_mediano": 7.044,
+      "ms_medio": 8.341,
+      "ms_minimo": 1.945,
+      "ms_massimo": 52.444,
+      "secondi_negli_aggiornamenti": 4.179,
+      "saltati": 414,
+      "secondi_negli_aggiornamenti_saltati": 0.018,
+      "secondi_in_aggiornamento_totali": 4.197,
+      "quota_del_replay": 0.0488,
+      "quota_del_replay_con_i_saltati": 0.049
+     },
+     "kan": {
+      "applicati": 501,
+      "ms_mediano": 10.774,
+      "ms_medio": 12.441,
+      "ms_minimo": 6.203,
+      "ms_massimo": 42.865,
+      "secondi_negli_aggiornamenti": 6.233,
+      "saltati": 414,
+      "secondi_negli_aggiornamenti_saltati": 2.123,
+      "secondi_in_aggiornamento_totali": 8.356,
+      "quota_del_replay": 0.0728,
+      "quota_del_replay_con_i_saltati": 0.0975
+     }
+    }
+   },
+   {
+    "file": "replay_C_seme46.json",
+    "seme": 46,
+    "politica": "ogni_blocco_soglia_zero",
+    "secondi_replay": 87.55,
+    "secondi_addestramento_iniziale": 30.26,
+    "blocchi": 916,
+    "memoria": {
+     "picco_rss_processo_mib": 1281.2,
+     "byte_memoria_fifo": 10240,
+     "byte_stato_per_modello": {
+      "lr": 8264,
+      "mlp": 16520,
+      "kan": 16456
+     },
+     "nota": "il picco RSS e dominato dagli array dello stream tenuti in memoria dal banco di prova, non dall'adattamento: non e la memoria che un sistema in linea userebbe"
+    },
+    "hardware": {
+     "cpu": "Intel(R) Xeon(R) Processor @ 2.80GHz",
+     "cpu_thread_visibili": 2,
+     "ram_totale_mib": 8031.1,
+     "cpu_utilizzabili_dal_processo": 2,
+     "thread_blas": {
+      "OMP_NUM_THREADS": null,
+      "OPENBLAS_NUM_THREADS": null,
+      "MKL_NUM_THREADS": null
+     }
+    },
+    "per_modello": {
+     "lr": {
+      "applicati": 541,
+      "ms_mediano": 4.871,
+      "ms_medio": 8.833,
+      "ms_minimo": 1.939,
+      "ms_massimo": 68.546,
+      "secondi_negli_aggiornamenti": 4.779,
+      "saltati": 374,
+      "secondi_negli_aggiornamenti_saltati": 0.015,
+      "secondi_in_aggiornamento_totali": 4.794,
+      "quota_del_replay": 0.0546,
+      "quota_del_replay_con_i_saltati": 0.0548
+     },
+     "mlp": {
+      "applicati": 541,
+      "ms_mediano": 6.489,
+      "ms_medio": 7.003,
+      "ms_minimo": 1.687,
+      "ms_massimo": 47.046,
+      "secondi_negli_aggiornamenti": 3.788,
+      "saltati": 374,
+      "secondi_negli_aggiornamenti_saltati": 0.016,
+      "secondi_in_aggiornamento_totali": 3.804,
+      "quota_del_replay": 0.0433,
+      "quota_del_replay_con_i_saltati": 0.0434
+     },
+     "kan": {
+      "applicati": 541,
+      "ms_mediano": 11.361,
+      "ms_medio": 13.107,
+      "ms_minimo": 6.115,
+      "ms_massimo": 49.253,
+      "secondi_negli_aggiornamenti": 7.091,
+      "saltati": 374,
+      "secondi_negli_aggiornamenti_saltati": 1.883,
+      "secondi_in_aggiornamento_totali": 8.974,
+      "quota_del_replay": 0.081,
+      "quota_del_replay_con_i_saltati": 0.1025
+     }
+    }
+   }
+  ]
+ }
+}

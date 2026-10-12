@@ -1,0 +1,245 @@
+{
+  "file": "Network_dataset_2.csv",
+  "sha256": "63b70bb96a95499b477b890674b74cc207ccb638b68ea4cc3a3dea9a448772c1",
+  "byte": 145496506,
+  "righe": 1000000,
+  "stage": {
+    "all_source": 1000000,
+    "invalid_raw_contract": 0,
+    "valid_raw_contract": 1000000,
+    "known_input_overlap": 850262,
+    "candidate_unseen_input": 149738
+  },
+  "label_valide": {
+    "1": 994283,
+    "0": 5717
+  },
+  "tipi_valide": {
+    "scanning": 994283,
+    "normal": 5717
+  },
+  "ts_primo_valido": 1556025780.0,
+  "ts_ultimo_valido": 1556027414.0,
+  "ts_primo_valido_iso": "2019-04-23T13:23:00+00:00",
+  "ts_ultimo_valido_iso": "2019-04-23T13:50:14+00:00",
+  "salti_indietro_nel_ts": 0,
+  "righe_con_ts_non_valido": 0,
+  "righe_con_label_sconosciuta": 0,
+  "zeri_negativi_canonicalizzati": 0,
+  "campi_invalidi": {},
+  "esempi_invalidi": [],
+  "impronte_note_osservate": 3347,
+  "tempi": {
+    "righe": 1000000,
+    "celle_orarie": [
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 994283
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 5717
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 146801
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2937
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 847482
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 2780
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 994283
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 5717
+      }
+    ],
+    "celle_orarie_frt": [
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 994283
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 5716
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 146801
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 2936
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 847482
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 2780
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 994283
+      },
+      {
+        "utc_hour": "2019-04-23T13:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 5716
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 1
+      }
+    ],
+    "ts_min": 1556025780.0,
+    "ts_max": 1556027414.0,
+    "feature_ready_time_min": 1556025780.0,
+    "feature_ready_time_max": 1556028522.970937,
+    "durata_massima_secondi": 1508.970937,
+    "duration_non_numeriche": 0,
+    "duration_negative": 0,
+    "coppie_fuori_ordine_per_ts": 0,
+    "coppie_fuori_ordine_per_feature_ready_time": 124980
+  },
+  "celle_giornaliere": [
+    {
+      "utc_day": "2019-04-23",
+      "stage": "all_source",
+      "label": "1",
+      "type": "scanning",
+      "rows": 994283
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 5717
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "scanning",
+      "rows": 146801
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "candidate_unseen_input",
+      "label": "0",
+      "type": "normal",
+      "rows": 2937
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "scanning",
+      "rows": 847482
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 2780
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "scanning",
+      "rows": 994283
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 5717
+    }
+  ],
+  "secondi_impiegati": 35.3,
+  "coerenza_orario_vs_giornaliero": {
+    "coincide": true,
+    "celle_orarie_arrotolate": 8,
+    "celle_giornaliere": 8
+  }
+}

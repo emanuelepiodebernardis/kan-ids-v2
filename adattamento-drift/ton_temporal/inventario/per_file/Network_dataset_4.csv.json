@@ -1,0 +1,350 @@
+{
+  "file": "Network_dataset_4.csv",
+  "sha256": "a20b2aed18fa474681f3614d35d4a23554272d6424cf6148596015440fb84a91",
+  "byte": 145220077,
+  "righe": 1000000,
+  "stage": {
+    "all_source": 1000000,
+    "invalid_raw_contract": 0,
+    "valid_raw_contract": 1000000,
+    "known_input_overlap": 799225,
+    "candidate_unseen_input": 200775
+  },
+  "label_valide": {
+    "1": 993744,
+    "0": 6256
+  },
+  "tipi_valide": {
+    "scanning": 993744,
+    "normal": 6256
+  },
+  "ts_primo_valido": 1556028036.0,
+  "ts_ultimo_valido": 1556076051.0,
+  "ts_primo_valido_iso": "2019-04-23T14:00:36+00:00",
+  "ts_ultimo_valido_iso": "2019-04-24T03:20:51+00:00",
+  "salti_indietro_nel_ts": 0,
+  "righe_con_ts_non_valido": 0,
+  "righe_con_label_sconosciuta": 0,
+  "zeri_negativi_canonicalizzati": 0,
+  "campi_invalidi": {},
+  "esempi_invalidi": [],
+  "impronte_note_osservate": 5644,
+  "tempi": {
+    "righe": 1000000,
+    "celle_orarie": [
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 950325
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 6158
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 191747
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 758578
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 6158
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 950325
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 6158
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 43419
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 9028
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 34391
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 43419
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      }
+    ],
+    "celle_orarie_frt": [
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 950325
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 6158
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 191747
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 758578
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 6158
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 950325
+      },
+      {
+        "utc_hour": "2019-04-23T14:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 6158
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "1",
+        "type": "scanning",
+        "rows": 43419
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "all_source",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "candidate_unseen_input",
+        "label": "1",
+        "type": "scanning",
+        "rows": 9028
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "1",
+        "type": "scanning",
+        "rows": 34391
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "known_input_overlap",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "1",
+        "type": "scanning",
+        "rows": 43419
+      },
+      {
+        "utc_hour": "2019-04-24T03:00:00+00:00",
+        "stage": "valid_raw_contract",
+        "label": "0",
+        "type": "normal",
+        "rows": 98
+      }
+    ],
+    "ts_min": 1556028036.0,
+    "ts_max": 1556076051.0,
+    "feature_ready_time_min": 1556028036.0,
+    "feature_ready_time_max": 1556076739.605232,
+    "durata_massima_secondi": 786.929937,
+    "duration_non_numeriche": 0,
+    "duration_negative": 0,
+    "coppie_fuori_ordine_per_ts": 0,
+    "coppie_fuori_ordine_per_feature_ready_time": 206605
+  },
+  "celle_giornaliere": [
+    {
+      "utc_day": "2019-04-23",
+      "stage": "all_source",
+      "label": "1",
+      "type": "scanning",
+      "rows": 950325
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 6158
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "scanning",
+      "rows": 191747
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "scanning",
+      "rows": 758578
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 6158
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "scanning",
+      "rows": 950325
+    },
+    {
+      "utc_day": "2019-04-23",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 6158
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "all_source",
+      "label": "1",
+      "type": "scanning",
+      "rows": 43419
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "all_source",
+      "label": "0",
+      "type": "normal",
+      "rows": 98
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "candidate_unseen_input",
+      "label": "1",
+      "type": "scanning",
+      "rows": 9028
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "known_input_overlap",
+      "label": "1",
+      "type": "scanning",
+      "rows": 34391
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "known_input_overlap",
+      "label": "0",
+      "type": "normal",
+      "rows": 98
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "valid_raw_contract",
+      "label": "1",
+      "type": "scanning",
+      "rows": 43419
+    },
+    {
+      "utc_day": "2019-04-24",
+      "stage": "valid_raw_contract",
+      "label": "0",
+      "type": "normal",
+      "rows": 98
+    }
+  ],
+  "secondi_impiegati": 35.0,
+  "coerenza_orario_vs_giornaliero": {
+    "coincide": true,
+    "celle_orarie_arrotolate": 14,
+    "celle_giornaliere": 14
+  }
+}

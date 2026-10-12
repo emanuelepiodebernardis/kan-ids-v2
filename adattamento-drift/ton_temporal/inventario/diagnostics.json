@@ -1,0 +1,238 @@
+{
+  "file": 23,
+  "righe_totali": 22339021,
+  "righe_valide": 22338152,
+  "righe_invalide": 869,
+  "righe_esposte": 12156362,
+  "righe_non_esposte": 10181790,
+  "quota_esposta": 0.5441972997587267,
+  "impronte_note_uniche": 92330,
+  "impronte_note_osservate": null,
+  "sorgente_note_sha256": "26ddc513552de36de6428b2e578efaed2b57504c716dfba847cc0109a64e1974",
+  "byte_totali": 3372475448,
+  "catena_temporale": [
+    {
+      "da": "Network_dataset_1.csv",
+      "a": "Network_dataset_2.csv",
+      "ts_fine": 1556025780.0,
+      "ts_inizio_successivo": 1556025780.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_2.csv",
+      "a": "Network_dataset_3.csv",
+      "ts_fine": 1556027414.0,
+      "ts_inizio_successivo": 1556027414.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_3.csv",
+      "a": "Network_dataset_4.csv",
+      "ts_fine": 1556028036.0,
+      "ts_inizio_successivo": 1556028036.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_4.csv",
+      "a": "Network_dataset_5.csv",
+      "ts_fine": 1556076051.0,
+      "ts_inizio_successivo": 1556076051.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_5.csv",
+      "a": "Network_dataset_6.csv",
+      "ts_fine": 1556076696.0,
+      "ts_inizio_successivo": 1556076696.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_6.csv",
+      "a": "Network_dataset_7.csv",
+      "ts_fine": 1556079360.0,
+      "ts_inizio_successivo": 1556079360.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_7.csv",
+      "a": "Network_dataset_8.csv",
+      "ts_fine": 1556086368.0,
+      "ts_inizio_successivo": 1556086368.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_8.csv",
+      "a": "Network_dataset_9.csv",
+      "ts_fine": 1556136793.0,
+      "ts_inizio_successivo": 1556136793.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_9.csv",
+      "a": "Network_dataset_10.csv",
+      "ts_fine": 1556145104.0,
+      "ts_inizio_successivo": 1556145104.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_10.csv",
+      "a": "Network_dataset_11.csv",
+      "ts_fine": 1556153426.0,
+      "ts_inizio_successivo": 1556153426.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_11.csv",
+      "a": "Network_dataset_12.csv",
+      "ts_fine": 1556175929.0,
+      "ts_inizio_successivo": 1556175929.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_12.csv",
+      "a": "Network_dataset_13.csv",
+      "ts_fine": 1556211719.0,
+      "ts_inizio_successivo": 1556211719.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_13.csv",
+      "a": "Network_dataset_14.csv",
+      "ts_fine": 1556222348.0,
+      "ts_inizio_successivo": 1556222348.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_14.csv",
+      "a": "Network_dataset_15.csv",
+      "ts_fine": 1556229981.0,
+      "ts_inizio_successivo": 1556229981.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_15.csv",
+      "a": "Network_dataset_16.csv",
+      "ts_fine": 1556237803.0,
+      "ts_inizio_successivo": 1556237803.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_16.csv",
+      "a": "Network_dataset_17.csv",
+      "ts_fine": 1556245834.0,
+      "ts_inizio_successivo": 1556245834.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_17.csv",
+      "a": "Network_dataset_18.csv",
+      "ts_fine": 1556256431.0,
+      "ts_inizio_successivo": 1556256431.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_18.csv",
+      "a": "Network_dataset_19.csv",
+      "ts_fine": 1556301245.0,
+      "ts_inizio_successivo": 1556301245.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_19.csv",
+      "a": "Network_dataset_20.csv",
+      "ts_fine": 1556328317.0,
+      "ts_inizio_successivo": 1556328317.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_20.csv",
+      "a": "Network_dataset_21.csv",
+      "ts_fine": 1556351863.0,
+      "ts_inizio_successivo": 1556351863.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_21.csv",
+      "a": "Network_dataset_22.csv",
+      "ts_fine": 1556363201.0,
+      "ts_inizio_successivo": 1556363201.0,
+      "contigui": true
+    },
+    {
+      "da": "Network_dataset_22.csv",
+      "a": "Network_dataset_23.csv",
+      "ts_fine": 1556485532.0,
+      "ts_inizio_successivo": 1556485532.0,
+      "contigui": true
+    }
+  ],
+  "rotture_della_catena": 0,
+  "salti_indietro_nel_ts_per_file": {
+    "Network_dataset_1.csv": 0,
+    "Network_dataset_2.csv": 0,
+    "Network_dataset_3.csv": 0,
+    "Network_dataset_4.csv": 0,
+    "Network_dataset_5.csv": 0,
+    "Network_dataset_6.csv": 0,
+    "Network_dataset_7.csv": 0,
+    "Network_dataset_8.csv": 0,
+    "Network_dataset_9.csv": 0,
+    "Network_dataset_10.csv": 0,
+    "Network_dataset_11.csv": 0,
+    "Network_dataset_12.csv": 2,
+    "Network_dataset_13.csv": 5,
+    "Network_dataset_14.csv": 3,
+    "Network_dataset_15.csv": 0,
+    "Network_dataset_16.csv": 2,
+    "Network_dataset_17.csv": 1,
+    "Network_dataset_18.csv": 0,
+    "Network_dataset_19.csv": 0,
+    "Network_dataset_20.csv": 0,
+    "Network_dataset_21.csv": 1,
+    "Network_dataset_22.csv": 3,
+    "Network_dataset_23.csv": 4
+  },
+  "righe_con_label_sconosciuta": 0,
+  "righe_con_ts_non_valido": 0,
+  "coerenza_orario_vs_giornaliero": {
+    "Network_dataset_1.csv": true,
+    "Network_dataset_2.csv": true,
+    "Network_dataset_3.csv": true,
+    "Network_dataset_4.csv": true,
+    "Network_dataset_5.csv": true,
+    "Network_dataset_6.csv": true,
+    "Network_dataset_7.csv": true,
+    "Network_dataset_8.csv": true,
+    "Network_dataset_9.csv": true,
+    "Network_dataset_10.csv": true,
+    "Network_dataset_11.csv": true,
+    "Network_dataset_12.csv": true,
+    "Network_dataset_13.csv": true,
+    "Network_dataset_14.csv": true,
+    "Network_dataset_15.csv": true,
+    "Network_dataset_16.csv": true,
+    "Network_dataset_17.csv": true,
+    "Network_dataset_18.csv": true,
+    "Network_dataset_19.csv": true,
+    "Network_dataset_20.csv": true,
+    "Network_dataset_21.csv": true,
+    "Network_dataset_22.csv": true,
+    "Network_dataset_23.csv": true
+  },
+  "coerenza_orario_vs_giornaliero_tutta": true,
+  "strumenti_riusati": {
+    "modulo": "research028/vendor/audit_ton_full.py",
+    "funzioni": [
+      "audit_csv",
+      "normalize_raw",
+      "fingerprint_rows",
+      "parse_timestamp",
+      "timestamp_iso"
+    ],
+    "non_eseguibili": [
+      "run_audit (ricevuta di acquisizione assente)",
+      "load_known (archivio delle impronte non pubblicato)",
+      "diagnose_ton028.py (verify_kit: 22 voci su 42 assenti)"
+    ]
+  }
+}
