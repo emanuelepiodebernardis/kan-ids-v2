@@ -14,9 +14,12 @@ Per ogni blocco di `--blocco` righe in ordine di feature_ready_time:
   3. ATTENDI      le etichette del blocco k arrivano alla FINE del blocco k+1.
                   Entrano allora nella memoria, e l'aggiornamento che ne segue
                   incide per la prima volta sul blocco k+2.
-  4. AGGIORNA     memoria FIFO di `--memoria` esempi, inizializzata da A. Se la
-                  memoria contiene una sola classe l'aggiornamento e' SALTATO e
-                  il salto e' registrato.
+  4. AGGIORNA     memoria di `--memoria` esempi, inizializzata da A. Il default
+                  e' la FIFO storica. ADAPT-02 aggiunge `per_classe`, che usa
+                  lo stesso insieme iniziale e conserva esempi recenti di
+                  entrambe le classi quando sono disponibili. Se la memoria
+                  contiene una sola classe l'aggiornamento e' SALTATO e il
+                  salto e' registrato.
 
 Le tre regole di aggiornamento sono quelle chieste, e hanno la stessa forma:
 una regressione logistica su una rappresentazione piccola, calcolata dal
@@ -621,6 +624,112 @@ def campiona(modo, punteggio_guida, quanti, rng):
     return np.sort(scelti)
 
 
+class MemoriaReplay:
+    """Memoria causale del replay: FIFO storica oppure quote per classe.
+
+    La strategia `per_classe` non introduce un archivio nascosto: riceve solo gli
+    esempi che arrivano con il ritardo del replay, come la FIFO. La quota
+    128/128 quando `capacita == 256` e' una garanzia minima se entrambe le
+    classi sono disponibili; i posti non usati da una classe possono essere
+    occupati dall'altra fino al limite totale.
+    """
+
+    def __init__(self, capacita, strategia='fifo'):
+        if capacita <= 0:
+            raise ValueError('la memoria deve avere capacita positiva')
+        if strategia not in ('fifo', 'per_classe'):
+            raise ValueError('strategia di memoria non riconosciuta: ' + strategia)
+        self.capacita = int(capacita)
+        self.strategia = strategia
+        self.quote = {0: self.capacita // 2, 1: self.capacita - self.capacita // 2}
+        self.voci = []
+        self._ordine = 0
+
+    def aggiungi(self, X, y, blocco_arrivo):
+        for x, classe in zip(X, y):
+            c = int(classe)
+            if c not in (0, 1):
+                raise ValueError('classe attesa binaria 0/1, trovata ' + str(c))
+            self.voci.append({
+                'x': np.asarray(x, dtype=float).copy(),
+                'y': c,
+                'blocco_arrivo': int(blocco_arrivo),
+                'ordine': self._ordine,
+            })
+            self._ordine += 1
+        self._riduci()
+
+    def _riduci(self):
+        if self.strategia == 'fifo':
+            eccesso = max(0, len(self.voci) - self.capacita)
+            if eccesso:
+                del self.voci[:eccesso]
+            return
+        self._riduci_per_classe()
+
+    def _riduci_per_classe(self):
+        while len(self.voci) > self.capacita:
+            conteggi = self.conteggi()
+            candidate = [c for c in (0, 1) if conteggi[c] > self.quote[c]]
+            if not candidate:
+                candidate = [c for c in (0, 1) if conteggi[c] > 0]
+
+            def chiave(classe):
+                indici = [i for i, v in enumerate(self.voci) if v['y'] == classe]
+                primo = self.voci[indici[0]]['ordine'] if indici else self._ordine
+                return (conteggi[classe] - self.quote[classe], -primo, -classe)
+
+            classe = max(candidate, key=chiave)
+            for i, voce in enumerate(self.voci):
+                if voce['y'] == classe:
+                    del self.voci[i]
+                    break
+
+    def conteggi(self):
+        return {
+            0: sum(1 for v in self.voci if v['y'] == 0),
+            1: sum(1 for v in self.voci if v['y'] == 1),
+        }
+
+    def liste(self):
+        return [v['x'] for v in self.voci], [v['y'] for v in self.voci]
+
+    def array(self):
+        X, y = self.liste()
+        return np.asarray(X), np.asarray(y, dtype=np.uint8)
+
+    def eta(self, blocco_corrente):
+        fuori = {'tutti': self._eta([v for v in self.voci], blocco_corrente)}
+        for classe, nome in ((0, 'normali'), (1, 'attacchi')):
+            fuori[nome] = self._eta(
+                [v for v in self.voci if v['y'] == classe], blocco_corrente)
+        return fuori
+
+    @staticmethod
+    def _eta(voci, blocco_corrente):
+        if not voci:
+            return {'n': 0, 'min': NA, 'mediana': NA, 'max': NA}
+        eta = np.asarray([blocco_corrente - v['blocco_arrivo'] for v in voci])
+        return {
+            'n': int(len(eta)),
+            'min': int(eta.min()),
+            'mediana': float(np.median(eta)),
+            'max': int(eta.max()),
+        }
+
+    def descrizione(self):
+        return {
+            'strategia': self.strategia,
+            'capacita': self.capacita,
+            'quote_per_classe': dict(self.quote) if self.strategia == 'per_classe' else NA,
+            'regola_posti_liberi': (
+                'i posti non usati da una classe possono essere occupati '
+                'dall altra; quando la memoria supera il limite si espelle '
+                'prima la classe sopra quota, sempre dagli esempi piu vecchi'
+            ) if self.strategia == 'per_classe' else 'FIFO globale',
+        }
+
+
 def aggiorna(rappr, y, ridge=1.0):
     """Rifitta i pochi parametri sulla memoria. None se la memoria e monoclasse."""
     if len(np.unique(y)) < 2:
@@ -639,6 +748,9 @@ def main(argv=None):
     p.add_argument('--blocco', type=int, default=10000)
     p.add_argument('--budget', type=float, default=0.01)
     p.add_argument('--memoria', type=int, default=256)
+    p.add_argument('--memoria-strategia', default='fifo',
+                   choices=('fifo', 'per_classe'),
+                   help='fifo storica oppure memoria con quote per classe binaria')
     p.add_argument('--ritardo', type=int, default=1,
                    help='blocchi di attesa: le etichette di k arrivano a fine k+ritardo')
     p.add_argument('--seme', type=int, default=42)
@@ -726,13 +838,17 @@ def main(argv=None):
     congelati = {n: np.array(m.parametri(), copy=True) for n, m in modelli.items()}
     adattivi = {n: np.array(m.parametri(), copy=True) for n, m in modelli.items()}
 
-    # memoria FIFO inizializzata da A
+    # memoria inizializzata da A. Le strategie ricevono lo stesso insieme
+    # iniziale: la memoria per classe non ha un ricampionamento favorevole.
     rng0 = np.random.default_rng(a.seme)
     sem = rng0.choice(len(yA), min(a.memoria, len(yA)), replace=False)
-    memoria_X = [ZA[i] for i in sem]
-    memoria_y = [int(yA[i]) for i in sem]
+    memoria = MemoriaReplay(a.memoria, a.memoria_strategia)
+    memoria.aggiungi([ZA[i] for i in sem], [int(yA[i]) for i in sem],
+                     blocco_arrivo=-1)
+    memoria_X, memoria_y = memoria.liste()
+    conteggi_iniziali = memoria.conteggi()
     print('memoria iniziale: %d esempi da A, normali %d'
-          % (len(memoria_y), sum(1 for v in memoria_y if v == 0)), flush=True)
+          % (len(memoria_y), conteggi_iniziali[0]), flush=True)
 
     n = len(y)
     n_blocchi = (n + a.blocco - 1) // a.blocco
@@ -777,6 +893,7 @@ def main(argv=None):
                 'frt_inizio_utc': float(frt[i0]), 'frt_fine_utc': float(frt[i1 - 1]),
                 'tipi_presenti': sorted({tipi[t] for t in tp[i0:i1]})}
         punteggi_emessi = {}
+        memoria_X, memoria_y = memoria.liste()
         for nm, m in modelli.items():
             R = m.rappresentazione(Zb)
             pc = R @ congelati[nm][:-1] + congelati[nm][-1]
@@ -830,13 +947,15 @@ def main(argv=None):
         voce['etichette_arrivate_dal_blocco'] = pronte if pronte >= 0 else NA
         if pronte >= 0 and pronte in in_attesa:
             idx = in_attesa.pop(pronte)
-            for i in idx:
-                memoria_X.append(tr(X[i:i + 1])[0]); memoria_y.append(int(y[i]))
-            del memoria_X[:max(0, len(memoria_X) - a.memoria)]
-            del memoria_y[:max(0, len(memoria_y) - a.memoria)]
-            MX = np.array(memoria_X); My = np.array(memoria_y)
-            voce['memoria_normali'] = int((My == 0).sum())
-            voce['memoria_attacchi'] = int((My == 1).sum())
+            memoria.aggiungi([tr(X[i:i + 1])[0] for i in idx],
+                             [int(y[i]) for i in idx],
+                             blocco_arrivo=pronte)
+            MX, My = memoria.array()
+            conteggi = memoria.conteggi()
+            voce['memoria_strategia'] = memoria.strategia
+            voce['memoria_normali'] = int(conteggi[0])
+            voce['memoria_attacchi'] = int(conteggi[1])
+            voce['memoria_eta_blocchi'] = memoria.eta(k)
             # 4. AGGIORNA: incide dal blocco k+1, cioe' dal (pronte+ritardo+1)
             for nm, m in modelli.items():
                 # la politica decide SE aggiornare, usando solo informazione
@@ -894,6 +1013,8 @@ def main(argv=None):
         }
     fuori = {
         'parametri': {'blocco': a.blocco, 'budget': a.budget, 'memoria': a.memoria,
+                      'memoria_strategia': a.memoria_strategia,
+                      'memoria_descrizione': memoria.descrizione(),
                       'ritardo_in_blocchi': a.ritardo, 'seme': a.seme,
                       'seme_politica': _seme_politica_effettivo(
                           a.seme, a.seme_politica),
@@ -954,6 +1075,7 @@ def main(argv=None):
                 'picco_rss_processo_mib': picco_rss()[0],
                 'picco_rss_metodo': picco_rss()[1],
                 'byte_memoria_fifo': int(byte_memoria_fifo),
+                'strategia_memoria': memoria.strategia,
                 'byte_stato_per_modello': {nm: int(v) for nm, v
                                            in byte_stato_adattamento.items()},
                 'nota': 'il picco RSS e dominato dagli array dello stream tenuti '
