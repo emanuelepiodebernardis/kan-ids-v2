@@ -195,4 +195,5 @@ Il checkpoint e' tecnicamente fattibile:
 - composizione ed eta' del buffer sono registrate;
 - D resta fuori.
 
-La campagna estesa non e' stata eseguita e richiede autorizzazione separata.
+La campagna estesa non e' stata eseguita in questo checkpoint. La nota di
+provenienza dello smoke approvato e' in `nota_provenienza_checkpoint.md`.
