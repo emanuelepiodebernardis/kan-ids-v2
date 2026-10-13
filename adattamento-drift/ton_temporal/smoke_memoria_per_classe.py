@@ -41,6 +41,8 @@ def _carica_replay_storico(tmp_dir):
         cwd=repo, check=True, capture_output=True, text=True)
     percorso = Path(tmp_dir) / 'replay_fifo_storica.py'
     percorso.write_text(p.stdout, encoding='utf-8')
+    shutil.copy2(Path(__file__).with_name('soglia_bilanciata.py'),
+                 Path(tmp_dir) / 'soglia_bilanciata.py')
     spec = importlib.util.spec_from_file_location('replay_fifo_storica', percorso)
     modulo = importlib.util.module_from_spec(spec)
     sys.modules['replay_fifo_storica'] = modulo
@@ -174,6 +176,8 @@ def main(argv=None):
     p.add_argument('--seme', type=int, default=42)
     p.add_argument('--max-blocchi', type=int, default=24)
     p.add_argument('--memoria', type=int, default=256)
+    p.add_argument('--riusa-rendiconti-esistenti', action='store_true',
+                   help='non riesegue le quattro corse correnti se i file esistono')
     args = p.parse_args(argv)
 
     uscita = Path(args.uscita_dir)
@@ -197,10 +201,13 @@ def main(argv=None):
                 '--politica', politica,
                 '--uscita', str(percorso),
             ]
-            print('eseguo', nome, flush=True)
-            codice = replay.main(cmd)
-            if codice != 0:
-                raise SystemExit(codice)
+            if args.riusa_rendiconti_esistenti and percorso.is_file():
+                print('riuso', nome, flush=True)
+            else:
+                print('eseguo', nome, flush=True)
+                codice = replay.main(cmd)
+                if codice != 0:
+                    raise SystemExit(codice)
             prodotti.append(percorso)
             if strategia == 'fifo':
                 correnti_per_politica[politica] = percorso

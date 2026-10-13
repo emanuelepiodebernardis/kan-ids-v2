@@ -1,11 +1,59 @@
 {
-  "commit": "1679f65697ccdf1e92710ebfcbb940ce36233e7e",
+  "commit": "a30898523f4573efaacfda45f5c1cc77a7382992",
+  "commit_codice_eseguito": "a30898523f4573efaacfda45f5c1cc77a7382992",
+  "commit_fifo_storica": "1679f65697ccdf1e92710ebfcbb940ce36233e7e",
   "scopo": "smoke ADAPT-02, non campagna estesa",
   "seme": 42,
   "max_blocchi": 24,
   "memoria": 256,
-  "secondi_totali": 1753.57,
+  "secondi_totali": 1240.34,
   "appaiamento": "row_id campionati e misure frozen identici nelle quattro corse",
+  "confronto_fifo_storica": [
+    {
+      "politica": "ogni_blocco",
+      "blocchi_corrente": 24,
+      "blocchi_storico": 24,
+      "riepilogo_identico": true,
+      "campi_per_blocco_identici": true,
+      "campi_confrontati": [
+        "row_id_campionati_sha256",
+        "etichette_richieste",
+        "memoria_normali",
+        "memoria_attacchi",
+        "congelato_*",
+        "adattivo_*",
+        "stima_verso_*",
+        "stima_campione_*",
+        "decisione_*",
+        "salto_*"
+      ],
+      "prima_differenza": null,
+      "file_corrente": "smoke_C_seme42_fifo_ogni_blocco.json",
+      "file_storico": "fifo_storica/smoke_C_seme42_fifo_storica_ogni_blocco.json"
+    },
+    {
+      "politica": "evidenza_inversione",
+      "blocchi_corrente": 24,
+      "blocchi_storico": 24,
+      "riepilogo_identico": true,
+      "campi_per_blocco_identici": true,
+      "campi_confrontati": [
+        "row_id_campionati_sha256",
+        "etichette_richieste",
+        "memoria_normali",
+        "memoria_attacchi",
+        "congelato_*",
+        "adattivo_*",
+        "stima_verso_*",
+        "stima_campione_*",
+        "decisione_*",
+        "salto_*"
+      ],
+      "prima_differenza": null,
+      "file_corrente": "smoke_C_seme42_fifo_evidenza_inversione.json",
+      "file_storico": "fifo_storica/smoke_C_seme42_fifo_storica_evidenza_inversione.json"
+    }
+  ],
   "rendiconti": [
     {
       "file": "smoke_C_seme42_fifo_ogni_blocco.json",
@@ -27,7 +75,7 @@
           "salti_per_memoria_monoclasse": 0
         },
         "mlp": {
-          "auroc_adattivo": 0.9145602014136998,
+          "auroc_adattivo": 0.9143885712559046,
           "richiamo_attacchi_adattivo": 0.9752672044933136,
           "fpr_blocco_adattivo": 0.12701542691960296,
           "auroc_congelato": 0.30391565539804194,
@@ -35,9 +83,9 @@
           "salti_per_memoria_monoclasse": 0
         },
         "kan": {
-          "auroc_adattivo": 0.9638443043824964,
-          "richiamo_attacchi_adattivo": 0.9601320401819818,
-          "fpr_blocco_adattivo": 0.03855508655279306,
+          "auroc_adattivo": 0.96383433697602,
+          "richiamo_attacchi_adattivo": 0.9606071939590223,
+          "fpr_blocco_adattivo": 0.038790491449214905,
           "auroc_congelato": 0.9683964499969977,
           "aggiornamenti_applicati": 23,
           "salti_per_memoria_monoclasse": 0
@@ -101,7 +149,7 @@
           "salti_per_memoria_monoclasse": 0
         },
         "mlp": {
-          "auroc_adattivo": 0.9286899477718862,
+          "auroc_adattivo": 0.928691515826999,
           "richiamo_attacchi_adattivo": 0.9576531619505166,
           "fpr_blocco_adattivo": 0.08034447048456995,
           "auroc_congelato": 0.30391565539804194,
@@ -109,8 +157,8 @@
           "salti_per_memoria_monoclasse": 0
         },
         "kan": {
-          "auroc_adattivo": 0.9878474008098129,
-          "richiamo_attacchi_adattivo": 0.876886841285838,
+          "auroc_adattivo": 0.9878452412365282,
+          "richiamo_attacchi_adattivo": 0.8769684227642661,
           "fpr_blocco_adattivo": 0.00038587177081878,
           "auroc_congelato": 0.9683964499969977,
           "aggiornamenti_applicati": 23,
@@ -138,8 +186,8 @@
           "salti_per_memoria_monoclasse": 0
         },
         "mlp": {
-          "auroc_adattivo": 0.8172623530534263,
-          "richiamo_attacchi_adattivo": 0.9781193699587206,
+          "auroc_adattivo": 0.8172622135445277,
+          "richiamo_attacchi_adattivo": 0.9781753226287538,
           "fpr_blocco_adattivo": 0.27587512843583917,
           "auroc_congelato": 0.30391565539804194,
           "aggiornamenti_applicati": 1,

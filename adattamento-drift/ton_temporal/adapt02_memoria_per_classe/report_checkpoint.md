@@ -10,6 +10,9 @@ Base: `1679f65697ccdf1e92710ebfcbb940ce36233e7e`.
 
 Branch: `adapt-02/memoria-per-classe`.
 
+Codice eseguito nello smoke aggiornato:
+`a30898523f4573efaacfda45f5c1cc77a7382992`.
+
 D non e' stato usato.
 
 ## Implementazione
@@ -25,6 +28,12 @@ della classe sopra quota.
 
 La memoria per classe riceve lo stesso insieme iniziale da A della FIFO. Non
 ricampiona A, non duplica esempi rari e non recupera campioni eliminati.
+
+Correzione del 13/10/2026: `MemoriaReplay.aggiungi` conserva il dtype
+originale delle feature. Il refactoring precedente usava
+`np.asarray(x, dtype=float)`, che portava le righe trasformate da `float32` a
+`float64` e cambiava anche la FIFO di default. Ora la memoria copia
+`np.asarray(x)` senza conversione forzata.
 
 Ogni blocco con etichette arrivate registra:
 
@@ -45,16 +54,27 @@ Controlla:
 - espulsione degli esempi piu' vecchi per classe;
 - classe assente ancora monoclasse;
 - nessun recupero dei campioni eliminati;
+- dtype originale delle feature conservato in memoria;
+- default confrontato con la FIFO storica del commit base;
 - richieste di etichette e misure frozen identiche fra FIFO e per-classe.
 
 Esito:
 
 ```text
-6 passed, 4 warnings
+8 passed, 6 warnings
 ```
 
 Le warning sono quelle gia' note di `MLPClassifier` sui piccoli flussi
 sintetici di test.
+
+Suite completa della cartella `ton_temporal`:
+
+```text
+259 passed, 15 warnings in 73.67s
+```
+
+Anche qui le warning sono quelle gia' note di `MLPClassifier` nei test
+sintetici.
 
 ## Smoke su C, seed 42
 
@@ -71,10 +91,24 @@ Output:
 - `smoke_seed42/smoke_C_seme42_fifo_evidenza_inversione.json`
 - `smoke_seed42/smoke_C_seme42_per_classe_ogni_blocco.json`
 - `smoke_seed42/smoke_C_seme42_per_classe_evidenza_inversione.json`
+- `smoke_seed42/fifo_storica/smoke_C_seme42_fifo_storica_ogni_blocco.json`
+- `smoke_seed42/fifo_storica/smoke_C_seme42_fifo_storica_evidenza_inversione.json`
 - `smoke_seed42/riepilogo_smoke.json`
 
 Lo script ha verificato che i digest dei `row_id` campionati e le misure
 frozen per blocco coincidano nelle quattro corse.
+
+In piu' ha rieseguito la FIFO storica dal commit
+`1679f65697ccdf1e92710ebfcbb940ce36233e7e` e l'ha confrontata con la FIFO
+corrente prodotta dal codice `a30898523f4573efaacfda45f5c1cc77a7382992`.
+Per entrambe le politiche, `ogni_blocco` ed `evidenza_inversione`, il confronto
+riporta:
+
+- stesso numero di blocchi;
+- riepilogo identico;
+- campi per blocco identici su digest dei campioni, etichette richieste,
+  conteggi della memoria, misure frozen, misure adattive, stime, decisioni e
+  salti.
 
 Parametri:
 
@@ -109,16 +143,16 @@ Metriche medie sui blocchi definiti:
 | memoria | politica | modello | AUROC adattivo | recall attacchi | FPR medio blocco |
 |---|---|---|---:|---:|---:|
 | FIFO | ogni blocco | LR | 0,8916 | 0,9619 | 0,1362 |
-| FIFO | ogni blocco | MLP | 0,9146 | 0,9753 | 0,1270 |
-| FIFO | ogni blocco | KAN | 0,9638 | 0,9601 | 0,0386 |
+| FIFO | ogni blocco | MLP | 0,9144 | 0,9753 | 0,1270 |
+| FIFO | ogni blocco | KAN | 0,9638 | 0,9606 | 0,0388 |
 | FIFO | evidence | LR | 0,8336 | 0,9679 | 0,1801 |
 | FIFO | evidence | MLP | 0,7928 | 0,9780 | 0,2333 |
 | FIFO | evidence | KAN | 0,9684 | 0,9616 | 0,0008 |
 | per classe | ogni blocco | LR | 0,9235 | 0,9561 | 0,0832 |
 | per classe | ogni blocco | MLP | 0,9287 | 0,9577 | 0,0803 |
-| per classe | ogni blocco | KAN | 0,9878 | 0,8769 | 0,0004 |
+| per classe | ogni blocco | KAN | 0,9878 | 0,8770 | 0,0004 |
 | per classe | evidence | LR | 0,8681 | 0,9566 | 0,2127 |
-| per classe | evidence | MLP | 0,8173 | 0,9781 | 0,2759 |
+| per classe | evidence | MLP | 0,8173 | 0,9782 | 0,2759 |
 | per classe | evidence | KAN | 0,9684 | 0,9616 | 0,0008 |
 
 Questi numeri non sono un risultato scientifico: il tratto e' breve, sta
@@ -128,23 +162,26 @@ interpretabili.
 
 ## Tempi osservati
 
-Tempo totale dello smoke: 1.753,57 secondi, circa 29,2 minuti.
+Tempo totale del comando completo: 1.240,34 secondi, circa 20,7 minuti.
+Questo include le quattro corse correnti e le due FIFO storiche usate solo per
+il confronto di retrocompatibilita'.
 
-Tempi per corsa:
+Tempi per le quattro corse correnti:
 
 | file | totale s | iniziale s | replay s |
 |---|---:|---:|---:|
-| FIFO ogni blocco | 576,63 | 160,46 | 17,13 |
-| FIFO evidence | 493,92 | 139,84 | 8,20 |
-| per classe ogni blocco | 381,69 | 140,05 | 7,69 |
-| per classe evidence | 299,59 | 113,60 | 2,66 |
+| FIFO ogni blocco | 257,47 | 91,86 | 5,73 |
+| FIFO evidence | 221,12 | 73,70 | 1,82 |
+| per classe ogni blocco | 187,01 | 60,09 | 3,22 |
+| per classe evidence | 179,39 | 59,25 | 2,67 |
 
 Il costo e' dominato da addestramento iniziale e soglie su B, ripetuti per ogni
 corsa. Il replay dei 24 blocchi pesa poco.
 
-Stima prudente per la campagna da 20 replay sullo stesso PC: 3-4 ore. La stima
-include la ripetizione conservativa di addestramento e calibrazione per ogni
-corsa. Eventuali riusi delle soglie o dei modelli iniziali vanno introdotti
+Le quattro corse correnti sommano circa 845 secondi. Proiettando linearmente su
+20 replay si ottengono circa 70 minuti; una stima prudente sullo stesso PC e'
+2-3 ore, includendo variabilita' del carico, scrittura dei rendiconti e
+verifiche. Eventuali riusi delle soglie o dei modelli iniziali vanno introdotti
 solo se prima vengono resi verificabili e appaiati.
 
 ## Esito del checkpoint
@@ -152,6 +189,7 @@ solo se prima vengono resi verificabili e appaiati.
 Il checkpoint e' tecnicamente fattibile:
 
 - la FIFO resta retrocompatibile;
+- la FIFO corrente coincide con la FIFO storica sui campi confrontati;
 - la memoria per classe rispetta i vincoli causali;
 - lo smoke produce quattro rendiconti appaiati;
 - composizione ed eta' del buffer sono registrate;
