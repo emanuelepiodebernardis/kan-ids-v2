@@ -651,7 +651,7 @@ class MemoriaReplay:
             if c not in (0, 1):
                 raise ValueError('classe attesa binaria 0/1, trovata ' + str(c))
             self.voci.append({
-                'x': np.asarray(x, dtype=float).copy(),
+                'x': np.asarray(x).copy(),
                 'y': c,
                 'blocco_arrivo': int(blocco_arrivo),
                 'ordine': self._ordine,

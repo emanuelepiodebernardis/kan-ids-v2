@@ -51,19 +51,19 @@ cd <repo>
 python -m pytest adattamento-drift/ton_temporal -q
 ```
 
-Attesi: **257 test superati** nella cartella `ton_temporal/`: i 251 test
-verificati di ADAPT-01 piu' 6 test del checkpoint ADAPT-02 sulla memoria per
+Attesi: **259 test superati** nella cartella `ton_temporal/`: i 251 test
+verificati di ADAPT-01 piu' 8 test del checkpoint ADAPT-02 sulla memoria per
 classe. Per file: `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
-`test_memoria_per_classe.py` 6.
+`test_memoria_per_classe.py` 8.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
 **240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** a
-chiusura di ADAPT-01, **257** ora con il checkpoint ADAPT-02.
+chiusura di ADAPT-01, **259** ora con il checkpoint ADAPT-02.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -76,16 +76,16 @@ consegnato**; e i percorsi dei comandi, che devono attraversare
 comando si esegue. Le 6 prove nuove presidiano la serie finale C: 40 rendiconti
 originali conservati, 60 riallineati, e test negativi su soglie, misure
 frozen, campioni, aggiornamenti richiesti e aggiornamenti effettivamente
-applicati. Le 6 prove di ADAPT-02 presidiano invece la memoria per classe:
-limite, quote, espulsione, causalita', retrocompatibilita' FIFO e appaiamento
-di richieste e frozen.
+applicati. Le 8 prove di ADAPT-02 presidiano invece la memoria per classe:
+limite, quote, espulsione, causalita', retrocompatibilita' FIFO, dtype delle
+feature, confronto con la FIFO storica e appaiamento di richieste e frozen.
 
-**I 257 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 259 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: al commit
 `5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **891 passate e 1 saltata**: a `3861a5d` ne sono state
+quindi ora ci si attendono **893 passate e 1 saltata**: a `3861a5d` ne sono state
 misurate 874 con 240 prove di ADAPT-01. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 257 è questa cartella, 891 è tutto
+citati separatamente, perché misurano cose diverse: 259 è questa cartella, 893 è tutto
 il repository. Il conteggio della radice dipende da quali altre cartelle sono
 presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
 ramo.

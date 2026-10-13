@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -31,6 +32,7 @@ def _carica_replay():
 
 
 R = _carica_replay()
+SHA_FIFO_STORICA = '1679f65697ccdf1e92710ebfcbb940ce36233e7e'
 
 
 def _righe(valori):
@@ -42,6 +44,22 @@ def _valori(memoria):
     return [int(r[0]) for r in X], [int(v) for v in y]
 
 
+def _carica_replay_storico(tmp_path):
+    repo = QUI.parents[1]
+    p = subprocess.run(
+        ['git', 'show', SHA_FIFO_STORICA + ':adattamento-drift/ton_temporal/replay.py'],
+        cwd=repo, check=False, capture_output=True, text=True)
+    if p.returncode != 0:
+        pytest.skip('runner storico non disponibile da git show')
+    percorso = Path(tmp_path) / 'replay_fifo_storica.py'
+    percorso.write_text(p.stdout, encoding='utf-8')
+    spec = importlib.util.spec_from_file_location('replay_fifo_storica', percorso)
+    m = importlib.util.module_from_spec(spec)
+    sys.modules['replay_fifo_storica'] = m
+    spec.loader.exec_module(m)
+    return m
+
+
 def test_fifo_resta_una_fifo_globale():
     m = R.MemoriaReplay(4, 'fifo')
     m.aggiungi(_righe([0, 1, 2, 3]), [0, 1, 0, 1], blocco_arrivo=-1)
@@ -49,6 +67,15 @@ def test_fifo_resta_una_fifo_globale():
     valori, classi = _valori(m)
     assert valori == [2, 3, 4, 5]
     assert classi == [0, 1, 1, 1]
+
+
+def test_la_memoria_conserva_il_dtype_originale_delle_feature():
+    x = np.arange(16, dtype=np.float32).reshape(2, 8)
+    m = R.MemoriaReplay(4, 'fifo')
+    m.aggiungi(x, [0, 1], blocco_arrivo=0)
+    X, y = m.array()
+    assert X.dtype == np.dtype('float32')
+    assert y.dtype == np.dtype('uint8')
 
 
 def test_per_classe_usa_i_posti_liberi_senza_duplicare_la_minoranza():
@@ -104,7 +131,7 @@ def _flussi(tmp_path, righe_per_blocco=80, blocchi=6):
     return a, s
 
 
-def _replay(tmp_path, strategia=None):
+def _replay_con_modulo(modulo, tmp_path, strategia=None):
     a, s = _flussi(tmp_path)
     fuori = Path(tmp_path) / ('out_' + (strategia or 'default') + '.json')
     argv = ['--iniziale', str(a), '--flusso', str(s), '--uscita', str(fuori),
@@ -112,8 +139,12 @@ def _replay(tmp_path, strategia=None):
             '--seme', '42', '--max-blocchi', '6']
     if strategia:
         argv += ['--memoria-strategia', strategia]
-    assert R.main(argv) == 0
+    assert modulo.main(argv) == 0
     return json.loads(fuori.read_text(encoding='utf-8'))
+
+
+def _replay(tmp_path, strategia=None):
+    return _replay_con_modulo(R, tmp_path, strategia)
 
 
 def _stabile_per_blocco(righe):
@@ -124,6 +155,26 @@ def _stabile_per_blocco(righe):
     return pulite
 
 
+def _campi_replay_storico(riga):
+    fuori = {
+        'etichette_richieste': riga['etichette_richieste'],
+        'row_id_campionati_sha256': riga['row_id_campionati_sha256'],
+        'memoria_normali': riga.get('memoria_normali'),
+        'memoria_attacchi': riga.get('memoria_attacchi'),
+    }
+    for modello in ('lr', 'mlp', 'kan'):
+        for prefisso in ('congelato_', 'adattivo_', 'stima_verso_',
+                         'stima_campione_'):
+            chiave = prefisso + modello
+            if chiave in riga:
+                fuori[chiave] = riga[chiave]
+        for prefisso in ('decisione_', 'salto_'):
+            chiave = prefisso + modello
+            if chiave in riga:
+                fuori[chiave] = riga[chiave]
+    return fuori
+
+
 def test_fifo_esplicita_riproduce_il_default(tmp_path):
     default = _replay(tmp_path / 'default')
     fifo = _replay(tmp_path / 'fifo', 'fifo')
@@ -132,6 +183,16 @@ def test_fifo_esplicita_riproduce_il_default(tmp_path):
     assert _stabile_per_blocco(default['per_blocco']) == _stabile_per_blocco(
         fifo['per_blocco'])
     assert default['riepilogo'] == fifo['riepilogo']
+
+
+def test_default_riproduce_la_fifo_storica_prima_del_refactoring(tmp_path):
+    storico = _carica_replay_storico(tmp_path)
+    vecchio = _replay_con_modulo(storico, tmp_path / 'storico')
+    nuovo = _replay(tmp_path / 'nuovo')
+    assert nuovo['riepilogo'] == vecchio['riepilogo']
+    assert len(nuovo['per_blocco']) == len(vecchio['per_blocco'])
+    for r_nuova, r_vecchia in zip(nuovo['per_blocco'], vecchio['per_blocco']):
+        assert _campi_replay_storico(r_nuova) == _campi_replay_storico(r_vecchia)
 
 
 def test_memoria_per_classe_non_cambia_richieste_ne_congelato(tmp_path):
