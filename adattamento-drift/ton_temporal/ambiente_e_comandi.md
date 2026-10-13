@@ -44,6 +44,18 @@ originali, con queste impronte SHA-256:
 | B.npz | `e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0` |
 | C.npz | `3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d` |
 
+La campagna completa ADAPT-02 sulla memoria per classe e' stata eseguita nello
+stesso ambiente Windows, con commit di avvio
+`078a9d8447aee8493a9da7b98ba76d1bdec27678`. I 20 rendiconti completi stanno
+fuori Git in
+`adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/`;
+la copia compressa e'
+`adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8.zip`,
+SHA-256
+`212B9270EF47D0B997667E83B38CB6C899A5B6ADD00DF61B881AA14DA905AFE0`.
+Il riepilogo leggero versionato e'
+`adapt02_memoria_per_classe/riepilogo_campagna_C.json`.
+
 ## La suite di test
 
 ```

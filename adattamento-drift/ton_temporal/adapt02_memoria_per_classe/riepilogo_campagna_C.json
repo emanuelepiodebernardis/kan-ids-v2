@@ -1,0 +1,2893 @@
+{
+  "commit_codice_eseguito": "078a9d8447aee8493a9da7b98ba76d1bdec27678",
+  "scopo": "campagna completa ADAPT-02 su C",
+  "semi": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "memoria": 256,
+  "strategie": [
+    "fifo",
+    "per_classe"
+  ],
+  "politiche": [
+    "ogni_blocco",
+    "evidenza_inversione"
+  ],
+  "replay_totali": 20,
+  "iniziata_utc": "2026-10-13T20:05:50.316161+00:00",
+  "finita_utc": "2026-10-13T22:57:29.678522+00:00",
+  "secondi_totali": 10299.36,
+  "directory": "..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8",
+  "input": {
+    "iniziale": "flussi\\A.npz",
+    "flusso": "flussi\\C.npz",
+    "calibrazione": "flussi\\B.npz"
+  },
+  "appaiamento": "per ogni seme e politica coincidono row_id campionati e misure frozen fra fifo e per_classe",
+  "rendiconti": [
+    {
+      "file": "C_seme42_fifo_ogni_blocco.json",
+      "seme": 42,
+      "memoria_strategia": "fifo",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.713661,
+        "attacchi_media": 251.286339,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.821839,
+        "eta_mediana_attacchi_media": 1.997814,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 633.0,
+        "secondi_addestramento_iniziale": 91.35,
+        "secondi_replay": 316.79,
+        "secondi_per_blocco": 0.3458,
+        "aggiornamenti_applicati": {
+          "lr": 522,
+          "mlp": 522,
+          "kan": 522
+        },
+        "aggiornamenti_saltati": {
+          "lr": 393,
+          "mlp": 393,
+          "kan": 393
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 522,
+            "secondi_totali": 9.424,
+            "ms_medio": 18.053,
+            "ms_mediano": 15.686,
+            "ms_minimo": 3.358,
+            "ms_massimo": 459.777
+          },
+          "mlp": {
+            "n": 522,
+            "secondi_totali": 9.864,
+            "ms_medio": 18.897,
+            "ms_mediano": 14.892,
+            "ms_minimo": 2.448,
+            "ms_massimo": 112.366
+          },
+          "kan": {
+            "n": 522,
+            "secondi_totali": 28.673,
+            "ms_medio": 54.929,
+            "ms_mediano": 50.285,
+            "ms_minimo": 10.246,
+            "ms_massimo": 370.398
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 42 --memoria 256 --memoria-strategia fifo --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme42_fifo_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7806769222531923,
+            "recall_attacchi": 0.8711432498176965,
+            "falsi_allarmi": 0.42520201014976705,
+            "fp": 34346,
+            "fn": 1123998,
+            "vp": 7853359,
+            "vn": 138970,
+            "recall_attacchi_da_blocchi": 0.874796334823267,
+            "fpr_da_blocchi": 0.19816981698169817
+          },
+          "aggiornamenti_applicati": 522,
+          "salti_per_memoria_monoclasse": 393
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8027905891526361,
+            "recall_attacchi": 0.40525142433608535,
+            "falsi_allarmi": 0.13984697666758347,
+            "fp": 50467,
+            "fn": 5341319,
+            "vp": 3636038,
+            "vn": 122849,
+            "recall_attacchi_da_blocchi": 0.4050232156301682,
+            "fpr_da_blocchi": 0.2911848877195412
+          },
+          "adattivo": {
+            "auroc": 0.838594294736555,
+            "recall_attacchi": 0.9194087859213358,
+            "falsi_allarmi": 0.40209635278638506,
+            "fp": 32776,
+            "fn": 704311,
+            "vp": 8273046,
+            "vn": 140540,
+            "recall_attacchi_da_blocchi": 0.9215458402734792,
+            "fpr_da_blocchi": 0.1891112188141891
+          },
+          "aggiornamenti_applicati": 522,
+          "salti_per_memoria_monoclasse": 393
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8842320154701572,
+            "recall_attacchi": 0.6481306303699562,
+            "falsi_allarmi": 0.03953589931468528,
+            "fp": 22971,
+            "fn": 3152390,
+            "vp": 5824967,
+            "vn": 150345,
+            "recall_attacchi_da_blocchi": 0.6488509925582775,
+            "fpr_da_blocchi": 0.13253825382538253
+          },
+          "adattivo": {
+            "auroc": 0.7966472537437673,
+            "recall_attacchi": 0.768116958639681,
+            "falsi_allarmi": 0.2899000740283109,
+            "fp": 23098,
+            "fn": 2055069,
+            "vp": 6922288,
+            "vn": 150218,
+            "recall_attacchi_da_blocchi": 0.7710830704404426,
+            "fpr_da_blocchi": 0.13327101940963326
+          },
+          "aggiornamenti_applicati": 522,
+          "salti_per_memoria_monoclasse": 393
+        }
+      }
+    },
+    {
+      "file": "C_seme42_fifo_evidenza_inversione.json",
+      "seme": 42,
+      "memoria_strategia": "fifo",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.713661,
+        "attacchi_media": 251.286339,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.821839,
+        "eta_mediana_attacchi_media": 1.997814,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 385.34,
+        "secondi_addestramento_iniziale": 89.12,
+        "secondi_replay": 143.23,
+        "secondi_per_blocco": 0.1564,
+        "aggiornamenti_applicati": {
+          "lr": 54,
+          "mlp": 31,
+          "kan": 23
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 54,
+            "secondi_totali": 0.401,
+            "ms_medio": 7.423,
+            "ms_mediano": 6.854,
+            "ms_minimo": 3.446,
+            "ms_massimo": 14.53
+          },
+          "mlp": {
+            "n": 31,
+            "secondi_totali": 0.219,
+            "ms_medio": 7.053,
+            "ms_mediano": 6.489,
+            "ms_minimo": 3.086,
+            "ms_massimo": 18.775
+          },
+          "kan": {
+            "n": 23,
+            "secondi_totali": 0.543,
+            "ms_medio": 23.595,
+            "ms_mediano": 21.4,
+            "ms_minimo": 9.714,
+            "ms_massimo": 47.432
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 42 --memoria 256 --memoria-strategia fifo --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme42_fifo_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7651532002608266,
+            "recall_attacchi": 0.8290759308110988,
+            "falsi_allarmi": 0.4165984782911823,
+            "fp": 26353,
+            "fn": 1511801,
+            "vp": 7465556,
+            "vn": 146963,
+            "recall_attacchi_da_blocchi": 0.8315984314759901,
+            "fpr_da_blocchi": 0.15205174363590204
+          },
+          "aggiornamenti_applicati": 54,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8027905891526361,
+            "recall_attacchi": 0.40525142433608535,
+            "falsi_allarmi": 0.13984697666758347,
+            "fp": 50467,
+            "fn": 5341319,
+            "vp": 3636038,
+            "vn": 122849,
+            "recall_attacchi_da_blocchi": 0.4050232156301682,
+            "fpr_da_blocchi": 0.2911848877195412
+          },
+          "adattivo": {
+            "auroc": 0.835274163698772,
+            "recall_attacchi": 0.8921014604908845,
+            "falsi_allarmi": 0.47839993923543445,
+            "fp": 48804,
+            "fn": 964779,
+            "vp": 8012578,
+            "vn": 124512,
+            "recall_attacchi_da_blocchi": 0.8925319556747047,
+            "fpr_da_blocchi": 0.2815896974312816
+          },
+          "aggiornamenti_applicati": 31,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8842320154701572,
+            "recall_attacchi": 0.6481306303699562,
+            "falsi_allarmi": 0.03953589931468528,
+            "fp": 22971,
+            "fn": 3152390,
+            "vp": 5824967,
+            "vn": 150345,
+            "recall_attacchi_da_blocchi": 0.6488509925582775,
+            "fpr_da_blocchi": 0.13253825382538253
+          },
+          "adattivo": {
+            "auroc": 0.8064958102941109,
+            "recall_attacchi": 0.7811535103660737,
+            "falsi_allarmi": 0.3527145223480584,
+            "fp": 14070,
+            "fn": 1938361,
+            "vp": 7038996,
+            "vn": 159246,
+            "recall_attacchi_da_blocchi": 0.7840833332126593,
+            "fpr_da_blocchi": 0.08118119504258119
+          },
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme42_per_classe_ogni_blocco.json",
+      "seme": 42,
+      "memoria_strategia": "per_classe",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.640437,
+        "attacchi_media": 130.359563,
+        "eta_mediana_tutti_media": 5.787432,
+        "eta_mediana_normali_media": 142.04918,
+        "eta_mediana_attacchi_media": 1.021858,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 69.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 452.36,
+        "secondi_addestramento_iniziale": 62.96,
+        "secondi_replay": 219.14,
+        "secondi_per_blocco": 0.2392,
+        "aggiornamenti_applicati": {
+          "lr": 915,
+          "mlp": 915,
+          "kan": 915
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 915,
+            "secondi_totali": 11.75,
+            "ms_medio": 12.841,
+            "ms_mediano": 11.14,
+            "ms_minimo": 3.285,
+            "ms_massimo": 303.499
+          },
+          "mlp": {
+            "n": 915,
+            "secondi_totali": 16.508,
+            "ms_medio": 18.042,
+            "ms_mediano": 15.935,
+            "ms_minimo": 3.88,
+            "ms_massimo": 97.751
+          },
+          "kan": {
+            "n": 915,
+            "secondi_totali": 33.282,
+            "ms_medio": 36.374,
+            "ms_mediano": 33.65,
+            "ms_minimo": 11.4,
+            "ms_massimo": 269.0
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 42 --memoria 256 --memoria-strategia per_classe --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme42_per_classe_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8316746426341628,
+            "recall_attacchi": 0.22336982008826517,
+            "falsi_allarmi": 0.04948801422490007,
+            "fp": 3893,
+            "fn": 6994940,
+            "vp": 1982417,
+            "vn": 169423,
+            "recall_attacchi_da_blocchi": 0.22082412451682606,
+            "fpr_da_blocchi": 0.02246186157077246
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8027905891526361,
+            "recall_attacchi": 0.40525142433608535,
+            "falsi_allarmi": 0.13984697666758347,
+            "fp": 50467,
+            "fn": 5341319,
+            "vp": 3636038,
+            "vn": 122849,
+            "recall_attacchi_da_blocchi": 0.4050232156301682,
+            "fpr_da_blocchi": 0.2911848877195412
+          },
+          "adattivo": {
+            "auroc": 0.9368962534609359,
+            "recall_attacchi": 0.3860563636738247,
+            "falsi_allarmi": 0.027019851980221006,
+            "fp": 3397,
+            "fn": 5514425,
+            "vp": 3462932,
+            "vn": 169919,
+            "recall_attacchi_da_blocchi": 0.3857407029708187,
+            "fpr_da_blocchi": 0.0196000369267696
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8842320154701572,
+            "recall_attacchi": 0.6481306303699562,
+            "falsi_allarmi": 0.03953589931468528,
+            "fp": 22971,
+            "fn": 3152390,
+            "vp": 5824967,
+            "vn": 150345,
+            "recall_attacchi_da_blocchi": 0.6488509925582775,
+            "fpr_da_blocchi": 0.13253825382538253
+          },
+          "adattivo": {
+            "auroc": 0.8890249790551172,
+            "recall_attacchi": 0.20805708851616292,
+            "falsi_allarmi": 0.0035486886658249446,
+            "fp": 822,
+            "fn": 7127271,
+            "vp": 1850086,
+            "vn": 172494,
+            "recall_attacchi_da_blocchi": 0.2060835945367885,
+            "fpr_da_blocchi": 0.004742781970504743
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme42_per_classe_evidenza_inversione.json",
+      "seme": 42,
+      "memoria_strategia": "per_classe",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.640437,
+        "attacchi_media": 130.359563,
+        "eta_mediana_tutti_media": 5.787432,
+        "eta_mediana_normali_media": 142.04918,
+        "eta_mediana_attacchi_media": 1.021858,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 69.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 316.09,
+        "secondi_addestramento_iniziale": 61.27,
+        "secondi_replay": 81.9,
+        "secondi_per_blocco": 0.0894,
+        "aggiornamenti_applicati": {
+          "lr": 31,
+          "mlp": 12,
+          "kan": 16
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 31,
+            "secondi_totali": 0.38,
+            "ms_medio": 12.248,
+            "ms_mediano": 8.578,
+            "ms_minimo": 5.471,
+            "ms_massimo": 89.991
+          },
+          "mlp": {
+            "n": 12,
+            "secondi_totali": 0.167,
+            "ms_medio": 13.9,
+            "ms_mediano": 10.705,
+            "ms_minimo": 5.833,
+            "ms_massimo": 27.304
+          },
+          "kan": {
+            "n": 16,
+            "secondi_totali": 0.398,
+            "ms_medio": 24.867,
+            "ms_mediano": 21.285,
+            "ms_minimo": 13.729,
+            "ms_massimo": 71.045
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 42 --memoria 256 --memoria-strategia per_classe --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme42_per_classe_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8391902164095926,
+            "recall_attacchi": 0.1418155796970688,
+            "falsi_allarmi": 0.025722202348724982,
+            "fp": 3925,
+            "fn": 7718399,
+            "vp": 1258958,
+            "vn": 169391,
+            "recall_attacchi_da_blocchi": 0.14023704304061874,
+            "fpr_da_blocchi": 0.022646495418772648
+          },
+          "aggiornamenti_applicati": 31,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8027905891526361,
+            "recall_attacchi": 0.40525142433608535,
+            "falsi_allarmi": 0.13984697666758347,
+            "fp": 50467,
+            "fn": 5341319,
+            "vp": 3636038,
+            "vn": 122849,
+            "recall_attacchi_da_blocchi": 0.4050232156301682,
+            "fpr_da_blocchi": 0.2911848877195412
+          },
+          "adattivo": {
+            "auroc": 0.930072111226249,
+            "recall_attacchi": 0.3029562415988052,
+            "falsi_allarmi": 0.025219649719853438,
+            "fp": 5626,
+            "fn": 6279739,
+            "vp": 2697618,
+            "vn": 167690,
+            "recall_attacchi_da_blocchi": 0.30049133614715334,
+            "fpr_da_blocchi": 0.03246093840153246
+          },
+          "aggiornamenti_applicati": 12,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8842320154701572,
+            "recall_attacchi": 0.6481306303699562,
+            "falsi_allarmi": 0.03953589931468528,
+            "fp": 22971,
+            "fn": 3152390,
+            "vp": 5824967,
+            "vn": 150345,
+            "recall_attacchi_da_blocchi": 0.6488509925582775,
+            "fpr_da_blocchi": 0.13253825382538253
+          },
+          "adattivo": {
+            "auroc": 0.8456217430778072,
+            "recall_attacchi": 0.19795326438407237,
+            "falsi_allarmi": 0.0069254160883665695,
+            "fp": 2812,
+            "fn": 7213534,
+            "vp": 1763823,
+            "vn": 170504,
+            "recall_attacchi_da_blocchi": 0.19647464170133816,
+            "fpr_da_blocchi": 0.016224699393016226
+          },
+          "aggiornamenti_applicati": 16,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme43_fifo_ogni_blocco.json",
+      "seme": 43,
+      "memoria_strategia": "fifo",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.868852,
+        "attacchi_media": 251.131148,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.812016,
+        "eta_mediana_attacchi_media": 1.998907,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 185.82,
+        "secondi_addestramento_iniziale": 38.85,
+        "secondi_replay": 71.19,
+        "secondi_per_blocco": 0.0777,
+        "aggiornamenti_applicati": {
+          "lr": 516,
+          "mlp": 516,
+          "kan": 516
+        },
+        "aggiornamenti_saltati": {
+          "lr": 399,
+          "mlp": 399,
+          "kan": 399
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 516,
+            "secondi_totali": 2.968,
+            "ms_medio": 5.752,
+            "ms_mediano": 5.351,
+            "ms_minimo": 2.371,
+            "ms_massimo": 51.046
+          },
+          "mlp": {
+            "n": 516,
+            "secondi_totali": 4.4,
+            "ms_medio": 8.526,
+            "ms_mediano": 7.598,
+            "ms_minimo": 1.684,
+            "ms_massimo": 110.563
+          },
+          "kan": {
+            "n": 516,
+            "secondi_totali": 7.236,
+            "ms_medio": 14.023,
+            "ms_mediano": 13.444,
+            "ms_minimo": 6.02,
+            "ms_massimo": 78.97
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 43 --memoria 256 --memoria-strategia fifo --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme43_fifo_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.765425716049717,
+            "recall_attacchi": 0.8776128406423749,
+            "falsi_allarmi": 0.39508423267612064,
+            "fp": 33299,
+            "fn": 1069780,
+            "vp": 7907577,
+            "vn": 140017,
+            "recall_attacchi_da_blocchi": 0.8808357515469196,
+            "fpr_da_blocchi": 0.19212882826744213
+          },
+          "aggiornamenti_applicati": 516,
+          "salti_per_memoria_monoclasse": 399
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7626339478835032,
+            "recall_attacchi": 0.3830457823964136,
+            "falsi_allarmi": 0.14381911526750735,
+            "fp": 49849,
+            "fn": 5538856,
+            "vp": 3438501,
+            "vn": 123467,
+            "recall_attacchi_da_blocchi": 0.38301930066945095,
+            "fpr_da_blocchi": 0.2876191465300376
+          },
+          "adattivo": {
+            "auroc": 0.7483500175240785,
+            "recall_attacchi": 0.7722336005915814,
+            "falsi_allarmi": 0.3431081791277434,
+            "fp": 26455,
+            "fn": 2009215,
+            "vp": 6968142,
+            "vn": 146861,
+            "recall_attacchi_da_blocchi": 0.7761908098341194,
+            "fpr_da_blocchi": 0.15264026402640263
+          },
+          "aggiornamenti_applicati": 516,
+          "salti_per_memoria_monoclasse": 399
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8886281808248676,
+            "recall_attacchi": 0.6618509456227889,
+            "falsi_allarmi": 0.042118813474911455,
+            "fp": 22973,
+            "fn": 3028608,
+            "vp": 5948749,
+            "vn": 150343,
+            "recall_attacchi_da_blocchi": 0.6626392378068512,
+            "fpr_da_blocchi": 0.13254979344088255
+          },
+          "adattivo": {
+            "auroc": 0.8108470862110654,
+            "recall_attacchi": 0.7813000491244191,
+            "falsi_allarmi": 0.3086969557951014,
+            "fp": 21074,
+            "fn": 1940723,
+            "vp": 7036634,
+            "vn": 152242,
+            "recall_attacchi_da_blocchi": 0.7838202268217694,
+            "fpr_da_blocchi": 0.1215929285236216
+          },
+          "aggiornamenti_applicati": 516,
+          "salti_per_memoria_monoclasse": 399
+        }
+      }
+    },
+    {
+      "file": "C_seme43_fifo_evidenza_inversione.json",
+      "seme": 43,
+      "memoria_strategia": "fifo",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.868852,
+        "attacchi_media": 251.131148,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.812016,
+        "eta_mediana_attacchi_media": 1.998907,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 172.08,
+        "secondi_addestramento_iniziale": 36.88,
+        "secondi_replay": 56.77,
+        "secondi_per_blocco": 0.062,
+        "aggiornamenti_applicati": {
+          "lr": 43,
+          "mlp": 36,
+          "kan": 16
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 43,
+            "secondi_totali": 0.332,
+            "ms_medio": 7.716,
+            "ms_mediano": 6.633,
+            "ms_minimo": 3.062,
+            "ms_massimo": 38.976
+          },
+          "mlp": {
+            "n": 36,
+            "secondi_totali": 0.406,
+            "ms_medio": 11.286,
+            "ms_mediano": 9.9,
+            "ms_minimo": 2.65,
+            "ms_massimo": 29.616
+          },
+          "kan": {
+            "n": 16,
+            "secondi_totali": 0.272,
+            "ms_medio": 16.995,
+            "ms_mediano": 16.094,
+            "ms_minimo": 8.098,
+            "ms_massimo": 31.918
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 43 --memoria 256 --memoria-strategia fifo --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme43_fifo_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7850965842654711,
+            "recall_attacchi": 0.8399247935612407,
+            "falsi_allarmi": 0.49075970926899587,
+            "fp": 49873,
+            "fn": 1420192,
+            "vp": 7557165,
+            "vn": 123443,
+            "recall_attacchi_da_blocchi": 0.8418028825187636,
+            "fpr_da_blocchi": 0.28775762191603776
+          },
+          "aggiornamenti_applicati": 43,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7626339478835032,
+            "recall_attacchi": 0.3830457823964136,
+            "falsi_allarmi": 0.14381911526750735,
+            "fp": 49849,
+            "fn": 5538856,
+            "vp": 3438501,
+            "vn": 123467,
+            "recall_attacchi_da_blocchi": 0.38301930066945095,
+            "fpr_da_blocchi": 0.2876191465300376
+          },
+          "adattivo": {
+            "auroc": 0.797261327477305,
+            "recall_attacchi": 0.6107598901561937,
+            "falsi_allarmi": 0.23435286176826203,
+            "fp": 38132,
+            "fn": 3489570,
+            "vp": 5487787,
+            "vn": 135184,
+            "recall_attacchi_da_blocchi": 0.6112920539976299,
+            "fpr_da_blocchi": 0.22001430912322
+          },
+          "aggiornamenti_applicati": 36,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8886281808248676,
+            "recall_attacchi": 0.6618509456227889,
+            "falsi_allarmi": 0.042118813474911455,
+            "fp": 22973,
+            "fn": 3028608,
+            "vp": 5948749,
+            "vn": 150343,
+            "recall_attacchi_da_blocchi": 0.6626392378068512,
+            "fpr_da_blocchi": 0.13254979344088255
+          },
+          "adattivo": {
+            "auroc": 0.8553536281321009,
+            "recall_attacchi": 0.5678626911456723,
+            "falsi_allarmi": 0.18068048087505145,
+            "fp": 19018,
+            "fn": 3887701,
+            "vp": 5089656,
+            "vn": 154298,
+            "recall_attacchi_da_blocchi": 0.5669437006905261,
+            "fpr_da_blocchi": 0.10973020378960974
+          },
+          "aggiornamenti_applicati": 16,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme43_per_classe_ogni_blocco.json",
+      "seme": 43,
+      "memoria_strategia": "per_classe",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.466667,
+        "attacchi_media": 130.533333,
+        "eta_mediana_tutti_media": 5.304918,
+        "eta_mediana_normali_media": 143.508743,
+        "eta_mediana_attacchi_media": 1.021858,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 66.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 930.09,
+        "secondi_addestramento_iniziale": 37.88,
+        "secondi_replay": 582.86,
+        "secondi_per_blocco": 0.6363,
+        "aggiornamenti_applicati": {
+          "lr": 915,
+          "mlp": 915,
+          "kan": 915
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 915,
+            "secondi_totali": 31.698,
+            "ms_medio": 34.643,
+            "ms_mediano": 26.134,
+            "ms_minimo": 4.331,
+            "ms_massimo": 1614.503
+          },
+          "mlp": {
+            "n": 915,
+            "secondi_totali": 72.297,
+            "ms_medio": 79.013,
+            "ms_mediano": 63.607,
+            "ms_minimo": 7.145,
+            "ms_massimo": 1620.846
+          },
+          "kan": {
+            "n": 915,
+            "secondi_totali": 79.675,
+            "ms_medio": 87.076,
+            "ms_mediano": 69.279,
+            "ms_minimo": 15.093,
+            "ms_massimo": 1505.742
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 43 --memoria 256 --memoria-strategia per_classe --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme43_per_classe_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7850738346388714,
+            "recall_attacchi": 0.23890459681723386,
+            "falsi_allarmi": 0.1017707833405499,
+            "fp": 3367,
+            "fn": 6845043,
+            "vp": 2132314,
+            "vn": 169949,
+            "recall_attacchi_da_blocchi": 0.23752135511598793,
+            "fpr_da_blocchi": 0.019426942694269426
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7626339478835032,
+            "recall_attacchi": 0.3830457823964136,
+            "falsi_allarmi": 0.14381911526750735,
+            "fp": 49849,
+            "fn": 5538856,
+            "vp": 3438501,
+            "vn": 123467,
+            "recall_attacchi_da_blocchi": 0.38301930066945095,
+            "fpr_da_blocchi": 0.2876191465300376
+          },
+          "adattivo": {
+            "auroc": 0.8989236973329586,
+            "recall_attacchi": 0.15921303637463058,
+            "falsi_allarmi": 0.05021737223075568,
+            "fp": 2099,
+            "fn": 7541600,
+            "vp": 1435757,
+            "vn": 171217,
+            "recall_attacchi_da_blocchi": 0.15993092399021228,
+            "fpr_da_blocchi": 0.01211082646726211
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8886281808248676,
+            "recall_attacchi": 0.6618509456227889,
+            "falsi_allarmi": 0.042118813474911455,
+            "fp": 22973,
+            "fn": 3028608,
+            "vp": 5948749,
+            "vn": 150343,
+            "recall_attacchi_da_blocchi": 0.6626392378068512,
+            "fpr_da_blocchi": 0.13254979344088255
+          },
+          "adattivo": {
+            "auroc": 0.8699372430615401,
+            "recall_attacchi": 0.20376919431009685,
+            "falsi_allarmi": 0.013887783222366463,
+            "fp": 665,
+            "fn": 7167976,
+            "vp": 1809381,
+            "vn": 172651,
+            "recall_attacchi_da_blocchi": 0.20154940925263415,
+            "fpr_da_blocchi": 0.003836922153753837
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme43_per_classe_evidenza_inversione.json",
+      "seme": 43,
+      "memoria_strategia": "per_classe",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.466667,
+        "attacchi_media": 130.533333,
+        "eta_mediana_tutti_media": 5.304918,
+        "eta_mediana_normali_media": 143.508743,
+        "eta_mediana_attacchi_media": 1.021858,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 66.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 950.45,
+        "secondi_addestramento_iniziale": 190.49,
+        "secondi_replay": 409.62,
+        "secondi_per_blocco": 0.4472,
+        "aggiornamenti_applicati": {
+          "lr": 34,
+          "mlp": 11,
+          "kan": 9
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 34,
+            "secondi_totali": 1.142,
+            "ms_medio": 33.576,
+            "ms_mediano": 14.388,
+            "ms_minimo": 4.605,
+            "ms_massimo": 198.939
+          },
+          "mlp": {
+            "n": 11,
+            "secondi_totali": 0.808,
+            "ms_medio": 73.469,
+            "ms_mediano": 35.792,
+            "ms_minimo": 17.874,
+            "ms_massimo": 333.393
+          },
+          "kan": {
+            "n": 9,
+            "secondi_totali": 0.882,
+            "ms_medio": 97.957,
+            "ms_mediano": 37.969,
+            "ms_minimo": 22.541,
+            "ms_massimo": 319.882
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 43 --memoria 256 --memoria-strategia per_classe --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme43_per_classe_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7690626496244809,
+            "recall_attacchi": 0.2153470379970368,
+            "falsi_allarmi": 0.11704609321767181,
+            "fp": 5897,
+            "fn": 7070059,
+            "vp": 1907298,
+            "vn": 167419,
+            "recall_attacchi_da_blocchi": 0.21245651699046836,
+            "fpr_da_blocchi": 0.034024556301784026
+          },
+          "aggiornamenti_applicati": 34,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7626339478835032,
+            "recall_attacchi": 0.3830457823964136,
+            "falsi_allarmi": 0.14381911526750735,
+            "fp": 49849,
+            "fn": 5538856,
+            "vp": 3438501,
+            "vn": 123467,
+            "recall_attacchi_da_blocchi": 0.38301930066945095,
+            "fpr_da_blocchi": 0.2876191465300376
+          },
+          "adattivo": {
+            "auroc": 0.8889493294168294,
+            "recall_attacchi": 0.10160828791283644,
+            "falsi_allarmi": 0.04897982066097161,
+            "fp": 3752,
+            "fn": 8065011,
+            "vp": 912346,
+            "vn": 169564,
+            "recall_attacchi_da_blocchi": 0.1016274611781619,
+            "fpr_da_blocchi": 0.02164831867802165
+          },
+          "aggiornamenti_applicati": 11,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8886281808248676,
+            "recall_attacchi": 0.6618509456227889,
+            "falsi_allarmi": 0.042118813474911455,
+            "fp": 22973,
+            "fn": 3028608,
+            "vp": 5948749,
+            "vn": 150343,
+            "recall_attacchi_da_blocchi": 0.6626392378068512,
+            "fpr_da_blocchi": 0.13254979344088255
+          },
+          "adattivo": {
+            "auroc": 0.9155133801736541,
+            "recall_attacchi": 0.3068800249316006,
+            "falsi_allarmi": 0.01611533943945917,
+            "fp": 7084,
+            "fn": 6226311,
+            "vp": 2751046,
+            "vn": 166232,
+            "recall_attacchi_da_blocchi": 0.3064427536968843,
+            "fpr_da_blocchi": 0.040873318101040876
+          },
+          "aggiornamenti_applicati": 9,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme44_fifo_ogni_blocco.json",
+      "seme": 44,
+      "memoria_strategia": "fifo",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.829508,
+        "attacchi_media": 251.170492,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.819231,
+        "eta_mediana_attacchi_media": 1.997814,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 1008.56,
+        "secondi_addestramento_iniziale": 127.81,
+        "secondi_replay": 646.94,
+        "secondi_per_blocco": 0.7063,
+        "aggiornamenti_applicati": {
+          "lr": 520,
+          "mlp": 520,
+          "kan": 520
+        },
+        "aggiornamenti_saltati": {
+          "lr": 395,
+          "mlp": 395,
+          "kan": 395
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 520,
+            "secondi_totali": 22.888,
+            "ms_medio": 44.015,
+            "ms_mediano": 13.292,
+            "ms_minimo": 3.029,
+            "ms_massimo": 1439.713
+          },
+          "mlp": {
+            "n": 520,
+            "secondi_totali": 29.254,
+            "ms_medio": 56.257,
+            "ms_mediano": 16.576,
+            "ms_minimo": 2.819,
+            "ms_massimo": 1505.534
+          },
+          "kan": {
+            "n": 520,
+            "secondi_totali": 70.544,
+            "ms_medio": 135.662,
+            "ms_mediano": 48.228,
+            "ms_minimo": 7.478,
+            "ms_massimo": 3055.764
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 44 --memoria 256 --memoria-strategia fifo --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme44_fifo_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7826546598906148,
+            "recall_attacchi": 0.8892241936143419,
+            "falsi_allarmi": 0.42126595309812015,
+            "fp": 33908,
+            "fn": 962964,
+            "vp": 8014393,
+            "vn": 139408,
+            "recall_attacchi_da_blocchi": 0.8927341309920058,
+            "fpr_da_blocchi": 0.19564264118719565
+          },
+          "aggiornamenti_applicati": 520,
+          "salti_per_memoria_monoclasse": 395
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7939226073273364,
+            "recall_attacchi": 0.4049089060052996,
+            "falsi_allarmi": 0.14137894323510705,
+            "fp": 50848,
+            "fn": 5344519,
+            "vp": 3632838,
+            "vn": 122468,
+            "recall_attacchi_da_blocchi": 0.4046667632801057,
+            "fpr_da_blocchi": 0.2933831844722934
+          },
+          "adattivo": {
+            "auroc": 0.7569996977853279,
+            "recall_attacchi": 0.8127277312373894,
+            "falsi_allarmi": 0.3725127448306698,
+            "fp": 32039,
+            "fn": 1641111,
+            "vp": 7336246,
+            "vn": 141277,
+            "recall_attacchi_da_blocchi": 0.8171944147926834,
+            "fpr_da_blocchi": 0.18485887050243485
+          },
+          "aggiornamenti_applicati": 520,
+          "salti_per_memoria_monoclasse": 395
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8931744728702168,
+            "recall_attacchi": 0.6611354744891358,
+            "falsi_allarmi": 0.03935043630673827,
+            "fp": 22942,
+            "fn": 3034898,
+            "vp": 5942459,
+            "vn": 150374,
+            "recall_attacchi_da_blocchi": 0.6619385861562596,
+            "fpr_da_blocchi": 0.13237092940063236
+          },
+          "adattivo": {
+            "auroc": 0.7927161242815518,
+            "recall_attacchi": 0.7838818281606105,
+            "falsi_allarmi": 0.3029266873529612,
+            "fp": 22868,
+            "fn": 1915199,
+            "vp": 7062158,
+            "vn": 150448,
+            "recall_attacchi_da_blocchi": 0.7866633798789555,
+            "fpr_da_blocchi": 0.13194396362713195
+          },
+          "aggiornamenti_applicati": 520,
+          "salti_per_memoria_monoclasse": 395
+        }
+      }
+    },
+    {
+      "file": "C_seme44_fifo_evidenza_inversione.json",
+      "seme": 44,
+      "memoria_strategia": "fifo",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.829508,
+        "attacchi_media": 251.170492,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.819231,
+        "eta_mediana_attacchi_media": 1.997814,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 619.76,
+        "secondi_addestramento_iniziale": 102.16,
+        "secondi_replay": 274.91,
+        "secondi_per_blocco": 0.3001,
+        "aggiornamenti_applicati": {
+          "lr": 44,
+          "mlp": 45,
+          "kan": 24
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 44,
+            "secondi_totali": 3.165,
+            "ms_medio": 71.921,
+            "ms_mediano": 14.035,
+            "ms_minimo": 6.978,
+            "ms_massimo": 2350.869
+          },
+          "mlp": {
+            "n": 45,
+            "secondi_totali": 0.891,
+            "ms_medio": 19.797,
+            "ms_mediano": 15.775,
+            "ms_minimo": 5.451,
+            "ms_massimo": 68.914
+          },
+          "kan": {
+            "n": 24,
+            "secondi_totali": 3.373,
+            "ms_medio": 140.543,
+            "ms_mediano": 41.523,
+            "ms_minimo": 24.508,
+            "ms_massimo": 2143.149
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 44 --memoria 256 --memoria-strategia fifo --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme44_fifo_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7643065383672438,
+            "recall_attacchi": 0.8453980723003816,
+            "falsi_allarmi": 0.5092614334405657,
+            "fp": 47616,
+            "fn": 1381857,
+            "vp": 7595500,
+            "vn": 125700,
+            "recall_attacchi_da_blocchi": 0.8460730702811529,
+            "fpr_da_blocchi": 0.2747351658242747
+          },
+          "aggiornamenti_applicati": 44,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7939226073273364,
+            "recall_attacchi": 0.4049089060052996,
+            "falsi_allarmi": 0.14137894323510705,
+            "fp": 50848,
+            "fn": 5344519,
+            "vp": 3632838,
+            "vn": 122468,
+            "recall_attacchi_da_blocchi": 0.4046667632801057,
+            "fpr_da_blocchi": 0.2933831844722934
+          },
+          "adattivo": {
+            "auroc": 0.7391778379589097,
+            "recall_attacchi": 0.7126176490294176,
+            "falsi_allarmi": 0.4072668005482656,
+            "fp": 40009,
+            "fn": 2560198,
+            "vp": 6417159,
+            "vn": 133307,
+            "recall_attacchi_da_blocchi": 0.714816064460843,
+            "fpr_da_blocchi": 0.23084423826998085
+          },
+          "aggiornamenti_applicati": 45,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8931744728702168,
+            "recall_attacchi": 0.6611354744891358,
+            "falsi_allarmi": 0.03935043630673827,
+            "fp": 22942,
+            "fn": 3034898,
+            "vp": 5942459,
+            "vn": 150374,
+            "recall_attacchi_da_blocchi": 0.6619385861562596,
+            "fpr_da_blocchi": 0.13237092940063236
+          },
+          "adattivo": {
+            "auroc": 0.789777063989325,
+            "recall_attacchi": 0.7109919370071361,
+            "falsi_allarmi": 0.3215098547904499,
+            "fp": 23726,
+            "fn": 2565860,
+            "vp": 6411497,
+            "vn": 149590,
+            "recall_attacchi_da_blocchi": 0.7141853665839512,
+            "fpr_da_blocchi": 0.13689445867663688
+          },
+          "aggiornamenti_applicati": 24,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme44_per_classe_ogni_blocco.json",
+      "seme": 44,
+      "memoria_strategia": "per_classe",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.36612,
+        "attacchi_media": 130.63388,
+        "eta_mediana_tutti_media": 4.825137,
+        "eta_mediana_normali_media": 142.306011,
+        "eta_mediana_attacchi_media": 1.02459,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 70.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 976.75,
+        "secondi_addestramento_iniziale": 106.59,
+        "secondi_replay": 560.18,
+        "secondi_per_blocco": 0.6116,
+        "aggiornamenti_applicati": {
+          "lr": 915,
+          "mlp": 915,
+          "kan": 915
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 915,
+            "secondi_totali": 29.371,
+            "ms_medio": 32.1,
+            "ms_mediano": 25.483,
+            "ms_minimo": 10.147,
+            "ms_massimo": 888.249
+          },
+          "mlp": {
+            "n": 915,
+            "secondi_totali": 55.197,
+            "ms_medio": 60.325,
+            "ms_mediano": 49.775,
+            "ms_minimo": 11.145,
+            "ms_massimo": 580.365
+          },
+          "kan": {
+            "n": 915,
+            "secondi_totali": 82.913,
+            "ms_medio": 90.616,
+            "ms_mediano": 73.631,
+            "ms_minimo": 22.376,
+            "ms_massimo": 880.75
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 44 --memoria 256 --memoria-strategia per_classe --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme44_per_classe_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8402695568085903,
+            "recall_attacchi": 0.2207254166230614,
+            "falsi_allarmi": 0.02870730035077718,
+            "fp": 3522,
+            "fn": 7016892,
+            "vp": 1960465,
+            "vn": 169794,
+            "recall_attacchi_da_blocchi": 0.21837886139539733,
+            "fpr_da_blocchi": 0.02032126289552032
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7939226073273364,
+            "recall_attacchi": 0.4049089060052996,
+            "falsi_allarmi": 0.14137894323510705,
+            "fp": 50848,
+            "fn": 5344519,
+            "vp": 3632838,
+            "vn": 122468,
+            "recall_attacchi_da_blocchi": 0.4046667632801057,
+            "fpr_da_blocchi": 0.2933831844722934
+          },
+          "adattivo": {
+            "auroc": 0.8882455783123803,
+            "recall_attacchi": 0.17985544262238068,
+            "falsi_allarmi": 0.02348395569868681,
+            "fp": 2579,
+            "fn": 7375522,
+            "vp": 1601835,
+            "vn": 170737,
+            "recall_attacchi_da_blocchi": 0.17843057817573701,
+            "fpr_da_blocchi": 0.014880334187264881
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8931744728702168,
+            "recall_attacchi": 0.6611354744891358,
+            "falsi_allarmi": 0.03935043630673827,
+            "fp": 22942,
+            "fn": 3034898,
+            "vp": 5942459,
+            "vn": 150374,
+            "recall_attacchi_da_blocchi": 0.6619385861562596,
+            "fpr_da_blocchi": 0.13237092940063236
+          },
+          "adattivo": {
+            "auroc": 0.9007967966625765,
+            "recall_attacchi": 0.22842558919972175,
+            "falsi_allarmi": 0.0020669343112699346,
+            "fp": 590,
+            "fn": 6937508,
+            "vp": 2039849,
+            "vn": 172726,
+            "recall_attacchi_da_blocchi": 0.2272215530695727,
+            "fpr_da_blocchi": 0.003404186572503404
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme44_per_classe_evidenza_inversione.json",
+      "seme": 44,
+      "memoria_strategia": "per_classe",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.36612,
+        "attacchi_media": 130.63388,
+        "eta_mediana_tutti_media": 4.825137,
+        "eta_mediana_normali_media": 142.306011,
+        "eta_mediana_attacchi_media": 1.02459,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 70.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 811.97,
+        "secondi_addestramento_iniziale": 160.66,
+        "secondi_replay": 296.43,
+        "secondi_per_blocco": 0.3236,
+        "aggiornamenti_applicati": {
+          "lr": 33,
+          "mlp": 17,
+          "kan": 9
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 33,
+            "secondi_totali": 0.741,
+            "ms_medio": 22.443,
+            "ms_mediano": 20.781,
+            "ms_minimo": 6.681,
+            "ms_massimo": 71.133
+          },
+          "mlp": {
+            "n": 17,
+            "secondi_totali": 0.8,
+            "ms_medio": 47.057,
+            "ms_mediano": 43.675,
+            "ms_minimo": 21.564,
+            "ms_massimo": 86.596
+          },
+          "kan": {
+            "n": 9,
+            "secondi_totali": 0.634,
+            "ms_medio": 70.451,
+            "ms_mediano": 73.804,
+            "ms_minimo": 52.934,
+            "ms_massimo": 82.657
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 44 --memoria 256 --memoria-strategia per_classe --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme44_per_classe_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8311641108864316,
+            "recall_attacchi": 0.22209821255011566,
+            "falsi_allarmi": 0.04344226584571228,
+            "fp": 4982,
+            "fn": 7019663,
+            "vp": 1957694,
+            "vn": 168334,
+            "recall_attacchi_da_blocchi": 0.2180701959385151,
+            "fpr_da_blocchi": 0.028745182210528745
+          },
+          "aggiornamenti_applicati": 33,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.7939226073273364,
+            "recall_attacchi": 0.4049089060052996,
+            "falsi_allarmi": 0.14137894323510705,
+            "fp": 50848,
+            "fn": 5344519,
+            "vp": 3632838,
+            "vn": 122468,
+            "recall_attacchi_da_blocchi": 0.4046667632801057,
+            "fpr_da_blocchi": 0.2933831844722934
+          },
+          "adattivo": {
+            "auroc": 0.8686193565007595,
+            "recall_attacchi": 0.1546674097764058,
+            "falsi_allarmi": 0.023637998560167846,
+            "fp": 736,
+            "fn": 7604277,
+            "vp": 1373080,
+            "vn": 172580,
+            "recall_attacchi_da_blocchi": 0.15294924775744131,
+            "fpr_da_blocchi": 0.004246578504004246
+          },
+          "aggiornamenti_applicati": 17,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8931744728702168,
+            "recall_attacchi": 0.6611354744891358,
+            "falsi_allarmi": 0.03935043630673827,
+            "fp": 22942,
+            "fn": 3034898,
+            "vp": 5942459,
+            "vn": 150374,
+            "recall_attacchi_da_blocchi": 0.6619385861562596,
+            "fpr_da_blocchi": 0.13237092940063236
+          },
+          "adattivo": {
+            "auroc": 0.9142560789793663,
+            "recall_attacchi": 0.15615355265487915,
+            "falsi_allarmi": 0.0012508599644300961,
+            "fp": 529,
+            "fn": 7591879,
+            "vp": 1385478,
+            "vn": 172787,
+            "recall_attacchi_da_blocchi": 0.1543302778312147,
+            "fpr_da_blocchi": 0.0030522282997530524
+          },
+          "aggiornamenti_applicati": 9,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme45_fifo_ogni_blocco.json",
+      "seme": 45,
+      "memoria_strategia": "fifo",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.64918,
+        "attacchi_media": 251.35082,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.812375,
+        "eta_mediana_attacchi_media": 1.998907,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 552.5,
+        "secondi_addestramento_iniziale": 130.24,
+        "secondi_replay": 206.48,
+        "secondi_per_blocco": 0.2254,
+        "aggiornamenti_applicati": {
+          "lr": 501,
+          "mlp": 501,
+          "kan": 501
+        },
+        "aggiornamenti_saltati": {
+          "lr": 414,
+          "mlp": 414,
+          "kan": 414
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 501,
+            "secondi_totali": 6.346,
+            "ms_medio": 12.667,
+            "ms_mediano": 8.82,
+            "ms_minimo": 2.83,
+            "ms_massimo": 292.182
+          },
+          "mlp": {
+            "n": 501,
+            "secondi_totali": 9.018,
+            "ms_medio": 18.0,
+            "ms_mediano": 12.402,
+            "ms_minimo": 2.262,
+            "ms_massimo": 222.655
+          },
+          "kan": {
+            "n": 501,
+            "secondi_totali": 18.545,
+            "ms_medio": 37.016,
+            "ms_mediano": 31.562,
+            "ms_minimo": 7.662,
+            "ms_massimo": 529.536
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 45 --memoria 256 --memoria-strategia fifo --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme45_fifo_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.759275927750112,
+            "recall_attacchi": 0.8861328567732076,
+            "falsi_allarmi": 0.42366222389615055,
+            "fp": 27456,
+            "fn": 982984,
+            "vp": 7994373,
+            "vn": 145860,
+            "recall_attacchi_da_blocchi": 0.8905040759769273,
+            "fpr_da_blocchi": 0.15841584158415842
+          },
+          "aggiornamenti_applicati": 501,
+          "salti_per_memoria_monoclasse": 414
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8057462066392153,
+            "recall_attacchi": 0.5917162060595142,
+            "falsi_allarmi": 0.1496923196540308,
+            "fp": 48907,
+            "fn": 3651741,
+            "vp": 5325616,
+            "vn": 124409,
+            "recall_attacchi_da_blocchi": 0.5932276058532595,
+            "fpr_da_blocchi": 0.2821839876295322
+          },
+          "adattivo": {
+            "auroc": 0.701581195586395,
+            "recall_attacchi": 0.8802278512554498,
+            "falsi_allarmi": 0.43845460958931703,
+            "fp": 22576,
+            "fn": 1045374,
+            "vp": 7931983,
+            "vn": 150740,
+            "recall_attacchi_da_blocchi": 0.8835543690643025,
+            "fpr_da_blocchi": 0.13025917976413026
+          },
+          "aggiornamenti_applicati": 501,
+          "salti_per_memoria_monoclasse": 414
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.895457032351911,
+            "recall_attacchi": 0.6607119365385099,
+            "falsi_allarmi": 0.039192332057627094,
+            "fp": 22922,
+            "fn": 3038619,
+            "vp": 5938738,
+            "vn": 150394,
+            "recall_attacchi_da_blocchi": 0.6615240989079525,
+            "fpr_da_blocchi": 0.13225553324563225
+          },
+          "adattivo": {
+            "auroc": 0.8124206439767105,
+            "recall_attacchi": 0.762111675786638,
+            "falsi_allarmi": 0.28272037974144015,
+            "fp": 17410,
+            "fn": 2100765,
+            "vp": 6876592,
+            "vn": 155906,
+            "recall_attacchi_da_blocchi": 0.7659929308815501,
+            "fpr_da_blocchi": 0.10045235292760045
+          },
+          "aggiornamenti_applicati": 501,
+          "salti_per_memoria_monoclasse": 414
+        }
+      }
+    },
+    {
+      "file": "C_seme45_fifo_evidenza_inversione.json",
+      "seme": 45,
+      "memoria_strategia": "fifo",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.64918,
+        "attacchi_media": 251.35082,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.812375,
+        "eta_mediana_attacchi_media": 1.998907,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 515.46,
+        "secondi_addestramento_iniziale": 108.68,
+        "secondi_replay": 214.2,
+        "secondi_per_blocco": 0.2338,
+        "aggiornamenti_applicati": {
+          "lr": 49,
+          "mlp": 30,
+          "kan": 9
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 49,
+            "secondi_totali": 0.826,
+            "ms_medio": 16.85,
+            "ms_mediano": 15.468,
+            "ms_minimo": 7.119,
+            "ms_massimo": 56.819
+          },
+          "mlp": {
+            "n": 30,
+            "secondi_totali": 0.66,
+            "ms_medio": 21.999,
+            "ms_mediano": 18.725,
+            "ms_minimo": 7.573,
+            "ms_massimo": 65.47
+          },
+          "kan": {
+            "n": 9,
+            "secondi_totali": 0.387,
+            "ms_medio": 42.947,
+            "ms_mediano": 39.636,
+            "ms_minimo": 27.4,
+            "ms_massimo": 56.879
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 45 --memoria 256 --memoria-strategia fifo --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme45_fifo_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.7431402041014202,
+            "recall_attacchi": 0.8069785716516276,
+            "falsi_allarmi": 0.39783705213084314,
+            "fp": 16934,
+            "fn": 1704646,
+            "vp": 7272711,
+            "vn": 156382,
+            "recall_attacchi_da_blocchi": 0.810117164773552,
+            "fpr_da_blocchi": 0.0977059244385977
+          },
+          "aggiornamenti_applicati": 49,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8057462066392153,
+            "recall_attacchi": 0.5917162060595142,
+            "falsi_allarmi": 0.1496923196540308,
+            "fp": 48907,
+            "fn": 3651741,
+            "vp": 5325616,
+            "vn": 124409,
+            "recall_attacchi_da_blocchi": 0.5932276058532595,
+            "fpr_da_blocchi": 0.2821839876295322
+          },
+          "adattivo": {
+            "auroc": 0.7861353266839025,
+            "recall_attacchi": 0.6842641283568615,
+            "falsi_allarmi": 0.2689067131311653,
+            "fp": 9556,
+            "fn": 2821871,
+            "vp": 6155486,
+            "vn": 163760,
+            "recall_attacchi_da_blocchi": 0.6856679532739981,
+            "fpr_da_blocchi": 0.055136282859055134
+          },
+          "aggiornamenti_applicati": 30,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.895457032351911,
+            "recall_attacchi": 0.6607119365385099,
+            "falsi_allarmi": 0.039192332057627094,
+            "fp": 22922,
+            "fn": 3038619,
+            "vp": 5938738,
+            "vn": 150394,
+            "recall_attacchi_da_blocchi": 0.6615240989079525,
+            "fpr_da_blocchi": 0.13225553324563225
+          },
+          "adattivo": {
+            "auroc": 0.8374847950598221,
+            "recall_attacchi": 0.5983408820639041,
+            "falsi_allarmi": 0.13174092781217767,
+            "fp": 6598,
+            "fn": 3597276,
+            "vp": 5380081,
+            "vn": 166718,
+            "recall_attacchi_da_blocchi": 0.5992945362426826,
+            "fpr_da_blocchi": 0.03806919153453807
+          },
+          "aggiornamenti_applicati": 9,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme45_per_classe_ogni_blocco.json",
+      "seme": 45,
+      "memoria_strategia": "per_classe",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.523497,
+        "attacchi_media": 130.476503,
+        "eta_mediana_tutti_media": 4.673224,
+        "eta_mediana_normali_media": 143.195082,
+        "eta_mediana_attacchi_media": 1.020765,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 71.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 648.28,
+        "secondi_addestramento_iniziale": 147.73,
+        "secondi_replay": 356.47,
+        "secondi_per_blocco": 0.3892,
+        "aggiornamenti_applicati": {
+          "lr": 915,
+          "mlp": 915,
+          "kan": 915
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 915,
+            "secondi_totali": 20.263,
+            "ms_medio": 22.145,
+            "ms_mediano": 21.37,
+            "ms_minimo": 9.0,
+            "ms_massimo": 139.327
+          },
+          "mlp": {
+            "n": 915,
+            "secondi_totali": 42.06,
+            "ms_medio": 45.967,
+            "ms_mediano": 45.275,
+            "ms_minimo": 10.975,
+            "ms_massimo": 768.915
+          },
+          "kan": {
+            "n": 915,
+            "secondi_totali": 54.837,
+            "ms_medio": 59.931,
+            "ms_mediano": 57.637,
+            "ms_minimo": 26.561,
+            "ms_massimo": 171.614
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 45 --memoria 256 --memoria-strategia per_classe --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme45_per_classe_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.83733431116209,
+            "recall_attacchi": 0.25052375329542975,
+            "falsi_allarmi": 0.053446686670981486,
+            "fp": 3248,
+            "fn": 6739110,
+            "vp": 2238247,
+            "vn": 170068,
+            "recall_attacchi_da_blocchi": 0.24932137599072868,
+            "fpr_da_blocchi": 0.01874033557201874
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8057462066392153,
+            "recall_attacchi": 0.5917162060595142,
+            "falsi_allarmi": 0.1496923196540308,
+            "fp": 48907,
+            "fn": 3651741,
+            "vp": 5325616,
+            "vn": 124409,
+            "recall_attacchi_da_blocchi": 0.5932276058532595,
+            "fpr_da_blocchi": 0.2821839876295322
+          },
+          "adattivo": {
+            "auroc": 0.9084159222429843,
+            "recall_attacchi": 0.29100154434785513,
+            "falsi_allarmi": 0.0410191831497736,
+            "fp": 1910,
+            "fn": 6373193,
+            "vp": 2604164,
+            "vn": 171406,
+            "recall_attacchi_da_blocchi": 0.2900813680462969,
+            "fpr_da_blocchi": 0.01102033280251102
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.895457032351911,
+            "recall_attacchi": 0.6607119365385099,
+            "falsi_allarmi": 0.039192332057627094,
+            "fp": 22922,
+            "fn": 3038619,
+            "vp": 5938738,
+            "vn": 150394,
+            "recall_attacchi_da_blocchi": 0.6615240989079525,
+            "fpr_da_blocchi": 0.13225553324563225
+          },
+          "adattivo": {
+            "auroc": 0.889577846562415,
+            "recall_attacchi": 0.19920795136357894,
+            "falsi_allarmi": 0.017375136141001942,
+            "fp": 406,
+            "fn": 7196331,
+            "vp": 1781026,
+            "vn": 172910,
+            "recall_attacchi_da_blocchi": 0.19839090725700226,
+            "fpr_da_blocchi": 0.0023425419465023427
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme45_per_classe_evidenza_inversione.json",
+      "seme": 45,
+      "memoria_strategia": "per_classe",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 125.523497,
+        "attacchi_media": 130.476503,
+        "eta_mediana_tutti_media": 4.673224,
+        "eta_mediana_normali_media": 143.195082,
+        "eta_mediana_attacchi_media": 1.020765,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 71.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 359.31,
+        "secondi_addestramento_iniziale": 126.41,
+        "secondi_replay": 70.76,
+        "secondi_per_blocco": 0.0772,
+        "aggiornamenti_applicati": {
+          "lr": 27,
+          "mlp": 15,
+          "kan": 6
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 27,
+            "secondi_totali": 0.256,
+            "ms_medio": 9.493,
+            "ms_mediano": 9.061,
+            "ms_minimo": 4.411,
+            "ms_massimo": 19.612
+          },
+          "mlp": {
+            "n": 15,
+            "secondi_totali": 0.287,
+            "ms_medio": 19.162,
+            "ms_mediano": 18.035,
+            "ms_minimo": 11.33,
+            "ms_massimo": 27.413
+          },
+          "kan": {
+            "n": 6,
+            "secondi_totali": 0.143,
+            "ms_medio": 23.877,
+            "ms_mediano": 20.358,
+            "ms_minimo": 17.413,
+            "ms_massimo": 34.1
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 45 --memoria 256 --memoria-strategia per_classe --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme45_per_classe_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8558491956514208,
+            "recall_attacchi": 0.1661973934857601,
+            "falsi_allarmi": 0.01543940266826647,
+            "fp": 1126,
+            "fn": 7511789,
+            "vp": 1465568,
+            "vn": 172190,
+            "recall_attacchi_da_blocchi": 0.1632516118051226,
+            "fpr_da_blocchi": 0.006496803526506497
+          },
+          "aggiornamenti_applicati": 27,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8057462066392153,
+            "recall_attacchi": 0.5917162060595142,
+            "falsi_allarmi": 0.1496923196540308,
+            "fp": 48907,
+            "fn": 3651741,
+            "vp": 5325616,
+            "vn": 124409,
+            "recall_attacchi_da_blocchi": 0.5932276058532595,
+            "fpr_da_blocchi": 0.2821839876295322
+          },
+          "adattivo": {
+            "auroc": 0.9113558518219353,
+            "recall_attacchi": 0.18184812211179052,
+            "falsi_allarmi": 0.026321775589121365,
+            "fp": 2743,
+            "fn": 7354770,
+            "vp": 1622587,
+            "vn": 170573,
+            "recall_attacchi_da_blocchi": 0.18074217166589232,
+            "fpr_da_blocchi": 0.015826582658265826
+          },
+          "aggiornamenti_applicati": 15,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.895457032351911,
+            "recall_attacchi": 0.6607119365385099,
+            "falsi_allarmi": 0.039192332057627094,
+            "fp": 22922,
+            "fn": 3038619,
+            "vp": 5938738,
+            "vn": 150394,
+            "recall_attacchi_da_blocchi": 0.6615240989079525,
+            "fpr_da_blocchi": 0.13225553324563225
+          },
+          "adattivo": {
+            "auroc": 0.909781208074678,
+            "recall_attacchi": 0.27676044331334826,
+            "falsi_allarmi": 0.008161683245989312,
+            "fp": 2474,
+            "fn": 6500396,
+            "vp": 2476961,
+            "vn": 170842,
+            "recall_attacchi_da_blocchi": 0.27591205295723453,
+            "fpr_da_blocchi": 0.014274504373514274
+          },
+          "aggiornamenti_applicati": 6,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme46_fifo_ogni_blocco.json",
+      "seme": 46,
+      "memoria_strategia": "fifo",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.895082,
+        "attacchi_media": 251.104918,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.82902,
+        "eta_mediana_attacchi_media": 1.997814,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 178.94,
+        "secondi_addestramento_iniziale": 31.39,
+        "secondi_replay": 73.01,
+        "secondi_per_blocco": 0.0797,
+        "aggiornamenti_applicati": {
+          "lr": 541,
+          "mlp": 541,
+          "kan": 541
+        },
+        "aggiornamenti_saltati": {
+          "lr": 374,
+          "mlp": 374,
+          "kan": 374
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 541,
+            "secondi_totali": 3.083,
+            "ms_medio": 5.699,
+            "ms_mediano": 5.484,
+            "ms_minimo": 2.702,
+            "ms_massimo": 13.156
+          },
+          "mlp": {
+            "n": 541,
+            "secondi_totali": 3.985,
+            "ms_medio": 7.367,
+            "ms_mediano": 6.555,
+            "ms_minimo": 2.172,
+            "ms_massimo": 23.926
+          },
+          "kan": {
+            "n": 541,
+            "secondi_totali": 7.797,
+            "ms_medio": 14.412,
+            "ms_mediano": 14.021,
+            "ms_minimo": 6.09,
+            "ms_massimo": 64.067
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 46 --memoria 256 --memoria-strategia fifo --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme46_fifo_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.781623538599032,
+            "recall_attacchi": 0.8688502010098803,
+            "falsi_allarmi": 0.3965834870711679,
+            "fp": 31672,
+            "fn": 1139273,
+            "vp": 7838084,
+            "vn": 141644,
+            "recall_attacchi_da_blocchi": 0.8730948318085155,
+            "fpr_da_blocchi": 0.18274135105818273
+          },
+          "aggiornamenti_applicati": 541,
+          "salti_per_memoria_monoclasse": 374
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8012937756916685,
+            "recall_attacchi": 0.4029614368625507,
+            "falsi_allarmi": 0.1358846210864292,
+            "fp": 47779,
+            "fn": 5357322,
+            "vp": 3620035,
+            "vn": 125537,
+            "recall_attacchi_da_blocchi": 0.40324061970577757,
+            "fpr_da_blocchi": 0.2756756444875257
+          },
+          "adattivo": {
+            "auroc": 0.7914285764233687,
+            "recall_attacchi": 0.893512916356557,
+            "falsi_allarmi": 0.38622547402284313,
+            "fp": 34073,
+            "fn": 928454,
+            "vp": 8048903,
+            "vn": 139243,
+            "recall_attacchi_da_blocchi": 0.896578246804711,
+            "fpr_da_blocchi": 0.1965946594659466
+          },
+          "aggiornamenti_applicati": 541,
+          "salti_per_memoria_monoclasse": 374
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8939094145153534,
+            "recall_attacchi": 0.660672434249531,
+            "falsi_allarmi": 0.0392082213464623,
+            "fp": 22919,
+            "fn": 3038975,
+            "vp": 5938382,
+            "vn": 150397,
+            "recall_attacchi_da_blocchi": 0.661484443584008,
+            "fpr_da_blocchi": 0.13223822382238223
+          },
+          "adattivo": {
+            "auroc": 0.8237108938850434,
+            "recall_attacchi": 0.7344213466709109,
+            "falsi_allarmi": 0.2718480127637888,
+            "fp": 13903,
+            "fn": 2355900,
+            "vp": 6621457,
+            "vn": 159413,
+            "recall_attacchi_da_blocchi": 0.7375730964024266,
+            "fpr_da_blocchi": 0.08021763714833022
+          },
+          "aggiornamenti_applicati": 541,
+          "salti_per_memoria_monoclasse": 374
+        }
+      }
+    },
+    {
+      "file": "C_seme46_fifo_evidenza_inversione.json",
+      "seme": 46,
+      "memoria_strategia": "fifo",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 4.895082,
+        "attacchi_media": 251.104918,
+        "eta_mediana_tutti_media": 2.0,
+        "eta_mediana_normali_media": 1.82902,
+        "eta_mediana_attacchi_media": 1.997814,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 2.0,
+        "eta_mediana_attacchi_mediana": 2.0
+      },
+      "costi": {
+        "secondi_totali": 167.65,
+        "secondi_addestramento_iniziale": 32.09,
+        "secondi_replay": 57.92,
+        "secondi_per_blocco": 0.0632,
+        "aggiornamenti_applicati": {
+          "lr": 36,
+          "mlp": 39,
+          "kan": 21
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 36,
+            "secondi_totali": 0.274,
+            "ms_medio": 7.62,
+            "ms_mediano": 6.955,
+            "ms_minimo": 3.816,
+            "ms_massimo": 15.065
+          },
+          "mlp": {
+            "n": 39,
+            "secondi_totali": 0.423,
+            "ms_medio": 10.834,
+            "ms_mediano": 9.817,
+            "ms_minimo": 4.384,
+            "ms_massimo": 23.721
+          },
+          "kan": {
+            "n": 21,
+            "secondi_totali": 0.391,
+            "ms_medio": 18.638,
+            "ms_mediano": 18.92,
+            "ms_minimo": 8.135,
+            "ms_massimo": 34.126
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 46 --memoria 256 --memoria-strategia fifo --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme46_fifo_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.820231982856043,
+            "recall_attacchi": 0.7679161095417942,
+            "falsi_allarmi": 0.3299091716678172,
+            "fp": 27663,
+            "fn": 2065401,
+            "vp": 6911956,
+            "vn": 145653,
+            "recall_attacchi_da_blocchi": 0.7699321749151783,
+            "fpr_da_blocchi": 0.1596101917884096
+          },
+          "aggiornamenti_applicati": 36,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8012937756916685,
+            "recall_attacchi": 0.4029614368625507,
+            "falsi_allarmi": 0.1358846210864292,
+            "fp": 47779,
+            "fn": 5357322,
+            "vp": 3620035,
+            "vn": 125537,
+            "recall_attacchi_da_blocchi": 0.40324061970577757,
+            "fpr_da_blocchi": 0.2756756444875257
+          },
+          "adattivo": {
+            "auroc": 0.811872064882987,
+            "recall_attacchi": 0.8297597547756296,
+            "falsi_allarmi": 0.43421449098107134,
+            "fp": 36205,
+            "fn": 1507406,
+            "vp": 7469951,
+            "vn": 137111,
+            "recall_attacchi_da_blocchi": 0.832087996500529,
+            "fpr_da_blocchi": 0.20889588958895888
+          },
+          "aggiornamenti_applicati": 39,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8939094145153534,
+            "recall_attacchi": 0.660672434249531,
+            "falsi_allarmi": 0.0392082213464623,
+            "fp": 22919,
+            "fn": 3038975,
+            "vp": 5938382,
+            "vn": 150397,
+            "recall_attacchi_da_blocchi": 0.661484443584008,
+            "fpr_da_blocchi": 0.13223822382238223
+          },
+          "adattivo": {
+            "auroc": 0.8811499195493636,
+            "recall_attacchi": 0.6756315798841969,
+            "falsi_allarmi": 0.19974124045135422,
+            "fp": 17714,
+            "fn": 2877174,
+            "vp": 6100183,
+            "vn": 155602,
+            "recall_attacchi_da_blocchi": 0.6795076769254025,
+            "fpr_da_blocchi": 0.1022063744836022
+          },
+          "aggiornamenti_applicati": 21,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme46_per_classe_ogni_blocco.json",
+      "seme": 46,
+      "memoria_strategia": "per_classe",
+      "politica": "ogni_blocco",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 126.017486,
+        "attacchi_media": 129.982514,
+        "eta_mediana_tutti_media": 4.529508,
+        "eta_mediana_normali_media": 141.298361,
+        "eta_mediana_attacchi_media": 1.019672,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 69.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 244.66,
+        "secondi_addestramento_iniziale": 33.52,
+        "secondi_replay": 119.85,
+        "secondi_per_blocco": 0.1308,
+        "aggiornamenti_applicati": {
+          "lr": 915,
+          "mlp": 915,
+          "kan": 915
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 915,
+            "secondi_totali": 10.088,
+            "ms_medio": 11.025,
+            "ms_mediano": 10.475,
+            "ms_minimo": 3.281,
+            "ms_massimo": 113.817
+          },
+          "mlp": {
+            "n": 915,
+            "secondi_totali": 18.157,
+            "ms_medio": 19.843,
+            "ms_mediano": 18.812,
+            "ms_minimo": 3.992,
+            "ms_massimo": 88.086
+          },
+          "kan": {
+            "n": 915,
+            "secondi_totali": 25.146,
+            "ms_medio": 27.482,
+            "ms_mediano": 25.158,
+            "ms_minimo": 7.491,
+            "ms_massimo": 93.254
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 46 --memoria 256 --memoria-strategia per_classe --politica ogni_blocco --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme46_per_classe_ogni_blocco.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8307654119393715,
+            "recall_attacchi": 0.25567909853182774,
+            "falsi_allarmi": 0.07249341852424566,
+            "fp": 3097,
+            "fn": 6694202,
+            "vp": 2283155,
+            "vn": 170219,
+            "recall_attacchi_da_blocchi": 0.2543237391584182,
+            "fpr_da_blocchi": 0.01786909460176787
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8012937756916685,
+            "recall_attacchi": 0.4029614368625507,
+            "falsi_allarmi": 0.1358846210864292,
+            "fp": 47779,
+            "fn": 5357322,
+            "vp": 3620035,
+            "vn": 125537,
+            "recall_attacchi_da_blocchi": 0.40324061970577757,
+            "fpr_da_blocchi": 0.2756756444875257
+          },
+          "adattivo": {
+            "auroc": 0.9139819169786378,
+            "recall_attacchi": 0.39486595483647086,
+            "falsi_allarmi": 0.028903715487390704,
+            "fp": 1680,
+            "fn": 5440948,
+            "vp": 3536409,
+            "vn": 171636,
+            "recall_attacchi_da_blocchi": 0.3939254058850506,
+            "fpr_da_blocchi": 0.009693277020009694
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8939094145153534,
+            "recall_attacchi": 0.660672434249531,
+            "falsi_allarmi": 0.0392082213464623,
+            "fp": 22919,
+            "fn": 3038975,
+            "vp": 5938382,
+            "vn": 150397,
+            "recall_attacchi_da_blocchi": 0.661484443584008,
+            "fpr_da_blocchi": 0.13223822382238223
+          },
+          "adattivo": {
+            "auroc": 0.9084095118824138,
+            "recall_attacchi": 0.1803253455019374,
+            "falsi_allarmi": 0.0013542259523184918,
+            "fp": 314,
+            "fn": 7371005,
+            "vp": 1606352,
+            "vn": 173002,
+            "recall_attacchi_da_blocchi": 0.1789337329461221,
+            "fpr_da_blocchi": 0.0018117196335018118
+          },
+          "aggiornamenti_applicati": 915,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "C_seme46_per_classe_evidenza_inversione.json",
+      "seme": 46,
+      "memoria_strategia": "per_classe",
+      "politica": "evidenza_inversione",
+      "blocchi": 916,
+      "righe_scorse": 9150673,
+      "etichette_spese": 91506,
+      "quota_etichette_effettiva": 0.00999992022444688,
+      "memoria": {
+        "normali_media": 126.017486,
+        "attacchi_media": 129.982514,
+        "eta_mediana_tutti_media": 4.529508,
+        "eta_mediana_normali_media": 141.298361,
+        "eta_mediana_attacchi_media": 1.019672,
+        "eta_mediana_tutti_mediana": 2.0,
+        "eta_mediana_normali_mediana": 69.0,
+        "eta_mediana_attacchi_mediana": 1.0
+      },
+      "costi": {
+        "secondi_totali": 179.9,
+        "secondi_addestramento_iniziale": 29.1,
+        "secondi_replay": 65.04,
+        "secondi_per_blocco": 0.071,
+        "aggiornamenti_applicati": {
+          "lr": 27,
+          "mlp": 15,
+          "kan": 11
+        },
+        "aggiornamenti_saltati": {
+          "lr": 0,
+          "mlp": 0,
+          "kan": 0
+        },
+        "tempo_del_singolo_aggiornamento": {
+          "lr": {
+            "n": 27,
+            "secondi_totali": 0.287,
+            "ms_medio": 10.626,
+            "ms_mediano": 9.676,
+            "ms_minimo": 5.37,
+            "ms_massimo": 16.646
+          },
+          "mlp": {
+            "n": 15,
+            "secondi_totali": 0.338,
+            "ms_medio": 22.554,
+            "ms_mediano": 19.34,
+            "ms_minimo": 9.828,
+            "ms_massimo": 45.819
+          },
+          "kan": {
+            "n": 11,
+            "secondi_totali": 0.279,
+            "ms_medio": 25.363,
+            "ms_mediano": 23.821,
+            "ms_minimo": 20.693,
+            "ms_massimo": 31.242
+          }
+        }
+      },
+      "comando_effettivo": "python replay.py --iniziale flussi\\A.npz --flusso flussi\\C.npz --calibrazione flussi\\B.npz --seme 46 --memoria 256 --memoria-strategia per_classe --politica evidenza_inversione --uscita ..\\archivio_esterno\\adapt02_memoria_per_classe\\campagna_C_078a9d8\\C_seme46_per_classe_evidenza_inversione.json",
+      "modelli": {
+        "lr": {
+          "congelato": {
+            "auroc": 0.714899297820984,
+            "recall_attacchi": 0.7204457237658767,
+            "falsi_allarmi": 0.46726512857598534,
+            "fp": 84443,
+            "fn": 2501546,
+            "vp": 6475811,
+            "vn": 88873,
+            "recall_attacchi_da_blocchi": 0.7213493904720509,
+            "fpr_da_blocchi": 0.4872198758337372
+          },
+          "adattivo": {
+            "auroc": 0.8230438530816936,
+            "recall_attacchi": 0.18637480773755746,
+            "falsi_allarmi": 0.06566399904696596,
+            "fp": 3034,
+            "fn": 7323882,
+            "vp": 1653475,
+            "vn": 170282,
+            "recall_attacchi_da_blocchi": 0.18418282797487057,
+            "fpr_da_blocchi": 0.017505596713517507
+          },
+          "aggiornamenti_applicati": 27,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "congelato": {
+            "auroc": 0.8012937756916685,
+            "recall_attacchi": 0.4029614368625507,
+            "falsi_allarmi": 0.1358846210864292,
+            "fp": 47779,
+            "fn": 5357322,
+            "vp": 3620035,
+            "vn": 125537,
+            "recall_attacchi_da_blocchi": 0.40324061970577757,
+            "fpr_da_blocchi": 0.2756756444875257
+          },
+          "adattivo": {
+            "auroc": 0.8824981703222589,
+            "recall_attacchi": 0.17604962578519615,
+            "falsi_allarmi": 0.024859220311102322,
+            "fp": 7643,
+            "fn": 7423466,
+            "vp": 1553891,
+            "vn": 165673,
+            "recall_attacchi_da_blocchi": 0.17309003084092567,
+            "fpr_da_blocchi": 0.0440986406332941
+          },
+          "aggiornamenti_applicati": 15,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "congelato": {
+            "auroc": 0.8939094145153534,
+            "recall_attacchi": 0.660672434249531,
+            "falsi_allarmi": 0.0392082213464623,
+            "fp": 22919,
+            "fn": 3038975,
+            "vp": 5938382,
+            "vn": 150397,
+            "recall_attacchi_da_blocchi": 0.661484443584008,
+            "fpr_da_blocchi": 0.13223822382238223
+          },
+          "adattivo": {
+            "auroc": 0.8794761880103242,
+            "recall_attacchi": 0.15996249214288075,
+            "falsi_allarmi": 0.0015793736418397049,
+            "fp": 491,
+            "fn": 7557863,
+            "vp": 1419494,
+            "vn": 172825,
+            "recall_attacchi_da_blocchi": 0.15811936631237902,
+            "fpr_da_blocchi": 0.002832975605252833
+          },
+          "aggiornamenti_applicati": 11,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    }
+  ]
+}
