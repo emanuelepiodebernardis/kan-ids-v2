@@ -55,6 +55,17 @@ SHA-256
 `212B9270EF47D0B997667E83B38CB6C899A5B6ADD00DF61B881AA14DA905AFE0`.
 Il riepilogo leggero versionato e'
 `adapt02_memoria_per_classe/riepilogo_campagna_C.json`.
+L'analisi finale derivata dai rendiconti completi, con tassi complessivi,
+medie per blocco, dispersione sui cinque semi, differenze appaiate e figure, si
+rigenera con:
+
+```
+cd <repo>/adattamento-drift/ton_temporal
+python analisi_memoria_per_classe.py
+```
+
+Il comando scrive `adapt02_memoria_per_classe/analisi_campagna_C.json` e le
+figure in `adapt02_memoria_per_classe/figure_campagna_C/`.
 
 ## La suite di test
 
