@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import math
-from collections import defaultdict
 from pathlib import Path
 from statistics import mean, stdev
 
@@ -131,8 +131,14 @@ def costruisci(rendiconti: list[dict], link_archivio: str | None) -> dict:
     per_chiave = {}
     congelati_per_seme = {}
     auroc_denominatori = set()
+    tipi_attacco = set()
 
     for d in rendiconti:
+        for blocco in d["per_blocco"]:
+            tipi_attacco.update(
+                tipo for tipo in blocco.get("tipi_presenti", [])
+                if tipo.lower() != "normal"
+            )
         seme = d["parametri"]["seme"]
         memoria = d["parametri"]["memoria_strategia"]
         politica = d["politica"]["nome"]
@@ -247,6 +253,10 @@ def costruisci(rendiconti: list[dict], link_archivio: str | None) -> dict:
         "nota_tassi": (
             "fpr_complessivo usa FP / normali sommati; "
             "fpr_medio_blocchi e' la media dei FPR dei blocchi validi."),
+        "tipi_attacco_presenti": sorted(tipi_attacco),
+        "nota_tipi_attacco": (
+            "I rendiconti registrano la presenza dei tipi per blocco, non "
+            "matrici di confusione separate per tipo."),
         "denominatori_auroc_per_blocco": sorted(
             {"%d/%d" % (a, b) for a, b in auroc_denominatori}),
         "congelato": congelato,
@@ -257,6 +267,46 @@ def costruisci(rendiconti: list[dict], link_archivio: str | None) -> dict:
 
 def fmt_it(x: float, cifre: int = 4) -> str:
     return ("%.*f" % (cifre, x)).replace(".", ",")
+
+
+def scrivi_differenze_csv(analisi: dict, uscita: Path) -> Path:
+    percorso = uscita / "differenze_appaiate_per_seme_C.csv"
+    campi = [
+        "politica",
+        "modello",
+        "seme",
+        "delta_auroc",
+        "delta_recall_attacchi",
+        "delta_fpr_complessivo",
+        "delta_fpr_medio_blocchi",
+        "delta_fn",
+        "delta_fp",
+    ]
+    differenze = analisi["differenze_appaiate_per_classe_meno_fifo"]
+    with percorso.open("w", encoding="utf-8", newline="") as f:
+        scrittore = csv.DictWriter(f, fieldnames=campi, lineterminator="\n")
+        scrittore.writeheader()
+        for politica in POLITICHE:
+            for modello in MODELLI:
+                per_metrica = differenze[politica][modello]
+                indicizzati = {
+                    metrica: {
+                        riga["seme"]: riga["delta"]
+                        for riga in per_metrica[metrica]["per_seme"]
+                    }
+                    for metrica in METRICHE_DIFF
+                }
+                for seme in (42, 43, 44, 45, 46):
+                    scrittore.writerow({
+                        "politica": politica,
+                        "modello": modello,
+                        "seme": seme,
+                        **{
+                            "delta_" + metrica: indicizzati[metrica][seme]
+                            for metrica in METRICHE_DIFF
+                        },
+                    })
+    return percorso
 
 
 def grafici(analisi: dict, uscita: Path) -> list[str]:
@@ -295,30 +345,39 @@ def grafici(analisi: dict, uscita: Path) -> list[str]:
     plt.close(fig)
     scritti.append(p.name)
 
-    for metrica, titolo, scala in (
-        ("auroc", "Delta AUROC per classe - FIFO", 1.0),
-        ("recall_attacchi", "Delta recall attacchi per classe - FIFO", 1.0),
-        ("fp", "Delta FP per classe - FIFO", 1.0),
-        ("fn", "Delta FN per classe - FIFO", 1.0),
+    for metrica, titolo, scala, unita in (
+        ("auroc", "Delta AUROC per classe - FIFO", 1.0, "delta"),
+        ("recall_attacchi", "Delta recall attacchi per classe - FIFO", 1.0,
+         "delta"),
+        ("fpr_complessivo", "Delta FPR complessivo per classe - FIFO", 100.0,
+         "punti percentuali"),
+        ("fp", "Delta FP per classe - FIFO", 1.0, "delta"),
+        ("fn", "Delta FN per classe - FIFO", 1.0, "delta"),
     ):
         fig, axes = plt.subplots(1, 2, figsize=(9.5, 3.8), sharey=True)
+        colori = plt.get_cmap("tab10").colors[:5]
         for ax, politica, etichetta in zip(
                 axes, POLITICHE, ("ogni blocco", "evidence")):
             for i, modello in enumerate(MODELLI):
-                valori = [
-                    v["delta"] * scala
-                    for v in analisi["differenze_appaiate_per_classe_meno_fifo"]
-                    [politica][modello][metrica]["per_seme"]
-                ]
-                ax.scatter([i] * len(valori), valori, s=30, alpha=0.75)
+                righe = analisi["differenze_appaiate_per_classe_meno_fifo"][
+                    politica][modello][metrica]["per_seme"]
+                valori = [riga["delta"] * scala for riga in righe]
+                for j, (riga, valore) in enumerate(zip(righe, valori)):
+                    ax.scatter(i + (j - 2) * 0.045, valore, s=32,
+                               color=colori[j], alpha=0.85,
+                               label=("seme %d" % riga["seme"])
+                               if i == 0 and ax is axes[0] else None)
                 ax.hlines(mean(valori), i - 0.28, i + 0.28, linewidth=2)
             ax.axhline(0, color="black", linewidth=0.8)
             ax.set_xticks(range(len(MODELLI)), [m.upper() for m in MODELLI])
             ax.set_title(etichetta)
             ax.grid(axis="y", alpha=0.25)
-        axes[0].set_ylabel("delta")
+        axes[0].set_ylabel(unita)
+        maniglie, etichette = axes[0].get_legend_handles_labels()
+        fig.legend(maniglie, etichette, title="semi", loc="lower center",
+                   ncol=5, fontsize=8, title_fontsize=8)
         fig.suptitle(titolo)
-        fig.tight_layout()
+        fig.tight_layout(rect=(0, 0.12, 1, 1))
         p = cartella / ("differenze_appaiate_%s.png" % metrica)
         fig.savefig(p, dpi=160, metadata={"Software": "matplotlib"})
         plt.close(fig)
@@ -335,6 +394,8 @@ def grafici(analisi: dict, uscita: Path) -> list[str]:
         "per classe e FIFO sull'AUROC.\n"
         "- `differenze_appaiate_recall_attacchi.png`: differenze per-seme "
         "sul recall degli attacchi.\n"
+        "- `differenze_appaiate_fpr_complessivo.png`: differenze per-seme "
+        "sul FPR complessivo, in punti percentuali.\n"
         "- `differenze_appaiate_fp.png`: differenze per-seme sui falsi "
         "allarmi.\n"
         "- `differenze_appaiate_fn.png`: differenze per-seme sugli attacchi "
@@ -359,8 +420,10 @@ def main() -> None:
     out = args.uscita / "analisi_campagna_C.json"
     out.write_text(json.dumps(analisi, indent=2, ensure_ascii=False),
                    encoding="utf-8", newline="\n")
+    csv_differenze = scrivi_differenze_csv(analisi, args.uscita)
     scritti = grafici(analisi, args.uscita)
     print(out)
+    print(csv_differenze)
     for nome in scritti:
         print(args.uscita / "figure_campagna_C" / nome)
 
