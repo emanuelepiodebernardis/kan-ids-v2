@@ -21,6 +21,10 @@ METRICHE_DIFF = (
     "fn",
     "fp",
 )
+LINK_ARCHIVIO = (
+    "https://drive.google.com/drive/folders/"
+    "1lAsdaKNOWUu9S70Pp8rKlA2kyyfi8ncK?usp=sharing"
+)
 
 
 def qui() -> Path:
@@ -346,7 +350,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--rendiconti", type=Path, default=archivio_predefinito())
     ap.add_argument("--uscita", type=Path, default=uscita_predefinita())
-    ap.add_argument("--link-archivio", default=None)
+    ap.add_argument("--link-archivio", default=LINK_ARCHIVIO)
     args = ap.parse_args()
 
     rendiconti = carica_rendiconti(args.rendiconti)

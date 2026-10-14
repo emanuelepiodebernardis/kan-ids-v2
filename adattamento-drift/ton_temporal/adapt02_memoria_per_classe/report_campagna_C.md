@@ -47,6 +47,10 @@ Archivio compresso:
 
 `adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8.zip`
 
+Cartella condivisa da cui scaricare l'archivio:
+
+`https://drive.google.com/drive/folders/1lAsdaKNOWUu9S70Pp8rKlA2kyyfi8ncK?usp=sharing`
+
 Dimensione: 7.253.160 byte.
 
 SHA-256:
