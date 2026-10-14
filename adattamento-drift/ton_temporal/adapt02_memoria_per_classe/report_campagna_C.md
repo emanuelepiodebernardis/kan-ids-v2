@@ -39,7 +39,9 @@ blocco.
 
 ## Archivio esterno
 
-I 20 rendiconti completi e il riepilogo di campagna restano fuori Git.
+I 20 rendiconti completi restano fuori Git. La directory esterna contiene anche
+il riepilogo prodotto dallo script; in Git ne e' conservata la copia leggera,
+senza le serie per blocco dei rendiconti completi.
 
 Archivio compresso:
 
