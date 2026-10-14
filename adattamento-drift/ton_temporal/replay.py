@@ -295,10 +295,11 @@ def picco_rss(forza_senza_resource=False):
     if sys.platform == 'win32':
         try:
             import ctypes
+            from ctypes import wintypes
 
             class _Contatori(ctypes.Structure):
-                _fields_ = [('cb', ctypes.c_ulong),
-                            ('PageFaultCount', ctypes.c_ulong),
+                _fields_ = [('cb', wintypes.DWORD),
+                            ('PageFaultCount', wintypes.DWORD),
                             ('PeakWorkingSetSize', ctypes.c_size_t),
                             ('WorkingSetSize', ctypes.c_size_t),
                             ('QuotaPeakPagedPoolUsage', ctypes.c_size_t),
@@ -310,8 +311,14 @@ def picco_rss(forza_senza_resource=False):
 
             c = _Contatori()
             c.cb = ctypes.sizeof(_Contatori)
-            ok = ctypes.windll.psapi.GetProcessMemoryInfo(
-                ctypes.windll.kernel32.GetCurrentProcess(), ctypes.byref(c), c.cb)
+            kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
+            psapi = ctypes.WinDLL('psapi', use_last_error=True)
+            kernel32.GetCurrentProcess.restype = wintypes.HANDLE
+            psapi.GetProcessMemoryInfo.argtypes = (
+                wintypes.HANDLE, ctypes.POINTER(_Contatori), wintypes.DWORD)
+            psapi.GetProcessMemoryInfo.restype = wintypes.BOOL
+            ok = psapi.GetProcessMemoryInfo(
+                kernel32.GetCurrentProcess(), ctypes.byref(c), c.cb)
             if ok:
                 return round(c.PeakWorkingSetSize / 1024 ** 2, 1), 'GetProcessMemoryInfo'
         except Exception:

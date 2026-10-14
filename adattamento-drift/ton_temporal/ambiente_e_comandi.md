@@ -77,6 +77,17 @@ cd <repo>
 python -m pytest adattamento-drift/ton_temporal -q
 ```
 
+Su Windows i compilatori richiamati dalla suite devono avere una directory
+temporanea esistente e scrivibile. Prima dei test si puo' fissarla in modo
+esplicito per la sessione PowerShell:
+
+```powershell
+$tmp = "$env:LOCALAPPDATA\Temp\kan-ids-pytest"
+New-Item -ItemType Directory -Force -Path $tmp | Out-Null
+$env:TMP = $tmp
+$env:TEMP = $tmp
+```
+
 Attesi: **264 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
 e 5 test sull'analisi finale. Per file: `test_documenti_coerenti.py`
@@ -111,14 +122,14 @@ dispersione campionaria, il denominatore AUROC, i tipi di attacco, i 30 delta
 per seme e le figure consegnate.
 
 **I 264 non sono il totale del repository.** Lanciando `pytest` dalla radice del
-repository si raccolgono anche le suite delle altre linee di lavoro: al commit
-`5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **898 passate e 1 saltata**: a `3861a5d` ne sono state
-misurate 874 con 240 prove di ADAPT-01. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 264 è questa cartella, 898 è tutto
-il repository. Il conteggio della radice dipende da quali altre cartelle sono
-presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
-ramo.
+repository si raccolgono anche le suite delle altre linee di lavoro: sul
+dispositivo Windows, con la directory temporanea indicata sopra, sono state
+misurate **898 passate, 1 saltata e 5 sottotest passati**. Al commit `5922992`
+il totale era 829 passate e 1 saltata, di cui 195 erano queste; a `3861a5d`
+erano state misurate 874 prove con 240 di ADAPT-01. I due numeri vanno citati
+separatamente, perché misurano cose diverse: 264 è questa cartella, 898 è tutto
+il repository. Il totale della radice dipende dalle altre cartelle presenti
+nella copia di lavoro.
 
 Una versione precedente di questo documento dichiarava «11 test superati» e
 citava conteggi di 634 e 643 test misurati su un altro ramo: nessuno dei due
