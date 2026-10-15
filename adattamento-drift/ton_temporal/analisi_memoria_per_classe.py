@@ -22,8 +22,8 @@ METRICHE_DIFF = (
     "fp",
 )
 LINK_ARCHIVIO = (
-    "https://drive.google.com/drive/folders/"
-    "1lAsdaKNOWUu9S70Pp8rKlA2kyyfi8ncK?usp=sharing"
+    "https://drive.google.com/file/d/"
+    "1C4uZIcW7rtWk5j1tROcHrCrhdzvzZq5E/view?usp=drive_link"
 )
 
 

@@ -52,6 +52,9 @@ def test_dispersione_usa_la_devianza_standard_campionaria():
 def test_analisi_pubblicata_riporta_tassi_denominatore_e_tipi():
     dati = json.loads((USCITA / "analisi_campagna_C.json").read_text(
         encoding="utf-8"))
+    assert dati["link_archivio"] == analisi.LINK_ARCHIVIO
+    assert "/file/d/" in dati["link_archivio"]
+    assert "/folders/" not in dati["link_archivio"]
     assert dati["denominatori_auroc_per_blocco"] == ["875/916"]
     assert dati["tipi_attacco_presenti"] == [
         "ddos", "dos", "injection", "password"

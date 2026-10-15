@@ -51,8 +51,8 @@ fuori Git in
 `adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/`;
 la copia compressa e'
 `adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8.zip`,
-scaricabile dalla cartella condivisa
-`https://drive.google.com/drive/folders/1lAsdaKNOWUu9S70Pp8rKlA2kyyfi8ncK?usp=sharing`,
+scaricabile dal collegamento diretto al file condiviso
+`https://drive.google.com/file/d/1C4uZIcW7rtWk5j1tROcHrCrhdzvzZq5E/view?usp=drive_link`,
 SHA-256
 `212B9270EF47D0B997667E83B38CB6C899A5B6ADD00DF61B881AA14DA905AFE0`.
 Il riepilogo leggero versionato e'
