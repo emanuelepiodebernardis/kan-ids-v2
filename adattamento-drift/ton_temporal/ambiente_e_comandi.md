@@ -88,20 +88,23 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **264 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **276 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
-e 5 test sull'analisi finale. Per file: `test_documenti_coerenti.py`
+5 test sull'analisi finale, 8 test causali e 4 test dell'analisi ADAPT-03. Per file:
+`test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
-`test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5.
+`test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
+`test_soglia_adattiva_online.py` 8, `test_analisi_soglia_adattiva.py` 4.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
 **240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** a
 chiusura di ADAPT-01, **259** con il checkpoint ADAPT-02, **264** con i controlli
-dell'analisi finale.
+dell'analisi finale, **272** con i controlli causali e **276** con i controlli
+dell'analisi del checkpoint ADAPT-03.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -119,16 +122,23 @@ limite, quote, espulsione, causalita', retrocompatibilita' FIFO, dtype delle
 feature, confronto con la FIFO storica e appaiamento di richieste e frozen. Le
 5 prove finali distinguono FPR complessivo e medio per blocco, controllano la
 dispersione campionaria, il denominatore AUROC, i tipi di attacco, i 30 delta
-per seme e le figure consegnate.
+per seme e le figure consegnate. Le 8 prove ADAPT-03 controllano classe assente,
+eta' dell'evidenza, minimo per classe, tie-break, invarianza di score e AUROC,
+appaiamento delle memorie, ritardo causale, etichette future e conteggio dello
+stato aggiuntivo.
+I 4 controlli dell'analisi distinguono aggregazioni globali e medie per blocco,
+ricostruiscono periodi contigui di peggioramento, verificano le differenze e
+rifiutano score frozen non appaiati.
 
-**I 264 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 276 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: sul
 dispositivo Windows, con la directory temporanea indicata sopra, sono state
 misurate **898 passate, 1 saltata e 5 sottotest passati**. Al commit `5922992`
 il totale era 829 passate e 1 saltata, di cui 195 erano queste; a `3861a5d`
 erano state misurate 874 prove con 240 di ADAPT-01. I due numeri vanno citati
-separatamente, perché misurano cose diverse: 264 è questa cartella, 898 è tutto
-il repository. Il totale della radice dipende dalle altre cartelle presenti
+separatamente, perché misurano cose diverse: 276 è questa cartella, mentre 898
+era il totale misurato alla chiusura di ADAPT-02. Il totale della radice dipende
+dalle altre cartelle presenti
 nella copia di lavoro.
 
 Una versione precedente di questo documento dichiarava «11 test superati» e

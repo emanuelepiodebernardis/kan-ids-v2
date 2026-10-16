@@ -57,6 +57,12 @@ def _carica_replay_storico(tmp_path):
     m = importlib.util.module_from_spec(spec)
     sys.modules['replay_fifo_storica'] = m
     spec.loader.exec_module(m)
+    # Il runner storico precede la correzione delle firme Win64 di ctypes.
+    # Il confronto non usa il picco RSS: neutralizzarlo evita che una misura
+    # estranea alle invarianti possa chiudere un handle troncato durante i test.
+    m.picco_rss = lambda forza_senza_resource=False: (
+        None, 'non misurato nel confronto storico')
+    m.picco_rss_mib = lambda: None
     return m
 
 
