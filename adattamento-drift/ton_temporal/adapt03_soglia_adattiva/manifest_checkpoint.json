@@ -1,0 +1,38 @@
+{
+  "archivio": {
+    "file": "checkpoint_C_seed42_6ba0ba0.zip",
+    "dimensione_byte": 1046784,
+    "sha256": "d8c036e119474189cf74bce8a230eb2fe4be24136770051f968acff473c75e1f"
+  },
+  "contenuto": [
+    {
+      "percorso": "smoke_C_seed42_6ba0ba0/riepilogo_smoke.json",
+      "dimensione_byte": 10095,
+      "sha256": "aebae0b672d8a8e0e98be2de5e02aaf357701ff2aae6c7901d318239da19ca1c"
+    },
+    {
+      "percorso": "smoke_C_seed42_6ba0ba0/smoke_C_seed42_fifo.json",
+      "dimensione_byte": 129825,
+      "sha256": "90b5e06b44d90229b6ed2e83523e31f00067173b0ae7eb505e795158ca60d80f"
+    },
+    {
+      "percorso": "smoke_C_seed42_6ba0ba0/smoke_C_seed42_per_classe.json",
+      "dimensione_byte": 132225,
+      "sha256": "a39243105eea2751e6d3e9cba337a8419db00fb620d7dc00d198b05ec4c08bb5"
+    },
+    {
+      "percorso": "diagnostico_C_seed42_6ba0ba0/C_seed42_fifo_soglia_adattiva.json",
+      "dimensione_byte": 4536797,
+      "sha256": "8335af8ab3422c83e846752ed646c6abb2fca1d6f0d24e22533573de63efa0ef"
+    },
+    {
+      "percorso": "diagnostico_C_seed42_6ba0ba0/C_seed42_per_classe_soglia_adattiva.json",
+      "dimensione_byte": 5292720,
+      "sha256": "31dc7e380becc3afa1a6ee20bb2fa26131addd18338429152ab409c0ca9fd5ce"
+    }
+  ],
+  "commit_replay": "6ba0ba06b902b90339d3f91026ddd7601029d119",
+  "flusso": "C",
+  "seme": 42,
+  "d_riservato": true
+}

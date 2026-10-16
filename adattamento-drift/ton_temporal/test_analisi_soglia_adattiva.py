@@ -2,9 +2,16 @@
 
 from __future__ import annotations
 
+import csv
+import json
+from pathlib import Path
+
 import pytest
 
 import analisi_soglia_adattiva as analisi
+
+
+RADICE_ARTEFATTI = Path(__file__).parent / 'adapt03_soglia_adattiva'
 
 
 def _misure(normali, attacchi, fp, fn, auroc):
@@ -112,3 +119,104 @@ def test_verifica_rifiuta_uno_score_non_appaiato():
         analisi.verifica(
             {'fifo': base_nuovo, 'per_classe': nuovo_pc},
             {'fifo': storico('fifo'), 'per_classe': storico('per_classe')})
+
+
+def test_analisi_consegnata_conserva_appaiamento_e_denominatori():
+    with (RADICE_ARTEFATTI / 'analisi_checkpoint.json').open(
+            encoding='utf-8') as f:
+        risultato = json.load(f)
+
+    verifica = risultato['verifica_appaiamento']
+    assert verifica['esito'] == 'PASS'
+    assert verifica['commit_eseguito'] == (
+        '6ba0ba06b902b90339d3f91026ddd7601029d119')
+    assert verifica['blocchi_controllati_con_adapt02'] == 1832
+    assert risultato['input_sha256']['iniziale']['sha256'] == (
+        'ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432')
+    assert risultato['input_sha256']['calibrazione']['sha256'] == (
+        'e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0')
+    assert risultato['input_sha256']['flusso']['sha256'] == (
+        '3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d')
+
+    for memoria in ('fifo', 'per_classe'):
+        for modello in analisi.MODELLI:
+            misure = risultato['configurazioni'][memoria][modello]
+            for metodo in ('frozen_b', 'soglia_adattiva',
+                           'pesi_adattati_ogni_blocco'):
+                assert misure[metodo]['auroc_blocchi_validi'] == 875
+                assert misure[metodo]['auroc_blocchi_totali'] == 916
+            assert (misure['soglia_adattiva']['medie_per_blocco']['auroc'] ==
+                    misure['frozen_b']['medie_per_blocco']['auroc'])
+
+    kan = risultato['configurazioni']['per_classe']['kan']
+    assert kan['soglia_adattiva']['recall_attacchi_globale'] == pytest.approx(
+        0.8261213, abs=1e-7)
+    assert kan['soglia_adattiva']['fpr_globale'] == pytest.approx(
+        0.1473147, abs=1e-7)
+
+
+def test_csv_e_figure_consegnati_sono_completi():
+    with (RADICE_ARTEFATTI / 'manifest_checkpoint.json').open(
+            encoding='utf-8') as f:
+        manifest = json.load(f)
+    assert manifest['archivio'] == {
+        'file': 'checkpoint_C_seed42_6ba0ba0.zip',
+        'dimensione_byte': 1046784,
+        'sha256': ('d8c036e119474189cf74bce8a230eb2fe4be24136770051f968acff473c75e1f'),
+    }
+    assert len(manifest['contenuto']) == 5
+
+    with (RADICE_ARTEFATTI / 'confronto_per_blocco.csv').open(
+            encoding='utf-8', newline='') as f:
+        righe = list(csv.DictReader(f))
+
+    assert len(righe) == 2 * 3 * 916
+    assert {(r['memoria'], r['modello']) for r in righe} == {
+        (memoria, modello)
+        for memoria in ('fifo', 'per_classe')
+        for modello in analisi.MODELLI
+    }
+
+    figure = {
+        'compromesso_globale_recall_fpr.png',
+        'traiettorie_soglia.png',
+        'disponibilita_aggiornamenti.png',
+        'blocchi_di_peggioramento.png',
+    }
+    for nome in figure:
+        dati = (RADICE_ARTEFATTI / 'figure' / nome).read_bytes()
+        assert dati.startswith(b'\x89PNG\r\n\x1a\n')
+        assert len(dati) > 10_000
+
+
+def test_tabella_del_rapporto_coincide_con_il_json():
+    with (RADICE_ARTEFATTI / 'analisi_checkpoint.json').open(
+            encoding='utf-8') as f:
+        risultato = json.load(f)
+    testo = (RADICE_ARTEFATTI / 'report_checkpoint.md').read_text(
+        encoding='utf-8')
+
+    memorie = {'FIFO': 'fifo', 'per classe': 'per_classe'}
+    metodi = {
+        'frozen B': 'frozen_b',
+        'sola soglia': 'soglia_adattiva',
+        'pesi': 'pesi_adattati_ogni_blocco',
+    }
+    righe = []
+    for linea in testo.splitlines():
+        celle = [c.strip() for c in linea.strip().strip('|').split('|')]
+        if len(celle) == 8 and celle[0] in memorie:
+            righe.append(celle)
+
+    assert len(righe) == 2 * 3 * 3
+    for memoria, modello, metodo, recall, fpr, auroc, fn, fp in righe:
+        misura = risultato['configurazioni'][memorie[memoria]][
+            modello.lower()][metodi[metodo]]
+        assert float(recall.replace(',', '.')) == pytest.approx(
+            misura['recall_attacchi_globale'], abs=5e-5)
+        assert float(fpr.rstrip('%').replace(',', '.')) == pytest.approx(
+            100 * misura['fpr_globale'], abs=5e-4)
+        assert float(auroc.replace(',', '.')) == pytest.approx(
+            misura['medie_per_blocco']['auroc'], abs=5e-5)
+        assert int(fn.replace('.', '')) == misura['cm_globale']['fn']
+        assert int(fp.replace('.', '')) == misura['cm_globale']['fp']
