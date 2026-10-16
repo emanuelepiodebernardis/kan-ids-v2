@@ -1,0 +1,207 @@
+{
+  "commit": "a30898523f4573efaacfda45f5c1cc77a7382992",
+  "commit_codice_eseguito": "a30898523f4573efaacfda45f5c1cc77a7382992",
+  "commit_fifo_storica": "1679f65697ccdf1e92710ebfcbb940ce36233e7e",
+  "scopo": "smoke ADAPT-02, non campagna estesa",
+  "seme": 42,
+  "max_blocchi": 24,
+  "memoria": 256,
+  "secondi_totali": 1240.34,
+  "appaiamento": "row_id campionati e misure frozen identici nelle quattro corse",
+  "confronto_fifo_storica": [
+    {
+      "politica": "ogni_blocco",
+      "blocchi_corrente": 24,
+      "blocchi_storico": 24,
+      "riepilogo_identico": true,
+      "campi_per_blocco_identici": true,
+      "campi_confrontati": [
+        "row_id_campionati_sha256",
+        "etichette_richieste",
+        "memoria_normali",
+        "memoria_attacchi",
+        "congelato_*",
+        "adattivo_*",
+        "stima_verso_*",
+        "stima_campione_*",
+        "decisione_*",
+        "salto_*"
+      ],
+      "prima_differenza": null,
+      "file_corrente": "smoke_C_seme42_fifo_ogni_blocco.json",
+      "file_storico": "fifo_storica/smoke_C_seme42_fifo_storica_ogni_blocco.json"
+    },
+    {
+      "politica": "evidenza_inversione",
+      "blocchi_corrente": 24,
+      "blocchi_storico": 24,
+      "riepilogo_identico": true,
+      "campi_per_blocco_identici": true,
+      "campi_confrontati": [
+        "row_id_campionati_sha256",
+        "etichette_richieste",
+        "memoria_normali",
+        "memoria_attacchi",
+        "congelato_*",
+        "adattivo_*",
+        "stima_verso_*",
+        "stima_campione_*",
+        "decisione_*",
+        "salto_*"
+      ],
+      "prima_differenza": null,
+      "file_corrente": "smoke_C_seme42_fifo_evidenza_inversione.json",
+      "file_storico": "fifo_storica/smoke_C_seme42_fifo_storica_evidenza_inversione.json"
+    }
+  ],
+  "rendiconti": [
+    {
+      "file": "smoke_C_seme42_fifo_ogni_blocco.json",
+      "memoria_strategia": "fifo",
+      "politica": "ogni_blocco",
+      "blocchi": 24,
+      "etichette_spese": 2400,
+      "righe_scorse": 240000,
+      "quota_etichette_effettiva": 0.01,
+      "memoria_normali_media": 8.217391304347826,
+      "memoria_attacchi_media": 247.7826086956522,
+      "modelli": {
+        "lr": {
+          "auroc_adattivo": 0.8916431370757761,
+          "richiamo_attacchi_adattivo": 0.9618641605760202,
+          "fpr_blocco_adattivo": 0.13618384580704726,
+          "auroc_congelato": 0.29970542666702554,
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "auroc_adattivo": 0.9143885712559046,
+          "richiamo_attacchi_adattivo": 0.9752672044933136,
+          "fpr_blocco_adattivo": 0.12701542691960296,
+          "auroc_congelato": 0.30391565539804194,
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "auroc_adattivo": 0.96383433697602,
+          "richiamo_attacchi_adattivo": 0.9606071939590223,
+          "fpr_blocco_adattivo": 0.038790491449214905,
+          "auroc_congelato": 0.9683964499969977,
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "smoke_C_seme42_fifo_evidenza_inversione.json",
+      "memoria_strategia": "fifo",
+      "politica": "evidenza_inversione",
+      "blocchi": 24,
+      "etichette_spese": 2400,
+      "righe_scorse": 240000,
+      "quota_etichette_effettiva": 0.01,
+      "memoria_normali_media": 8.217391304347826,
+      "memoria_attacchi_media": 247.7826086956522,
+      "modelli": {
+        "lr": {
+          "auroc_adattivo": 0.8335993154187319,
+          "richiamo_attacchi_adattivo": 0.9678898879600865,
+          "fpr_blocco_adattivo": 0.18014032983870135,
+          "auroc_congelato": 0.29970542666702554,
+          "aggiornamenti_applicati": 2,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "auroc_adattivo": 0.7927552409441242,
+          "richiamo_attacchi_adattivo": 0.9779640794238431,
+          "fpr_blocco_adattivo": 0.2333164940986194,
+          "auroc_congelato": 0.30391565539804194,
+          "aggiornamenti_applicati": 2,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "auroc_adattivo": 0.9683964499969977,
+          "richiamo_attacchi_adattivo": 0.9616048927534312,
+          "fpr_blocco_adattivo": 0.0007511965166072907,
+          "auroc_congelato": 0.9683964499969977,
+          "aggiornamenti_applicati": 0,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "smoke_C_seme42_per_classe_ogni_blocco.json",
+      "memoria_strategia": "per_classe",
+      "politica": "ogni_blocco",
+      "blocchi": 24,
+      "etichette_spese": 2400,
+      "righe_scorse": 240000,
+      "quota_etichette_effettiva": 0.01,
+      "memoria_normali_media": 46.608695652173914,
+      "memoria_attacchi_media": 209.3913043478261,
+      "modelli": {
+        "lr": {
+          "auroc_adattivo": 0.9235071866325546,
+          "richiamo_attacchi_adattivo": 0.9561245732198668,
+          "fpr_blocco_adattivo": 0.08319283482935945,
+          "auroc_congelato": 0.29970542666702554,
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "auroc_adattivo": 0.928691515826999,
+          "richiamo_attacchi_adattivo": 0.9576531619505166,
+          "fpr_blocco_adattivo": 0.08034447048456995,
+          "auroc_congelato": 0.30391565539804194,
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "auroc_adattivo": 0.9878452412365282,
+          "richiamo_attacchi_adattivo": 0.8769684227642661,
+          "fpr_blocco_adattivo": 0.00038587177081878,
+          "auroc_congelato": 0.9683964499969977,
+          "aggiornamenti_applicati": 23,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    },
+    {
+      "file": "smoke_C_seme42_per_classe_evidenza_inversione.json",
+      "memoria_strategia": "per_classe",
+      "politica": "evidenza_inversione",
+      "blocchi": 24,
+      "etichette_spese": 2400,
+      "righe_scorse": 240000,
+      "quota_etichette_effettiva": 0.01,
+      "memoria_normali_media": 46.608695652173914,
+      "memoria_attacchi_media": 209.3913043478261,
+      "modelli": {
+        "lr": {
+          "auroc_adattivo": 0.8681362537678238,
+          "richiamo_attacchi_adattivo": 0.9566388959025858,
+          "fpr_blocco_adattivo": 0.21271946213594886,
+          "auroc_congelato": 0.29970542666702554,
+          "aggiornamenti_applicati": 1,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "mlp": {
+          "auroc_adattivo": 0.8172622135445277,
+          "richiamo_attacchi_adattivo": 0.9781753226287538,
+          "fpr_blocco_adattivo": 0.27587512843583917,
+          "auroc_congelato": 0.30391565539804194,
+          "aggiornamenti_applicati": 1,
+          "salti_per_memoria_monoclasse": 0
+        },
+        "kan": {
+          "auroc_adattivo": 0.9683964499969977,
+          "richiamo_attacchi_adattivo": 0.9616048927534312,
+          "fpr_blocco_adattivo": 0.0007511965166072907,
+          "auroc_congelato": 0.9683964499969977,
+          "aggiornamenti_applicati": 0,
+          "salti_per_memoria_monoclasse": 0
+        }
+      }
+    }
+  ]
+}

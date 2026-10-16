@@ -218,6 +218,10 @@ def test_la_memoria_e_misurata_e_distinta_fra_processo_e_adattamento(rendiconto)
 def test_la_via_di_riserva_del_picco_dichiara_il_proprio_metodo():
     """Esercita la via che non usa `resource`, anche dove `resource` esiste."""
     valore, metodo = R.picco_rss(forza_senza_resource=True)
+    if sys.platform == 'win32':
+        assert valore is not None and valore > 0
+        assert metodo == 'GetProcessMemoryInfo'
+        return
     if valore is None:
         assert 'non disponibile' in metodo
     else:

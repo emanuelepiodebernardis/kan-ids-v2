@@ -44,6 +44,32 @@ originali, con queste impronte SHA-256:
 | B.npz | `e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0` |
 | C.npz | `3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d` |
 
+La campagna completa ADAPT-02 sulla memoria per classe e' stata eseguita nello
+stesso ambiente Windows, con commit di avvio
+`078a9d8447aee8493a9da7b98ba76d1bdec27678`. I 20 rendiconti completi stanno
+fuori Git in
+`adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/`;
+la copia compressa e'
+`adattamento-drift/archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8.zip`,
+scaricabile dal collegamento diretto al file condiviso
+`https://drive.google.com/file/d/1C4uZIcW7rtWk5j1tROcHrCrhdzvzZq5E/view?usp=drive_link`,
+SHA-256
+`212B9270EF47D0B997667E83B38CB6C899A5B6ADD00DF61B881AA14DA905AFE0`.
+Il riepilogo leggero versionato e'
+`adapt02_memoria_per_classe/riepilogo_campagna_C.json`.
+L'analisi finale derivata dai rendiconti completi, con tassi complessivi,
+medie per blocco, dispersione sui cinque semi, differenze appaiate e figure, si
+rigenera con:
+
+```
+cd <repo>/adattamento-drift/ton_temporal
+python analisi_memoria_per_classe.py
+```
+
+Il comando scrive `adapt02_memoria_per_classe/analisi_campagna_C.json`, il CSV
+`adapt02_memoria_per_classe/differenze_appaiate_per_seme_C.csv` e le figure in
+`adapt02_memoria_per_classe/figure_campagna_C/`.
+
 ## La suite di test
 
 ```
@@ -51,17 +77,32 @@ cd <repo>
 python -m pytest adattamento-drift/ton_temporal -q
 ```
 
-Attesi: **251 test superati**, e sono i test **di ADAPT-01**, cioè i soli file
-`test_*.py` della cartella `ton_temporal/`. Per file: `test_documenti_coerenti.py`
+Su Windows i compilatori richiamati dalla suite devono avere una directory
+temporanea esistente e scrivibile. Prima dei test si puo' fissarla in modo
+esplicito per la sessione PowerShell:
+
+```powershell
+$tmp = "$env:LOCALAPPDATA\Temp\kan-ids-pytest"
+New-Item -ItemType Directory -Force -Path $tmp | Out-Null
+$env:TMP = $tmp
+$env:TEMP = $tmp
+```
+
+Attesi: **264 test superati** nella cartella `ton_temporal/`: i 251 test
+verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
+e 5 test sull'analisi finale. Per file: `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
-`test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6.
+`test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
+`test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
-**240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** ora.
-I 56 di questo ciclo e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
+**240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** a
+chiusura di ADAPT-01, **259** con il checkpoint ADAPT-02, **264** con i controlli
+dell'analisi finale.
+I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
 l'esistenza dei file che i comandi citano, le frasi troncate, il confronto fra
@@ -73,17 +114,22 @@ consegnato**; e i percorsi dei comandi, che devono attraversare
 comando si esegue. Le 6 prove nuove presidiano la serie finale C: 40 rendiconti
 originali conservati, 60 riallineati, e test negativi su soglie, misure
 frozen, campioni, aggiornamenti richiesti e aggiornamenti effettivamente
-applicati.
+applicati. Le 8 prove di ADAPT-02 presidiano invece la memoria per classe:
+limite, quote, espulsione, causalita', retrocompatibilita' FIFO, dtype delle
+feature, confronto con la FIFO storica e appaiamento di richieste e frozen. Le
+5 prove finali distinguono FPR complessivo e medio per blocco, controllano la
+dispersione campionaria, il denominatore AUROC, i tipi di attacco, i 30 delta
+per seme e le figure consegnate.
 
-**I 251 non sono il totale del repository.** Lanciando `pytest` dalla radice del
-repository si raccolgono anche le suite delle altre linee di lavoro: al commit
-`5922992` quel totale era **829 passate e 1 saltata**, di cui 195 erano queste,
-quindi ora ci si attendono **885 passate e 1 saltata**: a `3861a5d` ne sono state
-misurate 874 con 240 prove di ADAPT-01. I due numeri vanno
-citati separatamente, perché misurano cose diverse: 251 è ADAPT-01, 885 è tutto
-il repository. Il conteggio della radice dipende da quali altre cartelle sono
-presenti nella copia di lavoro, quindi è una previsione e non una proprietà del
-ramo.
+**I 264 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+repository si raccolgono anche le suite delle altre linee di lavoro: sul
+dispositivo Windows, con la directory temporanea indicata sopra, sono state
+misurate **898 passate, 1 saltata e 5 sottotest passati**. Al commit `5922992`
+il totale era 829 passate e 1 saltata, di cui 195 erano queste; a `3861a5d`
+erano state misurate 874 prove con 240 di ADAPT-01. I due numeri vanno citati
+separatamente, perché misurano cose diverse: 264 è questa cartella, 898 è tutto
+il repository. Il totale della radice dipende dalle altre cartelle presenti
+nella copia di lavoro.
 
 Una versione precedente di questo documento dichiarava «11 test superati» e
 citava conteggi di 634 e 643 test misurati su un altro ramo: nessuno dei due
