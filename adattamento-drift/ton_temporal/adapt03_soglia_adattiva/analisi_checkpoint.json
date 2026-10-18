@@ -2,10 +2,11 @@
   "protocollo": "ADAPT-03 primo checkpoint, C/seed42",
   "verifica_appaiamento": {
     "esito": "PASS",
-    "commit_eseguito": "6ba0ba06b902b90339d3f91026ddd7601029d119",
+    "commit_eseguito": "90597f03413fa5884c6ad7e2895140695e3e14fe",
     "blocchi_controllati_con_adapt02": 1832,
     "invarianti": [
-      "input e parametri",
+      "SHA-256 degli input e parametri preregistrati",
+      "blocchi completi e ordinati",
       "soglie B",
       "richieste e row_id",
       "frozen per blocco",
@@ -2358,39 +2359,39 @@
         "massimo_esempi": 256
       },
       "costi_soglia": {
-        "secondi_totali": 318.297,
-        "secondi_addestramento_iniziale": 85.077,
+        "secondi_totali": 249.345,
+        "secondi_addestramento_iniziale": 80.458,
         "secondi_per_modello_iniziale": {
-          "lr": 11.702,
-          "mlp": 44.076,
-          "kan": 23.123
+          "lr": 10.699,
+          "mlp": 36.757,
+          "kan": 28.524
         },
-        "secondi_calibrazione_b": 175.059,
-        "secondi_replay": 57.97,
+        "secondi_calibrazione_b": 112.262,
+        "secondi_replay": 56.428,
         "tempo_aggiornamento_soglia": {
           "lr": {
             "n": 253,
-            "secondi_totali": 0.048,
-            "ms_medio": 0.191,
-            "ms_mediano": 0.177,
-            "ms_minimo": 0.121,
-            "ms_massimo": 1.115
+            "secondi_totali": 0.045,
+            "ms_medio": 0.177,
+            "ms_mediano": 0.159,
+            "ms_minimo": 0.128,
+            "ms_massimo": 1.889
           },
           "mlp": {
             "n": 253,
-            "secondi_totali": 0.035,
-            "ms_medio": 0.139,
-            "ms_mediano": 0.119,
-            "ms_minimo": 0.086,
-            "ms_massimo": 1.446
+            "secondi_totali": 0.029,
+            "ms_medio": 0.114,
+            "ms_mediano": 0.102,
+            "ms_minimo": 0.091,
+            "ms_massimo": 0.358
           },
           "kan": {
             "n": 253,
-            "secondi_totali": 0.031,
-            "ms_medio": 0.123,
-            "ms_mediano": 0.108,
-            "ms_minimo": 0.077,
-            "ms_massimo": 0.703
+            "secondi_totali": 0.025,
+            "ms_medio": 0.1,
+            "ms_mediano": 0.091,
+            "ms_minimo": 0.082,
+            "ms_massimo": 0.389
           }
         },
         "stato_logico_aggiuntivo_massimo": {
@@ -2398,10 +2399,12 @@
           "byte_etichette": 256,
           "byte_eta": 2048,
           "byte_soglie_e_contatori": 168,
-          "byte_totali": 8616
+          "byte_richieste_in_attesa_score": 2400,
+          "byte_richieste_in_attesa_indici": 800,
+          "byte_totali": 11816
         },
-        "stato_logico_nota": "payload numerico di score, etichette, eta, soglie e contatori; non include overhead degli oggetti Python e non e una misura MCU",
-        "picco_rss_processo_mib": 1529.8,
+        "stato_logico_nota": "payload numerico di score, etichette, eta, richieste in attesa, soglie e contatori; non include overhead degli oggetti Python e non e una misura MCU",
+        "picco_rss_processo_mib": 1530.1,
         "picco_rss_metodo": "GetProcessMemoryInfo"
       },
       "costi_pesi_adapt02": {
@@ -5477,39 +5480,39 @@
         "massimo_esempi": 256
       },
       "costi_soglia": {
-        "secondi_totali": 151.392,
-        "secondi_addestramento_iniziale": 27.704,
+        "secondi_totali": 221.737,
+        "secondi_addestramento_iniziale": 28.479,
         "secondi_per_modello_iniziale": {
-          "lr": 3.612,
-          "mlp": 11.076,
-          "kan": 10.444
+          "lr": 3.787,
+          "mlp": 11.947,
+          "kan": 10.114
         },
-        "secondi_calibrazione_b": 66.183,
-        "secondi_replay": 57.291,
+        "secondi_calibrazione_b": 125.388,
+        "secondi_replay": 67.653,
         "tempo_aggiornamento_soglia": {
           "lr": {
             "n": 704,
-            "secondi_totali": 0.127,
-            "ms_medio": 0.18,
-            "ms_mediano": 0.167,
-            "ms_minimo": 0.125,
-            "ms_massimo": 0.781
+            "secondi_totali": 0.159,
+            "ms_medio": 0.226,
+            "ms_mediano": 0.187,
+            "ms_minimo": 0.131,
+            "ms_massimo": 2.547
           },
           "mlp": {
             "n": 704,
-            "secondi_totali": 0.074,
-            "ms_medio": 0.105,
-            "ms_mediano": 0.094,
-            "ms_minimo": 0.08,
-            "ms_massimo": 0.766
+            "secondi_totali": 0.099,
+            "ms_medio": 0.141,
+            "ms_mediano": 0.1,
+            "ms_minimo": 0.081,
+            "ms_massimo": 1.098
           },
           "kan": {
             "n": 704,
-            "secondi_totali": 0.065,
-            "ms_medio": 0.092,
-            "ms_mediano": 0.083,
+            "secondi_totali": 0.088,
+            "ms_medio": 0.125,
+            "ms_mediano": 0.087,
             "ms_minimo": 0.072,
-            "ms_massimo": 0.443
+            "ms_massimo": 1.815
           }
         },
         "stato_logico_aggiuntivo_massimo": {
@@ -5517,10 +5520,12 @@
           "byte_etichette": 256,
           "byte_eta": 2048,
           "byte_soglie_e_contatori": 168,
-          "byte_totali": 8616
+          "byte_richieste_in_attesa_score": 2400,
+          "byte_richieste_in_attesa_indici": 800,
+          "byte_totali": 11816
         },
-        "stato_logico_nota": "payload numerico di score, etichette, eta, soglie e contatori; non include overhead degli oggetti Python e non e una misura MCU",
-        "picco_rss_processo_mib": 1531.6,
+        "stato_logico_nota": "payload numerico di score, etichette, eta, richieste in attesa, soglie e contatori; non include overhead degli oggetti Python e non e una misura MCU",
+        "picco_rss_processo_mib": 1510.6,
         "picco_rss_metodo": "GetProcessMemoryInfo"
       },
       "costi_pesi_adapt02": {
@@ -5625,6 +5630,6 @@
       }
     }
   },
-  "codice_analisi_commit": "b04c4711bb67159b359330d7c48fa0346cff7ee2",
+  "codice_analisi_commit": "90597f03413fa5884c6ad7e2895140695e3e14fe",
   "codice_analisi_worktree_pulito": true
 }

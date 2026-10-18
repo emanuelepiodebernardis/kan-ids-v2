@@ -73,38 +73,39 @@ Il comando scrive `adapt02_memoria_per_classe/analisi_campagna_C.json`, il CSV
 ## ADAPT-03: sola soglia, C/seed42
 
 Il protocollo e' stato fissato in `852f91c`. Smoke e replay completi sono stati
-eseguiti dal commit pulito `6ba0ba06b902b90339d3f91026ddd7601029d119`;
-l'analisi e' stata eseguita dal commit pulito
-`b04c4711bb67159b359330d7c48fa0346cff7ee2`.
+eseguiti dal commit pulito `90597f03413fa5884c6ad7e2895140695e3e14fe`;
+l'analisi e' stata eseguita dallo stesso commit pulito.
 
 Smoke preregistrato sui primi 20 blocchi:
 
 ```bash
 cd <repo>/adattamento-drift/ton_temporal
-python smoke_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --riferimenti-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8 --uscita-dir ../archivio_esterno/adapt03_soglia_adattiva/smoke_C_seed42_6ba0ba0
+python smoke_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --riferimenti-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8 --uscita-dir ../archivio_esterno/adapt03_soglia_adattiva/smoke_C_seed42_90597f0
 ```
 
-Il riepilogo dello smoke dichiara PASS: score, richieste, `row_id`, soglie B e
-frozen coincidono fra le nuove corse e con i primi 20 blocchi ADAPT-02.
+Il riepilogo dello smoke dichiara PASS su esattamente i blocchi `0..19`: gli
+SHA-256 di A, B e C e i parametri coincidono con i valori preregistrati; score,
+richieste, `row_id`, soglie B e frozen coincidono fra le nuove corse e con i
+primi 20 blocchi ADAPT-02.
 
 Replay completi, in due directory logiche separate ma nello stesso checkpoint:
 
 ```bash
 cd <repo>/adattamento-drift/ton_temporal
-python replay_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --uscita ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_6ba0ba0/C_seed42_fifo_soglia_adattiva.json --memoria-strategia fifo --richiedi-worktree-pulito
-python replay_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --uscita ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_6ba0ba0/C_seed42_per_classe_soglia_adattiva.json --memoria-strategia per_classe --richiedi-worktree-pulito
+python replay_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --uscita ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_fifo_soglia_adattiva.json --memoria-strategia fifo --richiedi-worktree-pulito
+python replay_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --uscita ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json --memoria-strategia per_classe --richiedi-worktree-pulito
 ```
 
 Analisi e figure:
 
 ```bash
 cd <repo>/adattamento-drift/ton_temporal
-python analisi_soglia_adattiva.py --fifo ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_6ba0ba0/C_seed42_fifo_soglia_adattiva.json --per-classe ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_6ba0ba0/C_seed42_per_classe_soglia_adattiva.json --riferimenti-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8 --uscita-dir adapt03_soglia_adattiva
+python analisi_soglia_adattiva.py --fifo ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_fifo_soglia_adattiva.json --per-classe ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json --riferimenti-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8 --uscita-dir adapt03_soglia_adattiva
 ```
 
 I rendiconti completi restano fuori Git nell'archivio
-`checkpoint_C_seed42_6ba0ba0.zip` (1.046.784 byte), SHA-256
-`d8c036e119474189cf74bce8a230eb2fe4be24136770051f968acff473c75e1f`.
+`checkpoint_C_seed42_90597f0.zip` (1.088.717 byte), SHA-256
+`88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91`.
 `adapt03_soglia_adattiva/manifest_checkpoint.json` registra anche le impronte
 dei cinque JSON contenuti. In Git sono conservati protocollo, manifest, analisi
 derivata, CSV per blocco, figure e rapporto; D non e' stato letto.

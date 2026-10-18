@@ -1,37 +1,37 @@
 {
   "archivio": {
-    "file": "checkpoint_C_seed42_6ba0ba0.zip",
-    "dimensione_byte": 1046784,
-    "sha256": "d8c036e119474189cf74bce8a230eb2fe4be24136770051f968acff473c75e1f"
+    "file": "checkpoint_C_seed42_90597f0.zip",
+    "dimensione_byte": 1088717,
+    "sha256": "88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91"
   },
   "contenuto": [
     {
-      "percorso": "smoke_C_seed42_6ba0ba0/riepilogo_smoke.json",
+      "percorso": "smoke_C_seed42_90597f0/riepilogo_smoke.json",
       "dimensione_byte": 10095,
-      "sha256": "aebae0b672d8a8e0e98be2de5e02aaf357701ff2aae6c7901d318239da19ca1c"
+      "sha256": "12b6c5a198715a7d5f7818ce8e02fce2859e544e6d704c2f96b325db47180b07"
     },
     {
-      "percorso": "smoke_C_seed42_6ba0ba0/smoke_C_seed42_fifo.json",
-      "dimensione_byte": 129825,
-      "sha256": "90b5e06b44d90229b6ed2e83523e31f00067173b0ae7eb505e795158ca60d80f"
+      "percorso": "smoke_C_seed42_90597f0/smoke_C_seed42_fifo.json",
+      "dimensione_byte": 143066,
+      "sha256": "a67e575a8da178438f9c7f469993b863658cd4701459eaf6c717399d97893ad0"
     },
     {
-      "percorso": "smoke_C_seed42_6ba0ba0/smoke_C_seed42_per_classe.json",
-      "dimensione_byte": 132225,
-      "sha256": "a39243105eea2751e6d3e9cba337a8419db00fb620d7dc00d198b05ec4c08bb5"
+      "percorso": "smoke_C_seed42_90597f0/smoke_C_seed42_per_classe.json",
+      "dimensione_byte": 145463,
+      "sha256": "4ca92ecf29b9337a7b43907b993d995e73e425d5e9468001c0cc96d0ca5f2c56"
     },
     {
-      "percorso": "diagnostico_C_seed42_6ba0ba0/C_seed42_fifo_soglia_adattiva.json",
-      "dimensione_byte": 4536797,
-      "sha256": "8335af8ab3422c83e846752ed646c6abb2fca1d6f0d24e22533573de63efa0ef"
+      "percorso": "diagnostico_C_seed42_90597f0/C_seed42_fifo_soglia_adattiva.json",
+      "dimensione_byte": 5143044,
+      "sha256": "077ff5130c5b7483b041ff30e8b1ca9e6762b6673410061e2e73d8da2974d6b1"
     },
     {
-      "percorso": "diagnostico_C_seed42_6ba0ba0/C_seed42_per_classe_soglia_adattiva.json",
-      "dimensione_byte": 5292720,
-      "sha256": "31dc7e380becc3afa1a6ee20bb2fa26131addd18338429152ab409c0ca9fd5ce"
+      "percorso": "diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json",
+      "dimensione_byte": 5898959,
+      "sha256": "d7bd4b7a78340bbdfc76cf4d6006871747b59b9f74487ae39a6c44d835ee7e55"
     }
   ],
-  "commit_replay": "6ba0ba06b902b90339d3f91026ddd7601029d119",
+  "commit_replay": "90597f03413fa5884c6ad7e2895140695e3e14fe",
   "flusso": "C",
   "seme": 42,
   "d_riservato": true

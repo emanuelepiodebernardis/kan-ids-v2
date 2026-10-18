@@ -141,8 +141,9 @@ def test_analisi_consegnata_conserva_appaiamento_e_denominatori():
     verifica = risultato['verifica_appaiamento']
     assert verifica['esito'] == 'PASS'
     assert verifica['commit_eseguito'] == (
-        '6ba0ba06b902b90339d3f91026ddd7601029d119')
+        '90597f03413fa5884c6ad7e2895140695e3e14fe')
     assert verifica['blocchi_controllati_con_adapt02'] == 1832
+    assert 'blocchi completi e ordinati' in verifica['invarianti']
     assert risultato['input_sha256']['iniziale']['sha256'] == (
         'ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432')
     assert risultato['input_sha256']['calibrazione']['sha256'] == (
@@ -151,6 +152,11 @@ def test_analisi_consegnata_conserva_appaiamento_e_denominatori():
         '3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d')
 
     for memoria in ('fifo', 'per_classe'):
+        costi = risultato['configurazioni'][memoria]['costi_soglia']
+        stato = costi['stato_logico_aggiuntivo_massimo']
+        assert stato['byte_totali'] == 11816
+        assert stato['byte_richieste_in_attesa_score'] == 2400
+        assert stato['byte_richieste_in_attesa_indici'] == 800
         for modello in analisi.MODELLI:
             misure = risultato['configurazioni'][memoria][modello]
             for metodo in ('frozen_b', 'soglia_adattiva',
@@ -172,9 +178,9 @@ def test_csv_e_figure_consegnati_sono_completi():
             encoding='utf-8') as f:
         manifest = json.load(f)
     assert manifest['archivio'] == {
-        'file': 'checkpoint_C_seed42_6ba0ba0.zip',
-        'dimensione_byte': 1046784,
-        'sha256': ('d8c036e119474189cf74bce8a230eb2fe4be24136770051f968acff473c75e1f'),
+        'file': 'checkpoint_C_seed42_90597f0.zip',
+        'dimensione_byte': 1088717,
+        'sha256': ('88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91'),
     }
     assert len(manifest['contenuto']) == 5
 

@@ -4,23 +4,26 @@
 
 Il protocollo e' stato fissato nel commit `852f91c`. Il replay diagnostico e'
 stato eseguito dal commit pulito
-`6ba0ba06b902b90339d3f91026ddd7601029d119`; l'analisi e' stata eseguita dal
-commit pulito `b04c4711bb67159b359330d7c48fa0346cff7ee2`.
+`90597f03413fa5884c6ad7e2895140695e3e14fe`; l'analisi e' stata eseguita dallo
+stesso commit pulito, dopo il PASS dello smoke rafforzato.
 
 Sono stati eseguiti due rendiconti completi su C, seed 42: uno FIFO e uno con
 memoria per classe. Entrambi usano 256 esempi, campionamento uniforme all'1%,
 ritardo di un blocco e soglie iniziali calibrate su B. D non e' stato letto.
 
 I rendiconti completi e lo smoke sono conservati fuori Git nell'archivio
-`checkpoint_C_seed42_6ba0ba0.zip`, 1.046.784 byte, SHA-256
-`d8c036e119474189cf74bce8a230eb2fe4be24136770051f968acff473c75e1f`.
+`checkpoint_C_seed42_90597f0.zip`, 1.088.717 byte, SHA-256
+`88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91`.
 Il file `manifest_checkpoint.json` registra dimensione e impronta dei cinque
 JSON contenuti, oltre al commit effettivamente eseguito.
 
-La verifica automatica ha dato PASS su 1.832 coppie di blocchi contro i
-rendiconti ADAPT-02: input, parametri, soglie B, richieste, digest dei `row_id` e
-misure frozen coincidono. Gli score frozen coincidono inoltre fra le due nuove
-corse. L'AUROC della sola soglia e' identica al frozen in ogni blocco.
+Lo smoke ha dato PASS su esattamente i blocchi `0..19` per entrambe le memorie.
+Il verificatore rifiuta SHA-256 o parametri preregistrati diversi e sequenze
+vuote, incomplete, duplicate o fuori ordine. La verifica completa ha poi dato
+PASS su 1.832 coppie di blocchi contro i rendiconti ADAPT-02: parametri, soglie
+B, richieste, digest dei `row_id` e misure frozen coincidono. Gli score frozen
+coincidono inoltre fra le due nuove corse. L'AUROC della sola soglia e' identica
+al frozen in ogni blocco.
 
 I nuovi rendiconti registrano gli SHA-256 di A, B e C, coincidenti con quelli
 documentati per l'ambiente ADAPT-02. I singoli JSON ADAPT-02 non ripetono pero'
@@ -30,9 +33,10 @@ nelle due famiglie di report coincide ed e' documentato separatamente. Questa
 distinzione evita di attribuire al confronto storico un controllo di hash che
 quei JSON non consentono di eseguire da soli.
 
-La verifica finale conta 279 test superati nella cartella `ton_temporal/` e,
-dalla radice del repository, 913 test superati, uno saltato e 5 sottotest
-superati. I 7 test dell'analisi controllano anche gli artefatti consegnati.
+La verifica finale conta 299 test superati nella cartella `ton_temporal/` e,
+dalla radice del repository, 933 test superati, uno saltato e 5 sottotest
+superati. Le 20 controprove aggiunte coprono gli errori del validatore; i 7 test
+dell'analisi controllano anche gli artefatti consegnati.
 
 ## Risultati globali
 
@@ -79,6 +83,12 @@ classe conserva molti normali, ma una parte rilevante supera il limite di eta'
 di 50 blocchi: il bilanciamento aumenta la disponibilita' senza eliminarne il
 problema.
 
+L'eta' decorre dal blocco di osservazione della richiesta. La memoria descritta
+nella tabella contiene soltanto esempi la cui etichetta e' gia' arrivata. Le
+richieste ancora in attesa sono registrate separatamente, con blocco di
+osservazione, numero di esempi e byte di score e indici; non consumano la
+capacita' 256 della memoria etichettata.
+
 ## Non uniformita' temporale
 
 Il miglioramento globale non vale in ogni tratto. Rispetto al frozen, la sola
@@ -92,13 +102,15 @@ conserva le metriche e i delta per ogni blocco, modello e memoria.
 
 ## Costi
 
-Lo stato logico aggiuntivo massimo e' 8.616 byte per entrambe le memorie: score,
-etichette, eta', soglie e contatori. Non include l'overhead degli oggetti Python
-e non e' una misura MCU.
+Lo stato logico aggiuntivo massimo e' 11.816 byte per entrambe le memorie:
+8.616 byte di score, etichette, eta', soglie e contatori della memoria
+etichettata, piu' 2.400 byte di score e 800 byte di indici delle richieste in
+attesa. Non include l'overhead degli oggetti Python e non e' una misura MCU.
 
-L'ottimizzazione di una soglia costa in media meno di 0,2 ms: per modello il
-totale resta sotto 0,05 s con FIFO e 0,13 s con memoria per classe. Il replay
-successivo all'inizializzazione ha richiesto circa 58 s in entrambe le corse;
+L'ottimizzazione di una soglia costa in media al massimo 0,23 ms: per modello
+il totale resta entro 0,045 s con FIFO e 0,159 s con memoria per classe. Il
+replay successivo all'inizializzazione ha richiesto 56,43 s con FIFO e 67,65 s
+con memoria per classe;
 i rendiconti ADAPT-02 dei pesi riportano 316,79 s per FIFO e 219,14 s per
 per-classe. I tempi sono misure del banco di prova sul dispositivo, non una
 stima di latenza MCU.
