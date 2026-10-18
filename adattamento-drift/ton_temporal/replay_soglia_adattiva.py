@@ -88,6 +88,8 @@ def _stato_memoria(memoria, blocco):
     X, y = memoria.array()
     return {
         'strategia': memoria.strategia,
+        'contenuto': 'solo esempi con etichetta gia arrivata',
+        'eta_riferimento': 'blocco di osservazione della richiesta',
         'esempi': int(len(y)),
         'normali': int((y == 0).sum()),
         'attacchi': int((y == 1).sum()),
@@ -98,18 +100,35 @@ def _stato_memoria(memoria, blocco):
     }
 
 
-def _stato_logico(memoria, controllori):
+def _stato_in_attesa(in_attesa):
+    voci = list(in_attesa.values())
+    return {
+        'contenuto': 'richieste osservate ma con etichetta non ancora arrivata',
+        'lotti': len(voci),
+        'esempi': int(sum(len(v['indici']) for v in voci)),
+        'blocchi_osservazione': sorted(
+            int(v['blocco_osservazione']) for v in voci),
+        'byte_score': int(sum(v['score'].nbytes for v in voci)),
+        'byte_indici': int(sum(v['indici'].nbytes for v in voci)),
+    }
+
+
+def _stato_logico(memoria, controllori, in_attesa):
     X, y = memoria.array()
     score = int(X.nbytes)
     etichette = int(y.nbytes)
     eta = int(len(y) * np.dtype(np.int64).itemsize)
     controllo = sum(c.byte_stato_logico() for c in controllori.values())
+    attesa = _stato_in_attesa(in_attesa)
     return {
         'byte_score': score,
         'byte_etichette': etichette,
         'byte_eta': eta,
         'byte_soglie_e_contatori': controllo,
-        'byte_totali': score + etichette + eta + controllo,
+        'byte_richieste_in_attesa_score': attesa['byte_score'],
+        'byte_richieste_in_attesa_indici': attesa['byte_indici'],
+        'byte_totali': (score + etichette + eta + controllo
+                        + attesa['byte_score'] + attesa['byte_indici']),
     }
 
 
@@ -199,7 +218,7 @@ def main(argv=None):
     righe = []
     etichette_spese = 0
     righe_scorse = 0
-    massimo_stato = _stato_logico(memoria, controllori)
+    massimo_stato = _stato_logico(memoria, controllori, in_attesa)
     t_replay = time.monotonic()
 
     for k in range(n_blocchi):
@@ -215,6 +234,8 @@ def main(argv=None):
             'frt_fine_utc': float(frt[i1 - 1]),
             'tipi_presenti': sorted({tipi[t] for t in tipo[i0:i1]}),
             'memoria_prima_della_predizione': _stato_memoria(memoria, k),
+            'richieste_in_attesa_prima_della_predizione': _stato_in_attesa(
+                in_attesa),
         }
         for nome in MODELLI:
             s_b = soglie_b[nome]
@@ -233,7 +254,11 @@ def main(argv=None):
         scelti = replay.campiona('uniforme', score['lr'], quanti, rng)
         score_richiesti = np.column_stack(
             [score[nome][scelti] for nome in MODELLI])
-        in_attesa[k] = {'indici': i0 + scelti, 'score': score_richiesti}
+        in_attesa[k] = {
+            'blocco_osservazione': k,
+            'indici': i0 + scelti,
+            'score': score_richiesti,
+        }
         etichette_spese += quanti
         voce['etichette_richieste'] = quanti
         voce['row_id_campionati_sha256'] = replay.impronta_row_id(
@@ -245,15 +270,17 @@ def main(argv=None):
         if pronto >= 0 and pronto in in_attesa:
             arrivo = in_attesa.pop(pronto)
             memoria.aggiungi(arrivo['score'], y[arrivo['indici']],
-                             blocco_arrivo=pronto)
+                             blocco_arrivo=arrivo['blocco_osservazione'])
             voce['memoria_dopo_arrivo'] = _stato_memoria(memoria, k)
             voce['aggiornamento_soglia'] = {
                 nome: controllori[nome].tenta_aggiornamento(memoria, k)
                 for nome in MODELLI
             }
-            stato = _stato_logico(memoria, controllori)
-            if stato['byte_totali'] > massimo_stato['byte_totali']:
-                massimo_stato = stato
+        voce['richieste_in_attesa_dopo_il_blocco'] = _stato_in_attesa(
+            in_attesa)
+        stato = _stato_logico(memoria, controllori, in_attesa)
+        if stato['byte_totali'] > massimo_stato['byte_totali']:
+            massimo_stato = stato
         righe.append(voce)
 
     secondi_replay = round(time.monotonic() - t_replay, 3)
@@ -280,6 +307,12 @@ def main(argv=None):
             'seme': a.seme,
             'minimo_per_classe': a.minimo_per_classe,
             'eta_massima_blocchi': a.eta_massima,
+            'eta_memoria_riferimento': (
+                'blocco di osservazione della richiesta, non blocco di arrivo '
+                'dell etichetta'),
+            'richieste_in_attesa': (
+                'distinte dalla memoria etichettata e incluse nel conteggio '
+                'dello stato logico'),
             'fallback': 'mantieni_ultima_soglia_ammessa',
             'max_blocchi': a.max_blocchi,
         },
@@ -329,7 +362,8 @@ def main(argv=None):
             },
             'stato_logico_aggiuntivo_massimo': massimo_stato,
             'stato_logico_nota': (
-                'payload numerico di score, etichette, eta, soglie e contatori; '
+                'payload numerico di score, etichette, eta, richieste in '
+                'attesa, soglie e contatori; '
                 'non include overhead degli oggetti Python e non e una misura MCU'),
             'picco_rss_processo_mib': rss,
             'picco_rss_metodo': metodo_rss,

@@ -9,6 +9,7 @@ from pathlib import Path
 import pytest
 
 import analisi_soglia_adattiva as analisi
+import smoke_soglia_adattiva as smoke
 
 
 RADICE_ARTEFATTI = Path(__file__).parent / 'adapt03_soglia_adattiva'
@@ -79,13 +80,24 @@ def test_differenza_usa_metriche_globali_e_cm():
 def test_verifica_rifiuta_uno_score_non_appaiato():
     base_nuovo = {
         'commit_eseguito': 'abc', 'worktree_pulito': True,
-        'parametri': {'seme': 42, 'blocco': 10, 'budget': .01,
+        'parametri': {'seme': 42, 'blocco': 10000, 'budget': .01,
                       'memoria': 256, 'memoria_strategia': 'fifo',
-                      'ritardo_in_blocchi': 1},
+                      'ritardo_in_blocchi': 1, 'minimo_per_classe': 5,
+                      'eta_massima_blocchi': 50,
+                      'fallback': 'mantieni_ultima_soglia_ammessa',
+                      'max_blocchi': None},
         'campionamento': 'uniforme',
-        'input': {'iniziale': {'file': 'A.npz'}, 'flusso': {'file': 'C.npz'}},
-        'soglia_iniziale_b': {'file': 'B.npz', 'per_modello': {
-            m: {'soglia': 1.0} for m in analisi.MODELLI}},
+        'trasformazione': 'log1p poi standardizzazione, stimata su A',
+        'input': {
+            'iniziale': dict(smoke.INPUT_PREREGISTRATI['iniziale']),
+            'calibrazione': dict(smoke.INPUT_PREREGISTRATI['calibrazione']),
+            'flusso': {**smoke.INPUT_PREREGISTRATI['flusso'],
+                       'blocchi_eseguiti': 1},
+        },
+        'soglia_iniziale_b': {
+            'modo': 'balanced_accuracy_su_B', 'file': 'B.npz',
+            'per_modello': {
+                m: {'soglia': 1.0} for m in analisi.MODELLI}},
         'per_blocco': [{
             'blocco': 0, 'row_id_campionati_sha256': 'r',
             'etichette_richieste': 1,
@@ -101,7 +113,7 @@ def test_verifica_rifiuta_uno_score_non_appaiato():
 
     def storico(strategia):
         return {
-            'parametri': {'seme': 42, 'blocco': 10, 'budget': .01,
+            'parametri': {'seme': 42, 'blocco': 10000, 'budget': .01,
                           'memoria': 256, 'memoria_strategia': strategia,
                           'ritardo_in_blocchi': 1},
             'campionamento': 'uniforme', 'iniziale': {'file': 'A.npz'},

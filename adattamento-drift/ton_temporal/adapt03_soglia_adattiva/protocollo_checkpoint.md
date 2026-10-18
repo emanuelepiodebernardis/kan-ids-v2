@@ -28,9 +28,16 @@ Base del lavoro: merge ADAPT-02
 
 I parametri frozen e gli score non cambiano. Per ogni riga richiesta si
 conservano gli score frozen gia' emessi, l'etichetta quando arriva e il blocco
-di arrivo. Una soglia aggiornata a fine blocco puo' influenzare soltanto il
-blocco successivo: per le etichette richieste in `j`, il primo effetto e' quindi
-in `j+2`. Le predizioni gia' emesse non vengono ricalcolate.
+di osservazione della richiesta. L'eta' decorre da quel blocco, non dal blocco
+in cui arriva l'etichetta. Una soglia aggiornata a fine blocco puo' influenzare
+soltanto il blocco successivo: per le etichette richieste in `j`, il primo
+effetto e' quindi in `j+2`. Le predizioni gia' emesse non vengono ricalcolate.
+
+La memoria della politica contiene soltanto esempi la cui etichetta e' gia'
+arrivata. Le richieste osservate ma ancora prive di etichetta restano in una
+coda distinta; il rendiconto ne registra lotti, esempi, blocchi di osservazione
+e byte di score e indici. Questi byte entrano nel costo logico complessivo ma
+non nella capacita' 256 della memoria etichettata.
 
 Quando arrivano nuove etichette, per ciascun modello si considerano gli esempi
 presenti nella memoria con eta' non superiore a 50 blocchi. La soglia e'
@@ -56,6 +63,8 @@ sui blocchi successivi.
 
 Test sintetici e smoke devono dimostrare:
 
+- SHA-256 di A, B e C e parametri uguali ai valori preregistrati;
+- esattamente i primi 20 blocchi dello smoke, completi e ordinati `0..19`;
 - score frozen, AUROC per blocco, richieste e digest dei `row_id` invariati;
 - stesso budget, ritardo, campione iniziale e limite di memoria;
 - assenza di effetti retroattivi modificando etichette future;
@@ -78,9 +87,9 @@ FPR e' un blocco con delta maggiore di zero. Si riportano numero, intervalli
 contigui e durata massima, senza sostituire le misure globali.
 
 Si registrano traiettoria e aggiornamenti della soglia, blocchi senza evidenza,
-composizione ed eta' della memoria, tempo degli aggiornamenti e stato logico
-aggiuntivo in byte: score, etichette, eta', soglie e contatori. Non si deduce
-alcuna misura MCU.
+composizione ed eta' della memoria, richieste ancora in attesa, tempo degli
+aggiornamenti e stato logico aggiuntivo in byte: score, etichette, eta', score
+e indici pendenti, soglie e contatori. Non si deduce alcuna misura MCU.
 
 Il checkpoint propone il passo successivo senza richiedere superiorita': soglia
 sola se offre un compromesso comparabile a costo inferiore; ristima vincolata

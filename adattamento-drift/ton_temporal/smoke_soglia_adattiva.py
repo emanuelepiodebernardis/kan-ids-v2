@@ -11,10 +11,93 @@ import replay_soglia_adattiva as runner
 
 MODELLI = ('lr', 'mlp', 'kan')
 STRATEGIE = ('fifo', 'per_classe')
+INPUT_PREREGISTRATI = {
+    'iniziale': {
+        'file': 'A.npz',
+        'sha256': 'ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432',
+    },
+    'calibrazione': {
+        'file': 'B.npz',
+        'sha256': 'e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0',
+    },
+    'flusso': {
+        'file': 'C.npz',
+        'sha256': '3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d',
+    },
+}
+PARAMETRI_PREREGISTRATI = {
+    'blocco': 10000,
+    'budget': 0.01,
+    'memoria': 256,
+    'ritardo_in_blocchi': 1,
+    'seme': 42,
+    'minimo_per_classe': 5,
+    'eta_massima_blocchi': 50,
+    'fallback': 'mantieni_ultima_soglia_ammessa',
+}
 
 
 def _leggi(percorso):
     return json.loads(Path(percorso).read_text(encoding='utf-8'))
+
+
+def _controlla_preregistrazione(rendiconto, strategia, max_blocchi):
+    if strategia not in STRATEGIE:
+        raise SystemExit('strategia non preregistrata: ' + str(strategia))
+    input_registrati = rendiconto.get('input')
+    if not isinstance(input_registrati, dict):
+        raise SystemExit('input non registrati: ' + strategia)
+    for ruolo, atteso in INPUT_PREREGISTRATI.items():
+        trovato = input_registrati.get(ruolo)
+        if not isinstance(trovato, dict):
+            raise SystemExit('input %s non registrato: %s' % (ruolo, strategia))
+        for campo in ('file', 'sha256'):
+            if trovato.get(campo) != atteso[campo]:
+                raise SystemExit('input %s/%s diverso: %s' % (
+                    ruolo, campo, strategia))
+
+    parametri = rendiconto.get('parametri')
+    if not isinstance(parametri, dict):
+        raise SystemExit('parametri non registrati: ' + strategia)
+    attesi = dict(PARAMETRI_PREREGISTRATI)
+    attesi.update({
+        'memoria_strategia': strategia,
+        'max_blocchi': max_blocchi,
+    })
+    for nome, atteso in attesi.items():
+        if parametri.get(nome) != atteso:
+            raise SystemExit('parametro preregistrato diverso: %s/%s' % (
+                strategia, nome))
+    if rendiconto.get('campionamento') != 'uniforme':
+        raise SystemExit('campionamento diverso: ' + strategia)
+    if rendiconto.get('trasformazione') != \
+            'log1p poi standardizzazione, stimata su A':
+        raise SystemExit('trasformazione diversa: ' + strategia)
+    soglia = rendiconto.get('soglia_iniziale_b')
+    if not isinstance(soglia, dict) or \
+            soglia.get('modo') != 'balanced_accuracy_su_B':
+        raise SystemExit('calibrazione della soglia diversa: ' + strategia)
+
+
+def _blocchi_ordinati(rendiconto, quanti, esattamente):
+    righe = rendiconto.get('per_blocco')
+    if not isinstance(righe, list):
+        raise SystemExit('sequenza dei blocchi assente')
+    if (esattamente and len(righe) != quanti) or len(righe) < quanti:
+        raise SystemExit('numero di blocchi diverso da ' + str(quanti))
+    prefisso = righe[:quanti]
+    indici = [r.get('blocco') if isinstance(r, dict) else None for r in prefisso]
+    if indici != list(range(quanti)):
+        raise SystemExit('blocchi incompleti, duplicati o fuori ordine')
+    return prefisso
+
+
+def _controlla_blocchi_smoke(rendiconto):
+    righe = _blocchi_ordinati(rendiconto, 20, esattamente=True)
+    flusso = rendiconto.get('input', {}).get('flusso', {})
+    if flusso.get('blocchi_eseguiti') != 20:
+        raise SystemExit('il rendiconto non dichiara esattamente 20 blocchi')
+    return righe
 
 
 def _controlla_causalita(rendiconto):
@@ -35,12 +118,12 @@ def _controlla_causalita(rendiconto):
 def _controlla_nuove_corse(rendiconti):
     base = rendiconti['fifo']
     for strategia, altro in rendiconti.items():
+        _controlla_preregistrazione(altro, strategia, max_blocchi=20)
+        _controlla_blocchi_smoke(altro)
         if altro['worktree_pulito'] is not True:
             raise SystemExit('worktree non pulito nella corsa ' + strategia)
         if altro['commit_eseguito'] != base['commit_eseguito']:
             raise SystemExit('commit diversi fra le due memorie')
-        if 'input' not in altro:
-            raise SystemExit('input non registrati')
         _controlla_causalita(altro)
 
     for a, b in zip(base['per_blocco'], rendiconti['per_classe']['per_blocco']):
@@ -62,6 +145,8 @@ def _controlla_nuove_corse(rendiconti):
 
 
 def _controlla_riferimento(nuovo, storico):
+    correnti = _blocchi_ordinati(nuovo, 20, esattamente=True)
+    precedenti = _blocchi_ordinati(storico, 20, esattamente=False)
     controlli = {
         'seme': storico['parametri']['seme'] == nuovo['parametri']['seme'],
         'blocco': storico['parametri']['blocco'] == nuovo['parametri']['blocco'],
@@ -90,7 +175,7 @@ def _controlla_riferimento(nuovo, storico):
             raise SystemExit('soglia B diversa: ' + nome)
 
     per_blocco = []
-    for corrente, precedente in zip(nuovo['per_blocco'], storico['per_blocco']):
+    for corrente, precedente in zip(correnti, precedenti):
         esito = {
             'blocco': corrente['blocco'],
             'row_id': (corrente['row_id_campionati_sha256'] ==

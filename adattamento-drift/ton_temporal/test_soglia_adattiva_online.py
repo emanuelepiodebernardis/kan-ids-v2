@@ -10,10 +10,29 @@ import pytest
 
 import replay
 import replay_soglia_adattiva as runner
+import smoke_soglia_adattiva as smoke
 from soglia_adattiva_online import ControlloreSoglia
 
 
 MODELLI = ('lr', 'mlp', 'kan')
+
+
+def _rendiconto_smoke_minimo(strategia='fifo'):
+    return {
+        'input': {
+            ruolo: dict(valori)
+            for ruolo, valori in smoke.INPUT_PREREGISTRATI.items()
+        },
+        'parametri': {
+            **smoke.PARAMETRI_PREREGISTRATI,
+            'memoria_strategia': strategia,
+            'max_blocchi': 20,
+        },
+        'campionamento': 'uniforme',
+        'trasformazione': 'log1p poi standardizzazione, stimata su A',
+        'soglia_iniziale_b': {'modo': 'balanced_accuracy_su_B'},
+        'per_blocco': [{'blocco': k} for k in range(20)],
+    }
 
 
 def _memoria(punteggi, etichette, arrivo=0, strategia='fifo'):
@@ -169,7 +188,89 @@ def test_il_rendiconto_conta_tutto_lo_stato_aggiuntivo(sintetici):
     stato = sintetici['fifo']['costi']['stato_logico_aggiuntivo_massimo']
     assert stato['byte_totali'] == (
         stato['byte_score'] + stato['byte_etichette'] + stato['byte_eta']
-        + stato['byte_soglie_e_contatori'])
+        + stato['byte_soglie_e_contatori']
+        + stato['byte_richieste_in_attesa_score']
+        + stato['byte_richieste_in_attesa_indici'])
     assert stato['byte_soglie_e_contatori'] == 3 * 56
+    assert stato['byte_richieste_in_attesa_score'] > 0
+    assert stato['byte_richieste_in_attesa_indici'] > 0
     assert 'non e una misura MCU' in sintetici['fifo']['costi'][
         'stato_logico_nota']
+
+
+def test_eta_parte_dal_blocco_di_osservazione_e_attesa_resta_separata(
+        sintetici):
+    righe = sintetici['fifo']['per_blocco']
+    assert righe[0]['richieste_in_attesa_prima_della_predizione']['esempi'] == 0
+    assert righe[0]['richieste_in_attesa_dopo_il_blocco']['esempi'] == 10
+    assert righe[1]['richieste_in_attesa_prima_della_predizione'][
+        'blocchi_osservazione'] == [0]
+    assert righe[1]['memoria_dopo_arrivo']['eta_riferimento'] == \
+        'blocco di osservazione della richiesta'
+    assert righe[1]['memoria_dopo_arrivo']['eta_blocchi']['tutti']['min'] == 1
+    assert sintetici['fifo']['parametri']['eta_memoria_riferimento'].startswith(
+        'blocco di osservazione')
+
+
+@pytest.mark.parametrize('ruolo,campo,valore', [
+    ('iniziale', 'sha256', '0' * 64),
+    ('calibrazione', 'file', 'B_diverso.npz'),
+    ('flusso', 'sha256', 'f' * 64),
+])
+def test_smoke_rifiuta_input_diversi(ruolo, campo, valore):
+    rendiconto = _rendiconto_smoke_minimo()
+    rendiconto['input'][ruolo][campo] = valore
+    with pytest.raises(SystemExit, match='input'):
+        smoke._controlla_preregistrazione(
+            rendiconto, 'fifo', max_blocchi=20)
+
+
+@pytest.mark.parametrize('nome,valore', [
+    ('blocco', 9999),
+    ('budget', 0.02),
+    ('memoria', 255),
+    ('ritardo_in_blocchi', 2),
+    ('seme', 43),
+    ('minimo_per_classe', 4),
+    ('eta_massima_blocchi', 51),
+    ('fallback', 'soglia_b'),
+    ('max_blocchi', 19),
+])
+def test_smoke_rifiuta_parametri_non_preregistrati(nome, valore):
+    rendiconto = _rendiconto_smoke_minimo()
+    rendiconto['parametri'][nome] = valore
+    with pytest.raises(SystemExit, match='parametro preregistrato'):
+        smoke._controlla_preregistrazione(
+            rendiconto, 'fifo', max_blocchi=20)
+
+
+@pytest.mark.parametrize('blocchi', [
+    [],
+    list(range(19)),
+    list(range(19)) + [18],
+    list(range(1, 21)),
+    list(range(20))[::-1],
+])
+def test_smoke_rifiuta_blocchi_vuoti_incompleti_duplicati_o_fuori_ordine(
+        blocchi):
+    rendiconto = _rendiconto_smoke_minimo()
+    rendiconto['per_blocco'] = [{'blocco': k} for k in blocchi]
+    rendiconto['input']['flusso']['blocchi_eseguiti'] = len(blocchi)
+    with pytest.raises(SystemExit, match='blocchi'):
+        smoke._controlla_blocchi_smoke(rendiconto)
+
+
+def test_smoke_rifiuta_dichiarazione_di_blocchi_incoerente():
+    rendiconto = _rendiconto_smoke_minimo()
+    rendiconto['input']['flusso']['blocchi_eseguiti'] = 0
+    with pytest.raises(SystemExit, match='20 blocchi'):
+        smoke._controlla_blocchi_smoke(rendiconto)
+
+
+def test_smoke_accetta_metadati_preregistrati_e_blocchi_zero_diciannove():
+    rendiconto = _rendiconto_smoke_minimo()
+    rendiconto['input']['flusso']['blocchi_eseguiti'] = 20
+    smoke._controlla_preregistrazione(
+        rendiconto, 'fifo', max_blocchi=20)
+    righe = smoke._controlla_blocchi_smoke(rendiconto)
+    assert [r['blocco'] for r in righe] == list(range(20))

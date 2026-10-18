@@ -11,6 +11,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
+import smoke_soglia_adattiva as smoke
+
 
 MODELLI = ('lr', 'mlp', 'kan')
 STRATEGIE = ('fifo', 'per_classe')
@@ -143,9 +145,16 @@ def riassunto_memoria(righe):
 def verifica(nuovi, storici):
     base = nuovi['fifo']
     controllati = 0
+    blocchi_nuovi = {}
+    blocchi_storici = {}
     for strategia in STRATEGIE:
         nuovo = nuovi[strategia]
         storico = storici[strategia]
+        try:
+            smoke._controlla_preregistrazione(
+                nuovo, strategia, max_blocchi=None)
+        except SystemExit as e:
+            raise ValueError(str(e)) from e
         if nuovo['commit_eseguito'] != base['commit_eseguito']:
             raise ValueError('commit diversi fra i nuovi rendiconti')
         if nuovo['worktree_pulito'] is not True:
@@ -167,6 +176,16 @@ def verifica(nuovi, storici):
         }
         if not all(confronti.values()):
             raise ValueError('metadati incompatibili: ' + strategia)
+        dichiarati = nuovo['input']['flusso'].get('blocchi_eseguiti')
+        if not isinstance(dichiarati, int) or dichiarati <= 0:
+            raise ValueError('numero di blocchi non valido: ' + strategia)
+        try:
+            blocchi_nuovi[strategia] = smoke._blocchi_ordinati(
+                nuovo, dichiarati, esattamente=True)
+            blocchi_storici[strategia] = smoke._blocchi_ordinati(
+                storico, dichiarati, esattamente=True)
+        except SystemExit as e:
+            raise ValueError('%s: %s' % (strategia, e)) from e
         if len(nuovo['per_blocco']) != len(storico['per_blocco']):
             raise ValueError('numero di blocchi incompatibile: ' + strategia)
         for nome in MODELLI:
@@ -174,7 +193,8 @@ def verifica(nuovi, storici):
             s1 = nuovo['soglia_iniziale_b']['per_modello'][nome]['soglia']
             if s0 != s1:
                 raise ValueError('soglia B incompatibile: ' + strategia + '/' + nome)
-        for corrente, precedente in zip(nuovo['per_blocco'], storico['per_blocco']):
+        for corrente, precedente in zip(
+                blocchi_nuovi[strategia], blocchi_storici[strategia]):
             if corrente['row_id_campionati_sha256'] != precedente[
                     'row_id_campionati_sha256']:
                 raise ValueError('row_id incompatibili al blocco '
@@ -188,8 +208,7 @@ def verifica(nuovi, storici):
                         strategia, nome, corrente['blocco']))
             controllati += 1
 
-    for a, b in zip(nuovi['fifo']['per_blocco'],
-                    nuovi['per_classe']['per_blocco']):
+    for a, b in zip(blocchi_nuovi['fifo'], blocchi_nuovi['per_classe']):
         for nome in MODELLI:
             if a['score_frozen_sha256_' + nome] != b['score_frozen_sha256_' + nome]:
                 raise ValueError('score non appaiati: %s/%s' % (nome, a['blocco']))
@@ -198,8 +217,10 @@ def verifica(nuovi, storici):
         'commit_eseguito': base['commit_eseguito'],
         'blocchi_controllati_con_adapt02': controllati,
         'invarianti': [
-            'input e parametri', 'soglie B', 'richieste e row_id',
-            'frozen per blocco', 'score frozen fra FIFO e per-classe',
+            'SHA-256 degli input e parametri preregistrati',
+            'blocchi completi e ordinati', 'soglie B',
+            'richieste e row_id', 'frozen per blocco',
+            'score frozen fra FIFO e per-classe',
         ],
     }
 
