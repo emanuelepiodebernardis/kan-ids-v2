@@ -106,6 +106,8 @@ python analisi_soglia_adattiva.py --fifo ../archivio_esterno/adapt03_soglia_adat
 I rendiconti completi restano fuori Git nell'archivio
 `checkpoint_C_seed42_90597f0.zip` (1.088.717 byte), SHA-256
 `88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91`.
+Collegamento:
+`https://drive.google.com/file/d/1AcK2b5AqezPmoMJWjL0SXFkaRG_1VBMy/view?usp=drive_link`.
 `adapt03_soglia_adattiva/manifest_checkpoint.json` registra anche le impronte
 dei cinque JSON contenuti. In Git sono conservati protocollo, manifest, analisi
 derivata, CSV per blocco, figure e rapporto; D non e' stato letto.

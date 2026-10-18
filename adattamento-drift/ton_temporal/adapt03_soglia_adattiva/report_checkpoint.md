@@ -14,6 +14,8 @@ ritardo di un blocco e soglie iniziali calibrate su B. D non e' stato letto.
 I rendiconti completi e lo smoke sono conservati fuori Git nell'archivio
 `checkpoint_C_seed42_90597f0.zip`, 1.088.717 byte, SHA-256
 `88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91`.
+Collegamento:
+`https://drive.google.com/file/d/1AcK2b5AqezPmoMJWjL0SXFkaRG_1VBMy/view?usp=drive_link`.
 Il file `manifest_checkpoint.json` registra dimensione e impronta dei cinque
 JSON contenuti, oltre al commit effettivamente eseguito.
 

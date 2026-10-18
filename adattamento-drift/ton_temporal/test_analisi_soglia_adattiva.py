@@ -181,6 +181,9 @@ def test_csv_e_figure_consegnati_sono_completi():
         'file': 'checkpoint_C_seed42_90597f0.zip',
         'dimensione_byte': 1088717,
         'sha256': ('88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91'),
+        'collegamento': (
+            'https://drive.google.com/file/d/'
+            '1AcK2b5AqezPmoMJWjL0SXFkaRG_1VBMy/view?usp=drive_link'),
     }
     assert len(manifest['contenuto']) == 5
 
