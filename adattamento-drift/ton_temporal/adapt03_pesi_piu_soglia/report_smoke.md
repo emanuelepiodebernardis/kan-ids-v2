@@ -40,9 +40,9 @@ misurato con
 
 Il rendiconto originale e' conservato fuori Git in `smoke_C_seed42_f9efbe4.zip`
 (11.267 byte), SHA-256 `acdeb051288f4b4e8774358020af6f6f1cda90204471894bd0962291596f14c1`. Il manifest
-versionato registra anche dimensione e SHA-256 del JSON interno. Il collegamento
-scaricabile viene aggiunto soltanto dopo il caricamento del file, senza cambiare
-l'archivio.
+versionato registra anche dimensione e SHA-256 del JSON interno. L'archivio e'
+scaricabile dal collegamento diretto al file condiviso
+`https://drive.google.com/file/d/1RU2QNkTEDIEDJRQW3vJz82kzPlHQn3Ab/view?usp=drive_link`.
 
 Le 19 ricalibrazioni costano in mediana
 0,706 s, al 90o percentile

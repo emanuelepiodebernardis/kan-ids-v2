@@ -147,6 +147,8 @@ python analisi_smoke_pesi_soglia.py --smoke ../archivio_esterno/adapt03_pesi_piu
 Il JSON originale resta fuori Git nello ZIP
 `smoke_C_seed42_f9efbe4.zip`, 11.267 byte, SHA-256
 `acdeb051288f4b4e8774358020af6f6f1cda90204471894bd0962291596f14c1`.
+L'archivio e' scaricabile dal collegamento diretto al file condiviso
+`https://drive.google.com/file/d/1RU2QNkTEDIEDJRQW3vJz82kzPlHQn3Ab/view?usp=drive_link`.
 Il file interno e' 60.151 byte, SHA-256
 `7a2c8424a963e01088baded953287eada6276884994dabd18f2661f441db8ece`.
 In Git restano protocollo, manifest, riepilogo, CSV per blocco, figura e
