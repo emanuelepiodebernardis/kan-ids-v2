@@ -185,7 +185,8 @@ def test_etichette_future_non_cambiano_il_passato(sintetici):
 
 
 def test_il_rendiconto_conta_tutto_lo_stato_aggiuntivo(sintetici):
-    stato = sintetici['fifo']['costi']['stato_logico_aggiuntivo_massimo']
+    costi = sintetici['fifo']['costi']
+    stato = costi['stato_logico_aggiuntivo_massimo']
     assert stato['byte_totali'] == (
         stato['byte_score'] + stato['byte_etichette'] + stato['byte_eta']
         + stato['byte_soglie_e_contatori']
@@ -194,6 +195,10 @@ def test_il_rendiconto_conta_tutto_lo_stato_aggiuntivo(sintetici):
     assert stato['byte_soglie_e_contatori'] == 3 * 56
     assert stato['byte_richieste_in_attesa_score'] > 0
     assert stato['byte_richieste_in_attesa_indici'] > 0
+    assert stato['fase'] == 'prima_del_pop'
+    assert (stato['byte_totali'] >
+            costi['stato_logico_fine_blocco_massimo']['byte_totali'])
+    assert (stato == costi['stato_logico_prima_del_pop_massimo'])
     assert 'non e una misura MCU' in sintetici['fifo']['costi'][
         'stato_logico_nota']
 

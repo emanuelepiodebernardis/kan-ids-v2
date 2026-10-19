@@ -39,6 +39,11 @@ coda distinta; il rendiconto ne registra lotti, esempi, blocchi di osservazione
 e byte di score e indici. Questi byte entrano nel costo logico complessivo ma
 non nella capacita' 256 della memoria etichettata.
 
+Il costo distingue lo stato a fine blocco dal picco transitorio precedente al
+`pop` del lotto maturato. Con ritardo pari a un blocco, in quest'ultimo istante
+possono coesistere il lotto appena richiesto e quello la cui etichetta sta per
+arrivare; il massimo assoluto deve comprendere entrambi.
+
 Quando arrivano nuove etichette, per ciascun modello si considerano gli esempi
 presenti nella memoria con eta' non superiore a 50 blocchi. La soglia e'
 aggiornabile soltanto con almeno 5 normali e 5 attacchi ammissibili. Il limite

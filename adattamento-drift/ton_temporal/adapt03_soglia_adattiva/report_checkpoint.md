@@ -104,10 +104,14 @@ conserva le metriche e i delta per ogni blocco, modello e memoria.
 
 ## Costi
 
-Lo stato logico aggiuntivo massimo e' 11.816 byte per entrambe le memorie:
-8.616 byte di score, etichette, eta', soglie e contatori della memoria
-etichettata, piu' 2.400 byte di score e 800 byte di indici delle richieste in
-attesa. Non include l'overhead degli oggetti Python e non e' una misura MCU.
+Il conteggio distingue due istanti. A fine blocco lo stato logico aggiuntivo
+massimo e' 11.816 byte per entrambe le memorie: 8.616 byte di score,
+etichette, eta', soglie e contatori della memoria etichettata, piu' 2.400
+byte di score e 800 byte di indici di un lotto in attesa. Prima del `pop` del
+lotto maturato coesistono invece due lotti: 4.800 byte di score e 1.600 byte
+di indici. Il picco assoluto e' quindi 15.016 byte. I due valori sono
+ricostruiti dai rendiconti originali, che sono conservati senza modifiche.
+Non includono l'overhead degli oggetti Python e non sono misure MCU.
 
 L'ottimizzazione di una soglia costa in media al massimo 0,23 ms: per modello
 il totale resta entro 0,045 s con FIFO e 0,159 s con memoria per classe. Il

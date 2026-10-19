@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import json
 import subprocess
@@ -142,6 +143,69 @@ def riassunto_memoria(righe):
     }
 
 
+def _stato_da_componenti(memoria, attesa, byte_controllori, fase, blocco):
+    stato = {
+        'byte_score': memoria['byte_score'],
+        'byte_etichette': memoria['byte_etichette'],
+        'byte_eta': memoria['byte_eta'],
+        'byte_soglie_e_contatori': byte_controllori,
+        'byte_richieste_in_attesa_score': attesa['byte_score'],
+        'byte_richieste_in_attesa_indici': attesa['byte_indici'],
+        'fase': fase,
+        'blocco': blocco,
+    }
+    stato['byte_totali'] = sum(
+        stato[campo] for campo in (
+            'byte_score', 'byte_etichette', 'byte_eta',
+            'byte_soglie_e_contatori',
+            'byte_richieste_in_attesa_score',
+            'byte_richieste_in_attesa_indici'))
+    return stato
+
+
+def correggi_costi_stato_logico(rendiconto):
+    """Ricostruisce i picchi senza modificare il rendiconto originale."""
+    costi = copy.deepcopy(rendiconto['costi'])
+    vecchio = costi['stato_logico_aggiuntivo_massimo']
+    byte_controllori = vecchio['byte_soglie_e_contatori']
+    prima_del_pop = []
+    fine_blocco = []
+    for riga in rendiconto['per_blocco']:
+        attesa_prima = riga['richieste_in_attesa_prima_della_predizione']
+        richieste = riga['etichette_richieste']
+        attesa_con_corrente = {
+            'byte_score': (attesa_prima['byte_score']
+                           + richieste * len(MODELLI) * 8),
+            'byte_indici': attesa_prima['byte_indici'] + richieste * 8,
+        }
+        prima_del_pop.append(_stato_da_componenti(
+            riga['memoria_prima_della_predizione'], attesa_con_corrente,
+            byte_controllori, 'prima_del_pop', riga['blocco']))
+
+        memoria_fine = riga.get(
+            'memoria_dopo_arrivo', riga['memoria_prima_della_predizione'])
+        fine_blocco.append(_stato_da_componenti(
+            memoria_fine, riga['richieste_in_attesa_dopo_il_blocco'],
+            byte_controllori, 'fine_blocco', riga['blocco']))
+
+    massimo_prima = max(prima_del_pop, key=lambda s: s['byte_totali'])
+    massimo_fine = max(fine_blocco, key=lambda s: s['byte_totali'])
+    massimo = max((massimo_prima, massimo_fine),
+                  key=lambda s: s['byte_totali'])
+    costi['stato_logico_aggiuntivo_massimo'] = massimo
+    costi['stato_logico_prima_del_pop_massimo'] = massimo_prima
+    costi['stato_logico_fine_blocco_massimo'] = massimo_fine
+    costi['stato_logico_rettifica'] = (
+        'ricostruito dai rendiconti originali: il valore precedente '
+        'misurava soltanto lo stato a fine blocco')
+    costi['stato_logico_nota'] = (
+        'payload numerico di score, etichette, eta, richieste in attesa, '
+        'soglie e contatori; il massimo assoluto include la fase prima del '
+        'pop del lotto maturato; non include overhead degli oggetti Python '
+        'e non e una misura MCU')
+    return costi
+
+
 def verifica(nuovi, storici):
     base = nuovi['fifo']
     controllati = 0
@@ -255,7 +319,8 @@ def costruisci(nuovi, storici):
             }
         configurazioni[strategia]['memoria'] = riassunto_memoria(
             nuovo['per_blocco'])
-        configurazioni[strategia]['costi_soglia'] = nuovo['costi']
+        configurazioni[strategia]['costi_soglia'] = \
+            correggi_costi_stato_logico(nuovo)
         configurazioni[strategia]['costi_pesi_adapt02'] = storico['costi']
     return {
         'protocollo': 'ADAPT-03 primo checkpoint, C/seed42',

@@ -132,6 +132,19 @@ def _stato_logico(memoria, controllori, in_attesa):
     }
 
 
+def _stato_con_fase(stato, fase, blocco):
+    risultato = dict(stato)
+    risultato['fase'] = fase
+    risultato['blocco'] = blocco
+    return risultato
+
+
+def _massimo_stato(corrente, candidato):
+    if candidato['byte_totali'] > corrente['byte_totali']:
+        return candidato
+    return corrente
+
+
 def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--iniziale', required=True)
@@ -218,7 +231,12 @@ def main(argv=None):
     righe = []
     etichette_spese = 0
     righe_scorse = 0
-    massimo_stato = _stato_logico(memoria, controllori, in_attesa)
+    stato_iniziale = _stato_con_fase(
+        _stato_logico(memoria, controllori, in_attesa),
+        'inizializzazione', None)
+    massimo_prima_del_pop = stato_iniziale
+    massimo_fine_blocco = stato_iniziale
+    massimo_stato = stato_iniziale
     t_replay = time.monotonic()
 
     for k in range(n_blocchi):
@@ -264,6 +282,15 @@ def main(argv=None):
         voce['row_id_campionati_sha256'] = replay.impronta_row_id(
             rid[i0 + scelti])
 
+        voce['richieste_in_attesa_prima_del_pop'] = _stato_in_attesa(
+            in_attesa)
+        stato_prima_del_pop = _stato_con_fase(
+            _stato_logico(memoria, controllori, in_attesa),
+            'prima_del_pop', k)
+        massimo_prima_del_pop = _massimo_stato(
+            massimo_prima_del_pop, stato_prima_del_pop)
+        massimo_stato = _massimo_stato(massimo_stato, stato_prima_del_pop)
+
         pronto = k - a.ritardo
         voce['etichette_arrivate_dal_blocco'] = pronto if pronto >= 0 else None
         voce['aggiornamento_soglia'] = None
@@ -278,9 +305,12 @@ def main(argv=None):
             }
         voce['richieste_in_attesa_dopo_il_blocco'] = _stato_in_attesa(
             in_attesa)
-        stato = _stato_logico(memoria, controllori, in_attesa)
-        if stato['byte_totali'] > massimo_stato['byte_totali']:
-            massimo_stato = stato
+        stato_fine_blocco = _stato_con_fase(
+            _stato_logico(memoria, controllori, in_attesa),
+            'fine_blocco', k)
+        massimo_fine_blocco = _massimo_stato(
+            massimo_fine_blocco, stato_fine_blocco)
+        massimo_stato = _massimo_stato(massimo_stato, stato_fine_blocco)
         righe.append(voce)
 
     secondi_replay = round(time.monotonic() - t_replay, 3)
@@ -361,9 +391,12 @@ def main(argv=None):
                 for nome in MODELLI
             },
             'stato_logico_aggiuntivo_massimo': massimo_stato,
+            'stato_logico_prima_del_pop_massimo': massimo_prima_del_pop,
+            'stato_logico_fine_blocco_massimo': massimo_fine_blocco,
             'stato_logico_nota': (
                 'payload numerico di score, etichette, eta, richieste in '
-                'attesa, soglie e contatori; '
+                'attesa, soglie e contatori; il massimo assoluto include '
+                'la fase prima del pop del lotto maturato; '
                 'non include overhead degli oggetti Python e non e una misura MCU'),
             'picco_rss_processo_mib': rss,
             'picco_rss_metodo': metodo_rss,

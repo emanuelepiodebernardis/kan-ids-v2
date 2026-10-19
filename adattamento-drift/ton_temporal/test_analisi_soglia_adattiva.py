@@ -154,9 +154,14 @@ def test_analisi_consegnata_conserva_appaiamento_e_denominatori():
     for memoria in ('fifo', 'per_classe'):
         costi = risultato['configurazioni'][memoria]['costi_soglia']
         stato = costi['stato_logico_aggiuntivo_massimo']
-        assert stato['byte_totali'] == 11816
-        assert stato['byte_richieste_in_attesa_score'] == 2400
-        assert stato['byte_richieste_in_attesa_indici'] == 800
+        assert stato['byte_totali'] == 15016
+        assert stato['byte_richieste_in_attesa_score'] == 4800
+        assert stato['byte_richieste_in_attesa_indici'] == 1600
+        assert stato['fase'] == 'prima_del_pop'
+        fine = costi['stato_logico_fine_blocco_massimo']
+        assert fine['byte_totali'] == 11816
+        assert fine['byte_richieste_in_attesa_score'] == 2400
+        assert fine['byte_richieste_in_attesa_indici'] == 800
         for modello in analisi.MODELLI:
             misure = risultato['configurazioni'][memoria][modello]
             for metodo in ('frozen_b', 'soglia_adattiva',
@@ -171,6 +176,33 @@ def test_analisi_consegnata_conserva_appaiamento_e_denominatori():
         0.8261213, abs=1e-7)
     assert kan['soglia_adattiva']['fpr_globale'] == pytest.approx(
         0.1473147, abs=1e-7)
+
+
+def test_controprova_il_picco_prima_del_pop_supera_la_fine_blocco():
+    memoria = {
+        'byte_score': 6144,
+        'byte_etichette': 256,
+        'byte_eta': 2048,
+    }
+    attesa = {'byte_score': 2400, 'byte_indici': 800}
+    riga = {
+        'blocco': 1,
+        'memoria_prima_della_predizione': memoria,
+        'richieste_in_attesa_prima_della_predizione': attesa,
+        'etichette_richieste': 100,
+        'memoria_dopo_arrivo': memoria,
+        'richieste_in_attesa_dopo_il_blocco': attesa,
+    }
+    rendiconto = {
+        'costi': {'stato_logico_aggiuntivo_massimo': {
+            'byte_soglie_e_contatori': 168,
+        }},
+        'per_blocco': [riga],
+    }
+    costi = analisi.correggi_costi_stato_logico(rendiconto)
+    assert costi['stato_logico_fine_blocco_massimo']['byte_totali'] == 11816
+    assert costi['stato_logico_prima_del_pop_massimo']['byte_totali'] == 15016
+    assert costi['stato_logico_aggiuntivo_massimo']['fase'] == 'prima_del_pop'
 
 
 def test_csv_e_figure_consegnati_sono_completi():
