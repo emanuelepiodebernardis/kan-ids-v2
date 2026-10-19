@@ -116,6 +116,42 @@ Collegamento:
 dei cinque JSON contenuti. In Git sono conservati protocollo, manifest, analisi
 derivata, CSV per blocco, figure e rapporto; D non e' stato letto.
 
+## ADAPT-03: pesi adattati + soglia, smoke C/seed42
+
+Il protocollo e' stato fissato prima del codice nel commit `8918902`. Lo smoke
+usa il commit pulito `f9efbe4b1312a82805a532dadd45b8eb11778c1b`: KAN,
+memoria per classe 256, politica `ogni_blocco`, budget dell'1%, ritardo di un
+blocco e primi 20 blocchi di C. Un'unica traiettoria dei pesi produce un unico
+score per blocco; il controllo mantiene la soglia B iniziale e la variante
+ricalibra sull'intero B dopo ogni aggiornamento effettivo, con effetto dal
+blocco successivo.
+
+B contiene 5.681.198 righe ed e' un archivio aggiuntivo rispetto ai 256 esempi
+online. La rappresentazione KAN di B viene costruita una volta in cache; score,
+selezione BA, cache, stato online e picco RSS sono rendicontati separatamente.
+
+Smoke ufficiale:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+python replay_pesi_piu_soglia.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --uscita ../archivio_esterno/adapt03_pesi_piu_soglia/smoke_C_seed42_f9efbe4/smoke.json --richiedi-worktree-pulito
+```
+
+Analisi riproducibile dal rendiconto originale:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+python analisi_smoke_pesi_soglia.py --smoke ../archivio_esterno/adapt03_pesi_piu_soglia/smoke_C_seed42_f9efbe4/smoke.json --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --archivio ../archivio_esterno/adapt03_pesi_piu_soglia/smoke_C_seed42_f9efbe4.zip --uscita-dir adapt03_pesi_piu_soglia
+```
+
+Il JSON originale resta fuori Git nello ZIP
+`smoke_C_seed42_f9efbe4.zip`, 11.267 byte, SHA-256
+`acdeb051288f4b4e8774358020af6f6f1cda90204471894bd0962291596f14c1`.
+Il file interno e' 60.151 byte, SHA-256
+`7a2c8424a963e01088baded953287eada6276884994dabd18f2661f441db8ece`.
+In Git restano protocollo, manifest, riepilogo, CSV per blocco, figura e
+rapporto. Il replay completo non e' stato avviato; D non e' stato letto.
+
 ## La suite di test
 
 ```
@@ -190,14 +226,16 @@ tabella del rapporto consegnato.
 **I 320 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: sul
 dispositivo Windows, con la directory temporanea indicata sopra, sono state
-misurate **934 passate, 1 saltata e 5 sottotest passati** per ADAPT-03. Alla
+misurate **954 passate, 1 saltata e 5 sottotest passati** per il nuovo smoke.
+Alla chiusura del precedente diagnostico ADAPT-03 erano 934 passate, 1 saltata
+e 5 sottotest passati. Alla
 chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
 commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
 a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
 attuali vanno citati separatamente, perché misurano cose diverse: 320 e' la
-cartella `ton_temporal/`. Il totale dalla radice viene rimisurato e registrato
-nel rapporto del nuovo smoke, perché dipende anche dalle altre cartelle
-presenti nella copia di lavoro.
+cartella `ton_temporal/`, mentre 954 e' il totale misurato dalla radice. Il
+totale della radice dipende anche dalle altre cartelle presenti nella copia di
+lavoro.
 
 Una versione precedente di questo documento dichiarava «11 test superati» e
 citava conteggi di 634 e 643 test misurati su un altro ramo: nessuno dei due

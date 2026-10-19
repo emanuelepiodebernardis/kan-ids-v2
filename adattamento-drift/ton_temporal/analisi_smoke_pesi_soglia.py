@@ -3,13 +3,18 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import statistics
 from pathlib import Path
 
+import matplotlib
 import numpy as np
 
 import replay_pesi_piu_soglia as runner
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
 def valida_smoke(dati, riferimento):
@@ -87,8 +92,8 @@ def valida_smoke(dati, riferimento):
     return True
 
 
-def riassumi_tempi(costi):
-    valori = [c['secondi_totali'] for c in costi]
+def riassumi_tempi(costi, campo='secondi_totali'):
+    valori = [c[campo] for c in costi]
     if not valori:
         raise ValueError('nessuna ricalibrazione misurata')
     return {
@@ -103,12 +108,18 @@ def riassumi_tempi(costi):
 
 
 def costruisci_riepilogo(dati):
-    tempi = riassumi_tempi(dati['costi']['ricalibrazioni_b'])
+    costi = dati['costi']['ricalibrazioni_b']
+    tempi = {
+        'totale': riassumi_tempi(costi),
+        'score_b': riassumi_tempi(costi, 'secondi_score_b'),
+        'scelta_ba': riassumi_tempi(costi, 'secondi_scelta_ba'),
+    }
     blocchi_completi = dati['riferimento_adapt02']['blocchi_completi']
     aggiornamenti_completi = dati['riferimento_adapt02']['aggiornamenti_kan_completi']
     fisso = dati['costi']['secondi_totali'] - dati['costi']['secondi_replay_20_blocchi']
     replay_senza_ricalibrazione = (
-        dati['costi']['secondi_replay_20_blocchi'] - tempi['secondi_totali'])
+        dati['costi']['secondi_replay_20_blocchi']
+        - tempi['totale']['secondi_totali'])
     base_per_blocco = max(0.0, replay_senza_ricalibrazione / 20.0)
 
     def stima(costo):
@@ -128,6 +139,7 @@ def costruisci_riepilogo(dati):
                 dati['riepilogo']['variante_soglia_ricalibrata']),
         },
         'costi_ricalibrazione_b': tempi,
+        'andamento_temporale': riassumi_andamento(dati['per_blocco']),
         'risorse': {
             **dati['calibrazione']['risorse_b'],
             'byte_stato_online_massimo': dati['costi']['byte_stato_online_massimo'],
@@ -140,28 +152,141 @@ def costruisci_riepilogo(dati):
             'metodo': (
                 'costo fisso misurato + costo base per blocco dello smoke, '
                 'esclusa la ricalibrazione + costo per 915 ricalibrazioni'),
-            'secondi_centrali_mediana': stima(tempi['secondi_mediani']),
-            'secondi_p90': stima(tempi['secondi_p90']),
-            'secondi_prudenziali_massimo': stima(tempi['secondi_massimi']),
+            'secondi_centrali_mediana': stima(
+                tempi['totale']['secondi_mediani']),
+            'secondi_p90': stima(tempi['totale']['secondi_p90']),
+            'secondi_prudenziali_massimo': stima(
+                tempi['totale']['secondi_massimi']),
             'secondi_fissi_misurati': fisso,
             'secondi_base_per_blocco_stimati': base_per_blocco,
         },
         'limiti': (
             'lo smoke misura fattibilita e causalita su 20 blocchi; non stima '
             'superiorita e non usa un limite assoluto di FPR'),
+        'verifica': {
+            'ton_temporal_passati': 320,
+            'repository_passati': 954,
+            'repository_saltati': 1,
+            'repository_sottotest_passati': 5,
+        },
     }
+
+
+def riassumi_andamento(righe):
+    fuori = {
+        'blocchi': len(righe),
+        'recall_variante_maggiore': 0,
+        'fpr_variante_maggiore': 0,
+        'balanced_accuracy_variante_maggiore': 0,
+        'balanced_accuracy_variante_minore': 0,
+        'metriche_identiche': 0,
+    }
+    for r in righe:
+        c = r['controllo_soglia_b']
+        v = r['variante_soglia_ricalibrata']
+        fuori['recall_variante_maggiore'] += (
+            v['richiamo_attacchi'] > c['richiamo_attacchi'])
+        fuori['fpr_variante_maggiore'] += (v['fpr'] > c['fpr'])
+        fuori['balanced_accuracy_variante_maggiore'] += (
+            v['balanced_accuracy'] > c['balanced_accuracy'])
+        fuori['balanced_accuracy_variante_minore'] += (
+            v['balanced_accuracy'] < c['balanced_accuracy'])
+        fuori['metriche_identiche'] += (
+            v['richiamo_attacchi'] == c['richiamo_attacchi']
+            and v['fpr'] == c['fpr'])
+    return {k: int(v) for k, v in fuori.items()}
+
+
+def scrivi_csv(righe, percorso):
+    campi = [
+        'blocco', 'soglia_controllo', 'soglia_variante',
+        'recall_controllo', 'recall_variante', 'fpr_controllo',
+        'fpr_variante', 'balanced_accuracy_controllo',
+        'balanced_accuracy_variante', 'auroc', 'aggiornamento_pesi',
+        'ricalibrazione_secondi', 'soglia_successiva',
+    ]
+    with Path(percorso).open('w', encoding='utf-8', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=campi, lineterminator='\n')
+        w.writeheader()
+        for r in righe:
+            c = r['controllo_soglia_b']
+            v = r['variante_soglia_ricalibrata']
+            agg = r['aggiornamento_pesi'] or {}
+            cal = r['ricalibrazione_b'] or {}
+            w.writerow({
+                'blocco': r['blocco'],
+                'soglia_controllo': r['soglia_controllo'],
+                'soglia_variante': r['soglia_variante_usata'],
+                'recall_controllo': c['richiamo_attacchi'],
+                'recall_variante': v['richiamo_attacchi'],
+                'fpr_controllo': c['fpr'],
+                'fpr_variante': v['fpr'],
+                'balanced_accuracy_controllo': c['balanced_accuracy'],
+                'balanced_accuracy_variante': v['balanced_accuracy'],
+                'auroc': c['auroc'],
+                'aggiornamento_pesi': agg.get('applicato'),
+                'ricalibrazione_secondi': (cal.get('costo') or {}).get(
+                    'secondi_totali'),
+                'soglia_successiva': cal.get('soglia_dopo'),
+            })
+
+
+def scrivi_figura(righe, percorso):
+    blocchi = [r['blocco'] for r in righe]
+    serie = [
+        ('Recall attacchi', 'richiamo_attacchi'),
+        ('FPR', 'fpr'),
+        ('Balanced accuracy', 'balanced_accuracy'),
+    ]
+    fig, assi = plt.subplots(2, 2, figsize=(11, 7), constrained_layout=True)
+    for ax, (titolo, campo) in zip(assi.flat[:3], serie):
+        ax.plot(blocchi, [r['controllo_soglia_b'][campo] for r in righe],
+                marker='o', markersize=3, label='soglia B fissa')
+        ax.plot(blocchi,
+                [r['variante_soglia_ricalibrata'][campo] for r in righe],
+                marker='s', markersize=3, label='soglia ricalibrata')
+        ax.set_title(titolo)
+        ax.set_xlabel('Blocco di C')
+        ax.set_ylim(-0.03, 1.03)
+        ax.grid(alpha=0.25)
+    assi.flat[0].legend(loc='lower right')
+    ax = assi.flat[3]
+    ax.plot(blocchi, [r['soglia_controllo'] for r in righe],
+            label='soglia B fissa')
+    ax.step(blocchi, [r['soglia_variante_usata'] for r in righe],
+            where='post', label='soglia ricalibrata')
+    ax.set_title('Soglia applicata')
+    ax.set_xlabel('Blocco di C')
+    ax.grid(alpha=0.25)
+    ax.legend(loc='best')
+    fig.suptitle('KAN, memoria per classe, ogni blocco, C/seed42')
+    fig.savefig(percorso, dpi=170)
+    plt.close(fig)
 
 
 def _pct(v):
     return 'n.d.' if v is None else ('%.3f%%' % (100.0 * v)).replace('.', ',')
 
 
+def _dec(v, cifre=3):
+    return (('%.' + str(cifre) + 'f') % v).replace('.', ',')
+
+
+def _intero(v):
+    return f'{int(v):,}'.replace(',', '.')
+
+
 def scrivi_rapporto(riepilogo):
     c = riepilogo['metriche_smoke']['controllo_soglia_b']
     v = riepilogo['metriche_smoke']['variante_soglia_ricalibrata']
     t = riepilogo['costi_ricalibrazione_b']
+    tt = t['totale']
+    ts = t['score_b']
+    tb = t['scelta_ba']
     s = riepilogo['stima_replay_completo']
     r = riepilogo['risorse']
+    a = riepilogo['andamento_temporale']
+    z = riepilogo['archivio_esterno']
     return f"""# ADAPT-03: rapporto dello smoke pesi adattati + soglia
 
 ## Esito tecnico
@@ -177,39 +302,65 @@ successivo.
 
 | metodo | recall compl. | FPR compl. | balanced accuracy | AUROC media |
 |---|---:|---:|---:|---:|
-| pesi + soglia B fissa | {_pct(c['recall_attacchi_globale'])} | {_pct(c['fpr_globale'])} | {_pct(c['balanced_accuracy_globale'])} | {c['auroc_media_per_blocco']:.6f} |
-| stessi pesi + soglia ricalibrata | {_pct(v['recall_attacchi_globale'])} | {_pct(v['fpr_globale'])} | {_pct(v['balanced_accuracy_globale'])} | {v['auroc_media_per_blocco']:.6f} |
+| pesi + soglia B fissa | {_pct(c['recall_attacchi_globale'])} | {_pct(c['fpr_globale'])} | {_pct(c['balanced_accuracy_globale'])} | {_dec(c['auroc_media_per_blocco'], 6)} |
+| stessi pesi + soglia ricalibrata | {_pct(v['recall_attacchi_globale'])} | {_pct(v['fpr_globale'])} | {_pct(v['balanced_accuracy_globale'])} | {_dec(v['auroc_media_per_blocco'], 6)} |
 
 Questi valori sono diagnostici. Non definiscono una superiorita' e un aumento
 del solo recall non e' un criterio sufficiente.
 
+La variante ha recall maggiore in {a['recall_variante_maggiore']}/20 blocchi,
+FPR maggiore in {a['fpr_variante_maggiore']}/20 e balanced accuracy maggiore
+in {a['balanced_accuracy_variante_maggiore']}/20; in
+{a['balanced_accuracy_variante_minore']}/20 la balanced accuracy e' minore e
+in {a['metriche_identiche']}/20 le decisioni coincidono. Il CSV e la figura
+conservano l'andamento di ogni blocco e la soglia effettivamente applicata.
+
 ## Costo e memoria
 
-B contiene {r['righe']:,} righe ed e' un archivio aggiuntivo rispetto ai 256
-esempi online. `X_B` e `y_B` occupano rispettivamente {r['byte_x_b']:,} e
-{r['byte_y_b']:,} byte; la cache `float64` della rappresentazione KAN occupa
-{r['byte_cache_rappresentazione_kan']:,} byte. Lo stato online massimo misurato
-separatamente e' {r['byte_stato_online_massimo']:,} byte. Il picco RSS finale
-del banco di prova e' {r['rss_finale']['mib']:.1f} MiB, misurato con
+B contiene {_intero(r['righe'])} righe ed e' un archivio aggiuntivo rispetto ai
+256 esempi online. `X_B` e `y_B` occupano rispettivamente
+{_intero(r['byte_x_b'])} e {_intero(r['byte_y_b'])} byte; la cache `float64`
+della rappresentazione KAN occupa
+{_intero(r['byte_cache_rappresentazione_kan'])} byte. Lo stato online massimo
+misurato separatamente e' {_intero(r['byte_stato_online_massimo'])} byte. Il
+picco RSS finale del banco di prova e' {_dec(r['rss_finale']['mib'], 1)} MiB,
+misurato con
 `{r['rss_finale']['metodo']}`; comprende A, B, C e gli array temporanei.
 
-Le {t['n']} ricalibrazioni costano in mediana {t['secondi_mediani']:.3f} s,
-al 90o percentile {t['secondi_p90']:.3f} s e al massimo
-{t['secondi_massimi']:.3f} s. La cache viene costruita una volta in
-{r['secondi_costruzione_cache']:.3f} s.
+Il rendiconto originale e' conservato fuori Git in `{z['file']}`
+({_intero(z['dimensione_byte'])} byte), SHA-256 `{z['sha256']}`. Il manifest
+versionato registra anche dimensione e SHA-256 del JSON interno. Il collegamento
+scaricabile viene aggiunto soltanto dopo il caricamento del file, senza cambiare
+l'archivio.
+
+Le {tt['n']} ricalibrazioni costano in mediana
+{_dec(tt['secondi_mediani'])} s, al 90o percentile
+{_dec(tt['secondi_p90'])} s e al massimo {_dec(tt['secondi_massimi'])} s. In
+mediana, il calcolo degli score di B costa {_dec(ts['secondi_mediani'])} s e la
+selezione BA {_dec(tb['secondi_mediani'])} s.
+La cache viene costruita una volta in
+{_dec(r['secondi_costruzione_cache'])} s.
 
 ## Stima del replay completo
 
 La proiezione usa 916 blocchi e 915 aggiornamenti, come il rendiconto completo
 ADAPT-02 KAN/per-classe/ogni-blocco. La stima centrale e'
-{s['secondi_centrali_mediana'] / 60:.1f} minuti; usando il 90o percentile e'
-{s['secondi_p90'] / 60:.1f} minuti; moltiplicando per il massimo osservato e'
-{s['secondi_prudenziali_massimo'] / 60:.1f} minuti. Sono proiezioni dello stesso
+{_dec(s['secondi_centrali_mediana'] / 60, 1)} minuti; usando il 90o percentile
+e' {_dec(s['secondi_p90'] / 60, 1)} minuti; moltiplicando per il massimo
+osservato e' {_dec(s['secondi_prudenziali_massimo'] / 60, 1)} minuti. Sono
+proiezioni dello stesso
 dispositivo, non tempi MCU.
 
 Il replay completo non e' stato avviato. D non e' stato letto, non e' stata
 eseguita una campagna su cinque semi e la variante 192/64 resta fuori dal
 protocollo.
+
+## Verifica
+
+Passano 320 test nella cartella `ton_temporal/`. Dalla radice del repository
+passano 954 test, uno e' saltato e passano 5 sottotest. I controlli AVR sono
+stati eseguiti fuori dal sandbox Windows dopo che il sandbox aveva restituito
+l'errore di rilocazione DLL 623; la seconda esecuzione diretta passa.
 """
 
 
@@ -217,6 +368,7 @@ def main(argv=None):
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--smoke', required=True)
     p.add_argument('--riferimento-adapt02', required=True)
+    p.add_argument('--archivio', required=True)
     p.add_argument('--uscita-dir', required=True)
     a = p.parse_args(argv)
     dati = json.loads(Path(a.smoke).read_text(encoding='utf-8'))
@@ -224,6 +376,13 @@ def main(argv=None):
         Path(a.riferimento_adapt02).read_text(encoding='utf-8'))
     valida_smoke(dati, riferimento)
     riepilogo = costruisci_riepilogo(dati)
+    archivio = Path(a.archivio)
+    riepilogo['archivio_esterno'] = {
+        'file': archivio.name,
+        'dimensione_byte': archivio.stat().st_size,
+        'sha256': runner.sha_file(archivio),
+        'collegamento': None,
+    }
     uscita = Path(a.uscita_dir)
     uscita.mkdir(parents=True, exist_ok=True)
     (uscita / 'riepilogo_smoke.json').write_text(
@@ -231,6 +390,24 @@ def main(argv=None):
         encoding='utf-8')
     (uscita / 'report_smoke.md').write_text(
         scrivi_rapporto(riepilogo), encoding='utf-8')
+    scrivi_csv(dati['per_blocco'], uscita / 'confronto_smoke_per_blocco.csv')
+    scrivi_figura(dati['per_blocco'], uscita / 'andamento_temporale.png')
+    manifest = {
+        'archivio': riepilogo['archivio_esterno'],
+        'contenuto': [{
+            'percorso': Path(a.smoke).name,
+            'dimensione_byte': Path(a.smoke).stat().st_size,
+            'sha256': runner.sha_file(a.smoke),
+        }],
+        'commit_replay': dati['commit_eseguito'],
+        'flusso': 'C',
+        'seme': 42,
+        'blocchi': 20,
+        'd_riservato': True,
+    }
+    (uscita / 'manifest_smoke.json').write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False) + '\n',
+        encoding='utf-8')
     print('PASS: smoke pesi adattati + soglia')
     return 0
 

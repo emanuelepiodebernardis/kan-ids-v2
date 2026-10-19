@@ -1,5 +1,5 @@
-import copy
 import inspect
+from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
@@ -95,7 +95,12 @@ def rapporto_minimo():
     soglia = 1.0
     parametro = 'iniziale'
     for k in range(20):
-        metriche = {'auroc': 0.5}
+        metriche = {
+            'auroc': 0.5,
+            'richiamo_attacchi': 0.7,
+            'fpr': 0.2,
+            'balanced_accuracy': 0.75,
+        }
         vecchia = {
             'blocco': k,
             'row_id_campionati_sha256': 'r%d' % k,
@@ -104,11 +109,12 @@ def rapporto_minimo():
         riferimento['per_blocco'].append(vecchia)
         riga = {
             'blocco': k,
+            'soglia_controllo': 1.0,
             'soglia_variante_usata': soglia,
             'parametri_kan_sha256': parametro,
             'row_id_campionati_sha256': 'r%d' % k,
             'controllo_soglia_b': metriche,
-            'variante_soglia_ricalibrata': {'auroc': 0.5},
+            'variante_soglia_ricalibrata': dict(metriche),
             'aggiornamento_pesi': None,
             'ricalibrazione_b': None,
         }
@@ -144,9 +150,17 @@ def rapporto_minimo():
     return dati, riferimento
 
 
-def test_validatore_presidia_ordine_causale_e_appaiamento():
+def test_validatore_presidia_ordine_causale_e_appaiamento(tmp_path):
     dati, riferimento = rapporto_minimo()
     assert analisi.valida_smoke(dati, riferimento)
+    andamento = analisi.riassumi_andamento(dati['per_blocco'])
+    assert andamento['blocchi'] == 20
+    csv = tmp_path / 'andamento.csv'
+    png = tmp_path / 'andamento.png'
+    analisi.scrivi_csv(dati['per_blocco'], csv)
+    analisi.scrivi_figura(dati['per_blocco'], png)
+    assert len(csv.read_text(encoding='utf-8').splitlines()) == 21
+    assert png.read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
 
 
 @pytest.mark.parametrize('mutazione,errore', [
@@ -167,8 +181,8 @@ def test_validatore_rifiuta_controprove(mutazione, errore):
 
 
 def test_protocollo_distingue_b_dalla_memoria_e_non_fissa_fpr():
-    testo = open('adapt03_pesi_piu_soglia/protocollo_smoke.md',
-                 encoding='utf-8').read()
+    testo = (Path(__file__).with_name('adapt03_pesi_piu_soglia') /
+             'protocollo_smoke.md').read_text(encoding='utf-8')
     assert 'archivio offline aggiuntivo' in testo
     assert 'non fa parte dei 256 esempi online' in testo
     assert 'Non si introduce un' in testo
