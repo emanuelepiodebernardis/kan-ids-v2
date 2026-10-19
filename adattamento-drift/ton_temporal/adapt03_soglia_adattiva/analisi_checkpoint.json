@@ -2399,13 +2399,38 @@
           "byte_etichette": 256,
           "byte_eta": 2048,
           "byte_soglie_e_contatori": 168,
+          "byte_richieste_in_attesa_score": 4800,
+          "byte_richieste_in_attesa_indici": 1600,
+          "fase": "prima_del_pop",
+          "blocco": 1,
+          "byte_totali": 15016
+        },
+        "stato_logico_nota": "payload numerico di score, etichette, eta, richieste in attesa, soglie e contatori; il massimo assoluto include la fase prima del pop del lotto maturato; non include overhead degli oggetti Python e non e una misura MCU",
+        "picco_rss_processo_mib": 1530.1,
+        "picco_rss_metodo": "GetProcessMemoryInfo",
+        "stato_logico_prima_del_pop_massimo": {
+          "byte_score": 6144,
+          "byte_etichette": 256,
+          "byte_eta": 2048,
+          "byte_soglie_e_contatori": 168,
+          "byte_richieste_in_attesa_score": 4800,
+          "byte_richieste_in_attesa_indici": 1600,
+          "fase": "prima_del_pop",
+          "blocco": 1,
+          "byte_totali": 15016
+        },
+        "stato_logico_fine_blocco_massimo": {
+          "byte_score": 6144,
+          "byte_etichette": 256,
+          "byte_eta": 2048,
+          "byte_soglie_e_contatori": 168,
           "byte_richieste_in_attesa_score": 2400,
           "byte_richieste_in_attesa_indici": 800,
+          "fase": "fine_blocco",
+          "blocco": 0,
           "byte_totali": 11816
         },
-        "stato_logico_nota": "payload numerico di score, etichette, eta, richieste in attesa, soglie e contatori; non include overhead degli oggetti Python e non e una misura MCU",
-        "picco_rss_processo_mib": 1530.1,
-        "picco_rss_metodo": "GetProcessMemoryInfo"
+        "stato_logico_rettifica": "ricostruito dai rendiconti originali: il valore precedente misurava soltanto lo stato a fine blocco"
       },
       "costi_pesi_adapt02": {
         "secondi_totali": 633.0,
@@ -5520,13 +5545,38 @@
           "byte_etichette": 256,
           "byte_eta": 2048,
           "byte_soglie_e_contatori": 168,
+          "byte_richieste_in_attesa_score": 4800,
+          "byte_richieste_in_attesa_indici": 1600,
+          "fase": "prima_del_pop",
+          "blocco": 1,
+          "byte_totali": 15016
+        },
+        "stato_logico_nota": "payload numerico di score, etichette, eta, richieste in attesa, soglie e contatori; il massimo assoluto include la fase prima del pop del lotto maturato; non include overhead degli oggetti Python e non e una misura MCU",
+        "picco_rss_processo_mib": 1510.6,
+        "picco_rss_metodo": "GetProcessMemoryInfo",
+        "stato_logico_prima_del_pop_massimo": {
+          "byte_score": 6144,
+          "byte_etichette": 256,
+          "byte_eta": 2048,
+          "byte_soglie_e_contatori": 168,
+          "byte_richieste_in_attesa_score": 4800,
+          "byte_richieste_in_attesa_indici": 1600,
+          "fase": "prima_del_pop",
+          "blocco": 1,
+          "byte_totali": 15016
+        },
+        "stato_logico_fine_blocco_massimo": {
+          "byte_score": 6144,
+          "byte_etichette": 256,
+          "byte_eta": 2048,
+          "byte_soglie_e_contatori": 168,
           "byte_richieste_in_attesa_score": 2400,
           "byte_richieste_in_attesa_indici": 800,
+          "fase": "fine_blocco",
+          "blocco": 0,
           "byte_totali": 11816
         },
-        "stato_logico_nota": "payload numerico di score, etichette, eta, richieste in attesa, soglie e contatori; non include overhead degli oggetti Python e non e una misura MCU",
-        "picco_rss_processo_mib": 1510.6,
-        "picco_rss_metodo": "GetProcessMemoryInfo"
+        "stato_logico_rettifica": "ricostruito dai rendiconti originali: il valore precedente misurava soltanto lo stato a fine blocco"
       },
       "costi_pesi_adapt02": {
         "secondi_totali": 452.36,
@@ -5630,6 +5680,6 @@
       }
     }
   },
-  "codice_analisi_commit": "90597f03413fa5884c6ad7e2895140695e3e14fe",
+  "codice_analisi_commit": "f265c4692dce67de29da55b1eaa3c911b651f3ce",
   "codice_analisi_worktree_pulito": true
 }

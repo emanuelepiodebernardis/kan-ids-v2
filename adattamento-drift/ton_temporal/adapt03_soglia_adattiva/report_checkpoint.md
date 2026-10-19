@@ -5,7 +5,9 @@
 Il protocollo e' stato fissato nel commit `852f91c`. Il replay diagnostico e'
 stato eseguito dal commit pulito
 `90597f03413fa5884c6ad7e2895140695e3e14fe`; l'analisi e' stata eseguita dallo
-stesso commit pulito, dopo il PASS dello smoke rafforzato.
+stesso commit pulito, dopo il PASS dello smoke rafforzato. La contabilizzazione
+dei costi e' stata corretta e rigenerata dai rendiconti originali con il commit
+pulito `f265c4692dce67de29da55b1eaa3c911b651f3ce`; non sono stati ripetuti replay.
 
 Sono stati eseguiti due rendiconti completi su C, seed 42: uno FIFO e uno con
 memoria per classe. Entrambi usano 256 esempi, campionamento uniforme all'1%,
@@ -35,10 +37,11 @@ nelle due famiglie di report coincide ed e' documentato separatamente. Questa
 distinzione evita di attribuire al confronto storico un controllo di hash che
 quei JSON non consentono di eseguire da soli.
 
-La verifica finale conta 299 test superati nella cartella `ton_temporal/` e,
-dalla radice del repository, 933 test superati, uno saltato e 5 sottotest
+La verifica finale conta 300 test superati nella cartella `ton_temporal/` e,
+dalla radice del repository, 934 test superati, uno saltato e 5 sottotest
 superati. Le 20 controprove aggiunte coprono gli errori del validatore; i 7 test
-dell'analisi controllano anche gli artefatti consegnati.
+precedenti dell'analisi controllano anche gli artefatti consegnati. Un'ottava
+controprova distingue il picco prima del `pop` dallo stato a fine blocco.
 
 ## Risultati globali
 

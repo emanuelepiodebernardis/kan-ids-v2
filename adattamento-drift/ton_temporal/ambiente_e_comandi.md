@@ -74,7 +74,11 @@ Il comando scrive `adapt02_memoria_per_classe/analisi_campagna_C.json`, il CSV
 
 Il protocollo e' stato fissato in `852f91c`. Smoke e replay completi sono stati
 eseguiti dal commit pulito `90597f03413fa5884c6ad7e2895140695e3e14fe`;
-l'analisi e' stata eseguita dallo stesso commit pulito.
+l'analisi dei risultati e' stata eseguita inizialmente dallo stesso commit. La
+sola contabilizzazione dello stato logico e' stata poi rigenerata dai
+rendiconti originali con il commit pulito
+`f265c4692dce67de29da55b1eaa3c911b651f3ce`: 11.816 byte a fine blocco e
+15.016 byte prima del `pop` del lotto maturato. Nessun replay e' stato ripetuto.
 
 Smoke preregistrato sui primi 20 blocchi:
 
@@ -130,9 +134,9 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **299 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **300 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
-5 test sull'analisi finale, 28 test causali e di validazione dello smoke e 7
+5 test sull'analisi finale, 28 test causali e di validazione dello smoke e 8
 test dell'analisi ADAPT-03. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
@@ -140,15 +144,15 @@ test dell'analisi ADAPT-03. Per file:
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
-`test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 7.
+`test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
 **240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** a
 chiusura di ADAPT-01, **259** con il checkpoint ADAPT-02, **264** con i controlli
 dell'analisi finale, **272** con i primi controlli causali, **279** con i
-controlli dell'analisi del checkpoint ADAPT-03 e **299** dopo le controprove
-negative sullo smoke.
+controlli dell'analisi del checkpoint ADAPT-03, **299** dopo le controprove
+negative sullo smoke e **300** con la controprova sul picco prima del `pop`.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -174,21 +178,22 @@ aggiuntivo. Venti casi aggiunti rifiutano SHA-256 o file diversi, ciascun
 parametro preregistrato alterato e smoke vuoti, incompleti, duplicati, traslati,
 fuori ordine o con un conteggio dichiarato incoerente; un caso positivo accetta
 soltanto la sequenza `0..19` con i metadati fissati.
-I 7 controlli dell'analisi distinguono aggregazioni globali e medie per blocco,
+Gli 8 controlli dell'analisi distinguono aggregazioni globali e medie per blocco,
 ricostruiscono periodi contigui di peggioramento, verificano le differenze e
-rifiutano score frozen non appaiati; gli ultimi due controllano direttamente il
+rifiutano score frozen non appaiati; una controprova separa 11.816 byte a fine
+blocco dai 15.016 byte raggiunti prima del `pop`; gli ultimi due controllano il
 JSON, le 5.496 righe dati del CSV, i denominatori AUROC, i quattro PNG e la
 tabella del rapporto consegnato.
 
-**I 299 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 300 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: sul
 dispositivo Windows, con la directory temporanea indicata sopra, sono state
-misurate **933 passate, 1 saltata e 5 sottotest passati** per ADAPT-03. Alla
+misurate **934 passate, 1 saltata e 5 sottotest passati** per ADAPT-03. Alla
 chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
 commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
 a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
-attuali vanno citati separatamente, perché misurano cose diverse: 299 e' la
-cartella `ton_temporal/`, mentre 933 e' il totale misurato dalla radice. Il
+attuali vanno citati separatamente, perché misurano cose diverse: 300 e' la
+cartella `ton_temporal/`, mentre 934 e' il totale misurato dalla radice. Il
 totale della radice dipende dalle altre cartelle presenti nella copia di
 lavoro.
 

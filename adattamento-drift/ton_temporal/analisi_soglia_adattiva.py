@@ -168,6 +168,8 @@ def correggi_costi_stato_logico(rendiconto):
     costi = copy.deepcopy(rendiconto['costi'])
     vecchio = costi['stato_logico_aggiuntivo_massimo']
     byte_controllori = vecchio['byte_soglie_e_contatori']
+    byte_score = np.dtype(np.float64).itemsize
+    byte_indice = np.dtype(np.int64).itemsize
     prima_del_pop = []
     fine_blocco = []
     for riga in rendiconto['per_blocco']:
@@ -175,8 +177,9 @@ def correggi_costi_stato_logico(rendiconto):
         richieste = riga['etichette_richieste']
         attesa_con_corrente = {
             'byte_score': (attesa_prima['byte_score']
-                           + richieste * len(MODELLI) * 8),
-            'byte_indici': attesa_prima['byte_indici'] + richieste * 8,
+                           + richieste * len(MODELLI) * byte_score),
+            'byte_indici': (attesa_prima['byte_indici']
+                            + richieste * byte_indice),
         }
         prima_del_pop.append(_stato_da_componenti(
             riga['memoria_prima_della_predizione'], attesa_con_corrente,
