@@ -1,0 +1,267 @@
+{
+  "protocollo": "ADAPT-03, pesi adattati + soglia, completo",
+  "commit_eseguito": "106ee1ccce2f116b7fb9b296df0a403c789f40ab",
+  "esito_validazione": "PASS",
+  "blocchi": 916,
+  "aggiornamenti_pesi": 915,
+  "ricalibrazioni_b": 915,
+  "metriche_globali": {
+    "controllo_soglia_b": {
+      "cm_globale": {
+        "vn": 172494,
+        "fp": 822,
+        "fn": 7127271,
+        "vp": 1850086
+      },
+      "recall_attacchi_globale": 0.2060835945367885,
+      "fpr_globale": 0.004742781970504743,
+      "balanced_accuracy_globale": 0.6006704062831418,
+      "auroc_media_per_blocco": 0.8890249790551172,
+      "auroc_blocchi_validi": 875,
+      "blocchi_totali": 916
+    },
+    "variante_soglia_ricalibrata": {
+      "cm_globale": {
+        "vn": 121077,
+        "fp": 52239,
+        "fn": 1698308,
+        "vp": 7279049
+      },
+      "recall_attacchi_globale": 0.8108231632093945,
+      "fpr_globale": 0.3014089870525514,
+      "balanced_accuracy_globale": 0.7547070880784216,
+      "auroc_media_per_blocco": 0.8890249790551172,
+      "auroc_blocchi_validi": 875,
+      "blocchi_totali": 916
+    }
+  },
+  "metriche_per_blocco": {
+    "controllo_soglia_b": {
+      "richiamo_attacchi": {
+        "n_validi": 916,
+        "media": 0.20805708851616295,
+        "mediana": 0.012861737786622257,
+        "deviazione_standard": 0.3387922985491208,
+        "minimo": 0.0,
+        "massimo": 0.98012010768275,
+        "blocchi_totali": 916
+      },
+      "fpr": {
+        "n_validi": 875,
+        "media": 0.0035486886658249446,
+        "mediana": 0.0,
+        "deviazione_standard": 0.018466624300935427,
+        "minimo": 0.0,
+        "massimo": 0.25,
+        "blocchi_totali": 916
+      },
+      "balanced_accuracy": {
+        "n_validi": 875,
+        "media": 0.6065129659989762,
+        "mediana": 0.5052015604681405,
+        "deviazione_standard": 0.17233531194798005,
+        "minimo": 0.375250100040016,
+        "massimo": 0.9871360772331879,
+        "blocchi_totali": 916
+      },
+      "auroc": {
+        "n_validi": 875,
+        "media": 0.8890249790551172,
+        "mediana": 0.9400983336350074,
+        "deviazione_standard": 0.1454214899693502,
+        "minimo": 0.0017001700170017002,
+        "massimo": 1.0,
+        "blocchi_totali": 916
+      }
+    },
+    "variante_soglia_ricalibrata": {
+      "richiamo_attacchi": {
+        "n_validi": 916,
+        "media": 0.8113277366084541,
+        "mediana": 0.987048778258413,
+        "deviazione_standard": 0.3140591261370644,
+        "minimo": 0.0,
+        "massimo": 1.0,
+        "blocchi_totali": 916
+      },
+      "fpr": {
+        "n_validi": 875,
+        "media": 0.41955028640407577,
+        "mediana": 0.09309309309309309,
+        "deviazione_standard": 0.45444043721728955,
+        "minimo": 0.0,
+        "massimo": 1.0,
+        "blocchi_totali": 916
+      },
+      "balanced_accuracy": {
+        "n_validi": 875,
+        "media": 0.6964600606455873,
+        "mediana": 0.6483449776140959,
+        "deviazione_standard": 0.19740818987111386,
+        "minimo": 0.34850641664898857,
+        "massimo": 0.9994497799119648,
+        "blocchi_totali": 916
+      },
+      "auroc": {
+        "n_validi": 875,
+        "media": 0.8890249790551172,
+        "mediana": 0.9400983336350074,
+        "deviazione_standard": 0.1454214899693502,
+        "minimo": 0.0017001700170017002,
+        "massimo": 1.0,
+        "blocchi_totali": 916
+      }
+    }
+  },
+  "differenze_appaiate_variante_meno_controllo": {
+    "richiamo_attacchi": {
+      "n_validi": 916,
+      "media": 0.6032706480922911,
+      "mediana": 0.8572220499549814,
+      "deviazione_standard": 0.4139089895159517,
+      "minimo": -0.25067846014674844,
+      "massimo": 1.0,
+      "blocchi_totali": 916,
+      "variante_maggiore": 882,
+      "variante_minore": 16,
+      "uguali": 18
+    },
+    "fpr": {
+      "n_validi": 875,
+      "media": 0.4160015977382508,
+      "mediana": 0.09090909090909091,
+      "deviazione_standard": 0.4533259974949096,
+      "minimo": -0.08421052631578947,
+      "massimo": 1.0,
+      "blocchi_totali": 916,
+      "variante_maggiore": 618,
+      "variante_minore": 7,
+      "uguali": 250
+    },
+    "balanced_accuracy": {
+      "n_validi": 875,
+      "media": 0.089947094646611,
+      "mediana": 0.01280402475559761,
+      "deviazione_standard": 0.1601882469898322,
+      "minimo": -0.36091892554341165,
+      "massimo": 0.4994497799119648,
+      "blocchi_totali": 916,
+      "variante_maggiore": 531,
+      "variante_minore": 297,
+      "uguali": 47
+    },
+    "auroc": {
+      "n_validi": 875,
+      "media": 0.0,
+      "mediana": 0.0,
+      "deviazione_standard": 0.0,
+      "minimo": 0.0,
+      "massimo": 0.0,
+      "blocchi_totali": 916,
+      "variante_maggiore": 0,
+      "variante_minore": 0,
+      "uguali": 875
+    }
+  },
+  "denominatori_validi": {
+    "richiamo_attacchi": {
+      "validi": 916,
+      "blocchi_totali": 916
+    },
+    "fpr": {
+      "validi": 875,
+      "blocchi_totali": 916
+    },
+    "balanced_accuracy": {
+      "validi": 875,
+      "blocchi_totali": 916
+    },
+    "auroc": {
+      "validi": 875,
+      "blocchi_totali": 916
+    }
+  },
+  "costi": {
+    "secondi_totali": 2297.6161582999994,
+    "secondi_replay": 2060.7920878000004,
+    "secondi_addestramento_lr_kan": 31.35824209999555,
+    "secondi_costruzione_cache_b": 193.72851609999634,
+    "fit_online": {
+      "n": 915,
+      "secondi_totali": 72.8673745000342,
+      "secondi_medi": 0.07963647486342536,
+      "secondi_mediani": 0.062126299999363255,
+      "secondi_p90": 0.12697874000150478,
+      "secondi_minimi": 0.022540600002685096,
+      "secondi_massimi": 1.109900600000401
+    },
+    "ricalibrazione_totale": {
+      "n": 915,
+      "secondi_totali": 1785.0074739000556,
+      "secondi_medi": 1.9508278403279296,
+      "secondi_mediani": 1.6309857000014745,
+      "secondi_p90": 3.493953160001548,
+      "secondi_minimi": 0.7234802000020863,
+      "secondi_massimi": 11.109659900001134
+    },
+    "ricalibrazione_score_b": {
+      "n": 915,
+      "secondi_totali": 92.2891239000819,
+      "secondi_medi": 0.1008624304918928,
+      "secondi_mediani": 0.08586130000185221,
+      "secondi_p90": 0.1542677199962782,
+      "secondi_minimi": 0.042395399999804795,
+      "secondi_massimi": 0.7041620999953011
+    },
+    "ricalibrazione_scelta_ba": {
+      "n": 915,
+      "secondi_totali": 1692.7183499999737,
+      "secondi_medi": 1.849965409836037,
+      "secondi_mediani": 1.5472110999980941,
+      "secondi_p90": 3.307711779998499,
+      "secondi_minimi": 0.6708049000008032,
+      "secondi_massimi": 10.552460399994743
+    }
+  },
+  "risorse": {
+    "righe": 5681198,
+    "byte_x_b": 181798336,
+    "byte_y_b": 5681198,
+    "byte_cache_rappresentazione_kan": 363596672,
+    "colonne_cache": 8,
+    "dtype_cache": "float64",
+    "blocco_costruzione_cache": 200000,
+    "secondi_costruzione_cache": 193.72851609999634,
+    "byte_file_npz_compresso": 26939441,
+    "array_fit_online_massimo": {
+      "totale_byte": 24904,
+      "componenti_byte": {
+        "memoria_feature": 8192,
+        "memoria_etichette": 256,
+        "rappresentazione_kan_memoria": 16384,
+        "parametri_testa_kan": 72
+      },
+      "include": "feature ed etichette della memoria, rappresentazione KAN della memoria e parametri correnti della testa KAN",
+      "esclude": "oggetti del modello e della trasformazione, richieste in attesa, buffer del blocco, overhead Python e archivio/cache B"
+    },
+    "rss_dopo_cache_b": {
+      "mib": 2021.8,
+      "metodo": "GetProcessMemoryInfo"
+    },
+    "rss_finale": {
+      "mib": 2101.2,
+      "metodo": "GetProcessMemoryInfo"
+    }
+  },
+  "limiti": {
+    "d_riservato": true,
+    "campagna_cinque_semi": false,
+    "variante_192_64": false
+  },
+  "archivio_esterno": {
+    "file": "replay_completo_C_seed42_106ee1c.zip",
+    "dimensione_byte": 381478,
+    "sha256": "b084c4bfb0955698965aacb16e8a6a2ff78fe8f22e31a18ff6a12fd8b1e01d38",
+    "collegamento": null
+  }
+}

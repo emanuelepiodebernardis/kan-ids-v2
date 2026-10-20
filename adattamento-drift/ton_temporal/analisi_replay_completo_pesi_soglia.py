@@ -413,6 +413,8 @@ def scrivi_rapporto(r):
                 d[campo]['variante_maggiore'], d[campo]['variante_minore'],
                 d[campo]['uguali'], _dec(d[campo]['deviazione_standard'])))
     tabella_confronti = '\n'.join(righe_confronti)
+    cm_c = c['cm_globale']
+    cm_v = v['cm_globale']
     return f"""# ADAPT-03: replay completo pesi adattati + soglia
 
 ## Esito tecnico
@@ -435,6 +437,11 @@ Sono stati applicati {r['aggiornamenti_pesi']} aggiornamenti dei pesi e
 
 Le metriche globali derivano dalle confusion matrix aggregate, non dalla media
 dei blocchi.
+
+| metodo | VN | FP | FN | VP |
+|---|---:|---:|---:|---:|
+| pesi + soglia B fissa | {_intero(cm_c['vn'])} | {_intero(cm_c['fp'])} | {_intero(cm_c['fn'])} | {_intero(cm_c['vp'])} |
+| stessi pesi + soglia ricalibrata | {_intero(cm_v['vn'])} | {_intero(cm_v['fp'])} | {_intero(cm_v['fn'])} | {_intero(cm_v['vp'])} |
 
 ## Metriche per blocco e denominatori
 
@@ -462,7 +469,12 @@ complessivi, di cui {_dec(costi['secondi_replay'] / 60, 3)} per il ciclo sui
 blocchi. Le ricalibrazioni costano complessivamente
 {_dec(costi['ricalibrazione_totale']['secondi_totali'], 3)} secondi, con mediana
 {_dec(costi['ricalibrazione_totale']['secondi_mediani'], 6)} s e 90o percentile
-{_dec(costi['ricalibrazione_totale']['secondi_p90'], 6)} s.
+{_dec(costi['ricalibrazione_totale']['secondi_p90'], 6)} s; il massimo osservato
+e' {_dec(costi['ricalibrazione_totale']['secondi_massimi'], 6)} s. I 915 fit
+online richiedono complessivamente
+{_dec(costi['fit_online']['secondi_totali'], 3)} secondi. La costruzione iniziale
+della cache di B richiede
+{_dec(costi['secondi_costruzione_cache_b'], 3)} secondi.
 
 B contiene {_intero(risorse['righe'])} righe ed e' un archivio aggiuntivo
 rispetto ai 256 esempi online. La cache della rappresentazione KAN occupa
@@ -521,6 +533,19 @@ def main(argv=None):
         dati['per_blocco'], uscita / 'confronto_replay_completo_per_blocco.csv')
     figure = uscita / 'figure'
     scrivi_figure(dati['per_blocco'], figure)
+    (figure / 'LEGGIMI.md').write_text(
+        """# Figure del replay completo
+
+- `andamento_metriche_e_soglie.png`: recall, FPR, balanced accuracy e soglie
+  sui 916 blocchi, con i due bracci appaiati.
+- `differenze_appaiate_per_blocco.png`: differenze variante meno controllo
+  per recall, FPR e balanced accuracy.
+- `costo_ricalibrazione_per_blocco.png`: tempo della ricalibrazione completa
+  su B dopo ciascun aggiornamento dei pesi.
+
+Le lacune corrispondono a metriche non definite nei blocchi monoclasse; non
+sono valori sostituiti con zero.
+""", encoding='utf-8')
     manifest = {
         'archivio': riepilogo['archivio_esterno'],
         'contenuto': [{
@@ -532,6 +557,15 @@ def main(argv=None):
         'merge_adapt03': '9550decf06156664839affd8db5566fe2fbc8bd0',
         'flusso': 'C', 'seme': 42, 'blocchi': BLOCCHI,
         'denominatori_validi': riepilogo['denominatori_validi'],
+        'artefatti_leggeri': [
+            'report_replay_completo.md',
+            'riepilogo_replay_completo.json',
+            'confronto_replay_completo_per_blocco.csv',
+            'figure/LEGGIMI.md',
+            'figure/andamento_metriche_e_soglie.png',
+            'figure/differenze_appaiate_per_blocco.png',
+            'figure/costo_ricalibrazione_per_blocco.png',
+        ],
         'd_riservato': True,
     }
     (uscita / 'manifest_replay_completo.json').write_text(

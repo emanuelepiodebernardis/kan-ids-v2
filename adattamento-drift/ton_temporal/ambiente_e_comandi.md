@@ -155,7 +155,9 @@ L'archivio e' scaricabile dal collegamento diretto al file condiviso
 Il file interno e' 60.151 byte, SHA-256
 `7a2c8424a963e01088baded953287eada6276884994dabd18f2661f441db8ece`.
 In Git restano protocollo, manifest, riepilogo, CSV per blocco, figura e
-rapporto. Il replay completo non e' stato avviato; D non e' stato letto.
+rapporto. Al momento di questo smoke il replay completo non era ancora stato
+avviato; l'esecuzione successiva e' documentata nella sezione seguente. D non
+e' stato letto.
 
 ## ADAPT-03: replay completo pesi adattati + soglia, C/seed42
 
@@ -195,6 +197,24 @@ restano `null` nel JSON e celle vuote nel CSV: non vengono sostituiti con zero.
 B resta un archivio aggiuntivo; D, i cinque semi e la variante 192/64 sono
 fuori dal protocollo.
 
+L'esecuzione effettiva usa il commit pulito
+`106ee1ccce2f116b7fb9b296df0a403c789f40ab` e la directory nuova
+`replay_completo_C_seed42_106ee1c`. Ha prodotto 916 blocchi, 915 aggiornamenti
+dei pesi e 915 ricalibrazioni su B in 2.297,616 secondi (38,294 minuti). Il
+controllo a soglia B fissa ottiene recall complessivo 20,608%, FPR complessivo
+0,474% e balanced accuracy complessiva 60,067%; con gli stessi pesi e soglia
+ricalibrata i valori sono 81,082%, 30,141% e 75,471%. L'AUROC media resta
+identica, 0,889025 su 875/916 blocchi, come richiesto dall'appaiamento degli
+score. L'aumento del recall si accompagna quindi a un forte aumento del FPR e
+non dimostra una superiorita' generale.
+
+Il rendiconto originale `replay_completo.json` e' 2.562.150 byte, SHA-256
+`996263a0dcccbfa005853c93d93467972889f3d0ff7c1908070825b778af851e`.
+L'archivio `replay_completo_C_seed42_106ee1c.zip` e' 381.478 byte, SHA-256
+`b084c4bfb0955698965aacb16e8a6a2ff78fe8f22e31a18ff6a12fd8b1e01d38`.
+Il collegamento scaricabile viene registrato nel manifest dopo il caricamento,
+senza modificare l'archivio verificato.
+
 ## La suite di test
 
 ```
@@ -214,7 +234,7 @@ $env:TEMP = $tmp
 ```
 
 Attesi: **327 test superati** nella cartella `ton_temporal/`: i 251 test
-verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
+verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
 test dell'analisi ADAPT-03 e 27 test del diagnostico pesi+soglia. Per file:
 `test_documenti_coerenti.py`
@@ -233,7 +253,9 @@ chiusura di ADAPT-01, **259** con il checkpoint ADAPT-02, **264** con i controll
 dell'analisi finale, **272** con i primi controlli causali, **279** con i
 controlli dell'analisi del checkpoint ADAPT-03, **299** dopo le controprove
 negative sullo smoke, **300** con la controprova sul picco prima del `pop` e
-**320** con il calibratore B e le controprove del diagnostico pesi + soglia.
+**320** con il calibratore B e le controprove del diagnostico pesi + soglia,
+**327** con modalita' completa, denominatori mancanti e confronto sui 916
+blocchi.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -266,17 +288,23 @@ blocco dai 15.016 byte raggiunti prima del `pop`; gli ultimi due controllano il
 JSON, le 5.496 righe dati del CSV, i denominatori AUROC, i quattro PNG e la
 tabella del rapporto consegnato.
 
-**I 320 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+Le 7 prove del replay completo richiedono 916 blocchi in ordine, rifiutano un
+riferimento incompleto, conservano come mancanti le metriche dei 41 blocchi
+monoclasse, verificano la nuova rendicontazione degli array del fit e
+ricostruiscono il riepilogo completo dal rendiconto originale.
+
+**I 327 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: sul
 dispositivo Windows, con la directory temporanea indicata sopra, sono state
-misurate **954 passate, 1 saltata e 5 sottotest passati** per il nuovo smoke.
+misurate **961 passate, 1 saltata e 5 sottotest passati** sul commit del replay
+completo.
 Alla chiusura del precedente diagnostico ADAPT-03 erano 934 passate, 1 saltata
 e 5 sottotest passati. Alla
 chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
 commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
 a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
-attuali vanno citati separatamente, perché misurano cose diverse: 320 e' la
-cartella `ton_temporal/`, mentre 954 e' il totale misurato dalla radice. Il
+attuali vanno citati separatamente, perché misurano cose diverse: 327 e' la
+cartella `ton_temporal/`, mentre 961 e' il totale misurato dalla radice. Il
 totale della radice dipende anche dalle altre cartelle presenti nella copia di
 lavoro.
 

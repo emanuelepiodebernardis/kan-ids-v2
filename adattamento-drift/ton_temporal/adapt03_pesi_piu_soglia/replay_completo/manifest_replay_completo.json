@@ -1,0 +1,48 @@
+{
+  "archivio": {
+    "file": "replay_completo_C_seed42_106ee1c.zip",
+    "dimensione_byte": 381478,
+    "sha256": "b084c4bfb0955698965aacb16e8a6a2ff78fe8f22e31a18ff6a12fd8b1e01d38",
+    "collegamento": null
+  },
+  "contenuto": [
+    {
+      "percorso": "replay_completo.json",
+      "dimensione_byte": 2562150,
+      "sha256": "996263a0dcccbfa005853c93d93467972889f3d0ff7c1908070825b778af851e"
+    }
+  ],
+  "commit_replay": "106ee1ccce2f116b7fb9b296df0a403c789f40ab",
+  "merge_adapt03": "9550decf06156664839affd8db5566fe2fbc8bd0",
+  "flusso": "C",
+  "seme": 42,
+  "blocchi": 916,
+  "denominatori_validi": {
+    "richiamo_attacchi": {
+      "validi": 916,
+      "blocchi_totali": 916
+    },
+    "fpr": {
+      "validi": 875,
+      "blocchi_totali": 916
+    },
+    "balanced_accuracy": {
+      "validi": 875,
+      "blocchi_totali": 916
+    },
+    "auroc": {
+      "validi": 875,
+      "blocchi_totali": 916
+    }
+  },
+  "artefatti_leggeri": [
+    "report_replay_completo.md",
+    "riepilogo_replay_completo.json",
+    "confronto_replay_completo_per_blocco.csv",
+    "figure/LEGGIMI.md",
+    "figure/andamento_metriche_e_soglie.png",
+    "figure/differenze_appaiate_per_blocco.png",
+    "figure/costo_ricalibrazione_per_blocco.png"
+  ],
+  "d_riservato": true
+}
