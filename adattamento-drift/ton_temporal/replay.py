@@ -705,6 +705,27 @@ class MemoriaReplay:
         X, y = self.liste()
         return np.asarray(X), np.asarray(y, dtype=np.uint8)
 
+    def array_ammissibile(self, blocco_corrente, eta_massima):
+        """Contenuto non piu' vecchio del limite, con eta' esplicita.
+
+        Non modifica la memoria: una politica puo' limitare l'evidenza usata
+        senza cambiare FIFO, quote per classe o campioni conservati.
+        """
+        if eta_massima < 0:
+            raise ValueError('eta_massima deve essere non negativa')
+        voci = [v for v in self.voci
+                if blocco_corrente - v['blocco_arrivo'] <= eta_massima]
+        if not voci:
+            forma = np.asarray(self.voci[0]['x']).shape if self.voci else ()
+            return (np.empty((0,) + forma), np.empty(0, dtype=np.uint8),
+                    np.empty(0, dtype=np.int64))
+        X = np.asarray([v['x'] for v in voci])
+        y = np.asarray([v['y'] for v in voci], dtype=np.uint8)
+        eta = np.asarray(
+            [blocco_corrente - v['blocco_arrivo'] for v in voci],
+            dtype=np.int64)
+        return X, y, eta
+
     def eta(self, blocco_corrente):
         fuori = {'tutti': self._eta([v for v in self.voci], blocco_corrente)}
         for classe, nome in ((0, 'normali'), (1, 'attacchi')):

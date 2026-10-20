@@ -70,6 +70,52 @@ Il comando scrive `adapt02_memoria_per_classe/analisi_campagna_C.json`, il CSV
 `adapt02_memoria_per_classe/differenze_appaiate_per_seme_C.csv` e le figure in
 `adapt02_memoria_per_classe/figure_campagna_C/`.
 
+## ADAPT-03: sola soglia, C/seed42
+
+Il protocollo e' stato fissato in `852f91c`. Smoke e replay completi sono stati
+eseguiti dal commit pulito `90597f03413fa5884c6ad7e2895140695e3e14fe`;
+l'analisi dei risultati e' stata eseguita inizialmente dallo stesso commit. La
+sola contabilizzazione dello stato logico e' stata poi rigenerata dai
+rendiconti originali con il commit pulito
+`f265c4692dce67de29da55b1eaa3c911b651f3ce`: 11.816 byte a fine blocco e
+15.016 byte prima del `pop` del lotto maturato. Nessun replay e' stato ripetuto.
+
+Smoke preregistrato sui primi 20 blocchi:
+
+```bash
+cd <repo>/adattamento-drift/ton_temporal
+python smoke_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --riferimenti-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8 --uscita-dir ../archivio_esterno/adapt03_soglia_adattiva/smoke_C_seed42_90597f0
+```
+
+Il riepilogo dello smoke dichiara PASS su esattamente i blocchi `0..19`: gli
+SHA-256 di A, B e C e i parametri coincidono con i valori preregistrati; score,
+richieste, `row_id`, soglie B e frozen coincidono fra le nuove corse e con i
+primi 20 blocchi ADAPT-02.
+
+Replay completi, in due directory logiche separate ma nello stesso checkpoint:
+
+```bash
+cd <repo>/adattamento-drift/ton_temporal
+python replay_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --uscita ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_fifo_soglia_adattiva.json --memoria-strategia fifo --richiedi-worktree-pulito
+python replay_soglia_adattiva.py --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --uscita ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json --memoria-strategia per_classe --richiedi-worktree-pulito
+```
+
+Analisi e figure:
+
+```bash
+cd <repo>/adattamento-drift/ton_temporal
+python analisi_soglia_adattiva.py --fifo ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_fifo_soglia_adattiva.json --per-classe ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json --riferimenti-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8 --uscita-dir adapt03_soglia_adattiva
+```
+
+I rendiconti completi restano fuori Git nell'archivio
+`checkpoint_C_seed42_90597f0.zip` (1.088.717 byte), SHA-256
+`88d5c4df0e637e6c0c0b61f4bae5ceb9e0c3ee99d21f3b54b3df03a77f4add91`.
+Collegamento:
+`https://drive.google.com/file/d/1AcK2b5AqezPmoMJWjL0SXFkaRG_1VBMy/view?usp=drive_link`.
+`adapt03_soglia_adattiva/manifest_checkpoint.json` registra anche le impronte
+dei cinque JSON contenuti. In Git sono conservati protocollo, manifest, analisi
+derivata, CSV per blocco, figure e rapporto; D non e' stato letto.
+
 ## La suite di test
 
 ```
@@ -88,20 +134,25 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **264 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **300 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
-e 5 test sull'analisi finale. Per file: `test_documenti_coerenti.py`
+5 test sull'analisi finale, 28 test causali e di validazione dello smoke e 8
+test dell'analisi ADAPT-03. Per file:
+`test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
 `test_misure_di_costo.py` 17, `test_impronta_campione.py` 16,
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
-`test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5.
+`test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
+`test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
 **240** a `3861a5d`, **242** a `7f154ed`, **245** a `ef0eaad`, **251** a
 chiusura di ADAPT-01, **259** con il checkpoint ADAPT-02, **264** con i controlli
-dell'analisi finale.
+dell'analisi finale, **272** con i primi controlli causali, **279** con i
+controlli dell'analisi del checkpoint ADAPT-03, **299** dopo le controprove
+negative sullo smoke e **300** con la controprova sul picco prima del `pop`.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -119,17 +170,32 @@ limite, quote, espulsione, causalita', retrocompatibilita' FIFO, dtype delle
 feature, confronto con la FIFO storica e appaiamento di richieste e frozen. Le
 5 prove finali distinguono FPR complessivo e medio per blocco, controllano la
 dispersione campionaria, il denominatore AUROC, i tipi di attacco, i 30 delta
-per seme e le figure consegnate.
+per seme e le figure consegnate. Le 28 prove ADAPT-03 controllano classe
+assente, eta' dell'evidenza dal blocco di osservazione, minimo per classe,
+tie-break, invarianza di score e AUROC, appaiamento delle memorie, ritardo
+causale, etichette future, richieste in attesa e conteggio dello stato
+aggiuntivo. Venti casi aggiunti rifiutano SHA-256 o file diversi, ciascun
+parametro preregistrato alterato e smoke vuoti, incompleti, duplicati, traslati,
+fuori ordine o con un conteggio dichiarato incoerente; un caso positivo accetta
+soltanto la sequenza `0..19` con i metadati fissati.
+Gli 8 controlli dell'analisi distinguono aggregazioni globali e medie per blocco,
+ricostruiscono periodi contigui di peggioramento, verificano le differenze e
+rifiutano score frozen non appaiati; una controprova separa 11.816 byte a fine
+blocco dai 15.016 byte raggiunti prima del `pop`; gli ultimi due controllano il
+JSON, le 5.496 righe dati del CSV, i denominatori AUROC, i quattro PNG e la
+tabella del rapporto consegnato.
 
-**I 264 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 300 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro: sul
 dispositivo Windows, con la directory temporanea indicata sopra, sono state
-misurate **898 passate, 1 saltata e 5 sottotest passati**. Al commit `5922992`
-il totale era 829 passate e 1 saltata, di cui 195 erano queste; a `3861a5d`
-erano state misurate 874 prove con 240 di ADAPT-01. I due numeri vanno citati
-separatamente, perché misurano cose diverse: 264 è questa cartella, 898 è tutto
-il repository. Il totale della radice dipende dalle altre cartelle presenti
-nella copia di lavoro.
+misurate **934 passate, 1 saltata e 5 sottotest passati** per ADAPT-03. Alla
+chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
+commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
+a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
+attuali vanno citati separatamente, perché misurano cose diverse: 300 e' la
+cartella `ton_temporal/`, mentre 934 e' il totale misurato dalla radice. Il
+totale della radice dipende dalle altre cartelle presenti nella copia di
+lavoro.
 
 Una versione precedente di questo documento dichiarava «11 test superati» e
 citava conteggi di 634 e 643 test misurati su un altro ramo: nessuno dei due

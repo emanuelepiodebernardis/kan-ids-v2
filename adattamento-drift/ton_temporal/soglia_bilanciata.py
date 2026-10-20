@@ -113,7 +113,7 @@ def _sotto_il_minimo(minimo):
     return float(np.nextafter(minimo, -np.inf)) if np.isfinite(minimo) else -np.inf
 
 
-def scegli_soglia(punteggi, y):
+def scegli_soglia(punteggi, y, origine='intero B'):
     """La soglia e il suo rendiconto, con la regola di parita' dichiarata."""
     soglie, ric_norm, ric_att, bal = curva_balanced_accuracy(punteggi, y)
     massimo = bal.max()
@@ -123,7 +123,7 @@ def scegli_soglia(punteggi, y):
     contigue = bool(len(pari_merito) == 0 or
                     (pari_merito[-1] - pari_merito[0] + 1) == len(pari_merito))
     return float(soglie[scelto]), {
-        'regola': 'massimo della balanced accuracy sull intero B, per uguaglianza '
+        'regola': 'massimo della balanced accuracy su ' + origine + ', per uguaglianza '
                   'esatta fra float64; fra i candidati a pari merito la mediana '
                   'inferiore, cioe l indice (n-1)//2 sui candidati ordinati',
         'balanced_accuracy': float(massimo),
