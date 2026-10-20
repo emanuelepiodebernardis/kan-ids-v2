@@ -170,7 +170,7 @@ Prima dell'avvio si fissa lo SHA e si usa una directory nuova:
 
 ```powershell
 cd <repo>/adattamento-drift/ton_temporal
-$sha = git rev-parse --short HEAD
+git rev-parse --short HEAD | Tee-Object -Variable sha
 $uscita = "../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_$sha"
 if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
 python replay_pesi_piu_soglia.py --modalita completo --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --uscita "$uscita/replay_completo.json" --richiedi-worktree-pulito
@@ -185,6 +185,7 @@ Compress-Archive -LiteralPath "$uscita/replay_completo.json" -DestinationPath "$
 L'analisi non riesegue il replay:
 
 ```powershell
+cd <repo>/adattamento-drift/ton_temporal
 python analisi_replay_completo_pesi_soglia.py --replay "$uscita/replay_completo.json" --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --archivio "$uscita.zip" --uscita-dir adapt03_pesi_piu_soglia/replay_completo
 ```
 
