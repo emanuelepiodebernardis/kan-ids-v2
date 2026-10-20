@@ -32,17 +32,17 @@ B contiene 5.681.198 righe ed e' un archivio aggiuntivo rispetto ai
 256 esempi online. `X_B` e `y_B` occupano rispettivamente
 181.798.336 e 5.681.198 byte; la cache `float64`
 della rappresentazione KAN occupa
-363.596.672 byte. Lo stato online massimo
-misurato separatamente e' 24.904 byte. Il
-picco RSS finale del banco di prova e' 2103,3 MiB,
+363.596.672 byte. Il valore massimo di
+24.904 byte descrive soltanto gli array del fit:
+feature ed etichette della memoria, rappresentazione KAN della memoria e parametri correnti della testa KAN. Esclude oggetti del modello e della trasformazione, richieste in attesa, buffer del blocco, overhead Python e archivio/cache B; non rappresenta quindi
+l'intero stato online. Il picco RSS finale del banco di prova e'
+2103,3 MiB,
 misurato con
 `GetProcessMemoryInfo`; comprende A, B, C e gli array temporanei.
 
 Il rendiconto originale e' conservato fuori Git in `smoke_C_seed42_f9efbe4.zip`
 (11.267 byte), SHA-256 `acdeb051288f4b4e8774358020af6f6f1cda90204471894bd0962291596f14c1`. Il manifest
-versionato registra anche dimensione e SHA-256 del JSON interno. L'archivio e'
-scaricabile dal collegamento diretto al file condiviso
-`https://drive.google.com/file/d/1RU2QNkTEDIEDJRQW3vJz82kzPlHQn3Ab/view?usp=drive_link`.
+versionato registra anche dimensione e SHA-256 del JSON interno. L'archivio e' scaricabile da `https://drive.google.com/file/d/1RU2QNkTEDIEDJRQW3vJz82kzPlHQn3Ab/view?usp=drive_link`.
 
 Le 19 ricalibrazioni costano in mediana
 0,706 s, al 90o percentile

@@ -82,7 +82,12 @@
     "blocco_costruzione_cache": 200000,
     "secondi_costruzione_cache": 64.35896829998819,
     "byte_file_npz_compresso": 26939441,
-    "byte_stato_online_massimo": 24904,
+    "array_fit_online_massimo": {
+      "totale_byte": 24904,
+      "componenti_byte": null,
+      "include": "feature ed etichette della memoria, rappresentazione KAN della memoria e parametri correnti della testa KAN",
+      "esclude": "oggetti del modello e della trasformazione, richieste in attesa, buffer del blocco, overhead Python e archivio/cache B"
+    },
     "rss_dopo_cache_b": {
       "mib": 2022.1,
       "metodo": "GetProcessMemoryInfo"

@@ -128,7 +128,10 @@ blocco successivo.
 
 B contiene 5.681.198 righe ed e' un archivio aggiuntivo rispetto ai 256 esempi
 online. La rappresentazione KAN di B viene costruita una volta in cache; score,
-selezione BA, cache, stato online e picco RSS sono rendicontati separatamente.
+selezione BA, cache, array del fit online e picco RSS sono rendicontati
+separatamente. Il valore di 24.904 byte misura soltanto feature ed etichette
+della memoria, rappresentazione KAN della memoria e parametri della testa KAN;
+non rappresenta tutto lo stato online.
 
 Smoke ufficiale:
 
@@ -154,6 +157,43 @@ Il file interno e' 60.151 byte, SHA-256
 In Git restano protocollo, manifest, riepilogo, CSV per blocco, figura e
 rapporto. Il replay completo non e' stato avviato; D non e' stato letto.
 
+## ADAPT-03: replay completo pesi adattati + soglia, C/seed42
+
+Il PR #4 e' stato integrato in `main` con merge commit
+`9550decf06156664839affd8db5566fe2fbc8bd0`, mantenendo la versione approvata
+`d11c59c`. Il protocollo completo e' in
+`adapt03_pesi_piu_soglia/protocollo_replay_completo.md`.
+
+Il runner distingue esplicitamente `smoke` e `completo`. La seconda modalita'
+richiede esattamente 916 blocchi e confronta l'intera sequenza con ADAPT-02.
+Prima dell'avvio si fissa lo SHA e si usa una directory nuova:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+$sha = git rev-parse --short HEAD
+$uscita = "../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_$sha"
+if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
+python replay_pesi_piu_soglia.py --modalita completo --iniziale flussi/A.npz --calibrazione flussi/B.npz --flusso flussi/C.npz --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --uscita "$uscita/replay_completo.json" --richiedi-worktree-pulito
+```
+
+Il rendiconto originale viene compresso senza modificarlo:
+
+```powershell
+Compress-Archive -LiteralPath "$uscita/replay_completo.json" -DestinationPath "$uscita.zip" -CompressionLevel Optimal
+```
+
+L'analisi non riesegue il replay:
+
+```powershell
+python analisi_replay_completo_pesi_soglia.py --replay "$uscita/replay_completo.json" --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --archivio "$uscita.zip" --uscita-dir adapt03_pesi_piu_soglia/replay_completo
+```
+
+Nel riferimento completo il recall e' definito in 916/916 blocchi; FPR,
+balanced accuracy e AUROC sono definiti in 875/916. I 41 valori mancanti
+restano `null` nel JSON e celle vuote nel CSV: non vengono sostituiti con zero.
+B resta un archivio aggiuntivo; D, i cinque semi e la variante 192/64 sono
+fuori dal protocollo.
+
 ## La suite di test
 
 ```
@@ -172,10 +212,10 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **320 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **327 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe
-5 test sull'analisi finale, 28 test causali e di validazione dello smoke e 8
-test dell'analisi ADAPT-03. Per file:
+5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
+test dell'analisi ADAPT-03 e 27 test del diagnostico pesi+soglia. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -183,7 +223,7 @@ test dell'analisi ADAPT-03. Per file:
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
-`test_pesi_piu_soglia.py` 20.
+`test_pesi_piu_soglia.py` 27.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,

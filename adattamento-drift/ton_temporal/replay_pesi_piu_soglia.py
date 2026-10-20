@@ -1,4 +1,4 @@
-"""Smoke ADAPT-03: una KAN adattata, due soglie, calibrazione sull'intero B."""
+"""ADAPT-03: una KAN adattata, due soglie, calibrazione sull'intero B."""
 
 from __future__ import annotations
 
@@ -22,6 +22,8 @@ SHA_INPUT = {
     'B.npz': 'e6f4bf163fff89503e0e216d4ec8381146f6e3b71a6acf5e6729f4854b0923e0',
     'C.npz': '3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d',
 }
+
+BLOCCHI_MODALITA = {'smoke': 20, 'completo': 916}
 
 
 def sha_file(percorso):
@@ -89,14 +91,36 @@ def aggrega(righe, chiave):
     }
 
 
+def array_fit_online(MX, My, Rm, parametri):
+    """Byte logici di alcuni array del fit, non dell'intero stato online."""
+    componenti = {
+        'memoria_feature': int(MX.nbytes),
+        'memoria_etichette': int(My.nbytes),
+        'rappresentazione_kan_memoria': int(Rm.nbytes),
+        'parametri_testa_kan': int(parametri.nbytes),
+    }
+    return {
+        'totale_byte': sum(componenti.values()),
+        'componenti_byte': componenti,
+        'include': (
+            'feature ed etichette della memoria, rappresentazione KAN della '
+            'memoria e parametri correnti della testa KAN'),
+        'esclude': (
+            'oggetti del modello e della trasformazione, richieste in attesa, '
+            'buffer del blocco, overhead Python e archivio/cache B'),
+    }
+
+
 def valida_parametri(a):
+    if a.modalita not in BLOCCHI_MODALITA:
+        raise SystemExit('modalita non riconosciuta: ' + str(a.modalita))
     attesi = {
         'blocco': 10_000,
         'budget': 0.01,
         'memoria': 256,
         'ritardo': 1,
         'seme': 42,
-        'max_blocchi': 20,
+        'max_blocchi': BLOCCHI_MODALITA[a.modalita],
         'cache_blocco': 200_000,
     }
     for nome, atteso in attesi.items():
@@ -118,10 +142,14 @@ def main(argv=None):
     p.add_argument('--memoria', type=int, default=256)
     p.add_argument('--ritardo', type=int, default=1)
     p.add_argument('--seme', type=int, default=42)
-    p.add_argument('--max-blocchi', type=int, default=20)
+    p.add_argument('--modalita', choices=sorted(BLOCCHI_MODALITA),
+                   default='smoke')
+    p.add_argument('--max-blocchi', type=int)
     p.add_argument('--cache-blocco', type=int, default=200_000)
     p.add_argument('--richiedi-worktree-pulito', action='store_true')
     a = p.parse_args(argv)
+    if a.max_blocchi is None:
+        a.max_blocchi = BLOCCHI_MODALITA[a.modalita]
     valida_parametri(a)
 
     commit, pulito = stato_git()
@@ -148,6 +176,11 @@ def main(argv=None):
     X, y, rid, frt = C['X'], C['y'], C['row_id'], C['frt']
     if not np.all(np.diff(frt) >= 0):
         raise SystemExit('C non e ordinato per feature_ready_time')
+    blocchi_disponibili = (len(y) + a.blocco - 1) // a.blocco
+    if blocchi_disponibili != BLOCCHI_MODALITA['completo']:
+        raise SystemExit(
+            'C deve contenere esattamente 916 blocchi, trovati %d' %
+            blocchi_disponibili)
 
     trasformazione = replay.Trasformazione(XA)
     ZA = trasformazione(XA)
@@ -180,7 +213,7 @@ def main(argv=None):
     righe = []
     aggiornamenti = 0
     ricalibrazioni = []
-    massimo_byte_online = 0
+    massimo_array_fit = None
     t_replay = time.monotonic()
 
     for k in range(a.max_blocchi):
@@ -236,9 +269,10 @@ def main(argv=None):
             Rm = kan.rappresentazione(MX)
             nuovo = replay.aggiorna(Rm, My)
             secondi_fit = time.perf_counter() - t_fit
-            massimo_byte_online = max(
-                massimo_byte_online,
-                int(MX.nbytes + My.nbytes + Rm.nbytes + parametri_kan.nbytes))
+            array_fit = array_fit_online(MX, My, Rm, parametri_kan)
+            if (massimo_array_fit is None or
+                    array_fit['totale_byte'] > massimo_array_fit['totale_byte']):
+                massimo_array_fit = array_fit
             if nuovo is None:
                 voce['aggiornamento_pesi'] = {
                     'applicato': False,
@@ -270,9 +304,16 @@ def main(argv=None):
               (k + 1, a.max_blocchi, aggiornamenti), flush=True)
 
     secondi_replay = time.monotonic() - t_replay
-    riferimento_blocchi = riferimento['per_blocco'][:a.max_blocchi]
-    if [r['blocco'] for r in righe] != list(range(20)):
-        raise RuntimeError('lo smoke non contiene esattamente i blocchi 0..19')
+    riferimento_tutto = riferimento.get('per_blocco', [])
+    if len(riferimento_tutto) != BLOCCHI_MODALITA['completo']:
+        raise RuntimeError('il riferimento ADAPT-02 non contiene 916 blocchi')
+    riferimento_blocchi = riferimento_tutto[:a.max_blocchi]
+    if [r['blocco'] for r in righe] != list(range(a.max_blocchi)):
+        raise RuntimeError(
+            'il replay non contiene esattamente i blocchi 0..%d' %
+            (a.max_blocchi - 1))
+    if [r.get('blocco') for r in riferimento_blocchi] != list(range(a.max_blocchi)):
+        raise RuntimeError('il riferimento ADAPT-02 non e completo e ordinato')
     for nuovo, vecchio in zip(righe, riferimento_blocchi):
         if nuovo['row_id_campionati_sha256'] != vecchio['row_id_campionati_sha256']:
             raise RuntimeError('campione non appaiato al blocco %d' % nuovo['blocco'])
@@ -282,7 +323,7 @@ def main(argv=None):
 
     rss_finale = replay.picco_rss()
     fuori = {
-        'protocollo': 'ADAPT-03, smoke pesi adattati + soglia',
+        'protocollo': 'ADAPT-03, pesi adattati + soglia, ' + a.modalita,
         'commit_eseguito': commit,
         'worktree_pulito_all_avvio': pulito,
         'parametri': {
@@ -295,6 +336,7 @@ def main(argv=None):
             'politica_pesi': 'ogni_blocco',
             'ritardo_in_blocchi': a.ritardo,
             'seme': a.seme,
+            'modalita': a.modalita,
             'max_blocchi': a.max_blocchi,
             'cache_b_blocco': a.cache_blocco,
         },
@@ -317,7 +359,7 @@ def main(argv=None):
             'unica_traiettoria_pesi': True,
             'unico_score_per_blocco': True,
             'soglia_nuova_solo_dal_blocco_successivo': True,
-            'appaiato_adapt02_primi_20_blocchi': True,
+            'appaiato_adapt02_blocchi': a.max_blocchi,
             'parametri_kan_iniziali_sha256': parametri_iniziali_sha,
         },
         'riepilogo': {
@@ -330,9 +372,9 @@ def main(argv=None):
         'costi': {
             'secondi_totali': time.monotonic() - t_totale,
             'secondi_addestramento_lr_kan': secondi_addestramento,
-            'secondi_replay_20_blocchi': secondi_replay,
+            'secondi_replay': secondi_replay,
             'ricalibrazioni_b': ricalibrazioni,
-            'byte_stato_online_massimo': massimo_byte_online,
+            'array_fit_online_massimo': massimo_array_fit,
             'rss_dopo_addestramento': {
                 'mib': rss_dopo_addestramento[0], 'metodo': rss_dopo_addestramento[1]},
             'rss_dopo_cache_b': {

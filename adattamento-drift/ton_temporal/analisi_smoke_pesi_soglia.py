@@ -87,8 +87,10 @@ def valida_smoke(dati, riferimento):
         raise ValueError('B non e completo')
     if risorse['byte_cache_rappresentazione_kan'] <= 0:
         raise ValueError('cache B non rendicontata')
-    if dati['costi']['byte_stato_online_massimo'] <= 0:
-        raise ValueError('stato online non rendicontato')
+    array_fit = dati['costi'].get('array_fit_online_massimo')
+    byte_fit_storici = dati['costi'].get('byte_stato_online_massimo')
+    if array_fit is None and (byte_fit_storici is None or byte_fit_storici <= 0):
+        raise ValueError('array del fit online non rendicontati')
     return True
 
 
@@ -109,6 +111,10 @@ def riassumi_tempi(costi, campo='secondi_totali'):
 
 def costruisci_riepilogo(dati):
     costi = dati['costi']['ricalibrazioni_b']
+    secondi_replay = dati['costi'].get(
+        'secondi_replay_20_blocchi', dati['costi'].get('secondi_replay'))
+    if secondi_replay is None:
+        raise ValueError('tempo del replay non rendicontato')
     tempi = {
         'totale': riassumi_tempi(costi),
         'score_b': riassumi_tempi(costi, 'secondi_score_b'),
@@ -116,9 +122,9 @@ def costruisci_riepilogo(dati):
     }
     blocchi_completi = dati['riferimento_adapt02']['blocchi_completi']
     aggiornamenti_completi = dati['riferimento_adapt02']['aggiornamenti_kan_completi']
-    fisso = dati['costi']['secondi_totali'] - dati['costi']['secondi_replay_20_blocchi']
+    fisso = dati['costi']['secondi_totali'] - secondi_replay
     replay_senza_ricalibrazione = (
-        dati['costi']['secondi_replay_20_blocchi']
+        secondi_replay
         - tempi['totale']['secondi_totali'])
     base_per_blocco = max(0.0, replay_senza_ricalibrazione / 20.0)
 
@@ -126,6 +132,18 @@ def costruisci_riepilogo(dati):
         return (fisso + base_per_blocco * blocchi_completi
                 + costo * aggiornamenti_completi)
 
+    array_fit = dati['costi'].get('array_fit_online_massimo')
+    if array_fit is None:
+        array_fit = {
+            'totale_byte': dati['costi']['byte_stato_online_massimo'],
+            'componenti_byte': None,
+            'include': (
+                'feature ed etichette della memoria, rappresentazione KAN '
+                'della memoria e parametri correnti della testa KAN'),
+            'esclude': (
+                'oggetti del modello e della trasformazione, richieste in '
+                'attesa, buffer del blocco, overhead Python e archivio/cache B'),
+        }
     return {
         'protocollo': dati['protocollo'],
         'commit_eseguito': dati['commit_eseguito'],
@@ -142,7 +160,7 @@ def costruisci_riepilogo(dati):
         'andamento_temporale': riassumi_andamento(dati['per_blocco']),
         'risorse': {
             **dati['calibrazione']['risorse_b'],
-            'byte_stato_online_massimo': dati['costi']['byte_stato_online_massimo'],
+            'array_fit_online_massimo': array_fit,
             'rss_dopo_cache_b': dati['costi']['rss_dopo_cache_b'],
             'rss_finale': dati['costi']['rss_finale'],
         },
@@ -287,6 +305,11 @@ def scrivi_rapporto(riepilogo):
     r = riepilogo['risorse']
     a = riepilogo['andamento_temporale']
     z = riepilogo['archivio_esterno']
+    array_fit = r['array_fit_online_massimo']
+    collegamento = (
+        "L'archivio e' scaricabile da `%s`." % z['collegamento']
+        if z.get('collegamento') else
+        "Il collegamento viene aggiunto dopo il caricamento dell'archivio.")
     return f"""# ADAPT-03: rapporto dello smoke pesi adattati + soglia
 
 ## Esito tecnico
@@ -321,17 +344,17 @@ B contiene {_intero(r['righe'])} righe ed e' un archivio aggiuntivo rispetto ai
 256 esempi online. `X_B` e `y_B` occupano rispettivamente
 {_intero(r['byte_x_b'])} e {_intero(r['byte_y_b'])} byte; la cache `float64`
 della rappresentazione KAN occupa
-{_intero(r['byte_cache_rappresentazione_kan'])} byte. Lo stato online massimo
-misurato separatamente e' {_intero(r['byte_stato_online_massimo'])} byte. Il
-picco RSS finale del banco di prova e' {_dec(r['rss_finale']['mib'], 1)} MiB,
+{_intero(r['byte_cache_rappresentazione_kan'])} byte. Il valore massimo di
+{_intero(array_fit['totale_byte'])} byte descrive soltanto gli array del fit:
+{array_fit['include']}. Esclude {array_fit['esclude']}; non rappresenta quindi
+l'intero stato online. Il picco RSS finale del banco di prova e'
+{_dec(r['rss_finale']['mib'], 1)} MiB,
 misurato con
 `{r['rss_finale']['metodo']}`; comprende A, B, C e gli array temporanei.
 
 Il rendiconto originale e' conservato fuori Git in `{z['file']}`
 ({_intero(z['dimensione_byte'])} byte), SHA-256 `{z['sha256']}`. Il manifest
-versionato registra anche dimensione e SHA-256 del JSON interno. Il collegamento
-scaricabile viene aggiunto soltanto dopo il caricamento del file, senza cambiare
-l'archivio.
+versionato registra anche dimensione e SHA-256 del JSON interno. {collegamento}
 
 Le {tt['n']} ricalibrazioni costano in mediana
 {_dec(tt['secondi_mediani'])} s, al 90o percentile
@@ -369,6 +392,7 @@ def main(argv=None):
     p.add_argument('--smoke', required=True)
     p.add_argument('--riferimento-adapt02', required=True)
     p.add_argument('--archivio', required=True)
+    p.add_argument('--collegamento-archivio')
     p.add_argument('--uscita-dir', required=True)
     a = p.parse_args(argv)
     dati = json.loads(Path(a.smoke).read_text(encoding='utf-8'))
@@ -381,7 +405,7 @@ def main(argv=None):
         'file': archivio.name,
         'dimensione_byte': archivio.stat().st_size,
         'sha256': runner.sha_file(archivio),
-        'collegamento': None,
+        'collegamento': a.collegamento_archivio,
     }
     uscita = Path(a.uscita_dir)
     uscita.mkdir(parents=True, exist_ok=True)
