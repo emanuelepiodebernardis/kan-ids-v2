@@ -1,0 +1,123 @@
+{
+  "protocollo": "ADAPT-03, smoke pesi adattati + soglia",
+  "commit_eseguito": "f9efbe4b1312a82805a532dadd45b8eb11778c1b",
+  "esito_validazione": "PASS",
+  "blocchi": 20,
+  "aggiornamenti_pesi": 19,
+  "ricalibrazioni_b": 19,
+  "metriche_smoke": {
+    "controllo_soglia_b": {
+      "cm_globale": {
+        "vn": 6224,
+        "fp": 2,
+        "fn": 26854,
+        "vp": 166920
+      },
+      "recall_attacchi_globale": 0.8614158762269448,
+      "fpr_globale": 0.00032123353678124,
+      "balanced_accuracy_globale": 0.9305473213450818,
+      "auroc_media_per_blocco": 0.9876935018225292,
+      "auroc_blocchi_validi": 20,
+      "blocchi_totali": 20
+    },
+    "variante_soglia_ricalibrata": {
+      "cm_globale": {
+        "vn": 6100,
+        "fp": 126,
+        "fn": 4075,
+        "vp": 189699
+      },
+      "recall_attacchi_globale": 0.9789703468989648,
+      "fpr_globale": 0.020237712817218118,
+      "balanced_accuracy_globale": 0.9793663170408733,
+      "auroc_media_per_blocco": 0.9876935018225292,
+      "auroc_blocchi_validi": 20,
+      "blocchi_totali": 20
+    }
+  },
+  "costi_ricalibrazione_b": {
+    "totale": {
+      "n": 19,
+      "secondi_totali": 13.492810400261078,
+      "secondi_medi": 0.7101479158032147,
+      "secondi_mediani": 0.7059858000138775,
+      "secondi_p90": 0.773414460022468,
+      "secondi_minimi": 0.6016000999952666,
+      "secondi_massimi": 0.7940813000313938
+    },
+    "score_b": {
+      "n": 19,
+      "secondi_totali": 0.7536888000904582,
+      "secondi_medi": 0.039667831583708325,
+      "secondi_mediani": 0.03884900000412017,
+      "secondi_p90": 0.04273736003087834,
+      "secondi_minimi": 0.036787399963941425,
+      "secondi_massimi": 0.04406560002826154
+    },
+    "scelta_ba": {
+      "n": 19,
+      "secondi_totali": 12.73912160017062,
+      "secondi_medi": 0.6704800842195063,
+      "secondi_mediani": 0.6679715000209399,
+      "secondi_p90": 0.7325621400261297,
+      "secondi_minimi": 0.5645791999995708,
+      "secondi_massimi": 0.7516473000287078
+    }
+  },
+  "andamento_temporale": {
+    "blocchi": 20,
+    "recall_variante_maggiore": 17,
+    "fpr_variante_maggiore": 14,
+    "balanced_accuracy_variante_maggiore": 13,
+    "balanced_accuracy_variante_minore": 4,
+    "metriche_identiche": 3
+  },
+  "risorse": {
+    "righe": 5681198,
+    "byte_x_b": 181798336,
+    "byte_y_b": 5681198,
+    "byte_cache_rappresentazione_kan": 363596672,
+    "colonne_cache": 8,
+    "dtype_cache": "float64",
+    "blocco_costruzione_cache": 200000,
+    "secondi_costruzione_cache": 64.35896829998819,
+    "byte_file_npz_compresso": 26939441,
+    "array_fit_online_massimo": {
+      "totale_byte": 24904,
+      "componenti_byte": null,
+      "include": "feature ed etichette della memoria, rappresentazione KAN della memoria e parametri correnti della testa KAN",
+      "esclude": "oggetti del modello e della trasformazione, richieste in attesa, buffer del blocco, overhead Python e archivio/cache B"
+    },
+    "rss_dopo_cache_b": {
+      "mib": 2022.1,
+      "metodo": "GetProcessMemoryInfo"
+    },
+    "rss_finale": {
+      "mib": 2103.3,
+      "metodo": "GetProcessMemoryInfo"
+    }
+  },
+  "stima_replay_completo": {
+    "blocchi": 916,
+    "aggiornamenti_e_ricalibrazioni": 915,
+    "metodo": "costo fisso misurato + costo base per blocco dello smoke, esclusa la ricalibrazione + costo per 915 ricalibrazioni",
+    "secondi_centrali_mediana": 790.4765280214372,
+    "secondi_p90": 852.1737519292974,
+    "secondi_prudenziali_massimo": 871.0839105374646,
+    "secondi_fissi_misurati": 83.62525709997863,
+    "secondi_base_per_blocco_stimati": 0.06645661998772993
+  },
+  "limiti": "lo smoke misura fattibilita e causalita su 20 blocchi; non stima superiorita e non usa un limite assoluto di FPR",
+  "verifica": {
+    "ton_temporal_passati": 320,
+    "repository_passati": 954,
+    "repository_saltati": 1,
+    "repository_sottotest_passati": 5
+  },
+  "archivio_esterno": {
+    "file": "smoke_C_seed42_f9efbe4.zip",
+    "dimensione_byte": 11267,
+    "sha256": "acdeb051288f4b4e8774358020af6f6f1cda90204471894bd0962291596f14c1",
+    "collegamento": "https://drive.google.com/file/d/1RU2QNkTEDIEDJRQW3vJz82kzPlHQn3Ab/view?usp=drive_link"
+  }
+}
