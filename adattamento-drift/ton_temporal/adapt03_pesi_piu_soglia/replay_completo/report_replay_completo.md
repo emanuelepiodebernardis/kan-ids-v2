@@ -79,9 +79,8 @@ comprende anche input, cache e array temporanei.
 
 Il rendiconto originale e' conservato fuori Git in `replay_completo_C_seed42_106ee1c.zip`
 (381.478 byte), SHA-256 `b084c4bfb0955698965aacb16e8a6a2ff78fe8f22e31a18ff6a12fd8b1e01d38`. Il manifest
-versionato registra anche dimensione e SHA-256 del JSON interno. Il
-collegamento scaricabile viene aggiunto dopo il caricamento senza modificare
-l'archivio.
+versionato registra anche dimensione e SHA-256 del JSON interno.
+Il collegamento scaricabile all'archivio verificato e' `https://drive.google.com/file/d/1qt-qRB7KWpVEg2DrbaSantbbzRJVZgKI/view?usp=drive_link`.
 
 ## Limiti
 

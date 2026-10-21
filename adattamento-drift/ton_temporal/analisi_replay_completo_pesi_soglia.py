@@ -415,6 +415,14 @@ def scrivi_rapporto(r):
     tabella_confronti = '\n'.join(righe_confronti)
     cm_c = c['cm_globale']
     cm_v = v['cm_globale']
+    if z['collegamento']:
+        nota_collegamento = (
+            "Il collegamento scaricabile all'archivio verificato e' "
+            f"`{z['collegamento']}`.")
+    else:
+        nota_collegamento = (
+            'Il collegamento scaricabile viene aggiunto dopo il caricamento '
+            "senza modificare l'archivio.")
     return f"""# ADAPT-03: replay completo pesi adattati + soglia
 
 ## Esito tecnico
@@ -490,9 +498,8 @@ comprende anche input, cache e array temporanei.
 
 Il rendiconto originale e' conservato fuori Git in `{z['file']}`
 ({_intero(z['dimensione_byte'])} byte), SHA-256 `{z['sha256']}`. Il manifest
-versionato registra anche dimensione e SHA-256 del JSON interno. Il
-collegamento scaricabile viene aggiunto dopo il caricamento senza modificare
-l'archivio.
+versionato registra anche dimensione e SHA-256 del JSON interno.
+{nota_collegamento}
 
 ## Limiti
 
@@ -508,6 +515,7 @@ def main(argv=None):
     p.add_argument('--replay', required=True)
     p.add_argument('--riferimento-adapt02', required=True)
     p.add_argument('--archivio', required=True)
+    p.add_argument('--collegamento-archivio')
     p.add_argument('--uscita-dir', required=True)
     a = p.parse_args(argv)
     dati = json.loads(Path(a.replay).read_text(encoding='utf-8'))
@@ -520,7 +528,7 @@ def main(argv=None):
         'file': archivio.name,
         'dimensione_byte': archivio.stat().st_size,
         'sha256': runner.sha_file(archivio),
-        'collegamento': None,
+        'collegamento': a.collegamento_archivio,
     }
     uscita = Path(a.uscita_dir)
     uscita.mkdir(parents=True, exist_ok=True)

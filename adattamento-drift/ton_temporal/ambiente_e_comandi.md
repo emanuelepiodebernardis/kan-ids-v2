@@ -188,7 +188,7 @@ L'analisi non riesegue il replay:
 
 ```powershell
 cd <repo>/adattamento-drift/ton_temporal
-python analisi_replay_completo_pesi_soglia.py --replay "$uscita/replay_completo.json" --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --archivio "$uscita.zip" --uscita-dir adapt03_pesi_piu_soglia/replay_completo
+python analisi_replay_completo_pesi_soglia.py --replay "$uscita/replay_completo.json" --riferimento-adapt02 ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json --archivio "$uscita.zip" --collegamento-archivio "https://drive.google.com/file/d/1qt-qRB7KWpVEg2DrbaSantbbzRJVZgKI/view?usp=drive_link" --uscita-dir adapt03_pesi_piu_soglia/replay_completo
 ```
 
 Nel riferimento completo il recall e' definito in 916/916 blocchi; FPR,
@@ -212,8 +212,8 @@ Il rendiconto originale `replay_completo.json` e' 2.562.150 byte, SHA-256
 `996263a0dcccbfa005853c93d93467972889f3d0ff7c1908070825b778af851e`.
 L'archivio `replay_completo_C_seed42_106ee1c.zip` e' 381.478 byte, SHA-256
 `b084c4bfb0955698965aacb16e8a6a2ff78fe8f22e31a18ff6a12fd8b1e01d38`.
-Il collegamento scaricabile viene registrato nel manifest dopo il caricamento,
-senza modificare l'archivio verificato.
+Il collegamento scaricabile all'archivio verificato e'
+`https://drive.google.com/file/d/1qt-qRB7KWpVEg2DrbaSantbbzRJVZgKI/view?usp=drive_link`.
 
 ## La suite di test
 
