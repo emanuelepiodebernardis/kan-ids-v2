@@ -215,6 +215,38 @@ L'archivio `replay_completo_C_seed42_106ee1c.zip` e' 381.478 byte, SHA-256
 Il collegamento scaricabile all'archivio verificato e'
 `https://drive.google.com/file/d/1qt-qRB7KWpVEg2DrbaSantbbzRJVZgKI/view?usp=drive_link`.
 
+## ADAPT-04: calibrazione recente separata 192+64
+
+ADAPT-04 parte dal merge `d7bcd716dc416359474f12023cf0e5766d3aa78a`.
+Protocollo e configurazione sono stati fissati nel commit `6434664`, prima del
+runner. `fit192` e `calibration64` partono vuoti, restano separati e ricevono
+ruoli determinati dal salt `ADAPT04-C-seed42-v1` prima delle etichette.
+
+Il runner carica A e C, ma non B. La soglia B iniziale e le invarianti di
+inizializzazione sono lette dal rendiconto ADAPT-03 verificato. Smoke ufficiale:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+git rev-parse --short HEAD | Tee-Object -Variable sha
+$uscita = "../archivio_esterno/adapt04_calibrazione_recente/smoke_C_seed42_$sha"
+if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
+python replay_calibrazione_recente.py --modalita smoke --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita "$uscita/smoke.json" --richiedi-worktree-pulito
+```
+
+Se i controlli dello smoke passano, lo stesso commit esegue direttamente il
+replay completo autorizzato in una directory nuova:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+git rev-parse --short HEAD | Tee-Object -Variable sha
+$uscita = "../archivio_esterno/adapt04_calibrazione_recente/replay_completo_C_seed42_$sha"
+if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
+python replay_calibrazione_recente.py --modalita completo --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita "$uscita/replay_completo.json" --richiedi-worktree-pulito
+```
+
+Entrambe le corse usano solo KAN e C/seed42. D resta riservato; non sono
+autorizzati cinque seed o ricerca di iperparametri.
+
 ## La suite di test
 
 ```
@@ -233,10 +265,11 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **327 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **345 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
-test dell'analisi ADAPT-03 e 27 test del diagnostico pesi+soglia. Per file:
+test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 18 test
+ADAPT-04. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -244,7 +277,7 @@ test dell'analisi ADAPT-03 e 27 test del diagnostico pesi+soglia. Per file:
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
-`test_pesi_piu_soglia.py` 27.
+`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 18.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -255,7 +288,8 @@ controlli dell'analisi del checkpoint ADAPT-03, **299** dopo le controprove
 negative sullo smoke, **300** con la controprova sul picco prima del `pop` e
 **320** con il calibratore B e le controprove del diagnostico pesi + soglia,
 **327** con modalita' completa, denominatori mancanti e confronto sui 916
-blocchi.
+blocchi, **345** con ruoli deterministici, buffer separati e transazioni
+atomiche di ADAPT-04.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -293,18 +327,23 @@ riferimento incompleto, conservano come mancanti le metriche dei 41 blocchi
 monoclasse, verificano la nuova rendicontazione degli array del fit e
 ricostruiscono il riepilogo completo dal rendiconto originale.
 
-**I 327 non sono il totale del repository.** Lanciando `pytest` dalla radice del
-repository si raccolgono anche le suite delle altre linee di lavoro: sul
-dispositivo Windows, con la directory temporanea indicata sopra, sono state
-misurate **961 passate, 1 saltata e 5 sottotest passati** sul commit del replay
-completo.
+Le 18 prove ADAPT-04 presidiano serializzazione canonica, zeri e NaN, ruolo
+immutabile dei duplicati, separazione dei buffer, quote e posti liberi, eta'
+dall'osservazione, causalita' `j+2`, cause degli skip, atomicita', ricalcolo
+degli score, metriche mancanti e payload distinti.
+
+**I 345 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+repository si raccolgono anche le suite delle altre linee di lavoro. L'ultima
+misura completa di ADAPT-03 era **961 passate, 1 saltata e 5 sottotest passati**;
+il totale ADAPT-04 viene registrato dopo la suite completa sul commit eseguito.
 Alla chiusura del precedente diagnostico ADAPT-03 erano 934 passate, 1 saltata
 e 5 sottotest passati. Alla
 chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
 commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
 a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
-attuali vanno citati separatamente, perché misurano cose diverse: 327 e' la
-cartella `ton_temporal/`, mentre 961 e' il totale misurato dalla radice. Il
+attuali vanno citati separatamente, perché misurano cose diverse: 345 e' la
+cartella `ton_temporal/`, mentre il totale dalla radice include anche le altre
+linee di lavoro. Il
 totale della radice dipende anche dalle altre cartelle presenti nella copia di
 lavoro.
 
