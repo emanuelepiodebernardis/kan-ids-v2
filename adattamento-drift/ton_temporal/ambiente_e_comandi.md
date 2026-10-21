@@ -231,6 +231,7 @@ git rev-parse --short HEAD | Tee-Object -Variable sha
 $uscita = "../archivio_esterno/adapt04_calibrazione_recente/smoke_C_seed42_$sha"
 if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
 python replay_calibrazione_recente.py --modalita smoke --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita "$uscita/smoke.json" --richiedi-worktree-pulito
+python analisi_calibrazione_recente.py --replay "$uscita/smoke.json" --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --analisi-soglia-adapt03 adapt03_soglia_adattiva/analisi_checkpoint.json --riepilogo-pesi-adapt03 adapt03_pesi_piu_soglia/replay_completo/riepilogo_replay_completo.json --uscita-dir "$uscita/analisi"
 ```
 
 Se i controlli dello smoke passano, lo stesso commit esegue direttamente il
@@ -242,10 +243,16 @@ git rev-parse --short HEAD | Tee-Object -Variable sha
 $uscita = "../archivio_esterno/adapt04_calibrazione_recente/replay_completo_C_seed42_$sha"
 if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
 python replay_calibrazione_recente.py --modalita completo --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita "$uscita/replay_completo.json" --richiedi-worktree-pulito
+python analisi_calibrazione_recente.py --replay "$uscita/replay_completo.json" --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --analisi-soglia-adapt03 adapt03_soglia_adattiva/analisi_checkpoint.json --riepilogo-pesi-adapt03 adapt03_pesi_piu_soglia/replay_completo/riepilogo_replay_completo.json --uscita-dir adapt04_calibrazione_recente/replay_completo
 ```
 
 Entrambe le corse usano solo KAN e C/seed42. D resta riservato; non sono
-autorizzati cinque seed o ricerca di iperparametri.
+autorizzati cinque seed o ricerca di iperparametri. Il secondo comando di ogni
+blocco ricalcola le aggregazioni e richiede sequenza completa, appaiamento dei
+campioni, causalita' e atomicita', identita' degli score delle politiche 2/3,
+budget 192+64, metriche monoclasse non sostituite con zero e conteggi effettivi
+di aggiornamenti e skip. Il replay completo si avvia soltanto dopo il PASS
+dello smoke sullo stesso commit pulito.
 
 ## La suite di test
 
@@ -265,10 +272,10 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **345 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **355 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
-test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 18 test
+test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 28 test
 ADAPT-04. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
@@ -277,7 +284,7 @@ ADAPT-04. Per file:
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
-`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 18.
+`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 28.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -289,7 +296,8 @@ negative sullo smoke, **300** con la controprova sul picco prima del `pop` e
 **320** con il calibratore B e le controprove del diagnostico pesi + soglia,
 **327** con modalita' completa, denominatori mancanti e confronto sui 916
 blocchi, **345** con ruoli deterministici, buffer separati e transazioni
-atomiche di ADAPT-04.
+atomiche di ADAPT-04, **355** con il validatore indipendente del rendiconto e le
+relative controprove negative.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -327,12 +335,16 @@ riferimento incompleto, conservano come mancanti le metriche dei 41 blocchi
 monoclasse, verificano la nuova rendicontazione degli array del fit e
 ricostruiscono il riepilogo completo dal rendiconto originale.
 
-Le 18 prove ADAPT-04 presidiano serializzazione canonica, zeri e NaN, ruolo
+Le 28 prove ADAPT-04 presidiano serializzazione canonica, zeri e NaN, ruolo
 immutabile dei duplicati, separazione dei buffer, quote e posti liberi, eta'
 dall'osservazione, causalita' `j+2`, cause degli skip, atomicita', ricalcolo
-degli score, metriche mancanti e payload distinti.
+degli score, metriche mancanti e payload distinti. Le dieci aggiunte fanno
+fallire blocchi incompleti o fuori ordine, score 2/3 diversi, soglie applicate
+in anticipo, capacita' superate, conteggi falsi, input B aggiunto, campioni non
+appaiati e zeri al posto di metriche non definite; inoltre ricostruiscono i
+periodi contigui usando soltanto coppie definite.
 
-**I 345 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 355 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro. L'ultima
 misura completa di ADAPT-03 era **961 passate, 1 saltata e 5 sottotest passati**;
 il totale ADAPT-04 viene registrato dopo la suite completa sul commit eseguito.

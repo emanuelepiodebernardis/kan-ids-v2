@@ -1,9 +1,13 @@
 """Controprove mirate per il protocollo ADAPT-04 192+64."""
 
+import copy
+
 import numpy as np
 import pytest
 
 import calibrazione_recente as cr
+import analisi_calibrazione_recente as analisi
+import replay_pesi_piu_soglia as adapt03
 import replay_calibrazione_recente as runner
 
 
@@ -215,3 +219,225 @@ def test_payload_coda_distingue_lotti_ruoli_e_digest():
     assert p['esempi'] == 3
     assert p['lotti'] == 2
     assert p['totale_byte'] == 3 * (8 + 1 + 32) + 2 * 8
+
+
+def _metriche_valide():
+    return {
+        'righe': 10, 'normali': 5, 'attacchi': 5,
+        'accuratezza': 0.8, 'richiamo_attacchi': 0.8,
+        'richiamo_normali': 0.8, 'falsi_allarmi': 0.2,
+        'vp': 4, 'vn': 4, 'fp': 1, 'fn': 1,
+        'auroc': 0.9, 'balanced_accuracy': 0.8, 'fpr': 0.2,
+    }
+
+
+def _memoria_sintetica(k):
+    nfit = 0 if k == 0 else min(192, 10 * k)
+    ncal = 0 if k == 0 else min(64, 4 * k)
+    fn = min(96, nfit // 2)
+    fa = nfit - fn
+    cn = min(32, ncal // 2)
+    ca = ncal - cn
+    eta_fit = {'n': nfit, 'min': 1 if nfit else None,
+               'mediana': 1.0 if nfit else None,
+               'max': k if nfit else None}
+    eta_cal = {'n': ncal, 'min': 1 if ncal else None,
+               'mediana': 1.0 if ncal else None,
+               'max': min(k, 50) if ncal else None}
+    return {
+        'fit192': {
+            'normali': fn, 'attacchi': fa, 'vettori_unici': nfit,
+            'eta_blocchi': {
+                'tutti': eta_fit, 'normali': eta_fit, 'attacchi': eta_fit},
+        },
+        'calibration64': {
+            'normali': cn, 'attacchi': ca, 'vettori_unici': ncal,
+            'eta_blocchi': {
+                'tutti': eta_cal, 'normali': eta_cal, 'attacchi': eta_cal},
+            'recenti': {
+                'totale': ncal, 'normali': cn, 'attacchi': ca,
+                'eta_min': 1 if ncal else None,
+                'eta_massima': min(k, 50) if ncal else None,
+            },
+        },
+        'totale_esempi': nfit + ncal,
+    }
+
+
+def _rendiconto_sintetico():
+    iniziale = 'a' * 64
+    successivo = 'b' * 64
+    righe = []
+    for k in range(20):
+        dopo_update = k >= 2
+        soglia_frozen = 0.1 if dopo_update else 0.0
+        soglia_adattata = 0.2 if dopo_update else 0.0
+        riga = {
+            'blocco': k, 'righe': 10,
+            'parametri_adattati_sha256': successivo if dopo_update else iniziale,
+            'score_frozen_sha256': ('c%063d' % k)[-64:],
+            'score_fit192_b_sha256': ('d%063d' % k)[-64:],
+            'score_fit192_cal64_sha256': ('d%063d' % k)[-64:],
+            'soglie_usate': {
+                'frozen_cal64': soglia_frozen, 'fit192_b': 0.0,
+                'fit192_cal64': soglia_adattata,
+            },
+            'frozen_cal64': _metriche_valide(),
+            'fit192_b': _metriche_valide(),
+            'fit192_cal64': _metriche_valide(),
+            'etichette_richieste': 100,
+            'row_id_campionati_sha256': ('e%063d' % k)[-64:],
+            'ruoli_richiesti': {'fit': 75, 'calibration': 25},
+            'etichette_arrivate_dal_blocco': None if k == 0 else k - 1,
+            'aggiornamento': None,
+            'memorie_dopo_arrivo': _memoria_sintetica(k),
+            'coda_dopo_arrivo': {
+                'esempi': 100, 'lotti': 1, 'totale_byte': 4108},
+        }
+        if k == 1:
+            riga['aggiornamento'] = {
+                'applicato': True, 'motivo': None,
+                'etichette_del_blocco': 0, 'attivo_dal_blocco': 2,
+                'parametri_prima_sha256': iniziale,
+                'parametri_dopo_sha256': successivo,
+                'soglia_frozen_prima': 0.0, 'soglia_frozen_dopo': 0.1,
+                'soglia_adattata_prima': 0.0,
+                'soglia_adattata_dopo': 0.2,
+                'score_cal_frozen_sha256': 'f' * 64,
+                'score_cal_adattato_sha256': '1' * 64,
+                'costi_secondi': {
+                    'fit': 0.1, 'calibrazione_frozen': 0.01,
+                    'calibrazione_adattata': 0.01},
+            }
+        elif k > 1:
+            riga['aggiornamento'] = {
+                'applicato': False,
+                'motivo': 'cal_normali_recenti_insufficienti',
+                'etichette_del_blocco': k - 1,
+                'attivo_dal_blocco': None,
+            }
+        righe.append(riga)
+    dati = {
+        'protocollo': 'ADAPT-04 sintetico',
+        'commit_eseguito': '2' * 40,
+        'worktree_pulito_all_avvio': True,
+        'parametri': {
+            'modello': 'kan', 'flusso': 'C', 'seme': 42,
+            'blocco': 10_000, 'budget': 0.01, 'ritardo_in_blocchi': 1,
+            'modalita': 'smoke', 'max_blocchi': 20,
+            'fit192': {'capacita': 192, 'quote': {'0': 96, '1': 96}},
+            'calibration64': {
+                'capacita': 64, 'quote': {'0': 32, '1': 32},
+                'eta_massima': 50, 'minimo_per_classe': 5},
+            'salt_ruolo': 'ADAPT04-C-seed42-v1',
+        },
+        'input': {
+            'iniziale': {'file': 'A.npz', 'sha256': runner.SHA_INPUT['A.npz']},
+            'flusso': {'file': 'C.npz', 'sha256': runner.SHA_INPUT['C.npz']},
+        },
+        'riferimento_adapt03': {'soglia_b': 0.0},
+        'invarianti': {'parametri_kan_iniziali_sha256': iniziale},
+        'ambiente': {'comando': ['python', 'replay_calibrazione_recente.py']},
+        'per_blocco': righe,
+        'aggiornamenti': {
+            'applicati': 1, 'saltati': 18,
+            'cause_skip': {'cal_normali_recenti_insufficienti': 18}},
+        'ripartizione_ruoli': {
+            'richieste': {'fit': 1500, 'calibration': 500},
+            'vettori_unici': {'fit': 100, 'calibration': 50}},
+        'memoria': {
+            'massimo_buffer': {
+                'componenti_byte': {'fit192': 100, 'calibration64': 50},
+                'totale_byte': 150},
+            'massimo_coda_attesa': {
+                'esempi': 200, 'lotti': 2,
+                'componenti_byte': {'indici': 100, 'digest': 100},
+                'totale_byte': 200},
+            'stato_modello': {
+                'componenti_byte': {'parametri': 72, 'soglie': 24},
+                'totale_byte': 96},
+        },
+    }
+    dati['riepilogo'] = {
+        p: adapt03.aggrega(righe, p) for p in runner.POLITICHE}
+    dati['denominatori_validi'] = {
+        p: runner.denominatori(righe, p) for p in runner.POLITICHE}
+    riferimento = {
+        'invarianti': {'parametri_kan_iniziali_sha256': iniziale},
+        'calibrazione': {'soglia_iniziale_b': 0.0},
+        'per_blocco': [
+            {'blocco': k, 'row_id_campionati_sha256':
+             r['row_id_campionati_sha256']} for k, r in enumerate(righe)],
+    }
+    return dati, riferimento
+
+
+def test_validatore_indipendente_accetta_rendiconto_coerente():
+    dati, riferimento = _rendiconto_sintetico()
+    assert analisi.valida_replay(dati, riferimento) is True
+
+
+@pytest.mark.parametrize(('mutazione', 'messaggio'), [
+    (lambda d: d['per_blocco'][3].update(blocco=4), 'tutti i blocchi'),
+    (lambda d: d['per_blocco'][3].update(
+        score_fit192_cal64_sha256='9' * 64), 'score'),
+    (lambda d: d['per_blocco'][2]['soglie_usate'].update(
+        frozen_cal64=0.0), 'fuori ordine'),
+    (lambda d: d['per_blocco'][4]['memorie_dopo_arrivo']['fit192'].update(
+        normali=193, attacchi=0), 'budget fit192'),
+    (lambda d: d['aggiornamenti'].update(applicati=2),
+     'aggiornamenti applicati'),
+])
+def test_validatore_rifiuta_invarianti_alterate(mutazione, messaggio):
+    dati, riferimento = _rendiconto_sintetico()
+    mutazione(dati)
+    with pytest.raises(ValueError, match=messaggio):
+        analisi.valida_replay(dati, riferimento)
+
+
+def test_validatore_rifiuta_un_input_b_aggiunto():
+    dati, riferimento = _rendiconto_sintetico()
+    dati['input']['calibrazione'] = {'file': 'B.npz', 'sha256': '0' * 64}
+    with pytest.raises(ValueError, match='B o un altro input'):
+        analisi.valida_replay(dati, riferimento)
+
+
+def test_validatore_rifiuta_zero_al_posto_di_metrica_non_definita():
+    dati, riferimento = _rendiconto_sintetico()
+    riga = dati['per_blocco'][5]
+    for politica in runner.POLITICHE:
+        riga[politica]['normali'] = 0
+        riga[politica]['attacchi'] = 10
+        riga[politica]['vn'] = 0
+        riga[politica]['fp'] = 0
+        riga[politica]['fn'] = 2
+        riga[politica]['vp'] = 8
+        riga[politica]['fpr'] = 0.0
+    with pytest.raises(ValueError, match='metrica monoclasse'):
+        analisi.valida_replay(dati, riferimento)
+
+
+def test_validatore_rifiuta_campione_diverso_dal_riferimento():
+    dati, riferimento = _rendiconto_sintetico()
+    riferimento = copy.deepcopy(riferimento)
+    riferimento['per_blocco'][7]['row_id_campionati_sha256'] = '0' * 64
+    with pytest.raises(ValueError, match='campione non appaiato'):
+        analisi.valida_replay(dati, riferimento)
+
+
+def test_differenze_e_periodi_usano_solo_coppie_definite():
+    righe = [
+        {'blocco': 0, 'c': {'richiamo_attacchi': 0.8},
+         'v': {'richiamo_attacchi': 0.7}},
+        {'blocco': 1, 'c': {'richiamo_attacchi': 0.8},
+         'v': {'richiamo_attacchi': None}},
+        {'blocco': 2, 'c': {'richiamo_attacchi': 0.8},
+         'v': {'richiamo_attacchi': 0.6}},
+        {'blocco': 3, 'c': {'richiamo_attacchi': 0.8},
+         'v': {'richiamo_attacchi': 0.5}},
+    ]
+    d = analisi._intervalli_contigui(
+        righe, 'c', 'v', 'richiamo_attacchi', lambda x: x < 0)
+    assert d['blocchi_peggiori'] == 3
+    assert d['blocchi_con_coppia_definita'] == 3
+    assert d['durata_massima_blocchi'] == 2
