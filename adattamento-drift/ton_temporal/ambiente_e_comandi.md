@@ -277,8 +277,8 @@ Il rendiconto originale e' conservato fuori Git in
 `af55056bafdbb647ccc1d1b381dcdadd5f27b1dd0b5b5fff46fd37c676c88ca5`.
 Lo ZIP `replay_completo_C_seed42_b9fd9fb.zip` e' 453.656 byte, SHA-256
 `6d8f5dde92d3fc006af23564409749c18183192e381b41e0d28bc5268aa90af8`.
-Il collegamento scaricabile verra' registrato dopo il caricamento, senza
-rigenerare o modificare l'archivio.
+L'archivio e' disponibile al [collegamento scaricabile](https://drive.google.com/file/d/1_V1pR7dUpShIXSLH-ngiln7H2_ib8757/view?usp=drive_link),
+registrato senza rigenerare o modificare lo ZIP verificato.
 
 ## La suite di test
 
