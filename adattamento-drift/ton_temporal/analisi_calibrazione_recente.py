@@ -604,7 +604,8 @@ def _pct(v):
 
 
 def _punti_percentuali(v):
-    return ('%+.3f p.p.' % (100 * v)).replace('.', ',')
+    numero = ('%+.3f' % (100 * v)).replace('.', ',')
+    return numero + ' punti percentuali'
 
 
 def _dec(v, n=6):

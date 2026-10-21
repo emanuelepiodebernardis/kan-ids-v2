@@ -24,9 +24,9 @@ blocco e le dispersioni sono nel JSON/CSV; i valori non definiti nei blocchi
 monoclasse restano nulli, non sono sostituiti con zero.
 
 Nel confronto principale, FIT192+CAL64 meno frozen+CAL64, i delta **globali**
-sono: recall -2,599 p,p,, FPR
--16,080 p,p,, BA
-+6,741 p,p,,
+sono: recall -2,599 punti percentuali, FPR
+-16,080 punti percentuali, BA
++6,741 punti percentuali,
 FN +233.335 e FP
 -27.870. L'AUROC
 media per blocco cambia di
@@ -47,9 +47,9 @@ durano rispettivamente 433,
 174 blocchi.
 
 A pesi identici, i delta globali CAL64 meno B sono recall
-+34,331 p,p,, FPR
-+12,354 p,p, e BA
-+10,988 p,p,; le corrispondenti medie non
++34,331 punti percentuali, FPR
++12,354 punti percentuali e BA
++10,988 punti percentuali; le corrispondenti medie non
 pesate per blocco sono 0,348192,
 0,126428 e
 0,115914.

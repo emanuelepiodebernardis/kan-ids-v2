@@ -38,7 +38,7 @@
   "comando_replay": "python replay_calibrazione_recente.py --modalita completo --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita ../archivio_esterno/adapt04_calibrazione_recente/replay_completo_C_seed42_b9fd9fb/replay_completo.json --richiedi-worktree-pulito",
   "validazione": {
     "esito": "PASS",
-    "test_ton_temporal": 358,
+    "test_ton_temporal": 359,
     "denominatori": {
       "recall": "916/916",
       "fpr": "875/916",

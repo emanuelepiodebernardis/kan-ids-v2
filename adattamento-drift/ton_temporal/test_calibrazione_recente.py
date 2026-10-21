@@ -483,3 +483,10 @@ def test_differenze_e_periodi_usano_solo_coppie_definite():
     assert d['blocchi_peggiori'] == 3
     assert d['blocchi_con_coppia_definita'] == 3
     assert d['durata_massima_blocchi'] == 2
+
+
+def test_punti_percentuali_formatta_numero_senza_corrompere_unita():
+    assert analisi._punti_percentuali(0.06741) == (
+        '+6,741 punti percentuali')
+    assert analisi._punti_percentuali(-0.02599) == (
+        '-2,599 punti percentuali')

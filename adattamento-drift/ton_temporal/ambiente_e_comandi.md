@@ -298,10 +298,10 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **358 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **359 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
-test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 31 test
+test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
 ADAPT-04. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
@@ -310,7 +310,7 @@ ADAPT-04. Per file:
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
-`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 31.
+`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -324,7 +324,8 @@ negative sullo smoke, **300** con la controprova sul picco prima del `pop` e
 blocchi, **345** con ruoli deterministici, buffer separati e transazioni
 atomiche di ADAPT-04, **355** con il validatore indipendente del rendiconto e le
 relative controprove negative, **358** con budget dell'ultimo blocco parziale,
-ricostruzione delle metriche dalla confusion matrix e periodi contigui di skip.
+ricostruzione delle metriche dalla confusion matrix e periodi contigui di skip,
+**359** con la controprova sulla formattazione dei punti percentuali.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -362,7 +363,7 @@ riferimento incompleto, conservano come mancanti le metriche dei 41 blocchi
 monoclasse, verificano la nuova rendicontazione degli array del fit e
 ricostruiscono il riepilogo completo dal rendiconto originale.
 
-Le 31 prove ADAPT-04 presidiano serializzazione canonica, zeri e NaN, ruolo
+Le 32 prove ADAPT-04 presidiano serializzazione canonica, zeri e NaN, ruolo
 immutabile dei duplicati, separazione dei buffer, quote e posti liberi, eta'
 dall'osservazione, causalita' `j+2`, cause degli skip, atomicita', ricalcolo
 degli score, metriche mancanti e payload distinti. Le dieci aggiunte fanno
@@ -372,8 +373,10 @@ appaiati e zeri al posto di metriche non definite; inoltre ricostruiscono i
 periodi contigui usando soltanto coppie definite. Le ultime tre coprono il
 budget dell'1% sulle 673 righe finali, ricostruiscono le metriche dalla
 confusion matrix e aggregano gli skip contigui senza confondere le cause.
+Una controprova ulteriore impedisce che la conversione del separatore decimale
+corrompa l'unita' testuale dei punti percentuali nel rapporto generato.
 
-**I 358 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 359 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro. Sul ramo
 ADAPT-04 la suite globale ha prodotto **970 passate, 1 saltata e 5 sottotest
 passati**; 22 controlli AVR non sono partiti per `WinError 623` della toolchain
