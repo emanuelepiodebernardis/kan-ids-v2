@@ -148,6 +148,27 @@ def _valida_metriche_monoclasse(riga, politica):
         _errore((m[campo] is None) == non_definita,
                 'metrica monoclasse alterata al blocco %d: %s/%s' %
                 (riga['blocco'], politica, campo))
+    attese = {
+        'accuratezza': (m['vp'] + m['vn']) / m['righe'],
+        'richiamo_attacchi': (
+            None if not m['attacchi'] else m['vp'] / m['attacchi']),
+        'richiamo_normali': (
+            None if not m['normali'] else m['vn'] / m['normali']),
+        'falsi_allarmi': (
+            None if not m['normali'] else m['fp'] / m['normali']),
+        'fpr': None if not m['normali'] else m['fp'] / m['normali'],
+    }
+    attese['balanced_accuracy'] = (
+        None if attese['richiamo_attacchi'] is None
+        or attese['richiamo_normali'] is None
+        else (attese['richiamo_attacchi'] + attese['richiamo_normali']) / 2)
+    for campo, atteso in attese.items():
+        _errore(m[campo] == atteso,
+                'metrica non ricostruibile al blocco %d: %s/%s' %
+                (riga['blocco'], politica, campo))
+    _errore(m['auroc'] is None or 0.0 <= m['auroc'] <= 1.0,
+            'AUROC fuori intervallo al blocco %d: %s' %
+            (riga['blocco'], politica))
 
 
 def _valida_memorie(riga):
@@ -240,10 +261,11 @@ def valida_replay(dati, riferimento):
         _errore(riga['row_id_campionati_sha256'] ==
                 vecchia['row_id_campionati_sha256'],
                 'campione non appaiato al blocco %d' % k)
-        _errore(riga['etichette_richieste'] == 100,
+        richieste_attese = int(p['budget'] * riga['righe'])
+        _errore(riga['etichette_richieste'] == richieste_attese,
                 'budget di richieste errato al blocco %d' % k)
         rf = riga['ruoli_richiesti']
-        _errore(rf['fit'] + rf['calibration'] == 100,
+        _errore(rf['fit'] + rf['calibration'] == richieste_attese,
                 'ripartizione dei ruoli incoerente al blocco %d' % k)
         ruoli.update(rf)
         _errore(riga['parametri_adattati_sha256'] == parametri,
@@ -258,6 +280,10 @@ def valida_replay(dati, riferimento):
                 'score delle politiche 2 e 3 diversi al blocco %d' % k)
         _errore(riga['fit192_b']['auroc'] == riga['fit192_cal64']['auroc'],
                 'AUROC delle politiche 2 e 3 diversa al blocco %d' % k)
+        classi = ('righe', 'normali', 'attacchi')
+        _errore(all(riga[politica][campo] == riga['frozen_cal64'][campo]
+                    for politica in POLITICHE for campo in classi),
+                'classi non appaiate fra politiche al blocco %d' % k)
         for politica in POLITICHE:
             _valida_metriche_monoclasse(riga, politica)
         _valida_memorie(riga)
@@ -348,11 +374,54 @@ def riferimenti_adapt03(soglia, pesi):
     }
 
 
+def differenze_globali(globali, controllo, variante):
+    c = globali[controllo]
+    v = globali[variante]
+    return {
+        'recall_attacchi': (
+            v['recall_attacchi_globale'] - c['recall_attacchi_globale']),
+        'fpr': v['fpr_globale'] - c['fpr_globale'],
+        'balanced_accuracy': (
+            v['balanced_accuracy_globale'] -
+            c['balanced_accuracy_globale']),
+        'auroc_media_per_blocco': (
+            v['auroc_media_per_blocco'] - c['auroc_media_per_blocco']),
+        'fn': v['cm_globale']['fn'] - c['cm_globale']['fn'],
+        'fp': v['cm_globale']['fp'] - c['cm_globale']['fp'],
+    }
+
+
+def periodi_skip(righe):
+    selezionati = [
+        (r['blocco'], r['aggiornamento']['motivo'])
+        for r in righe
+        if r['aggiornamento'] is not None
+        and not r['aggiornamento']['applicato']
+    ]
+    intervalli = []
+    corrente = []
+    for elemento in selezionati:
+        if (corrente and
+                (elemento[0] != corrente[-1][0] + 1 or
+                 elemento[1] != corrente[-1][1])):
+            intervalli.append(corrente)
+            corrente = []
+        corrente.append(elemento)
+    if corrente:
+        intervalli.append(corrente)
+    return [{
+        'inizio_blocco': v[0][0], 'fine_blocco': v[-1][0],
+        'blocchi': len(v), 'motivo': v[0][1],
+    } for v in intervalli]
+
+
 def costruisci_riepilogo(dati, soglia_adapt03, pesi_adapt03):
     righe = dati['per_blocco']
     confronti = {
         nome: {
             'controllo': coppia[0], 'variante': coppia[1],
+            'differenze_globali_variante_meno_controllo':
+                differenze_globali(dati['riepilogo'], *coppia),
             'differenze_variante_meno_controllo':
                 differenze_appaiate(righe, *coppia),
         }
@@ -370,6 +439,7 @@ def costruisci_riepilogo(dati, soglia_adapt03, pesi_adapt03):
         'confronti_appaiati': confronti,
         'periodi_peggioramento_principale': periodi_peggioramento(righe),
         'aggiornamenti': dati['aggiornamenti'],
+        'periodi_skip': periodi_skip(righe),
         'ripartizione_ruoli': dati['ripartizione_ruoli'],
         'stato_finale_memorie': dati['stato_finale_memorie'],
         'costi': dati['costi'],
@@ -533,12 +603,21 @@ def _pct(v):
     return 'n.d.' if v is None else ('%.3f%%' % (100 * v)).replace('.', ',')
 
 
+def _punti_percentuali(v):
+    return ('%+.3f p.p.' % (100 * v)).replace('.', ',')
+
+
 def _dec(v, n=6):
     return 'n.d.' if v is None else (('%.' + str(n) + 'f') % v).replace('.', ',')
 
 
 def _intero(v):
     return f'{int(v):,}'.replace(',', '.')
+
+
+def _intero_con_segno(v):
+    segno = '+' if v >= 0 else '-'
+    return segno + _intero(abs(v))
 
 
 def scrivi_rapporto(r):
@@ -560,16 +639,21 @@ def scrivi_rapporto(r):
                 _dec(g['auroc_media_per_blocco']),
                 '%s / %s' % (_intero(cm['fn']), _intero(cm['fp']))))
     principale = r['confronti_appaiati'][
-        'pesi_e_soglia_meno_sola_soglia'][
-            'differenze_variante_meno_controllo']
+        'pesi_e_soglia_meno_sola_soglia']
+    principale_blocchi = principale['differenze_variante_meno_controllo']
+    principale_globale = principale[
+        'differenze_globali_variante_meno_controllo']
     secondario = r['confronti_appaiati'][
-        'soglia_meno_b_a_pesi_identici'][
-            'differenze_variante_meno_controllo']
+        'soglia_meno_b_a_pesi_identici']
+    secondario_blocchi = secondario['differenze_variante_meno_controllo']
+    secondario_globale = secondario[
+        'differenze_globali_variante_meno_controllo']
     pegg = r['periodi_peggioramento_principale']
     costi = r['costi']
     mem = r['memoria']
     ruoli = r['ripartizione_ruoli']
     storico = r['riferimenti_adapt03_senza_nuovi_run']
+    skip_massimo = max(r['periodi_skip'], key=lambda v: v['blocchi'])
     righe_storiche = []
     for chiave, nome in (
             ('frozen_b', 'frozen + B'),
@@ -607,13 +691,22 @@ Le metriche globali derivano dalle confusion matrix aggregate. Le medie per
 blocco e le dispersioni sono nel JSON/CSV; i valori non definiti nei blocchi
 monoclasse restano nulli, non sono sostituiti con zero.
 
-Nel confronto principale, FIT192+CAL64 meno frozen+CAL64, le differenze medie
-per blocco sono: recall {_dec(principale['richiamo_attacchi']['media'])}
-(dev. std. {_dec(principale['richiamo_attacchi']['deviazione_standard'])}),
-FPR {_dec(principale['fpr']['media'])} (dev. std.
-{_dec(principale['fpr']['deviazione_standard'])}) e BA
-{_dec(principale['balanced_accuracy']['media'])} (dev. std.
-{_dec(principale['balanced_accuracy']['deviazione_standard'])}). La variante
+Nel confronto principale, FIT192+CAL64 meno frozen+CAL64, i delta **globali**
+sono: recall {_punti_percentuali(principale_globale['recall_attacchi'])}, FPR
+{_punti_percentuali(principale_globale['fpr'])}, BA
+{_punti_percentuali(principale_globale['balanced_accuracy'])},
+FN {_intero_con_segno(principale_globale['fn'])} e FP
+{_intero_con_segno(principale_globale['fp'])}. L'AUROC
+media per blocco cambia di
+{_dec(principale_globale['auroc_media_per_blocco'])}.
+
+Le differenze **medie non pesate per blocco** sono invece: recall
+{_dec(principale_blocchi['richiamo_attacchi']['media'])}
+(dev. std. {_dec(principale_blocchi['richiamo_attacchi']['deviazione_standard'])}),
+FPR {_dec(principale_blocchi['fpr']['media'])} (dev. std.
+{_dec(principale_blocchi['fpr']['deviazione_standard'])}) e BA
+{_dec(principale_blocchi['balanced_accuracy']['media'])} (dev. std.
+{_dec(principale_blocchi['balanced_accuracy']['deviazione_standard'])}). La variante
 ha recall peggiore in {pegg['recall']['blocchi_peggiori']} blocchi, FPR
 peggiore in {pegg['fpr']['blocchi_peggiori']} e BA peggiore in
 {pegg['balanced_accuracy']['blocchi_peggiori']}; le sequenze contigue massime
@@ -621,12 +714,18 @@ durano rispettivamente {pegg['recall']['durata_massima_blocchi']},
 {pegg['fpr']['durata_massima_blocchi']} e
 {pegg['balanced_accuracy']['durata_massima_blocchi']} blocchi.
 
-A pesi identici, CAL64 meno B modifica in media recall di
-{_dec(secondario['richiamo_attacchi']['media'])}, FPR di
-{_dec(secondario['fpr']['media'])} e BA di
-{_dec(secondario['balanced_accuracy']['media'])}. Recall, falsi allarmi e
-continuita' temporale vanno quindi letti insieme; la sola BA non stabilisce
-una superiorita' generale.
+A pesi identici, i delta globali CAL64 meno B sono recall
+{_punti_percentuali(secondario_globale['recall_attacchi'])}, FPR
+{_punti_percentuali(secondario_globale['fpr'])} e BA
+{_punti_percentuali(secondario_globale['balanced_accuracy'])}; le corrispondenti medie non
+pesate per blocco sono {_dec(secondario_blocchi['richiamo_attacchi']['media'])},
+{_dec(secondario_blocchi['fpr']['media'])} e
+{_dec(secondario_blocchi['balanced_accuracy']['media'])}.
+
+L'adattamento dei pesi non mostra quindi una superiorita' generale sulla sola
+soglia con gli stessi dati recenti: riduce fortemente il FPR globale e aumenta
+la BA globale, ma perde recall e AUROC. Recall, falsi allarmi e continuita'
+temporale vanno letti insieme; la sola BA non basta.
 
 ## Memoria, ruoli e costi
 
@@ -639,6 +738,12 @@ vettori unici. Il massimo payload logico dei due buffer e'
 del modello a {_intero(mem['stato_modello']['totale_byte'])} byte. L'RSS del
 banco di prova e' separato e include input, log e temporanei non ammessi al
 controllore.
+
+I {r['aggiornamenti']['saltati']} skip dipendono tutti da normali recenti
+insufficienti. L'intervallo contiguo massimo va dal blocco
+{skip_massimo['inizio_blocco']} al {skip_massimo['fine_blocco']}
+({skip_massimo['blocchi']} blocchi): il criterio preregistrato e' rimasto
+invariato anche durante questa indisponibilita'.
 
 Il tempo totale e' {_dec(costi['secondi_totali'] / 60, 3)} minuti, di cui
 {_dec(costi['secondi_replay'] / 60, 3)} per il replay. I fit richiedono

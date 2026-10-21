@@ -223,10 +223,10 @@ def test_payload_coda_distingue_lotti_ruoli_e_digest():
 
 def _metriche_valide():
     return {
-        'righe': 10, 'normali': 5, 'attacchi': 5,
+        'righe': 10_000, 'normali': 5_000, 'attacchi': 5_000,
         'accuratezza': 0.8, 'richiamo_attacchi': 0.8,
         'richiamo_normali': 0.8, 'falsi_allarmi': 0.2,
-        'vp': 4, 'vn': 4, 'fp': 1, 'fn': 1,
+        'vp': 4_000, 'vn': 4_000, 'fp': 1_000, 'fn': 1_000,
         'auroc': 0.9, 'balanced_accuracy': 0.8, 'fpr': 0.2,
     }
 
@@ -273,7 +273,7 @@ def _rendiconto_sintetico():
         soglia_frozen = 0.1 if dopo_update else 0.0
         soglia_adattata = 0.2 if dopo_update else 0.0
         riga = {
-            'blocco': k, 'righe': 10,
+            'blocco': k, 'righe': 10_000,
             'parametri_adattati_sha256': successivo if dopo_update else iniziale,
             'score_frozen_sha256': ('c%063d' % k)[-64:],
             'score_fit192_b_sha256': ('d%063d' % k)[-64:],
@@ -407,11 +407,11 @@ def test_validatore_rifiuta_zero_al_posto_di_metrica_non_definita():
     riga = dati['per_blocco'][5]
     for politica in runner.POLITICHE:
         riga[politica]['normali'] = 0
-        riga[politica]['attacchi'] = 10
+        riga[politica]['attacchi'] = 10_000
         riga[politica]['vn'] = 0
         riga[politica]['fp'] = 0
-        riga[politica]['fn'] = 2
-        riga[politica]['vp'] = 8
+        riga[politica]['fn'] = 2_000
+        riga[politica]['vp'] = 8_000
         riga[politica]['fpr'] = 0.0
     with pytest.raises(ValueError, match='metrica monoclasse'):
         analisi.valida_replay(dati, riferimento)
@@ -423,6 +423,48 @@ def test_validatore_rifiuta_campione_diverso_dal_riferimento():
     riferimento['per_blocco'][7]['row_id_campionati_sha256'] = '0' * 64
     with pytest.raises(ValueError, match='campione non appaiato'):
         analisi.valida_replay(dati, riferimento)
+
+
+def test_validatore_accetta_budget_uno_percento_sul_blocco_finale_parziale():
+    dati, riferimento = _rendiconto_sintetico()
+    riga = dati['per_blocco'][-1]
+    riga['righe'] = 673
+    riga['etichette_richieste'] = 6
+    riga['ruoli_richiesti'] = {'fit': 4, 'calibration': 2}
+    metriche = {
+        'righe': 673, 'normali': 73, 'attacchi': 600,
+        'accuratezza': 538 / 673, 'richiamo_attacchi': 480 / 600,
+        'richiamo_normali': 58 / 73, 'falsi_allarmi': 15 / 73,
+        'vp': 480, 'vn': 58, 'fp': 15, 'fn': 120,
+        'auroc': 0.9,
+        'balanced_accuracy': ((480 / 600) + (58 / 73)) / 2,
+        'fpr': 15 / 73,
+    }
+    for politica in runner.POLITICHE:
+        riga[politica] = copy.deepcopy(metriche)
+    dati['ripartizione_ruoli']['richieste'] = {
+        'fit': 19 * 75 + 4, 'calibration': 19 * 25 + 2}
+    dati['riepilogo'] = {
+        p: adapt03.aggrega(dati['per_blocco'], p) for p in runner.POLITICHE}
+    dati['denominatori_validi'] = {
+        p: runner.denominatori(dati['per_blocco'], p)
+        for p in runner.POLITICHE}
+    assert analisi.valida_replay(dati, riferimento) is True
+
+
+def test_validatore_ricostruisce_le_metriche_dalla_confusion_matrix():
+    dati, riferimento = _rendiconto_sintetico()
+    dati['per_blocco'][8]['frozen_cal64']['richiamo_attacchi'] = 0.7
+    with pytest.raises(ValueError, match='metrica non ricostruibile'):
+        analisi.valida_replay(dati, riferimento)
+
+
+def test_periodi_skip_ricostruisce_le_sequenze_contigue_per_causa():
+    dati, _ = _rendiconto_sintetico()
+    periodi = analisi.periodi_skip(dati['per_blocco'])
+    assert periodi == [{
+        'inizio_blocco': 2, 'fine_blocco': 19, 'blocchi': 18,
+        'motivo': 'cal_normali_recenti_insufficienti'}]
 
 
 def test_differenze_e_periodi_usano_solo_coppie_definite():
