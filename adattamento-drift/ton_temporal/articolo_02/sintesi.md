@@ -44,6 +44,8 @@ l'aumento degli attacchi mancati della memoria per classe e del disegno 192/64
 non e' confinato a una sola delle due condizioni. Gli strati non sono
 randomizzati e non misurano l'effetto causale dell'update: servono a localizzare
 il compromesso e a evitare che gli aggregati nascondano periodi critici.
+In ADAPT-04 il tratto 242--664 viene quindi mostrato separatamente: rispetto a
+frozen+CAL64, FIT192+CAL64 aggiunge 807 FP e 219.608 FN sulle stesse righe.
 
 ## Conclusione
 

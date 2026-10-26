@@ -27,6 +27,11 @@
       "percorso": "adapt04_calibrazione_recente/replay_completo/riepilogo.json",
       "dimensione_byte": 66984,
       "sha256": "3b0ddb2b2539792787c6bf7e7e2100a14e0fd6cc48592d6adc61f32ff07edd4d"
+    },
+    {
+      "percorso": "sovrapposizioni_abcd.json",
+      "dimensione_byte": 4329,
+      "sha256": "b0674417a3714131fbaf74f60f71efea5188405e408cef30cd7c916308331710"
     }
   ],
   "fonti_raw_esterne": [
@@ -134,28 +139,28 @@
     },
     {
       "percorso": "sintesi.md",
-      "dimensione_byte": 3064,
-      "sha256": "8397f051759e3b15c1d4e43c96151ddee6efeede9010b246837a08fcf58fd794"
+      "dimensione_byte": 3219,
+      "sha256": "07ec1ac46298a877ab1ac090fcbb95c0e9d182ca25865839e6c0c8cbdb96cf25"
     },
     {
       "percorso": "analisi_aggiornamenti_skip.csv",
-      "dimensione_byte": 5400,
-      "sha256": "ec6c6b0fc5a9eabc995d5875ba832ea00e1d55a379bbd26c0a0c04aa01b2ff5d"
+      "dimensione_byte": 5676,
+      "sha256": "b968f6719ff8f0dbe914135dc08e00276c4cb90c90fb7c947eca5b0d3cd0d010"
     },
     {
       "percorso": "analisi_aggiornamenti_skip.json",
-      "dimensione_byte": 15761,
-      "sha256": "40a7fddf7a7bc0e3baf09f08f3cdf2a90c2dd18bdb409e6579639fd98f43dbab"
+      "dimensione_byte": 17283,
+      "sha256": "25d6e5c760cff6215451129be026c6161a3934f6c7681a97e921c0b1945be197"
     },
     {
       "percorso": "analisi_aggiornamenti_skip.md",
-      "dimensione_byte": 3893,
-      "sha256": "874c65958946820ff7ba3ade2c78549b9eb0d08e9cdd4655fb4341d5ff5c56cb"
+      "dimensione_byte": 4561,
+      "sha256": "f83d8e17191e830d930e1b5208edf3ff5ab85cfa8a567832ed667efdaba0ac7c"
     },
     {
       "percorso": "protocollo_validazione_finale.md",
-      "dimensione_byte": 2456,
-      "sha256": "0f29a6f5b6e17eff4fe87ebd421efd113ebbd25f25deabcb0afcde3256755e85"
+      "dimensione_byte": 4192,
+      "sha256": "0a4a9f42a40481ba8d7060c32eabd51ef614006686b25883faffae4be1891a02"
     }
   ]
 }

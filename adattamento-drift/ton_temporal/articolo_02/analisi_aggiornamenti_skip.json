@@ -1,6 +1,29 @@
 {
   "metodo": "decisione al blocco k, errori osservati al blocco k+1",
   "avvertenza": "stratificazione descrittiva, non stima causale dell'update",
+  "tratto_242_664": {
+    "fase": "ADAPT-04",
+    "confronto": "FIT192+CAL64 meno frozen+CAL64",
+    "modello": "KAN",
+    "semi": "42",
+    "periodo_determinato_da": "skip decisi nei blocchi 241..663; effetti valutati nei blocchi 242..664",
+    "strato": "tratto_242_664",
+    "blocchi": 423,
+    "normali": 6550,
+    "attacchi": 4223450,
+    "fp_controllo": 309,
+    "fp_variante": 1116,
+    "delta_fp": 807,
+    "fn_controllo": 969055,
+    "fn_variante": 1188663,
+    "delta_fn": 219608,
+    "fpr_controllo": 0.04717557251908397,
+    "fpr_variante": 0.17038167938931298,
+    "delta_fpr_pp": 12.320610687022901,
+    "recall_controllo": 0.770553694254697,
+    "recall_variante": 0.7185563934697936,
+    "delta_recall_pp": -5.199730078490338
+  },
   "righe": [
     {
       "fase": "ADAPT-01",
@@ -484,6 +507,29 @@
       "recall_controllo": 0.7772294762749418,
       "recall_variante": 0.71719860179313,
       "delta_recall_pp": -6.0030874481811765
+    },
+    {
+      "fase": "ADAPT-04",
+      "confronto": "FIT192+CAL64 meno frozen+CAL64",
+      "modello": "KAN",
+      "semi": "42",
+      "periodo_determinato_da": "skip decisi nei blocchi 241..663; effetti valutati nei blocchi 242..664",
+      "strato": "tratto_242_664",
+      "blocchi": 423,
+      "normali": 6550,
+      "attacchi": 4223450,
+      "fp_controllo": 309,
+      "fp_variante": 1116,
+      "delta_fp": 807,
+      "fn_controllo": 969055,
+      "fn_variante": 1188663,
+      "delta_fn": 219608,
+      "fpr_controllo": 0.04717557251908397,
+      "fpr_variante": 0.17038167938931298,
+      "delta_fpr_pp": 12.320610687022901,
+      "recall_controllo": 0.770553694254697,
+      "recall_variante": 0.7185563934697936,
+      "delta_recall_pp": -5.199730078490338
     }
   ]
 }

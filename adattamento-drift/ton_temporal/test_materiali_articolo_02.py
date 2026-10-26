@@ -69,6 +69,31 @@ def test_periodo_usa_la_decisione_del_blocco_precedente():
 def test_manifest_registra_fonti_raw_e_d_riservato():
     manifest = json.loads((RADICE / "articolo_02" / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["d_riservato"] is True
-    assert len(manifest["fonti_versionate"]) == 5
+    assert len(manifest["fonti_versionate"]) == 6
     assert len(manifest["fonti_raw_esterne"]) == 18
     assert all(len(voce["sha256"]) == 64 for voce in manifest["fonti_raw_esterne"])
+
+
+def test_tratto_242_664_e_protocollo_d_sono_espliciti():
+    analisi = json.loads(
+        (RADICE / "articolo_02" / "analisi_aggiornamenti_skip.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    tratto = analisi["tratto_242_664"]
+    assert tratto["blocchi"] == 423
+    assert tratto["delta_fp"] == 807
+    assert tratto["delta_fn"] == 219_608
+
+    protocollo = (RADICE / "articolo_02" / "protocollo_validazione_finale.md").read_text(
+        encoding="utf-8"
+    )
+    for testo in (
+        "frozen+B",
+        "3.549.973 righe valide",
+        "2.228.436 righe",
+        "129.982 normali",
+        "trasformazione viene stimata soltanto su A",
+        "stesse predizioni",
+    ):
+        assert testo in protocollo

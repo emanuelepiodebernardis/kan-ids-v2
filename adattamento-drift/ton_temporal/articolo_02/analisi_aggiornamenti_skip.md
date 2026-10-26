@@ -38,6 +38,19 @@ variante-controllo restano appaiati sullo stesso blocco.
 | ADAPT-03 | pesi+soglia meno pesi+soglia_B | KAN | aggiornamento | 914 | 51 417 | -5 428 963 | 29.770 | 60.605 |
 | ADAPT-04 | FIT192+CAL64 meno frozen+CAL64 | KAN | aggiornamento | 474 | -26 528 | -29 697 | -17.190 | 0.649 |
 | ADAPT-04 | FIT192+CAL64 meno frozen+CAL64 | KAN | skip | 440 | -1 342 | 263 032 | -7.298 | -6.003 |
+| ADAPT-04 | FIT192+CAL64 meno frozen+CAL64 | KAN | tratto_242_664 | 423 | 807 | 219 608 | 12.321 | -5.200 |
+
+## Tratto ADAPT-04 242--664
+
+Il tratto comprende 423 blocchi e viene valutato separatamente
+perche' riceve lo stato mantenuto durante lo skip contiguo deciso nei blocchi
+241--663. Rispetto a frozen+CAL64, FIT192+CAL64 passa da
+309 a 1.116 FP
+(`+807`) e da 969.055 a
+1.188.663 FN (`+219.608`). La lettura resta descrittiva:
+il tratto non e' randomizzato e lo stato incorpora tutti gli aggiornamenti
+precedenti.
+
 
 ## Lettura
 
@@ -50,6 +63,8 @@ recupera attacchi al prezzo di piu' falsi allarmi; nel replay pesi+soglia non
 esiste uno strato skip e il confronto update/skip non e' quindi stimabile.
 ADAPT-04 conferma il compromesso sul disegno 192/64: rispetto a frozen+CAL64,
 FIT192+CAL64 riduce soprattutto i falsi allarmi ma aumenta gli attacchi mancati.
+Nel tratto 242--664, valutato separatamente perche' segue lo skip contiguo
+deciso nei blocchi 241--663, la variante produce +807 FP e +219.608 FN.
 
 I conteggi completi e i denominatori sono in `analisi_aggiornamenti_skip.csv` e
 `analisi_aggiornamenti_skip.json`.

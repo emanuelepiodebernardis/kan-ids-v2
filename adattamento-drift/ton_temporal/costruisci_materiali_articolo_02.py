@@ -310,6 +310,59 @@ def _stratifica(
     return risultato
 
 
+def _tratto_fisso(
+    fase: str,
+    confronto: str,
+    modello: str,
+    semi: str,
+    rapporto: dict,
+    controllo: Callable[[dict], dict],
+    variante: Callable[[dict], dict],
+    primo: int,
+    ultimo: int,
+    descrizione: str,
+) -> dict:
+    selezionate = [
+        r for r in rapporto["per_blocco"] if primo <= r["blocco"] <= ultimo
+    ]
+    attesi = list(range(primo, ultimo + 1))
+    if [r["blocco"] for r in selezionate] != attesi:
+        raise ValueError(f"intervallo incompleto: {primo}..{ultimo}")
+    c, v = _cm_vuota(), _cm_vuota()
+    for riga in selezionate:
+        _accumula(c, controllo(riga))
+        _accumula(v, variante(riga))
+    normali = c["vn"] + c["fp"]
+    attacchi = c["vp"] + c["fn"]
+    fpr_c = c["fp"] / normali if normali else None
+    fpr_v = v["fp"] / normali if normali else None
+    rec_c = c["vp"] / attacchi if attacchi else None
+    rec_v = v["vp"] / attacchi if attacchi else None
+    return {
+        "fase": fase,
+        "confronto": confronto,
+        "modello": modello.upper(),
+        "semi": semi,
+        "periodo_determinato_da": descrizione,
+        "strato": f"tratto_{primo}_{ultimo}",
+        "blocchi": len(selezionate),
+        "normali": normali,
+        "attacchi": attacchi,
+        "fp_controllo": c["fp"],
+        "fp_variante": v["fp"],
+        "delta_fp": v["fp"] - c["fp"],
+        "fn_controllo": c["fn"],
+        "fn_variante": v["fn"],
+        "delta_fn": v["fn"] - c["fn"],
+        "fpr_controllo": fpr_c,
+        "fpr_variante": fpr_v,
+        "delta_fpr_pp": None if fpr_c is None else 100 * (fpr_v - fpr_c),
+        "recall_controllo": rec_c,
+        "recall_variante": rec_v,
+        "delta_recall_pp": None if rec_c is None else 100 * (rec_v - rec_c),
+    }
+
+
 def _rapporti_periodi(archivio: Path) -> tuple[list[dict], list[Path]]:
     righe: list[dict] = []
     fonti: list[Path] = []
@@ -455,6 +508,21 @@ def _rapporti_periodi(archivio: Path) -> tuple[list[dict], list[Path]]:
             "decisione 192/64 nel blocco precedente",
         )
     )
+    tratto = _tratto_fisso(
+        "ADAPT-04",
+        "FIT192+CAL64 meno frozen+CAL64",
+        "kan",
+        "42",
+        a4,
+        lambda r: r["frozen_cal64"],
+        lambda r: r["fit192_cal64"],
+        242,
+        664,
+        "skip decisi nei blocchi 241..663; effetti valutati nei blocchi 242..664",
+    )
+    if tratto["delta_fp"] != 807 or tratto["delta_fn"] != 219_608:
+        raise ValueError("ADAPT-04: il tratto 242..664 non coincide con il riferimento")
+    righe.append(tratto)
     return righe, list(dict.fromkeys(fonti))
 
 
@@ -479,7 +547,12 @@ def _fmt(valore: float | int | None, cifre: int = 3) -> str:
     return f"{valore:.{cifre}f}"
 
 
+def _intero_it(valore: int) -> str:
+    return f"{valore:,}".replace(",", ".")
+
+
 def _markdown_periodi(righe: list[dict]) -> str:
+    tratto = next(r for r in righe if r["strato"] == "tratto_242_664")
     intestazione = """# Errori dopo aggiornamenti e skip
 
 ## Metodo
@@ -515,6 +588,19 @@ variante-controllo restano appaiati sullo stesso blocco.
                 drec=_fmt(r["delta_recall_pp"]),
             )
         )
+    separato = f"""
+
+## Tratto ADAPT-04 242--664
+
+Il tratto comprende {tratto['blocchi']} blocchi e viene valutato separatamente
+perche' riceve lo stato mantenuto durante lo skip contiguo deciso nei blocchi
+241--663. Rispetto a frozen+CAL64, FIT192+CAL64 passa da
+{_intero_it(tratto['fp_controllo'])} a {_intero_it(tratto['fp_variante'])} FP
+(`+807`) e da {_intero_it(tratto['fn_controllo'])} a
+{_intero_it(tratto['fn_variante'])} FN (`+219.608`). La lettura resta descrittiva:
+il tratto non e' randomizzato e lo stato incorpora tutti gli aggiornamenti
+precedenti.
+"""
     chiusura = """
 
 ## Lettura
@@ -528,11 +614,13 @@ recupera attacchi al prezzo di piu' falsi allarmi; nel replay pesi+soglia non
 esiste uno strato skip e il confronto update/skip non e' quindi stimabile.
 ADAPT-04 conferma il compromesso sul disegno 192/64: rispetto a frozen+CAL64,
 FIT192+CAL64 riduce soprattutto i falsi allarmi ma aumenta gli attacchi mancati.
+Nel tratto 242--664, valutato separatamente perche' segue lo skip contiguo
+deciso nei blocchi 241--663, la variante produce +807 FP e +219.608 FN.
 
 I conteggi completi e i denominatori sono in `analisi_aggiornamenti_skip.csv` e
 `analisi_aggiornamenti_skip.json`.
 """
-    return intestazione + "\n".join(corpo) + chiusura
+    return intestazione + "\n".join(corpo) + separato + chiusura
 
 
 def _sintesi() -> str:
@@ -582,6 +670,8 @@ l'aumento degli attacchi mancati della memoria per classe e del disegno 192/64
 non e' confinato a una sola delle due condizioni. Gli strati non sono
 randomizzati e non misurano l'effetto causale dell'update: servono a localizzare
 il compromesso e a evitare che gli aggregati nascondano periodi critici.
+In ADAPT-04 il tratto 242--664 viene quindi mostrato separatamente: rispetto a
+frozen+CAL64, FIT192+CAL64 aggiunge 807 FP e 219.608 FN sulle stesse righe.
 
 ## Conclusione
 
@@ -594,26 +684,72 @@ confronti fra gruppi restano descrittivi.
 """
 
 
-def _protocollo_finale() -> str:
-    return """# Proposta minima di validazione finale
+def _protocollo_finale(sovrapposizioni: dict) -> str:
+    def numero(n: int) -> str:
+        return f"{n:,}".replace(",", ".")
+
+    d = sovrapposizioni["per_intervallo"]["D"]
+    visti = sovrapposizioni["D_contro_A_B_C"]
+    non_visti = d["righe_valide"] - visti["righe_di_D_con_impronta_gia_vista"]
+    normali_non_visti = d["righe_normali"] - visti[
+        "righe_normali_di_D_con_impronta_gia_vista"
+    ]
+    attacchi_non_visti = non_visti - normali_non_visti
+    blocchi_d = (d["righe_valide"] + 9_999) // 10_000
+    secondi = 5 * (42.928 + 0.160655 * blocchi_d)
+    secondi_testo = f"{secondi:.2f}".replace(".", ",")
+    minuti_testo = f"{secondi / 60:.1f}".replace(".", ",")
+    return f"""# Proposta minima di validazione finale
 
 ## Domanda e disegno
 
 Validare su D, una sola volta e dopo il congelamento del protocollo, il
-compromesso osservato per KAN fra `frozen+CAL64`, `FIT192+B` e
-`FIT192+CAL64`. Usare i semi 42--46, un calendario comune per seme, memoria
-totale 192+64, quota di etichette 1%, ritardo `j+2`, ruoli immutabili per
-vettore e la regola BA con il tie-break gia' fissato. B non viene riletto
-durante il replay: `FIT192+B` usa la soglia fissa su B preregistrata prima
+compromesso osservato per KAN fra quattro tracce: `frozen+B`,
+`frozen+CAL64`, `FIT192+B` e `FIT192+CAL64`. Il riferimento `frozen+B` separa
+il comportamento del modello iniziale con la soglia esterna fissa dagli
+effetti della calibrazione recente e dell'aggiornamento dei pesi.
+
+Usare i semi 42--46, un calendario comune per seme, memoria totale 192+64,
+quota di etichette 1%, ritardo `j+2`, ruoli immutabili per vettore e la regola
+BA con il tie-break gia' fissato. B non viene riletto durante il replay: le
+tracce `frozen+B` e `FIT192+B` usano la soglia fissa su B preregistrata prima
 dell'avvio. D non interviene in alcuna scelta.
+
+## Inizializzazione esplicita
+
+Per ogni seme, la trasformazione viene stimata soltanto su A. La KAN viene
+inizializzata con quel seme e addestrata da zero su A; nessun peso proveniente
+da ADAPT-01--04 viene riusato. Le quattro tracce ricevono copie byte-identiche
+dei parametri iniziali. `frozen+B` e `frozen+CAL64` mantengono quei pesi per
+tutto D; `FIT192+B` e `FIT192+CAL64` condividono una sola traiettoria di pesi
+aggiornata su FIT192. Le soglie B sono calcolate prima dell'apertura di D e
+restano fisse nelle due tracce `+B`.
+
+## Due aggregazioni sulle stesse predizioni
+
+D intero, {numero(d['righe_valide'])} righe valide, e' l'analisi principale. Il
+replay scorre tutto D nell'ordine di `feature_ready_time`; nessuna riga viene
+rimossa e D non modifica trasformazione, inizializzazione o criteri.
+
+L'analisi supplementare applica alle stesse predizioni una maschera per i
+vettori mai comparsi in A, B o C: {numero(non_visti)} righe, di cui
+{numero(normali_non_visti)} normali e {numero(attacchi_non_visti)} attacchi.
+Un vettore e' identificato dallo SHA-256 dei 32 byte degli otto `float32`
+normalizzati, come in `sovrapposizioni_abcd.json`. La maschera viene applicata
+soltanto in fase di aggregazione: non cambia stream, richieste, memoria o
+predizioni.
+
+I conteggi del perimetro provengono dall'inventario versionato
+`sovrapposizioni_abcd.json`. Questa proposta non apre D e non contiene
+risultati su D: D resta riservato fino all'approvazione del protocollo.
 
 ## Controlli preregistrati
 
 1. Registrare commit, comando, ambiente e SHA-256 di A, B e D prima dei run.
 2. Richiedere blocchi completi e ordinati, digest identici di righe ed etichette
-   fra le tre braccia e uguale inizializzazione per seme.
+   fra le quattro tracce e digest iniziali uguali entro ciascun seme.
 3. Verificare causalita' `j+2`, separazione FIT/CAL, atomicita' degli update e
-   identita' di pesi e score fra le due braccia a pesi comuni.
+   identita' di pesi e score entro ciascuna coppia a pesi comuni.
 4. Conservare i valori mancanti nei blocchi monoclasse e riportare per ogni
    metrica il denominatore valido; non sostituirli con zero.
 5. Conservare raw, confronto per blocco, manifest, hash e tempi effettivi in un
@@ -621,11 +757,11 @@ dell'avvio. D non interviene in alcuna scelta.
 
 ## Metriche e criteri
 
-Le metriche primarie sono FN, FP, recall e FPR globali. Balanced accuracy e
-AUROC per blocco, con denominatore, sono secondarie. Riportare differenze
-appaiate per seme, dispersione, segno in almeno quattro semi su cinque, peggiori
-periodi consecutivi, strati update/skip, aggiornamenti disponibili/applicati e
-costi.
+Le metriche primarie sono FN, FP, recall e FPR globali, riportate sia su D
+intero sia sul sottoinsieme non visto. Balanced accuracy e AUROC per blocco,
+con denominatore, sono secondarie. Riportare differenze appaiate per seme,
+dispersione, segno in almeno quattro semi su cinque, peggiori periodi
+consecutivi, strati update/skip, aggiornamenti disponibili/applicati e costi.
 
 Una variante puo' essere detta superiore solo se non peggiora ne' FN ne' FP e
 migliora almeno uno dei due aggregati, con lo stesso segno in almeno quattro
@@ -637,10 +773,11 @@ D.
 ## Costo previsto
 
 ADAPT-04 ha richiesto 190,088 s per 916 blocchi: 35,162 s di addestramento
-iniziale, 147,160 s di replay e 7,766 s residui. Per cinque semi e un D di 916
-blocchi la stima e' 950,44 s, circa 15,8 minuti seriali. Per `N` blocchi per
-seme: `5 * (42,928 + 0,160655 * N)` secondi. Il raw atteso e' circa 19 MB e lo
-ZIP circa 2,3 MB. Il benchmark ha raggiunto circa 1,25 GiB RSS; la somma
+iniziale, 147,160 s di replay e 7,766 s residui. D intero richiede
+{blocchi_d} blocchi da 10.000 righe, con l'ultimo parziale. La stima per cinque
+semi e' {secondi_testo} s, circa {minuti_testo} minuti seriali, secondo la
+formula `5 * (42,928 + 0,160655 * N)`. Il raw atteso e' circa 7,4 MB e lo ZIP
+circa 0,9 MB. Il benchmark ha raggiunto circa 1,25 GiB RSS; la somma
 conservativa dei massimi osservati del solo stato logico del controllore e'
 29.120 byte, non un picco simultaneo e senza overhead Python.
 """
@@ -679,6 +816,8 @@ def costruisci(archivio: Path, uscita: Path) -> None:
     uscita.mkdir(parents=True, exist_ok=True)
     evidenze = _tabella_evidenze()
     periodi, fonti_raw = _rapporti_periodi(archivio)
+    sovrapposizioni = _carica(RADICE / "sovrapposizioni_abcd.json")
+    tratto = next(r for r in periodi if r["strato"] == "tratto_242_664")
 
     _scrivi_csv(uscita / "tabella_evidenze.csv", CAMPI_TABELLA, evidenze)
     _scrivi_csv(uscita / "analisi_aggiornamenti_skip.csv", CAMPI_PERIODI, periodi)
@@ -687,6 +826,7 @@ def costruisci(archivio: Path, uscita: Path) -> None:
             {
                 "metodo": "decisione al blocco k, errori osservati al blocco k+1",
                 "avvertenza": "stratificazione descrittiva, non stima causale dell'update",
+                "tratto_242_664": tratto,
                 "righe": periodi,
             },
             indent=2,
@@ -701,7 +841,7 @@ def costruisci(archivio: Path, uscita: Path) -> None:
     )
     (uscita / "sintesi.md").write_text(_sintesi(), encoding="utf-8", newline="\n")
     (uscita / "protocollo_validazione_finale.md").write_text(
-        _protocollo_finale(), encoding="utf-8", newline="\n"
+        _protocollo_finale(sovrapposizioni), encoding="utf-8", newline="\n"
     )
     (uscita / "LEGGIMI.md").write_text(_leggimi(), encoding="utf-8", newline="\n")
 
@@ -714,6 +854,7 @@ def costruisci(archivio: Path, uscita: Path) -> None:
         / "replay_completo"
         / "riepilogo_replay_completo.json",
         RADICE / "adapt04_calibrazione_recente" / "replay_completo" / "riepilogo.json",
+        RADICE / "sovrapposizioni_abcd.json",
     ]
     prodotti = [
         uscita / "LEGGIMI.md",

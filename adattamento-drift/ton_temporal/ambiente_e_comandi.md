@@ -336,11 +336,11 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **363 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **364 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
 test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
-ADAPT-04, piu' 4 test sui materiali dell'articolo. Per file:
+ADAPT-04, piu' 5 test sui materiali dell'articolo. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -349,7 +349,7 @@ ADAPT-04, piu' 4 test sui materiali dell'articolo. Per file:
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
 `test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32,
-`test_materiali_articolo_02.py` 4.
+`test_materiali_articolo_02.py` 5.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -367,7 +367,7 @@ ricostruzione delle metriche dalla confusion matrix e periodi contigui di skip,
 **359** con la controprova sulla formattazione dei punti percentuali e **363**
 con la rigenerazione dei materiali documentali, la separazione dei gruppi di
 comparabilita', il ritardo causale nell'analisi update/skip e il manifest dei
-raw esterni.
+raw esterni, **364** con il tratto 242--664 e il protocollo esplicito su D.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -418,7 +418,7 @@ confusion matrix e aggregano gli skip contigui senza confondere le cause.
 Una controprova ulteriore impedisce che la conversione del separatore decimale
 corrompa l'unita' testuale dei punti percentuali nel rapporto generato.
 
-**I 363 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 364 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro. Sul ramo
 ADAPT-04 la suite globale ha prodotto **970 passate, 1 saltata e 5 sottotest
 passati**; 22 controlli AVR non sono partiti per `WinError 623` della toolchain
