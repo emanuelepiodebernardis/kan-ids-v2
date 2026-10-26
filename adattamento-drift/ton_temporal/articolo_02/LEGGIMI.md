@@ -4,6 +4,7 @@ Questa cartella organizza le evidenze gia' verificate di ADAPT-01--04. Non
 contiene nuovi training o replay e non usa D.
 
 - `tabella_evidenze.csv`: confronti appaiati e gruppi di comparabilita'.
+- `appendice_evidenze.md`: tabella leggibile, regole di confronto e provenienza.
 - `sintesi.md`: sintesi scientifica breve (massimo due pagine di testo).
 - `analisi_aggiornamenti_skip.*`: errori nel blocco successivo a update o skip.
 - `protocollo_validazione_finale.md`: proposta minima prima dell'apertura di D.

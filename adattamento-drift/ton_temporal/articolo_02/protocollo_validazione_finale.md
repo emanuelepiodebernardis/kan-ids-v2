@@ -24,6 +24,47 @@ tutto D; `FIT192+B` e `FIT192+CAL64` condividono una sola traiettoria di pesi
 aggiornata su FIT192. Le soglie B sono calcolate prima dell'apertura di D e
 restano fisse nelle due tracce `+B`.
 
+## Buffer iniziali e assegnazione FIT/CAL
+
+All'inizio di D `fit192` e `calibration64` sono vuoti. Nessun esempio di A, B
+o C viene inserito nei buffer online: A serve soltanto per trasformazione e
+inizializzazione, B soltanto per le soglie fisse e C soltanto come evidenza
+precedente. Le quattro tracce condividono richieste, etichette disponibili,
+assegnazioni e stato dei due buffer.
+
+Il ruolo e' una funzione immutabile del vettore. Gli otto valori vengono
+serializzati come `float64` little-endian, con `-0.0` normalizzato a `+0.0`,
+NaN quiet canonico e segno degli infiniti conservato. Il messaggio contiene il
+salt ASCII letterale `ADAPT04-C-seed42-v1`, un byte nullo e i 64 byte del
+vettore. SHA-256, letto come intero unsigned big-endian, assegna CAL se il
+digest modulo 4 vale zero e FIT altrimenti. Il salt storico viene mantenuto
+letteralmente per tutti i semi: il suo nome non introduce C o seed42 nel
+replay e vettori identici ricevono lo stesso ruolo in ogni traccia e seme.
+
+`fit192` ha capacita' 192 e quote 96/96; `calibration64` ha capacita' 64 e
+quote 32/32. I posti liberi possono essere occupati dall'altra classe; quando
+la capacita' e' superata si espelle l'esempio piu' vecchio della classe sopra
+quota. Non sono ammessi trasferimenti fra buffer. L'eta' parte dal blocco di
+osservazione: il limite `<= 50` vale soltanto per CAL64, mentre FIT192 usa tutto
+il contenuto corrente.
+
+## Requisiti e transazione di aggiornamento
+
+Dopo l'arrivo causale delle etichette, il passo e' ammissibile soltanto se
+FIT192 contiene entrambe le classi e CAL64, dopo il filtro di eta', contiene
+almeno 5 normali e 5 attacchi. Si stima un'unica testa candidata con
+`LogisticRegression(C=1.0, max_iter=1000)` sugli otto guadagni e
+l'intercetta; la rappresentazione B-spline resta congelata.
+
+Senza cambiare lo stato corrente, CAL64 viene rivalutata con testa frozen e
+testa candidata. Per ciascuna si sceglie la soglia che massimizza la balanced
+accuracy fra gli score `float64` distinti; i confronti sono esatti e, a parita'
+di massimo, si usa la mediana inferiore. Testa candidata, soglia frozen+CAL64
+e soglia FIT192+CAL64 entrano in vigore insieme dal blocco successivo soltanto
+se tutte sono valide. `FIT192+B` riceve la stessa testa candidata e conserva la
+soglia B; `frozen+B` non cambia mai. Se manca un requisito o il fit e' invalido,
+tutte le tracce mantengono lo stato precedente e registrano una causa di skip.
+
 ## Due aggregazioni sulle stesse predizioni
 
 D intero, 3.549.973 righe valide, e' l'analisi principale. Il
@@ -41,6 +82,15 @@ predizioni.
 I conteggi del perimetro provengono dall'inventario versionato
 `sovrapposizioni_abcd.json`. Questa proposta non apre D e non contiene
 risultati su D: D resta riservato fino all'approvazione del protocollo.
+
+## Confronti preregistrati
+
+Il confronto principale e' `FIT192+CAL64` meno `frozen+CAL64`: stessa
+calibrazione recente e stesso calendario, con testa adattata contro frozen.
+`FIT192+CAL64` meno `FIT192+B` isola la soglia a pesi identici;
+`frozen+CAL64` meno `frozen+B` isola la calibrazione recente a pesi frozen.
+`frozen+B` e' anche il riferimento esterno del modello iniziale. Tutti i delta
+sono variante meno controllo e sono calcolati sulle stesse righe.
 
 ## Controlli preregistrati
 

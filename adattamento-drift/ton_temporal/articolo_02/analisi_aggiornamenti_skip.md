@@ -62,7 +62,9 @@ FN e riduce il recall in entrambi gli strati. In ADAPT-03 la sola soglia
 recupera attacchi al prezzo di piu' falsi allarmi; nel replay pesi+soglia non
 esiste uno strato skip e il confronto update/skip non e' quindi stimabile.
 ADAPT-04 conferma il compromesso sul disegno 192/64: rispetto a frozen+CAL64,
-FIT192+CAL64 riduce soprattutto i falsi allarmi ma aumenta gli attacchi mancati.
+nei blocchi successivi agli update FIT192+CAL64 riduce sia FP sia FN; negli
+skip riduce gli FP ma aumenta i FN. Il peggioramento globale dei FN e' quindi
+concentrato negli skip, non in entrambi gli strati.
 Nel tratto 242--664, valutato separatamente perche' segue lo skip contiguo
 deciso nei blocchi 241--663, la variante produce +807 FP e +219.608 FN.
 

@@ -129,8 +129,8 @@
   "prodotti": [
     {
       "percorso": "LEGGIMI.md",
-      "dimensione_byte": 1022,
-      "sha256": "2b7a71aee127f34e9f2e32c234d349d6a5dc7b0696e3805bde127f128a60c74c"
+      "dimensione_byte": 1103,
+      "sha256": "009d78568889c23c58f400ecdc10fa704eade273874bee0b8eac9b44980dcd90"
     },
     {
       "percorso": "tabella_evidenze.csv",
@@ -138,9 +138,14 @@
       "sha256": "a9c6bac2fdadfaa2d9c555d81f0cf1e4aa46779eb54bd08379cee73c87d8d97b"
     },
     {
+      "percorso": "appendice_evidenze.md",
+      "dimensione_byte": 6102,
+      "sha256": "e3d17ab6005408c5675e65f06f03ae92fc0801fb0f15a7c1cb7df342f31f6da9"
+    },
+    {
       "percorso": "sintesi.md",
-      "dimensione_byte": 3219,
-      "sha256": "07ec1ac46298a877ab1ac090fcbb95c0e9d182ca25865839e6c0c8cbdb96cf25"
+      "dimensione_byte": 3364,
+      "sha256": "96970e2787d534df5a0d58f00bd86ca71ede0d88db169075fa74b0434c66d4d8"
     },
     {
       "percorso": "analisi_aggiornamenti_skip.csv",
@@ -154,13 +159,13 @@
     },
     {
       "percorso": "analisi_aggiornamenti_skip.md",
-      "dimensione_byte": 4561,
-      "sha256": "f83d8e17191e830d930e1b5208edf3ff5ab85cfa8a567832ed667efdaba0ac7c"
+      "dimensione_byte": 4686,
+      "sha256": "cfd164a1825088e33d7a7886c06f24a925bed4478323e7706e02e34796e9041a"
     },
     {
       "percorso": "protocollo_validazione_finale.md",
-      "dimensione_byte": 4192,
-      "sha256": "0a4a9f42a40481ba8d7060c32eabd51ef614006686b25883faffae4be1891a02"
+      "dimensione_byte": 7079,
+      "sha256": "6a4a6ab6c6907cea341cf4ce55b51772bc5b5fe2483fb39ed1fd330d0eb7619a"
     }
   ]
 }

@@ -9,6 +9,7 @@ ARCHIVIO = RADICE.parent / "archivio_esterno"
 TRACCIATI = (
     "LEGGIMI.md",
     "tabella_evidenze.csv",
+    "appendice_evidenze.md",
     "sintesi.md",
     "analisi_aggiornamenti_skip.csv",
     "analisi_aggiornamenti_skip.json",
@@ -71,6 +72,7 @@ def test_manifest_registra_fonti_raw_e_d_riservato():
     assert manifest["d_riservato"] is True
     assert len(manifest["fonti_versionate"]) == 6
     assert len(manifest["fonti_raw_esterne"]) == 18
+    assert len(manifest["prodotti"]) == 8
     assert all(len(voce["sha256"]) == 64 for voce in manifest["fonti_raw_esterne"])
 
 
@@ -95,5 +97,43 @@ def test_tratto_242_664_e_protocollo_d_sono_espliciti():
         "129.982 normali",
         "trasformazione viene stimata soltanto su A",
         "stesse predizioni",
+        "All'inizio di D `fit192` e `calibration64` sono vuoti",
+        "ADAPT04-C-seed42-v1",
+        "almeno 5 normali e 5 attacchi",
+        "Il confronto principale e' `FIT192+CAL64` meno `frozen+CAL64`",
     ):
         assert testo in protocollo
+
+
+def test_adapt04_distingue_update_skip_e_genera_appendice():
+    analisi = json.loads(
+        (RADICE / "articolo_02" / "analisi_aggiornamenti_skip.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    righe = {
+        r["strato"]: r
+        for r in analisi["righe"]
+        if r["fase"] == "ADAPT-04" and r["strato"] in {"aggiornamento", "skip"}
+    }
+    assert righe["aggiornamento"]["delta_fp"] == -26_528
+    assert righe["aggiornamento"]["delta_fn"] == -29_697
+    assert righe["skip"]["delta_fp"] == -1_342
+    assert righe["skip"]["delta_fn"] == 263_032
+
+    sintesi = (RADICE / "articolo_02" / "sintesi.md").read_text(encoding="utf-8")
+    rapporto = (RADICE / "articolo_02" / "analisi_aggiornamenti_skip.md").read_text(
+        encoding="utf-8"
+    )
+    assert "dopo gli update diminuiscono sia" in sintesi
+    assert "FN (`-29.697`)" in sintesi
+    assert "negli skip" in sintesi and "FN (`+263.032`)" in sintesi
+    assert "successivi agli update FIT192+CAL64 riduce sia FP sia FN" in rapporto
+    assert "negli\nskip riduce gli FP ma aumenta i FN" in rapporto
+
+    appendice = (RADICE / "articolo_02" / "appendice_evidenze.md").read_text(
+        encoding="utf-8"
+    )
+    assert appendice.count("\n| ADAPT-") == 21
+    assert "## Regole di lettura" in appendice
+    assert "## Provenienza" in appendice

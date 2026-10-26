@@ -40,12 +40,14 @@ questo e' un compromesso, non una prova di superiorita'.
 
 L'analisi dei periodi associa ogni decisione agli errori del blocco successivo.
 La riduzione dei falsi allarmi persiste spesso sia dopo update sia negli skip;
-l'aumento degli attacchi mancati della memoria per classe e del disegno 192/64
-non e' confinato a una sola delle due condizioni. Gli strati non sono
-randomizzati e non misurano l'effetto causale dell'update: servono a localizzare
-il compromesso e a evitare che gli aggregati nascondano periodi critici.
-In ADAPT-04 il tratto 242--664 viene quindi mostrato separatamente: rispetto a
-frozen+CAL64, FIT192+CAL64 aggiunge 807 FP e 219.608 FN sulle stesse righe.
+in ADAPT-02 la memoria per classe aumenta i FN sia dopo update sia negli skip.
+ADAPT-04 mostra invece due direzioni diverse: dopo gli update diminuiscono sia
+FP (`-26.528`) sia FN (`-29.697`), mentre negli skip diminuiscono gli FP
+(`-1.342`) ma aumentano i FN (`+263.032`). Gli strati non sono randomizzati e
+non misurano l'effetto causale dell'update: servono a localizzare il compromesso
+e a evitare che gli aggregati nascondano periodi critici. In ADAPT-04 il tratto
+242--664 viene quindi mostrato separatamente: rispetto a frozen+CAL64,
+FIT192+CAL64 aggiunge 807 FP e 219.608 FN sulle stesse righe.
 
 ## Conclusione
 

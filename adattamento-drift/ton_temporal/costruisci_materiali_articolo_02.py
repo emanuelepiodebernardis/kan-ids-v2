@@ -551,6 +551,71 @@ def _intero_it(valore: int) -> str:
     return f"{valore:,}".replace(",", ".")
 
 
+def _numero_appendice(valore: float | int | None, cifre: int) -> str:
+    if valore is None:
+        return "n.d."
+    if isinstance(valore, int) or float(valore).is_integer():
+        return _intero_it(int(valore))
+    return f"{valore:.{cifre}f}".replace(".", ",")
+
+
+def _appendice_evidenze(righe: list[dict]) -> str:
+    corpo = []
+    for riga in righe:
+        confronto = f"`{riga['controllo']}` -> `{riga['variante']}`"
+        corpo.append(
+            "| {fase} | `{gruppo}` | {modello} | {semi} | {confronto} | {drec} | "
+            "{dfpr} | {dauroc} | {dfn} | {dfp} | {denom} | {nota} |".format(
+                fase=riga["fase"],
+                gruppo=riga["gruppo_comparabilita"],
+                modello=riga["modello"],
+                semi=riga["semi"],
+                confronto=confronto,
+                drec=_numero_appendice(riga["delta_recall_pp"], 3),
+                dfpr=_numero_appendice(riga["delta_fpr_pp"], 3),
+                dauroc=_numero_appendice(riga["delta_auroc"], 4),
+                dfn=_numero_appendice(riga["delta_fn"], 1),
+                dfp=_numero_appendice(riga["delta_fp"], 1),
+                denom=riga["denominatore_auroc"],
+                nota=riga["nota"],
+            )
+        )
+    return """# Appendice delle evidenze ADAPT-01--04
+
+## Regole di lettura
+
+Ogni riga e' un confronto variante meno controllo. Recall e FPR sono espressi
+in punti percentuali; AUROC e' una differenza assoluta. FN e FP sono conteggi
+globali oppure, dove dichiarato nella nota, medie delle differenze appaiate per
+seme. Un valore negativo indica una diminuzione nella variante.
+
+Un confronto e' diretto soltanto entro la stessa riga. Le righe possono essere
+discusse insieme solo quando coincidono `gruppo_comparabilita`, modello e
+perimetro dei semi; i gruppi non formano una graduatoria unica. I denominatori
+AUROC restano espliciti per non trasformare i blocchi monoclasse mancanti in
+zeri.
+
+## Tabella completa
+
+| Fase | Gruppo | Modello | Semi | Controllo -> variante | Delta recall (pp) | Delta FPR (pp) | Delta AUROC | Delta FN | Delta FP | Denominatore AUROC | Nota |
+|---|---|---:|---:|---|---:|---:|---:|---:|---:|---|---|
+""" + "\n".join(corpo) + """
+
+## Provenienza
+
+- ADAPT-01: `replay_evidenza/confronto_politiche.json`;
+- ADAPT-02: `adapt02_memoria_per_classe/analisi_campagna_C.json`;
+- ADAPT-03 soglia: `adapt03_soglia_adattiva/analisi_checkpoint.json`;
+- ADAPT-03 pesi+soglia:
+  `adapt03_pesi_piu_soglia/replay_completo/riepilogo_replay_completo.json`;
+- ADAPT-04:
+  `adapt04_calibrazione_recente/replay_completo/riepilogo.json`.
+
+Dimensioni e SHA-256 delle fonti versionate e dei raw esterni sono registrati
+in `manifest.json`. Questa appendice non usa D e non aggiunge esperimenti.
+"""
+
+
 def _markdown_periodi(righe: list[dict]) -> str:
     tratto = next(r for r in righe if r["strato"] == "tratto_242_664")
     intestazione = """# Errori dopo aggiornamenti e skip
@@ -613,7 +678,9 @@ FN e riduce il recall in entrambi gli strati. In ADAPT-03 la sola soglia
 recupera attacchi al prezzo di piu' falsi allarmi; nel replay pesi+soglia non
 esiste uno strato skip e il confronto update/skip non e' quindi stimabile.
 ADAPT-04 conferma il compromesso sul disegno 192/64: rispetto a frozen+CAL64,
-FIT192+CAL64 riduce soprattutto i falsi allarmi ma aumenta gli attacchi mancati.
+nei blocchi successivi agli update FIT192+CAL64 riduce sia FP sia FN; negli
+skip riduce gli FP ma aumenta i FN. Il peggioramento globale dei FN e' quindi
+concentrato negli skip, non in entrambi gli strati.
 Nel tratto 242--664, valutato separatamente perche' segue lo skip contiguo
 deciso nei blocchi 241--663, la variante produce +807 FP e +219.608 FN.
 
@@ -666,12 +733,14 @@ questo e' un compromesso, non una prova di superiorita'.
 
 L'analisi dei periodi associa ogni decisione agli errori del blocco successivo.
 La riduzione dei falsi allarmi persiste spesso sia dopo update sia negli skip;
-l'aumento degli attacchi mancati della memoria per classe e del disegno 192/64
-non e' confinato a una sola delle due condizioni. Gli strati non sono
-randomizzati e non misurano l'effetto causale dell'update: servono a localizzare
-il compromesso e a evitare che gli aggregati nascondano periodi critici.
-In ADAPT-04 il tratto 242--664 viene quindi mostrato separatamente: rispetto a
-frozen+CAL64, FIT192+CAL64 aggiunge 807 FP e 219.608 FN sulle stesse righe.
+in ADAPT-02 la memoria per classe aumenta i FN sia dopo update sia negli skip.
+ADAPT-04 mostra invece due direzioni diverse: dopo gli update diminuiscono sia
+FP (`-26.528`) sia FN (`-29.697`), mentre negli skip diminuiscono gli FP
+(`-1.342`) ma aumentano i FN (`+263.032`). Gli strati non sono randomizzati e
+non misurano l'effetto causale dell'update: servono a localizzare il compromesso
+e a evitare che gli aggregati nascondano periodi critici. In ADAPT-04 il tratto
+242--664 viene quindi mostrato separatamente: rispetto a frozen+CAL64,
+FIT192+CAL64 aggiunge 807 FP e 219.608 FN sulle stesse righe.
 
 ## Conclusione
 
@@ -725,6 +794,47 @@ tutto D; `FIT192+B` e `FIT192+CAL64` condividono una sola traiettoria di pesi
 aggiornata su FIT192. Le soglie B sono calcolate prima dell'apertura di D e
 restano fisse nelle due tracce `+B`.
 
+## Buffer iniziali e assegnazione FIT/CAL
+
+All'inizio di D `fit192` e `calibration64` sono vuoti. Nessun esempio di A, B
+o C viene inserito nei buffer online: A serve soltanto per trasformazione e
+inizializzazione, B soltanto per le soglie fisse e C soltanto come evidenza
+precedente. Le quattro tracce condividono richieste, etichette disponibili,
+assegnazioni e stato dei due buffer.
+
+Il ruolo e' una funzione immutabile del vettore. Gli otto valori vengono
+serializzati come `float64` little-endian, con `-0.0` normalizzato a `+0.0`,
+NaN quiet canonico e segno degli infiniti conservato. Il messaggio contiene il
+salt ASCII letterale `ADAPT04-C-seed42-v1`, un byte nullo e i 64 byte del
+vettore. SHA-256, letto come intero unsigned big-endian, assegna CAL se il
+digest modulo 4 vale zero e FIT altrimenti. Il salt storico viene mantenuto
+letteralmente per tutti i semi: il suo nome non introduce C o seed42 nel
+replay e vettori identici ricevono lo stesso ruolo in ogni traccia e seme.
+
+`fit192` ha capacita' 192 e quote 96/96; `calibration64` ha capacita' 64 e
+quote 32/32. I posti liberi possono essere occupati dall'altra classe; quando
+la capacita' e' superata si espelle l'esempio piu' vecchio della classe sopra
+quota. Non sono ammessi trasferimenti fra buffer. L'eta' parte dal blocco di
+osservazione: il limite `<= 50` vale soltanto per CAL64, mentre FIT192 usa tutto
+il contenuto corrente.
+
+## Requisiti e transazione di aggiornamento
+
+Dopo l'arrivo causale delle etichette, il passo e' ammissibile soltanto se
+FIT192 contiene entrambe le classi e CAL64, dopo il filtro di eta', contiene
+almeno 5 normali e 5 attacchi. Si stima un'unica testa candidata con
+`LogisticRegression(C=1.0, max_iter=1000)` sugli otto guadagni e
+l'intercetta; la rappresentazione B-spline resta congelata.
+
+Senza cambiare lo stato corrente, CAL64 viene rivalutata con testa frozen e
+testa candidata. Per ciascuna si sceglie la soglia che massimizza la balanced
+accuracy fra gli score `float64` distinti; i confronti sono esatti e, a parita'
+di massimo, si usa la mediana inferiore. Testa candidata, soglia frozen+CAL64
+e soglia FIT192+CAL64 entrano in vigore insieme dal blocco successivo soltanto
+se tutte sono valide. `FIT192+B` riceve la stessa testa candidata e conserva la
+soglia B; `frozen+B` non cambia mai. Se manca un requisito o il fit e' invalido,
+tutte le tracce mantengono lo stato precedente e registrano una causa di skip.
+
 ## Due aggregazioni sulle stesse predizioni
 
 D intero, {numero(d['righe_valide'])} righe valide, e' l'analisi principale. Il
@@ -742,6 +852,15 @@ predizioni.
 I conteggi del perimetro provengono dall'inventario versionato
 `sovrapposizioni_abcd.json`. Questa proposta non apre D e non contiene
 risultati su D: D resta riservato fino all'approvazione del protocollo.
+
+## Confronti preregistrati
+
+Il confronto principale e' `FIT192+CAL64` meno `frozen+CAL64`: stessa
+calibrazione recente e stesso calendario, con testa adattata contro frozen.
+`FIT192+CAL64` meno `FIT192+B` isola la soglia a pesi identici;
+`frozen+CAL64` meno `frozen+B` isola la calibrazione recente a pesi frozen.
+`frozen+B` e' anche il riferimento esterno del modello iniziale. Tutti i delta
+sono variante meno controllo e sono calcolati sulle stesse righe.
 
 ## Controlli preregistrati
 
@@ -790,6 +909,7 @@ Questa cartella organizza le evidenze gia' verificate di ADAPT-01--04. Non
 contiene nuovi training o replay e non usa D.
 
 - `tabella_evidenze.csv`: confronti appaiati e gruppi di comparabilita'.
+- `appendice_evidenze.md`: tabella leggibile, regole di confronto e provenienza.
 - `sintesi.md`: sintesi scientifica breve (massimo due pagine di testo).
 - `analisi_aggiornamenti_skip.*`: errori nel blocco successivo a update o skip.
 - `protocollo_validazione_finale.md`: proposta minima prima dell'apertura di D.
@@ -820,6 +940,9 @@ def costruisci(archivio: Path, uscita: Path) -> None:
     tratto = next(r for r in periodi if r["strato"] == "tratto_242_664")
 
     _scrivi_csv(uscita / "tabella_evidenze.csv", CAMPI_TABELLA, evidenze)
+    (uscita / "appendice_evidenze.md").write_text(
+        _appendice_evidenze(evidenze), encoding="utf-8", newline="\n"
+    )
     _scrivi_csv(uscita / "analisi_aggiornamenti_skip.csv", CAMPI_PERIODI, periodi)
     (uscita / "analisi_aggiornamenti_skip.json").write_text(
         json.dumps(
@@ -859,6 +982,7 @@ def costruisci(archivio: Path, uscita: Path) -> None:
     prodotti = [
         uscita / "LEGGIMI.md",
         uscita / "tabella_evidenze.csv",
+        uscita / "appendice_evidenze.md",
         uscita / "sintesi.md",
         uscita / "analisi_aggiornamenti_skip.csv",
         uscita / "analisi_aggiornamenti_skip.json",
