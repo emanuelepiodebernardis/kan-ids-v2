@@ -215,6 +215,86 @@ L'archivio `replay_completo_C_seed42_106ee1c.zip` e' 381.478 byte, SHA-256
 Il collegamento scaricabile all'archivio verificato e'
 `https://drive.google.com/file/d/1qt-qRB7KWpVEg2DrbaSantbbzRJVZgKI/view?usp=drive_link`.
 
+## ADAPT-04: calibrazione recente separata 192+64
+
+ADAPT-04 parte dal merge `d7bcd716dc416359474f12023cf0e5766d3aa78a`.
+Protocollo e configurazione sono stati fissati nel commit `6434664`, prima del
+runner. `fit192` e `calibration64` partono vuoti, restano separati e ricevono
+ruoli determinati dal salt `ADAPT04-C-seed42-v1` prima delle etichette.
+
+Il runner carica A e C, ma non B. La soglia B iniziale e le invarianti di
+inizializzazione sono lette dal rendiconto ADAPT-03 verificato. Smoke ufficiale:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+git rev-parse --short HEAD | Tee-Object -Variable sha
+$uscita = "../archivio_esterno/adapt04_calibrazione_recente/smoke_C_seed42_$sha"
+if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
+python replay_calibrazione_recente.py --modalita smoke --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita "$uscita/smoke.json" --richiedi-worktree-pulito
+python analisi_calibrazione_recente.py --replay "$uscita/smoke.json" --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --analisi-soglia-adapt03 adapt03_soglia_adattiva/analisi_checkpoint.json --riepilogo-pesi-adapt03 adapt03_pesi_piu_soglia/replay_completo/riepilogo_replay_completo.json --uscita-dir "$uscita/analisi"
+```
+
+Se i controlli dello smoke passano, lo stesso commit esegue direttamente il
+replay completo autorizzato in una directory nuova:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+git rev-parse --short HEAD | Tee-Object -Variable sha
+$uscita = "../archivio_esterno/adapt04_calibrazione_recente/replay_completo_C_seed42_$sha"
+if (Test-Path $uscita) { throw "la directory di uscita esiste gia': $uscita" }
+python replay_calibrazione_recente.py --modalita completo --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita "$uscita/replay_completo.json" --richiedi-worktree-pulito
+python analisi_calibrazione_recente.py --replay "$uscita/replay_completo.json" --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --analisi-soglia-adapt03 adapt03_soglia_adattiva/analisi_checkpoint.json --riepilogo-pesi-adapt03 adapt03_pesi_piu_soglia/replay_completo/riepilogo_replay_completo.json --uscita-dir adapt04_calibrazione_recente/replay_completo
+```
+
+Entrambe le corse usano solo KAN e C/seed42. D resta riservato; non sono
+autorizzati cinque seed o ricerca di iperparametri. Il secondo comando di ogni
+blocco ricalcola le aggregazioni e richiede sequenza completa, appaiamento dei
+campioni, causalita' e atomicita', identita' degli score delle politiche 2/3,
+budget 192+64, metriche monoclasse non sostituite con zero e conteggi effettivi
+di aggiornamenti e skip. Il replay completo si avvia soltanto dopo il PASS
+dello smoke sullo stesso commit pulito.
+
+L'esecuzione effettiva usa il commit pulito
+`b9fd9fbd76d5d01a1ff5674b8f5a67cf5b266b3b`. Lo smoke di 20 blocchi ha
+superato il validatore indipendente; lo stesso SHA ha quindi prodotto il replay
+completo di 916 blocchi in 190,088 secondi, entro la stima di 4-6 minuti
+formulata dopo lo smoke. Sono stati applicati 475 aggiornamenti atomici e
+saltati 440, tutti per normali recenti insufficienti. Il periodo di skip piu'
+lungo copre i blocchi 241-663 senza allentare il criterio preregistrato.
+
+I 190,088 secondi misurano l'intero comando da prima degli hash e del
+caricamento fino alla costruzione del rendiconto, esclusa la serializzazione
+finale: 35,162 secondi sono l'addestramento iniziale KAN su A, 147,160 il ciclo
+di replay e 7,766 hash, caricamento, preparazione e riepilogo. I timer di fit,
+calibrazione e inferenza sono sottoinsiemi del ciclo; non comprendono
+rappresentazioni, gestione delle memorie, campionamento, controlli o log.
+
+Il massimo dei buffer e' 20.736 byte: 8.448 per feature trasformate ed
+etichette e 12.288 per metadati logici. Gli 8.216 byte della coda contano 200
+indici, ruoli, digest e due chiavi di blocco, senza duplicare le righe di C. I
+168 byte dello stato numerico contano due teste e tre soglie, non l'intera KAN
+o il preprocessing. La somma conservativa dei massimi separati e' 29.120 byte,
+non un picco simultaneo; esclude l'overhead Python. L'RSS di 1.245,4 MiB include
+il banco di prova completo e non rappresenta la memoria del controllore.
+
+Nel confronto principale, FIT192+CAL64 rispetto a frozen+CAL64, il recall
+globale passa da 84,670% a 82,071%, l'FPR da 29,444% a 13,364%, la balanced
+accuracy da 77,613% a 84,354% e l'AUROC media per blocco da 0,884232 a
+0,774927, su 875/916 blocchi validi. L'adattamento dei pesi riduce quindi i
+falsi allarmi complessivi, ma perde recall e AUROC: non emerge una superiorita'
+generale. Rapporto, JSON, CSV e tre figure sono in
+`adapt04_calibrazione_recente/replay_completo/`; le differenze globali restano
+distinte dalle medie non pesate per blocco.
+
+Il rendiconto originale e' conservato fuori Git in
+`adattamento-drift/archivio_esterno/adapt04_calibrazione_recente/replay_completo_C_seed42_b9fd9fb/replay_completo.json`
+(3.791.223 byte), SHA-256
+`af55056bafdbb647ccc1d1b381dcdadd5f27b1dd0b5b5fff46fd37c676c88ca5`.
+Lo ZIP `replay_completo_C_seed42_b9fd9fb.zip` e' 453.656 byte, SHA-256
+`6d8f5dde92d3fc006af23564409749c18183192e381b41e0d28bc5268aa90af8`.
+L'archivio e' disponibile al [collegamento scaricabile](https://drive.google.com/file/d/1_V1pR7dUpShIXSLH-ngiln7H2_ib8757/view?usp=drive_link),
+registrato senza rigenerare o modificare lo ZIP verificato.
+
 ## La suite di test
 
 ```
@@ -233,10 +313,11 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **327 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **359 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
-test dell'analisi ADAPT-03 e 27 test del diagnostico pesi+soglia. Per file:
+test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
+ADAPT-04. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -244,7 +325,7 @@ test dell'analisi ADAPT-03 e 27 test del diagnostico pesi+soglia. Per file:
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
-`test_pesi_piu_soglia.py` 27.
+`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -255,7 +336,11 @@ controlli dell'analisi del checkpoint ADAPT-03, **299** dopo le controprove
 negative sullo smoke, **300** con la controprova sul picco prima del `pop` e
 **320** con il calibratore B e le controprove del diagnostico pesi + soglia,
 **327** con modalita' completa, denominatori mancanti e confronto sui 916
-blocchi.
+blocchi, **345** con ruoli deterministici, buffer separati e transazioni
+atomiche di ADAPT-04, **355** con il validatore indipendente del rendiconto e le
+relative controprove negative, **358** con budget dell'ultimo blocco parziale,
+ricostruzione delle metriche dalla confusion matrix e periodi contigui di skip,
+**359** con la controprova sulla formattazione dei punti percentuali.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -293,18 +378,37 @@ riferimento incompleto, conservano come mancanti le metriche dei 41 blocchi
 monoclasse, verificano la nuova rendicontazione degli array del fit e
 ricostruiscono il riepilogo completo dal rendiconto originale.
 
-**I 327 non sono il totale del repository.** Lanciando `pytest` dalla radice del
-repository si raccolgono anche le suite delle altre linee di lavoro: sul
-dispositivo Windows, con la directory temporanea indicata sopra, sono state
-misurate **961 passate, 1 saltata e 5 sottotest passati** sul commit del replay
-completo.
+Le 32 prove ADAPT-04 presidiano serializzazione canonica, zeri e NaN, ruolo
+immutabile dei duplicati, separazione dei buffer, quote e posti liberi, eta'
+dall'osservazione, causalita' `j+2`, cause degli skip, atomicita', ricalcolo
+degli score, metriche mancanti e payload distinti. Le dieci aggiunte fanno
+fallire blocchi incompleti o fuori ordine, score 2/3 diversi, soglie applicate
+in anticipo, capacita' superate, conteggi falsi, input B aggiunto, campioni non
+appaiati e zeri al posto di metriche non definite; inoltre ricostruiscono i
+periodi contigui usando soltanto coppie definite. Le ultime tre coprono il
+budget dell'1% sulle 673 righe finali, ricostruiscono le metriche dalla
+confusion matrix e aggregano gli skip contigui senza confondere le cause.
+Una controprova ulteriore impedisce che la conversione del separatore decimale
+corrompa l'unita' testuale dei punti percentuali nel rapporto generato.
+
+**I 359 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+repository si raccolgono anche le suite delle altre linee di lavoro. Sul ramo
+ADAPT-04 la suite globale ha prodotto **970 passate, 1 saltata e 5 sottotest
+passati**; 22 controlli AVR non sono partiti per `WinError 623` della toolchain
+PlatformIO installata su Windows. L'invocazione diretta di `avr-g++.exe
+--version` restituisce lo stesso errore di rilocazione DLL, prima di leggere il
+codice del repository. Questi 22 esiti descrivono quindi un limite della
+toolchain locale, non una regressione ADAPT-04; non vengono dichiarati come
+test superati. L'ultima misura completa di ADAPT-03 era **961 passate, 1
+saltata e 5 sottotest passati**.
 Alla chiusura del precedente diagnostico ADAPT-03 erano 934 passate, 1 saltata
 e 5 sottotest passati. Alla
 chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
 commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
 a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
-attuali vanno citati separatamente, perché misurano cose diverse: 327 e' la
-cartella `ton_temporal/`, mentre 961 e' il totale misurato dalla radice. Il
+attuali vanno citati separatamente, perché misurano cose diverse: 345 e' la
+cartella `ton_temporal/`, mentre il totale dalla radice include anche le altre
+linee di lavoro. Il
 totale della radice dipende anche dalle altre cartelle presenti nella copia di
 lavoro.
 

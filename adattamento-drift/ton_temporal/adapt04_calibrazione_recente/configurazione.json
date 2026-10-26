@@ -1,0 +1,76 @@
+{
+  "protocollo": "ADAPT-04-calibrazione-recente-v1",
+  "base_sha": "d7bcd716dc416359474f12023cf0e5766d3aa78a",
+  "flusso": "C",
+  "seme": 42,
+  "modello": "kan",
+  "blocchi": {
+    "dimensione": 10000,
+    "smoke": 20,
+    "completo": 916
+  },
+  "etichette": {
+    "campionamento": "uniforme",
+    "budget": 0.01,
+    "ritardo_blocchi": 1,
+    "prima_influenza": "j+2"
+  },
+  "ruolo": {
+    "salt": "ADAPT04-C-seed42-v1",
+    "algoritmo": "sha256",
+    "feature": 8,
+    "dtype": "float64-little-endian",
+    "zeri": "-0.0 normalizzato a +0.0",
+    "nan": "quiet NaN canonico 0x7ff8000000000000",
+    "infinito": "segno IEEE-754 conservato",
+    "messaggio": "salt ASCII + byte nullo + 8 float64 canonici",
+    "interpretazione_digest": "unsigned big-endian",
+    "calibration": "digest modulo 4 uguale a 0",
+    "fit": "digest modulo 4 diverso da 0"
+  },
+  "memorie": {
+    "fit192": {
+      "capacita": 192,
+      "quote_per_classe": {"0": 96, "1": 96},
+      "inizializzazione": "vuota"
+    },
+    "calibration64": {
+      "capacita": 64,
+      "quote_per_classe": {"0": 32, "1": 32},
+      "inizializzazione": "vuota",
+      "eta_massima_blocchi": 50,
+      "minimo_per_classe": 5
+    }
+  },
+  "testa": {
+    "parametri": "otto guadagni e intercetta",
+    "rappresentazione_bspline": "congelata",
+    "stimatore": "LogisticRegression",
+    "C": 1.0,
+    "max_iter": 1000
+  },
+  "soglia": {
+    "iniziale": "soglia B verificata letta dal riferimento ADAPT-03",
+    "regola": "massimo balanced accuracy",
+    "candidati": "score float64 distinti",
+    "uguaglianza": "float64 esatta",
+    "tie_break": "mediana inferiore dei massimi"
+  },
+  "politiche": [
+    "frozen_cal64",
+    "fit192_b",
+    "fit192_cal64"
+  ],
+  "input_sha256": {
+    "A.npz": "ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432",
+    "C.npz": "3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d"
+  },
+  "vincoli": {
+    "b_non_riletto_durante_replay": true,
+    "d_riservato": true,
+    "campagna_cinque_semi": false,
+    "ricerca_iperparametri": false,
+    "trasferimento_fra_memorie": false,
+    "aggiornamento_atomico": true
+  }
+}

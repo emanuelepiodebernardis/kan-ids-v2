@@ -1,0 +1,59 @@
+{
+  "protocollo": "ADAPT-04 calibrazione recente separata 192/64",
+  "merge_base_adapt03": "d7bcd716dc416359474f12023cf0e5766d3aa78a",
+  "commit_protocollo": "6434664",
+  "commit_replay": "b9fd9fbd76d5d01a1ff5674b8f5a67cf5b266b3b",
+  "flusso": "C",
+  "seme": 42,
+  "blocchi": 916,
+  "input": {
+    "A.npz": "ee79d298451cd2e243b4609f8d5cb35986b15fcedb825a467c77c8e79ced5432",
+    "C.npz": "3fd24016c085b650ec9a54d4f21bed5b49764cb6df171bcc715e27feebfa939d"
+  },
+  "riferimento_adapt03": {
+    "file": "replay_completo.json",
+    "sha256": "996263a0dcccbfa005853c93d93467972889f3d0ff7c1908070825b778af851e",
+    "commit_replay": "106ee1ccce2f116b7fb9b296df0a403c789f40ab"
+  },
+  "rendiconto_originale": {
+    "file": "replay_completo.json",
+    "dimensione_byte": 3791223,
+    "sha256": "af55056bafdbb647ccc1d1b381dcdadd5f27b1dd0b5b5fff46fd37c676c88ca5"
+  },
+  "archivio_esterno": {
+    "file": "replay_completo_C_seed42_b9fd9fb.zip",
+    "dimensione_byte": 453656,
+    "sha256": "6d8f5dde92d3fc006af23564409749c18183192e381b41e0d28bc5268aa90af8",
+    "collegamento": "https://drive.google.com/file/d/1_V1pR7dUpShIXSLH-ngiln7H2_ib8757/view?usp=drive_link"
+  },
+  "ambiente": {
+    "python": "3.13.2",
+    "numpy": "2.3.4",
+    "scikit_learn": "1.7.2",
+    "sistema": "Windows 11 AMD64, solo CPU",
+    "cpu": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "cpu_thread_visibili": 12,
+    "ram_totale_mib": 16067.4
+  },
+  "comando_replay": "python replay_calibrazione_recente.py --modalita completo --iniziale flussi/A.npz --flusso flussi/C.npz --riferimento-adapt03 ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json --uscita ../archivio_esterno/adapt04_calibrazione_recente/replay_completo_C_seed42_b9fd9fb/replay_completo.json --richiedi-worktree-pulito",
+  "validazione": {
+    "esito": "PASS",
+    "test_ton_temporal": 359,
+    "denominatori": {
+      "recall": "916/916",
+      "fpr": "875/916",
+      "balanced_accuracy": "875/916",
+      "auroc": "875/916"
+    }
+  },
+  "artefatti_leggeri": [
+    "rapporto.md",
+    "riepilogo.json",
+    "confronto_per_blocco.csv",
+    "figure/LEGGIMI.md",
+    "figure/andamento_temporale_metriche.png",
+    "figure/differenze_confronto_principale.png",
+    "figure/soglie_e_disponibilita_calibrazione.png"
+  ],
+  "d_riservato": true
+}
