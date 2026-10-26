@@ -1,6 +1,7 @@
 """Controprove mirate per il protocollo ADAPT-04 192+64."""
 
 import copy
+from pathlib import Path
 
 import numpy as np
 import pytest
@@ -490,3 +491,12 @@ def test_punti_percentuali_formatta_numero_senza_corrompere_unita():
         '+6,741 punti percentuali')
     assert analisi._punti_percentuali(-0.02599) == (
         '-2,599 punti percentuali')
+    rapporto = Path(__file__).with_name('adapt04_calibrazione_recente') / (
+        'replay_completo/rapporto.md')
+    testo = rapporto.read_text(encoding='utf-8')
+    compatto = ' '.join(testo.split())
+    assert "tempo dell'intero comando" in compatto
+    assert 'somma conservativa dei tre massimi separati' in compatto
+    assert 'non e\' un picco simultaneo misurato' in compatto
+    assert 'non l\'intera KAN congelata o il preprocessing' in compatto
+    assert '1.245,4 MiB' in compatto

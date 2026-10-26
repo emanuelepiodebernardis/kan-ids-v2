@@ -262,6 +262,21 @@ formulata dopo lo smoke. Sono stati applicati 475 aggiornamenti atomici e
 saltati 440, tutti per normali recenti insufficienti. Il periodo di skip piu'
 lungo copre i blocchi 241-663 senza allentare il criterio preregistrato.
 
+I 190,088 secondi misurano l'intero comando da prima degli hash e del
+caricamento fino alla costruzione del rendiconto, esclusa la serializzazione
+finale: 35,162 secondi sono l'addestramento iniziale KAN su A, 147,160 il ciclo
+di replay e 7,766 hash, caricamento, preparazione e riepilogo. I timer di fit,
+calibrazione e inferenza sono sottoinsiemi del ciclo; non comprendono
+rappresentazioni, gestione delle memorie, campionamento, controlli o log.
+
+Il massimo dei buffer e' 20.736 byte: 8.448 per feature trasformate ed
+etichette e 12.288 per metadati logici. Gli 8.216 byte della coda contano 200
+indici, ruoli, digest e due chiavi di blocco, senza duplicare le righe di C. I
+168 byte dello stato numerico contano due teste e tre soglie, non l'intera KAN
+o il preprocessing. La somma conservativa dei massimi separati e' 29.120 byte,
+non un picco simultaneo; esclude l'overhead Python. L'RSS di 1.245,4 MiB include
+il banco di prova completo e non rappresenta la memoria del controllore.
+
 Nel confronto principale, FIT192+CAL64 rispetto a frozen+CAL64, il recall
 globale passa da 84,670% a 82,071%, l'FPR da 29,444% a 13,364%, la balanced
 accuracy da 77,613% a 84,354% e l'AUROC media per blocco da 0,884232 a

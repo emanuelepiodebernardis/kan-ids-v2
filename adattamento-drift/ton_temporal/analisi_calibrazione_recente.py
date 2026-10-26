@@ -655,6 +655,23 @@ def scrivi_rapporto(r):
     ruoli = r['ripartizione_ruoli']
     storico = r['riferimenti_adapt03_senza_nuovi_run']
     skip_massimo = max(r['periodi_skip'], key=lambda v: v['blocchi'])
+    stato_memorie = r['stato_finale_memorie']
+    dati_buffer = sum(
+        stato_memorie[nome]['payload']['feature_byte']
+        + stato_memorie[nome]['payload']['etichette_byte']
+        for nome in ('fit192', 'calibration64'))
+    metadati_buffer = sum(
+        stato_memorie[nome]['payload']['metadati_byte']
+        for nome in ('fit192', 'calibration64'))
+    somma_massimi_logici = (
+        mem['massimo_buffer']['totale_byte']
+        + mem['massimo_coda_attesa']['totale_byte']
+        + mem['stato_modello']['totale_byte'])
+    secondi_residui = (
+        costi['secondi_totali'] - costi['secondi_addestramento_kan']
+        - costi['secondi_replay'])
+    rss_mib = format(mem['rss_iniziale']['mib'], ',.1f').replace(
+        ',', '_').replace('.', ',').replace('_', '.')
     righe_storiche = []
     for chiave, nome in (
             ('frozen_b', 'frozen + B'),
@@ -734,11 +751,19 @@ L'hash ha assegnato {ruoli['richieste']['fit']} richieste al fit e
 {ruoli['richieste']['calibration']} alla calibrazione, pari rispettivamente a
 {ruoli['vettori_unici']['fit']} e {ruoli['vettori_unici']['calibration']}
 vettori unici. Il massimo payload logico dei due buffer e'
-{_intero(mem['massimo_buffer']['totale_byte'])} byte; la coda pendente arriva a
-{_intero(mem['massimo_coda_attesa']['totale_byte'])} byte e lo stato numerico
-del modello a {_intero(mem['stato_modello']['totale_byte'])} byte. L'RSS del
-banco di prova e' separato e include input, log e temporanei non ammessi al
-controllore.
+{_intero(mem['massimo_buffer']['totale_byte'])} byte: {_intero(dati_buffer)}
+per feature trasformate ed etichette e {_intero(metadati_buffer)} per blocco
+di osservazione, ordine e digest. La coda pendente arriva a
+{_intero(mem['massimo_coda_attesa']['totale_byte'])} byte per 200 indici,
+ruoli, digest e due chiavi di blocco: riferisce le righe di C gia' caricate e
+non ne duplica feature o etichette. I {_intero(mem['stato_modello']['totale_byte'])}
+byte dello stato numerico contano le due teste di nove `float64` e tre soglie,
+non l'intera KAN congelata o il preprocessing. La somma conservativa dei tre
+massimi separati e' {_intero(somma_massimi_logici)} byte; non e' un picco
+simultaneo misurato ed esclude l'overhead degli oggetti Python. L'RSS del banco
+di prova, {rss_mib} MiB sia prima sia
+dopo il ciclo, include runtime, input A/C, modello, log e temporanei e non e'
+memoria ammessa al controllore.
 
 I {r['aggiornamenti']['saltati']} skip dipendono tutti da normali recenti
 insufficienti. L'intervallo contiguo massimo va dal blocco
@@ -746,11 +771,18 @@ insufficienti. L'intervallo contiguo massimo va dal blocco
 ({skip_massimo['blocchi']} blocchi): il criterio preregistrato e' rimasto
 invariato anche durante questa indisponibilita'.
 
-Il tempo totale e' {_dec(costi['secondi_totali'] / 60, 3)} minuti, di cui
-{_dec(costi['secondi_replay'] / 60, 3)} per il replay. I fit richiedono
-{_dec(costi['fit']['totale'], 3)} s; le calibrazioni frozen e adattata
-{_dec(costi['calibrazione_frozen']['totale'], 3)} s e
-{_dec(costi['calibrazione_adattata']['totale'], 3)} s.
+Il tempo dell'intero comando, misurato da prima degli hash e del caricamento
+fino alla costruzione del rendiconto ma prima della serializzazione finale, e'
+{_dec(costi['secondi_totali'], 3)} s. Comprende
+{_dec(costi['secondi_addestramento_kan'], 3)} s di addestramento iniziale KAN
+su A, {_dec(costi['secondi_replay'], 3)} s per il ciclo sui 916 blocchi e
+{_dec(secondi_residui, 3)} s per hash, caricamento, preparazione e riepilogo.
+Nel ciclo, i timer di componente registrano {_dec(costi['fit']['totale'], 3)} s
+per i 475 fit, {_dec(costi['calibrazione_frozen']['totale'], 3)} s e
+{_dec(costi['calibrazione_adattata']['totale'], 3)} s per le calibrazioni e
+{_dec(costi['inferenza_frozen']['totale'] + costi['inferenza_adattata']['totale'], 3)} s
+per le due inferenze. Sono sottoinsiemi del ciclo e non includono
+rappresentazioni, gestione delle memorie, campionamento, controlli o log.
 
 ## Riferimenti ADAPT-03 e limiti
 

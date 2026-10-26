@@ -65,11 +65,19 @@ L'hash ha assegnato 69158 richieste al fit e
 22348 alla calibrazione, pari rispettivamente a
 44966 e 15094
 vettori unici. Il massimo payload logico dei due buffer e'
-20.736 byte; la coda pendente arriva a
-8.216 byte e lo stato numerico
-del modello a 168 byte. L'RSS del
-banco di prova e' separato e include input, log e temporanei non ammessi al
-controllore.
+20.736 byte: 8.448
+per feature trasformate ed etichette e 12.288 per blocco
+di osservazione, ordine e digest. La coda pendente arriva a
+8.216 byte per 200 indici,
+ruoli, digest e due chiavi di blocco: riferisce le righe di C gia' caricate e
+non ne duplica feature o etichette. I 168
+byte dello stato numerico contano le due teste di nove `float64` e tre soglie,
+non l'intera KAN congelata o il preprocessing. La somma conservativa dei tre
+massimi separati e' 29.120 byte; non e' un picco
+simultaneo misurato ed esclude l'overhead degli oggetti Python. L'RSS del banco
+di prova, 1.245,4 MiB sia prima sia
+dopo il ciclo, include runtime, input A/C, modello, log e temporanei e non e'
+memoria ammessa al controllore.
 
 I 440 skip dipendono tutti da normali recenti
 insufficienti. L'intervallo contiguo massimo va dal blocco
@@ -77,11 +85,18 @@ insufficienti. L'intervallo contiguo massimo va dal blocco
 (423 blocchi): il criterio preregistrato e' rimasto
 invariato anche durante questa indisponibilita'.
 
-Il tempo totale e' 3,168 minuti, di cui
-2,453 per il replay. I fit richiedono
-17,731 s; le calibrazioni frozen e adattata
-0,156 s e
-0,092 s.
+Il tempo dell'intero comando, misurato da prima degli hash e del caricamento
+fino alla costruzione del rendiconto ma prima della serializzazione finale, e'
+190,088 s. Comprende
+35,162 s di addestramento iniziale KAN
+su A, 147,160 s per il ciclo sui 916 blocchi e
+7,766 s per hash, caricamento, preparazione e riepilogo.
+Nel ciclo, i timer di componente registrano 17,731 s
+per i 475 fit, 0,156 s e
+0,092 s per le calibrazioni e
+0,274 s
+per le due inferenze. Sono sottoinsiemi del ciclo e non includono
+rappresentazioni, gestione delle memorie, campionamento, controlli o log.
 
 ## Riferimenti ADAPT-03 e limiti
 
