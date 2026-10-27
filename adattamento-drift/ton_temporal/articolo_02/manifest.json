@@ -2,6 +2,18 @@
   "schema": 1,
   "nota": "materiali documentali da risultati esistenti; nessun nuovo training o replay",
   "d_riservato": true,
+  "implementazione_validazione_finale": [
+    {
+      "percorso": "replay_validazione_finale.py",
+      "dimensione_byte": 20051,
+      "sha256": "67f0f76cbe960b08a109331736caac954941fa2f0a1bcb3602fac30ccb6b8a6f"
+    },
+    {
+      "percorso": "test_replay_validazione_finale.py",
+      "dimensione_byte": 6641,
+      "sha256": "24e7eb7db0cbbc930f574243f6e2423c185f52cfab519d2fb935baaa1d4b95d1"
+    }
+  ],
   "fonti_versionate": [
     {
       "percorso": "replay_evidenza/confronto_politiche.json",
@@ -129,8 +141,8 @@
   "prodotti": [
     {
       "percorso": "LEGGIMI.md",
-      "dimensione_byte": 1103,
-      "sha256": "009d78568889c23c58f400ecdc10fa704eade273874bee0b8eac9b44980dcd90"
+      "dimensione_byte": 1311,
+      "sha256": "b00a04cf20e854e52c9a8f8ab9d4d8c0438633b3311e0f844e7c66ecfc411ff1"
     },
     {
       "percorso": "tabella_evidenze.csv",
@@ -164,8 +176,8 @@
     },
     {
       "percorso": "protocollo_validazione_finale.md",
-      "dimensione_byte": 7079,
-      "sha256": "6a4a6ab6c6907cea341cf4ce55b51772bc5b5fe2483fb39ed1fd330d0eb7619a"
+      "dimensione_byte": 8664,
+      "sha256": "4615be37e8678651705a02d6349b1ac0a6f598869b016fd047952fcdea0059de"
     }
   ]
 }

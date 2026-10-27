@@ -309,6 +309,7 @@ Per rigenerarli dalla cartella `adattamento-drift/ton_temporal`:
 cd <repo>/adattamento-drift/ton_temporal
 python costruisci_materiali_articolo_02.py
 python -m pytest test_materiali_articolo_02.py -q
+python -m pytest test_replay_validazione_finale.py -q
 ```
 
 I rendiconti completi devono occupare i percorsi registrati nel
@@ -317,6 +318,14 @@ i prodotti rigenerati con quelli versionati e verifica gli SHA-256 delle fonti.
 Nell'analisi temporale, una decisione presa alla fine del blocco `k` e'
 associata agli errori del blocco `k+1`; gli strati update/skip sono descrittivi
 e non vengono presentati come stime causali.
+
+Il runner `replay_validazione_finale.py` e' separato da quello usato su C e,
+prima dell'apertura di D, viene verificato soltanto con dati sintetici. Implementa
+quattro tracce appaiate, i semi 42--46, una calibrazione B distinta per ogni
+modello iniziale, 355 blocchi di D compreso l'ultimo parziale e le aggregazioni
+di D completo e del sottoinsieme non visto sulle stesse predizioni. Il comando
+ufficiale resta subordinato all'approvazione del commit del runner e richiede lo
+SHA-256 atteso di D, un worktree pulito e una directory di uscita nuova.
 
 ## La suite di test
 
@@ -336,11 +345,12 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **365 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **373 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
 test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
-ADAPT-04, piu' 6 test sui materiali dell'articolo. Per file:
+ADAPT-04, 6 test sui materiali dell'articolo e 8 test sintetici del runner
+finale. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -349,7 +359,7 @@ ADAPT-04, piu' 6 test sui materiali dell'articolo. Per file:
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
 `test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32,
-`test_materiali_articolo_02.py` 6.
+`test_materiali_articolo_02.py` 6, `test_replay_validazione_finale.py` 8.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -369,7 +379,8 @@ con la rigenerazione dei materiali documentali, la separazione dei gruppi di
 comparabilita', il ritardo causale nell'analisi update/skip e il manifest dei
 raw esterni, **364** con il tratto 242--664 e il protocollo esplicito su D e
 **365** con la distinzione update/skip, i dettagli operativi e l'appendice delle
-evidenze.
+evidenze, **373** con il runner finale e le controprove sintetiche su causalita',
+inizializzazione, atomicita', ultimo blocco parziale e coppie a pesi comuni.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -420,7 +431,7 @@ confusion matrix e aggregano gli skip contigui senza confondere le cause.
 Una controprova ulteriore impedisce che la conversione del separatore decimale
 corrompa l'unita' testuale dei punti percentuali nel rapporto generato.
 
-**I 365 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 373 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro. Sul ramo
 ADAPT-04 la suite globale ha prodotto **970 passate, 1 saltata e 5 sottotest
 passati**; 22 controlli AVR non sono partiti per `WinError 623` della toolchain

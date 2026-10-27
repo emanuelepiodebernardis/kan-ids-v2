@@ -70,6 +70,14 @@ def test_periodo_usa_la_decisione_del_blocco_precedente():
 def test_manifest_registra_fonti_raw_e_d_riservato():
     manifest = json.loads((RADICE / "articolo_02" / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["d_riservato"] is True
+    assert [p["percorso"] for p in manifest["implementazione_validazione_finale"]] == [
+        "replay_validazione_finale.py",
+        "test_replay_validazione_finale.py",
+    ]
+    assert all(
+        len(voce["sha256"]) == 64
+        for voce in manifest["implementazione_validazione_finale"]
+    )
     assert len(manifest["fonti_versionate"]) == 6
     assert len(manifest["fonti_raw_esterne"]) == 18
     assert len(manifest["prodotti"]) == 8
@@ -101,6 +109,12 @@ def test_tratto_242_664_e_protocollo_d_sono_espliciti():
         "ADAPT04-C-seed42-v1",
         "almeno 5 normali e 5 attacchi",
         "Il confronto principale e' `FIT192+CAL64` meno `frozen+CAL64`",
+        "ricalcolata sull'intero B separatamente per ciascuno",
+        "355 blocchi da 10.000 righe",
+        "ultimo blocco\nparziale da 9.973 righe",
+        "--sha-d-atteso <sha256-D-approvato>",
+        "replay_validazione_finale.py",
+        "non\napre D",
     ):
         assert testo in protocollo
 

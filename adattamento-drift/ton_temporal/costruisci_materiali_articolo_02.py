@@ -792,7 +792,9 @@ da ADAPT-01--04 viene riusato. Le quattro tracce ricevono copie byte-identiche
 dei parametri iniziali. `frozen+B` e `frozen+CAL64` mantengono quei pesi per
 tutto D; `FIT192+B` e `FIT192+CAL64` condividono una sola traiettoria di pesi
 aggiornata su FIT192. Le soglie B sono calcolate prima dell'apertura di D e
-restano fisse nelle due tracce `+B`.
+restano fisse nelle due tracce `+B`. La soglia B non viene ereditata da una
+corsa precedente: viene ricalcolata sull'intero B separatamente per ciascuno
+dei cinque modelli iniziali, dopo l'inizializzazione relativa al suo seme.
 
 ## Buffer iniziali e assegnazione FIT/CAL
 
@@ -839,7 +841,10 @@ tutte le tracce mantengono lo stato precedente e registrano una causa di skip.
 
 D intero, {numero(d['righe_valide'])} righe valide, e' l'analisi principale. Il
 replay scorre tutto D nell'ordine di `feature_ready_time`; nessuna riga viene
-rimossa e D non modifica trasformazione, inizializzazione o criteri.
+rimossa e D non modifica trasformazione, inizializzazione o criteri. Sono
+richiesti esattamente {blocchi_d} blocchi da 10.000 righe, con l'ultimo blocco
+parziale da {numero(d['righe_valide'] % 10_000)} righe: non e' ammesso
+troncarlo, completarlo artificialmente o riusare il numero di blocchi di C.
 
 L'analisi supplementare applica alle stesse predizioni una maschera per i
 vettori mai comparsi in A, B o C: {numero(non_visti)} righe, di cui
@@ -864,7 +869,9 @@ sono variante meno controllo e sono calcolati sulle stesse righe.
 
 ## Controlli preregistrati
 
-1. Registrare commit, comando, ambiente e SHA-256 di A, B e D prima dei run.
+1. Registrare commit, comando, ambiente e SHA-256 di A, B, C e D prima dei run;
+   lo SHA-256 atteso di D e' un argomento obbligatorio, non un valore dedotto
+   dopo la corsa.
 2. Richiedere blocchi completi e ordinati, digest identici di righe ed etichette
    fra le quattro tracce e digest iniziali uguali entro ciascun seme.
 3. Verificare causalita' `j+2`, separazione FIT/CAL, atomicita' degli update e
@@ -873,6 +880,36 @@ sono variante meno controllo e sono calcolati sulle stesse righe.
    metrica il denominatore valido; non sostituirli con zero.
 5. Conservare raw, confronto per blocco, manifest, hash e tempi effettivi in un
    archivio esterno immutabile.
+
+## Runner predisposto, senza apertura di D
+
+`replay_validazione_finale.py` implementa il disegno come runner distinto da
+quello specifico per C. A addestra trasformazione e modello; B ricalibra la
+soglia del singolo modello iniziale; C costruisce soltanto l'inventario delle
+impronte A/B/C; D alimenta le quattro tracce e le due aggregazioni. La maschera
+non-visto non genera un secondo replay: viene applicata alle stesse predizioni
+gia' prodotte per D completo.
+
+Prima dell'apertura di D il contratto si verifica esclusivamente su dati
+sintetici:
+
+```powershell
+python -m pytest test_replay_validazione_finale.py -q
+```
+
+Soltanto dopo l'approvazione del commit del runner e dei test, il comando
+ufficiale richiedera' un worktree pulito e una directory di uscita nuova:
+
+```powershell
+python replay_validazione_finale.py `
+  --iniziale flussi/A.npz --calibrazione flussi/B.npz `
+  --sviluppo flussi/C.npz --valutazione flussi/D.npz `
+  --sha-d-atteso <sha256-D-approvato> `
+  --uscita <nuova-directory-vuota>
+```
+
+La preparazione del runner e delle controprove non esegue questo comando e non
+apre D.
 
 ## Metriche e criteri
 
@@ -913,6 +950,8 @@ contiene nuovi training o replay e non usa D.
 - `sintesi.md`: sintesi scientifica breve (massimo due pagine di testo).
 - `analisi_aggiornamenti_skip.*`: errori nel blocco successivo a update o skip.
 - `protocollo_validazione_finale.md`: proposta minima prima dell'apertura di D.
+- `../replay_validazione_finale.py`: runner congelabile per le quattro tracce.
+- `../test_replay_validazione_finale.py`: controprove sintetiche, senza D.
 - `manifest.json`: SHA-256 di fonti e prodotti.
 
 ## Riproduzione
@@ -922,6 +961,7 @@ Dalla cartella `adattamento-drift/ton_temporal`:
 ```powershell
 python costruisci_materiali_articolo_02.py
 python -m pytest test_materiali_articolo_02.py -q
+python -m pytest test_replay_validazione_finale.py -q
 ```
 
 I raw completi devono essere presenti nella cartella documentata
@@ -993,6 +1033,17 @@ def costruisci(archivio: Path, uscita: Path) -> None:
         "schema": 1,
         "nota": "materiali documentali da risultati esistenti; nessun nuovo training o replay",
         "d_riservato": True,
+        "implementazione_validazione_finale": [
+            {
+                "percorso": p.relative_to(RADICE).as_posix(),
+                "dimensione_byte": p.stat().st_size,
+                "sha256": _sha256(p),
+            }
+            for p in (
+                RADICE / "replay_validazione_finale.py",
+                RADICE / "test_replay_validazione_finale.py",
+            )
+        ],
         "fonti_versionate": [
             {
                 "percorso": p.relative_to(RADICE).as_posix(),

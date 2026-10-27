@@ -22,7 +22,9 @@ da ADAPT-01--04 viene riusato. Le quattro tracce ricevono copie byte-identiche
 dei parametri iniziali. `frozen+B` e `frozen+CAL64` mantengono quei pesi per
 tutto D; `FIT192+B` e `FIT192+CAL64` condividono una sola traiettoria di pesi
 aggiornata su FIT192. Le soglie B sono calcolate prima dell'apertura di D e
-restano fisse nelle due tracce `+B`.
+restano fisse nelle due tracce `+B`. La soglia B non viene ereditata da una
+corsa precedente: viene ricalcolata sull'intero B separatamente per ciascuno
+dei cinque modelli iniziali, dopo l'inizializzazione relativa al suo seme.
 
 ## Buffer iniziali e assegnazione FIT/CAL
 
@@ -69,7 +71,10 @@ tutte le tracce mantengono lo stato precedente e registrano una causa di skip.
 
 D intero, 3.549.973 righe valide, e' l'analisi principale. Il
 replay scorre tutto D nell'ordine di `feature_ready_time`; nessuna riga viene
-rimossa e D non modifica trasformazione, inizializzazione o criteri.
+rimossa e D non modifica trasformazione, inizializzazione o criteri. Sono
+richiesti esattamente 355 blocchi da 10.000 righe, con l'ultimo blocco
+parziale da 9.973 righe: non e' ammesso
+troncarlo, completarlo artificialmente o riusare il numero di blocchi di C.
 
 L'analisi supplementare applica alle stesse predizioni una maschera per i
 vettori mai comparsi in A, B o C: 2.228.436 righe, di cui
@@ -94,7 +99,9 @@ sono variante meno controllo e sono calcolati sulle stesse righe.
 
 ## Controlli preregistrati
 
-1. Registrare commit, comando, ambiente e SHA-256 di A, B e D prima dei run.
+1. Registrare commit, comando, ambiente e SHA-256 di A, B, C e D prima dei run;
+   lo SHA-256 atteso di D e' un argomento obbligatorio, non un valore dedotto
+   dopo la corsa.
 2. Richiedere blocchi completi e ordinati, digest identici di righe ed etichette
    fra le quattro tracce e digest iniziali uguali entro ciascun seme.
 3. Verificare causalita' `j+2`, separazione FIT/CAL, atomicita' degli update e
@@ -103,6 +110,36 @@ sono variante meno controllo e sono calcolati sulle stesse righe.
    metrica il denominatore valido; non sostituirli con zero.
 5. Conservare raw, confronto per blocco, manifest, hash e tempi effettivi in un
    archivio esterno immutabile.
+
+## Runner predisposto, senza apertura di D
+
+`replay_validazione_finale.py` implementa il disegno come runner distinto da
+quello specifico per C. A addestra trasformazione e modello; B ricalibra la
+soglia del singolo modello iniziale; C costruisce soltanto l'inventario delle
+impronte A/B/C; D alimenta le quattro tracce e le due aggregazioni. La maschera
+non-visto non genera un secondo replay: viene applicata alle stesse predizioni
+gia' prodotte per D completo.
+
+Prima dell'apertura di D il contratto si verifica esclusivamente su dati
+sintetici:
+
+```powershell
+python -m pytest test_replay_validazione_finale.py -q
+```
+
+Soltanto dopo l'approvazione del commit del runner e dei test, il comando
+ufficiale richiedera' un worktree pulito e una directory di uscita nuova:
+
+```powershell
+python replay_validazione_finale.py `
+  --iniziale flussi/A.npz --calibrazione flussi/B.npz `
+  --sviluppo flussi/C.npz --valutazione flussi/D.npz `
+  --sha-d-atteso <sha256-D-approvato> `
+  --uscita <nuova-directory-vuota>
+```
+
+La preparazione del runner e delle controprove non esegue questo comando e non
+apre D.
 
 ## Metriche e criteri
 
