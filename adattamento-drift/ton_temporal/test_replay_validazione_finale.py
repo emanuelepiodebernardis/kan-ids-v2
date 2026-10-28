@@ -29,6 +29,13 @@ class ModelloSintetico:
         return np.array(self._parametri, copy=True)
 
 
+class ModelloSinteticoDaA(ModelloSintetico):
+    def __init__(self, Z_a, y_a, seme):
+        assert len(Z_a) == len(y_a)
+        super().__init__(intercetta=seme / 100.0)
+        self.seme = seme
+
+
 def _flusso(n):
     indice = np.arange(n)
     y = (indice % 2).astype(np.uint8)
@@ -92,6 +99,21 @@ def test_calibrazione_b_e_ricalcolata_per_il_modello_iniziale_corrente():
     assert prova0['risorse']['righe'] == prova2['risorse']['righe'] == 40
 
 
+def test_tutti_i_modelli_sono_preparati_da_a_b_senza_d():
+    X, y, _, _ = _flusso(40)
+    preparati = finale.prepara_modelli_iniziali(
+        X, y, TrasformazioneIdentita(), X, y,
+        cache_blocco=13, modello_cls=ModelloSinteticoDaA)
+
+    assert [p['seme'] for p in preparati] == list(finale.SEMI)
+    assert len({p['addestramento_iniziale']['parametri_sha256']
+                for p in preparati}) == 5
+    assert all(p['addestramento_iniziale']['origine'] == 'A'
+               for p in preparati)
+    assert all(p['calibrazione_b_iniziale']['risorse']['righe'] == 40
+               for p in preparati)
+
+
 def test_causalita_inizializzazione_atomicita_e_pesi_comuni():
     rapporto = _esegui()
     b0, b1, b2 = rapporto['per_blocco']
@@ -130,6 +152,40 @@ def test_skip_non_applica_nessuna_parte_della_transazione():
         'attivo_dal_blocco': None,
     }
     assert rapporto['aggiornamenti']['applicati'] == 0
+
+
+def test_json_conserva_fit_due_calibrazioni_e_tempo_replay():
+    rapporto = _esegui()
+    applicati = [
+        b['aggiornamento'] for b in rapporto['per_blocco']
+        if b['aggiornamento'] and b['aggiornamento']['applicato']
+    ]
+    nomi = {'fit', 'calibrazione_frozen', 'calibrazione_adattata'}
+    assert applicati
+    assert all(set(a['costi_secondi']) == nomi for a in applicati)
+    assert rapporto['tempi']['replay_secondi'] > 0
+    assert rapporto['tempi']['aggiornamenti_misurati'] == len(applicati)
+    for nome in nomi:
+        atteso = sum(a['costi_secondi'][nome] for a in applicati)
+        assert rapporto['tempi']['aggiornamenti_secondi_totali'][nome] == pytest.approx(
+            atteso)
+
+    per_seme = []
+    for seme in finale.SEMI:
+        copia = copy.deepcopy(rapporto)
+        copia['seme'] = seme
+        copia['addestramento_iniziale'] = {'secondi': seme / 100.0}
+        copia['calibrazione_b_iniziale'] = {
+            'risorse': {'secondi_costruzione_cache': seme / 200.0},
+            'costo': {'secondi_totali': seme / 300.0},
+        }
+        per_seme.append(copia)
+    riepilogo = finale.riepiloga_campagna(per_seme)
+    assert [r['seme'] for r in riepilogo['tempi_per_seme']] == list(finale.SEMI)
+    assert all(r['replay_D_secondi'] > 0
+               for r in riepilogo['tempi_per_seme'])
+    assert all(set(r['aggiornamenti_secondi_totali']) == nomi
+               for r in riepilogo['tempi_per_seme'])
 
 
 def test_ultimo_blocco_parziale_e_incluso_senza_padding():

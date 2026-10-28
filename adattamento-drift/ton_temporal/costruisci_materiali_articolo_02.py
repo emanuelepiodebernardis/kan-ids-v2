@@ -795,6 +795,8 @@ aggiornata su FIT192. Le soglie B sono calcolate prima dell'apertura di D e
 restano fisse nelle due tracce `+B`. La soglia B non viene ereditata da una
 corsa precedente: viene ricalcolata sull'intero B separatamente per ciascuno
 dei cinque modelli iniziali, dopo l'inizializzazione relativa al suo seme.
+Addestramento su A e calibrazione su B terminano per tutti e cinque i semi
+prima di calcolare l'impronta o caricare gli array di D.
 
 ## Buffer iniziali e assegnazione FIT/CAL
 
@@ -879,7 +881,9 @@ sono variante meno controllo e sono calcolati sulle stesse righe.
 4. Conservare i valori mancanti nei blocchi monoclasse e riportare per ogni
    metrica il denominatore valido; non sostituirli con zero.
 5. Conservare raw, confronto per blocco, manifest, hash e tempi effettivi in un
-   archivio esterno immutabile.
+   archivio esterno immutabile. Ogni aggiornamento applicato conserva
+   separatamente i secondi di fit, calibrazione frozen e calibrazione adattata;
+   ogni rendiconto conserva inoltre il tempo complessivo del replay del seme.
 
 ## Runner predisposto, senza apertura di D
 
@@ -888,7 +892,8 @@ quello specifico per C. A addestra trasformazione e modello; B ricalibra la
 soglia del singolo modello iniziale; C costruisce soltanto l'inventario delle
 impronte A/B/C; D alimenta le quattro tracce e le due aggregazioni. La maschera
 non-visto non genera un secondo replay: viene applicata alle stesse predizioni
-gia' prodotte per D completo.
+gia' prodotte per D completo. I cinque modelli e le cinque calibrazioni B sono
+preparati prima che il runner calcoli lo SHA-256 o carichi D.
 
 Prima dell'apertura di D il contratto si verifica esclusivamente su dati
 sintetici:

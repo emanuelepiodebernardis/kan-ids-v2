@@ -115,6 +115,9 @@ def test_tratto_242_664_e_protocollo_d_sono_espliciti():
         "--sha-d-atteso <sha256-D-approvato>",
         "replay_validazione_finale.py",
         "non\napre D",
+        "terminano per tutti e cinque i semi\nprima di calcolare l'impronta",
+        "secondi di fit, calibrazione frozen e calibrazione adattata",
+        "tempo complessivo del replay del seme",
     ):
         assert testo in protocollo
 

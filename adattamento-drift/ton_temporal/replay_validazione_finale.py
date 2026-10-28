@@ -90,6 +90,31 @@ def calibra_b_iniziale(modello, trasformazione, X_b, y_b,
     }
 
 
+def prepara_modelli_iniziali(Z_a, y_a, trasformazione, X_b, y_b,
+                             cache_blocco=200_000,
+                             modello_cls=replay.ModelloKAN):
+    """Addestra e calibra tutti i semi senza ricevere o leggere D."""
+    preparati = []
+    for seme in SEMI:
+        t_fit = time.perf_counter()
+        modello = modello_cls(Z_a, y_a, seme)
+        secondi_fit = time.perf_counter() - t_fit
+        soglia_b, calibrazione_b = calibra_b_iniziale(
+            modello, trasformazione, X_b, y_b, cache_blocco)
+        preparati.append({
+            'seme': seme,
+            'modello': modello,
+            'soglia_b': soglia_b,
+            'addestramento_iniziale': {
+                'origine': 'A',
+                'secondi': secondi_fit,
+                'parametri_sha256': adapt03.sha_float64(modello.parametri()),
+            },
+            'calibrazione_b_iniziale': calibrazione_b,
+        })
+    return preparati
+
+
 def valida_flusso(X, y, row_id, frt, nome, righe_attese=None,
                   blocchi_attesi=None, blocco=BLOCCO):
     X = np.asarray(X)
@@ -189,6 +214,7 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
                 soglia_b, seme, blocco=BLOCCO, budget=BUDGET,
                 ritardo=RITARDO, assegna_ruoli=cr.assegna_ruoli):
     """Esegue una traiettoria per seme; non legge file e non sceglie il disegno."""
+    t_replay = time.perf_counter()
     n_blocchi = valida_flusso(X, y, row_id, frt, 'flusso di valutazione',
                               blocco=blocco)
     non_visto = np.asarray(non_visto, dtype=bool)
@@ -202,6 +228,11 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
     righe = []
     aggiornamenti = 0
     cause_skip = Counter()
+    costi_online = {
+        'fit': [],
+        'calibrazione_frozen': [],
+        'calibrazione_adattata': [],
+    }
 
     for k in range(n_blocchi):
         i0, i1 = k * blocco, min((k + 1) * blocco, len(y))
@@ -261,6 +292,12 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
             stato = cr.applica_transazione(stato, proposta)
             if proposta['applicabile']:
                 aggiornamenti += 1
+                costi = {
+                    nome: float(proposta['costi_secondi'][nome])
+                    for nome in costi_online
+                }
+                for nome, secondi in costi.items():
+                    costi_online[nome].append(secondi)
                 voce['aggiornamento'] = {
                     'applicato': True,
                     'motivo': None,
@@ -275,6 +312,7 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
                     'soglia_frozen_dopo': stato.soglia_frozen_cal64,
                     'soglia_adattata_prima': prima.soglia_fit192_cal64,
                     'soglia_adattata_dopo': stato.soglia_fit192_cal64,
+                    'costi_secondi': costi,
                 }
             else:
                 cause_skip[proposta['motivo']] += 1
@@ -302,6 +340,7 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
         }
         for ambito in AMBITI
     }
+    secondi_replay = time.perf_counter() - t_replay
     return {
         'seme': seme,
         'parametri_iniziali_sha256': adapt03.sha_float64(parametri_iniziali),
@@ -313,6 +352,14 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
             'applicati': aggiornamenti,
             'saltati': int(sum(cause_skip.values())),
             'cause_skip': dict(sorted(cause_skip.items())),
+        },
+        'tempi': {
+            'replay_secondi': secondi_replay,
+            'aggiornamenti_misurati': aggiornamenti,
+            'aggiornamenti_secondi_totali': {
+                nome: float(sum(valori))
+                for nome, valori in costi_online.items()
+            },
         },
         'richieste_in_attesa_fine': {
             'lotti': len(in_attesa),
@@ -336,7 +383,29 @@ def esegui_seme(X, y, row_id, frt, non_visto, trasformazione, modello,
 def riepiloga_campagna(per_seme):
     if tuple(r['seme'] for r in per_seme) != SEMI:
         raise ValueError('la campagna deve contenere esattamente i semi 42--46')
-    fuori = {'semi': list(SEMI), 'ambiti': {}}
+    fuori = {
+        'semi': list(SEMI),
+        'tempi_per_seme': [
+            {
+                'seme': r['seme'],
+                'addestramento_A_secondi': r.get(
+                    'addestramento_iniziale', {}).get('secondi'),
+                'costruzione_cache_B_secondi': r.get(
+                    'calibrazione_b_iniziale', {}).get(
+                        'risorse', {}).get('secondi_costruzione_cache'),
+                'calibrazione_B_secondi': r.get(
+                    'calibrazione_b_iniziale', {}).get(
+                        'costo', {}).get('secondi_totali'),
+                'replay_D_secondi': r['tempi']['replay_secondi'],
+                'aggiornamenti_misurati': r['tempi'][
+                    'aggiornamenti_misurati'],
+                'aggiornamenti_secondi_totali': r['tempi'][
+                    'aggiornamenti_secondi_totali'],
+            }
+            for r in per_seme
+        ],
+        'ambiti': {},
+    }
     for ambito in AMBITI:
         fuori['ambiti'][ambito] = {}
         for nome in CONFRONTI:
@@ -398,13 +467,11 @@ def main(argv=None):
         'A': a.iniziale, 'B': a.calibrazione,
         'C': a.sviluppo, 'D': a.valutazione,
     }
-    impronte_file = {nome: adapt03.sha_file(path)
-                     for nome, path in percorsi.items()}
+    impronte_file = {nome: adapt03.sha_file(percorsi[nome])
+                     for nome in ('A', 'B', 'C')}
     for nome in ('A', 'B', 'C'):
         if impronte_file[nome] != SHA_INPUT_NOTI[nome]:
             raise SystemExit('SHA-256 %s diverso dal valore preregistrato' % nome)
-    if impronte_file['D'].lower() != a.sha_d_atteso.lower():
-        raise SystemExit('SHA-256 D diverso da --sha-d-atteso')
 
     t0 = time.monotonic()
     XA, yA = _carica_npz(a.iniziale, ('X', 'y'))
@@ -414,6 +481,15 @@ def main(argv=None):
     XC, = _carica_npz(a.sviluppo, ('X',))
     inventario = unisci_inventario(inventario, XC)
     del XC
+    trasformazione = replay.Trasformazione(XA)
+    ZA = trasformazione(XA)
+    preparati = prepara_modelli_iniziali(
+        ZA, yA, trasformazione, XB, yB, a.cache_blocco)
+    del XA, yA, XB, yB, ZA
+
+    impronte_file['D'] = adapt03.sha_file(a.valutazione)
+    if impronte_file['D'].lower() != a.sha_d_atteso.lower():
+        raise SystemExit('SHA-256 D diverso da --sha-d-atteso')
     XD, yD, row_idD, frtD = _carica_npz(
         a.valutazione, ('X', 'y', 'row_id', 'frt'))
     valida_flusso(XD, yD, row_idD, frtD, 'D', RIGHE_D, BLOCCHI_D)
@@ -423,19 +499,18 @@ def main(argv=None):
             int(((yD == 1) & non_visto).sum()) != ATTACCHI_D_NON_VISTI):
         raise RuntimeError('la maschera non-visto non coincide con l inventario')
 
-    trasformazione = replay.Trasformazione(XA)
-    ZA = trasformazione(XA)
     a.uscita.mkdir(parents=True, exist_ok=False)
     per_seme = []
     file_semi = []
-    for seme in SEMI:
-        modello = replay.ModelloKAN(ZA, yA, seme)
-        soglia_b, calibrazione_b = calibra_b_iniziale(
-            modello, trasformazione, XB, yB, a.cache_blocco)
+    for preparato in preparati:
+        seme = preparato['seme']
         risultato = esegui_seme(
-            XD, yD, row_idD, frtD, non_visto, trasformazione, modello,
-            soglia_b, seme)
-        risultato['calibrazione_b_iniziale'] = calibrazione_b
+            XD, yD, row_idD, frtD, non_visto, trasformazione,
+            preparato['modello'], preparato['soglia_b'], seme)
+        risultato['addestramento_iniziale'] = preparato[
+            'addestramento_iniziale']
+        risultato['calibrazione_b_iniziale'] = preparato[
+            'calibrazione_b_iniziale']
         percorso = a.uscita / ('D_seme%d.json' % seme)
         _scrivi_json(percorso, risultato)
         file_semi.append({

@@ -5,13 +5,13 @@
   "implementazione_validazione_finale": [
     {
       "percorso": "replay_validazione_finale.py",
-      "dimensione_byte": 20051,
-      "sha256": "67f0f76cbe960b08a109331736caac954941fa2f0a1bcb3602fac30ccb6b8a6f"
+      "dimensione_byte": 22916,
+      "sha256": "8e808ad4714ace6177ed74997603f06b31e234e2bde04e119575a4301a044837"
     },
     {
       "percorso": "test_replay_validazione_finale.py",
-      "dimensione_byte": 6641,
-      "sha256": "24e7eb7db0cbbc930f574243f6e2423c185f52cfab519d2fb935baaa1d4b95d1"
+      "dimensione_byte": 8902,
+      "sha256": "dd0f8320675102bf1e3039cd2e5d9e148e12e4296c53242679d993bb52e616d0"
     }
   ],
   "fonti_versionate": [
@@ -176,8 +176,8 @@
     },
     {
       "percorso": "protocollo_validazione_finale.md",
-      "dimensione_byte": 8664,
-      "sha256": "4615be37e8678651705a02d6349b1ac0a6f598869b016fd047952fcdea0059de"
+      "dimensione_byte": 9103,
+      "sha256": "f8cad8989d6f241684bde6912550f60005c8f9e5cb557c6f79d5bc923e407594"
     }
   ]
 }

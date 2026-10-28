@@ -326,6 +326,9 @@ modello iniziale, 355 blocchi di D compreso l'ultimo parziale e le aggregazioni
 di D completo e del sottoinsieme non visto sulle stesse predizioni. Il comando
 ufficiale resta subordinato all'approvazione del commit del runner e richiede lo
 SHA-256 atteso di D, un worktree pulito e una directory di uscita nuova.
+Tutti i modelli e le soglie B vengono preparati prima di calcolare l'impronta o
+caricare D. I JSON conservano per ogni update i tempi di fit e delle due
+calibrazioni, i loro totali per seme e il tempo completo del replay del seme.
 
 ## La suite di test
 
@@ -345,11 +348,11 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **373 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **375 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
 test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
-ADAPT-04, 6 test sui materiali dell'articolo e 8 test sintetici del runner
+ADAPT-04, 6 test sui materiali dell'articolo e 10 test sintetici del runner
 finale. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
@@ -359,7 +362,7 @@ finale. Per file:
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
 `test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32,
-`test_materiali_articolo_02.py` 6, `test_replay_validazione_finale.py` 8.
+`test_materiali_articolo_02.py` 6, `test_replay_validazione_finale.py` 10.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -380,7 +383,8 @@ comparabilita', il ritardo causale nell'analisi update/skip e il manifest dei
 raw esterni, **364** con il tratto 242--664 e il protocollo esplicito su D e
 **365** con la distinzione update/skip, i dettagli operativi e l'appendice delle
 evidenze, **373** con il runner finale e le controprove sintetiche su causalita',
-inizializzazione, atomicita', ultimo blocco parziale e coppie a pesi comuni.
+inizializzazione, atomicita', ultimo blocco parziale e coppie a pesi comuni,
+**375** con la preparazione completa prima di D e la conservazione dei tempi.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -431,7 +435,7 @@ confusion matrix e aggregano gli skip contigui senza confondere le cause.
 Una controprova ulteriore impedisce che la conversione del separatore decimale
 corrompa l'unita' testuale dei punti percentuali nel rapporto generato.
 
-**I 373 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 375 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro. Sul ramo
 ADAPT-04 la suite globale ha prodotto **970 passate, 1 saltata e 5 sottotest
 passati**; 22 controlli AVR non sono partiti per `WinError 623` della toolchain
