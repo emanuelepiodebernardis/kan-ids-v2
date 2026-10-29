@@ -45,15 +45,39 @@
     },
     {
       "file": "rapporto.md",
-      "dimensione_byte": 4943,
-      "sha256": "f25991c5c63b855774dd965d65b83805019f5fd8ff61539b7f900c7c21c8a9f8"
+      "dimensione_byte": 7556,
+      "sha256": "dbd6a853a1fd559b3ef60d2035fd34456393f99a23ee3da1f47708f42f1f4ee0"
     },
     {
       "file": "LEGGIMI.md",
-      "dimensione_byte": 1014,
-      "sha256": "aba709a621c5cb1f22536b5b195ececc2035582c6e23e3d13bb5ebb042e78363"
+      "dimensione_byte": 1551,
+      "sha256": "3fa7a393abc23457aff8c1a3a08efcfac0b21490af6fd6b9fa6252d4434ef966"
+    },
+    {
+      "file": "analisi_finale.json",
+      "dimensione_byte": 38934,
+      "sha256": "a710ca8af6b4168c1415e832214e2c9f52e5a4b6ffd10b490e57e9b9c19a59a2"
+    },
+    {
+      "file": "tabella_risultati_assoluti.csv",
+      "dimensione_byte": 2175,
+      "sha256": "c8922322bac53012006522393c197a3ba47fb8bd5f3d46f0d3214ab110a1b185"
     }
   ],
+  "generazione_finalizzazione": {
+    "comando": "python analisi_validazione_finale_D.py",
+    "script": {
+      "file": "analisi_validazione_finale_D.py",
+      "dimensione_byte": 24248,
+      "sha256": "0c5110f1b832abe0ff338b73f39e2c25c30ee499d397b65fe7d8646ead14b211"
+    },
+    "test": {
+      "file": "test_analisi_validazione_finale_D.py",
+      "dimensione_byte": 5058,
+      "sha256": "63af2634efe45002b8441e0f263a0572348376779c59415359e21fdfd3e75a86"
+    },
+    "nessun_nuovo_fit_replay_o_tuning": true
+  },
   "rendiconti_completi": [
     {
       "seme": 42,
@@ -101,6 +125,9 @@
   "validazione": {
     "test_mirati": 17,
     "test_ton_temporal": 375,
+    "test_finalizzazione_documentale": 5,
+    "test_mirati_finalizzazione": 53,
+    "test_ton_temporal_head_documentale": 380,
     "avvisi_attesi": 18,
     "verifica_indipendente_aggregati_e_hash": "PASS",
     "riepilogo_ricostruito_esattamente": true,
