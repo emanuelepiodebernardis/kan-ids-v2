@@ -348,12 +348,13 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **380 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **385 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
 test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
 ADAPT-04, 6 test sui materiali dell'articolo, 10 test sintetici del runner
-finale e 5 test sulla finalizzazione documentale di D. Per file:
+finale, 5 test sulla finalizzazione documentale di D e 5 test sui materiali
+della prima bozza. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -363,7 +364,7 @@ finale e 5 test sulla finalizzazione documentale di D. Per file:
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
 `test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32,
 `test_materiali_articolo_02.py` 6, `test_replay_validazione_finale.py` 10,
-`test_analisi_validazione_finale_D.py` 5.
+`test_analisi_validazione_finale_D.py` 5, `test_materiali_manoscritto.py` 5.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -387,7 +388,8 @@ evidenze, **373** con il runner finale e le controprove sintetiche su causalita'
 inizializzazione, atomicita', ultimo blocco parziale e coppie a pesi comuni,
 **375** con la preparazione completa prima di D e la conservazione dei tempi e
 **380** con la rigenerazione della tabella assoluta e del rapporto finale, i
-controlli sugli skip iniziali, l'ultima decisione e i confini dei timer.
+controlli sugli skip iniziali, l'ultima decisione e i confini dei timer, **385**
+con tabelle, figure, provenienza e limiti interpretativi della prima bozza.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -806,3 +808,24 @@ seme, e lo si verifica sullo SHA-256 registrato per blocco in
 `row_id_campionati_sha256` — non più sulla somma
 `row_id_campionati_somma_storica`, che è un controllo più debole e resta solo
 per continuità con i rendiconti pubblicati prima di questo ciclo.
+
+## Prima bozza Methods e Results del secondo articolo
+
+La bozza parte da `main` al merge `200a7985eb99d09926aa2e0c5b4606d0fa30ff4a`
+e usa soltanto i manifest, le aggregazioni versionate e i rendiconti finali
+gia' verificati. Non carica A/B/C/D e non esegue fit, replay o tuning.
+
+Dalla cartella `adattamento-drift/ton_temporal`:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+python genera_materiali_manoscritto.py
+python -m pytest test_materiali_manoscritto.py -q
+```
+
+Il generatore produce in `articolo_02/manuscript_assets/` le due tabelle in
+CSV e Markdown, lo schema causale in SVG, il grafico appaiato delta FP/delta FN
+in PNG e SVG e un manifest con SHA-256. Il file
+`articolo_02/manuscript_methods_results.md` resta manuale; le prove richiedono
+che le due tabelle incorporate coincidano byte per byte con quelle generate e
+che figure, valori, denominatori e limiti interpretativi siano preservati.

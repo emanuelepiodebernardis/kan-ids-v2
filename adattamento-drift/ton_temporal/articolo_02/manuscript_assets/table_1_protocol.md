@@ -1,0 +1,10 @@
+| Type | Item | Role or weights | Size or threshold |
+|---|---|---|---|
+| Data | A | initial transformation and model fitting | 3,956,308 rows |
+| Data | B | per-seed initial threshold calibration | 5,681,198 rows |
+| Data | C | development of ADAPT-01--04; not replayed in the final evaluation | 9,150,673 rows |
+| Data | D | single final chronological evaluation | 3,549,973 rows; 355 blocks |
+| Trace | frozen+B | initial weights | fixed threshold calibrated on B |
+| Trace | frozen+CAL64 | initial weights | threshold recalibrated on recent CAL64 |
+| Trace | FIT192+B | head updated on FIT192 | fixed threshold calibrated on B |
+| Trace | FIT192+CAL64 | head updated on FIT192 | threshold recalibrated on recent CAL64 |
