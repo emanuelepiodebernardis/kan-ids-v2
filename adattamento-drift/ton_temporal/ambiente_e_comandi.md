@@ -295,6 +295,41 @@ Lo ZIP `replay_completo_C_seed42_b9fd9fb.zip` e' 453.656 byte, SHA-256
 L'archivio e' disponibile al [collegamento scaricabile](https://drive.google.com/file/d/1_V1pR7dUpShIXSLH-ngiln7H2_ib8757/view?usp=drive_link),
 registrato senza rigenerare o modificare lo ZIP verificato.
 
+## Materiali documentali per il secondo articolo
+
+La tabella delle evidenze ADAPT-01--04, la sintesi breve, l'analisi degli
+errori nei periodi successivi ad aggiornamenti e skip e la proposta minima di
+validazione finale sono in `articolo_02/`. Sono prodotti esclusivamente dai
+riepiloghi versionati e dai raw gia' esistenti; non avviano training o replay e
+non leggono D.
+
+Per rigenerarli dalla cartella `adattamento-drift/ton_temporal`:
+
+```powershell
+cd <repo>/adattamento-drift/ton_temporal
+python costruisci_materiali_articolo_02.py
+python -m pytest test_materiali_articolo_02.py -q
+python -m pytest test_replay_validazione_finale.py -q
+```
+
+I rendiconti completi devono occupare i percorsi registrati nel
+`manifest.json`, sotto `../archivio_esterno/`. Il test confronta byte per byte
+i prodotti rigenerati con quelli versionati e verifica gli SHA-256 delle fonti.
+Nell'analisi temporale, una decisione presa alla fine del blocco `k` e'
+associata agli errori del blocco `k+1`; gli strati update/skip sono descrittivi
+e non vengono presentati come stime causali.
+
+Il runner `replay_validazione_finale.py` e' separato da quello usato su C e,
+prima dell'apertura di D, viene verificato soltanto con dati sintetici. Implementa
+quattro tracce appaiate, i semi 42--46, una calibrazione B distinta per ogni
+modello iniziale, 355 blocchi di D compreso l'ultimo parziale e le aggregazioni
+di D completo e del sottoinsieme non visto sulle stesse predizioni. Il comando
+ufficiale resta subordinato all'approvazione del commit del runner e richiede lo
+SHA-256 atteso di D, un worktree pulito e una directory di uscita nuova.
+Tutti i modelli e le soglie B vengono preparati prima di calcolare l'impronta o
+caricare D. I JSON conservano per ogni update i tempi di fit e delle due
+calibrazioni, i loro totali per seme e il tempo completo del replay del seme.
+
 ## La suite di test
 
 ```
@@ -313,11 +348,12 @@ $env:TMP = $tmp
 $env:TEMP = $tmp
 ```
 
-Attesi: **359 test superati** nella cartella `ton_temporal/`: i 251 test
+Attesi: **380 test superati** nella cartella `ton_temporal/`: i 251 test
 verificati di ADAPT-01, 8 test del checkpoint ADAPT-02 sulla memoria per classe,
 5 test sull'analisi finale, 28 test causali e di validazione dello smoke, 8
 test dell'analisi ADAPT-03, 27 test del diagnostico pesi+soglia e 32 test
-ADAPT-04. Per file:
+ADAPT-04, 6 test sui materiali dell'articolo, 10 test sintetici del runner
+finale e 5 test sulla finalizzazione documentale di D. Per file:
 `test_documenti_coerenti.py`
 67, `test_figure.py` 38, `test_soglia.py` 26, `test_politiche.py` 26,
 `test_sovrapposizioni.py` 23, `test_riepiloghi_semi.py` 21,
@@ -325,7 +361,9 @@ ADAPT-04. Per file:
 `test_guardia_monoclasse.py` 11, `test_riepilogo_finale_C.py` 6,
 `test_memoria_per_classe.py` 8, `test_analisi_memoria_per_classe.py` 5,
 `test_soglia_adattiva_online.py` 28, `test_analisi_soglia_adattiva.py` 8,
-`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32.
+`test_pesi_piu_soglia.py` 27, `test_calibrazione_recente.py` 32,
+`test_materiali_articolo_02.py` 6, `test_replay_validazione_finale.py` 10,
+`test_analisi_validazione_finale_D.py` 5.
 
 La storia dei conteggi, perché il numero cambia a ogni commit: **139** al commit
 `c5e6d02`, **193** a `7ea4a94`, **195** a `5922992`, **239** a `5a24cf1`,
@@ -340,7 +378,16 @@ blocchi, **345** con ruoli deterministici, buffer separati e transazioni
 atomiche di ADAPT-04, **355** con il validatore indipendente del rendiconto e le
 relative controprove negative, **358** con budget dell'ultimo blocco parziale,
 ricostruzione delle metriche dalla confusion matrix e periodi contigui di skip,
-**359** con la controprova sulla formattazione dei punti percentuali.
+**359** con la controprova sulla formattazione dei punti percentuali e **363**
+con la rigenerazione dei materiali documentali, la separazione dei gruppi di
+comparabilita', il ritardo causale nell'analisi update/skip e il manifest dei
+raw esterni, **364** con il tratto 242--664 e il protocollo esplicito su D e
+**365** con la distinzione update/skip, i dettagli operativi e l'appendice delle
+evidenze, **373** con il runner finale e le controprove sintetiche su causalita',
+inizializzazione, atomicita', ultimo blocco parziale e coppie a pesi comuni,
+**375** con la preparazione completa prima di D e la conservazione dei tempi e
+**380** con la rigenerazione della tabella assoluta e del rapporto finale, i
+controlli sugli skip iniziali, l'ultima decisione e i confini dei timer.
 I 56 del ciclo ADAPT-01 e dal precedente sono le 38 di `test_figure.py`, 9 aggiunte a
 `test_documenti_coerenti.py` e 3 aggiunte a `test_politiche.py` per il seme
 separato della politica — la cartella dichiarata in ogni blocco di comandi,
@@ -391,7 +438,7 @@ confusion matrix e aggregano gli skip contigui senza confondere le cause.
 Una controprova ulteriore impedisce che la conversione del separatore decimale
 corrompa l'unita' testuale dei punti percentuali nel rapporto generato.
 
-**I 359 non sono il totale del repository.** Lanciando `pytest` dalla radice del
+**I 380 non sono il totale del repository.** Lanciando `pytest` dalla radice del
 repository si raccolgono anche le suite delle altre linee di lavoro. Sul ramo
 ADAPT-04 la suite globale ha prodotto **970 passate, 1 saltata e 5 sottotest
 passati**; 22 controlli AVR non sono partiti per `WinError 623` della toolchain
@@ -406,7 +453,7 @@ e 5 sottotest passati. Alla
 chiusura di ADAPT-02 erano 898 passate, 1 saltata e 5 sottotest passati. Al
 commit `5922992` il totale era 829 passate e 1 saltata, di cui 195 erano queste;
 a `3861a5d` erano state misurate 874 prove con 240 di ADAPT-01. I due numeri
-attuali vanno citati separatamente, perché misurano cose diverse: 345 e' la
+attuali vanno citati separatamente, perché misurano cose diverse: 380 e' la
 cartella `ton_temporal/`, mentre il totale dalla radice include anche le altre
 linee di lavoro. Il
 totale della radice dipende anche dalle altre cartelle presenti nella copia di

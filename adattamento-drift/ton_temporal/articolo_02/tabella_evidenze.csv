@@ -1,0 +1,22 @@
+fase,gruppo_comparabilita,modello,semi,controllo,variante,delta_recall_pp,delta_fpr_pp,delta_auroc,delta_fn,delta_fp,denominatore_auroc,nota
+ADAPT-01,A1-C-cinque-semi,LR,42-46,congelato,ogni_blocco,16.11,-30.18,0.059,,,875/916 blocchi per seme,beneficio dell'aggiornamento continuo
+ADAPT-01,A1-C-cinque-semi,LR,42-46,casuale,evidenza,0.63,-5.23,0.0257,,,875/916 blocchi per seme,calendari con uguale numero di aggiornamenti
+ADAPT-01,A1-C-cinque-semi,LR,42-46,ogni_blocco,evidenza,-6.25,0.9,0.0017,,,875/916 blocchi per seme,momento selettivo contro aggiornamento continuo
+ADAPT-01,A1-C-cinque-semi,MLP,42-46,congelato,ogni_blocco,42.78,-13.2,-0.0257,,,875/916 blocchi per seme,beneficio dell'aggiornamento continuo
+ADAPT-01,A1-C-cinque-semi,MLP,42-46,casuale,evidenza,-7.01,2.19,0.0691,,,875/916 blocchi per seme,calendari con uguale numero di aggiornamenti
+ADAPT-01,A1-C-cinque-semi,MLP,42-46,ogni_blocco,evidenza,-11.87,3.36,0.0292,,,875/916 blocchi per seme,momento selettivo contro aggiornamento continuo
+ADAPT-01,A1-C-cinque-semi,KAN,42-46,congelato,ogni_blocco,10.51,-2.25,-0.0841,,,875/916 blocchi per seme,beneficio dell'aggiornamento continuo
+ADAPT-01,A1-C-cinque-semi,KAN,42-46,casuale,evidenza,-5.32,-11.7,0.0974,,,875/916 blocchi per seme,calendari con uguale numero di aggiornamenti
+ADAPT-01,A1-C-cinque-semi,KAN,42-46,ogni_blocco,evidenza,-10.45,-1.46,0.029,,,875/916 blocchi per seme,momento selettivo contro aggiornamento continuo
+ADAPT-02,A2-ogni_blocco-cinque-semi,LR,42-46,FIFO/ogni_blocco,per-classe/ogni_blocco,-64.631913379406,-16.565579634887,0.051092198528,5802237.6,-28710.8,875/916 blocchi per seme,media delle differenze appaiate per seme; FN e FP sono differenze medie
+ADAPT-02,A2-ogni_blocco-cinque-semi,MLP,42-46,FIFO/ogni_blocco,per-classe/ogni_blocco,-57.739094034024,-15.723187703386,0.141901917254,5183444.6,-27250.8,875/916 blocchi per seme,media delle differenze appaiate per seme; FN e FP sono differenze medie
+ADAPT-02,A2-ogni_blocco-cinque-semi,KAN,42-46,FIFO/ogni_blocco,per-classe/ogni_blocco,-56.65907014726,-11.026794987191,0.084280875025,5086487.0,-19111.2,875/916 blocchi per seme,media delle differenze appaiate per seme; FN e FP sono differenze medie
+ADAPT-02,A2-evidenza_inversione-cinque-semi,LR,42-46,FIFO/evidenza_inversione,per-classe/evidenza_inversione,-63.626510564301,-17.248840268642,0.048076303161,5711979.0,-29895.0,875/916 blocchi per seme,media delle differenze appaiate per seme; FN e FP sono differenze medie
+ADAPT-02,A2-evidenza_inversione-cinque-semi,MLP,42-46,FIFO/evidenza_inversione,per-classe/evidenza_inversione,-56.549915526363,-17.563987167948,0.102354819717,5076687.8,-30441.2,875/916 blocchi per seme,media delle differenze appaiate per seme; FN e FP sono differenze medie
+ADAPT-02,A2-evidenza_inversione-cinque-semi,KAN,42-46,FIFO/evidenza_inversione,per-classe/evidenza_inversione,-45.054710423123,-7.816473955088,0.058877476258,4044722.2,-13547.2,875/916 blocchi per seme,media delle differenze appaiate per seme; FN e FP sono differenze medie
+ADAPT-03,A3-sola-soglia-C-seed42,LR,42,frozen+soglia_B,frozen+soglia_adattiva/per-classe,11.548042480654,-14.426250317339,0.0,-1036709,-25003,875/916 blocchi,score e AUROC invariati; cambia soltanto la soglia
+ADAPT-03,A3-sola-soglia-C-seed42,MLP,42,frozen+soglia_B,frozen+soglia_adattiva/per-classe,55.366328864943,11.783101387062,0.0,-4970433,20422,875/916 blocchi,score e AUROC invariati; cambia soltanto la soglia
+ADAPT-03,A3-sola-soglia-C-seed42,KAN,42,frozen+soglia_B,frozen+soglia_adattiva/per-classe,17.727032577628,1.477647764776,0.0,-1591419,2561,875/916 blocchi,score e AUROC invariati; cambia soltanto la soglia
+ADAPT-03,A3-pesi-piu-soglia-C-seed42,KAN,42,pesi_adattati+soglia_B,pesi_adattati+soglia_B_ricalibrata,60.473956867261,29.666620508205,0.0,-5428963,51417,875/916 blocchi,unica traiettoria dei pesi; B e' archivio aggiuntivo
+ADAPT-04,A4-192-64-C-seed42,KAN,42,frozen_cal64,fit192_cal64,-2.599150284432,-16.080454199266,-0.109304585853,233335,-27870,875/916 blocchi,effetto congiunto dei pesi rispetto alla sola soglia
+ADAPT-04,A4-192-64-C-seed42,KAN,42,fit192_b,fit192_cal64,34.330683295763,12.354312354312,0.0,-3081988,21412,875/916 blocchi,effetto della soglia a pesi identici

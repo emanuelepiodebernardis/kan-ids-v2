@@ -1,0 +1,183 @@
+{
+  "schema": 1,
+  "nota": "materiali documentali da risultati esistenti; nessun nuovo training o replay",
+  "d_riservato": true,
+  "implementazione_validazione_finale": [
+    {
+      "percorso": "replay_validazione_finale.py",
+      "dimensione_byte": 22916,
+      "sha256": "8e808ad4714ace6177ed74997603f06b31e234e2bde04e119575a4301a044837"
+    },
+    {
+      "percorso": "test_replay_validazione_finale.py",
+      "dimensione_byte": 8902,
+      "sha256": "dd0f8320675102bf1e3039cd2e5d9e148e12e4296c53242679d993bb52e616d0"
+    }
+  ],
+  "fonti_versionate": [
+    {
+      "percorso": "replay_evidenza/confronto_politiche.json",
+      "dimensione_byte": 38314,
+      "sha256": "e303f033266fedeb6c0f5eb00c9a0afe7ab3d769caf30bd40c760a24c83bfaac"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/analisi_campagna_C.json",
+      "dimensione_byte": 60607,
+      "sha256": "057d1a9ec2a33fc6252d12389e7fee91b7e6bf8d926cc1d68239b6495f8ff7a7"
+    },
+    {
+      "percorso": "adapt03_soglia_adattiva/analisi_checkpoint.json",
+      "dimensione_byte": 204109,
+      "sha256": "c5ddf2c48902d99a2761486525199fd451e7c767acda90685e1943999d0e1d0b"
+    },
+    {
+      "percorso": "adapt03_pesi_piu_soglia/replay_completo/riepilogo_replay_completo.json",
+      "dimensione_byte": 8015,
+      "sha256": "f73dab3d8e2ab660f57fe1fdd2f985ded2e52b75ec316124e8ec44fcc3f5cd85"
+    },
+    {
+      "percorso": "adapt04_calibrazione_recente/replay_completo/riepilogo.json",
+      "dimensione_byte": 66984,
+      "sha256": "3b0ddb2b2539792787c6bf7e7e2100a14e0fd6cc48592d6adc61f32ff07edd4d"
+    },
+    {
+      "percorso": "sovrapposizioni_abcd.json",
+      "dimensione_byte": 4329,
+      "sha256": "b0674417a3714131fbaf74f60f71efea5188405e408cef30cd7c916308331710"
+    }
+  ],
+  "fonti_raw_esterne": [
+    {
+      "percorso": "controlli_appaiati_C/rendiconti/replay_C_evidenza_seme42.json",
+      "dimensione_byte": 2778410,
+      "sha256": "13a9b555dbfc082f5375e1b8b7487700334b8248f5c86e5dd115611d93b8b8b1"
+    },
+    {
+      "percorso": "controlli_appaiati_C/rendiconti/replay_C_evidenza_seme43.json",
+      "dimensione_byte": 2778202,
+      "sha256": "8a6f259e9a7bbf388872cd866130e930efaa5791239356559ecdbaa46a3dcbbe"
+    },
+    {
+      "percorso": "controlli_appaiati_C/rendiconti/replay_C_evidenza_seme44.json",
+      "dimensione_byte": 2776380,
+      "sha256": "bb9ecc81884eb2c67d510bd2db21dd6f9ff7468e86a34a78272c64ec38878295"
+    },
+    {
+      "percorso": "controlli_appaiati_C/rendiconti/replay_C_evidenza_seme45.json",
+      "dimensione_byte": 2771599,
+      "sha256": "d96238d73e6f74366198e6b4319a2bebbaf5bc0acf0bfa9573f22928d0404107"
+    },
+    {
+      "percorso": "controlli_appaiati_C/rendiconti/replay_C_evidenza_seme46.json",
+      "dimensione_byte": 2780454,
+      "sha256": "aa4550e58e9acee1ca341fa5f16c8960cea3ab4ae7517ed764a6601ffc25f844"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_fifo_evidenza_inversione.json",
+      "dimensione_byte": 2989769,
+      "sha256": "845e4c3e8bf7b07e39d8fe338239e99b2674187fba0c18f4a5d9b028eeec41cd"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme43_fifo_evidenza_inversione.json",
+      "dimensione_byte": 2989664,
+      "sha256": "9b603970434040896be2c0c45eb543704089dd516f464b0452d5fcb683f768af"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme44_fifo_evidenza_inversione.json",
+      "dimensione_byte": 2987913,
+      "sha256": "8cbb154e2e7221852ef8023b1a1f37068eb5d2c09eab11498b97e26fc56ae4a9"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme45_fifo_evidenza_inversione.json",
+      "dimensione_byte": 2983261,
+      "sha256": "e4eec48e77120e43f4dd67fc97bc3da3fb39ccc8d8421e6202bd969fddb15d4e"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme46_fifo_evidenza_inversione.json",
+      "dimensione_byte": 2991800,
+      "sha256": "216f7b432414a01c2fb9d5f8b5e21431fd42dbbb1d3ddd431e6d2ddb001fa61f"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_evidenza_inversione.json",
+      "dimensione_byte": 2986793,
+      "sha256": "257789304901e04933deee62f23f2736a00428b5b4e5a9506ba02496103473a0"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme43_per_classe_evidenza_inversione.json",
+      "dimensione_byte": 2990296,
+      "sha256": "0a3141550dfd51eee4c43504c4c833d2c248b88f799f40f0c3f445184441142d"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme44_per_classe_evidenza_inversione.json",
+      "dimensione_byte": 2982870,
+      "sha256": "433bdb122405214d7dc1cce89b0188b4a21dcb060fd339e250cf8ff1cce808a5"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme45_per_classe_evidenza_inversione.json",
+      "dimensione_byte": 2989029,
+      "sha256": "925c8f18be178a4692248f5120fe0f7ad4bfa5a0cdaf9c0356daf727738a0b46"
+    },
+    {
+      "percorso": "adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme46_per_classe_evidenza_inversione.json",
+      "dimensione_byte": 2988749,
+      "sha256": "3a0dbfab8854212a23d556bb61e19a3e2f7ab7762db5ce5543393aa78c577072"
+    },
+    {
+      "percorso": "adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json",
+      "dimensione_byte": 5898959,
+      "sha256": "d7bd4b7a78340bbdfc76cf4d6006871747b59b9f74487ae39a6c44d835ee7e55"
+    },
+    {
+      "percorso": "adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json",
+      "dimensione_byte": 2562150,
+      "sha256": "996263a0dcccbfa005853c93d93467972889f3d0ff7c1908070825b778af851e"
+    },
+    {
+      "percorso": "adapt04_calibrazione_recente/replay_completo_C_seed42_b9fd9fb/replay_completo.json",
+      "dimensione_byte": 3791223,
+      "sha256": "af55056bafdbb647ccc1d1b381dcdadd5f27b1dd0b5b5fff46fd37c676c88ca5"
+    }
+  ],
+  "prodotti": [
+    {
+      "percorso": "LEGGIMI.md",
+      "dimensione_byte": 1311,
+      "sha256": "b00a04cf20e854e52c9a8f8ab9d4d8c0438633b3311e0f844e7c66ecfc411ff1"
+    },
+    {
+      "percorso": "tabella_evidenze.csv",
+      "dimensione_byte": 4220,
+      "sha256": "a9c6bac2fdadfaa2d9c555d81f0cf1e4aa46779eb54bd08379cee73c87d8d97b"
+    },
+    {
+      "percorso": "appendice_evidenze.md",
+      "dimensione_byte": 6102,
+      "sha256": "e3d17ab6005408c5675e65f06f03ae92fc0801fb0f15a7c1cb7df342f31f6da9"
+    },
+    {
+      "percorso": "sintesi.md",
+      "dimensione_byte": 3364,
+      "sha256": "96970e2787d534df5a0d58f00bd86ca71ede0d88db169075fa74b0434c66d4d8"
+    },
+    {
+      "percorso": "analisi_aggiornamenti_skip.csv",
+      "dimensione_byte": 5676,
+      "sha256": "b968f6719ff8f0dbe914135dc08e00276c4cb90c90fb7c947eca5b0d3cd0d010"
+    },
+    {
+      "percorso": "analisi_aggiornamenti_skip.json",
+      "dimensione_byte": 17283,
+      "sha256": "25d6e5c760cff6215451129be026c6161a3934f6c7681a97e921c0b1945be197"
+    },
+    {
+      "percorso": "analisi_aggiornamenti_skip.md",
+      "dimensione_byte": 4686,
+      "sha256": "cfd164a1825088e33d7a7886c06f24a925bed4478323e7706e02e34796e9041a"
+    },
+    {
+      "percorso": "protocollo_validazione_finale.md",
+      "dimensione_byte": 9103,
+      "sha256": "f8cad8989d6f241684bde6912550f60005c8f9e5cb557c6f79d5bc923e407594"
+    }
+  ]
+}
