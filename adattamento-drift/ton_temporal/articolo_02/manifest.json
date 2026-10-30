@@ -141,8 +141,8 @@
   "prodotti": [
     {
       "percorso": "LEGGIMI.md",
-      "dimensione_byte": 1311,
-      "sha256": "b00a04cf20e854e52c9a8f8ab9d4d8c0438633b3311e0f844e7c66ecfc411ff1"
+      "dimensione_byte": 1934,
+      "sha256": "a18bdf20a6cf08e4f9c186267e47bfa6d4cbd2868ef43e6521003e3d1e643027"
     },
     {
       "percorso": "tabella_evidenze.csv",
