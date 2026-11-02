@@ -23,7 +23,11 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          # Match review_extension/provenance/campaign.json exactly.  The
+          # archived vector-role trajectory is intentionally checked after
+          # numerical head fits, where a patch-level interpreter change can
+          # alter optimizer output at a decision boundary.
+          python-version: "3.12.14"
           cache: pip
           cache-dependency-path: adattamento-drift/review_extension/requirements.txt
 
