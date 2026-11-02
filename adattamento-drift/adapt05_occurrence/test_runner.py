@@ -150,6 +150,11 @@ def test_cutoff_grid_keeps_only_preregistered_objectives():
     assert all(np.isfinite(value) for value in grid.values())
 
 
+def test_confusion_delta_keeps_numerical_drift_visible():
+    assert runner.confusion_delta([10, 2, 3, 9], [10, 2, 3, 9]) == (0, 0)
+    assert runner.confusion_delta([11, 1, 5, 7], [10, 2, 3, 9]) == (6, 2)
+
+
 def test_missing_class_is_not_eligible_for_calibration():
     assert not runner.eligible(np.zeros(20, dtype=np.uint8))
     assert not runner.eligible(np.ones(20, dtype=np.uint8))

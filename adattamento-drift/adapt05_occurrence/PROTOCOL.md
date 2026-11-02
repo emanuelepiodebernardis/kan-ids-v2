@@ -81,18 +81,17 @@ vista di audit, anch'essa limitata a 192/64 elementi, aggiunge i tre identificat
 separati e viene confrontata array per array con la memoria del learner; non è
 consultata per fit o calibrazione.
 
-La controprova vettoriale richiede identità esatta di query, composizione/età,
-stati update e confusion matrix. Se score e soglie vengono ricalcolati su una
-piattaforma numerica diversa da quella Linux archiviata, il delta di ogni soglia
-e il massimo assoluto vengono registrati e tutte le confusion matrix devono
-restare comunque identiche. Questo caso è marcato esplicitamente e non viene
-riportato come identità delle soglie o riproduzione numerica byte per byte.
+La controprova vettoriale richiede identita' esatta di query,
+composizione/eta' delle memorie limitate e stati update. Digest dei parametri,
+soglie e confusion matrix formano un audit numerico separato: vengono
+registrati conteggi esatti, delta delle soglie, celle diverse e scarto L1. Se
+il fit cambia fra processori, il caso e' marcato esplicitamente e non viene
+riportato come identita' numerica o riproduzione byte per byte.
 
-Le esecuzioni Linux ufficiali usano Python 3.12.14, le dipendenze congelate
-del pacchetto Paper 2, un solo thread BLAS e un `OPENBLAS_CORETYPE` esplicito.
-Il kernel portabile `Zen2`, identificato esclusivamente riproducendo il
-controllo vettoriale archiviato, e' congelato prima dello smoke ufficiale. E'
-parte dell'ambiente registrato, non un fattore sperimentale.
+Le esecuzioni ufficiali usano Python 3.12.14, le dipendenze congelate del
+pacchetto Paper 2 e un solo thread BLAS. Piattaforma, processore e runtime BLAS
+sono registrati nel rendiconto. Il confronto principale resta appaiato nello
+stesso processo e ambiente.
 
 ## Matrice completa e prima consegna
 

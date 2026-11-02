@@ -15,7 +15,6 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
-      OPENBLAS_CORETYPE: Zen2
     steps:
       - uses: actions/checkout@v4
 
