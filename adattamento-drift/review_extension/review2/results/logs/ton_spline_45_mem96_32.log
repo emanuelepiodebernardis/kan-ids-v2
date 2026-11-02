@@ -1,0 +1,10 @@
+ton spline 45 mem96_32 0 0.0
+ton spline 45 mem96_32 100 4.4
+ton spline 45 mem96_32 200 8.8
+ton spline 45 mem96_32 300 13.3
+DONE ton_spline_45_mem96_32.json.gz
+ton spline 45 mem96_32 0 0.0
+ton spline 45 mem96_32 100 3.9
+ton spline 45 mem96_32 200 7.7
+ton spline 45 mem96_32 300 11.2
+DONE ton_spline_45_mem96_32.json.gz

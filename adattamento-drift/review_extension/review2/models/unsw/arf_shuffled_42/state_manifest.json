@@ -1,0 +1,23 @@
+{
+  "format": "gzip parts; concatenate in listed order, then decompress",
+  "uncompressed_sha256": "bfa5591ea8bc38792e73700ad24354c3341dc042ec4dfa7a4a120dc47bd6e406",
+  "uncompressed_bytes": 22008780,
+  "compressed_sha256": "04eb76b3e85eaa9f7c267a98f5b3791b28addb2d5831a2859857e950d399f1e2",
+  "parts": [
+    {
+      "name": "model.pkl.gz.part000",
+      "bytes": 8388608,
+      "sha256": "c8c081faff155aa34a575ae9d844f9c867efc817638bae85ef3b98aac5ff77f1"
+    },
+    {
+      "name": "model.pkl.gz.part001",
+      "bytes": 8388608,
+      "sha256": "d7afd166625a348074398833806e2aab7a97b21ebb88ddf4f50d1e905c5417d9"
+    },
+    {
+      "name": "model.pkl.gz.part002",
+      "bytes": 1159117,
+      "sha256": "c5c9625c1faf8142df88ef8aeace4800b13346d1c6ae026d27d8378ce465f12e"
+    }
+  ]
+}

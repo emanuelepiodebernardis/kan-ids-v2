@@ -1,0 +1,24 @@
+{
+  "protocol_commit": "9213001",
+  "initial_runner_commit": "9829693",
+  "path_fix_commit": "48bd77c",
+  "executed_runner_commit": "efe004e16dd3862d023825fbf5ea98691e7a8d80",
+  "runner_sha256": "da228633d41d24f5cfe9b827c6b4f3561c20036804488f4a79748f20ca6d2228",
+  "completed_reports": 10,
+  "workers": 4,
+  "excluded_attempts": [
+    {
+      "stage": "initial startup",
+      "issue": "audit path omitted results directory",
+      "complete_reports": 0
+    },
+    {
+      "stage": "first arrival checks",
+      "issue": "validation asserted hard class maxima instead of the original soft eviction quotas",
+      "complete_reports": 0
+    }
+  ],
+  "source_models_refitted": false,
+  "previous_executed_runners_modified": false,
+  "raw_data_redistributed": false
+}

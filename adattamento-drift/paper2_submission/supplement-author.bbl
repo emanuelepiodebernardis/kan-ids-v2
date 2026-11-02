@@ -1,0 +1,247 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{14}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter does
+%%% not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+\makeatletter
+\@ifundefined{NAT@parse@date}{}{\let\NAT@parse@date@orig\NAT@parse@date}
+\@ifundefined{NAT@parse@date}{}{\def\NAT@parse@date#1#2#3#4#5#6@@{\NAT@parse@date@orig#1#2#3#4#5#6@@\def\NAT@tempyear{0000}\def\NAT@tempexlab{{?}}\ifx\NAT@year\NAT@tempyear\ifx\NAT@exlab\NAT@tempexlab\def\NAT@date{[n.\,d.]}\else\edef\NAT@date{[n.\,d.]\NAT@exlab}\fi\fi}}
+\makeatother
+
+\bibitem[Alsaedi et~al\mbox{.}(2020)]%
+        {alsaedi2020}
+\bibfield{author}{\bibinfo{person}{Abdullah Alsaedi}, \bibinfo{person}{Nour
+  Moustafa}, \bibinfo{person}{Zahir Tari}, \bibinfo{person}{Abdun Mahmood},
+  {and} \bibinfo{person}{Adnan Anwar}.} \bibinfo{year}{2020}\natexlab{}.
+\newblock \showarticletitle{{TON\_IoT} telemetry dataset: A new generation
+  dataset of {IoT} and {IIoT} for data-driven intrusion detection systems}.
+\newblock \bibinfo{journal}{\emph{IEEE Access}}  \bibinfo{volume}{8}
+  (\bibinfo{year}{2020}), \bibinfo{pages}{165130--165150}.
+\newblock
+\href{https://doi.org/10.1109/ACCESS.2020.3022862}{doi:\nolinkurl{10.1109/ACCESS.2020.3022862}}
+
+
+\bibitem[Ashraf et~al\mbox{.}(2021)]%
+        {ashraf2021}
+\bibfield{author}{\bibinfo{person}{Javed Ashraf}, \bibinfo{person}{Marwa
+  Keshk}, \bibinfo{person}{Nour Moustafa}, \bibinfo{person}{Mohamed
+  Abdel-Basset}, \bibinfo{person}{Hasnat Khurshid}, \bibinfo{person}{Asim~D.
+  Bakhshi}, {and} \bibinfo{person}{Reham~R. Mostafa}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{IoTBoT-IDS}: A novel statistical learning-enabled
+  botnet detection framework for protecting networks of smart cities}.
+\newblock \bibinfo{journal}{\emph{Sustainable Cities and Society}}
+  (\bibinfo{year}{2021}), \bibinfo{pages}{103041}.
+\newblock
+\href{https://doi.org/10.1016/j.scs.2021.103041}{doi:\nolinkurl{10.1016/j.scs.2021.103041}}
+
+
+\bibitem[Booij et~al\mbox{.}(2022)]%
+        {booij2022}
+\bibfield{author}{\bibinfo{person}{Tim~M. Booij}, \bibinfo{person}{Irina
+  Chiscop}, \bibinfo{person}{Erik Meeuwissen}, \bibinfo{person}{Nour Moustafa},
+  {and} \bibinfo{person}{Frank T.~H. {den Hartog}}.}
+  \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{{ToN\_IoT}: The role of heterogeneity and the need
+  for standardization of features and attack types in {IoT} network intrusion
+  data sets}.
+\newblock \bibinfo{journal}{\emph{IEEE Internet of Things Journal}}
+  \bibinfo{volume}{9}, \bibinfo{number}{1} (\bibinfo{year}{2022}),
+  \bibinfo{pages}{485--496}.
+\newblock
+\href{https://doi.org/10.1109/JIOT.2021.3085194}{doi:\nolinkurl{10.1109/JIOT.2021.3085194}}
+
+
+\bibitem[Moustafa(2019a)]%
+        {moustafa2019dataset}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}.}
+  \bibinfo{year}{2019}\natexlab{a}.
+\newblock \showarticletitle{New generations of {Internet of Things} datasets
+  for cybersecurity applications based machine learning: {TON\_IoT} datasets}.
+  In \bibinfo{booktitle}{\emph{eResearch Australasia Conference}}.
+  \bibinfo{address}{Brisbane, Australia}.
+\newblock
+\urldef\tempurl%
+\url{https://research.unsw.edu.au/projects/toniot-datasets}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Moustafa(2019b)]%
+        {moustafa2019fog}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}.}
+  \bibinfo{year}{2019}\natexlab{b}.
+\newblock \bibinfo{title}{A systemic {IoT-Fog-Cloud} architecture for big-data
+  analytics and cyber security systems: A review of fog computing}.
+\newblock \bibinfo{howpublished}{arXiv:1906.01055}.
+\newblock
+\urldef\tempurl%
+\url{https://arxiv.org/abs/1906.01055}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Moustafa(2021)]%
+        {moustafa2021}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{A new distributed architecture for evaluating
+  {AI}-based security systems at the edge: Network {TON\_IoT} datasets}.
+\newblock \bibinfo{journal}{\emph{Sustainable Cities and Society}}
+  \bibinfo{volume}{72} (\bibinfo{year}{2021}), \bibinfo{pages}{102994}.
+\newblock
+\href{https://doi.org/10.1016/j.scs.2021.102994}{doi:\nolinkurl{10.1016/j.scs.2021.102994}}
+
+
+\bibitem[Moustafa et~al\mbox{.}(2020a)]%
+        {moustafa2020linux}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}, \bibinfo{person}{Mohiuddin
+  Ahmed}, {and} \bibinfo{person}{Sherif Ahmed}.}
+  \bibinfo{year}{2020}\natexlab{a}.
+\newblock \showarticletitle{Data analytics-enabled intrusion detection:
+  Evaluations of {ToN\_IoT Linux} datasets}. In \bibinfo{booktitle}{\emph{IEEE
+  19th International Conference on Trust, Security and Privacy in Computing and
+  Communications (TrustCom)}}. \bibinfo{pages}{727--735}.
+\newblock
+\href{https://doi.org/10.1109/TrustCom50675.2020.00100}{doi:\nolinkurl{10.1109/TrustCom50675.2020.00100}}
+
+
+\bibitem[Moustafa et~al\mbox{.}(2017)]%
+        {moustafa2017dirichlet}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}, \bibinfo{person}{Gideon
+  Creech}, {and} \bibinfo{person}{Jill Slay}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{Big Data Analytics for Intrusion Detection
+  System: Statistical Decision-Making Using Finite Dirichlet Mixture Models}}.
+\newblock \bibinfo{publisher}{Springer International Publishing},
+  \bibinfo{pages}{127–156}.
+\newblock
+\showISBNx{9783319594392}
+\showISSN{2520-1867}
+\href{https://doi.org/10.1007/978-3-319-59439-2_5}{doi:\nolinkurl{10.1007/978-3-319-59439-2_5}}
+
+
+\bibitem[Moustafa et~al\mbox{.}(2020b)]%
+        {moustafa2020windows}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}, \bibinfo{person}{Marwa
+  Keshk}, \bibinfo{person}{Essam Debie}, {and} \bibinfo{person}{Helge
+  Janicke}.} \bibinfo{year}{2020}\natexlab{b}.
+\newblock \showarticletitle{Federated {TON\_IoT Windows} datasets for
+  evaluating {AI}-based security applications}. In
+  \bibinfo{booktitle}{\emph{IEEE 19th International Conference on Trust,
+  Security and Privacy in Computing and Communications (TrustCom)}}.
+  \bibinfo{pages}{848--855}.
+\newblock
+\href{https://doi.org/10.1109/TrustCom50675.2020.00114}{doi:\nolinkurl{10.1109/TrustCom50675.2020.00114}}
+
+
+\bibitem[Moustafa and Slay(2015)]%
+        {moustafa2015unsw}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa} {and} \bibinfo{person}{Jill
+  Slay}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{UNSW-NB15: a comprehensive data set for network
+  intrusion detection systems (UNSW-NB15 network data set)}. In
+  \bibinfo{booktitle}{\emph{2015 Military Communications and Information
+  Systems Conference (MilCIS)}}. \bibinfo{publisher}{IEEE},
+  \bibinfo{pages}{1–6}.
+\newblock
+\href{https://doi.org/10.1109/milcis.2015.7348942}{doi:\nolinkurl{10.1109/milcis.2015.7348942}}
+
+
+\bibitem[Moustafa and Slay(2016)]%
+        {moustafa2016unsw}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa} {and} \bibinfo{person}{Jill
+  Slay}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{The evaluation of Network Anomaly Detection
+  Systems: Statistical analysis of the UNSW-NB15 data set and the comparison
+  with the KDD99 data set}.
+\newblock \bibinfo{journal}{\emph{Information Security Journal: A Global
+  Perspective}} \bibinfo{volume}{25}, \bibinfo{number}{1-3}
+  (\bibinfo{date}{Jan.} \bibinfo{year}{2016}), \bibinfo{pages}{18–31}.
+\newblock
+\showISSN{1939-3547}
+\href{https://doi.org/10.1080/19393555.2015.1125974}{doi:\nolinkurl{10.1080/19393555.2015.1125974}}
+
+
+\bibitem[Moustafa et~al\mbox{.}(2019)]%
+        {moustafa2019geometry}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}, \bibinfo{person}{Jill Slay},
+  {and} \bibinfo{person}{Gideon Creech}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Novel Geometric Area Analysis Technique for Anomaly
+  Detection Using Trapezoidal Area Estimation on Large-Scale Networks}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Big Data}}
+  \bibinfo{volume}{5}, \bibinfo{number}{4} (\bibinfo{date}{Dec.}
+  \bibinfo{year}{2019}), \bibinfo{pages}{481–494}.
+\newblock
+\showISSN{2372-2096}
+\href{https://doi.org/10.1109/tbdata.2017.2715166}{doi:\nolinkurl{10.1109/tbdata.2017.2715166}}
+
+
+\bibitem[Pedregosa et~al\mbox{.}(2011)]%
+        {pedregosa2011}
+\bibfield{author}{\bibinfo{person}{Fabian Pedregosa}, \bibinfo{person}{Ga{\"e}l
+  Varoquaux}, \bibinfo{person}{Alexandre Gramfort}, \bibinfo{person}{Vincent
+  Michel}, \bibinfo{person}{Bertrand Thirion}, \bibinfo{person}{Olivier
+  Grisel}, \bibinfo{person}{Mathieu Blondel}, \bibinfo{person}{Peter
+  Prettenhofer}, \bibinfo{person}{Ron Weiss}, \bibinfo{person}{Vincent
+  Dubourg}, \bibinfo{person}{Jake Vanderplas}, \bibinfo{person}{Alexandre
+  Passos}, \bibinfo{person}{David Cournapeau}, \bibinfo{person}{Matthieu
+  Brucher}, \bibinfo{person}{Matthieu Perrot}, {and}
+  \bibinfo{person}{{\'E}douard Duchesnay}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Scikit-learn: Machine Learning in {Python}}.
+\newblock \bibinfo{journal}{\emph{Journal of Machine Learning Research}}
+  \bibinfo{volume}{12} (\bibinfo{year}{2011}), \bibinfo{pages}{2825--2830}.
+\newblock
+\urldef\tempurl%
+\url{https://jmlr.org/papers/v12/pedregosa11a.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Sarhan et~al\mbox{.}(2021)]%
+        {sarhan2021}
+\bibfield{author}{\bibinfo{person}{Mohanad Sarhan}, \bibinfo{person}{Siamak
+  Layeghy}, \bibinfo{person}{Nour Moustafa}, {and} \bibinfo{person}{Marius
+  Portmann}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{NetFlow Datasets for Machine Learning-Based
+  Network Intrusion Detection Systems}}.
+\newblock \bibinfo{publisher}{Springer International Publishing},
+  \bibinfo{pages}{117–135}.
+\newblock
+\showISBNx{9783030728021}
+\showISSN{1867-822X}
+\href{https://doi.org/10.1007/978-3-030-72802-1_9}{doi:\nolinkurl{10.1007/978-3-030-72802-1_9}}
+
+
+\end{thebibliography}

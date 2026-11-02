@@ -1,0 +1,10 @@
+ton spline 42 salt2 0 0.0
+ton spline 42 salt2 100 6.4
+ton spline 42 salt2 200 11.9
+ton spline 42 salt2 300 17.7
+ton spline 42 salt2 0 0.0
+DONE ton_spline_42_salt2.json.gz
+ton spline 42 salt2 100 6.5
+ton spline 42 salt2 200 12.5
+ton spline 42 salt2 300 17.9
+DONE ton_spline_42_salt2.json.gz

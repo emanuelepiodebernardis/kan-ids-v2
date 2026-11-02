@@ -1,0 +1,70 @@
+Bibliographic evidence checked during manuscript preparation, 1 November 2026
+
+Primary sources and author/institutional repositories were used. DOI links
+in references.bib identify the cited works. This list records verification
+entry points, not an exhaustive or systematic literature search.
+
+Concept drift review:
+https://doi.org/10.1145/2523813
+
+Prequential evaluation:
+https://repositorio.inesctec.pt/bitstreams/435f0677-8283-40ed-9e42-503c8f38a1d6/download
+
+Base-rate analysis, original published article:
+https://profsandhu.com/cs6393_s21/Axelsson-2000.pdf
+
+KAN, official ICLR 2025 proceedings:
+https://proceedings.iclr.cc/paper_files/paper/2025/hash/afaed89642ea100935e39d39a4da602c-Abstract-Conference.html
+
+TON_IoT provider: dataset description, attribution and eight requested papers:
+https://research.unsw.edu.au/projects/toniot-datasets
+
+TON_IoT network heterogeneity, full journal metadata (2022, 9(1), 485–496):
+https://researchprofiles.canberra.edu.au/en/publications/toniot-the-role-of-heterogeneity-and-the-need-for-standardization/
+https://repository.tno.nl/SingleDoc?docId=52159
+
+Active learning under drift:
+https://researchportal.helsinki.fi/en/publications/active-learning-with-drifting-streaming-data/
+
+Adaptive random forests, including delayed labeling evaluation:
+https://researchcommons.waikato.ac.nz/items/d3221dd8-3611-4e0e-8873-2a2b941bda73
+
+Confidence calibration (distinct from decision-threshold selection here):
+https://proceedings.mlr.press/v70/guo17a.html
+
+Security ML evaluation pitfalls:
+https://www.usenix.org/conference/usenixsecurity22/presentation/arp
+
+Convolutional KAN intrusion detection, publisher and author's institution:
+https://www.nature.com/articles/s41598-024-85083-8
+https://www.open-access.bcu.ac.uk/16602/
+
+scikit-learn:
+https://jmlr.org/papers/v12/pedregosa11a.html
+
+Additional TON_IoT author lists cross-checked:
+https://arxiv.org/abs/2010.08521
+https://arxiv.org/abs/2010.08522
+
+Experimental repository snapshot:
+https://github.com/emanuelepiodebernardis/kan-ids-v2/tree/81d99d9020d60b39d3b5a65fc6f06296f89537db/adattamento-drift/ton_temporal
+
+The bibliography does not claim that these papers contain matched baselines
+for the present experiment. No published accuracy numbers were imported
+into its result tables.
+
+Post-review additions checked against primary publication metadata:
+https://www.usenix.org/conference/usenixsecurity19/presentation/pendlebury
+https://www.usenix.org/conference/usenixsecurity23/presentation/chen-yizheng
+https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/jordaney
+https://www.usenix.org/conference/usenixsecurity21/presentation/yang-limin
+https://doi.org/10.1145/3474369.3486864
+https://doi.org/10.1007/s10618-019-00654-y
+https://doi.org/10.1162/089976602753284446
+https://proceedings.mlr.press/v80/lipton18a.html
+https://doi.org/10.1214/ss/1177013604
+https://doi.org/10.1109/SP.2010.25
+https://doi.org/10.1109/SPW53761.2021.00009
+https://riverml.xyz/0.22.0/api/forest/ARFClassifier/
+https://research.unsw.edu.au/projects/unsw-nb15-dataset
+Additional UNSW attribution DOI metadata: references.bib.

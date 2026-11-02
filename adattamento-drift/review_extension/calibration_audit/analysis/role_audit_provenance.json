@@ -1,0 +1,12 @@
+{
+  "input_sha256": {
+    "ton": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8",
+    "unsw": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+  },
+  "source_sha256": "24843877c92dea8c6bde403ac4f178a461d8559697637bfdfad44364615ecc74",
+  "salts": {
+    "default": "ADAPT04-C-seed42-v1",
+    "salt1": "review2-salt-1",
+    "salt2": "review2-salt-2"
+  }
+}

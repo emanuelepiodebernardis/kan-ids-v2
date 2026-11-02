@@ -1,0 +1,12 @@
+{
+  "definition": "exact equality of 32 little-endian float32 bytes",
+  "prior_partitions": [
+    "A",
+    "B"
+  ],
+  "inventory_vectors": 976250,
+  "unseen": 523155,
+  "unseen_normal": 483783,
+  "unseen_attack": 39372,
+  "sha256": "697bfd5ad8a6c443bc2119802b368457ffdc6379f032eb9af606498fcf432e07"
+}

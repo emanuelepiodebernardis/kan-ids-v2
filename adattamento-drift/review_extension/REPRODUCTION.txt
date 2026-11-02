@@ -1,0 +1,82 @@
+Thresholds and Learning in Adaptive Intrusion Detection
+Reproduction package, 2 November 2026
+
+The visible diagnostic names are A (operating policies and baseline audits),
+B (matched CAL-role memory), and C (calibration eligibility and label reuse).
+There are 55 initial-extension and 120/10/10 A/B/C cells: 195 recorded cells,
+including 30 exact repeats. They are not independent stream replications.
+
+CSV summaries are immediately available under analysis/. Executed sources,
+models and full reports are under source/, with neutral directory names.
+SOURCE_LEDGER.json preserves original execution paths and SHA-256 digests.
+Restoring that layout is necessary because the executed Python imports,
+recorded source digests and literal role salts are immutable provenance.
+Historical internal paths do not indicate prior journal review.
+Internal response documents, chats and author instructions are excluded.
+Restoration creates a local Git snapshot so replay provenance commands work.
+Its new local commit is not the original execution or public release commit.
+
+From this directory, with Python 3:
+  python restore_execution.py --out /path/to/empty/replay
+  cd /path/to/empty/replay
+  python adattamento-drift/review_extension/verify_artifacts.py
+  python -m venv .venv
+  .venv/bin/pip install -r adattamento-drift/review_extension/requirements.txt
+
+On Windows replace .venv/bin/python and pip with .venv\Scripts\python.exe and
+pip.exe. Set OPENBLAS_NUM_THREADS, OMP_NUM_THREADS and MKL_NUM_THREADS to 1.
+The following POSIX shell variables shorten the commands:
+  PY=.venv/bin/python
+  EXT=adattamento-drift/review_extension
+
+Rebuild analyses from the saved numerical evidence, without raw traffic:
+  $PY $EXT/manuscript/build_assets.py
+  $PY $EXT/analyze.py --results $EXT/results --original $EXT/original_reports --out $EXT/analysis
+  $PY $EXT/review2/analyze.py
+  $PY $EXT/review3/analyze.py
+  $PY $EXT/calibration_audit/analyze.py
+
+Run the targeted 96-test scientific suite contained in this reproduction
+package:
+  $PY -m pytest -q $EXT/test_experiment.py $EXT/review2/test_runner.py $EXT/review3/test_matched_memory.py $EXT/calibration_audit/test_calibration_audit.py adattamento-drift/ton_temporal/test_calibrazione_recente.py adattamento-drift/ton_temporal/test_soglia.py adattamento-drift/ton_temporal/test_replay_validazione_finale.py
+
+The release exporter and its packaging tests belong to the source checkout,
+not to this restored scientific package. They validate archive construction
+before export and are intentionally absent here.
+
+To reconstruct source arrays and replay predictions:
+  $PY $EXT/fetch_data.py ton --out /path/to/downloads
+  $PY $EXT/fetch_data.py unsw --out /path/to/downloads
+  $PY $EXT/prepare_data.py ton --raw /path/to/downloads/ton_raw --out /path/to/data/ton
+  $PY $EXT/prepare_data.py unsw --raw /path/to/downloads/unsw_raw --out /path/to/data/unsw
+  $PY $EXT/rebuild_cache.py --data /path/to/data/ton --models $EXT/models/ton --cache /path/to/cache/ton --provenance $EXT/provenance/ton
+  $PY $EXT/rebuild_cache.py --data /path/to/data/unsw --models $EXT/models/unsw --cache /path/to/cache/unsw --provenance $EXT/provenance/unsw
+  $PY $EXT/run_campaign.py --data-root /path/to/data --cache-root /path/to/cache --out /path/to/fresh/initial --workers 2
+
+For diagnostic A restore its additional shuffled forest models in the same
+way from $EXT/review2/models/ton and /unsw, then run review2/campaign.py with
+--data-root, --cache-root, --out and --workers. For B and C, loop datasets
+ton/unsw and seeds 42 43 44 45 46 with the respective runner:
+  $PY $EXT/calibration_audit/runner.py --data /path/to/data/ton --cache-root /path/to/cache --seed 42 --out /path/to/fresh/diagnostic_c/ton_spline_42.json.gz
+  $PY $EXT/calibration_audit/role_audit.py --data-root /path/to/data --out /path/to/fresh/role_audit
+Replace calibration_audit with review3 for B. Each runner checks shared
+trajectories against the retained preceding reports. The C analysis uses its
+own results/ directory; work in a separate restored copy to analyze a new
+campaign, preserving the original package.
+
+Only load the supplied model pickles after verifying their hashes and source.
+Raw traffic is not redistributed. Dataset terms and citations remain those
+of the providers. Historical Windows results are evidence, not bitwise
+reproductions of the Linux reconstruction. New initial fitting may differ;
+use the archived fitted states and pinned numerical dependencies for replay.
+
+The broader legacy test suite additionally expects external historical
+archives excluded from Git. In this environment it reports 408 passed,
+3 skipped and 3 failures in legacy document/material checks; the targeted
+suite and all four current numerical analyses pass. See diagnostic C's
+provenance for the exact checks and one corrected truncated report.
+
+The source repository's MIT license applies to its code. The supplied ACM
+template is distributed separately under its original license; research data
+are not relicensed. The manuscript's publication rights are not assigned by
+this package. Archival DOI: https://doi.org/10.5281/zenodo.23880240.

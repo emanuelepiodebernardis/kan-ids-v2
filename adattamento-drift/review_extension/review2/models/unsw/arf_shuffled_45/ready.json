@@ -1,0 +1,28 @@
+{
+  "dataset": "unsw",
+  "family": "arf",
+  "seed": 45,
+  "initial_training_examples": 400000,
+  "fit_seconds": 268.78113328499967,
+  "b_score_seconds": 16.574079457999687,
+  "d_cache_seconds": 29.142172226000184,
+  "thresholds_b": {
+    "0.25": -5e-324,
+    "0.5": -5e-324,
+    "1.0": 2.760566382363671e-06,
+    "2.0": 2.760566382363671e-06,
+    "4.0": 2.760566382363671e-06
+  },
+  "pooled_frozen_auc": 0.3408505175728585,
+  "model_pickle_bytes": 384298,
+  "initial_sample_sha256": "2b2e0dd7f17942be000dec11a9de810dc2d0e55d6689720012392950fef33c47",
+  "source_hashes": {
+    "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+    "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+    "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+  },
+  "prepare_seconds": 166.69175062199974,
+  "initial_order": "seeded random sample order",
+  "initial_order_sha256": "2b2e0dd7f17942be000dec11a9de810dc2d0e55d6689720012392950fef33c47",
+  "frozen_score_sha256": "4f271ac5161067627099c96df03c40b0690594118e000c8d01f4c0cd047eb1ea"
+}

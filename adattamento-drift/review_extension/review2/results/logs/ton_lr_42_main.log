@@ -1,0 +1,5 @@
+ton lr 42 main 0 0.1
+ton lr 42 main 100 6.8
+ton lr 42 main 200 14.7
+ton lr 42 main 300 19.7
+DONE ton_lr_42_main.json.gz

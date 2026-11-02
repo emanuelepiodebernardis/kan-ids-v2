@@ -1,0 +1,142 @@
+.............ss.s....................................................... [ 17%]
+.....................................F...F.............................. [ 34%]
+......................................F................................. [ 52%]
+........................................................................ [ 69%]
+........................................................................ [ 86%]
+......................................................                   [100%]
+=================================== FAILURES ===================================
+_______ test_i_file_citati_nei_comandi_esistono_dove_il_comando_li_cerca _______
+
+    def test_i_file_citati_nei_comandi_esistono_dove_il_comando_li_cerca():
+        """Un comando che cita un file inesistente non e' un comando: e' un errore
+        in attesa di essere incollato. Qui ogni percorso viene risolto rispetto
+        alla cartella che il blocco dichiara, e cercato sul disco.
+        """
+        if not (CARTELLA_DOC / 'replay.py').is_file():
+            pytest.skip('copia parziale del repository: i percorsi non si risolvono')
+        radice = CARTELLA_DOC.parent
+        mancanti = []
+        for nome in DOCUMENTI_CON_COMANDI:
+            prodotti, blocco_corrente = set(), None
+            for n, comando, cartella, blocco in _comandi_dei_blocchi(nome):
+                if blocco != blocco_corrente:
+                    prodotti, blocco_corrente = set(), blocco
+                if cartella is None:
+                    continue          # lo dice gia' l'altra prova
+                # `<repo>` e' la radice del clone, dichiarata nei documenti. Si
+                # traduce il prefisso logico invece di comporre percorsi, perche'
+                # la cartella che contiene i documenti puo' avere un altro nome in
+                # una copia di lavoro.
+                c = cartella.rstrip('/')
+                dentro = '<repo>/adattamento-drift/ton_temporal'
+                if c == dentro:
+                    base = CARTELLA_DOC
+                elif c.startswith(dentro + '/'):
+                    base = CARTELLA_DOC / c[len(dentro) + 1:]
+                elif c == '<repo>':
+                    base = radice
+                else:
+                    base = radice / c
+                pezzi = comando.split()
+                for i, pezzo in enumerate(pezzi):
+                    q = pezzo.strip('"')
+                    if not q.endswith('.py') and not q.endswith('.json'):
+                        continue
+                    if '<' in q or '*' in q or '?' in q or '$' in q or '(' in q:
+                        continue      # segnaposto, glob o variabile di shell
+                    # il valore che segue --uscita e' prodotto dal comando, non
+                    # letto: pretenderlo gia' sul disco sarebbe un controesenso
+                    if i and pezzi[i - 1] in ('--uscita', '--output', '>'):
+                        prodotti.add(q)
+                        continue
+                    # un argomento puo' avere la forma nome=percorso
+                    q = q.split('=', 1)[1] if '=' in q else q
+                    if q in prodotti:
+                        continue      # lo produce un comando precedente del blocco
+                    if not (base / q.replace('\\', '/')).exists():
+                        mancanti.append(f'{nome}:{n} da {cartella}/ non esiste {q}')
+>       assert not mancanti, ('file citati dai comandi e non trovati:\n  '
+                              + '\n  '.join(mancanti))
+E       AssertionError: file citati dai comandi e non trovati:
+E           ambiente_e_comandi.md:107 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_fifo_soglia_adattiva.json
+E           ambiente_e_comandi.md:107 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_soglia_adattiva/diagnostico_C_seed42_90597f0/C_seed42_per_classe_soglia_adattiva.json
+E           ambiente_e_comandi.md:140 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json
+E           ambiente_e_comandi.md:147 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_pesi_piu_soglia/smoke_C_seed42_f9efbe4/smoke.json
+E           ambiente_e_comandi.md:147 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json
+E           ambiente_e_comandi.md:178 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json
+E           ambiente_e_comandi.md:191 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json
+E           ambiente_e_comandi.md:233 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json
+E           ambiente_e_comandi.md:234 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json
+E           ambiente_e_comandi.md:245 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json
+E           ambiente_e_comandi.md:246 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_pesi_piu_soglia/replay_completo_C_seed42_106ee1c/replay_completo.json
+E       assert not ['ambiente_e_comandi.md:107 da <repo>/adattamento-drift/ton_temporal/ non esiste ../archivio_esterno/adapt03_soglia_ad...on esiste ../archivio_esterno/adapt02_memoria_per_classe/campagna_C_078a9d8/C_seme42_per_classe_ogni_blocco.json', ...]
+
+adattamento-drift/ton_temporal/test_documenti_coerenti.py:922: AssertionError
+_______ test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno _______
+
+    def test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno():
+        """La prova vera: si rilancia il controllo con l'uscita forzata a cp1252,
+        che e' esattamente la condizione in cui cadeva su Windows."""
+        p = CARTELLA_DOC / 'verifica_richieste.py'
+        if not p.is_file() or not (CARTELLA_DOC / 'sovrapposizioni_abcd.json').is_file():
+            pytest.skip('copia parziale: il controllo non ha tutto il materiale')
+        import subprocess, os, tempfile
+        ambiente = dict(os.environ, PYTHONIOENCODING='cp1252')
+        with tempfile.TemporaryDirectory() as d:
+            destinazione = Path(d) / 'uscita.txt'
+            with open(destinazione, 'wb') as f:
+                r = subprocess.run([sys.executable, str(p), '--cartella',
+                                    str(CARTELLA_DOC)],
+                                   stdout=f, stderr=subprocess.PIPE, env=ambiente,
+                                   timeout=300)
+            assert b'UnicodeEncodeError' not in r.stderr, (
+                'l\'uscita cade su un encoding senza il meno tipografico:\n'
+                + r.stderr.decode('utf-8', 'replace')[-600:])
+            testo = destinazione.read_text(encoding='utf-8')
+>           assert '−' in testo, (
+                'il meno tipografico non e arrivato nel file: o non c\'e piu, o '
+                'e stato sostituito in silenzio')
+E           AssertionError: il meno tipografico non e arrivato nel file: o non c'e piu, o e stato sostituito in silenzio
+E           assert '−' in 'RICHIESTE DEL REFERENTE, CONTROLLATE SUL MATERIALE\n  numerazione: 1-7 dalla lettera di revisione, 8-15 da quella di ...a fuori dal repository, da incollare su GitHub\n     15 indicare il nuovo commit in Trello: dopo il controllo finale\n'
+
+adattamento-drift/ton_temporal/test_documenti_coerenti.py:1085: AssertionError
+____________ test_materiali_versionati_si_rigenerano_byte_per_byte _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-root/pytest-26/test_materiali_versionati_si_r0')
+
+    def test_materiali_versionati_si_rigenerano_byte_per_byte(tmp_path):
+        uscita = tmp_path / "articolo_02"
+>       materiali.costruisci(ARCHIVIO, uscita)
+
+adattamento-drift/ton_temporal/test_materiali_articolo_02.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+adattamento-drift/ton_temporal/costruisci_materiali_articolo_02.py:1001: in costruisci
+    periodi, fonti_raw = _rapporti_periodi(archivio)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+adattamento-drift/ton_temporal/costruisci_materiali_articolo_02.py:374: in _rapporti_periodi
+    a1 = [_carica(p) for p in a1_paths]
+          ^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+percorso = PosixPath('<repo>/adattamento-drift/archivio_esterno/controlli_appaiati_C/rendiconti/replay_C_evidenza_seme42.json')
+
+    def _carica(percorso: Path) -> dict:
+        if not percorso.is_file():
+>           raise FileNotFoundError(f"fonte richiesta assente: {percorso}")
+E           FileNotFoundError: fonte richiesta assente: <repo>/adattamento-drift/archivio_esterno/controlli_appaiati_C/rendiconti/replay_C_evidenza_seme42.json
+
+adattamento-drift/ton_temporal/costruisci_materiali_articolo_02.py:59: FileNotFoundError
+=============================== warnings summary ===============================
+adattamento-drift/ton_temporal/test_guardia_monoclasse.py: 7 warnings
+adattamento-drift/ton_temporal/test_memoria_per_classe.py: 6 warnings
+adattamento-drift/ton_temporal/test_misure_di_costo.py: 2 warnings
+adattamento-drift/ton_temporal/test_soglia_adattiva_online.py: 3 warnings
+  <venv>/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:781: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (60) reached and the optimization hasn't converged yet.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED adattamento-drift/ton_temporal/test_documenti_coerenti.py::test_i_file_citati_nei_comandi_esistono_dove_il_comando_li_cerca
+FAILED adattamento-drift/ton_temporal/test_documenti_coerenti.py::test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno
+FAILED adattamento-drift/ton_temporal/test_materiali_articolo_02.py::test_materiali_versionati_si_rigenerano_byte_per_byte
+3 failed, 408 passed, 3 skipped, 18 warnings in 26.17s

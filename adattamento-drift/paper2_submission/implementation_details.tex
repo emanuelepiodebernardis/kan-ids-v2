@@ -1,0 +1,28 @@
+\section{Implementation details and reproducibility map}
+\label{sec:implementation}
+\subsection{Immutable roles and retained examples}
+The role hash is SHA-256 over the ASCII salt \code{ADAPT04-C-seed42-v1}, a zero byte, and the eight raw feature values encoded as little-endian float64. Both signs of zero are normalized to positive zero; NaNs are canonicalized. The digest is interpreted as a big-endian integer and assigned to CAL if its remainder modulo four is zero, otherwise to FIT. The salt's historical seed label is literal: the same salt is used for every final seed. Each requested observation retains its assigned role. Stored model inputs are transformed only when its label arrives; the role digest continues to identify the raw vector.
+
+For chronological overlap, the separately defined fingerprint is SHA-256 over the 32 bytes of the eight stored float32 inputs in little-endian order. This predicate checks equality at the stored feature precision. It is not an event-identity test. The two hashing procedures have different purposes and must not be substituted for one another in reproduction.
+
+Calibration age is measured from the observation block, not from the arrival block. Repeated vectors can occupy multiple positions in a role memory; the five-per-class minimum counts observations, not unique vectors. Class quotas determine eviction when capacity is exceeded; one class may borrow slots not occupied by the other class. They are not hard per-class maxima, and an age filter determines which retained ROLE64 entries are eligible for threshold selection. FIT192 has no age filter. Pending requests are maintained separately from both memories.
+
+\subsection{Ordering and end-of-stream accounting}
+For each block, the runner (i) transforms and scores records using the incoming state, (ii) records the four decision outcomes for the evaluator, (iii) requests labels without using their values, (iv) receives the previous block's requested labels, (v) updates memories, and (vi) attempts an atomic transaction for the next block. Labels from a predicted block do not affect any predictions within that block.
+
+There are 355 prediction blocks but 354 update opportunities because no requested labels arrive at the end of block zero. A decision at the end of the final block is recorded and timed, although its resulting state has no subsequent evaluated block. The last 99 requested labels remain pending. This boundary explains why counts of decisions and counts of affected prediction blocks differ. Likewise, the C temporal stratification excludes the two initial prediction blocks without a preceding delayed-label decision.
+
+\subsection{Artifact entry points}
+The following paths are relative to \code{adattamento-drift/ton_temporal/} in the repository snapshot. They provide a direct map from the manuscript to implementation and evidence:
+\begin{itemize}\raggedright
+\item \code{replay.py}: fixed transformation, additive spline model, logistic head refitting, sampling, and class-aware memory.
+\item \code{soglia_bilanciata.py}: strict-threshold convention, candidate construction, exact comparison, and lower-median tie rule.
+\item \code{calibrazione_recente.py}: immutable roles, recent-label eligibility, and atomic transaction.
+\item \code{replay_validazione_finale.py}: five-seed final replay, paired traces, overlap mask, and aggregate metric definitions.
+\item \code{split_manifest.json} and \code{sovrapposizioni_abcd.json}: chronology, counts, historical exposure, and cross-partition vector checks.
+\item \code{articolo_02/protocollo_validazione_finale.md}: protocol fixed before the final predictive campaign.
+\item \code{articolo_02/validazione_finale_D/analisi_finale.json}: absolute metrics, paired differences, temporal summaries, and measured costs.
+\item \path{adapt04_calibrazione_recente/replay_completo/confronto_per_blocco.csv}: C per-block evidence used in Figure~\ref{fig:gating}.
+\end{itemize}
+The reproduction package retains the original numerical summaries, complete reports and model artifacts described in Section~\ref{sec:extras}. Rebuilding figures is separate from reconstructing raw data and rerunning the predictive campaign.
+

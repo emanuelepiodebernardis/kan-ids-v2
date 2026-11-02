@@ -1,0 +1,20 @@
+Emanuele: matched-memory revision, 1 November 2026
+
+Read main.pdf and supplement.pdf. review3/ adds ten paired spline replays
+with identical calibration observations and update gates. Keep CAL-role256
+distinct from the all-label CAL256 baseline; neither equal lambda nor equal
+capacity alone isolates a learning benefit. Full results include all failed
+FPR targets, unsupported interpolation points and conditional seed variation.
+
+Use INTEGRATION.md to import the code/results and manuscript commits. The
+complete package retains all 55 earlier cells, 120 diagnostic cells and ten
+matched-memory cells, plus the historical reports. All 93 targeted tests pass.
+
+Three authors and GAIA support/interests are now stated. Frontoni is currently
+assigned only documented funding/project-administration roles. Scientific
+contributions and the completeness of author declarations require factual
+review before submission; no broad no-conflict statement was assumed.
+A permanent public archival DOI is still pending.
+
+Use the clean LaTeX ZIP for the journal. Internal review responses and handover
+notes belong to the integration package and are not a journal response letter.

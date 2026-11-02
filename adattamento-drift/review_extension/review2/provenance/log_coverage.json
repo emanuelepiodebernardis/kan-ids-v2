@@ -1,0 +1,9 @@
+{
+  "complete_per_block_reports": 120,
+  "stdout_logs_retained": 118,
+  "reports_without_separate_stdout": [
+    "ton_spline_42_age100",
+    "unsw_spline_42_age100"
+  ],
+  "note": "The complete compressed reports are authoritative; missing stdout is not reconstructed or presented as an original execution log."
+}

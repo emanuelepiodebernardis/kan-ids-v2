@@ -1,0 +1,5 @@
+ton spline 45 age100 0 0.0
+ton spline 45 age100 100 12.7
+ton spline 45 age100 200 23.1
+ton spline 45 age100 300 30.1
+DONE ton_spline_45_age100.json.gz

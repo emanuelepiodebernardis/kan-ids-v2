@@ -1,0 +1,3 @@
+unsw 43 0 0.0
+unsw 43 100 6.7
+DONE unsw_spline_43.json.gz checks 26813

@@ -1,0 +1,9 @@
+ton 45 shuffled fit 100000
+ton 45 shuffled fit 200000
+ton 45 shuffled fit 300000
+ton 45 shuffled fit 400000
+ton arf 45 shuffled 0 1.2
+ton arf 45 shuffled 100 99.4
+ton arf 45 shuffled 200 188.0
+ton arf 45 shuffled 300 251.9
+DONE ton_arf_45_shuffled.json.gz

@@ -1,0 +1,463 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{28}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{} and \showURL{}.  The latter does
+%%% not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showURL}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showURL #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+\makeatletter
+\@ifundefined{NAT@parse@date}{}{\let\NAT@parse@date@orig\NAT@parse@date}
+\@ifundefined{NAT@parse@date}{}{\def\NAT@parse@date#1#2#3#4#5#6@@{\NAT@parse@date@orig#1#2#3#4#5#6@@\def\NAT@tempyear{0000}\def\NAT@tempexlab{{?}}\ifx\NAT@year\NAT@tempyear\ifx\NAT@exlab\NAT@tempexlab\def\NAT@date{[n.\,d.]}\else\edef\NAT@date{[n.\,d.]\NAT@exlab}\fi\fi}}
+\makeatother
+
+\bibitem[Agarwal et~al\mbox{.}(2021)]%
+        {agarwal2021}
+\bibfield{author}{\bibinfo{person}{Rishabh Agarwal}, \bibinfo{person}{Levi
+  Melnick}, \bibinfo{person}{Nicholas Frosst}, \bibinfo{person}{Xuezhou Zhang},
+  \bibinfo{person}{Ben Lengerich}, \bibinfo{person}{Rich Caruana}, {and}
+  \bibinfo{person}{Geoffrey~E. Hinton}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Neural Additive Models: Interpretable Machine
+  Learning with Neural Nets}. In \bibinfo{booktitle}{\emph{Advances in Neural
+  Information Processing Systems}}, Vol.~\bibinfo{volume}{34}.
+\newblock
+\urldef\tempurl%
+\url{https://papers.nips.cc/paper/2021/hash/251bd0442dfcc53b5a761e050f8022b8-Abstract.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Andresini et~al\mbox{.}(2021)]%
+        {andresini2021}
+\bibfield{author}{\bibinfo{person}{Giuseppina Andresini},
+  \bibinfo{person}{Feargus Pendlebury}, \bibinfo{person}{Fabio Pierazzi},
+  \bibinfo{person}{Corrado Loglisci}, \bibinfo{person}{Annalisa Appice}, {and}
+  \bibinfo{person}{Lorenzo Cavallaro}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{INSOMNIA: Towards Concept-Drift Robustness in
+  Network Intrusion Detection}. In \bibinfo{booktitle}{\emph{Proceedings of the
+  14th ACM Workshop on Artificial Intelligence and Security}}
+  \emph{(\bibinfo{series}{CCS ’21})}. \bibinfo{publisher}{ACM},
+  \bibinfo{pages}{111–122}.
+\newblock
+\href{https://doi.org/10.1145/3474369.3486864}{doi:\nolinkurl{10.1145/3474369.3486864}}
+
+
+\bibitem[Arp et~al\mbox{.}(2022)]%
+        {arp2022}
+\bibfield{author}{\bibinfo{person}{Daniel Arp}, \bibinfo{person}{Erwin
+  Quiring}, \bibinfo{person}{Feargus Pendlebury}, \bibinfo{person}{Alexander
+  Warnecke}, \bibinfo{person}{Fabio Pierazzi}, \bibinfo{person}{Christian
+  Wressnegger}, \bibinfo{person}{Lorenzo Cavallaro}, {and}
+  \bibinfo{person}{Konrad Rieck}.} \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Dos and Don'ts of Machine Learning in Computer
+  Security}. In \bibinfo{booktitle}{\emph{31st USENIX Security Symposium}}.
+  \bibinfo{publisher}{USENIX Association}, \bibinfo{pages}{3971--3988}.
+\newblock
+\urldef\tempurl%
+\url{https://www.usenix.org/conference/usenixsecurity22/presentation/arp}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Booij et~al\mbox{.}(2022)]%
+        {booij2022}
+\bibfield{author}{\bibinfo{person}{Tim~M. Booij}, \bibinfo{person}{Irina
+  Chiscop}, \bibinfo{person}{Erik Meeuwissen}, \bibinfo{person}{Nour Moustafa},
+  {and} \bibinfo{person}{Frank T.~H. {den Hartog}}.}
+  \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{{ToN\_IoT}: The role of heterogeneity and the need
+  for standardization of features and attack types in {IoT} network intrusion
+  data sets}.
+\newblock \bibinfo{journal}{\emph{IEEE Internet of Things Journal}}
+  \bibinfo{volume}{9}, \bibinfo{number}{1} (\bibinfo{year}{2022}),
+  \bibinfo{pages}{485--496}.
+\newblock
+\href{https://doi.org/10.1109/JIOT.2021.3085194}{doi:\nolinkurl{10.1109/JIOT.2021.3085194}}
+
+
+\bibitem[Chen et~al\mbox{.}(2023)]%
+        {chen2023}
+\bibfield{author}{\bibinfo{person}{Yizheng Chen}, \bibinfo{person}{Zhoujie
+  Ding}, {and} \bibinfo{person}{David Wagner}.}
+  \bibinfo{year}{2023}\natexlab{}.
+\newblock \showarticletitle{Continuous Learning for Android Malware Detection}.
+  In \bibinfo{booktitle}{\emph{32nd USENIX Security Symposium}}.
+  \bibinfo{pages}{1127--1144}.
+\newblock
+\urldef\tempurl%
+\url{https://www.usenix.org/conference/usenixsecurity23/presentation/chen-yizheng}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Engelen et~al\mbox{.}(2021)]%
+        {engelen2021}
+\bibfield{author}{\bibinfo{person}{Gints Engelen}, \bibinfo{person}{Vera
+  Rimmer}, {and} \bibinfo{person}{Wouter Joosen}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Troubleshooting an Intrusion Detection Dataset: the
+  CICIDS2017 Case Study}. In \bibinfo{booktitle}{\emph{2021 IEEE Security and
+  Privacy Workshops (SPW)}}. \bibinfo{publisher}{IEEE},
+  \bibinfo{pages}{7–12}.
+\newblock
+\href{https://doi.org/10.1109/spw53761.2021.00009}{doi:\nolinkurl{10.1109/spw53761.2021.00009}}
+
+
+\bibitem[Gama et~al\mbox{.}(2013)]%
+        {gama2013}
+\bibfield{author}{\bibinfo{person}{Jo{\~a}o Gama}, \bibinfo{person}{Raquel
+  Sebasti{\~a}o}, {and} \bibinfo{person}{Pedro~Pereira Rodrigues}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{On evaluating stream learning algorithms}.
+\newblock \bibinfo{journal}{\emph{Machine Learning}}  \bibinfo{volume}{90}
+  (\bibinfo{year}{2013}), \bibinfo{pages}{317--346}.
+\newblock
+\href{https://doi.org/10.1007/s10994-012-5320-9}{doi:\nolinkurl{10.1007/s10994-012-5320-9}}
+
+
+\bibitem[Gama et~al\mbox{.}(2014)]%
+        {gama2014}
+\bibfield{author}{\bibinfo{person}{Jo{\~a}o Gama}, \bibinfo{person}{Indr{\.{e}}
+  {\v{Z}}liobait{\.{e}}}, \bibinfo{person}{Albert Bifet},
+  \bibinfo{person}{Mykola Pechenizkiy}, {and} \bibinfo{person}{Abdelhamid
+  Bouchachia}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{A survey on concept drift adaptation}.
+\newblock \bibinfo{journal}{\emph{Comput. Surveys}} \bibinfo{volume}{46},
+  \bibinfo{number}{4} (\bibinfo{year}{2014}), \bibinfo{pages}{44:1--44:37}.
+\newblock
+\href{https://doi.org/10.1145/2523813}{doi:\nolinkurl{10.1145/2523813}}
+
+
+\bibitem[Gomes et~al\mbox{.}(2017)]%
+        {gomes2017}
+\bibfield{author}{\bibinfo{person}{Heitor~Murilo Gomes},
+  \bibinfo{person}{Albert Bifet}, \bibinfo{person}{Jesse Read},
+  \bibinfo{person}{Jean~Paul Barddal}, \bibinfo{person}{Fabr{\'i}cio
+  Enembreck}, \bibinfo{person}{Bernhard Pfahringer}, \bibinfo{person}{Geoffrey
+  Holmes}, {and} \bibinfo{person}{Talel Abdessalem}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{Adaptive random forests for evolving data stream
+  classification}.
+\newblock \bibinfo{journal}{\emph{Machine Learning}} \bibinfo{volume}{106},
+  \bibinfo{number}{9--10} (\bibinfo{year}{2017}), \bibinfo{pages}{1469--1495}.
+\newblock
+\href{https://doi.org/10.1007/s10994-017-5642-8}{doi:\nolinkurl{10.1007/s10994-017-5642-8}}
+
+
+\bibitem[Grzenda et~al\mbox{.}(2019)]%
+        {grzenda2020}
+\bibfield{author}{\bibinfo{person}{Maciej Grzenda},
+  \bibinfo{person}{Heitor~Murilo Gomes}, {and} \bibinfo{person}{Albert Bifet}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{Delayed labelling evaluation for data streams}.
+\newblock \bibinfo{journal}{\emph{Data Mining and Knowledge Discovery}}
+  \bibinfo{volume}{34}, \bibinfo{number}{5} (\bibinfo{date}{Nov.}
+  \bibinfo{year}{2019}), \bibinfo{pages}{1237–1266}.
+\newblock
+\showISSN{1573-756X}
+\href{https://doi.org/10.1007/s10618-019-00654-y}{doi:\nolinkurl{10.1007/s10618-019-00654-y}}
+
+
+\bibitem[Guo et~al\mbox{.}(2017)]%
+        {guo2017}
+\bibfield{author}{\bibinfo{person}{Chuan Guo}, \bibinfo{person}{Geoff Pleiss},
+  \bibinfo{person}{Yu Sun}, {and} \bibinfo{person}{Kilian~Q. Weinberger}.}
+  \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{On calibration of modern neural networks}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 34th International Conference on
+  Machine Learning}} \emph{(\bibinfo{series}{Proceedings of Machine Learning
+  Research}, Vol.~\bibinfo{volume}{70})}. \bibinfo{pages}{1321--1330}.
+\newblock
+\urldef\tempurl%
+\url{https://proceedings.mlr.press/v70/guo17a.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Hastie and Tibshirani(1986)]%
+        {hastie1986}
+\bibfield{author}{\bibinfo{person}{Trevor Hastie} {and} \bibinfo{person}{Robert
+  Tibshirani}.} \bibinfo{year}{1986}\natexlab{}.
+\newblock \showarticletitle{Generalized Additive Models}.
+\newblock \bibinfo{journal}{\emph{Statist. Sci.}} \bibinfo{volume}{1},
+  \bibinfo{number}{3} (\bibinfo{date}{Aug.} \bibinfo{year}{1986}),
+  \bibinfo{pages}{297–310}.
+\newblock
+\showISSN{2168-8745}
+\href{https://doi.org/10.1214/ss/1177013604}{doi:\nolinkurl{10.1214/ss/1177013604}}
+
+
+\bibitem[Jordaney et~al\mbox{.}(2017)]%
+        {jordaney2017}
+\bibfield{author}{\bibinfo{person}{Roberto Jordaney}, \bibinfo{person}{Kumar
+  Sharad}, \bibinfo{person}{Santanu~K. Dash}, \bibinfo{person}{Zhi Wang},
+  \bibinfo{person}{Davide Papini}, \bibinfo{person}{Ilia Nouretdinov}, {and}
+  \bibinfo{person}{Lorenzo Cavallaro}.} \bibinfo{year}{2017}\natexlab{}.
+\newblock \showarticletitle{{Transcend}: Detecting Concept Drift in Malware
+  Classification Models}. In \bibinfo{booktitle}{\emph{26th USENIX Security
+  Symposium}}. \bibinfo{publisher}{USENIX Association},
+  \bibinfo{pages}{625--642}.
+\newblock
+\urldef\tempurl%
+\url{https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/jordaney}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Lipton et~al\mbox{.}(2018)]%
+        {lipton2018}
+\bibfield{author}{\bibinfo{person}{Zachary Lipton}, \bibinfo{person}{Yu-Xiang
+  Wang}, {and} \bibinfo{person}{Alexander Smola}.}
+  \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Detecting and Correcting for Label Shift with Black
+  Box Predictors}. In \bibinfo{booktitle}{\emph{Proceedings of the 35th
+  International Conference on Machine Learning}}
+  \emph{(\bibinfo{series}{Proceedings of Machine Learning Research},
+  Vol.~\bibinfo{volume}{80})}. \bibinfo{pages}{3122--3130}.
+\newblock
+\urldef\tempurl%
+\url{https://proceedings.mlr.press/v80/lipton18a.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Liu et~al\mbox{.}(2025)]%
+        {liu2025}
+\bibfield{author}{\bibinfo{person}{Ziming Liu}, \bibinfo{person}{Yixuan Wang},
+  \bibinfo{person}{Sachin Vaidya}, \bibinfo{person}{Fabian Ruehle},
+  \bibinfo{person}{James Halverson}, \bibinfo{person}{Marin
+  Solja{\v{c}}i{\'c}}, \bibinfo{person}{Thomas~Y. Hou}, {and}
+  \bibinfo{person}{Max Tegmark}.} \bibinfo{year}{2025}\natexlab{}.
+\newblock \showarticletitle{{KAN}: {Kolmogorov--Arnold} Networks}. In
+  \bibinfo{booktitle}{\emph{International Conference on Learning
+  Representations}}.
+\newblock
+\urldef\tempurl%
+\url{https://proceedings.iclr.cc/paper_files/paper/2025/hash/afaed89642ea100935e39d39a4da602c-Abstract-Conference.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Moustafa(2021)]%
+        {moustafa2021}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{A new distributed architecture for evaluating
+  {AI}-based security systems at the edge: Network {TON\_IoT} datasets}.
+\newblock \bibinfo{journal}{\emph{Sustainable Cities and Society}}
+  \bibinfo{volume}{72} (\bibinfo{year}{2021}), \bibinfo{pages}{102994}.
+\newblock
+\href{https://doi.org/10.1016/j.scs.2021.102994}{doi:\nolinkurl{10.1016/j.scs.2021.102994}}
+
+
+\bibitem[Moustafa and Slay(2015)]%
+        {moustafa2015unsw}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa} {and} \bibinfo{person}{Jill
+  Slay}.} \bibinfo{year}{2015}\natexlab{}.
+\newblock \showarticletitle{UNSW-NB15: a comprehensive data set for network
+  intrusion detection systems (UNSW-NB15 network data set)}. In
+  \bibinfo{booktitle}{\emph{2015 Military Communications and Information
+  Systems Conference (MilCIS)}}. \bibinfo{publisher}{IEEE},
+  \bibinfo{pages}{1–6}.
+\newblock
+\href{https://doi.org/10.1109/milcis.2015.7348942}{doi:\nolinkurl{10.1109/milcis.2015.7348942}}
+
+
+\bibitem[Moustafa and Slay(2016)]%
+        {moustafa2016unsw}
+\bibfield{author}{\bibinfo{person}{Nour Moustafa} {and} \bibinfo{person}{Jill
+  Slay}.} \bibinfo{year}{2016}\natexlab{}.
+\newblock \showarticletitle{The evaluation of Network Anomaly Detection
+  Systems: Statistical analysis of the UNSW-NB15 data set and the comparison
+  with the KDD99 data set}.
+\newblock \bibinfo{journal}{\emph{Information Security Journal: A Global
+  Perspective}} \bibinfo{volume}{25}, \bibinfo{number}{1-3}
+  (\bibinfo{date}{Jan.} \bibinfo{year}{2016}), \bibinfo{pages}{18–31}.
+\newblock
+\showISSN{1939-3547}
+\href{https://doi.org/10.1080/19393555.2015.1125974}{doi:\nolinkurl{10.1080/19393555.2015.1125974}}
+
+
+\bibitem[Pedregosa et~al\mbox{.}(2011)]%
+        {pedregosa2011}
+\bibfield{author}{\bibinfo{person}{Fabian Pedregosa}, \bibinfo{person}{Ga{\"e}l
+  Varoquaux}, \bibinfo{person}{Alexandre Gramfort}, \bibinfo{person}{Vincent
+  Michel}, \bibinfo{person}{Bertrand Thirion}, \bibinfo{person}{Olivier
+  Grisel}, \bibinfo{person}{Mathieu Blondel}, \bibinfo{person}{Peter
+  Prettenhofer}, \bibinfo{person}{Ron Weiss}, \bibinfo{person}{Vincent
+  Dubourg}, \bibinfo{person}{Jake Vanderplas}, \bibinfo{person}{Alexandre
+  Passos}, \bibinfo{person}{David Cournapeau}, \bibinfo{person}{Matthieu
+  Brucher}, \bibinfo{person}{Matthieu Perrot}, {and}
+  \bibinfo{person}{{\'E}douard Duchesnay}.} \bibinfo{year}{2011}\natexlab{}.
+\newblock \showarticletitle{Scikit-learn: Machine Learning in {Python}}.
+\newblock \bibinfo{journal}{\emph{Journal of Machine Learning Research}}
+  \bibinfo{volume}{12} (\bibinfo{year}{2011}), \bibinfo{pages}{2825--2830}.
+\newblock
+\urldef\tempurl%
+\url{https://jmlr.org/papers/v12/pedregosa11a.html}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Pendlebury et~al\mbox{.}(2019)]%
+        {pendlebury2019}
+\bibfield{author}{\bibinfo{person}{Feargus Pendlebury}, \bibinfo{person}{Fabio
+  Pierazzi}, \bibinfo{person}{Roberto Jordaney}, \bibinfo{person}{Johannes
+  Kinder}, {and} \bibinfo{person}{Lorenzo Cavallaro}.}
+  \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{{TESSERACT}: Eliminating Experimental Bias in
+  Malware Classification across Space and Time}. In
+  \bibinfo{booktitle}{\emph{28th USENIX Security Symposium}}.
+  \bibinfo{pages}{729--746}.
+\newblock
+\urldef\tempurl%
+\url{https://www.usenix.org/conference/usenixsecurity19/presentation/pendlebury}
+\showURL{%
+\tempurl}
+
+
+\bibitem[{River contributors}(2026)]%
+        {riverdocs}
+\bibfield{author}{\bibinfo{person}{{River contributors}}.}
+  \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{{ARFClassifier}, River 0.22.0 API documentation}.
+\newblock
+\urldef\tempurl%
+\url{https://riverml.xyz/0.22.0/api/forest/ARFClassifier/}
+\showURL{%
+\tempurl}
+\newblock
+\shownote{Accessed 1 November 2026; implementation pinned to 0.22.0}.
+
+
+\bibitem[Saerens et~al\mbox{.}(2002)]%
+        {saerens2002}
+\bibfield{author}{\bibinfo{person}{Marco Saerens}, \bibinfo{person}{Patrice
+  Latinne}, {and} \bibinfo{person}{Christine Decaestecker}.}
+  \bibinfo{year}{2002}\natexlab{}.
+\newblock \showarticletitle{Adjusting the Outputs of a Classifier to New a
+  Priori Probabilities: A Simple Procedure}.
+\newblock \bibinfo{journal}{\emph{Neural Computation}} \bibinfo{volume}{14},
+  \bibinfo{number}{1} (\bibinfo{date}{Jan.} \bibinfo{year}{2002}),
+  \bibinfo{pages}{21–41}.
+\newblock
+\showISSN{1530-888X}
+\href{https://doi.org/10.1162/089976602753284446}{doi:\nolinkurl{10.1162/089976602753284446}}
+
+
+\bibitem[{scikit-learn developers}(2026)]%
+        {sklearnap}
+\bibfield{author}{\bibinfo{person}{{scikit-learn developers}}.}
+  \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{Average precision score, scikit-learn 1.7.2
+  documentation}.
+\newblock
+\urldef\tempurl%
+\url{https://scikit-learn.org/1.7/modules/generated/sklearn.metrics.average_precision_score.html}
+\showURL{%
+\tempurl}
+\newblock
+\shownote{Accessed 1 November 2026}.
+
+
+\bibitem[Sommer and Paxson(2010)]%
+        {sommer2010}
+\bibfield{author}{\bibinfo{person}{Robin Sommer} {and} \bibinfo{person}{Vern
+  Paxson}.} \bibinfo{year}{2010}\natexlab{}.
+\newblock \showarticletitle{Outside the Closed World: On Using Machine Learning
+  for Network Intrusion Detection}. In \bibinfo{booktitle}{\emph{2010 IEEE
+  Symposium on Security and Privacy}}. \bibinfo{publisher}{IEEE},
+  \bibinfo{pages}{305–316}.
+\newblock
+\href{https://doi.org/10.1109/sp.2010.25}{doi:\nolinkurl{10.1109/sp.2010.25}}
+
+
+\bibitem[{UNSW Canberra}(2021)]%
+        {toniotweb}
+\bibfield{author}{\bibinfo{person}{{UNSW Canberra}}.}
+  \bibinfo{year}{2021}\natexlab{}.
+\newblock \bibinfo{title}{The {TON\_IoT} Datasets}.
+\newblock
+\urldef\tempurl%
+\url{https://research.unsw.edu.au/projects/toniot-datasets}
+\showURL{%
+\tempurl}
+\newblock
+\shownote{Dataset description and use conditions; accessed 1 November 2026}.
+
+
+\bibitem[{UNSW Canberra}(2026)]%
+        {unswweb}
+\bibfield{author}{\bibinfo{person}{{UNSW Canberra}}.}
+  \bibinfo{year}{2026}\natexlab{}.
+\newblock \bibinfo{title}{The {UNSW-NB15} Dataset}.
+\newblock
+\urldef\tempurl%
+\url{https://research.unsw.edu.au/projects/unsw-nb15-dataset}
+\showURL{%
+\tempurl}
+\newblock
+\shownote{Provider description and academic-use terms; accessed 1 November
+  2026}.
+
+
+\bibitem[Yang et~al\mbox{.}(2021)]%
+        {yang2021}
+\bibfield{author}{\bibinfo{person}{Limin Yang}, \bibinfo{person}{Wenbo Guo},
+  \bibinfo{person}{Qingying Hao}, \bibinfo{person}{Arridhana Ciptadi},
+  \bibinfo{person}{Ali Ahmadzadeh}, \bibinfo{person}{Xinyu Xing}, {and}
+  \bibinfo{person}{Gang Wang}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{{CADE}: Detecting and Explaining Concept Drift
+  Samples for Security Applications}. In \bibinfo{booktitle}{\emph{30th USENIX
+  Security Symposium}}. \bibinfo{publisher}{USENIX Association},
+  \bibinfo{pages}{2327--2344}.
+\newblock
+\urldef\tempurl%
+\url{https://www.usenix.org/conference/usenixsecurity21/presentation/yang-limin}
+\showURL{%
+\tempurl}
+
+
+\bibitem[{\v{Z}}liobait{\.{e}} et~al\mbox{.}(2014)]%
+        {zliobaite2014}
+\bibfield{author}{\bibinfo{person}{Indr{\.{e}} {\v{Z}}liobait{\.{e}}},
+  \bibinfo{person}{Albert Bifet}, \bibinfo{person}{Bernhard Pfahringer}, {and}
+  \bibinfo{person}{Geoff Holmes}.} \bibinfo{year}{2014}\natexlab{}.
+\newblock \showarticletitle{Active learning with drifting streaming data}.
+\newblock \bibinfo{journal}{\emph{IEEE Transactions on Neural Networks and
+  Learning Systems}} \bibinfo{volume}{25}, \bibinfo{number}{1}
+  (\bibinfo{year}{2014}), \bibinfo{pages}{27--39}.
+\newblock
+\href{https://doi.org/10.1109/TNNLS.2012.2236570}{doi:\nolinkurl{10.1109/TNNLS.2012.2236570}}
+
+
+\end{thebibliography}

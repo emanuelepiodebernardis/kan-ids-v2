@@ -1,0 +1,1462 @@
+{
+  "schema": 1,
+  "protocollo": "articolo-02-validazione-finale-D-v1",
+  "commit_eseguito": "ea216914f756433fe69fd825146de5c1e325cbd8",
+  "nota": "analisi dai rendiconti esistenti; nessun fit, replay o tuning",
+  "risultati_assoluti": [
+    {
+      "ambito": "D_completo",
+      "traccia": "frozen_b",
+      "etichetta": "frozen+B",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            2515355.0,
+            2561501.0,
+            2562849.0,
+            2570517.0,
+            2570832.0
+          ],
+          "media": 2556210.8,
+          "deviazione_standard": 23236.26022405499
+        },
+        "fp": {
+          "per_seme": [
+            39401.0,
+            39648.0,
+            39193.0,
+            38717.0,
+            38722.0
+          ],
+          "media": 39136.2,
+          "deviazione_standard": 413.0904259360171
+        },
+        "recall_pp": {
+          "per_seme": [
+            22.372774125852544,
+            20.948646730241027,
+            20.907045643921858,
+            20.670400888806594,
+            20.660679566706786
+          ],
+          "media": 21.111909391105762,
+          "deviazione_standard": 0.7171021270886948
+        },
+        "fpr_pp": {
+          "per_seme": [
+            12.723421157156098,
+            12.803182712086619,
+            12.656253531951444,
+            12.5025430050408,
+            12.504157611415915
+          ],
+          "media": 12.637911603530176,
+          "deviazione_standard": 0.1333956870427886
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            54.824676484348224,
+            54.07273200907719,
+            54.125396055985206,
+            54.083928941882895,
+            54.07826097764543
+          ],
+          "media": 54.23699889378779,
+          "deviazione_standard": 0.329177721551147
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.8676658867089575,
+            0.8429155756193613,
+            0.8639817045413067,
+            0.852787179581441,
+            0.8404002819734052
+          ],
+          "media": 0.8535501256848943,
+          "deviazione_standard": 0.012192894223847195
+        }
+      },
+      "denominatore_auroc_per_seme": "352/355"
+    },
+    {
+      "ambito": "D_completo",
+      "traccia": "frozen_cal64",
+      "etichetta": "frozen+CAL64",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            334694.0,
+            418666.0,
+            275848.0,
+            378829.0,
+            359233.0
+          ],
+          "media": 353454.0,
+          "deviazione_standard": 53161.36107644348
+        },
+        "fp": {
+          "per_seme": [
+            145013.0,
+            145566.0,
+            134111.0,
+            150196.0,
+            148765.0
+          ],
+          "media": 144730.2,
+          "deviazione_standard": 6318.633689335061
+        },
+        "recall_pp": {
+          "per_seme": [
+            89.67089467024658,
+            87.07940622781841,
+            91.48696108385026,
+            88.30882942937383,
+            88.91358824800173
+          ],
+          "media": 89.09193593185816,
+          "deviazione_standard": 1.6406308390100754
+        },
+        "fpr_pp": {
+          "per_seme": [
+            46.827782854817826,
+            47.00635831990519,
+            43.30729511452403,
+            48.50148382325873,
+            48.03938347870172
+          ],
+          "media": 46.7364607182415,
+          "deviazione_standard": 2.0404212473593306
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            71.42155590771438,
+            70.0365239539566,
+            74.08983298466312,
+            69.90367280305753,
+            70.43710238464999
+          ],
+          "media": 71.17773760680832,
+          "deviazione_standard": 1.7330534549959222
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.8676658867089575,
+            0.8429155756193613,
+            0.8639817045413067,
+            0.852787179581441,
+            0.8404002819734052
+          ],
+          "media": 0.8535501256848943,
+          "deviazione_standard": 0.012192894223847195
+        }
+      },
+      "denominatore_auroc_per_seme": "352/355"
+    },
+    {
+      "ambito": "D_completo",
+      "traccia": "fit192_b",
+      "etichetta": "FIT192+B",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            2777807.0,
+            2723416.0,
+            3034065.0,
+            3124200.0,
+            3115305.0
+          ],
+          "media": 2954958.6,
+          "deviazione_standard": 190791.84140392375
+        },
+        "fp": {
+          "per_seme": [
+            1297.0,
+            1024.0,
+            1649.0,
+            1478.0,
+            8238.0
+          ],
+          "media": 2737.2,
+          "deviazione_standard": 3083.739402089612
+        },
+        "recall_pp": {
+          "per_seme": [
+            14.273153720334536,
+            15.951732864240967,
+            6.364688454772706,
+            3.58300157392834,
+            3.8575131932228492
+          ],
+          "media": 8.80601796129988,
+          "deviazione_standard": 5.8880918866748075
+        },
+        "fpr_pp": {
+          "per_seme": [
+            0.41882889370400395,
+            0.330671385622899,
+            0.5324971825118754,
+            0.4772776444830515,
+            2.660225463634221
+          ],
+          "media": 0.8839001139912102,
+          "deviazione_standard": 0.9958050595594748
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            56.927162413315266,
+            57.81053073930903,
+            52.91609563613042,
+            51.55286196472265,
+            50.59864386479431
+          ],
+          "media": 53.961058923654335,
+          "deviazione_standard": 3.2331640487387836
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.9320627885708753,
+            0.9376582337517636,
+            0.9324096711038408,
+            0.9376481045685491,
+            0.9396176634693819
+          ],
+          "media": 0.9358792922928821,
+          "deviazione_standard": 0.003423182747440547
+        }
+      },
+      "denominatore_auroc_per_seme": "352/355"
+    },
+    {
+      "ambito": "D_completo",
+      "traccia": "fit192_cal64",
+      "etichetta": "FIT192+CAL64",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            388869.0,
+            303286.0,
+            400996.0,
+            337894.0,
+            289949.0
+          ],
+          "media": 344198.8,
+          "deviazione_standard": 49694.0569957817
+        },
+        "fp": {
+          "per_seme": [
+            60155.0,
+            56255.0,
+            60349.0,
+            72476.0,
+            67639.0
+          ],
+          "media": 63374.8,
+          "deviazione_standard": 6542.7320898841635
+        },
+        "recall_pp": {
+          "per_seme": [
+            87.99898157578002,
+            90.6401876369472,
+            87.62472610560751,
+            89.57213838224855,
+            91.05178532851896
+          ],
+          "media": 89.37756380582044,
+          "deviazione_standard": 1.5336251888955246
+        },
+        "fpr_pp": {
+          "per_seme": [
+            19.425329298970205,
+            18.16593632638299,
+            19.487976026324542,
+            23.40404232852073,
+            21.842072121237564
+          ],
+          "media": 20.465071220287207,
+          "deviazione_standard": 2.11278738859512
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            84.2868261384049,
+            86.2371256552821,
+            84.06837503964148,
+            83.08404802686391,
+            84.6048566036407
+          ],
+          "media": 84.45624629276662,
+          "deviazione_standard": 1.1462647716586736
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.9320627885708753,
+            0.9376582337517636,
+            0.9324096711038408,
+            0.9376481045685491,
+            0.9396176634693819
+          ],
+          "media": 0.9358792922928821,
+          "deviazione_standard": 0.003423182747440547
+        }
+      },
+      "denominatore_auroc_per_seme": "352/355"
+    },
+    {
+      "ambito": "D_non_visto_ABC",
+      "traccia": "frozen_b",
+      "etichetta": "frozen+B",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            1992130.0,
+            2038278.0,
+            2039626.0,
+            2047288.0,
+            2047603.0
+          ],
+          "media": 2032985.0,
+          "deviazione_standard": 23235.272152484034
+        },
+        "fp": {
+          "per_seme": [
+            7024.0,
+            7271.0,
+            6816.0,
+            6660.0,
+            6665.0
+          ],
+          "media": 6887.2,
+          "deviazione_standard": 260.80586649843593
+        },
+        "recall_pp": {
+          "per_seme": [
+            5.066777732559303,
+            2.867634935052186,
+            2.803397167629121,
+            2.438271222528585,
+            2.423260171535807
+          ],
+          "media": 3.1198682458610003,
+          "deviazione_standard": 1.107256682895314
+        },
+        "fpr_pp": {
+          "per_seme": [
+            5.40382514502008,
+            5.5938514563554955,
+            5.2438029881060455,
+            5.12378637042052,
+            5.127633056884799
+          ],
+          "media": 5.298579803357388,
+          "deviazione_standard": 0.20064767929285285
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            49.83147629376961,
+            48.63689173934834,
+            48.77979708976154,
+            48.657242426054026,
+            48.647813557325506
+          ],
+          "media": 48.91064422125181,
+          "deviazione_standard": 0.5179974726420903
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.8216102772560405,
+            0.7743248769548242,
+            0.8114256811730908,
+            0.7907736173209209,
+            0.7688063393588394
+          ],
+          "media": 0.7933881584127431,
+          "deviazione_standard": 0.022892960557771846
+        }
+      },
+      "denominatore_auroc_per_seme": "350/355"
+    },
+    {
+      "ambito": "D_non_visto_ABC",
+      "traccia": "frozen_cal64",
+      "etichetta": "frozen+CAL64",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            197355.0,
+            337291.0,
+            183749.0,
+            282350.0,
+            276370.0
+          ],
+          "media": 255423.0,
+          "deviazione_standard": 63982.936127533256
+        },
+        "fp": {
+          "per_seme": [
+            46960.0,
+            47382.0,
+            36940.0,
+            45111.0,
+            44489.0
+          ],
+          "media": 44176.4,
+          "deviazione_standard": 4223.77145451787
+        },
+        "recall_pp": {
+          "per_seme": [
+            90.59521914704825,
+            83.92669079236428,
+            91.24360124167602,
+            86.54485635615553,
+            86.82982805436764
+          ],
+          "media": 87.82803911832235,
+          "deviazione_standard": 3.049051164692353
+        },
+        "fpr_pp": {
+          "per_seme": [
+            36.128079272514654,
+            36.45273961009986,
+            28.4193195980982,
+            34.70557461802403,
+            34.22704682186764
+          ],
+          "media": 33.98655198412088,
+          "deviazione_standard": 3.2495048964609476
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            77.2335699372668,
+            73.73697559113222,
+            81.41214082178891,
+            75.91964086906574,
+            76.30139061625
+          ],
+          "media": 76.92074356710073,
+          "deviazione_standard": 2.8192504700644654
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.8216102772560405,
+            0.7743248769548242,
+            0.8114256811730908,
+            0.7907736173209209,
+            0.7688063393588394
+          ],
+          "media": 0.7933881584127431,
+          "deviazione_standard": 0.022892960557771846
+        }
+      },
+      "denominatore_auroc_per_seme": "350/355"
+    },
+    {
+      "ambito": "D_non_visto_ABC",
+      "traccia": "fit192_b",
+      "etichetta": "FIT192+B",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            2059244.0,
+            2071486.0,
+            2065071.0,
+            2073628.0,
+            2068618.0
+          ],
+          "media": 2067609.4,
+          "deviazione_standard": 5672.130093712591
+        },
+        "fp": {
+          "per_seme": [
+            638.0,
+            824.0,
+            951.0,
+            910.0,
+            1265.0
+          ],
+          "media": 917.6,
+          "deviazione_standard": 228.47166126239813
+        },
+        "recall_pp": {
+          "per_seme": [
+            1.868518442624904,
+            1.2851365815023823,
+            1.5908378263235698,
+            1.1830614347514885,
+            1.4218086267318701
+          ],
+          "media": 1.469872582386843,
+          "deviazione_standard": 0.27030042563299417
+        },
+        "fpr_pp": {
+          "per_seme": [
+            0.4908371928420858,
+            0.6339339293132895,
+            0.7316397655059931,
+            0.7000969364988998,
+            0.9732116754627564
+          ],
+          "media": 0.7059438999246049,
+          "deviazione_standard": 0.17577176936991135
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            50.688840624891405,
+            50.32560132609455,
+            50.42959903040879,
+            50.24148224912629,
+            50.224298475634555
+          ],
+          "media": 50.38196434123112,
+          "deviazione_standard": 0.18987670337481471
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.8987983099546312,
+            0.9090948345756698,
+            0.901274443885611,
+            0.9061465723281625,
+            0.9101871156126231
+          ],
+          "media": 0.9051002552713395,
+          "deviazione_standard": 0.004931504305677392
+        }
+      },
+      "denominatore_auroc_per_seme": "350/355"
+    },
+    {
+      "ambito": "D_non_visto_ABC",
+      "traccia": "fit192_cal64",
+      "etichetta": "FIT192+CAL64",
+      "semi": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "metriche": {
+        "fn": {
+          "per_seme": [
+            201626.0,
+            172275.0,
+            243192.0,
+            152750.0,
+            153129.0
+          ],
+          "media": 184594.4,
+          "deviazione_standard": 38339.46709723546
+        },
+        "fp": {
+          "per_seme": [
+            43301.0,
+            40494.0,
+            40487.0,
+            40427.0,
+            42897.0
+          ],
+          "media": 41521.2,
+          "deviazione_standard": 1447.6270928661152
+        },
+        "recall_pp": {
+          "per_seme": [
+            90.39168835723824,
+            91.79038473085424,
+            88.41089678401337,
+            92.72083162175583,
+            92.70277070643435
+          ],
+          "media": 91.2033144400592,
+          "deviazione_standard": 1.8270339543890626
+        },
+        "fpr_pp": {
+          "per_seme": [
+            33.31307411795479,
+            31.15354433690819,
+            31.1481589758582,
+            31.10199873828684,
+            33.002261851640995
+          ],
+          "media": 31.943807604129802,
+          "deviazione_standard": 1.11371350869052
+        },
+        "balanced_accuracy_pp": {
+          "per_seme": [
+            78.53930711964172,
+            80.31842019697302,
+            78.63136890407758,
+            80.8094164417345,
+            79.85025442739668
+          ],
+          "media": 79.6297534179647,
+          "deviazione_standard": 1.0124638566901836
+        },
+        "auroc_media_blocco": {
+          "per_seme": [
+            0.8987983099546312,
+            0.9090948345756698,
+            0.901274443885611,
+            0.9061465723281625,
+            0.9101871156126231
+          ],
+          "media": 0.9051002552713395,
+          "deviazione_standard": 0.004931504305677392
+        }
+      },
+      "denominatore_auroc_per_seme": "350/355"
+    }
+  ],
+  "confronti": {
+    "D_completo": {
+      "principale_pesi": {
+        "delta_fn": {
+          "per_seme": [
+            54175.0,
+            -115380.0,
+            125148.0,
+            -40935.0,
+            -69284.0
+          ],
+          "media": -9255.2,
+          "deviazione_standard": 97412.97420621137
+        },
+        "delta_fp": {
+          "per_seme": [
+            -84858.0,
+            -89311.0,
+            -73762.0,
+            -77720.0,
+            -81126.0
+          ],
+          "media": -81355.4,
+          "deviazione_standard": 6051.616709607441
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            -1.6719130944665594,
+            3.560781409128788,
+            -3.862234978242751,
+            1.263308952874731,
+            2.1381970805172346
+          ],
+          "media": 0.2856278739622886,
+          "deviazione_standard": 3.006294917328992
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            -27.402453555847618,
+            -28.8404219935222,
+            -23.81931908819949,
+            -25.097441494738,
+            -26.19731135746416
+          ],
+          "media": -26.271389497954292,
+          "deviazione_standard": 1.954195783813067
+        },
+        "delta_balanced_accuracy_pp": {
+          "per_seme": [
+            12.865270230690529,
+            16.20060170132549,
+            9.978542054978368,
+            13.180375223806372,
+            14.167754218990702
+          ],
+          "media": 13.278508685958291,
+          "deviazione_standard": 2.2582936684232884
+        },
+        "delta_auroc_media_per_blocco": {
+          "per_seme": [
+            0.06439690186191782,
+            0.09474265813240235,
+            0.06842796656253403,
+            0.08486092498710807,
+            0.0992173814959767
+          ],
+          "media": 0.0823291666079878,
+          "deviazione_standard": 0.01549617578667972
+        },
+        "miglioramento_congiunto_fn_fp": {
+          "semi": [
+            43,
+            45,
+            46
+          ]
+        }
+      },
+      "soglia_a_pesi_adattati": {
+        "delta_fn": {
+          "per_seme": [
+            -2388938.0,
+            -2420130.0,
+            -2633069.0,
+            -2786306.0,
+            -2825356.0
+          ],
+          "media": -2610759.8,
+          "deviazione_standard": 201810.75875482953
+        },
+        "delta_fp": {
+          "per_seme": [
+            58858.0,
+            55231.0,
+            58700.0,
+            70998.0,
+            59401.0
+          ],
+          "media": 60637.6,
+          "deviazione_standard": 6021.205469007016
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            73.72582785544549,
+            74.68845477270624,
+            81.2600376508348,
+            85.98913680832023,
+            87.19427213529612
+          ],
+          "media": 80.57154584452057,
+          "deviazione_standard": 6.228150441466208
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            19.0065004052662,
+            17.835264940760094,
+            18.955478843812664,
+            22.92676468403768,
+            19.18184665760334
+          ],
+          "media": 19.581171106295994,
+          "deviazione_standard": 1.9443753472233667
+        },
+        "delta_balanced_accuracy_pp": {
+          "per_seme": [
+            27.359663725089632,
+            28.42659491597307,
+            31.152279403511063,
+            31.53118606214126,
+            34.006212738846386
+          ],
+          "media": 30.495187369112283,
+          "deviazione_standard": 2.6430543713644146
+        },
+        "delta_auroc_media_per_blocco": {
+          "per_seme": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "media": 0.0,
+          "deviazione_standard": 0.0
+        }
+      },
+      "soglia_a_pesi_frozen": {
+        "delta_fn": {
+          "per_seme": [
+            -2180661.0,
+            -2142835.0,
+            -2287001.0,
+            -2191688.0,
+            -2211599.0
+          ],
+          "media": -2202756.8,
+          "deviazione_standard": 53330.65385123269
+        },
+        "delta_fp": {
+          "per_seme": [
+            105612.0,
+            105918.0,
+            94918.0,
+            111479.0,
+            110043.0
+          ],
+          "media": 105594.0,
+          "deviazione_standard": 6490.552788476494
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            67.29812054439404,
+            66.13075949757739,
+            70.5799154399284,
+            67.63842854056723,
+            68.25290868129494
+          ],
+          "media": 67.9800265407524,
+          "deviazione_standard": 1.6458554408922825
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            34.10436169766172,
+            34.20317560781857,
+            30.651041582572585,
+            35.99894081821793,
+            35.53522586728582
+          ],
+          "media": 34.098549114711325,
+          "deviazione_standard": 2.09593758205478
+        },
+        "delta_balanced_accuracy_pp": {
+          "per_seme": [
+            16.59687942336615,
+            15.963791944879413,
+            19.96443692867791,
+            15.81974386117464,
+            16.358841407004565
+          ],
+          "media": 16.940738713020536,
+          "deviazione_standard": 1.7183312421391743
+        },
+        "delta_auroc_media_per_blocco": {
+          "per_seme": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "media": 0.0,
+          "deviazione_standard": 0.0
+        }
+      },
+      "fit192_cal64_meno_frozen_b": {
+        "delta_fn": {
+          "per_seme": [
+            -2126486.0,
+            -2258215.0,
+            -2161853.0,
+            -2232623.0,
+            -2280883.0
+          ],
+          "media": -2212012.0,
+          "deviazione_standard": 65447.24426589709
+        },
+        "delta_fp": {
+          "per_seme": [
+            20754.0,
+            16607.0,
+            21156.0,
+            33759.0,
+            28917.0
+          ],
+          "media": 24238.6,
+          "deviazione_standard": 6935.625804496664
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            65.62620744992748,
+            69.69154090670617,
+            66.71768046168565,
+            68.90173749344196,
+            70.39110576181218
+          ],
+          "media": 68.26565441471469,
+          "deviazione_standard": 2.0197896573125047
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            6.701908141814106,
+            5.3627536142963725,
+            6.831722494373096,
+            10.90149932347993,
+            9.33791450982165
+          ],
+          "media": 7.827159616757031,
+          "deviazione_standard": 2.23966112786606
+        }
+      }
+    },
+    "D_non_visto_ABC": {
+      "principale_pesi": {
+        "delta_fn": {
+          "per_seme": [
+            4271.0,
+            -165016.0,
+            59443.0,
+            -129600.0,
+            -123241.0
+          ],
+          "media": -70828.6,
+          "deviazione_standard": 97060.6036675025
+        },
+        "delta_fp": {
+          "per_seme": [
+            -3659.0,
+            -6888.0,
+            3547.0,
+            -4684.0,
+            -1592.0
+          ],
+          "media": -2655.2,
+          "deviazione_standard": 3957.206047200474
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            -0.2035307898100247,
+            7.863693938489957,
+            -2.8327044576626492,
+            6.1759752656002975,
+            5.872942652066715
+          ],
+          "media": 3.375275321736859,
+          "deviazione_standard": 4.625338638230936
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            -2.815005154559863,
+            -5.29919527319167,
+            2.728839377760001,
+            -3.6035758797371917,
+            -1.2247849702266445
+          ],
+          "media": -2.0427443799910736,
+          "deviazione_standard": 3.0444261876263443
+        },
+        "delta_balanced_accuracy_pp": {
+          "per_seme": [
+            1.305737182374922,
+            6.581444605840803,
+            -2.780771917711322,
+            4.889775572668742,
+            3.548863811146674
+          ],
+          "media": 2.7090098508639637,
+          "deviazione_standard": 3.6250421648673186
+        },
+        "delta_auroc_media_per_blocco": {
+          "per_seme": [
+            0.07718803269859065,
+            0.13476995762084554,
+            0.08984876271252018,
+            0.11537295500724165,
+            0.14138077625378376
+          ],
+          "media": 0.11171209685859636,
+          "deviazione_standard": 0.027817322608751197
+        },
+        "miglioramento_congiunto_fn_fp": {
+          "semi": [
+            43,
+            45,
+            46
+          ]
+        }
+      },
+      "soglia_a_pesi_adattati": {
+        "delta_fn": {
+          "per_seme": [
+            -1857618.0,
+            -1899211.0,
+            -1821879.0,
+            -1920878.0,
+            -1915489.0
+          ],
+          "media": -1883015.0,
+          "deviazione_standard": 42228.82891461709
+        },
+        "delta_fp": {
+          "per_seme": [
+            42663.0,
+            39670.0,
+            39536.0,
+            39517.0,
+            41632.0
+          ],
+          "media": 40603.6,
+          "deviazione_standard": 1456.9499991420432
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            88.52316991461333,
+            90.50524814935186,
+            86.82005895768981,
+            91.53777018700434,
+            91.28096207970249
+          ],
+          "media": 89.73344185767236,
+          "deviazione_standard": 2.012378108579796
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            32.822236925112705,
+            30.5196104075949,
+            30.416519210352206,
+            30.40190180178794,
+            32.029050176178245
+          ],
+          "media": 31.2378637042052,
+          "deviazione_standard": 1.1208859681663936
+        },
+        "delta_balanced_accuracy_pp": {
+          "per_seme": [
+            27.850466494750314,
+            29.99281887087847,
+            28.20176987366879,
+            30.567934192608202,
+            29.62595595176213
+          ],
+          "media": 29.247789076733582,
+          "deviazione_standard": 1.1712738020848
+        },
+        "delta_auroc_media_per_blocco": {
+          "per_seme": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "media": 0.0,
+          "deviazione_standard": 0.0
+        }
+      },
+      "soglia_a_pesi_frozen": {
+        "delta_fn": {
+          "per_seme": [
+            -1794775.0,
+            -1700987.0,
+            -1855877.0,
+            -1764938.0,
+            -1771233.0
+          ],
+          "media": -1777562.0,
+          "deviazione_standard": 55885.32641937416
+        },
+        "delta_fp": {
+          "per_seme": [
+            39936.0,
+            40111.0,
+            30124.0,
+            38451.0,
+            37824.0
+          ],
+          "media": 37289.2,
+          "deviazione_standard": 4121.407126213085
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            85.52844141448895,
+            81.05905585731209,
+            88.4402040740469,
+            84.10658513362694,
+            84.40656788283184
+          ],
+          "media": 84.70817087246134,
+          "deviazione_standard": 2.66316661787079
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            30.724254127494575,
+            30.858888153744363,
+            23.17551660999215,
+            29.581788247603512,
+            29.09941376498284
+          ],
+          "media": 28.687972180763488,
+          "deviazione_standard": 3.1707522012379292
+        },
+        "delta_balanced_accuracy_pp": {
+          "per_seme": [
+            27.40209364349719,
+            25.10008385178387,
+            32.632343732027365,
+            27.262398443011726,
+            27.653577058924505
+          ],
+          "media": 28.010099345848932,
+          "deviazione_standard": 2.7789012692306287
+        },
+        "delta_auroc_media_per_blocco": {
+          "per_seme": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "media": 0.0,
+          "deviazione_standard": 0.0
+        }
+      },
+      "fit192_cal64_meno_frozen_b": {
+        "delta_fn": {
+          "per_seme": [
+            -1790504.0,
+            -1866003.0,
+            -1796434.0,
+            -1894538.0,
+            -1894474.0
+          ],
+          "media": -1848390.6,
+          "deviazione_standard": 51511.66290074511
+        },
+        "delta_fp": {
+          "per_seme": [
+            36277.0,
+            33223.0,
+            33671.0,
+            33767.0,
+            36232.0
+          ],
+          "media": 34634.0,
+          "deviazione_standard": 1493.5722279153426
+        },
+        "delta_recall_pp": {
+          "per_seme": [
+            85.32491062467894,
+            88.92274979580205,
+            85.60749961638425,
+            90.28256039922724,
+            90.27951053489855
+          ],
+          "media": 88.0834461941982,
+          "deviazione_standard": 2.454743487383811
+        },
+        "delta_fpr_pp": {
+          "per_seme": [
+            27.909248972934712,
+            25.559692880552692,
+            25.904355987752155,
+            25.97821236786632,
+            27.874628794756195
+          ],
+          "media": 26.645227800772414,
+          "deviazione_standard": 1.1490608145091936
+        }
+      }
+    }
+  },
+  "temporale_D": [
+    {
+      "seme": 42,
+      "decisioni": 354,
+      "aggiornamenti_applicati": 337,
+      "skip": 17,
+      "blocchi_skip": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "cause_skip": {
+        "cal_normali_recenti_insufficienti": 17
+      },
+      "primo_aggiornamento_blocco": 18,
+      "skip_dopo_primo_aggiornamento": 0,
+      "decisione_finale_blocco": 354,
+      "decisione_finale_attiva_dal_blocco": 355,
+      "decisione_finale_influenza_predizioni_D": false,
+      "etichette_ancora_in_attesa": 99
+    },
+    {
+      "seme": 43,
+      "decisioni": 354,
+      "aggiornamenti_applicati": 351,
+      "skip": 3,
+      "blocchi_skip": [
+        1,
+        2,
+        3
+      ],
+      "cause_skip": {
+        "fit_classe_mancante": 1,
+        "cal_normali_recenti_insufficienti": 2
+      },
+      "primo_aggiornamento_blocco": 4,
+      "skip_dopo_primo_aggiornamento": 0,
+      "decisione_finale_blocco": 354,
+      "decisione_finale_attiva_dal_blocco": 355,
+      "decisione_finale_influenza_predizioni_D": false,
+      "etichette_ancora_in_attesa": 99
+    },
+    {
+      "seme": 44,
+      "decisioni": 354,
+      "aggiornamenti_applicati": 347,
+      "skip": 7,
+      "blocchi_skip": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "cause_skip": {
+        "cal_normali_recenti_insufficienti": 7
+      },
+      "primo_aggiornamento_blocco": 8,
+      "skip_dopo_primo_aggiornamento": 0,
+      "decisione_finale_blocco": 354,
+      "decisione_finale_attiva_dal_blocco": 355,
+      "decisione_finale_influenza_predizioni_D": false,
+      "etichette_ancora_in_attesa": 99
+    },
+    {
+      "seme": 45,
+      "decisioni": 354,
+      "aggiornamenti_applicati": 341,
+      "skip": 13,
+      "blocchi_skip": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "cause_skip": {
+        "cal_normali_recenti_insufficienti": 13
+      },
+      "primo_aggiornamento_blocco": 14,
+      "skip_dopo_primo_aggiornamento": 0,
+      "decisione_finale_blocco": 354,
+      "decisione_finale_attiva_dal_blocco": 355,
+      "decisione_finale_influenza_predizioni_D": false,
+      "etichette_ancora_in_attesa": 99
+    },
+    {
+      "seme": 46,
+      "decisioni": 354,
+      "aggiornamenti_applicati": 350,
+      "skip": 4,
+      "blocchi_skip": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "cause_skip": {
+        "cal_normali_recenti_insufficienti": 4
+      },
+      "primo_aggiornamento_blocco": 5,
+      "skip_dopo_primo_aggiornamento": 0,
+      "decisione_finale_blocco": 354,
+      "decisione_finale_attiva_dal_blocco": 355,
+      "decisione_finale_influenza_predizioni_D": false,
+      "etichette_ancora_in_attesa": 99
+    }
+  ],
+  "temporale_C_ADAPT04": {
+    "aggiornamento": {
+      "fase": "ADAPT-04",
+      "confronto": "FIT192+CAL64 meno frozen+CAL64",
+      "modello": "KAN",
+      "semi": "42",
+      "periodo_determinato_da": "decisione 192/64 nel blocco precedente",
+      "strato": "aggiornamento",
+      "blocchi": 474,
+      "normali": 154325,
+      "attacchi": 4576348,
+      "fp_controllo": 48114,
+      "fp_variante": 21586,
+      "delta_fp": -26528,
+      "fn_controllo": 399333,
+      "fn_variante": 369636,
+      "delta_fn": -29697,
+      "fpr_controllo": 0.31177061396403694,
+      "fpr_variante": 0.13987364328527457,
+      "delta_fpr_pp": -17.189697067876235,
+      "recall_controllo": 0.9127398091229076,
+      "recall_variante": 0.9192290446443321,
+      "delta_recall_pp": 0.6489235521424441
+    },
+    "skip": {
+      "fase": "ADAPT-04",
+      "confronto": "FIT192+CAL64 meno frozen+CAL64",
+      "modello": "KAN",
+      "semi": "42",
+      "periodo_determinato_da": "decisione 192/64 nel blocco precedente",
+      "strato": "skip",
+      "blocchi": 440,
+      "normali": 18388,
+      "attacchi": 4381612,
+      "fp_controllo": 2918,
+      "fp_variante": 1576,
+      "delta_fp": -1342,
+      "fn_controllo": 976094,
+      "fn_variante": 1239126,
+      "delta_fn": 263032,
+      "fpr_controllo": 0.1586904502936698,
+      "fpr_variante": 0.08570807048074831,
+      "delta_fpr_pp": -7.298237981292148,
+      "recall_controllo": 0.7772294762749418,
+      "recall_variante": 0.71719860179313,
+      "delta_recall_pp": -6.0030874481811765
+    },
+    "tratto_242_664": {
+      "fase": "ADAPT-04",
+      "confronto": "FIT192+CAL64 meno frozen+CAL64",
+      "modello": "KAN",
+      "semi": "42",
+      "periodo_determinato_da": "skip decisi nei blocchi 241..663; effetti valutati nei blocchi 242..664",
+      "strato": "tratto_242_664",
+      "blocchi": 423,
+      "normali": 6550,
+      "attacchi": 4223450,
+      "fp_controllo": 309,
+      "fp_variante": 1116,
+      "delta_fp": 807,
+      "fn_controllo": 969055,
+      "fn_variante": 1188663,
+      "delta_fn": 219608,
+      "fpr_controllo": 0.04717557251908397,
+      "fpr_variante": 0.17038167938931298,
+      "delta_fpr_pp": 12.320610687022901,
+      "recall_controllo": 0.770553694254697,
+      "recall_variante": 0.7185563934697936,
+      "delta_recall_pp": -5.199730078490338
+    }
+  },
+  "analisi_descrittive_successive": {
+    "delta_fp_medio_D_completo": -81355.4,
+    "delta_fp_medio_D_non_visto_ABC": -2655.2,
+    "delta_fp_medio_parte_gia_vista_ABC": -78700.2,
+    "quota_riduzione_fp_nella_parte_gia_vista_percento": 96.73629531659854,
+    "fpr_fit192_cal64_non_visto_percento": 31.943807604129802,
+    "interpretazione": "decomposizione descrittiva, non prova causale dei duplicati"
+  },
+  "costi": {
+    "secondi_totali": 1234.3875122999307,
+    "per_seme": [
+      {
+        "seme": 42,
+        "addestramento_A_secondi": 28.30425709998235,
+        "costruzione_cache_B_secondi": 125.23543699993752,
+        "calibrazione_B_secondi": 1.5995401999680325,
+        "replay_D_secondi": 59.836748100002296,
+        "aggiornamenti_misurati": 337,
+        "aggiornamenti_secondi_totali": {
+          "fit": 10.672067100415006,
+          "calibrazione_frozen": 0.10293119912967086,
+          "calibrazione_adattata": 0.058961799019016325
+        }
+      },
+      {
+        "seme": 43,
+        "addestramento_A_secondi": 28.360761400079355,
+        "costruzione_cache_B_secondi": 136.6749334000051,
+        "calibrazione_B_secondi": 1.5226077999686822,
+        "replay_D_secondi": 52.68297429999802,
+        "aggiornamenti_misurati": 351,
+        "aggiornamenti_secondi_totali": {
+          "fit": 10.223633200046606,
+          "calibrazione_frozen": 0.09016019990667701,
+          "calibrazione_adattata": 0.0515220002271235
+        }
+      },
+      {
+        "seme": 44,
+        "addestramento_A_secondi": 26.03296290000435,
+        "costruzione_cache_B_secondi": 145.48302709998097,
+        "calibrazione_B_secondi": 1.4866710999049246,
+        "replay_D_secondi": 49.03241700003855,
+        "aggiornamenti_misurati": 347,
+        "aggiornamenti_secondi_totali": {
+          "fit": 9.62985659984406,
+          "calibrazione_frozen": 0.08251490106340498,
+          "calibrazione_adattata": 0.049874098505824804
+        }
+      },
+      {
+        "seme": 45,
+        "addestramento_A_secondi": 32.64963720005471,
+        "costruzione_cache_B_secondi": 144.8357643999625,
+        "calibrazione_B_secondi": 1.7150777999777347,
+        "replay_D_secondi": 48.621953499969095,
+        "aggiornamenti_misurati": 341,
+        "aggiornamenti_secondi_totali": {
+          "fit": 9.631977398879826,
+          "calibrazione_frozen": 0.09371779940556735,
+          "calibrazione_adattata": 0.055169499944895506
+        }
+      },
+      {
+        "seme": 46,
+        "addestramento_A_secondi": 28.999243399943225,
+        "costruzione_cache_B_secondi": 158.82019929995295,
+        "calibrazione_B_secondi": 2.1224021000089124,
+        "replay_D_secondi": 53.347684799926355,
+        "aggiornamenti_misurati": 350,
+        "aggiornamenti_secondi_totali": {
+          "fit": 10.378054798347875,
+          "calibrazione_frozen": 0.090146399801597,
+          "calibrazione_adattata": 0.056568099767901
+        }
+      }
+    ],
+    "confine_secondi_totali": "da dopo gli SHA-256 di A/B/C a prima della serializzazione del riepilogo finale; include SHA-256/caricamento di D, preparazione A/B, cinque replay e scrittura dei cinque JSON per seme"
+  },
+  "etichette_D": {
+    "uso_online": "etichette ritardate secondo la regola preregistrata",
+    "uso_per_scegliere_disegno_o_iperparametri": false
+  }
+}

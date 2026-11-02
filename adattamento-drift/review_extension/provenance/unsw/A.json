@@ -1,0 +1,56 @@
+{
+  "source": "UNSW-NB15 full four CSVs, Kaggle mirror v1",
+  "source_sha256": {
+    "UNSW-NB15_1.csv": "7d851bbeabd27894ce39c8e78835c73341fc946652fb7743b9eff193b55eb511",
+    "UNSW-NB15_2.csv": "6130ad02873cc6069ae695cf2844f2e8c2e9a9a1b7532dd82ab8f202757cacf8",
+    "UNSW-NB15_3.csv": "ae990a96c3dfcd425ce2801aadb1727a34d5e0ae6d8215dbcdae60dedfaef640",
+    "UNSW-NB15_4.csv": "cdf563692d51d405541dd659ddcdad9fa01f001f05fe9fc4b67f00ca12fbc96a"
+  },
+  "features": [
+    "dur",
+    "sbytes",
+    "dbytes",
+    "sloss",
+    "dloss",
+    "Spkts",
+    "Dpkts",
+    "tcprtt"
+  ],
+  "raw_rows": 2540047,
+  "publisher_reported_rows": 2540044,
+  "removed_boundary_duplicates": [
+    {
+      "file": "UNSW-NB15_2.csv",
+      "row": 1,
+      "reason": "exact previous-file final row"
+    },
+    {
+      "file": "UNSW-NB15_3.csv",
+      "row": 1,
+      "reason": "exact previous-file final row"
+    },
+    {
+      "file": "UNSW-NB15_4.csv",
+      "row": 1,
+      "reason": "exact previous-file final row"
+    }
+  ],
+  "excluded_rows": 0,
+  "split_rule": "chronological 40/20/40 by complete-feature time",
+  "start_row": 0,
+  "stop_row": 1016017,
+  "rows": 1016017,
+  "normal": 993802,
+  "attack": 22215,
+  "sha256": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+  "array_sha256": {
+    "X": "c2236658783014c3e022ce42392284c78d0d64287ad2db9a290710a50c1c5da3",
+    "y": "84f7bcc633975f09b89881f478ffe3f0f8f86d445988da154af3bf8c81f5b2ea",
+    "tipo": "f9bbadce387ed44cfac3c26ea9254bbdf3389bdeacb642c63b2cd7c8c24f9280",
+    "row_id": "e10022d0ff8808af6d211cbc6ab9c67727d3affd9fea9deaab14189f987027e7",
+    "frt": "d954a77ee83c4151ff1598c26aa9d6e2b970425dc0c0403b4feb2795e51097fd",
+    "t_start": "4e9ddc3afc49788335178fdad7bc812cf0aee28a4a06dec900ed8aababd911d2",
+    "t_end": "fc33799e9e2fad159cb9a3d20845f53b1c77e2fd1211a0daf2b15dfc63bcca5d",
+    "tipi": "16b21348b11ddefec4d702d249ef25e3ca96e3a03399f7ceb4abcad41299795d"
+  }
+}

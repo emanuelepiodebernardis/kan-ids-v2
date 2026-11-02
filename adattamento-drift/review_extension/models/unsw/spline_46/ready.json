@@ -1,0 +1,25 @@
+{
+  "dataset": "unsw",
+  "family": "spline",
+  "seed": 46,
+  "initial_training_examples": 400000,
+  "fit_seconds": 3.263477446000252,
+  "b_score_seconds": 1.3157226029998128,
+  "d_cache_seconds": 2.9459841410007357,
+  "thresholds_b": {
+    "0.25": -4.854523407081356,
+    "0.5": -0.3049426102941566,
+    "1.0": -0.3049426102941566,
+    "2.0": -0.3049426102941566,
+    "4.0": -0.3049426102941566
+  },
+  "pooled_frozen_auc": 0.9727293812840803,
+  "model_pickle_bytes": 2145,
+  "initial_sample_sha256": "ebaee2c8a4a63dd054d6b4326dae80ee6df13e2dea2b1fddeed18ef58cf9238b",
+  "source_hashes": {
+    "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+    "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+    "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+  },
+  "prepare_seconds": 7.895629248998375
+}

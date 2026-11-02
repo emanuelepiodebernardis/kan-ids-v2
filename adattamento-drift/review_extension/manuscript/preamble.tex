@@ -1,0 +1,32 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=23mm,headheight=14pt]{geometry}
+\usepackage{microtype,amsmath,amssymb,booktabs,tabularx,array,graphicx}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{xcolor,enumitem,fancyhdr,placeins,url}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black,breaklinks=true]{hyperref}
+\hypersetup{pdftitle={Thresholds and Learning in Adaptive Intrusion Detection: A Two-Capture Case Study},pdfauthor={Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni},pdfsubject={Chronological evaluation with matched calibration-memory controls},pdfkeywords={intrusion detection, concept drift, delayed labels, threshold adaptation, additive splines, TON IoT, UNSW-NB15}}
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{3pt}
+\linespread{1.04}
+\setlist{nosep,leftmargin=*}
+\setlength{\emergencystretch}{2em}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small Thresholds and learning in intrusion detection}
+\fancyhead[R]{\small Two-capture case study}
+\fancyfoot[C]{\thepage}
+\newcommand{\F}{\textsc{Frozen}}
+\newcommand{\FIT}{\textsc{Fit192}}
+\newcommand{\CAL}{\textsc{Cal64}}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\pp}{\,\mathrm{pp}}
+\newcommand{\meanauc}{\overline{\mathrm{AUC}}_{\mathrm{block}}}
+\makeatletter
+\setlength{\@fptop}{0pt}
+\setlength{\@fpsep}{14pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\newcommand{\tablerows}[1]{\@@input #1 }
+\makeatother

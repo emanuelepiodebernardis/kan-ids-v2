@@ -1,0 +1,20 @@
+\ifdefined\AuthorVersion
+\documentclass[manuscript,screen]{acmart}
+\else
+\documentclass[manuscript,screen,review,anonymous]{acmart}
+\fi
+\setcopyright{none}
+\settopmatter{printacmref=false}
+\acmJournal{DTRAP}
+\acmDOI{}
+\usepackage{amsmath,booktabs,tabularx,array,graphicx,placeins}
+\setlength{\emergencystretch}{2em}
+\newcommand{\F}{\textsc{Frozen}}
+\newcommand{\FIT}{\textsc{Fit192}}
+\newcommand{\CAL}{\textsc{Role64}}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\pp}{\,\mathrm{pp}}
+\newcommand{\meanauc}{\overline{\mathrm{AUC}}_{\mathrm{block}}}
+\makeatletter
+\newcommand{\tablerows}[1]{\@@input #1 }
+\makeatother

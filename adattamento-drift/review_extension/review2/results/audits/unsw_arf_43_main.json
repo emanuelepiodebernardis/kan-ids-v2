@@ -1,0 +1,97 @@
+{
+  "label_convention": "0=normal, 1=attack; larger score means attack",
+  "partitions": {
+    "A": {
+      "rows": 1016017,
+      "attack": 22215,
+      "normal": 993802,
+      "pooled_auc": 0.5,
+      "pooled_ap": 0.021864791632423473,
+      "unique_scores": 1,
+      "score_by_class": {
+        "0": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "1": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tail50000_attack_fraction": 0.0
+    },
+    "B": {
+      "rows": 508009,
+      "attack": 86786,
+      "normal": 421223,
+      "pooled_auc": 0.5,
+      "pooled_ap": 0.17083555606298315,
+      "unique_scores": 1,
+      "score_by_class": {
+        "0": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "1": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tail50000_attack_fraction": 0.24522
+    },
+    "D": {
+      "rows": 1016018,
+      "attack": 212282,
+      "normal": 803736,
+      "pooled_auc": 0.5,
+      "pooled_ap": 0.2089352747687541,
+      "unique_scores": 1,
+      "score_by_class": {
+        "0": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "1": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "tail50000_attack_fraction": 0.19624,
+      "cache_max_abs_error": 0.0
+    }
+  },
+  "b_cutoffs": {
+    "_l0.25": -5e-324,
+    "_l0.5": -5e-324,
+    "_l0.75": -5e-324,
+    "": -5e-324,
+    "_l1.25": 0.0,
+    "_l1.5": 0.0,
+    "_l2": 0.0,
+    "_l3": 0.0,
+    "_l4": 0.0,
+    "_fpr0.05": 0.0,
+    "_fpr0.1": 0.0,
+    "_fpr0.2": 0.0
+  },
+  "drifts": 128,
+  "warnings": 162
+}

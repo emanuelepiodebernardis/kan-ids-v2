@@ -1,0 +1,7 @@
+On TON, shuffled-A ARF/ALL256 reaches 89.94\% BA; its corresponding frozen/ALL256 state reaches 73.67\%, and its historical frozen/B policy reaches 57.78\%. The chronological FIT-only/ROLE64 forest reaches 87.43\%, using CAL-role labels exclusively for threshold selection.
+
+On UNSW, shuffled-A ARF/ALL256 reaches 96.74\% BA; its corresponding frozen/ALL256 state reaches 96.94\%, and its historical frozen/B policy reaches 97.84\%. The chronological FIT-only/ROLE64 forest reaches 94.32\%, using CAL-role labels exclusively for threshold selection.
+
+At 20\% FPR, within-seed interpolation of the shuffled forests' nine-weight policies gives adaptive-minus-frozen recall $18.24 \pm 13.88$ percentage points across all five supported pairs. This comparison uses adaptive ROLE64 versus frozen ALL256, and the forest retains persistent state and calibration-label reuse. It supports a TON learning contribution under that contract beyond the spline-specific single-point contrast. The selected matched-FPR targets have no common support for all five UNSW pairs; no extrapolated forest comparison is used there.
+
+These initialization and label-use contrasts delimit the forest result. The shuffled initial state is a batch-initialization control on historical A, not a reshuffling of the evaluation stream. The FIT-only control removes calibration-label reuse during D while preserving the forest's accumulated tree state; it supplies a label-use check rather than an equal-memory comparison.

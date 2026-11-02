@@ -1,0 +1,5 @@
+ton 42 0 0.0
+ton 42 100 5.2
+ton 42 200 10.8
+ton 42 300 16.4
+DONE ton_spline_42.json.gz checks 93352

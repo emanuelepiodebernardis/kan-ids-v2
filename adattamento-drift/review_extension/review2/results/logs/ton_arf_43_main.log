@@ -1,0 +1,1441 @@
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+ton arf 43 main 0 0.7
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+ton arf 43 main 100 101.1
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+/workspace/scratch/28026073bb74/work/kan-ids-v2/adattamento-drift/review_extension/review2/runner.py:64: RuntimeWarning: overflow encountered in scalar add
+  return float(average_precision_score(y, score)) if 0 < sum(y) < len(y) else None
+ton arf 43 main 0 1.0
+ton arf 43 main 100 133.1
+ton arf 43 main 200 265.6
+ton arf 43 main 300 351.1
+DONE ton_arf_43_main.json.gz

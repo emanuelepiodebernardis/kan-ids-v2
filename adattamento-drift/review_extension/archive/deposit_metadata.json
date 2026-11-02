@@ -1,0 +1,41 @@
+{
+  "title": "Thresholds and Learning in Adaptive Intrusion Detection: A Two-Capture Case Study — code and recorded evidence",
+  "upload_type": "software",
+  "description": "Executable source, fitted initial states, full per-block reports and numerical summaries for a two-capture case study of threshold selection, calibration coverage and score adaptation under sparse delayed labels. Includes 55 initial-extension cells and diagnostic sets A/B/C with 120/10/10 cells; thirty A cells repeat earlier trajectories. Set C evaluates identical all-label calibration, matched update timing and occurrence-weighted normal-role coverage. Raw traffic is not redistributed. Historical Windows evidence and Linux reconstructions are distinguished. Seeds quantify variation conditional on each previously inspected capture.",
+  "creators": [
+    {
+      "name": "Kuznetsov, Oleksandr",
+      "orcid": "0000-0003-2331-6326",
+      "affiliation": "Department of Theoretical and Applied Sciences and SMARTEST Research Center, eCampus University; V. N. Karazin Kharkiv National University"
+    },
+    {
+      "name": "De Bernardis, Emanuele Pio",
+      "orcid": "0009-0004-7915-5204",
+      "affiliation": "eCampus University"
+    },
+    {
+      "name": "Frontoni, Emanuele",
+      "orcid": "0000-0002-8893-9244",
+      "affiliation": "Department of Political Sciences, Communication and International Relations, University of Macerata"
+    }
+  ],
+  "keywords": [
+    "intrusion detection",
+    "threshold selection",
+    "delayed labels",
+    "concept drift",
+    "reproducibility"
+  ],
+  "license": "mit",
+  "access_right": "open",
+  "version": "2026-11-02-calibration-eligibility",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/KuznetsovKarazin/kan-ids-v2/tree/paper2/dtrap-submission-20261102",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    }
+  ],
+  "doi": "10.5281/zenodo.23880240",
+  "publication_date": "2026-11-02"
+}

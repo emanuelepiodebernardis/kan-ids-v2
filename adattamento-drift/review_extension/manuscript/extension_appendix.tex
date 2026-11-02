@@ -1,0 +1,61 @@
+\section{Supplementary experimental summaries}
+\label{sec:extras}
+\begin{table}[htbp]
+\centering\fontsize{7.8}{9.5}\selectfont\setlength{\tabcolsep}{3pt}
+\caption{Extension resource ledger, mean $\pm$ seed SD. Times are seconds. Initial artifact size includes the transform; final base-model size excludes it and all external controller state. Neither size is peak RAM. Offline cached replay is not deployment latency.}
+\label{tab:resources}
+\begin{tabular}{llrrrrrr}
+\toprule
+Dataset & Model & Initial fit & B scoring & D cache & Replay & Initial KiB & Final base KiB \\
+\midrule
+\tablerows{tables/resource_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+\begin{table}[htbp]
+\centering\small
+\caption{Fixed-score ranking summaries in the extension, mean $\pm$ seed SD. Pooled AUROC compares all fixed scores; macro block AUROC weights valid blocks equally; normal-weighted AUROC weights them by normal observations. The full CSV includes valid-block counts and all overlap strata.}
+\label{tab:aucsupp}
+\begin{tabular}{llrrr}
+\toprule
+Dataset & Initial model & Pooled AUROC & Macro block & Normal-weighted block \\
+\midrule
+\tablerows{tables/auc_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering\fontsize{8.5}{10}\selectfont\setlength{\tabcolsep}{3.5pt}
+\caption{Attack-family recall (percent) for the spline detector in the extension. Counts are evaluated attacks, shared by every trace and seed. Means and sample SDs refer to five seeds. The machine-readable supplement includes LR and ARF, each seed, and every operating-cost policy.}
+\label{tab:attacksupp}
+\begin{tabular}{llrrrr}
+\toprule
+Dataset & Attack family & Count & Frozen/B & Frozen/CAL256 & FIT192/CAL64 \\
+\midrule
+\tablerows{tables/attack_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Descriptive moving-block sensitivity of the original paired FIT192/CAL64 minus Frozen/CAL64 errors. Brackets are 2.5th--97.5th resampling percentiles, not confidence intervals for a refitted adaptive process. Each analysis resamples contiguous blocks of the recorded error trajectories, sharing block selections across seeds and policies.}
+\label{tab:bootsupp}
+\begin{tabular}{lrrrr}
+\toprule
+Scope & Block length & $\Delta$FN (thousands) & $\Delta$FP (thousands) & $\Delta$BA (pp) \\
+\midrule
+\tablerows{tables/bootstrap_rows.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+For the resampling lengths in Table~\ref{tab:bootsupp}, the full-stream FN range crosses zero while the FP range remains negative. On unseen vectors the FP and BA ranges cross zero. This reinforces the distinction between an aggregate FP saving and stable joint improvement, but the ranges are conditional summaries of the recorded trajectories. A valid inference about retrained policies under a new process would require a sampling design for that process and rerunning the adaptive state transitions.
+
+\subsection{Numerical bridge and archive contents}
+The legacy-sampler reruns use exactly the original requested row identities in every block. Their mean FIT192/CAL64 outcomes are close to the original aggregates (the FN difference is $-563.0$ and the FP difference is $-7.4$), but individual seeds and some other traces differ materially. For example, the FIT192/B FN difference ranges from $-9{,}617$ to $+335{,}381$. Accordingly, the original per-seed observations and the newly fitted observations are separate evidence stages. The file \path{analysis/legacy_replication_bridge.csv} gives every difference; no rerun is presented as bitwise replication.
+
+The original A parser and the extension A parser produce identical arrays and an identical NPZ file in the present environment. The extension also records array-level digests to distinguish data identity from archive-container bytes. Repeating the initial seed-42 fit with NumPy 2.3.4 and SciPy 1.16.3 in Linux gives the same fitted head as the new environment, so library version labels alone do not identify the source of the Windows/Linux difference. An exact causal attribution would require the original arrays and fitted model state. This residual reproducibility boundary is retained rather than explained speculatively.
+
+The revision archive includes all 55 extension reports, the original five full reports, compact fitted initial-model artifacts, input manifests, and a validation summary. \path{analysis/per_seed_metrics.csv} contains every controller, seed, condition, and overlap stratum; \path{analysis/paired_differences.csv} preserves paired comparisons. \path{analysis/attack_family_recall.csv}, \path{analysis/resources_and_labels.csv}, and \path{analysis/time_partitions.json} document attack counts, computational components, feedback timing, and chronology. All paper figures and generated tables can be rebuilt from these artifacts without downloading the raw CSVs.

@@ -1,0 +1,57 @@
+{
+  "main": {
+    "pages": 15,
+    "overfull_boxes": 0,
+    "undefined_references": 0,
+    "out_of_page_words": 0,
+    "sha256": "8a2f5771b8e263c508c70f4f57c690c122b8ab76d865d7b98fbd2ffe5f2157e7",
+    "author_metadata": ""
+  },
+  "supplement": {
+    "pages": 23,
+    "overfull_boxes": 0,
+    "undefined_references": 0,
+    "out_of_page_words": 0,
+    "sha256": "6a0c6b530c70950580e07994f8e876660340b4c2a34b6d9f3cd2ad646e7ec8c0",
+    "author_metadata": ""
+  },
+  "author-version": {
+    "pages": 16,
+    "overfull_boxes": 0,
+    "undefined_references": 0,
+    "out_of_page_words": 0,
+    "sha256": "16e59eefe64f256934a34b98fafce094f97c2cc5495011fb5f044b91e13e7e59",
+    "author_metadata": ""
+  },
+  "supplement-author": {
+    "pages": 24,
+    "overfull_boxes": 0,
+    "undefined_references": 0,
+    "out_of_page_words": 0,
+    "sha256": "9e57aa4cc0bcc1ee36a40d6674fbb05c0fa395ea6903368a9afceafb3e1e71c7",
+    "author_metadata": ""
+  },
+  "editor-letter": {
+    "pages": 2,
+    "overfull_boxes": 0,
+    "undefined_references": 0,
+    "out_of_page_words": 0,
+    "sha256": "9aae6c3074d5ef18dcb48a2e87adf9cf46e8c4d08c6eaee7e25ac715a5cbfb93",
+    "author_metadata": "Oleksandr Kuznetsov"
+  },
+  "evidence": {
+    "recorded_cells": 195,
+    "repeat_controls": 30,
+    "targeted_tests": 96,
+    "anonymous_numerical_checks": 89355,
+    "new_replay_checks": 600825,
+    "new_analysis_checks": 574280,
+    "restored_source_tests_and_analyses": "passed"
+  },
+  "visual_review": "Changed declarations and DOI pages rendered and inspected after clean ACM build; remaining pages retain the previously reviewed layout.",
+  "remaining_author_actions": [
+    "Submission attestations in the journal portal"
+  ],
+  "authorship_confirmation": "Corresponding author confirmed intellectual contribution on 2026-11-02; Frontoni: Writing - review and editing, Funding acquisition, Project administration.",
+  "archive_record": "10.5281/zenodo.23880240"
+}

@@ -1,0 +1,5 @@
+ton spline 42 min10 0 0.0
+ton spline 42 min10 100 6.5
+ton spline 42 min10 200 15.1
+ton spline 42 min10 300 27.7
+DONE ton_spline_42_min10.json.gz

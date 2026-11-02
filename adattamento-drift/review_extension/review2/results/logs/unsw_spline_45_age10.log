@@ -1,0 +1,6 @@
+unsw spline 45 age10 0 0.0
+unsw spline 45 age10 100 4.0
+DONE unsw_spline_45_age10.json.gz
+unsw spline 45 age10 0 0.0
+unsw spline 45 age10 100 4.1
+DONE unsw_spline_45_age10.json.gz

@@ -1,0 +1,35 @@
+{
+  "jobs": [
+    [
+      "ton",
+      "arf",
+      45,
+      "shuffled"
+    ],
+    [
+      "unsw",
+      "arf",
+      45,
+      "shuffled"
+    ],
+    [
+      "ton",
+      "arf",
+      46,
+      "shuffled"
+    ],
+    [
+      "unsw",
+      "arf",
+      46,
+      "shuffled"
+    ]
+  ],
+  "completed": [
+    "unsw_arf_45_shuffled",
+    "unsw_arf_46_shuffled",
+    "ton_arf_46_shuffled",
+    "ton_arf_45_shuffled"
+  ],
+  "failures": []
+}

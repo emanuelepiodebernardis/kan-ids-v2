@@ -1,0 +1,7 @@
+unsw 44 shuffled fit 100000
+unsw 44 shuffled fit 200000
+unsw 44 shuffled fit 300000
+unsw 44 shuffled fit 400000
+unsw arf 44 shuffled 0 0.3
+unsw arf 44 shuffled 100 61.2
+DONE unsw_arf_44_shuffled.json.gz

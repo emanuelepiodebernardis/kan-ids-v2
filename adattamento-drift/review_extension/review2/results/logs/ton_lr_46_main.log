@@ -1,0 +1,5 @@
+ton lr 46 main 0 0.1
+ton lr 46 main 100 5.6
+ton lr 46 main 200 16.8
+ton lr 46 main 300 27.8
+DONE ton_lr_46_main.json.gz

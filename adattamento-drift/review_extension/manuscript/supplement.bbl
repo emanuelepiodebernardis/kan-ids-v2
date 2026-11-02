@@ -1,0 +1,146 @@
+\begin{thebibliography}{14}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot, and Duchesnay]{pedregosa2011}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, Jake Vanderplas, Alexandre Passos, David Cournapeau,
+  Matthieu Brucher, Matthieu Perrot, and {\'E}douard Duchesnay.
+\newblock Scikit-learn: Machine learning in {Python}.
+\newblock \emph{Journal of Machine Learning Research}, 12:\penalty0 2825--2830,
+  2011.
+\newblock URL \url{https://jmlr.org/papers/v12/pedregosa11a.html}.
+
+\bibitem[Moustafa(2021)]{moustafa2021}
+Nour Moustafa.
+\newblock A new distributed architecture for evaluating {AI}-based security
+  systems at the edge: Network {TON\_IoT} datasets.
+\newblock \emph{Sustainable Cities and Society}, 72:\penalty0 102994, 2021.
+\newblock \doi{10.1016/j.scs.2021.102994}.
+\newblock URL \url{https://doi.org/10.1016/j.scs.2021.102994}.
+
+\bibitem[Booij et~al.(2022)Booij, Chiscop, Meeuwissen, Moustafa, and {den
+  Hartog}]{booij2022}
+Tim~M. Booij, Irina Chiscop, Erik Meeuwissen, Nour Moustafa, and Frank T.~H.
+  {den Hartog}.
+\newblock {ToN\_IoT}: The role of heterogeneity and the need for
+  standardization of features and attack types in {IoT} network intrusion data
+  sets.
+\newblock \emph{IEEE Internet of Things Journal}, 9\penalty0 (1):\penalty0
+  485--496, 2022.
+\newblock \doi{10.1109/JIOT.2021.3085194}.
+\newblock URL \url{https://doi.org/10.1109/JIOT.2021.3085194}.
+
+\bibitem[Alsaedi et~al.(2020)Alsaedi, Moustafa, Tari, Mahmood, and
+  Anwar]{alsaedi2020}
+Abdullah Alsaedi, Nour Moustafa, Zahir Tari, Abdun Mahmood, and Adnan Anwar.
+\newblock {TON\_IoT} telemetry dataset: A new generation dataset of {IoT} and
+  {IIoT} for data-driven intrusion detection systems.
+\newblock \emph{IEEE Access}, 8:\penalty0 165130--165150, 2020.
+\newblock \doi{10.1109/ACCESS.2020.3022862}.
+\newblock URL \url{https://doi.org/10.1109/ACCESS.2020.3022862}.
+
+\bibitem[Moustafa et~al.(2020{\natexlab{a}})Moustafa, Keshk, Debie, and
+  Janicke]{moustafa2020windows}
+Nour Moustafa, Marwa Keshk, Essam Debie, and Helge Janicke.
+\newblock Federated {TON\_IoT Windows} datasets for evaluating {AI}-based
+  security applications.
+\newblock In \emph{IEEE 19th International Conference on Trust, Security and
+  Privacy in Computing and Communications (TrustCom)}, pages 848--855,
+  2020{\natexlab{a}}.
+\newblock \doi{10.1109/TrustCom50675.2020.00114}.
+\newblock URL \url{https://doi.org/10.1109/TrustCom50675.2020.00114}.
+
+\bibitem[Moustafa et~al.(2020{\natexlab{b}})Moustafa, Ahmed, and
+  Ahmed]{moustafa2020linux}
+Nour Moustafa, Mohiuddin Ahmed, and Sherif Ahmed.
+\newblock Data analytics-enabled intrusion detection: Evaluations of {ToN\_IoT
+  Linux} datasets.
+\newblock In \emph{IEEE 19th International Conference on Trust, Security and
+  Privacy in Computing and Communications (TrustCom)}, pages 727--735,
+  2020{\natexlab{b}}.
+\newblock \doi{10.1109/TrustCom50675.2020.00100}.
+\newblock URL \url{https://doi.org/10.1109/TrustCom50675.2020.00100}.
+
+\bibitem[Moustafa(2019{\natexlab{a}})]{moustafa2019dataset}
+Nour Moustafa.
+\newblock New generations of {Internet of Things} datasets for cybersecurity
+  applications based machine learning: {TON\_IoT} datasets.
+\newblock In \emph{eResearch Australasia Conference}, Brisbane, Australia,
+  2019{\natexlab{a}}.
+\newblock URL \url{https://research.unsw.edu.au/projects/toniot-datasets}.
+
+\bibitem[Moustafa(2019{\natexlab{b}})]{moustafa2019fog}
+Nour Moustafa.
+\newblock A systemic {IoT-Fog-Cloud} architecture for big-data analytics and
+  cyber security systems: A review of fog computing.
+\newblock arXiv:1906.01055, 2019{\natexlab{b}}.
+\newblock URL \url{https://arxiv.org/abs/1906.01055}.
+
+\bibitem[Ashraf et~al.(2021)Ashraf, Keshk, Moustafa, Abdel-Basset, Khurshid,
+  Bakhshi, and Mostafa]{ashraf2021}
+Javed Ashraf, Marwa Keshk, Nour Moustafa, Mohamed Abdel-Basset, Hasnat
+  Khurshid, Asim~D. Bakhshi, and Reham~R. Mostafa.
+\newblock {IoTBoT-IDS}: A novel statistical learning-enabled botnet detection
+  framework for protecting networks of smart cities.
+\newblock \emph{Sustainable Cities and Society}, page 103041, 2021.
+\newblock \doi{10.1016/j.scs.2021.103041}.
+\newblock URL \url{https://doi.org/10.1016/j.scs.2021.103041}.
+
+\bibitem[Moustafa and Slay(2015)]{moustafa2015unsw}
+Nour Moustafa and Jill Slay.
+\newblock Unsw-nb15: a comprehensive data set for network intrusion detection
+  systems (unsw-nb15 network data set).
+\newblock In \emph{2015 Military Communications and Information Systems
+  Conference (MilCIS)}, page 1–6. IEEE, November 2015.
+\newblock \doi{10.1109/milcis.2015.7348942}.
+\newblock URL \url{http://dx.doi.org/10.1109/MilCIS.2015.7348942}.
+
+\bibitem[Moustafa and Slay(2016)]{moustafa2016unsw}
+Nour Moustafa and Jill Slay.
+\newblock The evaluation of network anomaly detection systems: Statistical
+  analysis of the unsw-nb15 data set and the comparison with the kdd99 data
+  set.
+\newblock \emph{Information Security Journal: A Global Perspective},
+  25\penalty0 (1-3):\penalty0 18–31, January 2016.
+\newblock ISSN 1939-3547.
+\newblock \doi{10.1080/19393555.2015.1125974}.
+\newblock URL \url{http://dx.doi.org/10.1080/19393555.2015.1125974}.
+
+\bibitem[Moustafa et~al.(2019)Moustafa, Slay, and Creech]{moustafa2019geometry}
+Nour Moustafa, Jill Slay, and Gideon Creech.
+\newblock Novel geometric area analysis technique for anomaly detection using
+  trapezoidal area estimation on large-scale networks.
+\newblock \emph{IEEE Transactions on Big Data}, 5\penalty0 (4):\penalty0
+  481–494, December 2019.
+\newblock ISSN 2372-2096.
+\newblock \doi{10.1109/tbdata.2017.2715166}.
+\newblock URL \url{http://dx.doi.org/10.1109/TBDATA.2017.2715166}.
+
+\bibitem[Moustafa et~al.(2017)Moustafa, Creech, and
+  Slay]{moustafa2017dirichlet}
+Nour Moustafa, Gideon Creech, and Jill Slay.
+\newblock \emph{Big Data Analytics for Intrusion Detection System: Statistical
+  Decision-Making Using Finite Dirichlet Mixture Models}, page 127–156.
+\newblock Springer International Publishing, 2017.
+\newblock ISBN 9783319594392.
+\newblock \doi{10.1007/978-3-319-59439-2_5}.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-319-59439-2_5}.
+
+\bibitem[Sarhan et~al.(2021)Sarhan, Layeghy, Moustafa, and
+  Portmann]{sarhan2021}
+Mohanad Sarhan, Siamak Layeghy, Nour Moustafa, and Marius Portmann.
+\newblock \emph{NetFlow Datasets for Machine Learning-Based Network Intrusion
+  Detection Systems}, page 117–135.
+\newblock Springer International Publishing, 2021.
+\newblock ISBN 9783030728021.
+\newblock \doi{10.1007/978-3-030-72802-1_9}.
+\newblock URL \url{http://dx.doi.org/10.1007/978-3-030-72802-1_9}.
+
+\end{thebibliography}

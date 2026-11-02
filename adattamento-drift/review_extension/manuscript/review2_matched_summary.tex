@@ -1,0 +1,6 @@
+\begin{table}[htbp]\centering\fontsize{8}{10}\selectfont\setlength{\tabcolsep}{3pt}
+\caption{Descriptive matched-FPR comparison of the original five cost points on TON D. The paired columns interpolate within each seed, then summarize the supported pairs. Mean-curve columns interpolate curves of seed means. Values are recall percentages; the difference is in percentage points. No comparison extrapolates.}
+\begin{tabular}{rrrrrrr}\toprule
+FPR & Pairs & Paired frozen & Paired head & Paired difference & Mean-curve frozen & Mean-curve head \\\midrule
+\tablerows{tables/review2_matched_rows.tex}\bottomrule\end{tabular}\end{table}
+The mean-curve and paired-seed summaries describe different operations. At 13\% FPR, the paired head-minus-frozen difference is $2.41\pm3.11$ percentage points on this stream, whereas the mean curves nearly coincide. These descriptive calculations do not establish equivalence or superiority in a new stream. The low-FPR comparison has incomplete common support. The denser nine-weight audit is retained as additional operating points, without selecting a weight from D for deployment.

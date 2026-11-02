@@ -1,0 +1,2 @@
+# Preserve the downloaded original report bytes, including CRLF line endings.
+/original_reports/*.json -text

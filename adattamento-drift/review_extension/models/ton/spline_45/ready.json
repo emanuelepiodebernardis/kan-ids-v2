@@ -1,0 +1,25 @@
+{
+  "dataset": "ton",
+  "family": "spline",
+  "seed": 45,
+  "initial_training_examples": 400000,
+  "fit_seconds": 4.74266393400103,
+  "b_score_seconds": 17.531895264000923,
+  "d_cache_seconds": 11.177114013000391,
+  "thresholds_b": {
+    "0.25": 3.0933762930831445,
+    "0.5": 4.406425741860135,
+    "1.0": 6.9306060415400985,
+    "2.0": 7.106545242463952,
+    "4.0": 7.106545242463952
+  },
+  "pooled_frozen_auc": 0.8160347483324145,
+  "model_pickle_bytes": 2145,
+  "initial_sample_sha256": "eaff8b01c92469c3589113deaca575c5274e0ca23f06918cc580f09e58104a77",
+  "source_hashes": {
+    "A": "2cc5c99b572c1bf6b1305f32516d3cf8778f514af76526a6d3944b13227c1c19",
+    "B": "3fdb5b9fdc88010514e3a2af21647f8133e51124aa7746a304c904722f6bcafb",
+    "D": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8"
+  },
+  "prepare_seconds": 34.71822420100034
+}

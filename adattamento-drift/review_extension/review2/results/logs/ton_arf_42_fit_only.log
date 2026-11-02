@@ -1,0 +1,5 @@
+ton arf 42 fit_only 0 0.9
+ton arf 42 fit_only 100 101.1
+ton arf 42 fit_only 200 192.9
+ton arf 42 fit_only 300 261.0
+DONE ton_arf_42_fit_only.json.gz

@@ -1,0 +1,29 @@
+{
+  "source": "TON_IoT registered mirror v1",
+  "days": [
+    "2019-04-25",
+    "2019-04-26"
+  ],
+  "source_hashes_verified": true,
+  "parser_counts": {
+    "lette": 22339021,
+    "fuori_intervallo": 0,
+    "invalide_contratto": 869,
+    "ts_non_valido": 0,
+    "tenute": 22338152
+  },
+  "rows": 9150673,
+  "normal": 173316,
+  "attack": 8977357,
+  "sha256": "63ee09ad60141f9dfa31834d4878e4aedb1dad424e31de8b61727d8f5651029e",
+  "array_sha256": {
+    "X": "64bad0fe8ae08da05bef187091168f94fe7f9a5e6ccac57503653721861fd666",
+    "y": "ce7c2c33335b9329397bd4498d07b9dfe543c0920c84a0de733045db06167984",
+    "tipo": "6bc683a4519a51993c151633b0cfa9cd1b7b592126635d66dbbdce9eeeaa7ab1",
+    "row_id": "66c7afd930e236a47388062ceff74bf02ce1aeb07b6d1aaa87bc5b6862e7fa30",
+    "frt": "175be4a16d4f75ff2029b8a5fe090fafce12878f8436b9077482702cc079d574",
+    "t_start": "c4ffe7999e4f49524b185e97190fd95192a2615536218a08e15b02111ca3ad27",
+    "t_end": "175be4a16d4f75ff2029b8a5fe090fafce12878f8436b9077482702cc079d574",
+    "tipi": "019bbb053a246d25ebf12e0de47f05e521a39cb7ab1cfa2d547091b05ed418cf"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "dataset": "unsw",
+  "family": "arf",
+  "seed": 46,
+  "initial_training_examples": 400000,
+  "fit_seconds": 126.00360136299969,
+  "b_score_seconds": 16.83141028299906,
+  "d_cache_seconds": 29.35045698400063,
+  "thresholds_b": {
+    "0.25": -5e-324,
+    "0.5": -5e-324,
+    "1.0": 4.306341677909939e-06,
+    "2.0": 4.306341677909939e-06,
+    "4.0": 4.306341677909939e-06
+  },
+  "pooled_frozen_auc": 0.22778446885089385,
+  "model_pickle_bytes": 301135,
+  "initial_sample_sha256": "ebaee2c8a4a63dd054d6b4326dae80ee6df13e2dea2b1fddeed18ef58cf9238b",
+  "source_hashes": {
+    "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+    "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+    "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+  },
+  "prepare_seconds": 172.53380545399887
+}

@@ -1,0 +1,46 @@
+{
+  "documents": {
+    "main": {
+      "pages": 16,
+      "references": 28,
+      "figures": 3,
+      "tables": 7,
+      "undefined_references": 0,
+      "overfull_boxes": 0,
+      "out_of_page_words": 0,
+      "pdf_links": 72,
+      "sha256": "75c82062fb26f7c549f50a4c9dfb2a59436a5be017938d5abb922f42e0e2158f",
+      "author_metadata": "Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni",
+      "all_three_authors_present": true
+    },
+    "supplement": {
+      "pages": 21,
+      "references": 14,
+      "figures": 6,
+      "tables": 21,
+      "undefined_references": 0,
+      "overfull_boxes": 0,
+      "out_of_page_words": 0,
+      "pdf_links": 37,
+      "sha256": "4d7e5ba517f57bf163b063e17a2683b884b74ec768f93cb36a903d5e980d550b",
+      "author_metadata": "Oleksandr Kuznetsov; Emanuele Pio De Bernardis; Emanuele Frontoni",
+      "all_three_authors_present": true
+    }
+  },
+  "first_extension_runs": 55,
+  "second_review_cells": 120,
+  "matched_memory_replays": 10,
+  "repeat_trajectories_verified_exactly": 30,
+  "initial_states_verified": 40,
+  "targeted_tests_passed": 93,
+  "second_review_analysis_checks": 593970,
+  "matched_memory_replay_checks": 274090,
+  "matched_memory_analysis_checks": 1930,
+  "historical_reports_changed": false,
+  "visual_review": "All pages rendered and visually inspected; author metadata, table width, axis notices, reference links and final float placement checked.",
+  "remaining_author_items": [
+    "Permanent public archival DOI",
+    "All authors must verify their personal disclosures and CRediT roles; Frontoni is assigned only documented funding and project-administration roles.",
+    "Final target-journal and authorship approval"
+  ]
+}

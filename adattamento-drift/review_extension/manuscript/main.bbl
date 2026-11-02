@@ -1,0 +1,265 @@
+\begin{thebibliography}{28}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Gama et~al.(2014)Gama, {\v{Z}}liobait{\.{e}}, Bifet, Pechenizkiy, and
+  Bouchachia]{gama2014}
+Jo{\~a}o Gama, Indr{\.{e}} {\v{Z}}liobait{\.{e}}, Albert Bifet, Mykola
+  Pechenizkiy, and Abdelhamid Bouchachia.
+\newblock A survey on concept drift adaptation.
+\newblock \emph{ACM Computing Surveys}, 46\penalty0 (4):\penalty0 44:1--44:37,
+  2014.
+\newblock \doi{10.1145/2523813}.
+\newblock URL \url{https://doi.org/10.1145/2523813}.
+
+\bibitem[Gama et~al.(2013)Gama, Sebasti{\~a}o, and Rodrigues]{gama2013}
+Jo{\~a}o Gama, Raquel Sebasti{\~a}o, and Pedro~Pereira Rodrigues.
+\newblock On evaluating stream learning algorithms.
+\newblock \emph{Machine Learning}, 90:\penalty0 317--346, 2013.
+\newblock \doi{10.1007/s10994-012-5320-9}.
+\newblock URL \url{https://doi.org/10.1007/s10994-012-5320-9}.
+
+\bibitem[Grzenda et~al.(2019)Grzenda, Gomes, and Bifet]{grzenda2020}
+Maciej Grzenda, Heitor~Murilo Gomes, and Albert Bifet.
+\newblock Delayed labelling evaluation for data streams.
+\newblock \emph{Data Mining and Knowledge Discovery}, 34\penalty0 (5):\penalty0
+  1237–1266, November 2019.
+\newblock ISSN 1573-756X.
+\newblock \doi{10.1007/s10618-019-00654-y}.
+\newblock URL \url{http://dx.doi.org/10.1007/s10618-019-00654-y}.
+
+\bibitem[Gomes et~al.(2017)Gomes, Bifet, Read, Barddal, Enembreck, Pfahringer,
+  Holmes, and Abdessalem]{gomes2017}
+Heitor~Murilo Gomes, Albert Bifet, Jesse Read, Jean~Paul Barddal, Fabr{\'i}cio
+  Enembreck, Bernhard Pfahringer, Geoffrey Holmes, and Talel Abdessalem.
+\newblock Adaptive random forests for evolving data stream classification.
+\newblock \emph{Machine Learning}, 106\penalty0 (9--10):\penalty0 1469--1495,
+  2017.
+\newblock \doi{10.1007/s10994-017-5642-8}.
+\newblock URL \url{https://doi.org/10.1007/s10994-017-5642-8}.
+
+\bibitem[{\v{Z}}liobait{\.{e}} et~al.(2014){\v{Z}}liobait{\.{e}}, Bifet,
+  Pfahringer, and Holmes]{zliobaite2014}
+Indr{\.{e}} {\v{Z}}liobait{\.{e}}, Albert Bifet, Bernhard Pfahringer, and Geoff
+  Holmes.
+\newblock Active learning with drifting streaming data.
+\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems},
+  25\penalty0 (1):\penalty0 27--39, 2014.
+\newblock \doi{10.1109/TNNLS.2012.2236570}.
+\newblock URL \url{https://doi.org/10.1109/TNNLS.2012.2236570}.
+
+\bibitem[Andresini et~al.(2021)Andresini, Pendlebury, Pierazzi, Loglisci,
+  Appice, and Cavallaro]{andresini2021}
+Giuseppina Andresini, Feargus Pendlebury, Fabio Pierazzi, Corrado Loglisci,
+  Annalisa Appice, and Lorenzo Cavallaro.
+\newblock Insomnia: Towards concept-drift robustness in network intrusion
+  detection.
+\newblock In \emph{Proceedings of the 14th ACM Workshop on Artificial
+  Intelligence and Security}, CCS ’21, page 111–122. ACM, November 2021.
+\newblock \doi{10.1145/3474369.3486864}.
+\newblock URL \url{http://dx.doi.org/10.1145/3474369.3486864}.
+
+\bibitem[Chen et~al.(2023)Chen, Ding, and Wagner]{chen2023}
+Yizheng Chen, Zhoujie Ding, and David Wagner.
+\newblock Continuous learning for android malware detection.
+\newblock In \emph{32nd USENIX Security Symposium}, pages 1127--1144, 2023.
+\newblock URL
+  \url{https://www.usenix.org/conference/usenixsecurity23/presentation/chen-yizheng}.
+
+\bibitem[Jordaney et~al.(2017)Jordaney, Sharad, Dash, Wang, Papini,
+  Nouretdinov, and Cavallaro]{jordaney2017}
+Roberto Jordaney, Kumar Sharad, Santanu~K. Dash, Zhi Wang, Davide Papini, Ilia
+  Nouretdinov, and Lorenzo Cavallaro.
+\newblock {Transcend}: Detecting concept drift in malware classification
+  models.
+\newblock In \emph{26th USENIX Security Symposium}, pages 625--642. USENIX
+  Association, 2017.
+\newblock URL
+  \url{https://www.usenix.org/conference/usenixsecurity17/technical-sessions/presentation/jordaney}.
+
+\bibitem[Yang et~al.(2021)Yang, Guo, Hao, Ciptadi, Ahmadzadeh, Xing, and
+  Wang]{yang2021}
+Limin Yang, Wenbo Guo, Qingying Hao, Arridhana Ciptadi, Ali Ahmadzadeh, Xinyu
+  Xing, and Gang Wang.
+\newblock {CADE}: Detecting and explaining concept drift samples for security
+  applications.
+\newblock In \emph{30th USENIX Security Symposium}, pages 2327--2344. USENIX
+  Association, 2021.
+\newblock URL
+  \url{https://www.usenix.org/conference/usenixsecurity21/presentation/yang-limin}.
+
+\bibitem[Pendlebury et~al.(2019)Pendlebury, Pierazzi, Jordaney, Kinder, and
+  Cavallaro]{pendlebury2019}
+Feargus Pendlebury, Fabio Pierazzi, Roberto Jordaney, Johannes Kinder, and
+  Lorenzo Cavallaro.
+\newblock {TESSERACT}: Eliminating experimental bias in malware classification
+  across space and time.
+\newblock In \emph{28th USENIX Security Symposium}, pages 729--746, 2019.
+\newblock URL
+  \url{https://www.usenix.org/conference/usenixsecurity19/presentation/pendlebury}.
+
+\bibitem[Arp et~al.(2022)Arp, Quiring, Pendlebury, Warnecke, Pierazzi,
+  Wressnegger, Cavallaro, and Rieck]{arp2022}
+Daniel Arp, Erwin Quiring, Feargus Pendlebury, Alexander Warnecke, Fabio
+  Pierazzi, Christian Wressnegger, Lorenzo Cavallaro, and Konrad Rieck.
+\newblock Dos and don'ts of machine learning in computer security.
+\newblock In \emph{31st USENIX Security Symposium}, pages 3971--3988. USENIX
+  Association, 2022.
+\newblock URL
+  \url{https://www.usenix.org/conference/usenixsecurity22/presentation/arp}.
+
+\bibitem[Sommer and Paxson(2010)]{sommer2010}
+Robin Sommer and Vern Paxson.
+\newblock Outside the closed world: On using machine learning for network
+  intrusion detection.
+\newblock In \emph{2010 IEEE Symposium on Security and Privacy}, page
+  305–316. IEEE, 2010.
+\newblock \doi{10.1109/sp.2010.25}.
+\newblock URL \url{http://dx.doi.org/10.1109/SP.2010.25}.
+
+\bibitem[Engelen et~al.(2021)Engelen, Rimmer, and Joosen]{engelen2021}
+Gints Engelen, Vera Rimmer, and Wouter Joosen.
+\newblock Troubleshooting an intrusion detection dataset: the cicids2017 case
+  study.
+\newblock In \emph{2021 IEEE Security and Privacy Workshops (SPW)}, page
+  7–12. IEEE, May 2021.
+\newblock \doi{10.1109/spw53761.2021.00009}.
+\newblock URL \url{http://dx.doi.org/10.1109/SPW53761.2021.00009}.
+
+\bibitem[Guo et~al.(2017)Guo, Pleiss, Sun, and Weinberger]{guo2017}
+Chuan Guo, Geoff Pleiss, Yu~Sun, and Kilian~Q. Weinberger.
+\newblock On calibration of modern neural networks.
+\newblock In \emph{Proceedings of the 34th International Conference on Machine
+  Learning}, volume~70 of \emph{Proceedings of Machine Learning Research},
+  pages 1321--1330, 2017.
+\newblock URL \url{https://proceedings.mlr.press/v70/guo17a.html}.
+
+\bibitem[Saerens et~al.(2002)Saerens, Latinne, and Decaestecker]{saerens2002}
+Marco Saerens, Patrice Latinne, and Christine Decaestecker.
+\newblock Adjusting the outputs of a classifier to new a priori probabilities:
+  A simple procedure.
+\newblock \emph{Neural Computation}, 14\penalty0 (1):\penalty0 21–41, January
+  2002.
+\newblock ISSN 1530-888X.
+\newblock \doi{10.1162/089976602753284446}.
+\newblock URL \url{http://dx.doi.org/10.1162/089976602753284446}.
+
+\bibitem[Lipton et~al.(2018)Lipton, Wang, and Smola]{lipton2018}
+Zachary Lipton, Yu-Xiang Wang, and Alexander Smola.
+\newblock Detecting and correcting for label shift with black box predictors.
+\newblock In \emph{Proceedings of the 35th International Conference on Machine
+  Learning}, volume~80 of \emph{Proceedings of Machine Learning Research},
+  pages 3122--3130, 2018.
+\newblock URL \url{https://proceedings.mlr.press/v80/lipton18a.html}.
+
+\bibitem[Hastie and Tibshirani(1986)]{hastie1986}
+Trevor Hastie and Robert Tibshirani.
+\newblock Generalized additive models.
+\newblock \emph{Statistical Science}, 1\penalty0 (3):\penalty0 297–310,
+  August 1986.
+\newblock ISSN 2168-8745.
+\newblock \doi{10.1214/ss/1177013604}.
+\newblock URL \url{http://dx.doi.org/10.1214/ss/1177013604}.
+
+\bibitem[Agarwal et~al.(2021)Agarwal, Melnick, Frosst, Zhang, Lengerich,
+  Caruana, and Hinton]{agarwal2021}
+Rishabh Agarwal, Levi Melnick, Nicholas Frosst, Xuezhou Zhang, Ben Lengerich,
+  Rich Caruana, and Geoffrey~E. Hinton.
+\newblock Neural additive models: Interpretable machine learning with neural
+  nets.
+\newblock In \emph{Advances in Neural Information Processing Systems},
+  volume~34, 2021.
+\newblock URL
+  \url{https://papers.nips.cc/paper/2021/hash/251bd0442dfcc53b5a761e050f8022b8-Abstract.html}.
+
+\bibitem[Liu et~al.(2025)Liu, Wang, Vaidya, Ruehle, Halverson,
+  Solja{\v{c}}i{\'c}, Hou, and Tegmark]{liu2025}
+Ziming Liu, Yixuan Wang, Sachin Vaidya, Fabian Ruehle, James Halverson, Marin
+  Solja{\v{c}}i{\'c}, Thomas~Y. Hou, and Max Tegmark.
+\newblock {KAN}: {Kolmogorov--Arnold} networks.
+\newblock In \emph{International Conference on Learning Representations}, 2025.
+\newblock URL
+  \url{https://proceedings.iclr.cc/paper_files/paper/2025/hash/afaed89642ea100935e39d39a4da602c-Abstract-Conference.html}.
+
+\bibitem[Moustafa(2021)]{moustafa2021}
+Nour Moustafa.
+\newblock A new distributed architecture for evaluating {AI}-based security
+  systems at the edge: Network {TON\_IoT} datasets.
+\newblock \emph{Sustainable Cities and Society}, 72:\penalty0 102994, 2021.
+\newblock \doi{10.1016/j.scs.2021.102994}.
+\newblock URL \url{https://doi.org/10.1016/j.scs.2021.102994}.
+
+\bibitem[Booij et~al.(2022)Booij, Chiscop, Meeuwissen, Moustafa, and {den
+  Hartog}]{booij2022}
+Tim~M. Booij, Irina Chiscop, Erik Meeuwissen, Nour Moustafa, and Frank T.~H.
+  {den Hartog}.
+\newblock {ToN\_IoT}: The role of heterogeneity and the need for
+  standardization of features and attack types in {IoT} network intrusion data
+  sets.
+\newblock \emph{IEEE Internet of Things Journal}, 9\penalty0 (1):\penalty0
+  485--496, 2022.
+\newblock \doi{10.1109/JIOT.2021.3085194}.
+\newblock URL \url{https://doi.org/10.1109/JIOT.2021.3085194}.
+
+\bibitem[Moustafa and Slay(2015)]{moustafa2015unsw}
+Nour Moustafa and Jill Slay.
+\newblock Unsw-nb15: a comprehensive data set for network intrusion detection
+  systems (unsw-nb15 network data set).
+\newblock In \emph{2015 Military Communications and Information Systems
+  Conference (MilCIS)}, page 1–6. IEEE, November 2015.
+\newblock \doi{10.1109/milcis.2015.7348942}.
+\newblock URL \url{http://dx.doi.org/10.1109/MilCIS.2015.7348942}.
+
+\bibitem[Moustafa and Slay(2016)]{moustafa2016unsw}
+Nour Moustafa and Jill Slay.
+\newblock The evaluation of network anomaly detection systems: Statistical
+  analysis of the unsw-nb15 data set and the comparison with the kdd99 data
+  set.
+\newblock \emph{Information Security Journal: A Global Perspective},
+  25\penalty0 (1-3):\penalty0 18–31, January 2016.
+\newblock ISSN 1939-3547.
+\newblock \doi{10.1080/19393555.2015.1125974}.
+\newblock URL \url{http://dx.doi.org/10.1080/19393555.2015.1125974}.
+
+\bibitem[{River contributors}(2026)]{riverdocs}
+{River contributors}.
+\newblock {ARFClassifier}, river 0.22.0 api documentation, 2026.
+\newblock URL \url{https://riverml.xyz/0.22.0/api/forest/ARFClassifier/}.
+\newblock Accessed 1 November 2026; implementation pinned to 0.22.0.
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, Vanderplas, Passos,
+  Cournapeau, Brucher, Perrot, and Duchesnay]{pedregosa2011}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, Jake Vanderplas, Alexandre Passos, David Cournapeau,
+  Matthieu Brucher, Matthieu Perrot, and {\'E}douard Duchesnay.
+\newblock Scikit-learn: Machine learning in {Python}.
+\newblock \emph{Journal of Machine Learning Research}, 12:\penalty0 2825--2830,
+  2011.
+\newblock URL \url{https://jmlr.org/papers/v12/pedregosa11a.html}.
+
+\bibitem[{scikit-learn developers}(2026)]{sklearnap}
+{scikit-learn developers}.
+\newblock Average precision score, scikit-learn 1.7.2 documentation, 2026.
+\newblock URL
+  \url{https://scikit-learn.org/1.7/modules/generated/sklearn.metrics.average_precision_score.html}.
+\newblock Accessed 1 November 2026.
+
+\bibitem[{UNSW Canberra}(2021)]{toniotweb}
+{UNSW Canberra}.
+\newblock The {TON\_IoT} datasets, 2021.
+\newblock URL \url{https://research.unsw.edu.au/projects/toniot-datasets}.
+\newblock Dataset description and use conditions; accessed 1 November 2026.
+
+\bibitem[{UNSW Canberra}(2026)]{unswweb}
+{UNSW Canberra}.
+\newblock The {UNSW-NB15} dataset, 2026.
+\newblock URL \url{https://research.unsw.edu.au/projects/unsw-nb15-dataset}.
+\newblock Provider description and academic-use terms; accessed 1 November
+  2026.
+
+\end{thebibliography}

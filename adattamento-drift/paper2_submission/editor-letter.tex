@@ -1,0 +1,55 @@
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,geometry,hyperref}
+\geometry{margin=25mm}
+\hypersetup{colorlinks=true,urlcolor=blue,pdftitle={Cover letter and author information},pdfauthor={Oleksandr Kuznetsov}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7em}
+\setlength{\emergencystretch}{2em}
+\begin{document}
+\begin{flushright}2 November 2026\end{flushright}
+Editors, ACM Digital Threats: Research and Practice
+
+Dear Editors,
+
+Please consider ``Thresholds and Learning in Adaptive Intrusion Detection: A Two-Capture Case Study'' for publication in ACM Digital Threats: Research and Practice.
+
+The paper examines how threshold policy, calibration coverage and baseline quality change the interpretation of adaptive intrusion detection under sparse, delayed labels. Its contribution is a reproducible evaluation procedure and an empirical case study. Paired controls separate score updates, calibration capacity, label eligibility and update timing; they reveal both conditional benefits and failures of adaptation.
+
+A permanent feature-vector role assignment excludes recurring traffic types from calibration. On TON\_IoT, this produces about 32\% future false-positive rate for a frozen detector targeting 5\%, compared with about 4.5\% using all acquired labels on the same schedule. A smaller, operating-region-dependent score benefit survives calibration on identical observations. On UNSW-NB15, historical frozen policies remain stronger by balanced accuracy. All conclusions are limited to the two captures; the five seeds describe conditional algorithmic variation.
+
+We believe the work is relevant to DTRAP readers who develop, evaluate or reproduce adaptive security systems. The submission supplies an anonymous article, a separate supplement and an anonymized numerical-evidence package. The identified reproduction package contains the executed sources, fitted initial states, per-block reports and verification scripts; raw network data remain available from their providers under their terms.
+
+The cover material and author version disclose funding, competing interests, author contributions and computational assistance. The article describes research use of AI assistance in Methods and retains human responsibility for the evidence and conclusions. The reproduction archive is available at \url{https://doi.org/10.5281/zenodo.23880240}; this identifying link is supplied here for the editors and omitted from the anonymous reviewer files.
+
+Thank you for considering the manuscript.
+
+Oleksandr Kuznetsov\\
+Corresponding author\\
+\href{mailto:oleksandr.kuznetsov@uniecampus.it}{oleksandr.kuznetsov@uniecampus.it}
+
+\clearpage
+\section*{Author information --- for editors}
+\textbf{Title:} Thresholds and Learning in Adaptive Intrusion Detection: A Two-Capture Case Study
+
+\textbf{1. Oleksandr Kuznetsov} (corresponding author)\\
+Department of Theoretical and Applied Sciences, eCampus University, Novedrate, Italy; SMARTEST Research Center, eCampus University, Novedrate, Italy; Department of Intelligent Software Systems and Technologies, School of Computer Science and Artificial Intelligence, V. N. Karazin Kharkiv National University, Kharkiv, Ukraine.\\
+Email: \href{mailto:oleksandr.kuznetsov@uniecampus.it}{oleksandr.kuznetsov@uniecampus.it}\\
+ORCID: \url{https://orcid.org/0000-0003-2331-6326}
+
+\textbf{2. Emanuele Pio De Bernardis}\\
+Department of Theoretical and Applied Sciences, eCampus University, Novedrate, Italy.\\
+Email: \href{mailto:emanuelepio.debernardis@gmail.com}{emanuelepio.debernardis@gmail.com}\\
+ORCID: \url{https://orcid.org/0009-0004-7915-5204}
+
+\textbf{3. Emanuele Frontoni}\\
+Department of Political Sciences, Communication and International Relations, University of Macerata, Via Crescimbeni, 30/32, 62100 Macerata, Italy.\\
+Email: \href{mailto:emanuele.frontoni@unimc.it}{emanuele.frontoni@unimc.it}\\
+ORCID: \url{https://orcid.org/0000-0002-8893-9244}
+
+\textbf{Funding.} GAIA S.r.l., a spin-off of the University of Macerata, supported De Bernardis through a research collaboration covering August--December 2026.
+
+\textbf{Competing interests.} De Bernardis has the funded collaboration above. Frontoni serves on GAIA S.r.l.'s board of directors. Kuznetsov supervises the supported collaboration and is involved in a separate research-consultancy agreement between eCampus University and GAIA S.r.l.
+
+\textbf{CRediT.} Kuznetsov: Conceptualization, Methodology, Formal analysis, Investigation, Software, Validation, Visualization, Supervision, Project administration, Writing---original draft, Writing---review and editing. De Bernardis: Software, Investigation, Data curation, Validation, Visualization, Writing---original draft, Writing---review and editing. Frontoni: Funding acquisition, Project administration, Writing---review and editing.
+\end{document}

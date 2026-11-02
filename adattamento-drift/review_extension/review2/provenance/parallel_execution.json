@@ -1,0 +1,7 @@
+{
+  "retained_predictive_cells": 120,
+  "separate_fit_only_and_tail_jobs": true,
+  "redundant_ton_arf_45_shuffled_attempt_stopped_after_complete_report_was_available": true,
+  "duplicate_completed_reports_checked": "summary and per_block arrays identical",
+  "final_completeness_authority": "analysis/validation.json"
+}

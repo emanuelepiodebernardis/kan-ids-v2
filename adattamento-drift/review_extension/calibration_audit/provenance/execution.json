@@ -1,0 +1,40 @@
+{
+  "protocol_and_executed_source_commit": "b753802f8aa22dba1efa1cbe76d03a730408bd43",
+  "runner_sha256": "497563e3e4d7f0c162ae873edd8f99836dadd505148e6f07903882a6dda4cbea",
+  "role_audit_sha256": "24843877c92dea8c6bde403ac4f178a461d8559697637bfdfad44364615ecc74",
+  "complete_reports": 10,
+  "source_models_refitted": false,
+  "previous_executed_runners_modified": false,
+  "raw_data_redistributed": false,
+  "validation": {
+    "complete": true,
+    "runs": 10,
+    "replay_checks": 600825,
+    "analysis_checks": 574280,
+    "all_previous_trajectories_exact": true,
+    "source_commit": "b753802f8aa22dba1efa1cbe76d03a730408bd43"
+  },
+  "file_integrity_corrections": [
+    {
+      "dataset": "ton",
+      "seed": 46,
+      "issue": "First serialized gzip report was truncated despite completed process log; rejected by decompression check.",
+      "resolution": "Reran the identical unchanged runner and retained the fully decoded report after all prior-trajectory checks passed.",
+      "condition_or_numerical_code_changed": false
+    }
+  ],
+  "tests": {
+    "targeted_passed": 96,
+    "broader_legacy": {
+      "passed": 408,
+      "skipped": 3,
+      "failed": 3,
+      "failures": [
+        "test_documenti_coerenti.py::test_i_file_citati_nei_comandi_esistono_dove_il_comando_li_cerca",
+        "test_documenti_coerenti.py::test_l_uscita_del_controllo_regge_un_encoding_che_non_ha_il_meno",
+        "test_materiali_articolo_02.py::test_materiali_versionati_si_rigenerano_byte_per_byte"
+      ],
+      "scope": "Legacy documentation, output and reconstruction checks depend on external historical archives absent from this checkout. No source or expectations for these checks were modified."
+    }
+  }
+}
