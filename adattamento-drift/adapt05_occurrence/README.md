@@ -22,14 +22,14 @@ replay sintetico end-to-end con le quattro tracce appaiate.
 I dati ricostruiti non sono conservati in Git. La verifica di compatibilità
 numerica usa l'ambiente archiviato (Python 3.12.14 e dipendenze di
 `review_extension/requirements.txt`) con BLAS a un thread. Il workflow Linux
-registra anche `OPENBLAS_CORETYPE`: il kernel e' fissato prima del replay, per
-evitare che la scelta automatica basata sul processore cambi il fit:
+registra anche `OPENBLAS_CORETYPE=Zen2`: il kernel e' fissato prima del replay,
+per evitare che la scelta automatica basata sul processore cambi il fit:
 
 ```powershell
 $env:OPENBLAS_NUM_THREADS='1'
 $env:OMP_NUM_THREADS='1'
 $env:MKL_NUM_THREADS='1'
-$env:OPENBLAS_CORETYPE='<kernel registrato>'
+$env:OPENBLAS_CORETYPE='Zen2'
 python adattamento-drift/adapt05_occurrence/runner.py `
   --data <data-root>/ton --dataset ton --seed 42 --salt default `
   --max-blocks 30 --out <out>/ton_seed42_default.json

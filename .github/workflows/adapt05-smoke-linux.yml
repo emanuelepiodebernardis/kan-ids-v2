@@ -15,6 +15,7 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
+      OPENBLAS_CORETYPE: Zen2
     steps:
       - uses: actions/checkout@v4
 
@@ -61,27 +62,11 @@ jobs:
       - name: Run preregistered 30-block smoke
         run: |
           mkdir -p "$RUNNER_TEMP/adapt05/smoke"
-          selected=""
-          for core in Barcelona Bobcat Bulldozer Piledriver Steamroller Excavator Zen Zen2 Zen3 Zen4; do
-            echo "Testing portable OPENBLAS_CORETYPE=$core against the archived TON trajectory"
-            if OPENBLAS_CORETYPE="$core" python adattamento-drift/adapt05_occurrence/runner.py \
-              --data "$RUNNER_TEMP/adapt05/data/ton" \
-              --dataset ton --seed 42 --salt default --max-blocks 30 \
-              --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"; then
-              selected="$core"
-              break
-            fi
-          done
-          if [ -z "$selected" ]; then
-            echo "No portable OpenBLAS kernel reproduced the archived trajectory" >&2
-            exit 1
-          fi
-          echo "Selected portable OPENBLAS_CORETYPE=$selected"
-          OPENBLAS_CORETYPE="$selected" python adattamento-drift/adapt05_occurrence/runner.py \
+          python adattamento-drift/adapt05_occurrence/runner.py \
             --data "$RUNNER_TEMP/adapt05/data/ton" \
             --dataset ton --seed 42 --salt default --max-blocks 30 \
             --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"
-          OPENBLAS_CORETYPE="$selected" python adattamento-drift/adapt05_occurrence/runner.py \
+          python adattamento-drift/adapt05_occurrence/runner.py \
             --data "$RUNNER_TEMP/adapt05/data/unsw" \
             --dataset unsw --seed 42 --salt default --max-blocks 30 \
             --out "$RUNNER_TEMP/adapt05/smoke/unsw_seed42_default.json"

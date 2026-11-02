@@ -90,9 +90,9 @@ riportato come identità delle soglie o riproduzione numerica byte per byte.
 
 Le esecuzioni Linux ufficiali usano Python 3.12.14, le dipendenze congelate
 del pacchetto Paper 2, un solo thread BLAS e un `OPENBLAS_CORETYPE` esplicito.
-Il kernel viene identificato esclusivamente riproducendo il controllo
-vettoriale archiviato e poi congelato prima dello smoke ufficiale. E' parte
-dell'ambiente registrato, non un fattore sperimentale.
+Il kernel portabile `Zen2`, identificato esclusivamente riproducendo il
+controllo vettoriale archiviato, e' congelato prima dello smoke ufficiale. E'
+parte dell'ambiente registrato, non un fattore sperimentale.
 
 ## Matrice completa e prima consegna
 
