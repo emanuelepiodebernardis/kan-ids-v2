@@ -34,7 +34,10 @@ def release_destination(rel):
         if rel.suffix == '.md' and rel.name != 'PROTOCOL.md':
             return None
         if rel.name in {
-            'ARTIFACT_MANIFEST.json', 'qa_summary.json', 'export_release.py'
+            'ARTIFACT_MANIFEST.json',
+            'qa_summary.json',
+            'export_release.py',
+            'test_export_release.py',
         }:
             return None
         if (rel.suffix in {'.tex', '.bib', '.bbl', '.pdf', '.png', '.txt'}

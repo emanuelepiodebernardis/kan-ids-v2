@@ -1,10 +1,12 @@
 # Paper 2 — consegna per Emanuele Pio De Bernardis
 
-La versione corrente è nel ramo `paper2/dtrap-submission-20261102` del fork
-`KuznetsovKarazin/kan-ids-v2`. La base del repository dello studente verificata
-è `81d99d9020d60b39d3b5a65fc6f06296f89537db`. La consegna include tutti gli
-incrementi precedenti e due nuovi blocchi: codice/evidenze di calibrazione e
-manoscritto ACM. Non applicare soltanto l'ultimo commit a una base che non
+La consegna consolidata proviene dal ramo
+`paper2/dtrap-submission-20261102` del fork `KuznetsovKarazin/kan-ids-v2`, al
+commit `e5004e850412887cdc7301b1dab48fbdf9ed2e6d`. Il ramo della PR nel fork
+dello studente è `paper2-dtrap-final`. La base verificata del repository dello
+studente è `81d99d9020d60b39d3b5a65fc6f06296f89537db`. La consegna include tutti
+gli incrementi precedenti e due nuovi blocchi: codice/evidenze di calibrazione
+e manoscritto ACM. Non applicare soltanto l'ultimo commit a una base che non
 contiene gli incrementi intermedi.
 
 ## Importare senza sovrascrivere il lavoro locale
@@ -26,18 +28,24 @@ protocolli fissati prima delle rispettive esecuzioni.
 
 ## Controllare e ricostruire
 
-1. Seguire `REPRODUCTION.txt`: ambiente, SHA-256, 100 test, ricostruzione delle
-   tabelle dai report. I dati grezzi servono solo per rifare le predizioni.
+1. Seguire `REPRODUCTION.txt`: ambiente, SHA-256, 96 test scientifici e
+   ricostruzione delle tabelle dai report. I dati grezzi servono solo per
+   rifare le predizioni.
 2. Eseguire `make -C adattamento-drift/paper2_submission all` con TeX Live
    completo. `main.pdf` e `supplement.pdf` sono anonimi; `author-version.pdf`
    e `supplement-author.pdf` includono nomi e dichiarazioni. I vecchi PDF in
    `review_extension/manuscript/` sono superati.
 3. Leggere le sezioni su copertura CAL, confronto ALL256, violazioni dei target
    e limiti dei due capture. Verificare il proprio CRediT.
-4. Verificare l'esportazione con `export_release.py` anche sul sistema usato per
-   l'integrazione. L'uscita deve dichiarare un numero non nullo di sorgenti; poi
-   eseguire `Numerical_Evidence/verify_numerical_evidence.py` e controllare gli
-   SHA-256 di entrambi gli ZIP.
+4. Nel checkout Git eseguire separatamente i cinque test di confezionamento in
+   `test_export_release.py`. Verificare quindi l'esportazione con
+   `export_release.py` anche sul sistema usato per l'integrazione. L'uscita deve
+   dichiarare un numero non nullo di sorgenti. Estrarre lo ZIP di riproduzione
+   in una cartella vuota, eseguire `restore_execution.py` verso una seconda
+   cartella vuota e, dalla copia ripristinata, seguire i comandi del README:
+   verifica degli hash, quattro analisi e 96 test scientifici. Eseguire inoltre
+   `Numerical_Evidence/verify_numerical_evidence.py` e controllare gli SHA-256
+   di entrambi gli ZIP.
 5. Aprire una PR da questo ramo verso `main`, riportando le verifiche. Il merge
    e l'approvazione scientifica spettano ai coautori. Non rilanciare il vecchio
    D per cercare un seed o un peso migliore.
@@ -54,9 +62,10 @@ controlli storici restano più forti.
 
 Set C aggiunge dieci replay: 600.825 controlli durante il replay e 574.280
 verifiche di sorgenti, traiettorie e aggregazione. Tutte le traiettorie condivise
-coincidono. La consegna originale passa 96/96 test mirati; l'integrazione ne
-aggiunge 3 sull'esportazione multipiattaforma e 1 sulla nota dell'archivio
-pubblico, per un totale corrente di 100/100.
+coincidono. Il pacchetto riproducibile passa 96/96 test scientifici. Nel
+checkout Git, cinque test separati verificano il confezionamento
+multipiattaforma e la nota dell'archivio pubblico; questi controlli non vengono
+inclusi nel pacchetto ripristinato.
 La suite legacy più ampia passa 408 test,
 ne salta 3 e fallisce 3 controlli di documenti/output e materiali storici che
 richiedono archivi esterni assenti dal clone; dettagli in

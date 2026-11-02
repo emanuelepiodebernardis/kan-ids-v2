@@ -28,6 +28,12 @@ def test_release_destination_excludes_internal_markdown():
     ) is None
 
 
+def test_release_destination_excludes_checkout_only_export_tools():
+    prefix = PureWindowsPath(r'adattamento-drift\review_extension')
+    assert release_destination(prefix / 'export_release.py') is None
+    assert release_destination(prefix / 'test_export_release.py') is None
+
+
 def test_archive_note_records_published_release():
     text = Path(__file__).with_name('ARCHIVE_PREPARATION.md').read_text(
         encoding='utf-8'
