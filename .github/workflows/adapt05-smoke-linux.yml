@@ -1,0 +1,75 @@
+name: ADAPT-05 smoke Linux
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: adattamento-drift/review_extension/requirements.txt
+
+      - name: Install pinned environment
+        run: python -m pip install -r adattamento-drift/review_extension/requirements.txt
+
+      - name: Run ADAPT-05 and Paper-2 targeted tests
+        run: >-
+          python -m pytest -q
+          adattamento-drift/adapt05_occurrence/test_runner.py
+          adattamento-drift/review_extension/test_experiment.py
+          adattamento-drift/review_extension/review2/test_runner.py
+          adattamento-drift/review_extension/review3/test_matched_memory.py
+          adattamento-drift/review_extension/calibration_audit/test_calibration_audit.py
+          adattamento-drift/ton_temporal/test_calibrazione_recente.py
+          adattamento-drift/ton_temporal/test_soglia.py
+          adattamento-drift/ton_temporal/test_replay_validazione_finale.py
+
+      - name: Fetch versioned public mirrors
+        run: |
+          mkdir -p "$RUNNER_TEMP/adapt05/downloads"
+          python adattamento-drift/review_extension/fetch_data.py ton --out "$RUNNER_TEMP/adapt05/downloads"
+          python adattamento-drift/review_extension/fetch_data.py unsw --out "$RUNNER_TEMP/adapt05/downloads"
+
+      - name: Reconstruct and verify Paper-2 arrays
+        run: |
+          python adattamento-drift/review_extension/prepare_data.py ton \
+            --raw "$RUNNER_TEMP/adapt05/downloads/ton_raw" \
+            --out "$RUNNER_TEMP/adapt05/data/ton"
+          python adattamento-drift/review_extension/prepare_data.py unsw \
+            --raw "$RUNNER_TEMP/adapt05/downloads/unsw_raw" \
+            --out "$RUNNER_TEMP/adapt05/data/unsw"
+
+      - name: Run preregistered 30-block smoke
+        run: |
+          mkdir -p "$RUNNER_TEMP/adapt05/smoke"
+          python adattamento-drift/adapt05_occurrence/runner.py \
+            --data "$RUNNER_TEMP/adapt05/data/ton" \
+            --dataset ton --seed 42 --salt default --max-blocks 30 \
+            --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"
+          python adattamento-drift/adapt05_occurrence/runner.py \
+            --data "$RUNNER_TEMP/adapt05/data/unsw" \
+            --dataset unsw --seed 42 --salt default --max-blocks 30 \
+            --out "$RUNNER_TEMP/adapt05/smoke/unsw_seed42_default.json"
+
+      - name: Upload smoke reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapt05-smoke-${{ github.sha }}
+          path: ${{ runner.temp }}/adapt05/smoke/*.json
+          if-no-files-found: error
+          retention-days: 30
