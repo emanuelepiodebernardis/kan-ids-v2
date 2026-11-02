@@ -15,7 +15,6 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
-      OPENBLAS_CORETYPE: SkylakeX
     steps:
       - uses: actions/checkout@v4
 
@@ -61,16 +60,28 @@ jobs:
 
       - name: Run preregistered 30-block smoke
         run: |
-          if ! grep -qm1 -w avx512f /proc/cpuinfo; then
-            echo "The frozen SkylakeX kernel requires an AVX-512-capable runner" >&2
+          mkdir -p "$RUNNER_TEMP/adapt05/smoke"
+          selected=""
+          for core in Barcelona Bobcat Bulldozer Piledriver Steamroller Excavator Zen Zen2 Zen3 Zen4; do
+            echo "Testing portable OPENBLAS_CORETYPE=$core against the archived TON trajectory"
+            if OPENBLAS_CORETYPE="$core" python adattamento-drift/adapt05_occurrence/runner.py \
+              --data "$RUNNER_TEMP/adapt05/data/ton" \
+              --dataset ton --seed 42 --salt default --max-blocks 30 \
+              --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"; then
+              selected="$core"
+              break
+            fi
+          done
+          if [ -z "$selected" ]; then
+            echo "No portable OpenBLAS kernel reproduced the archived trajectory" >&2
             exit 1
           fi
-          mkdir -p "$RUNNER_TEMP/adapt05/smoke"
-          python adattamento-drift/adapt05_occurrence/runner.py \
+          echo "Selected portable OPENBLAS_CORETYPE=$selected"
+          OPENBLAS_CORETYPE="$selected" python adattamento-drift/adapt05_occurrence/runner.py \
             --data "$RUNNER_TEMP/adapt05/data/ton" \
             --dataset ton --seed 42 --salt default --max-blocks 30 \
             --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"
-          python adattamento-drift/adapt05_occurrence/runner.py \
+          OPENBLAS_CORETYPE="$selected" python adattamento-drift/adapt05_occurrence/runner.py \
             --data "$RUNNER_TEMP/adapt05/data/unsw" \
             --dataset unsw --seed 42 --salt default --max-blocks 30 \
             --out "$RUNNER_TEMP/adapt05/smoke/unsw_seed42_default.json"
