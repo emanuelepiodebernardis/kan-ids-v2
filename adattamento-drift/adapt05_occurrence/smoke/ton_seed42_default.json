@@ -43,6 +43,8 @@
   "pending_labels": 100,
   "vector_compatibility": {
     "archived_report_present": true,
+    "structural_status": "PASS",
+    "numerical_identity": "EXACT",
     "checks": {
       "head_parameter_digest_total": 30,
       "head_parameter_digest_exact": 30,
@@ -50,6 +52,8 @@
       "frozen_thresholds_exact": 150,
       "head_thresholds_total": 150,
       "head_thresholds_exact": 150,
+      "confusion_counts_total": 300,
+      "confusion_counts_l1_delta": 0,
       "confusion_counts_exact": 300,
       "query_hashes_exact": 30,
       "all256_counts_exact": 58,
@@ -58,7 +62,8 @@
     },
     "status": "PASS",
     "max_abs_threshold_delta": 0.0,
-    "parameter_digest_note": "recorded as a stricter diagnostic; the preregistered compatibility contract requires exact query hashes, counts and update states; cross-platform threshold deltas are reported without calling them byte-exact and must preserve every confusion count"
+    "max_confusion_cell_delta": 0,
+    "parameter_digest_note": "structural compatibility requires exact query hashes, bounded-memory counts and ages, and update states; parameter, threshold and confusion identity is a separate numerical audit because fitted coefficients can vary across processors"
   },
   "summary": {
     "frozen_b/lambda1": {
@@ -14877,8 +14882,8 @@
       }
     }
   ],
-  "elapsed_seconds": 1.543096394000031,
-  "commit": "b435c4c6badec92f56cca4880105446e110cb475",
+  "elapsed_seconds": 1.4389188609999906,
+  "commit": "012a9a386d5a0efafe55e2017cb1c205661261a7",
   "input_identity": {
     "status": "PASS",
     "rows": 3549973,
@@ -14900,18 +14905,51 @@
   },
   "model_sha256": "5790508f28104bf9e49ad4262a07268f44eda1584f0f896a207c4f9a7b5d542d",
   "source_sha256": {
-    "runner.py": "29f3c9ed462a2f2341231257f992e1c623926b84008bef370a0fff44d55ef532",
+    "runner.py": "76c3891cba6dada5d1a1e1f787e3fecc304b6f2393ca8718f9845e751f15efb6",
     "roles.py": "d7b800d90afd866f26269320ac4110f945d802b1d8b922e258f78d9a9973528d",
-    "PROTOCOL.md": "d84b9cd6cfdea6df97873b09447de1422cf7e6ea80d972a2175cab1330291c91"
+    "PROTOCOL.md": "41aa95196c3d4f29f0f1ab8f8fc0377c36d9728cf4624a1bab7deebf2df66561"
   },
   "environment": {
     "python": "3.12.14",
     "numpy": "2.3.5",
     "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.43",
+    "machine": "x86_64",
+    "processor": "",
+    "threadpools": [
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/scipy.libs/libscipy_openblas-6cdc3b4a.so",
+        "version": "0.3.30",
+        "threading_layer": "pthreads",
+        "architecture": "SkylakeX"
+      },
+      {
+        "user_api": "openmp",
+        "internal_api": "openmp",
+        "num_threads": 1,
+        "prefix": "libgomp",
+        "filepath": "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/scikit_learn.libs/libgomp-a34b3233.so.1.0.0",
+        "version": null
+      },
+      {
+        "user_api": "blas",
+        "internal_api": "openblas",
+        "num_threads": 1,
+        "prefix": "libscipy_openblas",
+        "filepath": "/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/numpy.libs/libscipy_openblas64_-fdde5778.so",
+        "version": "0.3.30",
+        "threading_layer": "pthreads",
+        "architecture": "SkylakeX"
+      }
+    ],
     "blas_threads": {
       "OPENBLAS_NUM_THREADS": "1",
       "OMP_NUM_THREADS": "1",
-      "MKL_NUM_THREADS": "1"
+      "MKL_NUM_THREADS": "1",
+      "OPENBLAS_CORETYPE": null
     }
   }
 }
