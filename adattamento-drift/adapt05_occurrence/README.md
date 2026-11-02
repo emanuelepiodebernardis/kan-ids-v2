@@ -14,11 +14,14 @@ python -m pytest -q adattamento-drift/adapt05_occurrence/test_runner.py
 I test coprono compatibilità vettoriale, codifica versionata, ripetizioni,
 disgiunzione per `observation_id`, indipendenza dalle label, delay, quote,
 espulsione, età, classi mancanti, determinismo/restart, query comuni e ultimo
-blocco parziale.
+blocco parziale. Verificano inoltre la provenienza per-array degli input e un
+replay sintetico end-to-end con le quattro tracce appaiate.
 
 ## Smoke preregistrato
 
-I dati ricostruiti non sono conservati in Git. Con BLAS a un thread:
+I dati ricostruiti non sono conservati in Git. La verifica di compatibilità
+numerica usa l'ambiente archiviato (Python 3.12.14 e dipendenze di
+`review_extension/requirements.txt`) con BLAS a un thread:
 
 ```powershell
 $env:OPENBLAS_NUM_THREADS='1'
@@ -34,3 +37,6 @@ python adattamento-drift/adapt05_occurrence/runner.py `
 
 Il runner fallisce se query, stato head, soglie o aggiornamenti del controllo
 vettoriale divergono dai rendiconti archiviati del Paper 2.
+
+I due rendiconti consegnati, gli hash, l'esito della compatibilità e la stima
+dei tempi della matrice completa sono in [`smoke/`](smoke/README.md).
