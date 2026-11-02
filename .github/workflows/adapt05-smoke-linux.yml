@@ -2,6 +2,9 @@ name: ADAPT-05 smoke Linux
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - adapt-05/occurrence-roles
 
 permissions:
   contents: read
