@@ -36,8 +36,9 @@ Rebuild analyses from the saved numerical evidence, without raw traffic:
   $PY $EXT/review3/analyze.py
   $PY $EXT/calibration_audit/analyze.py
 
-Run the targeted 96-test suite:
-  $PY -m pytest -q $EXT/test_experiment.py $EXT/review2/test_runner.py $EXT/review3/test_matched_memory.py $EXT/calibration_audit/test_calibration_audit.py adattamento-drift/ton_temporal/test_calibrazione_recente.py adattamento-drift/ton_temporal/test_soglia.py adattamento-drift/ton_temporal/test_replay_validazione_finale.py
+Run the targeted 99-test suite (the original 96 plus three cross-platform
+release-export checks):
+  $PY -m pytest -q $EXT/test_experiment.py $EXT/review2/test_runner.py $EXT/review3/test_matched_memory.py $EXT/calibration_audit/test_calibration_audit.py $EXT/test_export_release.py adattamento-drift/ton_temporal/test_calibrazione_recente.py adattamento-drift/ton_temporal/test_soglia.py adattamento-drift/ton_temporal/test_replay_validazione_finale.py
 
 To reconstruct source arrays and replay predictions:
   $PY $EXT/fetch_data.py ton --out /path/to/downloads
