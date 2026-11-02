@@ -2,12 +2,6 @@ name: ADAPT-05 smoke Linux
 
 on:
   workflow_dispatch:
-    inputs:
-      openblas_coretype:
-        description: OpenBLAS kernel, or probe to identify the archived trajectory
-        required: true
-        default: probe
-        type: string
 
 permissions:
   contents: read
@@ -21,6 +15,7 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
+      OPENBLAS_CORETYPE: SkylakeX
     steps:
       - uses: actions/checkout@v4
 
@@ -65,35 +60,17 @@ jobs:
             --out "$RUNNER_TEMP/adapt05/data/unsw"
 
       - name: Run preregistered 30-block smoke
-        id: smoke
         run: |
-          mkdir -p "$RUNNER_TEMP/adapt05/smoke"
-          requested="${{ inputs.openblas_coretype }}"
-          selected="$requested"
-          if [ "$requested" = "probe" ]; then
-            selected=""
-            for core in Prescott Core2 Nehalem Sandybridge Haswell SkylakeX Cooperlake SapphireRapids Zen Zen2 Zen3 Zen4; do
-              echo "Testing OPENBLAS_CORETYPE=$core against the archived TON trajectory"
-              if OPENBLAS_CORETYPE="$core" python adattamento-drift/adapt05_occurrence/runner.py \
-                --data "$RUNNER_TEMP/adapt05/data/ton" \
-                --dataset ton --seed 42 --salt default --max-blocks 30 \
-                --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"; then
-                selected="$core"
-                break
-              fi
-            done
-          fi
-          if [ -z "$selected" ]; then
-            echo "No fixed OpenBLAS kernel reproduced the archived trajectory" >&2
+          if ! grep -qm1 -w avx512f /proc/cpuinfo; then
+            echo "The frozen SkylakeX kernel requires an AVX-512-capable runner" >&2
             exit 1
           fi
-          echo "Selected OPENBLAS_CORETYPE=$selected"
-          echo "openblas_coretype=$selected" >> "$GITHUB_OUTPUT"
-          OPENBLAS_CORETYPE="$selected" python adattamento-drift/adapt05_occurrence/runner.py \
+          mkdir -p "$RUNNER_TEMP/adapt05/smoke"
+          python adattamento-drift/adapt05_occurrence/runner.py \
             --data "$RUNNER_TEMP/adapt05/data/ton" \
             --dataset ton --seed 42 --salt default --max-blocks 30 \
             --out "$RUNNER_TEMP/adapt05/smoke/ton_seed42_default.json"
-          OPENBLAS_CORETYPE="$selected" python adattamento-drift/adapt05_occurrence/runner.py \
+          python adattamento-drift/adapt05_occurrence/runner.py \
             --data "$RUNNER_TEMP/adapt05/data/unsw" \
             --dataset unsw --seed 42 --salt default --max-blocks 30 \
             --out "$RUNNER_TEMP/adapt05/smoke/unsw_seed42_default.json"
