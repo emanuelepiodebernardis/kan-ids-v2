@@ -18,6 +18,47 @@ def tracked():
     return [REPO/x for x in subprocess.check_output(
         ['git','ls-files'], cwd=REPO, text=True).splitlines()]
 
+def release_destination(rel):
+    """Return the neutral export path for a tracked repository path.
+
+    Compare path components instead of their string representation so the
+    export behaves identically with POSIX and Windows separators.
+    """
+    parts = tuple(rel.parts)
+    review_prefix = ('adattamento-drift', 'review_extension')
+    temporal_prefix = ('adattamento-drift', 'ton_temporal')
+    if parts[:len(review_prefix)] == review_prefix:
+        r = Path(*parts[len(review_prefix):])
+        if not r.parts:
+            return None
+        if rel.suffix == '.md' and rel.name != 'PROTOCOL.md':
+            return None
+        if rel.name in {
+            'ARTIFACT_MANIFEST.json', 'qa_summary.json', 'export_release.py'
+        }:
+            return None
+        if (rel.suffix in {'.tex', '.bib', '.bbl', '.pdf', '.png', '.txt'}
+                and 'results' not in r.parts and 'logs' not in r.parts):
+            return None
+        if r.parts[0] == 'archive':
+            return None
+        key = 'extension'
+        if r.parts[0] in {'review2', 'review3', 'calibration_audit'}:
+            key = {
+                'review2': 'diagnostic_a',
+                'review3': 'diagnostic_b',
+                'calibration_audit': 'diagnostic_c',
+            }[r.parts[0]]
+            r = Path(*r.parts[1:])
+        return Path('source') / key / r
+    if parts[:len(temporal_prefix)] == temporal_prefix:
+        r = Path(*parts[len(temporal_prefix):])
+        if (rel.suffix not in {'.py', '.json', '.csv', '.npz', '.pkl'}
+                and rel.name != 'rapporto.md'):
+            return None
+        return Path('source/temporal') / r
+    return None
+
 def zipdir(root, output):
     with zipfile.ZipFile(output,'w',zipfile.ZIP_DEFLATED,compresslevel=6) as z:
         for p in sorted(root.rglob('*')):
@@ -76,23 +117,20 @@ def main(out):
     for p in tracked():
         rel=p.relative_to(REPO)
         if not p.is_file():continue
-        if str(rel).startswith('adattamento-drift/review_extension/'):
-            r=p.relative_to(HERE)
-            if p.suffix=='.md' and p.name!='PROTOCOL.md':continue
-            if p.name in {'ARTIFACT_MANIFEST.json','qa_summary.json','export_release.py'}:continue
-            if p.suffix in {'.tex','.bib','.bbl','.pdf','.png','.txt'} and 'results' not in r.parts and 'logs' not in r.parts:continue
-            if r.parts[0]=='archive':continue
-            key='extension'
-            if r.parts[0] in {'review2','review3','calibration_audit'}:
-                key={'review2':'diagnostic_a','review3':'diagnostic_b','calibration_audit':'diagnostic_c'}[r.parts[0]]
-                r=Path(*r.parts[1:])
-            dest=Path('source')/key/r
-        elif str(rel).startswith('adattamento-drift/ton_temporal/'):
-            if p.suffix not in {'.py','.json','.csv','.npz','.pkl'} and p.name!='rapporto.md':continue
-            dest=Path('source/temporal')/p.relative_to(HERE.parent/'ton_temporal')
-        else:continue
+        dest=release_destination(rel)
+        if dest is None:continue
         target=full/dest;target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(p,target)
         ledger[dest.as_posix()]={'execution_path':rel.as_posix(),'sha256':digest(p)}
+    required_sources = {
+        'source/extension/experiment.py',
+        'source/diagnostic_a/runner.py',
+        'source/diagnostic_b/runner.py',
+        'source/diagnostic_c/runner.py',
+        'source/temporal/replay.py',
+    }
+    missing_sources = sorted(required_sources - set(ledger))
+    if missing_sources:
+        raise RuntimeError(f'reproduction export is incomplete: {missing_sources}')
     (full/'SOURCE_LEDGER.json').write_text(json.dumps({'files':ledger},indent=2)+'\n')
     (full/'restore_execution.py').write_text(RESTORE)
     for label,src in SETS.items():

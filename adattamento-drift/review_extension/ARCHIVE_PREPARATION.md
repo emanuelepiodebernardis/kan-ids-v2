@@ -1,35 +1,36 @@
 # Archival deposition status
 
-**No permanent public archival record or DOI has been registered for this
-revision.** The current delivery is a Git revision and a complete offline
-package. Neither is described as a durable research archive. This review item
-remains open until deposition is completed and its public record verified.
+The public archival record is published and verified:
 
-`archive/deposit_metadata.json` contains ready-to-review metadata for a software
-and recorded-evidence deposit. All three names, affiliations and ORCIDs come from the
-manuscript. The evidence now includes ten matched-memory replays as well as
-the 55 and 120 earlier cells. The software repository uses the MIT license, retained in the
-results delivery. Raw TON_IoT/UNSW-NB15 data are excluded; source hashes,
-reconstruction instructions and provider attributions are included.
+- DOI: `10.5281/zenodo.23880240`
+- title: *Thresholds and Learning in Adaptive Intrusion Detection: A
+  Two-Capture Case Study — code and recorded evidence*
+- archive: `Paper2_Reproduction_2026-11-02.zip`
+- size: 208,219,672 bytes
+- SHA-256:
+  `b105ce651085facbf4c48e6d4cf8471d526612ce8999bca28d9f3ce2468900e4`
 
-## Concrete deposit contents
+The release metadata identifies article commit
+`e5004e850412887cdc7301b1dab48fbdf9ed2e6d` and code/results commit
+`7e5659cdad7100c85417a25947e1edf21f96cb8c`. The archive's internal
+`SHA256.json` lists 791 files; all listed digests and the ZIP CRC were checked
+after download from the public record.
 
-Use the final `Paper2_review_extension_2026-11-01.zip`, whose delivery manifest
-records the exact Git head, protocol-history refs, file digests and validation.
-It includes the full review extension, initial states, reports, CSVs, figures,
-article and Supplement sources, and an offline Git bundle transport.
-The companion `Paper2_LaTeX_revised_2026-11-01.zip` is the clean, self-contained article/Supplement package; internal assessments and handover notes are excluded.
-The final filenames and SHA-256 values appear in the delivery manifest supplied
-beside the archives. Do not upload raw network records or local working caches.
+## Public deposit contents
 
-The author responsible for the archive must select the depositing account,
-review authorship and license applicability to the manuscript, upload the
-prepared files, publish the deposit, and verify that the landing page and file
-downloads are public. Copy the actual identifier into the article availability
-statement, repository citation metadata and release notes. Record the deposited
-file hashes; later changes require a new archive version. A merely reserved DOI
-is not treated as a published archival record.
+The package contains the executable source, fitted initial states, full
+per-block reports and numerical summaries used by the article. It covers 55
+initial-extension cells and diagnostic sets A/B/C with 120/10/10 cells: 195
+recorded cells, including 30 exact repeats. Raw TON_IoT and UNSW-NB15 traffic
+is not redistributed. Reconstruction instructions, provider attribution,
+source provenance and file hashes are included.
 
-This is an operational publication step, not an additional statistical result.
-The package and metadata are prepared so that authors can perform it without
-rerunning experiments. The current manuscript states the remaining gap directly.
+`deposit_metadata.json` records the three authors, affiliations and ORCIDs,
+the MIT code license, publication date and public DOI. The identified article
+version and editor letter cite the DOI; the anonymous reviewer PDFs omit the
+DOI and all identifying author information.
+
+The public Zenodo package supersedes the earlier offline review archives as
+the archival reference. Internal review documents, chats, author instructions,
+raw network records, local caches and the Git bundle are not submission
+attachments.

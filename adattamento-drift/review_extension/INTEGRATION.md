@@ -13,12 +13,12 @@ Da un clone pulito, verificare prima `git status`. Poi:
 
 ```sh
 git fetch https://github.com/KuznetsovKarazin/kan-ids-v2.git paper2/dtrap-submission-20261102
-git switch -c paper2-dtrap-integration FETCH_HEAD
+git switch -c paper2-dtrap-final FETCH_HEAD
 git log --oneline 81d99d9020d60b39d3b5a65fc6f06296f89537db..HEAD
 git diff --stat 81d99d9020d60b39d3b5a65fc6f06296f89537db..HEAD
 ```
 
-Se esiste già `paper2-dtrap-integration`, scegliere un nome nuovo; non usare
+Se esiste già `paper2-dtrap-final`, scegliere un nome nuovo; non usare
 reset o push forzati. Il bundle permette lo stesso import offline:
 `git bundle verify Paper2_History.bundle`, poi `git fetch` dal percorso del
 bundle usando il ramo sopra. I riferimenti di provenienza conservano i
@@ -26,7 +26,7 @@ protocolli fissati prima delle rispettive esecuzioni.
 
 ## Controllare e ricostruire
 
-1. Seguire `REPRODUCTION.txt`: ambiente, SHA-256, 96 test, ricostruzione delle
+1. Seguire `REPRODUCTION.txt`: ambiente, SHA-256, 100 test, ricostruzione delle
    tabelle dai report. I dati grezzi servono solo per rifare le predizioni.
 2. Eseguire `make -C adattamento-drift/paper2_submission all` con TeX Live
    completo. `main.pdf` e `supplement.pdf` sono anonimi; `author-version.pdf`
@@ -34,7 +34,11 @@ protocolli fissati prima delle rispettive esecuzioni.
    `review_extension/manuscript/` sono superati.
 3. Leggere le sezioni su copertura CAL, confronto ALL256, violazioni dei target
    e limiti dei due capture. Verificare il proprio CRediT.
-4. Aprire una PR da questo ramo verso `main`, riportando le verifiche. Il merge
+4. Verificare l'esportazione con `export_release.py` anche sul sistema usato per
+   l'integrazione. L'uscita deve dichiarare un numero non nullo di sorgenti; poi
+   eseguire `Numerical_Evidence/verify_numerical_evidence.py` e controllare gli
+   SHA-256 di entrambi gli ZIP.
+5. Aprire una PR da questo ramo verso `main`, riportando le verifiche. Il merge
    e l'approvazione scientifica spettano ai coautori. Non rilanciare il vecchio
    D per cercare un seed o un peso migliore.
 
@@ -50,7 +54,10 @@ controlli storici restano più forti.
 
 Set C aggiunge dieci replay: 600.825 controlli durante il replay e 574.280
 verifiche di sorgenti, traiettorie e aggregazione. Tutte le traiettorie condivise
-coincidono. La suite mirata passa 96/96. La suite legacy più ampia passa 408 test,
+coincidono. La consegna originale passa 96/96 test mirati; l'integrazione ne
+aggiunge 3 sull'esportazione multipiattaforma e 1 sulla nota dell'archivio
+pubblico, per un totale corrente di 100/100.
+La suite legacy più ampia passa 408 test,
 ne salta 3 e fallisce 3 controlli di documenti/output e materiali storici che
 richiedono archivi esterni assenti dal clone; dettagli in
 `calibration_audit/provenance/execution.json`. Non dichiarare verde l'intera
