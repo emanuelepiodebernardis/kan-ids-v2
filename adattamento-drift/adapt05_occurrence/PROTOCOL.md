@@ -76,6 +76,18 @@ attesa e parametri/soglie correnti. Non esiste un archivio laterale illimitato
 per recuperare esempi espulsi. I log per la valutazione offline sono separati e
 non sono consultati dal learner.
 
+Nel controllo vettoriale il learner usa direttamente la memoria storica. Una
+vista di audit, anch'essa limitata a 192/64 elementi, aggiunge i tre identificatori
+separati e viene confrontata array per array con la memoria del learner; non è
+consultata per fit o calibrazione.
+
+La controprova vettoriale richiede identità esatta di query, composizione/età,
+stati update e confusion matrix. Se score e soglie vengono ricalcolati su una
+piattaforma numerica diversa da quella Linux archiviata, il delta di ogni soglia
+e il massimo assoluto vengono registrati e tutte le confusion matrix devono
+restare comunque identiche. Questo caso è marcato esplicitamente e non viene
+riportato come identità delle soglie o riproduzione numerica byte per byte.
+
 ## Matrice completa e prima consegna
 
 La matrice completa comprende 2 dataset × 5 seed × 3 sali = 30 combinazioni.

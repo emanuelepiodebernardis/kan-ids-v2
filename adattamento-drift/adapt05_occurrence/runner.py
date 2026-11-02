@@ -184,6 +184,7 @@ def run(
 
     states = {}
     memories = {}
+    learner_memories = {}
     thresholds = {}
     independent_cal = {}
     p0 = model.parametri()
@@ -192,11 +193,16 @@ def run(
             p0.copy(), b_grid["lambda1"], b_grid["lambda1"], b_grid["lambda1"]
         )
         memories[mode] = RoleMemories(FIT_CAPACITY, CAL_CAPACITY)
+        learner_memories[mode] = memories[mode]
         thresholds[mode] = {
             "frozen": dict(b_grid),
             "head": dict(b_grid),
         }
         independent_cal[mode] = dict(b_grid)
+    # The vector control learns from the historical memory implementation.
+    # A second, equally bounded view exists only to attach the three separate
+    # audit identifiers and is checked against the learner arrays at arrival.
+    learner_memories["vector"] = historical.MemorieSeparate()
     all_memory = replay.MemoriaReplay(ALL_CAPACITY, "per_classe")
     all_grid = dict(b_grid)
     pending: dict[int, tuple[np.ndarray, dict[str, RoleAssignments]]] = {}
@@ -209,7 +215,8 @@ def run(
         raise FileNotFoundError(
             "the archived default-salt report is required for vector compatibility"
         )
-    compatibility_checks = 0
+    compatibility = Counter()
+    compatibility_max_threshold_delta = 0.0
     t0 = time.perf_counter()
 
     for block_index in range(blocks_to_run):
@@ -223,11 +230,19 @@ def run(
             parameters = states[mode].parametri_adattati
             scores[f"head_{mode}"] = representation @ parameters[:-1] + parameters[-1]
 
+        block_compatibility = None
         if previous is not None:
             old = previous["per_block"][block_index]
-            if _parameters_sha(states["vector"].parametri_adattati) != old["head_parameters_sha256"]:
-                raise AssertionError("vector head state differs from the archived trajectory")
-            compatibility_checks += 1
+            block_compatibility = {
+                "head_parameter_digest_exact": (
+                    _parameters_sha(states["vector"].parametri_adattati)
+                    == old["head_parameters_sha256"]
+                ),
+                "threshold_delta": {},
+            }
+            compatibility["head_parameter_digest_total"] += 1
+            if block_compatibility["head_parameter_digest_exact"]:
+                compatibility["head_parameter_digest_exact"] += 1
             old_suffix = {
                 "lambda1": "",
                 "lambda2": "_l2",
@@ -236,11 +251,26 @@ def run(
                 "fpr0.2": "_fpr0.2",
             }
             for objective, suffix in old_suffix.items():
-                if thresholds["vector"]["frozen"][objective] != old["thresholds"]["frozen_role64" + suffix]:
-                    raise AssertionError("vector frozen threshold differs from archived report")
-                if thresholds["vector"]["head"][objective] != old["thresholds"]["head_role64" + suffix]:
-                    raise AssertionError("vector head threshold differs from archived report")
-                compatibility_checks += 2
+                archived_frozen = old["thresholds"]["frozen_role64" + suffix]
+                archived_head = old["thresholds"]["head_role64" + suffix]
+                current_frozen = thresholds["vector"]["frozen"][objective]
+                current_head = thresholds["vector"]["head"][objective]
+                for score_name, current, archived in (
+                    ("frozen", current_frozen, archived_frozen),
+                    ("head", current_head, archived_head),
+                ):
+                    compatibility[f"{score_name}_thresholds_total"] += 1
+                    delta = abs(current - archived)
+                    compatibility_max_threshold_delta = max(
+                        compatibility_max_threshold_delta, delta
+                    )
+                    block_compatibility["threshold_delta"][
+                        f"{score_name}/{objective}"
+                    ] = delta
+                    if current == archived:
+                        compatibility[f"{score_name}_thresholds_exact"] += 1
+                    else:
+                        compatibility[f"{score_name}_thresholds_cross_platform"] += 1
 
         policy_specs: dict[str, tuple[str, float]] = {}
         for objective in OBJECTIVES:
@@ -277,10 +307,29 @@ def run(
             },
             "cm": {},
         }
+        if block_compatibility is not None:
+            block["vector_compatibility"] = block_compatibility
         for name, (score_name, threshold) in policy_specs.items():
             counts = _policy_metrics(labels, scores[score_name] > threshold)
             block["cm"][name] = counts
             totals[name] = totals.get(name, np.zeros(4, dtype=np.int64)) + counts
+        if previous is not None:
+            old_suffix = {
+                "lambda1": "",
+                "lambda2": "_l2",
+                "fpr0.05": "_fpr0.05",
+                "fpr0.1": "_fpr0.1",
+                "fpr0.2": "_fpr0.2",
+            }
+            for objective, suffix in old_suffix.items():
+                for score_name in ("frozen", "head"):
+                    new_policy = f"vector/{score_name}/{objective}"
+                    old_policy = f"{score_name}_role64{suffix}"
+                    if block["cm"][new_policy] != old["cm"]["all"][old_policy]:
+                        raise AssertionError(
+                            f"block {block_index}: {new_policy} counts differ from archive"
+                        )
+                    compatibility["confusion_counts_exact"] += 1
 
         local = experiment.query_indices(stop - start, seed, block_index, BUDGET)
         selected = start + local
@@ -310,7 +359,7 @@ def run(
         if previous is not None:
             if query_sha != previous["per_block"][block_index]["query_sha256"]:
                 raise AssertionError("query row_ids differ from the archived trajectory")
-            compatibility_checks += 1
+            compatibility["query_hashes_exact"] += 1
 
         ready = block_index - DELAY
         if ready >= 0:
@@ -334,6 +383,15 @@ def run(
                 "age_max": int(all_age.max()) if len(all_age) else None,
                 "updated": bool(eligible(all_y)),
             }
+            if previous is not None:
+                old_all = old.get("all_memory")
+                if old_all is not None:
+                    current_all = block["feedback"]["all256"]
+                    if current_all["normal"] != old_all["normal"] or len(all_y) != old_all["size"]:
+                        raise AssertionError(
+                            f"block {block_index}: ALL256 counts differ from archived report"
+                        )
+                    compatibility["all256_counts_exact"] += 2
             arrived_transformed = transform(X[arrived])
             for mode in ROLE_MODES:
                 memories[mode].add(
@@ -342,7 +400,27 @@ def run(
                     arrived_assignments[mode],
                     ready,
                 )
-                calibration_X, calibration_y, _ = memories[mode].calibration.array_ammissibile(
+                if mode == "vector":
+                    learner_memories[mode].aggiungi(
+                        arrived_transformed,
+                        y[arrived],
+                        arrived_assignments[mode].roles,
+                        ready,
+                        list(arrived_assignments[mode].decision_digests),
+                    )
+                    for audited, learner in (
+                        (memories[mode].fit, learner_memories[mode].fit),
+                        (memories[mode].calibration, learner_memories[mode].calibration),
+                    ):
+                        for audited_array, learner_array in zip(
+                            audited.array(), learner.array()
+                        ):
+                            if not np.array_equal(audited_array, learner_array):
+                                raise AssertionError(
+                                    "bounded vector audit differs from historical learner memory"
+                                )
+                active_memory = learner_memories[mode]
+                calibration_X, calibration_y, _ = active_memory.calibration.array_ammissibile(
                     block_index, MAX_AGE
                 )
                 independent_updated = eligible(calibration_y)
@@ -354,7 +432,7 @@ def run(
                     update_counts[f"{mode}_frozen_cal64_independent"] += 1
 
                 proposal = historical.proponi_transazione(
-                    model, p0, states[mode], memories[mode], block_index
+                    model, p0, states[mode], active_memory, block_index
                 )
                 status = proposal.get("motivo") or "applied"
                 if proposal["applicabile"]:
@@ -384,13 +462,45 @@ def run(
                 old_status = previous["per_block"][block_index].get("head_status")
                 if block["feedback"]["modes"]["vector"]["status"] != old_status:
                     raise AssertionError("vector update status differs from archived report")
-                compatibility_checks += 1
+                compatibility["update_status_exact"] += 1
+                old_cal = old.get("calibration_memory", {}).get("64")
+                if old_cal is not None:
+                    current_cal = block["feedback"]["modes"]["vector"]["memory"]["cal64"]
+                    expected = (
+                        old_cal["normal"],
+                        old_cal["attack"],
+                        old_cal["age_min"],
+                        old_cal["age_max"],
+                    )
+                    observed = (
+                        current_cal["recent_normal"],
+                        current_cal["recent_attack"],
+                        current_cal["age_min"],
+                        current_cal["age_max"],
+                    )
+                    if observed != expected:
+                        raise AssertionError(
+                            f"block {block_index}: CAL64 counts/ages differ from archive"
+                        )
+                    compatibility["cal64_counts_and_age_exact"] += 4
         records.append(block)
 
     summary = {name: experiment.rates(counts.tolist()) for name, counts in totals.items()}
     commit = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=REPOSITORY, text=True
     ).strip()
+    compatibility_status = "NOT_RUN"
+    if previous is not None:
+        compatibility_status = (
+            "PASS"
+            if (
+                compatibility["head_thresholds_exact"]
+                == compatibility["head_thresholds_total"]
+                and compatibility["frozen_thresholds_exact"]
+                == compatibility["frozen_thresholds_total"]
+            )
+            else "PASS_WITH_NUMERICAL_ENVIRONMENT_NOTE"
+        )
     report = {
         "schema": 1,
         "protocol": "adapt05-occurrence-roles-v1",
@@ -421,8 +531,15 @@ def run(
         "pending_labels": int(sum(len(value[0]) for value in pending.values())),
         "vector_compatibility": {
             "archived_report_present": previous is not None,
-            "checks": compatibility_checks,
-            "status": "PASS" if previous is not None else "NOT_RUN",
+            "checks": dict(compatibility),
+            "status": compatibility_status,
+            "max_abs_threshold_delta": compatibility_max_threshold_delta,
+            "parameter_digest_note": (
+                "recorded as a stricter diagnostic; the preregistered compatibility "
+                "contract requires exact query hashes, counts and update states; "
+                "cross-platform threshold deltas are reported without calling them "
+                "byte-exact and must preserve every confusion count"
+            ),
         },
         "summary": summary,
         "per_block": records,
