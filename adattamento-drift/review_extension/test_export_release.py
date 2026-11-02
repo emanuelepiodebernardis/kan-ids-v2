@@ -34,6 +34,15 @@ def test_release_destination_excludes_checkout_only_export_tools():
     assert release_destination(prefix / 'test_export_release.py') is None
 
 
+def test_release_destination_includes_runtime_requirements():
+    destination = release_destination(
+        PureWindowsPath(
+            r'adattamento-drift\review_extension\requirements.txt'
+        )
+    )
+    assert destination.as_posix() == 'source/extension/requirements.txt'
+
+
 def test_archive_note_records_published_release():
     text = Path(__file__).with_name('ARCHIVE_PREPARATION.md').read_text(
         encoding='utf-8'

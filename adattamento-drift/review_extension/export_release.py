@@ -41,7 +41,8 @@ def release_destination(rel):
         }:
             return None
         if (rel.suffix in {'.tex', '.bib', '.bbl', '.pdf', '.png', '.txt'}
-                and 'results' not in r.parts and 'logs' not in r.parts):
+                and 'results' not in r.parts and 'logs' not in r.parts
+                and rel.name != 'requirements.txt'):
             return None
         if r.parts[0] == 'archive':
             return None
@@ -130,6 +131,7 @@ def main(out):
         'source/diagnostic_b/runner.py',
         'source/diagnostic_c/runner.py',
         'source/temporal/replay.py',
+        'source/extension/requirements.txt',
     }
     missing_sources = sorted(required_sources - set(ledger))
     if missing_sources:

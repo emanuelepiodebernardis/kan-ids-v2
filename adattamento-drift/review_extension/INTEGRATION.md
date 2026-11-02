@@ -37,7 +37,7 @@ protocolli fissati prima delle rispettive esecuzioni.
    `review_extension/manuscript/` sono superati.
 3. Leggere le sezioni su copertura CAL, confronto ALL256, violazioni dei target
    e limiti dei due capture. Verificare il proprio CRediT.
-4. Nel checkout Git eseguire separatamente i cinque test di confezionamento in
+4. Nel checkout Git eseguire separatamente i sei test di confezionamento in
    `test_export_release.py`. Verificare quindi l'esportazione con
    `export_release.py` anche sul sistema usato per l'integrazione. L'uscita deve
    dichiarare un numero non nullo di sorgenti. Estrarre lo ZIP di riproduzione
@@ -63,7 +63,7 @@ controlli storici restano più forti.
 Set C aggiunge dieci replay: 600.825 controlli durante il replay e 574.280
 verifiche di sorgenti, traiettorie e aggregazione. Tutte le traiettorie condivise
 coincidono. Il pacchetto riproducibile passa 96/96 test scientifici. Nel
-checkout Git, cinque test separati verificano il confezionamento
+checkout Git, sei test separati verificano il confezionamento
 multipiattaforma e la nota dell'archivio pubblico; questi controlli non vengono
 inclusi nel pacchetto ripristinato.
 La suite legacy più ampia passa 408 test,
