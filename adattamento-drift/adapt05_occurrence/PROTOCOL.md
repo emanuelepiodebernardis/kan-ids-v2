@@ -89,8 +89,10 @@ restare comunque identiche. Questo caso è marcato esplicitamente e non viene
 riportato come identità delle soglie o riproduzione numerica byte per byte.
 
 Le esecuzioni Linux ufficiali usano Python 3.12.14, le dipendenze congelate
-del pacchetto Paper 2, un solo thread BLAS e `OPENBLAS_CORETYPE=Haswell`. Il
-kernel BLAS e' parte dell'ambiente registrato, non un fattore sperimentale.
+del pacchetto Paper 2, un solo thread BLAS e un `OPENBLAS_CORETYPE` esplicito.
+Il kernel viene identificato esclusivamente riproducendo il controllo
+vettoriale archiviato e poi congelato; e' parte dell'ambiente registrato, non
+un fattore sperimentale.
 
 ## Matrice completa e prima consegna
 
