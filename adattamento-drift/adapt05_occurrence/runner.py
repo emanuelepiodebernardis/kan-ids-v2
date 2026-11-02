@@ -558,7 +558,12 @@ def run(
             "platform": platform.platform(),
             "blas_threads": {
                 key: __import__("os").environ.get(key)
-                for key in ("OPENBLAS_NUM_THREADS", "OMP_NUM_THREADS", "MKL_NUM_THREADS")
+                for key in (
+                    "OPENBLAS_NUM_THREADS",
+                    "OMP_NUM_THREADS",
+                    "MKL_NUM_THREADS",
+                    "OPENBLAS_CORETYPE",
+                )
             },
         },
     }

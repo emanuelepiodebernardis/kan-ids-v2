@@ -2,9 +2,12 @@ name: ADAPT-05 smoke Linux
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - adapt-05/occurrence-roles
+    inputs:
+      openblas_coretype:
+        description: OpenBLAS kernel fixed for numerical replay compatibility
+        required: true
+        default: Haswell
+        type: string
 
 permissions:
   contents: read
@@ -18,6 +21,7 @@ jobs:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
       PYTHONHASHSEED: "0"
+      OPENBLAS_CORETYPE: ${{ inputs.openblas_coretype }}
     steps:
       - uses: actions/checkout@v4
 
