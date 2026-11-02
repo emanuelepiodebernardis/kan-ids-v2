@@ -104,6 +104,45 @@ def _load_previous(dataset: str, seed: int) -> dict | None:
         return json.load(handle)
 
 
+def verify_input_provenance(
+    data: Path,
+    dataset: str,
+    provenance_root: Path = EXTENSION / "provenance",
+    required: bool = True,
+) -> dict:
+    """Verify scientific array identity independently of NPZ container bytes."""
+    local_path = data / "D.json"
+    archived_path = provenance_root / dataset / "D.json"
+    if not local_path.exists() or not archived_path.exists():
+        if required:
+            raise FileNotFoundError("both reconstructed and archived D metadata are required")
+        return {"status": "NOT_RUN"}
+    local = json.loads(local_path.read_text(encoding="utf-8"))
+    archived = json.loads(archived_path.read_text(encoding="utf-8"))
+    for field in ("rows", "normal", "attack"):
+        if local[field] != archived[field]:
+            raise ValueError(f"D metadata mismatch for {field}")
+    if local["array_sha256"] != archived["array_sha256"]:
+        raise ValueError("D array SHA-256 mismatch")
+    if "source_sha256" in archived and local.get("source_sha256") != archived["source_sha256"]:
+        raise ValueError("raw source SHA-256 mismatch")
+    if archived.get("source_hashes_verified") and not local.get("source_hashes_verified"):
+        raise ValueError("TON source hashes were not verified")
+    return {
+        "status": "PASS",
+        "rows": int(local["rows"]),
+        "normal": int(local["normal"]),
+        "attack": int(local["attack"]),
+        "array_sha256": dict(local["array_sha256"]),
+        "reconstructed_npz_sha256": sha(data / "D.npz"),
+        "archived_npz_sha256": archived["sha256"],
+        "container_note": (
+            "NPZ container bytes may differ after deterministic array reconstruction; "
+            "scientific identity is enforced on every named array"
+        ),
+    }
+
+
 def _load_inputs(data: Path, model_root: Path, dataset: str, seed: int):
     model_path = model_root / dataset / f"spline_{seed}" / "model.pkl"
     with model_path.open("rb") as handle:
@@ -127,10 +166,14 @@ def run(
     salt_name: str,
     max_blocks: int | None = None,
     require_vector_compatibility: bool = True,
+    require_input_provenance: bool = True,
 ) -> dict:
     if salt_name not in SALTS:
         raise ValueError(f"unknown salt: {salt_name}")
     salt = SALTS[salt_name]
+    input_identity = verify_input_provenance(
+        data, dataset, required=require_input_provenance
+    )
     model_path, model, transform, b_grid, X, y, row_ids = _load_inputs(
         data, model_root, dataset, seed
     )
@@ -385,7 +428,7 @@ def run(
         "per_block": records,
         "elapsed_seconds": time.perf_counter() - t0,
         "commit": commit,
-        "input_sha256": {"D.npz": sha(data / "D.npz")},
+        "input_identity": input_identity,
         "model_sha256": sha(model_path),
         "source_sha256": {
             "runner.py": sha(Path(__file__)),

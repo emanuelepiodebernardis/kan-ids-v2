@@ -1,5 +1,6 @@
 import hashlib
 import importlib
+import json
 from pathlib import Path
 import sys
 
@@ -174,6 +175,32 @@ def test_assignment_digest_is_length_delimited_and_deterministic():
     assert digest != hashlib.sha256("".encode()).hexdigest()
 
 
+def test_input_identity_uses_array_hashes_not_only_npz_container(tmp_path):
+    data = tmp_path / "data"
+    provenance = tmp_path / "provenance" / "ton"
+    data.mkdir()
+    provenance.mkdir(parents=True)
+    (data / "D.npz").write_bytes(b"new container bytes")
+    metadata = {
+        "rows": 2,
+        "normal": 1,
+        "attack": 1,
+        "sha256": "0" * 64,
+        "source_hashes_verified": True,
+        "array_sha256": {"X": "1" * 64, "y": "2" * 64},
+    }
+    (data / "D.json").write_text(json.dumps(metadata), encoding="utf-8")
+    (provenance / "D.json").write_text(json.dumps(metadata), encoding="utf-8")
+    result = runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
+    assert result["status"] == "PASS"
+    assert result["reconstructed_npz_sha256"] != result["archived_npz_sha256"]
+    changed = dict(metadata)
+    changed["array_sha256"] = {"X": "3" * 64, "y": "2" * 64}
+    (data / "D.json").write_text(json.dumps(changed), encoding="utf-8")
+    with pytest.raises(ValueError, match="array SHA-256"):
+        runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
+
+
 class _SyntheticModel:
     def __init__(self):
         self._parameters = np.r_[np.ones(8), 0.0]
@@ -223,6 +250,7 @@ def test_synthetic_replay_contains_all_four_tracks_and_causal_feedback(tmp_path,
         "default",
         max_blocks=3,
         require_vector_compatibility=False,
+        require_input_provenance=False,
     )
     assert report["blocks"] == 3
     assert report["per_block"][0].get("feedback") is None
