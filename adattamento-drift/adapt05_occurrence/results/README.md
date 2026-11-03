@@ -26,6 +26,8 @@ registra ambiente, comandi, tempi e SHA di ciascuna cella.
 - dimensione: 10.447.388 byte;
 - SHA-256:
   `01220c7e09936fa762dd6f87d03e5d76856649bb2227269c1312f5b0ea8c743d`;
+- copia persistente:
+  [Google Drive](https://drive.google.com/file/d/1TgAlPP_YEyEaGYHnzLnBT2yxwaH-6A5Q/view?usp=drive_link);
 - esecuzione: [GitHub Actions 41715167666](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41715167666).
 
 Lo ZIP non e' conservato in Git. La copia locale esterna si trova in
