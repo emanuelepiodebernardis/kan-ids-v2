@@ -180,29 +180,93 @@ def test_assignment_digest_is_length_delimited_and_deterministic():
     assert digest != hashlib.sha256("".encode()).hexdigest()
 
 
-def test_input_identity_uses_array_hashes_not_only_npz_container(tmp_path):
+def _write_provenance_fixture(tmp_path, arrays=None):
     data = tmp_path / "data"
     provenance = tmp_path / "provenance" / "ton"
     data.mkdir()
     provenance.mkdir(parents=True)
-    (data / "D.npz").write_bytes(b"new container bytes")
+    if arrays is None:
+        arrays = {
+            "X": np.arange(32, dtype=np.float32).reshape(4, 8),
+            "y": np.asarray([0, 1, 0, 1], dtype=np.uint8),
+            "tipo": np.asarray([0, 1, 0, 1], dtype=np.int16),
+            "row_id": np.asarray([10, 11, 12, 13], dtype=np.int64),
+            "frt": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+            "t_start": np.asarray([0.5, 1.5, 2.5, 3.5], dtype=np.float64),
+            "t_end": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+            "tipi": np.asarray(["normal", "attack"]),
+        }
+    np.savez_compressed(data / "D.npz", **arrays)
+    labels = arrays["y"]
     metadata = {
-        "rows": 2,
-        "normal": 1,
-        "attack": 1,
+        "rows": len(labels),
+        "normal": int((labels == 0).sum()),
+        "attack": int((labels == 1).sum()),
         "sha256": "0" * 64,
         "source_hashes_verified": True,
-        "array_sha256": {"X": "1" * 64, "y": "2" * 64},
+        "array_sha256": {
+            name: hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest()
+            for name, value in arrays.items()
+        },
     }
     (data / "D.json").write_text(json.dumps(metadata), encoding="utf-8")
     (provenance / "D.json").write_text(json.dumps(metadata), encoding="utf-8")
+    return data, provenance, arrays, metadata
+
+
+def test_input_identity_rehashes_actual_arrays(tmp_path):
+    data, provenance, arrays, _ = _write_provenance_fixture(tmp_path)
     result = runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
     assert result["status"] == "PASS"
     assert result["reconstructed_npz_sha256"] != result["archived_npz_sha256"]
-    changed = dict(metadata)
-    changed["array_sha256"] = {"X": "3" * 64, "y": "2" * 64}
-    (data / "D.json").write_text(json.dumps(changed), encoding="utf-8")
-    with pytest.raises(ValueError, match="array SHA-256"):
+    assert result["array_sha256"] == {
+        name: hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest()
+        for name, value in arrays.items()
+    }
+    assert result["row_id_unique"] is True
+
+
+@pytest.mark.parametrize("changed_name", ("X", "y", "row_id"))
+def test_input_identity_rejects_tampered_npz_with_unchanged_metadata(
+    tmp_path, changed_name
+):
+    data, _, arrays, _ = _write_provenance_fixture(tmp_path)
+    changed = {name: value.copy() for name, value in arrays.items()}
+    changed[changed_name].flat[0] += 100 if changed_name == "row_id" else 1
+    np.savez_compressed(data / "D.npz", **changed)
+    with pytest.raises(ValueError, match="(array SHA-256|class counts)"):
+        runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
+
+
+def test_input_identity_rejects_missing_array_with_unchanged_metadata(tmp_path):
+    data, _, arrays, _ = _write_provenance_fixture(tmp_path)
+    del arrays["frt"]
+    np.savez_compressed(data / "D.npz", **arrays)
+    with pytest.raises(ValueError, match="array schema"):
+        runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
+
+
+def test_input_identity_rejects_misaligned_rows(tmp_path):
+    data, _, arrays, _ = _write_provenance_fixture(tmp_path)
+    arrays["t_end"] = arrays["t_end"][:-1]
+    np.savez_compressed(data / "D.npz", **arrays)
+    with pytest.raises(ValueError, match="not aligned"):
+        runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
+
+
+def test_input_identity_rejects_duplicate_row_ids_even_if_declared(tmp_path):
+    arrays = {
+        "X": np.arange(32, dtype=np.float32).reshape(4, 8),
+        "y": np.asarray([0, 1, 0, 1], dtype=np.uint8),
+        "tipo": np.asarray([0, 1, 0, 1], dtype=np.int16),
+        "row_id": np.asarray([10, 10, 12, 13], dtype=np.int64),
+        "frt": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+        "t_start": np.asarray([0.5, 1.5, 2.5, 3.5], dtype=np.float64),
+        "t_end": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+        "tipi": np.asarray(["normal", "attack"]),
+    }
+    data, _, _, _ = _write_provenance_fixture(tmp_path, arrays)
+    with pytest.raises(ValueError, match="row_id values are not unique"):
         runner.verify_input_provenance(data, "ton", tmp_path / "provenance")
 
 

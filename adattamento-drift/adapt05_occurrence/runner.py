@@ -47,6 +47,17 @@ FIT_CAPACITY = 192
 CAL_CAPACITY = 64
 ALL_CAPACITY = 256
 OBJECTIVES = ("lambda1", "lambda2", "fpr0.05", "fpr0.1", "fpr0.2")
+INPUT_ARRAYS = ("X", "y", "tipo", "row_id", "frt", "t_start", "t_end", "tipi")
+ROW_ARRAYS = ("X", "y", "tipo", "row_id", "frt", "t_start", "t_end")
+INPUT_DTYPES = {
+    "X": np.dtype("float32"),
+    "y": np.dtype("uint8"),
+    "tipo": np.dtype("int16"),
+    "row_id": np.dtype("int64"),
+    "frt": np.dtype("float64"),
+    "t_start": np.dtype("float64"),
+    "t_end": np.dtype("float64"),
+}
 
 
 def cutoff_grid(scores: np.ndarray, labels: np.ndarray) -> dict[str, float]:
@@ -119,13 +130,16 @@ def verify_input_provenance(
     provenance_root: Path = EXTENSION / "provenance",
     required: bool = True,
 ) -> dict:
-    """Verify scientific array identity independently of NPZ container bytes."""
+    """Verify the arrays actually stored in D.npz, not only its sidecar JSON."""
     local_path = data / "D.json"
     archived_path = provenance_root / dataset / "D.json"
+    npz_path = data / "D.npz"
     if not local_path.exists() or not archived_path.exists():
         if required:
             raise FileNotFoundError("both reconstructed and archived D metadata are required")
         return {"status": "NOT_RUN"}
+    if not npz_path.exists():
+        raise FileNotFoundError("the reconstructed D.npz is required")
     local = json.loads(local_path.read_text(encoding="utf-8"))
     archived = json.loads(archived_path.read_text(encoding="utf-8"))
     for field in ("rows", "normal", "attack"):
@@ -133,17 +147,68 @@ def verify_input_provenance(
             raise ValueError(f"D metadata mismatch for {field}")
     if local["array_sha256"] != archived["array_sha256"]:
         raise ValueError("D array SHA-256 mismatch")
+    declared_keys = tuple(archived["array_sha256"])
+    if set(declared_keys) != set(INPUT_ARRAYS):
+        raise ValueError("D metadata has an unexpected array schema")
     if "source_sha256" in archived and local.get("source_sha256") != archived["source_sha256"]:
         raise ValueError("raw source SHA-256 mismatch")
     if archived.get("source_hashes_verified") and not local.get("source_hashes_verified"):
         raise ValueError("TON source hashes were not verified")
+
+    with np.load(npz_path, allow_pickle=False) as stream:
+        if set(stream.files) != set(INPUT_ARRAYS):
+            raise ValueError("D.npz has an unexpected array schema")
+        arrays = {name: stream[name] for name in INPUT_ARRAYS}
+
+    rows = int(archived["rows"])
+    if arrays["X"].ndim != 2 or arrays["X"].shape != (rows, 8):
+        raise ValueError("D X has an unexpected shape")
+    for name in ROW_ARRAYS[1:]:
+        if arrays[name].ndim != 1 or len(arrays[name]) != rows:
+            raise ValueError(f"D {name} is not aligned with X rows")
+    if arrays["tipi"].ndim != 1 or not len(arrays["tipi"]):
+        raise ValueError("D tipi has an unexpected shape")
+    for name, expected_dtype in INPUT_DTYPES.items():
+        if arrays[name].dtype != expected_dtype:
+            raise ValueError(
+                f"D {name} has dtype {arrays[name].dtype}, expected {expected_dtype}"
+            )
+    if arrays["tipi"].dtype.kind != "U":
+        raise ValueError("D tipi must be a Unicode array")
+
+    labels = arrays["y"]
+    if not np.isin(labels, (0, 1)).all():
+        raise ValueError("D y contains labels outside {0, 1}")
+    normal = int((labels == 0).sum())
+    attack = int((labels == 1).sum())
+    if normal != int(archived["normal"]) or attack != int(archived["attack"]):
+        raise ValueError("D class counts do not match the archived metadata")
+    type_ids = arrays["tipo"]
+    if len(type_ids) and (
+        int(type_ids.min()) < 0 or int(type_ids.max()) >= len(arrays["tipi"])
+    ):
+        raise ValueError("D tipo contains an index outside tipi")
+    row_ids = arrays["row_id"]
+    if len(np.unique(row_ids)) != rows:
+        raise ValueError("D row_id values are not unique")
+
+    actual_hashes = {
+        name: hashlib.sha256(np.ascontiguousarray(arrays[name]).tobytes()).hexdigest()
+        for name in INPUT_ARRAYS
+    }
+    for name in INPUT_ARRAYS:
+        if actual_hashes[name] != archived["array_sha256"][name]:
+            raise ValueError(f"D array SHA-256 mismatch for {name}")
     return {
         "status": "PASS",
-        "rows": int(local["rows"]),
-        "normal": int(local["normal"]),
-        "attack": int(local["attack"]),
-        "array_sha256": dict(local["array_sha256"]),
-        "reconstructed_npz_sha256": sha(data / "D.npz"),
+        "rows": rows,
+        "normal": normal,
+        "attack": attack,
+        "array_sha256": actual_hashes,
+        "array_shapes": {name: list(arrays[name].shape) for name in INPUT_ARRAYS},
+        "array_dtypes": {name: str(arrays[name].dtype) for name in INPUT_ARRAYS},
+        "row_id_unique": True,
+        "reconstructed_npz_sha256": sha(npz_path),
         "archived_npz_sha256": archived["sha256"],
         "container_note": (
             "NPZ container bytes may differ after deterministic array reconstruction; "

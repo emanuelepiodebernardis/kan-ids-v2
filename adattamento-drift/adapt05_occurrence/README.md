@@ -14,8 +14,10 @@ python -m pytest -q adattamento-drift/adapt05_occurrence/test_runner.py
 I test coprono compatibilità vettoriale, codifica versionata, ripetizioni,
 disgiunzione per `observation_id`, indipendenza dalle label, delay, quote,
 espulsione, età, classi mancanti, determinismo/restart, query comuni e ultimo
-blocco parziale. Verificano inoltre la provenienza per-array degli input e un
-replay sintetico end-to-end con le quattro tracce appaiate.
+blocco parziale. Verificano inoltre struttura, conteggi, identità delle righe e
+SHA-256 ricalcolati dagli array realmente letti dall'NPZ, comprese controprove
+su `X`, `y` e `row_id`, e un replay sintetico end-to-end con le quattro tracce
+appaiate.
 
 ## Smoke preregistrato
 

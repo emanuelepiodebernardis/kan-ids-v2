@@ -2,7 +2,8 @@
 
 Ogni JSON è UTF-8, schema `adapt05-occurrence-roles-v1`, e registra:
 
-- commit eseguito, SHA-256 di ogni array di D, contenitore NPZ, modello e sorgenti;
+- commit eseguito, SHA-256 ricalcolato dagli array effettivamente letti da
+  `D.npz`, contenitore NPZ, modello e sorgenti;
 - dataset, split, seed modello/query, nome e bytes del sale;
 - capacità, età, minimo per classe, budget, delay e obiettivi di soglia;
 - per blocco: righe, soglie prima del feedback, digest dello stato head,
