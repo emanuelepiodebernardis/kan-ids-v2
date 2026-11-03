@@ -10,6 +10,7 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 import numpy as np
 import pandas as pd
 
@@ -251,30 +252,51 @@ def save_figures(
     fig.savefig(figures / "coverage_paired.png", dpi=190, metadata=metadata)
     plt.close(fig)
 
-    fig, axes = plt.subplots(1, 2, figsize=(10, 4), sharey=True)
+    objective_markers = {
+        "lambda1": ("o", "lambda = 1"),
+        "lambda2": ("s", "lambda = 2"),
+        "fpr0.05": ("^", "FPR target 5%"),
+        "fpr0.1": ("D", "FPR target 10%"),
+        "fpr0.2": ("P", "FPR target 20%"),
+    }
+    tracks = [
+        ("vector", "frozen", "#12677A", "-", "Vector / frozen"),
+        ("vector", "head", "#12677A", "--", "Vector / head"),
+        ("occurrence", "frozen", "#A35624", "-", "Observation / frozen"),
+        ("occurrence", "head", "#A35624", "--", "Observation / head"),
+    ]
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4.8), sharey=True)
     for axis, dataset in zip(axes, DATASETS):
         subset = metrics[metrics.dataset == dataset]
-        for mode, score, color, marker in [
-            ("vector", "frozen", "#12677A", "o"),
-            ("vector", "head", "#12677A", "s"),
-            ("occurrence", "frozen", "#A35624", "o"),
-            ("occurrence", "head", "#A35624", "s"),
-        ]:
+        for mode, score, color, line_style, _label in tracks:
             values = subset[(subset["mode"] == mode) & (subset.score == score)]
             means = values.groupby("objective")[["fpr", "recall"]].mean().reindex(OBJECTIVES)
-            axis.plot(means.fpr * 100, means.recall * 100, marker + "-",
-                      color=color, label=f"{mode}/{score}")
+            axis.plot(means.fpr * 100, means.recall * 100,
+                      linestyle=line_style, color=color, linewidth=1.6)
             for objective, row in means.iterrows():
-                axis.annotate(objective.replace("fpr0.", "FPR "),
-                              (100 * row.fpr, 100 * row.recall), fontsize=7,
-                              xytext=(3, 3), textcoords="offset points")
+                marker, _ = objective_markers[objective]
+                axis.scatter(100 * row.fpr, 100 * row.recall, marker=marker,
+                             color=color, edgecolor="white", linewidth=.45,
+                             s=46, zorder=3)
         axis.set_title(dataset.upper())
         axis.set_xlabel("Achieved FPR (%)")
         axis.grid(alpha=.2)
     axes[0].set_ylabel("Attack recall (%)")
-    fig.legend(*axes[0].get_legend_handles_labels(), loc="lower center",
-               ncol=4, frameon=False)
-    fig.tight_layout(rect=(0, .12, 1, 1))
+    track_handles = [
+        Line2D([0], [0], color=color, linestyle=line_style, linewidth=1.8,
+               label=label)
+        for _mode, _score, color, line_style, label in tracks
+    ]
+    objective_handles = [
+        Line2D([0], [0], color=".35", marker=marker, linestyle="None",
+               markersize=6, label=label)
+        for marker, label in objective_markers.values()
+    ]
+    fig.legend(handles=track_handles, loc="lower center",
+               bbox_to_anchor=(.5, .065), ncol=4, frameon=False)
+    fig.legend(handles=objective_handles, loc="lower center",
+               bbox_to_anchor=(.5, .005), ncol=5, frameon=False)
+    fig.tight_layout(rect=(0, .19, 1, 1))
     fig.savefig(figures / "operating_points.png", dpi=190, metadata=metadata)
     plt.close(fig)
 
@@ -332,7 +354,9 @@ def save_figures(
         axis.set_title(dataset.upper())
         axis.set_ylabel("Applied head updates")
         axis.grid(axis="y", alpha=.2)
-    fig.tight_layout()
+    fig.text(.5, .015, "Orange line: median; green triangle: mean",
+             ha="center", fontsize=8, color=".3")
+    fig.tight_layout(rect=(0, .055, 1, 1))
     fig.savefig(figures / "update_counts.png", dpi=190, metadata=metadata)
     plt.close(fig)
 
@@ -399,9 +423,20 @@ def write_report(
     targets = metrics[metrics.objective.str.startswith("fpr0.")].copy()
     targets["target"] = targets.objective.str.replace("fpr", "", regex=False).astype(float)
     targets["violation"] = targets.fpr > targets.target
+    timings = updates.drop_duplicates(["dataset", "seed", "salt"])
     lines += ["", f"Le violazioni del target FPR sono {int(targets.violation.sum())} "
               f"su {len(targets)} punti operativi. I valori raggiunti, non quelli richiesti, "
-              "sono usati nelle figure e nei confronti.", "",
+              "sono usati nelle figure e nei confronti.", "", "## Costi osservati", "",
+              "| Dataset | Replay per combinazione, secondi | Intervallo |",
+              "|---|---:|---:|"]
+    for dataset in DATASETS:
+        values = timings[timings.dataset == dataset].elapsed_replay_seconds
+        lines.append(
+            f"| {dataset.upper()} | {values.mean():.2f} ± {values.std(ddof=1):.2f} | "
+            f"{values.min():.2f}–{values.max():.2f} |"
+        )
+    lines += ["", "I tempi sono misurati dal runner Linux con due celle concorrenti e "
+              "descrivono questa esecuzione; non sono benchmark seriali.", "",
               "## Interpretazione e limiti", "",
               "Il cambio di chiave FIT/CAL viene interpretato come intervento sulla copertura, "
               "non come nuovo algoritmo. I calendari di aggiornamento possono differire fra "
