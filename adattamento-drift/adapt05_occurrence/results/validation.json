@@ -1,0 +1,33 @@
+{
+  "schema": "adapt05-analysis-validation-v1",
+  "complete": true,
+  "expected_reports": 30,
+  "reports": 30,
+  "datasets": [
+    "ton",
+    "unsw"
+  ],
+  "seeds": [
+    42,
+    43,
+    44,
+    45,
+    46
+  ],
+  "salts": [
+    "default",
+    "salt1",
+    "salt2"
+  ],
+  "source_commit": "3d4b4cb6f4ca08f7095785dc433c43919b4dc85f",
+  "report_checks": 22215,
+  "coverage_checks": 240,
+  "all_results_retained": true,
+  "figures": [
+    "coverage_paired.png",
+    "operating_points.png",
+    "paired_head_effect.png",
+    "temporal_head_effect.png",
+    "update_counts.png"
+  ]
+}

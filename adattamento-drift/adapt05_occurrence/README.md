@@ -56,3 +56,8 @@ combinazioni e produce tabelle, differenze appaiate, copertura, andamento
 temporale e figure; `package_campaign.py` genera manifest e archivio
 deterministico. Comandi e ambiente sono descritti in
 [`REPRODUCTION.md`](REPRODUCTION.md).
+
+La campagna completa eseguita al commit `3d4b4cb` e' documentata in
+[`results/`](results/README.md). Git conserva rapporto, tabelle aggregate,
+figure, stato della matrice e hash; i 30 JSON completi restano nell'archivio
+esterno indicato in quella directory.
