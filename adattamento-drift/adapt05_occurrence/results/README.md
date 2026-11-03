@@ -29,7 +29,7 @@ registra ambiente, comandi, tempi e SHA di ciascuna cella.
 - esecuzione: [GitHub Actions 41715167666](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41715167666).
 
 Lo ZIP non e' conservato in Git. La copia locale esterna si trova in
-`archivio_esterno/adapt05_occurrence/3d4b4cb/`; il file
+`adattamento-drift/archivio_esterno/adapt05_occurrence/3d4b4cb/`; il file
 `adapt05_occurrence_full.zip.sha256` e il manifest completo sono conservati qui
 per il controllo della consegna. I comandi di ricostruzione sono in
 [`../REPRODUCTION.md`](../REPRODUCTION.md).
