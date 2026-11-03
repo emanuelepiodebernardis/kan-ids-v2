@@ -14882,8 +14882,8 @@
       }
     }
   ],
-  "elapsed_seconds": 1.7100308770000083,
-  "commit": "012a9a386d5a0efafe55e2017cb1c205661261a7",
+  "elapsed_seconds": 1.61118099600003,
+  "commit": "e6c939c6860f39d63c6677de85c1626c61e4e668",
   "input_identity": {
     "status": "PASS",
     "rows": 1016018,
@@ -14899,20 +14899,58 @@
       "t_end": "37b06c1e341b57d98074c08cc9cf06a16116f947ddee21126e4ca6f0ee932a23",
       "tipi": "16b21348b11ddefec4d702d249ef25e3ca96e3a03399f7ceb4abcad41299795d"
     },
+    "array_shapes": {
+      "X": [
+        1016018,
+        8
+      ],
+      "y": [
+        1016018
+      ],
+      "tipo": [
+        1016018
+      ],
+      "row_id": [
+        1016018
+      ],
+      "frt": [
+        1016018
+      ],
+      "t_start": [
+        1016018
+      ],
+      "t_end": [
+        1016018
+      ],
+      "tipi": [
+        10
+      ]
+    },
+    "array_dtypes": {
+      "X": "float32",
+      "y": "uint8",
+      "tipo": "int16",
+      "row_id": "int64",
+      "frt": "float64",
+      "t_start": "float64",
+      "t_end": "float64",
+      "tipi": "<U14"
+    },
+    "row_id_unique": true,
     "reconstructed_npz_sha256": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db",
     "archived_npz_sha256": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db",
     "container_note": "NPZ container bytes may differ after deterministic array reconstruction; scientific identity is enforced on every named array"
   },
   "model_sha256": "fbd7699d34efd0f95707067f4eb7925db0023c2cd4e9a7e9d4783052e853dac7",
   "source_sha256": {
-    "runner.py": "76c3891cba6dada5d1a1e1f787e3fecc304b6f2393ca8718f9845e751f15efb6",
+    "runner.py": "fe4ad3d15b8b57e5ddf4f997a34f89391e54b2c0cf5b972b8e0530a0308f0522",
     "roles.py": "d7b800d90afd866f26269320ac4110f945d802b1d8b922e258f78d9a9973528d",
     "PROTOCOL.md": "41aa95196c3d4f29f0f1ab8f8fc0377c36d9728cf4624a1bab7deebf2df66561"
   },
   "environment": {
     "python": "3.12.14",
     "numpy": "2.3.5",
-    "platform": "Linux-7.0.0-1017-azure-x86_64-with-glibc2.43",
+    "platform": "Linux-7.0.0-1019-azure-x86_64-with-glibc2.43",
     "machine": "x86_64",
     "processor": "",
     "threadpools": [
