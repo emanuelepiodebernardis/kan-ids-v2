@@ -45,7 +45,8 @@ python adattamento-drift/adapt05_occurrence/package_campaign.py `
   --root <campaign> --out <archive>/adapt05_occurrence_full.zip
 ```
 
-Il workflow `.github/workflows/adapt05-campaign.yml` esegue gli stessi passi.
+Il workflow `.github/workflows/adapt05-smoke-linux.yml`, avviato con modalità
+`campaign`, esegue gli stessi passi.
 I cinque seed sono randomizzazioni condizionate ai due stream e non cinque
 catture indipendenti. Nessun risultato viene escluso in base al segno o alla
 significatività dell'effetto.
