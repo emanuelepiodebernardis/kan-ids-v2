@@ -161,6 +161,36 @@ def test_missing_class_is_not_eligible_for_calibration():
     assert runner.eligible(np.asarray([0] * 5 + [1] * 5, dtype=np.uint8))
 
 
+def test_all256_archive_check_uses_retained_not_age_eligible_counts():
+    memory = runner.replay.MemoriaReplay(4, "per_classe")
+    X = sample_features(4)
+    y = np.asarray([0, 0, 1, 1], dtype=np.uint8)
+    memory.aggiungi(X, y, blocco_arrivo=0)
+
+    _, eligible_y, eligible_age, snapshot = runner.all256_snapshot(
+        memory, current_block=runner.MAX_AGE + 1
+    )
+
+    assert len(eligible_y) == 0
+    assert len(eligible_age) == 0
+    assert snapshot == {
+        "retained_size": 4,
+        "retained_normal": 2,
+        "retained_attack": 2,
+        "eligible_size": 0,
+        "eligible_normal": 0,
+        "eligible_attack": 0,
+        "eligible_age_max": None,
+        "normal": 0,
+        "attack": 0,
+        "age_max": None,
+        "updated": False,
+    }
+    runner.verify_archived_all256(snapshot, {"size": 4, "normal": 2}, 77)
+    with pytest.raises(AssertionError, match="retained ALL256 counts"):
+        runner.verify_archived_all256(snapshot, {"size": 4, "normal": 1}, 77)
+
+
 def test_partial_final_block_keeps_budget_and_row_identity():
     n = 1_337
     chosen = runner.experiment.query_indices(n, 42, 99, runner.BUDGET)

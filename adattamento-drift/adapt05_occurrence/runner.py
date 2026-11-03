@@ -85,6 +85,53 @@ def eligible(labels: np.ndarray) -> bool:
     return all(int((labels == value).sum()) >= MINIMUM_PER_CLASS for value in (0, 1))
 
 
+def all256_snapshot(
+    memory: replay.MemoriaReplay, current_block: int
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, dict]:
+    """Separate retained-buffer state from the age-eligible CAL view.
+
+    The archived calibration audit records the physical 256-slot buffer,
+    whereas calibration excludes observations older than ``MAX_AGE``. The two
+    views can first differ during a long class drought and must not be compared
+    as if they represented the same population.
+    """
+    eligible_X, eligible_y, eligible_age = memory.array_ammissibile(
+        current_block, MAX_AGE
+    )
+    _, retained_y = memory.array()
+    snapshot = {
+        "retained_size": int(len(retained_y)),
+        "retained_normal": int((retained_y == 0).sum()),
+        "retained_attack": int((retained_y == 1).sum()),
+        "eligible_size": int(len(eligible_y)),
+        "eligible_normal": int((eligible_y == 0).sum()),
+        "eligible_attack": int((eligible_y == 1).sum()),
+        "eligible_age_max": int(eligible_age.max()) if len(eligible_age) else None,
+        # Backward-compatible aliases used by the 30-block smoke schema.
+        "normal": int((eligible_y == 0).sum()),
+        "attack": int((eligible_y == 1).sum()),
+        "age_max": int(eligible_age.max()) if len(eligible_age) else None,
+        "updated": bool(eligible(eligible_y)),
+    }
+    return eligible_X, eligible_y, eligible_age, snapshot
+
+
+def verify_archived_all256(snapshot: dict, archived: dict, block_index: int) -> None:
+    """Compare like-for-like retained-buffer counts with the archived audit."""
+    expected_size = int(archived["size"])
+    expected_normal = int(archived["normal"])
+    if (
+        snapshot["retained_size"] != expected_size
+        or snapshot["retained_normal"] != expected_normal
+    ):
+        observed = (snapshot["retained_size"], snapshot["retained_normal"])
+        expected = (expected_size, expected_normal)
+        raise AssertionError(
+            f"block {block_index}: retained ALL256 counts {observed} "
+            f"differ from archived counts {expected}"
+        )
+
+
 def assignment_sha(assignment: RoleAssignments) -> str:
     h = hashlib.sha256()
     for role, observation, vector, decision in zip(
@@ -453,26 +500,19 @@ def run(
                 "modes": {},
             }
             all_memory.aggiungi(transform(X[arrived]), y[arrived], ready)
-            all_X, all_y, all_age = all_memory.array_ammissibile(block_index, MAX_AGE)
+            all_X, all_y, _all_age, all_snapshot = all256_snapshot(
+                all_memory, block_index
+            )
             if eligible(all_y):
                 all_grid = cutoff_grid(
                     model.rappresentazione(all_X) @ p0[:-1] + p0[-1], all_y
                 )
                 update_counts["frozen_all256"] += 1
-            block["feedback"]["all256"] = {
-                "normal": int((all_y == 0).sum()),
-                "attack": int((all_y == 1).sum()),
-                "age_max": int(all_age.max()) if len(all_age) else None,
-                "updated": bool(eligible(all_y)),
-            }
+            block["feedback"]["all256"] = all_snapshot
             if previous is not None:
                 old_all = old.get("all_memory")
                 if old_all is not None:
-                    current_all = block["feedback"]["all256"]
-                    if current_all["normal"] != old_all["normal"] or len(all_y) != old_all["size"]:
-                        raise AssertionError(
-                            f"block {block_index}: ALL256 counts differ from archived report"
-                        )
+                    verify_archived_all256(all_snapshot, old_all, block_index)
                     compatibility["all256_counts_exact"] += 2
             arrived_transformed = transform(X[arrived])
             for mode in ROLE_MODES:

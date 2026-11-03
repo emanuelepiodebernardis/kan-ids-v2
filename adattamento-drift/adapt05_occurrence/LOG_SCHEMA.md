@@ -20,3 +20,10 @@ Ogni JSON è UTF-8, schema `adapt05-occurrence-roles-v1`, e registra:
 Le confusion matrix sono ordinate `[TN, FP, FN, TP]`. I log contengono digest e
 conteggi, non le feature o le label complete. I JSON di valutazione sono output
 offline e non fanno parte dello stato accessibile al learner.
+
+Nel controllo `ALL256`, i campi `retained_*` descrivono il buffer fisicamente
+conservato e sono confrontati con l'audit storico. I campi `eligible_*`
+descrivono invece il sottoinsieme con eta' non superiore a 50 usato per la
+ricalibrazione. Le due viste possono differire durante una lunga assenza di una
+classe e non sono intercambiabili. I precedenti campi `normal`, `attack` e
+`age_max` restano alias retrocompatibili della vista `eligible_*`.
