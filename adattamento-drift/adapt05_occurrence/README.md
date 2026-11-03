@@ -47,3 +47,12 @@ come identita' byte per byte.
 
 I due rendiconti consegnati, gli hash, l'esito della compatibilità e la stima
 dei tempi della matrice completa sono in [`smoke/`](smoke/README.md).
+
+## Campagna completa
+
+Dopo l'approvazione del checkpoint `e030bd8`, la matrice congelata si esegue
+con `campaign.py` in una directory nuova. `analyze.py` valida tutte le 30
+combinazioni e produce tabelle, differenze appaiate, copertura, andamento
+temporale e figure; `package_campaign.py` genera manifest e archivio
+deterministico. Comandi e ambiente sono descritti in
+[`REPRODUCTION.md`](REPRODUCTION.md).
