@@ -11,9 +11,11 @@ on:
         options:
           - smoke
           - campaign
+          - reanalyze
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   smoke:
@@ -177,6 +179,100 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: adapt05-complete-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/adapt05/campaign
+            ${{ runner.temp }}/adapt05/archive
+          if-no-files-found: error
+          retention-days: 30
+
+  reanalyze:
+    if: inputs.mode == 'reanalyze'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      OPENBLAS_NUM_THREADS: "1"
+      OMP_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      PYTHONHASHSEED: "0"
+      VERIFIED_ARCHIVE_SHA256: "01220c7e09936fa762dd6f87d03e5d76856649bb2227269c1312f5b0ea8c743d"
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.14"
+          cache: pip
+          cache-dependency-path: adattamento-drift/review_extension/requirements.txt
+
+      - name: Install pinned environment
+        run: python -m pip install -r adattamento-drift/review_extension/requirements.txt
+
+      - name: Run targeted tests
+        run: >-
+          python -m pytest -q
+          adattamento-drift/adapt05_occurrence/test_runner.py
+          adattamento-drift/adapt05_occurrence/test_campaign_analysis.py
+          adattamento-drift/review_extension/test_experiment.py
+          adattamento-drift/review_extension/review2/test_runner.py
+          adattamento-drift/review_extension/review3/test_matched_memory.py
+          adattamento-drift/review_extension/calibration_audit/test_calibration_audit.py
+          adattamento-drift/ton_temporal/test_calibrazione_recente.py
+          adattamento-drift/ton_temporal/test_soglia.py
+          adattamento-drift/ton_temporal/test_replay_validazione_finale.py
+
+      - name: Restore the verified campaign package
+        run: |
+          gh run download 41715167666 \
+            --repo emanuelepiodebernardis/kan-ids-v2 \
+            --name adapt05-complete-3d4b4cb6f4ca08f7095785dc433c43919b4dc85f \
+            --dir "$RUNNER_TEMP/adapt05/restored"
+          echo "$VERIFIED_ARCHIVE_SHA256  $RUNNER_TEMP/adapt05/restored/archive/adapt05_occurrence_full.zip" | sha256sum --check
+          mv "$RUNNER_TEMP/adapt05/restored/campaign" \
+            "$RUNNER_TEMP/adapt05/campaign"
+
+      - name: Fetch versioned public mirrors
+        run: |
+          mkdir -p "$RUNNER_TEMP/adapt05/downloads"
+          python adattamento-drift/review_extension/fetch_data.py ton \
+            --out "$RUNNER_TEMP/adapt05/downloads"
+          python adattamento-drift/review_extension/fetch_data.py unsw \
+            --out "$RUNNER_TEMP/adapt05/downloads"
+
+      - name: Reconstruct and verify Paper-2 arrays
+        run: |
+          python adattamento-drift/review_extension/prepare_data.py ton \
+            --raw "$RUNNER_TEMP/adapt05/downloads/ton_raw" \
+            --out "$RUNNER_TEMP/adapt05/data/ton"
+          python adattamento-drift/review_extension/prepare_data.py unsw \
+            --raw "$RUNNER_TEMP/adapt05/downloads/unsw_raw" \
+            --out "$RUNNER_TEMP/adapt05/data/unsw"
+
+      - name: Regenerate analysis without fit or replay
+        run: |
+          python adattamento-drift/adapt05_occurrence/analyze.py \
+            --reports "$RUNNER_TEMP/adapt05/campaign/reports" \
+            --data-root "$RUNNER_TEMP/adapt05/data" \
+            --out "$RUNNER_TEMP/adapt05/campaign/analysis"
+          cp adattamento-drift/adapt05_occurrence/REPRODUCTION.md \
+            "$RUNNER_TEMP/adapt05/campaign/REPRODUCTION.md"
+          mkdir -p "$RUNNER_TEMP/adapt05/campaign/source"
+          cp adattamento-drift/adapt05_occurrence/{PROTOCOL.md,MATRIX.csv,LOG_SCHEMA.md,README.md,REPRODUCTION.md,runner.py,roles.py,campaign.py,analyze.py,package_campaign.py} \
+            "$RUNNER_TEMP/adapt05/campaign/source/"
+          cp adattamento-drift/review_extension/requirements.txt \
+            "$RUNNER_TEMP/adapt05/campaign/source/requirements.txt"
+
+      - name: Package finalized evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/adapt05/archive"
+          python adattamento-drift/adapt05_occurrence/package_campaign.py \
+            --root "$RUNNER_TEMP/adapt05/campaign" \
+            --out "$RUNNER_TEMP/adapt05/archive/adapt05_occurrence_full_finalized.zip"
+
+      - name: Upload finalized package
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapt05-finalized-${{ github.sha }}
           path: |
             ${{ runner.temp }}/adapt05/campaign
             ${{ runner.temp }}/adapt05/archive

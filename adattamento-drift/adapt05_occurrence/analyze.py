@@ -106,17 +106,26 @@ def main_metric_rows(reports: list[dict]) -> tuple[pd.DataFrame, pd.DataFrame]:
     return pd.DataFrame(metrics), pd.DataFrame(blocks)
 
 
-def coverage_rows(data_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, int]:
+def coverage_rows(
+    data_root: Path,
+    pending_by_cell: dict[tuple[str, int, str], int] | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame, int]:
+    """Return retrospective stream-wide coverage and per-vector detail.
+
+    The denominator contains every requested normal occurrence in D, including
+    requests from the terminal block whose labels were still pending when the
+    online replay ended.  This cumulative diagnostic is deliberately separate
+    from the bounded CAL64 state available to the learner in any one block.
+    """
     coverage = []
-    types = []
+    vectors_detail = []
     checks = 0
+    pending_by_cell = pending_by_cell or {}
     for dataset in DATASETS:
         with np.load(data_root / dataset / "D.npz", allow_pickle=False) as stream:
             X = stream["X"]
             y = stream["y"]
             row_id = stream["row_id"]
-            type_id = stream["tipo"]
-            type_names = stream["tipi"]
         for seed in range(42, 47):
             selected_parts = []
             for block, start in enumerate(range(0, len(y), runner.BLOCK_SIZE)):
@@ -146,6 +155,9 @@ def coverage_rows(data_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, int]:
                         "seed": seed,
                         "salt": salt_name,
                         "mode": mode,
+                        "pending_label_requests": pending_by_cell.get(
+                            (dataset, seed, salt_name), 0
+                        ),
                         "normal_requests": int(normal.sum()),
                         "calibration_normal_requests": int((assigned == "calibration").sum()),
                         "calibration_observation_fraction": float(
@@ -157,27 +169,148 @@ def coverage_rows(data_root: Path) -> tuple[pd.DataFrame, pd.DataFrame, int]:
                         if frequencies else np.nan,
                         "frequency_weighted_vector_coverage": weighted,
                     })
-                    normal_types = type_id[selected][normal]
-                    for rank, (kind, count) in enumerate(
-                        Counter(normal_types.tolist()).most_common(), start=1
+                    for rank, (vector, count) in enumerate(
+                        frequencies.most_common(), start=1
                     ):
-                        mask = normal_types == kind
+                        mask = vectors == vector
                         cal = int((assigned[mask] == "calibration").sum())
-                        types.append({
+                        vectors_detail.append({
                             "dataset": dataset,
                             "seed": seed,
                             "salt": salt_name,
                             "mode": mode,
-                            "type_id": int(kind),
-                            "type_name": str(type_names[int(kind)]),
+                            "vector_digest": vector,
                             "frequency_rank": rank,
                             "normal_requests": count,
-                            "calibration_requests": cal,
+                            "calibration_assignments": cal,
+                            "fit_assignments": count - cal,
                             "calibration_fraction": cal / count,
                             "excluded_from_calibration": cal == 0,
+                            "repeated_within_requested_D": count > 1,
                         })
                     checks += 4
-    return pd.DataFrame(coverage), pd.DataFrame(types), checks
+    detail = pd.DataFrame(vectors_detail)
+    grouped = detail.groupby(
+        ["dataset", "mode", "vector_digest"], as_index=False
+    ).agg(
+        seed_salt_cells=("normal_requests", "size"),
+        total_normal_requests=("normal_requests", "sum"),
+        calibration_assignments=("calibration_assignments", "sum"),
+        fit_assignments=("fit_assignments", "sum"),
+        cells_excluded_from_calibration=("excluded_from_calibration", "sum"),
+    )
+    grouped["calibration_fraction"] = (
+        grouped.calibration_assignments / grouped.total_normal_requests
+    )
+    grouped["excluded_from_calibration_all_cells"] = (
+        grouped.calibration_assignments == 0
+    )
+    grouped["repeated_within_requested_D"] = (
+        grouped.total_normal_requests > grouped.seed_salt_cells
+    )
+    grouped["frequency_rank"] = grouped.groupby(["dataset", "mode"])[
+        "total_normal_requests"
+    ].rank(method="first", ascending=False).astype(int)
+    grouped = grouped.sort_values(
+        ["dataset", "mode", "frequency_rank", "vector_digest"]
+    )
+    columns = [
+        "dataset", "mode", "vector_digest", "frequency_rank",
+        "seed_salt_cells", "total_normal_requests", "calibration_assignments",
+        "fit_assignments", "calibration_fraction",
+        "cells_excluded_from_calibration", "excluded_from_calibration_all_cells",
+        "repeated_within_requested_D",
+    ]
+    return pd.DataFrame(coverage), grouped[columns], checks
+
+
+def calibration_memory_rows(reports: list[dict]) -> pd.DataFrame:
+    """Extract the bounded CAL64 state actually logged after each feedback."""
+    rows = []
+    for report in reports:
+        common = {
+            "dataset": report["dataset"],
+            "seed": report["seed_model_query"],
+            "salt": report["role_salt_name"],
+        }
+        for block in report["per_block"]:
+            feedback = block.get("feedback")
+            if not feedback:
+                continue
+            for mode in MODES:
+                state = feedback["modes"][mode]["memory"]["cal64"]
+                rows.append({
+                    **common,
+                    "mode": mode,
+                    "block": block["block"],
+                    "labels_from_block": feedback["from_block"],
+                    "size": state["size"],
+                    "normal": state["normal"],
+                    "attack": state["attack"],
+                    "recent_normal": state["recent_normal"],
+                    "recent_attack": state["recent_attack"],
+                    "eligible_age_min": state["age_min"],
+                    "eligible_age_max": state["age_max"],
+                    "no_normal": state["normal"] == 0,
+                    "no_recent_normal": state["recent_normal"] == 0,
+                })
+    return pd.DataFrame(rows)
+
+
+def update_status_rows(reports: list[dict]) -> pd.DataFrame:
+    rows = []
+    for report in reports:
+        for mode in MODES:
+            statuses = Counter(
+                block["feedback"]["modes"][mode]["status"]
+                for block in report["per_block"] if block.get("feedback")
+            )
+            for status, count in sorted(statuses.items()):
+                rows.append({
+                    "dataset": report["dataset"],
+                    "seed": report["seed_model_query"],
+                    "salt": report["role_salt_name"],
+                    "mode": mode,
+                    "status": status,
+                    "blocks": count,
+                    "is_update": status == "applied",
+                })
+    return pd.DataFrame(rows)
+
+
+def adherence_rows() -> pd.DataFrame:
+    """Map every analysis preregistered in PROTOCOL.md to a delivered output."""
+    rows = [
+        ("Recall, FPR raggiunto, FP, FN e BA", "complete",
+         "summary.csv; per_cell_metrics.csv; REPORT.md", "Metriche globali per tutte le politiche."),
+        ("Violazioni dei target FPR", "complete",
+         "REPORT.md; operating_points.png", "Sono usati i valori raggiunti, non i target nominali."),
+        ("Andamento temporale e primi blocchi separati", "complete",
+         "block_metrics.csv; early_block_metrics.csv; temporal_head_effect.png", "I primi 30 blocchi sono esportati senza riaggregazione post hoc."),
+        ("Confronti a FPR raggiunto comune", "not_estimable",
+         "none", "La griglia discreta non definisce tolleranza o interpolazione preregistrata; nessun confronto post hoc e' introdotto."),
+        ("Copertura ponderata dei vettori normali", "complete",
+         "coverage.csv; coverage_paired.png", "Diagnostica cumulativa retrospettiva sull'intero stream, incluse le label terminali pendenti."),
+        ("Vettori normali frequenti esclusi da CAL", "complete",
+         "type_coverage.csv", "Una riga per dataset, modalita' e digest, aggregata sulle 15 celle seed/sale."),
+        ("Normali disponibili ed eta' CAL64", "partial",
+         "cal64_memory_by_block.csv; cal64_memory.png", "I log danno conteggi normali e intervallo d'eta' dell'intera vista ammissibile; non serializzano l'eta' per classe."),
+        ("Ricambio esatto della memoria", "not_estimable",
+         "none", "I report non serializzano gli observation_id trattenuti per blocco, quindi ingressi ed espulsioni individuali non sono ricostruibili dai log."),
+        ("Update e skip", "complete",
+         "update_status.csv; updates_and_costs.csv", "Tutti gli stati registrati sono conservati."),
+        ("Costi", "complete",
+         "updates_and_costs.csv; REPORT.md", "Tempi osservati del replay, non benchmark seriali."),
+        ("Visto/non visto in A/B", "not_estimable",
+         "none", "I report consegnati non contengono un inventario di digest A/B; non viene inferito senza una regola aggiuntiva."),
+        ("Ripetizioni interne a D", "complete",
+         "type_coverage.csv", "La frequenza del digest distingue vettori singoli e ripetuti tra le richieste normali."),
+        ("Dispersione tra seed e sali", "complete",
+         "dispersion.csv", "Le due fonti di variabilita' sono separate."),
+        ("Conservazione di tutti gli esiti", "complete",
+         "30 JSON; validation.json; manifest", "Nessun esito e' filtrato per segno o significativita'."),
+    ]
+    return pd.DataFrame(rows, columns=("planned_analysis", "status", "outputs", "note"))
 
 
 def paired_tables(metrics: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
@@ -227,6 +360,7 @@ def save_figures(
     coverage: pd.DataFrame,
     paired: pd.DataFrame,
     updates: pd.DataFrame,
+    memory: pd.DataFrame,
 ) -> None:
     figures = out / "figures"
     figures.mkdir(parents=True, exist_ok=True)
@@ -246,7 +380,7 @@ def save_figures(
                   color="#12677A", linewidth=2.5, markersize=7, label="Mean")
         axis.set_xticks([0, 1], ["Vector", "Observation"])
         axis.set_title(dataset.upper())
-        axis.set_ylabel("Frequency-weighted normal-vector coverage (%)")
+        axis.set_ylabel("Cumulative frequency-weighted normal-vector coverage (%)")
         axis.grid(axis="y", alpha=.2)
     fig.tight_layout()
     fig.savefig(figures / "coverage_paired.png", dpi=190, metadata=metadata)
@@ -360,14 +494,47 @@ def save_figures(
     fig.savefig(figures / "update_counts.png", dpi=190, metadata=metadata)
     plt.close(fig)
 
+    fig, axes = plt.subplots(2, 2, figsize=(10, 6.6))
+    mode_styles = {
+        "vector": ("#12677A", "Vector"),
+        "occurrence": ("#A35624", "Observation"),
+    }
+    for row_index, dataset in enumerate(DATASETS):
+        subset = memory[memory.dataset == dataset]
+        for mode, (color, label) in mode_styles.items():
+            values = subset[subset["mode"] == mode]
+            normal = values.groupby("block").normal.mean()
+            age = values.groupby("block").eligible_age_max.mean()
+            axes[row_index, 0].plot(normal.index, normal, color=color, label=label)
+            axes[row_index, 1].plot(age.index, age, color=color, label=label)
+        axes[row_index, 0].set_ylabel(f"{dataset.upper()}\nnormal samples")
+        axes[row_index, 1].set_ylabel(f"{dataset.upper()}\nmax eligible age (blocks)")
+        for axis in axes[row_index]:
+            axis.set_xlabel("Block after feedback")
+            axis.grid(alpha=.2)
+    axes[0, 0].set_title("Physical CAL64 normal occupancy")
+    axes[0, 1].set_title("Age envelope of eligible CAL64 samples")
+    fig.legend(*axes[0, 0].get_legend_handles_labels(), loc="lower center",
+               ncol=2, frameon=False, bbox_to_anchor=(.5, .035))
+    fig.text(
+        .5, .012,
+        "Lines are block-wise means across 15 seed/salt cells. Age is logged for "
+        "the whole eligible CAL64 view, not separately by class.",
+        ha="center", fontsize=8, color=".3",
+    )
+    fig.tight_layout(rect=(0, .09, 1, 1))
+    fig.savefig(figures / "cal64_memory.png", dpi=190, metadata=metadata)
+    plt.close(fig)
+
 
 def write_report(
     out: Path,
     metrics: pd.DataFrame,
     coverage: pd.DataFrame,
-    types: pd.DataFrame,
     paired: pd.DataFrame,
     updates: pd.DataFrame,
+    memory: pd.DataFrame,
+    adherence: pd.DataFrame,
     commit: str,
 ) -> None:
     lines = [
@@ -378,6 +545,12 @@ def write_report(
         "TON e UNSW restano due stream di sviluppo; i cinque seed non sono cinque catture.",
         "",
         "## Copertura della calibrazione",
+        "",
+        "La copertura qui riportata e' una diagnostica cumulativa retrospettiva: "
+        "il denominatore comprende tutte le richieste normali dell'intero stream, "
+        "incluse quelle del blocco terminale la cui label era ancora pendente alla "
+        "chiusura del replay. Non descrive la CAL64 online, che e' limitata, soggetta "
+        "a espulsione e disponibile soltanto dopo il ritardo causale.",
         "",
         "| Dataset | Ruolo | Copertura vettori normali ponderata | Copertura vettori unici | Normali assegnati a CAL |",
         "|---|---|---:|---:|---:|",
@@ -393,8 +566,38 @@ def write_report(
                 f"{100*group.unique_vector_coverage.std(ddof=1):.2f} | "
                 f"{100*group.calibration_observation_fraction.mean():.2f}% |"
             )
-    lines += ["", "I tipi di traffico sono elencati per frequenza in `type_coverage.csv`; "
-              "l'esclusione da CAL è riportata senza introdurre una soglia post hoc.",
+    pending = coverage.drop_duplicates(["dataset", "seed", "salt"])
+    lines += ["", f"Le label ancora pendenti alla chiusura sono "
+              f"{int(pending.pending_label_requests.min())}–"
+              f"{int(pending.pending_label_requests.max())} richieste per combinazione; "
+              "sono incluse soltanto nella diagnostica retrospettiva cumulativa.",
+              "", "I digest dei vettori normali sono elencati per frequenza in "
+              "`type_coverage.csv`; assegnazioni CAL/FIT ed esclusione da CAL sono "
+              "aggregate sulle 15 celle seed/sale di ciascun dataset e modalita', "
+              "senza introdurre una soglia post hoc.",
+              "", "## Stato CAL64 disponibile online", "",
+              "Le righe seguenti sintetizzano gli snapshot registrati dopo il feedback. "
+              "Lo snapshot del blocco k diventa utilizzabile dalle predizioni del blocco "
+              "k+1, non da quelle gia' emesse in k. "
+              "`normal` conta i normali fisicamente presenti in CAL64; `recent_normal` "
+              "conta quelli entro l'eta' massima di 50 blocchi. L'intervallo d'eta' "
+              "registrato riguarda l'intera vista ammissibile (normali e attacchi): i "
+              "log non conservano l'eta' separata per classe.", "",
+              "| Dataset | Ruolo | Normali presenti | Normali recenti | Blocchi senza normali | Eta' massima ammissibile |",
+              "|---|---|---:|---:|---:|---:|"]
+    for dataset in DATASETS:
+        for mode in MODES:
+            group = memory[(memory.dataset == dataset) & (memory["mode"] == mode)]
+            lines.append(
+                f"| {dataset.upper()} | {mode} | "
+                f"{group.normal.mean():.2f} ± {group.normal.std(ddof=1):.2f} | "
+                f"{group.recent_normal.mean():.2f} ± {group.recent_normal.std(ddof=1):.2f} | "
+                f"{int(group.no_normal.sum())}/{len(group)} | "
+                f"{group.eligible_age_max.median():.1f} "
+                f"[{group.eligible_age_max.min():.0f}, {group.eligible_age_max.max():.0f}] |"
+            )
+    lines += ["", "La serie completa per blocco e' in `cal64_memory_by_block.csv`; "
+              "`cal64_memory.png` ne mostra occupazione normale e inviluppo d'eta'.",
               "", "## Vantaggio residuo della testa", "",
               "Differenze appaiate head − frozen, medie sulle 15 combinazioni di ciascun dataset:",
               "", "| Dataset | Ruolo | Obiettivo | Δ recall | Δ FPR | Δ BA |",
@@ -437,6 +640,14 @@ def write_report(
         )
     lines += ["", "I tempi sono misurati dal runner Linux con due celle concorrenti e "
               "descrivono questa esecuzione; non sono benchmark seriali.", "",
+              "## Aderenza alle analisi previste", "",
+              "La tabella completa, inclusi i riferimenti agli output, e' in "
+              "`analysis_adherence.csv`.", "",
+              "| Analisi prevista | Stato | Nota |", "|---|---|---|"]
+    for row in adherence.itertuples(index=False):
+        note = str(row.note).replace("|", "\\|")
+        lines.append(f"| {row.planned_analysis} | {row.status} | {note} |")
+    lines += ["",
               "## Interpretazione e limiti", "",
               "Il cambio di chiave FIT/CAL viene interpretato come intervento sulla copertura, "
               "non come nuovo algoritmo. I calendari di aggiornamento possono differire fra "
@@ -462,20 +673,53 @@ def main(argv: list[str] | None = None) -> None:
         raise AssertionError("campaign reports do not share one frozen commit")
     checks = sum(validate_report(report) for report in reports)
     metrics, block_metrics = main_metric_rows(reports)
-    coverage, type_coverage, coverage_checks = coverage_rows(args.data_root)
+    pending_by_cell = {
+        (report["dataset"], report["seed_model_query"], report["role_salt_name"]):
+        report["pending_labels"]
+        for report in reports
+    }
+    coverage, type_coverage, coverage_checks = coverage_rows(
+        args.data_root, pending_by_cell
+    )
     paired, role_effect = paired_tables(metrics)
     updates = update_rows(reports)
-    metrics.to_csv(args.out / "per_cell_metrics.csv", index=False)
-    block_metrics.to_csv(args.out / "block_metrics.csv", index=False)
-    coverage.to_csv(args.out / "coverage.csv", index=False)
-    type_coverage.to_csv(args.out / "type_coverage.csv", index=False)
-    paired.to_csv(args.out / "paired_head_vs_frozen.csv", index=False)
-    role_effect.to_csv(args.out / "paired_occurrence_vs_vector.csv", index=False)
-    updates.to_csv(args.out / "updates_and_costs.csv", index=False)
+    memory = calibration_memory_rows(reports)
+    update_status = update_status_rows(reports)
+    adherence = adherence_rows()
+    metrics.to_csv(args.out / "per_cell_metrics.csv", index=False, lineterminator="\n")
+    block_metrics.to_csv(
+        args.out / "block_metrics.csv", index=False, lineterminator="\n"
+    )
+    coverage.to_csv(args.out / "coverage.csv", index=False, lineterminator="\n")
+    type_coverage.to_csv(
+        args.out / "type_coverage.csv", index=False, lineterminator="\n"
+    )
+    memory.to_csv(
+        args.out / "cal64_memory_by_block.csv", index=False, lineterminator="\n"
+    )
+    update_status.to_csv(
+        args.out / "update_status.csv", index=False, lineterminator="\n"
+    )
+    adherence.to_csv(
+        args.out / "analysis_adherence.csv", index=False, lineterminator="\n"
+    )
+    block_metrics[block_metrics.block < 30].to_csv(
+        args.out / "early_block_metrics.csv", index=False, lineterminator="\n"
+    )
+    paired.to_csv(
+        args.out / "paired_head_vs_frozen.csv", index=False, lineterminator="\n"
+    )
+    role_effect.to_csv(
+        args.out / "paired_occurrence_vs_vector.csv", index=False,
+        lineterminator="\n",
+    )
+    updates.to_csv(
+        args.out / "updates_and_costs.csv", index=False, lineterminator="\n"
+    )
     summary = metrics.groupby(["dataset", "mode", "score", "objective"])[
         ["recall", "fpr", "ba", "fp", "fn"]
     ].agg(["mean", "std"])
-    summary.to_csv(args.out / "summary.csv")
+    summary.to_csv(args.out / "summary.csv", lineterminator="\n")
     dispersion = []
     for key, group in metrics.groupby(["dataset", "mode", "score", "objective"]):
         seed_means = group.groupby("seed")[["recall", "fpr", "ba"]].mean()
@@ -485,12 +729,17 @@ def main(argv: list[str] | None = None) -> None:
             row[f"seed_std_{metric}"] = seed_means[metric].std(ddof=1)
             row[f"salt_std_{metric}"] = salt_means[metric].std(ddof=1)
         dispersion.append(row)
-    pd.DataFrame(dispersion).to_csv(args.out / "dispersion.csv", index=False)
-    save_figures(args.out, metrics, block_metrics, coverage, paired, updates)
+    pd.DataFrame(dispersion).to_csv(
+        args.out / "dispersion.csv", index=False, lineterminator="\n"
+    )
+    save_figures(args.out, metrics, block_metrics, coverage, paired, updates, memory)
     commit = next(iter(commits))
-    write_report(args.out, metrics, coverage, type_coverage, paired, updates, commit)
+    write_report(
+        args.out, metrics, coverage, paired, updates, memory,
+        adherence, commit,
+    )
     validation = {
-        "schema": "adapt05-analysis-validation-v1",
+        "schema": "adapt05-analysis-validation-v2",
         "complete": True,
         "expected_reports": 30,
         "reports": len(reports),
@@ -500,6 +749,8 @@ def main(argv: list[str] | None = None) -> None:
         "source_commit": commit,
         "report_checks": checks,
         "coverage_checks": coverage_checks,
+        "cal64_memory_snapshots": len(memory),
+        "analysis_adherence_rows": len(adherence),
         "all_results_retained": True,
         "figures": sorted(path.name for path in (args.out / "figures").glob("*.png")),
     }

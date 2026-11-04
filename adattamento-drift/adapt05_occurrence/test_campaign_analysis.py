@@ -65,3 +65,70 @@ def test_package_is_deterministic_and_manifest_covers_files(tmp_path):
     assert "a.txt" in manifest.read_text(encoding="utf-8")
     with zipfile.ZipFile(first) as archive:
         assert archive.namelist() == ["MANIFEST.sha256", "a.txt", "nested/b.txt"]
+
+
+def test_cal64_memory_rows_keep_online_state_separate_from_coverage():
+    report = {
+        "dataset": "ton", "seed_model_query": 42, "role_salt_name": "default",
+        "per_block": [
+            {"block": 0},
+            {
+                "block": 1,
+                "feedback": {
+                    "from_block": 0,
+                    "modes": {
+                        mode: {
+                            "status": "applied",
+                            "memory": {"cal64": {
+                                "size": 8, "normal": 3, "attack": 5,
+                                "recent_normal": 2, "recent_attack": 5,
+                                "age_min": 1, "age_max": 4,
+                            }},
+                        }
+                        for mode in analyze.MODES
+                    },
+                },
+            },
+        ],
+    }
+    rows = analyze.calibration_memory_rows([report])
+    assert len(rows) == 2
+    assert set(rows["mode"]) == set(analyze.MODES)
+    assert set(rows.normal) == {3}
+    assert set(rows.recent_normal) == {2}
+    assert set(rows.eligible_age_max) == {4}
+    assert not rows.no_normal.any()
+
+
+def test_adherence_table_declares_missing_analyses_explicitly():
+    rows = analyze.adherence_rows()
+    assert {"complete", "partial", "not_estimable"}.issubset(set(rows.status))
+    common_fpr = rows[rows.planned_analysis.str.contains("FPR raggiunto comune")]
+    assert common_fpr.iloc[0].status == "not_estimable"
+    assert "none" == common_fpr.iloc[0].outputs
+
+
+def test_type_coverage_is_per_normal_vector_digest(tmp_path, monkeypatch):
+    dataset = tmp_path / "toy"
+    dataset.mkdir()
+    np.savez(
+        dataset / "D.npz",
+        X=np.asarray([[1.0] * 8, [1.0] * 8, [2.0] * 8, [9.0] * 8]),
+        y=np.asarray([0, 0, 0, 1]),
+        row_id=np.arange(4),
+    )
+    monkeypatch.setattr(analyze, "DATASETS", ("toy",))
+    monkeypatch.setattr(
+        analyze.runner.experiment, "query_indices",
+        lambda rows, _seed, _block, _budget: np.arange(rows),
+    )
+    coverage, detail, checks = analyze.coverage_rows(tmp_path)
+    assert len(coverage) == 5 * 3 * 2
+    assert checks == len(coverage) * 4
+    assert "vector_digest" in detail
+    assert "type_id" not in detail
+    assert set(detail.total_normal_requests) == {15, 30}
+    assert (detail.calibration_assignments + detail.fit_assignments ==
+            detail.total_normal_requests).all()
+    assert set(detail.seed_salt_cells) == {15}
+    assert detail[detail.total_normal_requests == 30].repeated_within_requested_D.all()

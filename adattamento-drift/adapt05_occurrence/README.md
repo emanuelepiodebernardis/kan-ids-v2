@@ -57,6 +57,15 @@ temporale e figure; `package_campaign.py` genera manifest e archivio
 deterministico. Comandi e ambiente sono descritti in
 [`REPRODUCTION.md`](REPRODUCTION.md).
 
+La copertura dei vettori normali e' una diagnostica cumulativa retrospettiva
+sulle richieste dell'intero stream, incluse le richieste terminali la cui label
+era ancora pendente al termine del replay. Non va confusa con CAL64: gli
+snapshot online limitati, i normali presenti e l'inviluppo d'eta' ammissibile
+sono esportati separatamente in `cal64_memory_by_block.csv`. La tabella
+`type_coverage.csv` e' indicizzata dal digest del vettore normale, non dal tipo
+di traffico, e aggrega frequenze e assegnazioni sulle 15 celle seed/sale di
+ciascun dataset e modalita'.
+
 La campagna completa eseguita al commit `3d4b4cb` e' documentata in
 [`results/`](results/README.md). Git conserva rapporto, tabelle aggregate,
 figure, stato della matrice e hash; i 30 JSON completi restano nell'archivio

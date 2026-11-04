@@ -50,3 +50,11 @@ Il workflow `.github/workflows/adapt05-smoke-linux.yml`, avviato con modalità
 I cinque seed sono randomizzazioni condizionate ai due stream e non cinque
 catture indipendenti. Nessun risultato viene escluso in base al segno o alla
 significatività dell'effetto.
+
+Per la finalizzazione interpretativa non si rieseguono fit o replay: si
+ripristinano i trenta JSON gia' consegnati in `<campaign>/reports`, si
+ricostruiscono soltanto gli array pubblici verificati e si rilancia
+`analyze.py`. Gli output distinguono la copertura cumulativa dell'intero stream
+dallo stato CAL64 disponibile online; `analysis_adherence.csv` collega ogni
+analisi prevista dal protocollo al prodotto consegnato e dichiara quelle non
+stimabili dai log esistenti.
