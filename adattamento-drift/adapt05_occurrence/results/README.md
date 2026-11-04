@@ -34,6 +34,8 @@ registra ambiente, comandi, tempi e SHA di ciascuna cella.
 - dimensione: 13.879.041 byte;
 - SHA-256:
   `03d0d5e9b6eb896d15a53ae954086461186c6daeaf918bc10cb670570abdccae`;
+- copia scaricabile:
+  [Google Drive](https://drive.google.com/file/d/154MXYIhhtr6qz69sFlrM4UXHKXNcWgPM/view?usp=drive_link);
 - rianalisi senza fit o replay:
   [GitHub Actions 41877615465](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41877615465).
 
