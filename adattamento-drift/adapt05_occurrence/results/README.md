@@ -31,14 +31,14 @@ registra ambiente, comandi, tempi e SHA di ciascuna cella.
 ## Archivio completo
 
 - file: `adapt05_occurrence_full_finalized.zip`;
-- dimensione: 13.878.875 byte;
+- dimensione: 13.879.041 byte;
 - SHA-256:
-  `db02c9cc0296fafb88faf670f2809244bb013e3a1c14a15ad5489ff540d37441`;
+  `03d0d5e9b6eb896d15a53ae954086461186c6daeaf918bc10cb670570abdccae`;
 - rianalisi senza fit o replay:
-  [GitHub Actions 41873826843](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41873826843).
+  [GitHub Actions 41877615465](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41877615465).
 
 Lo ZIP non e' conservato in Git. La copia locale esterna si trova in
-`adattamento-drift/archivio_esterno/adapt05_occurrence/520164c/`; il file
+`adattamento-drift/archivio_esterno/adapt05_occurrence/ea46b3f/`; il file
 `adapt05_occurrence_full_finalized.zip.sha256` e il manifest completo sono
 conservati qui per il controllo della consegna. Il pacchetto originario al
 commit `7c22482` resta conservato separatamente e non viene sovrascritto. I
