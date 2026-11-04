@@ -6,6 +6,8 @@ TON e UNSW restano due stream di sviluppo; i cinque seed non sono cinque catture
 
 ## Copertura della calibrazione
 
+La copertura qui riportata e' una diagnostica cumulativa retrospettiva: il denominatore comprende tutte le richieste normali dell'intero stream, incluse quelle del blocco terminale la cui label era ancora pendente alla chiusura del replay. Non descrive la CAL64 online, che e' limitata, soggetta a espulsione e disponibile soltanto dopo il ritardo causale.
+
 | Dataset | Ruolo | Copertura vettori normali ponderata | Copertura vettori unici | Normali assegnati a CAL |
 |---|---|---:|---:|---:|
 | TON | vector | 28.14% ± 7.95 | 25.16% ± 1.22 | 28.14% |
@@ -13,7 +15,22 @@ TON e UNSW restano due stream di sviluppo; i cinque seed non sono cinque catture
 | UNSW | vector | 22.18% ± 1.31 | 24.99% ± 0.58 | 22.18% |
 | UNSW | occurrence | 44.65% ± 0.66 | 26.97% ± 0.77 | 25.15% |
 
-I tipi di traffico sono elencati per frequenza in `type_coverage.csv`; l'esclusione da CAL è riportata senza introdurre una soglia post hoc.
+Le label ancora pendenti alla chiusura sono 60–99 richieste per combinazione; sono incluse soltanto nella diagnostica retrospettiva cumulativa.
+
+I digest dei vettori normali sono elencati per frequenza in `type_coverage.csv`; assegnazioni CAL/FIT ed esclusione da CAL sono aggregate sulle 15 celle seed/sale di ciascun dataset e modalita', senza introdurre una soglia post hoc.
+
+## Stato CAL64 disponibile online
+
+Le righe seguenti sintetizzano gli snapshot registrati dopo il feedback. Lo snapshot del blocco k diventa utilizzabile dalle predizioni del blocco k+1, non da quelle gia' emesse in k. `normal` conta i normali fisicamente presenti in CAL64; `recent_normal` conta quelli entro l'eta' massima di 50 blocchi. L'intervallo d'eta' registrato riguarda l'intera vista ammissibile (normali e attacchi): i log non conservano l'eta' separata per classe.
+
+| Dataset | Ruolo | Normali presenti | Normali recenti | Blocchi senza normali | Eta' massima ammissibile |
+|---|---|---:|---:|---:|---:|
+| TON | vector | 29.81 ± 6.43 | 22.65 ± 8.82 | 18/5310 | 45.0 [1, 50] |
+| TON | occurrence | 29.99 ± 6.24 | 22.17 ± 8.42 | 20/5310 | 46.0 [1, 50] |
+| UNSW | vector | 32.98 ± 5.05 | 32.98 ± 5.05 | 0/1515 | 8.0 [1, 26] |
+| UNSW | occurrence | 33.07 ± 4.66 | 33.07 ± 4.66 | 0/1515 | 6.0 [1, 15] |
+
+La serie completa per blocco e' in `cal64_memory_by_block.csv`; `cal64_memory.png` ne mostra occupazione normale e inviluppo d'eta'.
 
 ## Vantaggio residuo della testa
 
@@ -61,6 +78,27 @@ Le violazioni del target FPR sono 305 su 360 punti operativi. I valori raggiunti
 | UNSW | 5.66 ± 0.12 | 5.51–5.96 |
 
 I tempi sono misurati dal runner Linux con due celle concorrenti e descrivono questa esecuzione; non sono benchmark seriali.
+
+## Aderenza alle analisi previste
+
+La tabella completa, inclusi i riferimenti agli output, e' in `analysis_adherence.csv`.
+
+| Analisi prevista | Stato | Nota |
+|---|---|---|
+| Recall, FPR raggiunto, FP, FN e BA | complete | Metriche globali per tutte le politiche. |
+| Violazioni dei target FPR | complete | Sono usati i valori raggiunti, non i target nominali. |
+| Andamento temporale e primi blocchi separati | complete | I primi 30 blocchi sono esportati senza riaggregazione post hoc. |
+| Confronti a FPR raggiunto comune | not_estimable | La griglia discreta non definisce tolleranza o interpolazione preregistrata; nessun confronto post hoc e' introdotto. |
+| Copertura ponderata dei vettori normali | complete | Diagnostica cumulativa retrospettiva sull'intero stream, incluse le label terminali pendenti. |
+| Vettori normali frequenti esclusi da CAL | complete | Una riga per dataset, modalita' e digest, aggregata sulle 15 celle seed/sale. |
+| Normali disponibili ed eta' CAL64 | partial | I log danno conteggi normali e intervallo d'eta' dell'intera vista ammissibile; non serializzano l'eta' per classe. |
+| Ricambio esatto della memoria | not_estimable | I report non serializzano gli observation_id trattenuti per blocco, quindi ingressi ed espulsioni individuali non sono ricostruibili dai log. |
+| Update e skip | complete | Tutti gli stati registrati sono conservati. |
+| Costi | complete | Tempi osservati del replay, non benchmark seriali. |
+| Visto/non visto in A/B | not_estimable | I report consegnati non contengono un inventario di digest A/B; non viene inferito senza una regola aggiuntiva. |
+| Ripetizioni interne a D | complete | La frequenza del digest distingue vettori singoli e ripetuti tra le richieste normali. |
+| Dispersione tra seed e sali | complete | Le due fonti di variabilita' sono separate. |
+| Conservazione di tutti gli esiti | complete | Nessun esito e' filtrato per segno o significativita'. |
 
 ## Interpretazione e limiti
 

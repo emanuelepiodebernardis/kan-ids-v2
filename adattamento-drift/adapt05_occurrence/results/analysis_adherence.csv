@@ -1,0 +1,15 @@
+planned_analysis,status,outputs,note
+"Recall, FPR raggiunto, FP, FN e BA",complete,summary.csv; per_cell_metrics.csv; REPORT.md,Metriche globali per tutte le politiche.
+Violazioni dei target FPR,complete,REPORT.md; operating_points.png,"Sono usati i valori raggiunti, non i target nominali."
+Andamento temporale e primi blocchi separati,complete,block_metrics.csv; early_block_metrics.csv; temporal_head_effect.png,I primi 30 blocchi sono esportati senza riaggregazione post hoc.
+Confronti a FPR raggiunto comune,not_estimable,none,La griglia discreta non definisce tolleranza o interpolazione preregistrata; nessun confronto post hoc e' introdotto.
+Copertura ponderata dei vettori normali,complete,coverage.csv; coverage_paired.png,"Diagnostica cumulativa retrospettiva sull'intero stream, incluse le label terminali pendenti."
+Vettori normali frequenti esclusi da CAL,complete,type_coverage.csv,"Una riga per dataset, modalita' e digest, aggregata sulle 15 celle seed/sale."
+Normali disponibili ed eta' CAL64,partial,cal64_memory_by_block.csv; cal64_memory.png,I log danno conteggi normali e intervallo d'eta' dell'intera vista ammissibile; non serializzano l'eta' per classe.
+Ricambio esatto della memoria,not_estimable,none,"I report non serializzano gli observation_id trattenuti per blocco, quindi ingressi ed espulsioni individuali non sono ricostruibili dai log."
+Update e skip,complete,update_status.csv; updates_and_costs.csv,Tutti gli stati registrati sono conservati.
+Costi,complete,updates_and_costs.csv; REPORT.md,"Tempi osservati del replay, non benchmark seriali."
+Visto/non visto in A/B,not_estimable,none,I report consegnati non contengono un inventario di digest A/B; non viene inferito senza una regola aggiuntiva.
+Ripetizioni interne a D,complete,type_coverage.csv,La frequenza del digest distingue vettori singoli e ripetuti tra le richieste normali.
+Dispersione tra seed e sali,complete,dispersion.csv,Le due fonti di variabilita' sono separate.
+Conservazione di tutti gli esiti,complete,30 JSON; validation.json; manifest,Nessun esito e' filtrato per segno o significativita'.

@@ -8,30 +8,39 @@ escluso in base al segno dell'effetto.
 
 ## Controlli
 
-- 124 test mirati superati prima della matrice;
+- 127 test mirati superati nella finalizzazione;
 - 30/30 rendiconti completi;
 - 22.215 controlli sui rendiconti e 240 controlli di copertura;
+- 13.650 snapshot CAL64 estratti dai log e 14 analisi previste mappate;
 - input verificati ricalcolando gli SHA-256 degli otto array letti;
-- 89/89 file del manifest verificati anche dopo il ripristino dello ZIP in una
+- 94/94 file del manifest verificati anche dopo il ripristino dello ZIP in una
   directory vuota.
+
+I 30 JSON e le sette tabelle scientifiche preesistenti sono byte-identici alla
+consegna verificata al commit `7c22482`: non sono stati eseguiti fit, tuning o
+replay. La finalizzazione rilegge i report originali e aggiunge soltanto le
+diagnostiche richieste.
 
 Il rapporto interpretativo e' in [`REPORT.md`](REPORT.md). Le tabelle CSV
 conservano aggregazioni, dispersione e differenze appaiate; `figures/` contiene
-le cinque figure prodotte dallo stesso generatore. `campaign_status.json`
+le sei figure prodotte dallo stesso generatore. La copertura cumulativa, gli
+snapshot CAL64, la tabella per digest e l'aderenza alle analisi previste sono
+distinti esplicitamente. `campaign_status.json`
 registra ambiente, comandi, tempi e SHA di ciascuna cella.
 
 ## Archivio completo
 
-- file: `adapt05_occurrence_full.zip`;
-- dimensione: 10.447.388 byte;
+- file: `adapt05_occurrence_full_finalized.zip`;
+- dimensione: 13.878.875 byte;
 - SHA-256:
-  `01220c7e09936fa762dd6f87d03e5d76856649bb2227269c1312f5b0ea8c743d`;
-- copia persistente:
-  [Google Drive](https://drive.google.com/file/d/1TgAlPP_YEyEaGYHnzLnBT2yxwaH-6A5Q/view?usp=drive_link);
-- esecuzione: [GitHub Actions 41715167666](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41715167666).
+  `db02c9cc0296fafb88faf670f2809244bb013e3a1c14a15ad5489ff540d37441`;
+- rianalisi senza fit o replay:
+  [GitHub Actions 41873826843](https://github.com/emanuelepiodebernardis/kan-ids-v2/actions/runs/41873826843).
 
 Lo ZIP non e' conservato in Git. La copia locale esterna si trova in
-`adattamento-drift/archivio_esterno/adapt05_occurrence/3d4b4cb/`; il file
-`adapt05_occurrence_full.zip.sha256` e il manifest completo sono conservati qui
-per il controllo della consegna. I comandi di ricostruzione sono in
+`adattamento-drift/archivio_esterno/adapt05_occurrence/520164c/`; il file
+`adapt05_occurrence_full_finalized.zip.sha256` e il manifest completo sono
+conservati qui per il controllo della consegna. Il pacchetto originario al
+commit `7c22482` resta conservato separatamente e non viene sovrascritto. I
+comandi di ricostruzione sono in
 [`../REPRODUCTION.md`](../REPRODUCTION.md).
