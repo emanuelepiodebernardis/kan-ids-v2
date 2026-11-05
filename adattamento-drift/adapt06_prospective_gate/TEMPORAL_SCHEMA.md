@@ -8,10 +8,13 @@ produrre gli stessi eventi a parità di input e seed.
 ```text
 always_model, always_threshold
 gated_model, gated_threshold
+threshold_only_model, threshold_only_threshold, threshold_only_cal256
 fit192, cal256, pending_labels, deferred_control
 shared_query_selector                 # solo ACTIVE
-candidate = null | {shared_model, shared_threshold, gated_incumbent_shadow,
-                    recalibrated_incumbent_threshold_shadow, freeze_block,
+candidate = null | {shared_model, shared_threshold,
+                    operational_incumbent_model,
+                    operational_incumbent_threshold,
+                    diagnostic_recalibrated_incumbent_threshold, freeze_block,
                     digest, verify_counts, next_look}
 audit_log
 cycle_closed_this_block              # flag transitorio, falso a inizio blocco
@@ -71,22 +74,35 @@ entrambi gli stream e in almeno quattro seed su cinque; fra le eleggibili vince
 il recall medio maggiore, poi l'FPR minore. Se nessuna è eleggibile, Frozen/B
 resta il riferimento e la selezione fallita viene registrata.
 
+Frozen/B conserva per tutto lo stream pesi A e soglia B. La baseline
+Frozen/CAL256-target5 conserva i pesi A e una CAL256 indipendente, alimentata
+da ogni CONTROL arrivato con delay 1; non congela la memoria durante VERIFY del
+gate. Alla fine di ogni blocco applica età/espulsioni e, con almeno 100 normali
+e 100 attacchi, ricalcola la soglia con la regola precedente. La nuova soglia è
+operativa da `k+1`; senza supporto resta la soglia precedente, inizialmente B.
+Si registrano tentativi e cambi effettivi. Il calcolo nell'ultimo blocco è
+conservato ma, non avendo predizioni successive, non è contato fra gli update
+che hanno effetto valutato.
+
 ## Ordine per il blocco k
 
 ```text
 1.  carica lo stato entrante;
 2.  emetti le predizioni operative ALWAYS e GATED su tutto il blocco k;
-3.  se candidate != null, emetti gli shadow necessari alla verifica appaiata;
+3.  se candidate != null, emetti su tutto il blocco gli shadow del candidato e
+    dell'incumbent ricalibrato diagnostico; GATED del passo 2 è il primario;
 4.  calcola Q, CONTROL e FIT senza leggere label del blocco;
 5.  campiona CONTROL uniforme con RNG comune;
 6.  campiona FIT RANDOM oppure ACTIVE fra gli ID rimasti;
-7.  registra ID, probabilità/rango, score e soglie prima del feedback;
+7.  registra sui CONTROL gli output appaiati, oltre a ID, probabilità/rango,
+    score e soglie prima del feedback;
 8.  accoda le richieste del blocco k con arrival_block = k + 1;
 9.  ricevi soltanto le label la cui arrival_block è k;
 10. aggiorna FIT192; indirizza CONTROL a CAL, VERIFY o deferred_control secondo
-    observation_block, arrival_block e freeze_block;
+    observation_block, arrival_block e freeze_block; in parallelo alimenta la
+    CAL indipendente della baseline threshold-only;
 11. per GAM/LR, se candidate esiste e VERIFY raggiunge un look o la scadenza,
-    calcola una sola decisione;
+    calcola una sola decisione contro lo snapshot operativo primario;
 12. se ACCEPT: allinea GATED al candidato da k + 1 e marca il ciclo chiuso;
 13. altrimenti, se REJECT/WITHHOLD: conserva GATED, lascia ALWAYS sulla
     promozione già fatta e marca il ciclo chiuso;
@@ -97,18 +113,34 @@ resta il riferimento e la selezione fallita viene registrata.
     poni candidate = null e cycle_closed_this_block = true;
 16. se candidate è null e cycle_closed_this_block è falso, verifica
     l'eligibility FIT/CAL per GAM/LR;
-17. se eligible, addestra, calibra e congela un candidato comune; ALWAYS e il
-    selettore ACTIVE lo adottano da k + 1, GATED lo valuta soltanto su dati
-    successivi; la soglia ricalibrata dell'incumbent resta shadow;
+17. se eligible, addestra e calibra un candidato comune; congela anche modello
+    e soglia GATED operativi come riferimento primario e la soglia incumbent
+    ricalibrata come diagnostica; ALWAYS e il selettore ACTIVE adottano il
+    candidato da k + 1, GATED lo valuta soltanto su dati successivi;
 18. nel percorso ARF, ignora 11–17 e aggiorna l'unico stato
     operativo/selettore soltanto con FIT;
-19. scrivi digest, contatori, tempi e motivazioni; passa a k + 1.
+19. aggiorna la baseline threshold-only col suo CONTROL/CAL indipendente;
+20. scrivi digest, contatori, tempi e motivazioni; passa a k + 1.
 ```
 
 Una label richiesta in `k` non può essere ricevuta al passo 9 né influire sui
-passi 10–19 prima della fine di `k+1`; il primo blocco predetto con il suo
+passi 10–20 prima della fine di `k+1`; il primo blocco predetto con il suo
 effetto è `k+2`. Le richieste terminali rimaste pendenti vengono contate ma non
 forzate nel replay.
+
+## Chiusura dei cicli
+
+Al look 400/400 un `WAIT` diventa `WITHHOLD_AMBIGUOUS`. Alla scadenza di 50
+blocchi si valuta prima l'eventuale look appena raggiunto; se il ciclo resta
+aperto, l'esito è `WITHHOLD_INSUFFICIENT` senza alcun look completato e
+`WITHHOLD_AMBIGUOUS` altrimenti. Alla fine dello stream si ricevono soltanto le
+label previste entro l'ultimo blocco e si valuta un ultimo look, se raggiunto.
+Il candidato ancora aperto viene chiuso come
+`WITHHOLD_STREAM_END_INSUFFICIENT` se non ha completato alcun look, altrimenti
+come `WITHHOLD_STREAM_END_AMBIGUOUS`; GATED non cambia e le richieste terminali
+non vengono forzate. Un'adozione ALWAYS pianificata oltre l'ultimo blocco non è
+contata come update con effetto valutato. Digest, supporto, età, blocchi
+trascorsi e coda pendente restano nel log.
 
 ## Definizioni temporali delle metriche
 
@@ -140,7 +172,8 @@ definito. Nessuna di queste regole usa le label per scegliere gli intervalli.
 10. Ogni decisione conserva blocco, supporto, delte, digest e motivazione.
 11. Un nuovo candidato è vietato in entrambi i bracci durante VERIFY.
 12. ALWAYS e GATED condividono candidato, freeze, CAL e punti di controllo.
-13. La soglia shadow dell'incumbent non diventa operativa durante `WAIT`.
+13. Il gate confronta il candidato col modello e la soglia GATED realmente
+    operativi al freeze; la soglia ricalibrata è soltanto diagnostica.
 14. L'età CAL deriva dal blocco di osservazione, anche dopo un differimento in
     VERIFY; gli elementi scaduti non vengono ringiovaniti al reinserimento.
 15. Nessun reset o taglio di finestra è dedotto retrospettivamente dalle label.
@@ -150,3 +183,7 @@ definito. Nessuna di queste regole usa le label per scegliere gli intervalli.
     verificare il candidato corrente.
 18. Per GAM/LR il selettore ACTIVE cambia soltanto al freeze comune; per ARF
     cambia soltanto con una label FIT arrivata.
+19. Un seed con metriche valide ma `FPR_PASS=false` resta supportato e
+    sfavorevole; non viene escluso dalla media di recall.
+20. La baseline threshold-only usa ogni CONTROL arrivato nel proprio calendario
+    e non eredita i freeze del gate.

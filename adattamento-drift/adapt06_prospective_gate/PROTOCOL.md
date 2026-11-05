@@ -1,6 +1,6 @@
 # Protocollo proposto ADAPT-06
 
-Versione di progettazione: 4 novembre 2026. Base Git:
+Versione di progettazione: 5 novembre 2026, revisione del primo checkpoint. Base Git:
 `0cd94dee4ba66ddf64be761acbe0ada93757e40b`. Il protocollo precede qualsiasi
 nuovo fit o replay.
 
@@ -23,12 +23,19 @@ promossa deve inoltre avere FPR non superiore al 6%. Il risparmio del 25% di
 label a recall/FPR equivalenti è secondario e, col budget iniziale fisso, viene
 marcato `NOT_ESTIMATED`; appartiene alla validazione successiva.
 
-Il risultato primario è `GO` soltanto se, separatamente su TON e UNSW, almeno
-quattro seed su cinque hanno supporto sufficiente, FPR comparabile e differenza
-media appaiata di recall almeno +2 punti. Se il supporto è sufficiente ma il
-criterio non è raggiunto, l'esito è `NO-GO`. Se meno di quattro seed sono
-valutabili, l'esito è `INCONCLUSIVE`: non viene scelto un sottoinsieme
-favorevole.
+Un seed ha supporto se la coppia completa passa provenienza e invarianti e ha
+denominatori globali normali/attacchi definiti. L'assenza di promozioni e i
+withholding sono esiti validi, non missing. Per dataset, la media di recall usa
+tutti i seed supportati, inclusi quelli che falliscono l'FPR. Un seed è
+`FPR_PASS` se la differenza globale è al massimo 1 pp e `ACTIVE+GATED` non
+supera il 6%; altrimenti è un esito sfavorevole visibile.
+
+Il dataset è `GO` con almeno quattro seed supportati, almeno quattro
+`FPR_PASS` sui cinque pianificati e differenza media appaiata di recall almeno
++2 pp. Con almeno quattro seed supportati ma un criterio fallito è `NO-GO`; con
+meno di quattro è `INCONCLUSIVE`. L'esito complessivo è `GO` soltanto se
+entrambi i dataset sono `GO`, `NO-GO` se almeno uno è `NO-GO`, altrimenti
+`INCONCLUSIVE`.
 
 ## 2. Perimetro comune
 
@@ -48,19 +55,11 @@ favorevole.
 - Le metriche complete dello stream sono accessibili soltanto al valutatore
   offline e non influenzano query, soglie o promozioni.
 
-FIT192 è una FIFO per classe con quote 96/96 e senza limite di età; CAL256 usa
-quote 128/128 ed età massima di 50 blocchi dal blocco di osservazione. Quote,
-prestiti, espulsioni e reinserimento post-VERIFY sono normati in
-`TEMPORAL_SCHEMA.md`. Un candidato richiede almeno 32 esempi per classe in FIT;
-la soglia richiede almeno 100 per classe in CAL, altrimenti non viene creata.
-
-Per GAM e LR il fit candidato è una funzione deterministica della
-rappresentazione iniziale fissa, dello snapshot FIT192, del seed e degli
-iperparametri congelati, senza warm start operativo. Lo stesso candidato è
-quindi condiviso da `ALWAYS` e `GATED`. ARF resta FIT-only, sempre adattiva e
-fuori dal gate primario: parte dallo stato A/B, aggiorna i pesi soltanto con
-FIT arrivate e conserva la soglia B. Un ARF che ricalibri la soglia con CONTROL
-sarebbe un confronto separato.
+FIT192 usa quote 96/96 senza età; CAL256 quote 128/128 e age 50. Le regole FIFO
+sono in `TEMPORAL_SCHEMA.md`. Servono almeno 32 esempi per classe in FIT e 100
+in CAL. GAM/LR creano dalla rappresentazione iniziale un candidato condiviso,
+senza warm start. ARF parte da A/B, aggiorna i pesi soltanto con FIT e conserva
+la soglia B; il riuso di CONTROL sarebbe un confronto separato.
 
 ## 3. Contratto delle label
 
@@ -77,43 +76,42 @@ EXPLOIT = FIT - EXPLORE
 Il riparto è quindi nominalmente 25% CONTROL e 75% FIT; gli scarti sull'ultimo
 blocco derivano soltanto dagli arrotondamenti interi dichiarati sopra.
 
-CONTROL è estratto uniformemente fra tutte le righe del blocco, prima di
-qualsiasi selezione FIT, senza usare score o label. Gli `observation_id`
-CONTROL sono comuni a modelli e politiche. Nel braccio RANDOM, FIT è uniforme
-fra le righe rimaste. Nel braccio ACTIVE, EXPLORE è uniforme e EXPLOIT è
-selezionato causalmente dal solo blocco già osservato.
+CONTROL è uniforme, precede FIT e ha `observation_id` comuni a tutti i
+confronti. RANDOM estrae FIT uniformemente dalle righe rimaste; ACTIVE usa
+EXPLORE uniforme ed EXPLOIT causale sul solo blocco osservato.
 
 Sono eleggibili le righe valide del blocco corrente. CONTROL viene estratto per
 primo; tutte le selezioni sono senza rimpiazzo. ADAPT-06 non introduce un
 fattore `role_salt`: i flussi RNG indipendenti e indicizzati sono fissati in
 `TEMPORAL_SCHEMA.md`, senza ricerca di un sale favorevole.
 
-Per mantenere appaiato `ALWAYS` contro `GATED`, ciascuna famiglia ACTIVE usa un
-unico selettore ombra condiviso fra le due politiche. Il selettore viene
-inizializzato con A/B e, per GAM/LR, riceve modello e soglia del candidato a
-ogni freeze, indipendentemente dalla successiva decisione. Non produce le
-predizioni valutate. La selezione combina incertezza e farthest-first secondo
-`TEMPORAL_SCHEMA.md`, senza consultare label future. Per ARF ACTIVE il
-selettore è l'unica ARF operativa aggiornata con FIT e usa la soglia B.
+ACTIVE usa un selettore ombra comune ad `ALWAYS/GATED`, inizializzato A/B e
+aggiornato al freeze, con incertezza e farthest-first causali. Per ARF coincide
+con l'unico stato operativo FIT-only. I dettagli sono in
+`TEMPORAL_SCHEMA.md`.
 
 CONTROL, FIT e seconde annotazioni contano nel budget; queste ultime non sono
-previste nel primario. Si registrano hash degli ID, blocchi di osservazione,
-arrivo e primo impatto, probability per i campioni uniformi e rango/criterio
-ACTIVE. Una propensity non definita resta tale.
+previste. Si registrano hash, blocchi di osservazione/arrivo/primo impatto,
+probability uniformi e rango ACTIVE; propensity non definite restano tali.
 
 ## 4. Calibrazione e verifica prospettica
 
-FIT192 addestra il candidato; CAL256 sceglie separatamente le soglie di
-candidato e incumbent al target 5%. Modello, soglie, digest e freeze vengono
-fissati insieme. Soltanto CONTROL osservati dopo il freeze alimentano VERIFY e
-non possono addestrare o calibrare il candidato. CONTROL precedenti ma arrivati
-dopo il freeze sono differiti. Dopo la decisione entrambi i gruppi possono
-entrare in CAL per il candidato successivo, mai retroattivamente.
+FIT192 addestra il candidato e CAL256 ne sceglie la soglia al target 5%.
+All'apertura di VERIFY si congelano anche modello e soglia realmente operativi
+di `GATED`: sono il riferimento primario perché costituiscono lo stato che
+verrebbe sostituito. La soglia dello stesso incumbent ricalibrata su CAL resta
+un confronto diagnostico e non decide il gate. Modelli, soglie, digest e freeze
+vengono fissati insieme.
+
+Soltanto CONTROL osservati dopo il freeze alimentano VERIFY e non possono
+addestrare o calibrare il candidato. CONTROL precedenti ma arrivati dopo sono
+differiti. Dopo la decisione entrambi i gruppi possono entrare in CAL per il
+candidato successivo, mai retroattivamente.
 
 Candidato e calendario sono comuni ad `ALWAYS` e `GATED`. `ALWAYS` promuove
-modello e soglia dal blocco successivo al freeze; `GATED` conserva lo stato
-operativo fino alla decisione. La soglia ricalibrata dell'incumbent resta
-shadow. CAL è congelata e non si crea un secondo candidato durante VERIFY.
+modello e soglia dal blocco successivo al freeze; `GATED` conserva lo snapshot
+operativo fino alla decisione. CAL è congelata e non si crea un secondo
+candidato durante VERIFY.
 
 VERIFY appaia candidato e incumbent sugli stessi CONTROL. I look sono 100/100,
 200/200 e 400/400 normali/attacchi; la scadenza è 50 blocchi. Il target 1%
@@ -122,7 +120,8 @@ richiede 500 normali in CAL e VERIFY e, incompatibile con CAL256, viene marcato
 empirica, non intervalli di confidenza o garanzie sotto drift arbitrario.
 Insufficienza, violazioni e tempo alla decisione sono sempre riportati.
 
-Regola al primo punto di controllo raggiunto:
+Regola al primo punto di controllo raggiunto, sempre contro lo snapshot
+operativo primario:
 
 - `ACCEPT`: recall candidato − incumbent almeno +2 pp, FPR candidato −
   incumbent non superiore a +1 pp e FPR candidato non superiore al 6%;
@@ -132,6 +131,11 @@ Regola al primo punto di controllo raggiunto:
   FPR. Si passa al punto successivo senza cambiare il candidato;
 - `WITHHOLD_INSUFFICIENT` o `WITHHOLD_AMBIGUOUS`: scadenza a 50 blocchi senza
   decisione. L'incumbent resta operativo.
+
+Un `WAIT` a 400/400 chiude come `WITHHOLD_AMBIGUOUS`. Scadenza e fine stream
+applicano prima l'ultimo look possibile, poi distinguono insufficienza (nessun
+look) e ambiguità. Non si forzano label future: GATED resta invariato e il log
+conserva supporto, digest e coda.
 
 È ammesso un solo candidato pendente. Promozione e nuova eligibility possono
 influire soltanto da blocchi successivi. Non si usa un drift oracle: un
@@ -148,30 +152,28 @@ deterministica di `TEMPORAL_SCHEMA.md`. Se nessuna variante threshold-only è
 eleggibile, Frozen/B resta il riferimento; ADAPT-07 non interviene nella
 scelta.
 
-Per seed si riportano richieste e coda, propensities definite, memorie,
-candidati, decisioni, aggiornamenti, tempi, stato persistente e memoria totale.
-Le metriche includono FP, FN, recall, FPR raggiunto, balanced accuracy,
-recupero, area transitoria, segmenti e peggior caso. AUROC resta diagnostica e
-non sostituisce il confronto all'operating point. Manifest e log includono
-commit, ambiente, configurazione e hash di input, stati e richieste.
+Frozen/B non si aggiorna. Frozen/CAL256-target5 mantiene i pesi A, riceve gli
+stessi CONTROL con delay 1 e aggiorna la propria CAL256 a ogni fine blocco. Se
+ha almeno 100 esempi per classe ricalibra la soglia, efficace dal blocco
+successivo; altrimenti conserva la precedente, inizialmente B. Un ricalcolo
+finale senza predizioni successive è registrato ma non contato come effetto.
+
+Per seed si riportano label/coda, memorie, candidati, decisioni, aggiornamenti,
+tempi e memoria; FP, FN, recall, FPR, balanced accuracy, recupero, transitorio,
+segmenti e peggior caso. AUROC resta diagnostica. Manifest e log conservano
+commit, ambiente, configurazione e hash.
 
 L'endpoint primario usa confusioni aggregate sull'intero stream, non medie dei
-tassi di blocco. Una coppia supportata è comparabile se la differenza di FPR
-globale è al massimo 1 pp e `ACTIVE+GATED` non supera il 6%; tutte le coppie,
-incluse quelle non comparabili, restano visibili. Le medie per blocco sono
-diagnostiche e vengono etichettate separatamente.
+tassi di blocco. La media include ogni coppia supportata; il campo `FPR_PASS`
+mantiene visibili le repliche sfavorevoli. Le medie per blocco sono diagnostiche
+e vengono etichettate separatamente.
 
-I segmenti cronologici sono i tre terzi prefissati dello stream. I segmenti
-stabili, le finestre transitorie di dieci blocchi, il recupero, le aree FP/FN e
-il peggior caso sono definiti in `TEMPORAL_SCHEMA.md` soltanto da indice e stato
-operativo, senza cercare drift point o intervalli favorevoli nelle label.
+Segmenti cronologici, stabilità, transitorio, recupero e worst case sono
+prefissati in `TEMPORAL_SCHEMA.md`, senza scegliere intervalli dalle label.
 
-Le differenze sono appaiate entro dataset e seed. I cinque seed descrivono
-randomizzazione condizionata agli stessi stream, non cinque dataset
-indipendenti. Nessuna interpolazione retrospettiva crea un operating point o
-una politica di deployment. Tutte le repliche e gli esiti sfavorevoli vengono
-conservati. TON e UNSW sono usati esclusivamente come sviluppo; la
-configurazione non viene scelta su una futura conferma indipendente.
+Le differenze sono appaiate per dataset/seed; i seed non sono dataset
+indipendenti. Non si usa interpolazione retrospettiva. Si conservano tutte le
+repliche; TON e UNSW sono solo sviluppo, separati dalla futura conferma.
 
 Il confronto ha equal-label-budget e memorie FIT/CAL identiche, ma non viene
 descritto come equal-resource: `GATED` mantiene shadow e contatori VERIFY che

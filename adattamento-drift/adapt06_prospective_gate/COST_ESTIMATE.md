@@ -42,11 +42,26 @@ La matrice proposta contiene, per dataset/seed, quattro traiettorie GAM,
 quattro LR e due ARF: 20 traiettorie adattive nel pilot sui due dataset e 100
 nello sviluppo a cinque seed. I riferimenti congelati o threshold-only vengono
 riusati quando le predizioni compatibili sono già disponibili e non sono
-conteggiati come nuovi fit. Le implementazioni dovranno condividere
-trasformazioni, score invarianti e richieste invece di duplicare lavoro. Il
-lower bound basato sui runner precedenti è circa 10,7 minuti per il pilot seed
-42 sui due dataset, dominato dalle due ARF. Acquisizione farthest-first, shadow
-scoring, gate e log aggiungono costo non ancora misurato.
+conteggiati come nuovi fit.
+
+La somma seriale diretta dei tempi tabellati per il pilot è:
+
+| Dataset | 4 × GAM | 4 × LR | 2 × ARF | Subtotale |
+|---|---:|---:|---:|---:|
+| TON | 102,48 s | 65,04 s | 463,26 s | 630,78 s |
+| UNSW | 26,60 s | 16,68 s | 127,84 s | 171,12 s |
+| **Totale** | **129,08 s** | **81,72 s** | **591,10 s** | **801,90 s** |
+
+Il riferimento seriale corretto è **801,9 secondi = 13,365 minuti**. Non è un
+wall time: con due worker il limite ideale dato dalla sola somma è 400,95
+secondi = 6,6825 minuti, prima di sbilanciamento, I/O e overhead.
+Per cinque seed la stessa base vale 4.009,5 secondi = 66,825 minuti seriali e
+almeno 33,4125 minuti ideali a due worker.
+
+Le implementazioni dovranno condividere trasformazioni, score invarianti e
+richieste invece di duplicare lavoro. Acquisizione farthest-first, shadow
+scoring, gate e log aggiungono costo non ancora misurato; per questo la riserva
+prudenziale sotto non deriva dividendo semplicemente la somma seriale.
 
 Riserva prudenziale:
 
