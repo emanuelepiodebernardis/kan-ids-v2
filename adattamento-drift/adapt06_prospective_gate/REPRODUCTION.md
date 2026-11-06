@@ -56,6 +56,10 @@ eseguite le celle prefissate su TON e UNSW, conservando comando effettivo,
 commit, ambiente, tempi e memoria. Non si sostituisce `--max-blocks` con una
 corsa completa senza una decisione successiva.
 
+La fine del prefisso produce `PENDING_AT_PILOT_END` per un candidato ancora
+aperto: non simula la fine reale dello stream, non forza un withholding e non
+trasferisce retroattivamente VERIFY in CAL.
+
 ## Controlli coperti
 
 I test verificano:
@@ -72,4 +76,5 @@ I test verificano:
 8. inclusione dei seed con FPR sfavorevole nell'aggregazione;
 9. calendario causale Frozen/CAL256-target5, compreso il ricalcolo terminale
    privo di effetto valutato;
-10. percorso ARF FIT-only e assenza del gate prospettico su ARF.
+10. percorso ARF FIT-only e assenza del gate prospettico su ARF;
+11. presenza obbligatoria del digest SHA-256 di `D.npz` nei metadati A/B.

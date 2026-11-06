@@ -95,6 +95,18 @@ def _metadata_threshold(metadata: dict) -> float:
     raise ValueError("ready.json lacks a finite lambda=1 threshold")
 
 
+def _archived_input_sha256(metadata: dict) -> str:
+    source_hashes = metadata.get("source_hashes")
+    digest = source_hashes.get("D") if isinstance(source_hashes, dict) else None
+    if (
+        not isinstance(digest, str)
+        or len(digest) != 64
+        or any(character not in "0123456789abcdef" for character in digest)
+    ):
+        raise ValueError("ready.json lacks a valid lowercase SHA-256 for D.npz")
+    return digest
+
+
 @dataclass
 class PendingBatch:
     observation_block: int
@@ -468,6 +480,27 @@ def _close_cycle(
     return {"transferred": inserted, "expired_before_transfer": expired}
 
 
+def _gate_record(
+    cycle: CandidateCycle,
+    outcome,
+    block: int,
+    transfer: dict | None = None,
+) -> dict:
+    record = {
+        **outcome.__dict__,
+        "block": int(block),
+        "freeze_block": cycle.freeze_block,
+        "candidate_digest": cycle.digest,
+        "candidate_threshold": cycle.threshold,
+        "operational_incumbent_digest": state_digest(cycle.operational_incumbent_state),
+        "operational_incumbent_threshold": cycle.operational_incumbent_threshold,
+        "diagnostic_incumbent_threshold": cycle.diagnostic_incumbent_threshold,
+    }
+    if transfer is not None:
+        record["transfer"] = transfer
+    return record
+
+
 def run_arrays(
     *,
     raw_features: np.ndarray,
@@ -754,6 +787,7 @@ def run_arrays(
 
         cycle_closed = False
         decision_record = None
+        block_events: list[dict] = []
         ready = pending.pop(block - 1, None)
         if ready is not None:
             fit_indices = ready.fit_indices
@@ -832,6 +866,10 @@ def run_arrays(
                 terminal=None,
             )
             if outcome.look_index is not None and outcome.status == "WAIT":
+                wait_record = _gate_record(cycle, outcome, block)
+                decisions.append(wait_record)
+                block_events.append(wait_record)
+                decision_record = wait_record
                 cycle.completed_looks += 1
                 cycle.next_look += 1
             if expired and outcome.status == "WAIT":
@@ -857,20 +895,9 @@ def run_arrays(
                     gated_threshold = float(cycle.threshold)
                     update_counts["gated_promotions"] += 1
                 transfer = _close_cycle(cycle, cal_memory, block)
-                decision_record = {
-                    **outcome.__dict__,
-                    "block": block,
-                    "freeze_block": cycle.freeze_block,
-                    "candidate_digest": cycle.digest,
-                    "candidate_threshold": cycle.threshold,
-                    "operational_incumbent_digest": state_digest(
-                        cycle.operational_incumbent_state
-                    ),
-                    "operational_incumbent_threshold": cycle.operational_incumbent_threshold,
-                    "diagnostic_incumbent_threshold": cycle.diagnostic_incumbent_threshold,
-                    "transfer": transfer,
-                }
+                decision_record = _gate_record(cycle, outcome, block, transfer=transfer)
                 decisions.append(decision_record)
+                block_events.append(decision_record)
                 cycle = None
                 cycle_closed = True
 
@@ -933,6 +960,7 @@ def run_arrays(
                     "cal_counts": [int(np.sum(cal_y == 0)), int(np.sum(cal_y == 1))],
                 }
                 decisions.append(decision_record)
+                block_events.append(decision_record)
 
         threshold_X, threshold_y = _memory_matrix(
             threshold_only.memory, block, transformed.shape[1]
@@ -999,33 +1027,46 @@ def run_arrays(
                 "verify_attack": cycle.evidence.attack,
             },
             "event": decision_record,
+            "events": block_events,
         }
         records.append(record)
 
     terminal_decision = None
     if cycle is not None:
-        outcome = evaluate_gate(
-            cycle.evidence,
-            next_look=cycle.next_look,
-            completed_looks=cycle.completed_looks,
-            terminal="stream_end",
-        )
-        transfer = _close_cycle(cycle, cal_memory, blocks - 1)
-        terminal_decision = {
-            **outcome.__dict__,
-            "block": blocks - 1,
-            "freeze_block": cycle.freeze_block,
-            "candidate_digest": cycle.digest,
-            "candidate_threshold": cycle.threshold,
-            "operational_incumbent_digest": state_digest(
-                cycle.operational_incumbent_state
-            ),
-            "operational_incumbent_threshold": cycle.operational_incumbent_threshold,
-            "diagnostic_incumbent_threshold": cycle.diagnostic_incumbent_threshold,
-            "transfer": transfer,
-        }
+        if blocks < total_blocks:
+            terminal_decision = {
+                "status": "PENDING_AT_PILOT_END",
+                "block": blocks - 1,
+                "freeze_block": cycle.freeze_block,
+                "candidate_digest": cycle.digest,
+                "candidate_threshold": cycle.threshold,
+                "operational_incumbent_digest": state_digest(
+                    cycle.operational_incumbent_state
+                ),
+                "operational_incumbent_threshold": cycle.operational_incumbent_threshold,
+                "diagnostic_incumbent_threshold": cycle.diagnostic_incumbent_threshold,
+                "next_look": cycle.next_look,
+                "completed_looks": cycle.completed_looks,
+                "normal": cycle.evidence.normal,
+                "attack": cycle.evidence.attack,
+                "reason": "pilot prefix ended; no terminal gate decision was forced",
+                "metrics": cycle.evidence.metrics(),
+                "transfer": None,
+            }
+        else:
+            outcome = evaluate_gate(
+                cycle.evidence,
+                next_look=cycle.next_look,
+                completed_looks=cycle.completed_looks,
+                terminal="stream_end",
+            )
+            transfer = _close_cycle(cycle, cal_memory, blocks - 1)
+            terminal_decision = _gate_record(
+                cycle, outcome, blocks - 1, transfer=transfer
+            )
         decisions.append(terminal_decision)
-        cycle = None
+        if blocks == total_blocks:
+            cycle = None
 
     summary = {}
     for name, counts in sorted(aggregates.items()):
@@ -1106,6 +1147,7 @@ def run_arrays(
         "updates": dict(update_counts),
         "decisions": decisions,
         "terminal_decision": terminal_decision,
+        "candidate_pending_at_end": bool(cycle is not None),
         "pending_batches": len(pending),
         "pending_labels": int(
             sum(
@@ -1197,8 +1239,8 @@ def run(
                 f"ready.json {key}={metadata.get(key)!r}, expected {expected!r}"
             )
     input_digest = file_sha256(stream_path)
-    archived_input_digest = metadata.get("source_hashes", {}).get("D")
-    if archived_input_digest and archived_input_digest != input_digest:
+    archived_input_digest = _archived_input_sha256(metadata)
+    if archived_input_digest != input_digest:
         raise ValueError("D.npz SHA-256 differs from the archived model provenance")
     report = run_arrays(
         raw_features=X,

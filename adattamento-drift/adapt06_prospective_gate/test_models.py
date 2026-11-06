@@ -49,14 +49,15 @@ def test_archived_head_adapter_refits_only_a_new_finite_head():
     assert not np.array_equal(candidate, initial)
 
 
-def test_archived_arf_adapter_copies_before_fit_only_update():
+def test_archived_arf_adapter_mutates_only_the_operational_copy():
     adapter = ArchivedModelAdapter("arf", DummyRiver(), IdentityTransform())
     features = np.asarray([[-1.0, 0.0], [1.0, 0.0]])
-    labels = np.asarray([0, 1], dtype=np.uint8)
+    labels = np.asarray([1, 1], dtype=np.uint8)
     initial = adapter.copy_state(adapter.initial_state)
     updated = adapter.update_incremental(initial, features, labels)
-    assert updated is not initial
-    assert initial.offset == adapter.initial_state.offset == 0.0
+    assert updated is initial
+    assert updated.offset == 0.01
+    assert adapter.initial_state.offset == 0.0
     assert np.isfinite(adapter.score(updated, features)).all()
 
 

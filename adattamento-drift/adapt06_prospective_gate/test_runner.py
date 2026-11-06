@@ -4,8 +4,14 @@ import copy
 import json
 
 import numpy as np
+import pytest
 
-from .runner import PROTOCOL_COMMIT, PROTOCOL_MERGE, run_arrays
+from .runner import (
+    PROTOCOL_COMMIT,
+    PROTOCOL_MERGE,
+    _archived_input_sha256,
+    run_arrays,
+)
 
 
 class SyntheticHeadAdapter:
@@ -52,6 +58,11 @@ class SyntheticArfAdapter:
         return updated
 
 
+class NoGainHeadAdapter(SyntheticHeadAdapter):
+    def fit_candidate(self, transformed, labels):
+        return self.initial_state.copy()
+
+
 def _stream(blocks=15, block_size=10_000):
     rows = blocks * block_size
     labels = (np.arange(rows) % 2).astype(np.uint8)
@@ -59,6 +70,14 @@ def _stream(blocks=15, block_size=10_000):
     second = np.sin(np.arange(rows) / 101.0)
     features = np.c_[first, second]
     return features, labels, np.arange(1_000_000, 1_000_000 + rows)
+
+
+def test_archived_input_digest_is_mandatory_and_well_formed():
+    digest = "a" * 64
+    assert _archived_input_sha256({"source_hashes": {"D": digest}}) == digest
+    for metadata in ({}, {"source_hashes": {}}, {"source_hashes": {"D": "xyz"}}):
+        with pytest.raises(ValueError, match="SHA-256 for D.npz"):
+            _archived_input_sha256(metadata)
 
 
 def test_synthetic_head_runner_emits_paired_tracks_and_causal_delay():
@@ -127,6 +146,32 @@ def test_current_block_labels_cannot_change_earlier_state_or_queries():
     assert all(
         item["conditional_probability_given_not_control"] is not None
         for item in explore
+    )
+
+
+def test_internal_label_change_first_affects_the_model_at_k_plus_two():
+    X, y, row_ids = _stream(blocks=10)
+    changed = y.copy()
+    changed[5 * 10_000 : 6 * 10_000] = 1
+    common = dict(
+        raw_features=X,
+        row_ids=row_ids,
+        initial_threshold=0.0,
+        dataset="ton",
+        seed=42,
+        acquisition="random",
+    )
+    original = run_arrays(labels=y, adapter=SyntheticArfAdapter(), **common)
+    perturbed = run_arrays(labels=changed, adapter=SyntheticArfAdapter(), **common)
+
+    for block in range(7):
+        assert (
+            original["per_block"][block]["state_digests_used"]["adaptive"]
+            == perturbed["per_block"][block]["state_digests_used"]["adaptive"]
+        )
+    assert (
+        original["per_block"][7]["state_digests_used"]["adaptive"]
+        != perturbed["per_block"][7]["state_digests_used"]["adaptive"]
     )
 
 
@@ -265,3 +310,56 @@ def test_accept_applies_model_and_threshold_atomically_on_next_block():
             ">10",
             "CENSORED_STREAM_END",
         }
+
+
+def test_wait_is_logged_completely_and_never_mutates_gated_state():
+    X, y, row_ids = _stream(blocks=30)
+    report = run_arrays(
+        raw_features=X,
+        labels=y,
+        row_ids=row_ids,
+        adapter=NoGainHeadAdapter(),
+        initial_threshold=0.0,
+        dataset="unsw",
+        seed=42,
+        acquisition="random",
+    )
+    waits = [event for event in report["decisions"] if event["status"] == "WAIT"]
+    assert waits
+    for event in waits:
+        assert event["look_index"] in (0, 1)
+        assert event["candidate_digest"]
+        assert event["operational_incumbent_digest"]
+        assert event["reason"]
+        assert event["metrics"]["candidate"]["normal"] >= 100
+        block = report["per_block"][event["block"]]
+        assert event in block["events"]
+    gated_digests = {
+        block["state_digests_used"]["gated"] for block in report["per_block"]
+    }
+    gated_thresholds = {
+        block["thresholds_used"]["gated"] for block in report["per_block"]
+    }
+    assert len(gated_digests) == 1
+    assert gated_thresholds == {0.0}
+
+
+def test_pilot_prefix_never_forces_a_false_stream_end_decision():
+    X, y, row_ids = _stream(blocks=30)
+    report = run_arrays(
+        raw_features=X,
+        labels=y,
+        row_ids=row_ids,
+        adapter=SyntheticHeadAdapter(),
+        initial_threshold=0.0,
+        dataset="ton",
+        seed=42,
+        acquisition="random",
+        max_blocks=15,
+    )
+    assert report["scope"] == "pilot"
+    assert report["blocks_available"] == 30
+    assert report["blocks_evaluated"] == 15
+    assert report["candidate_pending_at_end"] is True
+    assert report["terminal_decision"]["status"] == "PENDING_AT_PILOT_END"
+    assert report["terminal_decision"]["transfer"] is None

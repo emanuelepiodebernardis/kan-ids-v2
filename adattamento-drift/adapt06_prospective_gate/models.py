@@ -103,10 +103,9 @@ class ArchivedModelAdapter:
     ) -> Any:
         if not self.is_incremental:
             raise RuntimeError("only ARF supports incremental FIT updates")
-        updated = copy.deepcopy(state)
         for row, label in zip(transformed, labels):
-            updated.learn_one(dict(enumerate(row)), int(label))
-        return updated
+            state.learn_one(dict(enumerate(row)), int(label))
+        return state
 
 
 def load_archived_adapter(
