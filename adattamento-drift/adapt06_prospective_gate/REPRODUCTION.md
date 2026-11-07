@@ -77,4 +77,7 @@ I test verificano:
 9. calendario causale Frozen/CAL256-target5, compreso il ricalcolo terminale
    privo di effetto valutato;
 10. percorso ARF FIT-only e assenza del gate prospettico su ARF;
-11. presenza obbligatoria del digest SHA-256 di `D.npz` nei metadati A/B.
+11. presenza obbligatoria del digest SHA-256 di `D.npz` nei metadati A/B;
+12. uguaglianza e valori appena sotto/sopra i margini inclusivi di recall e
+    FPR, usando conteggi esatti nel gate e una tolleranza limitata al solo
+    arrotondamento nella media fra seed.

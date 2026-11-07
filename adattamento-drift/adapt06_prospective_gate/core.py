@@ -9,6 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 import hashlib
+import math
 from typing import Iterable, Sequence
 
 import numpy as np
@@ -25,6 +26,11 @@ TARGET_FPR = 0.05
 MAX_CANDIDATE_FPR = 0.06
 MAX_FPR_DELTA = 0.01
 MIN_RECALL_DELTA = 0.02
+
+_MIN_RECALL_DELTA_RATIO = (1, 50)
+_MAX_FPR_DELTA_RATIO = (1, 100)
+_MAX_CANDIDATE_FPR_RATIO = (3, 50)
+_AGGREGATE_BOUNDARY_ULPS = 64
 
 DATASET_CODES = {"ton": 0, "unsw": 1}
 ROLE_CODES = {"control": 0, "random_fit": 1, "active_explore": 2}
@@ -414,6 +420,30 @@ def rates(counts: dict[str, int]) -> dict[str, float | int | None]:
     }
 
 
+def _ratio_at_least(
+    numerator: int, denominator: int, boundary_numerator: int, boundary_denominator: int
+) -> bool:
+    if denominator <= 0 or boundary_denominator <= 0:
+        raise ValueError("ratio denominators must be positive")
+    return numerator * boundary_denominator >= boundary_numerator * denominator
+
+
+def _ratio_above(
+    numerator: int, denominator: int, boundary_numerator: int, boundary_denominator: int
+) -> bool:
+    if denominator <= 0 or boundary_denominator <= 0:
+        raise ValueError("ratio denominators must be positive")
+    return numerator * boundary_denominator > boundary_numerator * denominator
+
+
+def _at_least_with_roundoff(value: float, boundary: float) -> bool:
+    """Include only floating-point roundoff at an inclusive boundary."""
+    tolerance = _AGGREGATE_BOUNDARY_ULPS * math.ulp(boundary)
+    return value > boundary or math.isclose(
+        value, boundary, rel_tol=0.0, abs_tol=tolerance
+    )
+
+
 def select_fpr_threshold(
     scores: np.ndarray,
     labels: np.ndarray,
@@ -558,17 +588,23 @@ def evaluate_gate(
         recall_delta = float(candidate["recall"] - incumbent["recall"])
         fpr_delta = float(candidate["fpr"] - incumbent["fpr"])
         candidate_fpr = float(candidate["fpr"])
-        if (
-            recall_delta >= MIN_RECALL_DELTA
-            and fpr_delta <= MAX_FPR_DELTA
-            and candidate_fpr <= MAX_CANDIDATE_FPR
-        ):
+        recall_count_delta = int(candidate["tp"] - incumbent["tp"])
+        fpr_count_delta = int(candidate["fp"] - incumbent["fp"])
+        recall_gain_passes = _ratio_at_least(
+            recall_count_delta, attack, *_MIN_RECALL_DELTA_RATIO
+        )
+        fpr_delta_passes = not _ratio_above(
+            fpr_count_delta, normal, *_MAX_FPR_DELTA_RATIO
+        )
+        candidate_fpr_passes = not _ratio_above(
+            int(candidate["fp"]), normal, *_MAX_CANDIDATE_FPR_RATIO
+        )
+        recall_harm = _ratio_at_least(
+            -recall_count_delta, attack, *_MIN_RECALL_DELTA_RATIO
+        )
+        if recall_gain_passes and fpr_delta_passes and candidate_fpr_passes:
             status, reason = "ACCEPT", "recall gain and FPR constraints pass"
-        elif (
-            candidate_fpr > MAX_CANDIDATE_FPR
-            or fpr_delta > MAX_FPR_DELTA
-            or recall_delta <= -MIN_RECALL_DELTA
-        ):
+        elif not candidate_fpr_passes or not fpr_delta_passes or recall_harm:
             status, reason = "REJECT_HARM", "a preregistered harm boundary is crossed"
         elif next_look == len(VERIFY_LOOKS) - 1:
             status, reason = (
@@ -699,10 +735,14 @@ def aggregate_seed_outcomes(rows: Sequence[dict]) -> dict:
         supported = [row for row in planned if bool(row.get("supported"))]
         fpr_passes = sum(bool(row.get("fpr_pass")) for row in supported)
         recalls = [float(row["recall_delta"]) for row in supported]
-        mean_recall = float(np.mean(recalls)) if recalls else None
+        mean_recall = math.fsum(recalls) / len(recalls) if recalls else None
         if len(supported) < 4:
             status = "INCONCLUSIVE"
-        elif fpr_passes >= 4 and mean_recall is not None and mean_recall >= 0.02:
+        elif (
+            fpr_passes >= 4
+            and mean_recall is not None
+            and _at_least_with_roundoff(mean_recall, MIN_RECALL_DELTA)
+        ):
             status = "GO"
         else:
             status = "NO-GO"

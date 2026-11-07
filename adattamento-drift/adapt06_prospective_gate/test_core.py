@@ -6,6 +6,7 @@ import pytest
 from .core import (
     CAL_CAPACITY,
     CAL_QUOTA,
+    MIN_RECALL_DELTA,
     ClassFifoMemory,
     GateEvidence,
     MemoryEntry,
@@ -182,6 +183,69 @@ def test_gate_rejects_fpr_harm_even_with_recall_gain():
     assert outcome.candidate_fpr == 0.07
 
 
+def test_recall_margin_is_exact_below_at_and_above_both_boundaries():
+    cases = (
+        (81, "WAIT"),
+        (82, "ACCEPT"),
+        (83, "ACCEPT"),
+        (79, "WAIT"),
+        (78, "REJECT_HARM"),
+        (77, "REJECT_HARM"),
+    )
+    for candidate_tp, expected in cases:
+        outcome = evaluate_gate(
+            _evidence(
+                100,
+                100,
+                candidate_fp=5,
+                candidate_tp=candidate_tp,
+                incumbent_fp=5,
+                incumbent_tp=80,
+            ),
+            next_look=0,
+            completed_looks=0,
+        )
+        assert outcome.status == expected
+
+
+def test_fpr_delta_margin_is_exact_below_at_and_above_the_boundary():
+    for candidate_fp, expected in ((3, "ACCEPT"), (4, "ACCEPT"), (5, "REJECT_HARM")):
+        outcome = evaluate_gate(
+            _evidence(
+                100,
+                100,
+                candidate_fp=candidate_fp,
+                candidate_tp=90,
+                incumbent_fp=3,
+                incumbent_tp=80,
+            ),
+            next_look=0,
+            completed_looks=0,
+        )
+        assert outcome.status == expected
+
+
+def test_candidate_fpr_cap_is_exact_below_at_and_above_the_boundary():
+    for candidate_fp, incumbent_fp, expected in (
+        (5, 5, "ACCEPT"),
+        (6, 5, "ACCEPT"),
+        (7, 6, "REJECT_HARM"),
+    ):
+        outcome = evaluate_gate(
+            _evidence(
+                100,
+                100,
+                candidate_fp=candidate_fp,
+                candidate_tp=90,
+                incumbent_fp=incumbent_fp,
+                incumbent_tp=80,
+            ),
+            next_look=0,
+            completed_looks=0,
+        )
+        assert outcome.status == expected
+
+
 def test_final_look_wait_is_closed_as_ambiguous():
     evidence = _evidence(
         400,
@@ -274,6 +338,27 @@ def test_seed_outcome_is_no_go_not_missing_when_fpr_support_fails():
     result = aggregate_seed_outcomes(rows)
     assert result["overall"] == "NO-GO"
     assert result["datasets"]["ton"]["supported"] == 5
+
+
+def test_seed_mean_is_exact_below_at_and_above_the_recall_boundary():
+    cases = (
+        (82 / 100 - 80 / 100, "GO"),
+        (MIN_RECALL_DELTA - 1e-12, "NO-GO"),
+        (83 / 100 - 80 / 100, "GO"),
+    )
+    for recall_delta, expected in cases:
+        rows = [
+            {
+                "dataset": dataset,
+                "seed": seed,
+                "supported": True,
+                "fpr_pass": True,
+                "recall_delta": recall_delta,
+            }
+            for dataset in ("ton", "unsw")
+            for seed in range(42, 47)
+        ]
+        assert aggregate_seed_outcomes(rows)["overall"] == expected
 
 
 def _feed_balanced_baseline(baseline: ThresholdOnlyBaseline, block: int = 0):
