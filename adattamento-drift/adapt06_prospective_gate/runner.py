@@ -63,6 +63,17 @@ from adapt06_prospective_gate.models import (  # noqa: E402
 SCHEMA = "adapt06-prospective-run-v1"
 PROTOCOL_COMMIT = "3199f1eeba952a20f2be5fd60fee8b0317123627"
 PROTOCOL_MERGE = "e5163bce892a0aafdd5136ee7c6a618b9867eadc"
+INPUT_ARRAYS = ("X", "y", "tipo", "row_id", "frt", "t_start", "t_end", "tipi")
+ROW_ARRAYS = INPUT_ARRAYS[:-1]
+INPUT_DTYPES = {
+    "X": np.dtype("float32"),
+    "y": np.dtype("uint8"),
+    "tipo": np.dtype("int16"),
+    "row_id": np.dtype("int64"),
+    "frt": np.dtype("float64"),
+    "t_start": np.dtype("float64"),
+    "t_end": np.dtype("float64"),
+}
 
 
 def file_sha256(path: Path) -> str:
@@ -105,6 +116,128 @@ def _archived_input_sha256(metadata: dict) -> str:
     ):
         raise ValueError("ready.json lacks a valid lowercase SHA-256 for D.npz")
     return digest
+
+
+def verify_input_provenance(
+    data: Path,
+    dataset: str,
+    archived_model_digest: str,
+    provenance_root: Path | None = None,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, Path, dict]:
+    """Verify every reconstructed D array against the archived provenance."""
+    data = Path(data)
+    provenance_root = (
+        HERE.parent / "review_extension" / "provenance"
+        if provenance_root is None
+        else Path(provenance_root)
+    )
+    local_path = data / "D.json"
+    archived_path = provenance_root / dataset / "D.json"
+    stream_path = data / "D.npz"
+    for path in (local_path, archived_path, stream_path):
+        if not path.is_file():
+            raise FileNotFoundError(f"required input provenance file not found: {path}")
+    local = json.loads(local_path.read_text(encoding="utf-8"))
+    archived = json.loads(archived_path.read_text(encoding="utf-8"))
+    if archived.get("sha256") != archived_model_digest:
+        raise ValueError(
+            "model and archived D provenance disagree on container SHA-256"
+        )
+    for metadata_field in ("rows", "normal", "attack"):
+        if local.get(metadata_field) != archived.get(metadata_field):
+            raise ValueError(
+                f"reconstructed and archived D metadata differ for {metadata_field}"
+            )
+    if local.get("array_sha256") != archived.get("array_sha256"):
+        raise ValueError("reconstructed and archived D array digests differ")
+    if set(archived.get("array_sha256", {})) != set(INPUT_ARRAYS):
+        raise ValueError("archived D metadata has an unexpected array schema")
+    if "source_sha256" in archived and local.get("source_sha256") != archived.get(
+        "source_sha256"
+    ):
+        raise ValueError("reconstructed and archived raw-source digests differ")
+    if archived.get("source_hashes_verified") and not local.get(
+        "source_hashes_verified"
+    ):
+        raise ValueError("TON source hashes were not verified during reconstruction")
+
+    rows = int(archived["rows"])
+    actual_hashes: dict[str, str] = {}
+    shapes: dict[str, list[int]] = {}
+    dtypes: dict[str, str] = {}
+    retained: dict[str, np.ndarray] = {}
+    with np.load(stream_path, allow_pickle=False) as stream:
+        if set(stream.files) != set(INPUT_ARRAYS):
+            raise ValueError("D.npz has an unexpected array schema")
+        for name in INPUT_ARRAYS:
+            value = np.array(stream[name], copy=True)
+            shapes[name] = list(value.shape)
+            dtypes[name] = str(value.dtype)
+            actual_hashes[name] = hashlib.sha256(
+                np.ascontiguousarray(value).tobytes()
+            ).hexdigest()
+            if name in ("X", "y", "row_id", "tipo", "tipi"):
+                retained[name] = value
+            if name == "X":
+                if value.ndim != 2 or value.shape != (rows, 8):
+                    raise ValueError("D X has an unexpected shape")
+            elif name in ROW_ARRAYS:
+                if value.ndim != 1 or len(value) != rows:
+                    raise ValueError(f"D {name} is not aligned with X rows")
+            elif value.ndim != 1 or not len(value):
+                raise ValueError("D tipi has an unexpected shape")
+            if name in INPUT_DTYPES and value.dtype != INPUT_DTYPES[name]:
+                raise ValueError(
+                    f"D {name} has dtype {value.dtype}, expected {INPUT_DTYPES[name]}"
+                )
+            if name == "tipi" and value.dtype.kind != "U":
+                raise ValueError("D tipi must be a Unicode array")
+
+    for name, expected in archived["array_sha256"].items():
+        if actual_hashes[name] != expected:
+            raise ValueError(f"D array SHA-256 mismatch for {name}")
+    labels = retained["y"]
+    if not np.isin(labels, (0, 1)).all():
+        raise ValueError("D y contains labels outside {0, 1}")
+    normal = int(np.sum(labels == 0))
+    attack = int(np.sum(labels == 1))
+    if normal != int(archived["normal"]) or attack != int(archived["attack"]):
+        raise ValueError("D class counts do not match the archived provenance")
+    row_ids = retained["row_id"]
+    if len(np.unique(row_ids)) != rows:
+        raise ValueError("D row_id values are not unique")
+    type_ids = retained["tipo"]
+    if len(type_ids) and (
+        int(type_ids.min()) < 0 or int(type_ids.max()) >= len(retained["tipi"])
+    ):
+        raise ValueError("D tipo contains an index outside tipi")
+    reconstructed_digest = file_sha256(stream_path)
+    return (
+        retained["X"],
+        labels,
+        row_ids,
+        stream_path,
+        {
+            "status": "PASS",
+            "rows": rows,
+            "normal": normal,
+            "attack": attack,
+            "array_sha256": actual_hashes,
+            "array_shapes": shapes,
+            "array_dtypes": dtypes,
+            "row_id_unique": True,
+            "reconstructed_npz_sha256": reconstructed_digest,
+            "archived_npz_sha256": archived_model_digest,
+            "container_sha256_matches_archive": reconstructed_digest
+            == archived_model_digest,
+            "container_note": (
+                "NPZ container bytes may differ after deterministic reconstruction; "
+                "scientific identity is enforced on every named array"
+            ),
+            "local_metadata_sha256": file_sha256(local_path),
+            "archived_metadata_sha256": file_sha256(archived_path),
+        },
+    )
 
 
 @dataclass
@@ -1189,22 +1322,6 @@ def run_arrays(
     return report
 
 
-def load_input_arrays(data: Path) -> tuple[np.ndarray, np.ndarray, np.ndarray, Path]:
-    stream = Path(data) / "D.npz"
-    if not stream.is_file():
-        raise FileNotFoundError(f"development stream not found: {stream}")
-    with np.load(stream, allow_pickle=False) as archive:
-        required = {"X", "y", "row_id"}
-        if not required.issubset(archive.files):
-            raise ValueError(
-                f"D.npz lacks arrays: {sorted(required - set(archive.files))}"
-            )
-        X = np.array(archive["X"], copy=True)
-        y = np.array(archive["y"], copy=True)
-        row_ids = np.array(archive["row_id"], copy=True)
-    return X, y, row_ids, stream
-
-
 def run(
     *,
     data: Path,
@@ -1219,9 +1336,6 @@ def run(
 ) -> dict:
     if output.exists():
         raise FileExistsError(f"refusing to overwrite an existing report: {output}")
-    load_started = time.perf_counter()
-    X, y, row_ids, stream_path = load_input_arrays(data)
-    input_load_seconds = time.perf_counter() - load_started
     model_started = time.perf_counter()
     adapter, model_path, metadata_path = load_archived_adapter(
         model_root, dataset, family, seed
@@ -1238,10 +1352,13 @@ def run(
             raise ValueError(
                 f"ready.json {key}={metadata.get(key)!r}, expected {expected!r}"
             )
-    input_digest = file_sha256(stream_path)
     archived_input_digest = _archived_input_sha256(metadata)
-    if archived_input_digest != input_digest:
-        raise ValueError("D.npz SHA-256 differs from the archived model provenance")
+    load_started = time.perf_counter()
+    X, y, row_ids, stream_path, input_identity = verify_input_provenance(
+        data, dataset, archived_input_digest
+    )
+    input_load_seconds = time.perf_counter() - load_started
+    input_digest = file_sha256(stream_path)
     report = run_arrays(
         raw_features=X,
         labels=y,
@@ -1264,6 +1381,7 @@ def run(
     report["provenance"] = {
         "input_file": str(stream_path),
         "input_sha256": input_digest,
+        "input_identity": input_identity,
         "arrays": {
             "X": array_sha256(X),
             "y": array_sha256(y),

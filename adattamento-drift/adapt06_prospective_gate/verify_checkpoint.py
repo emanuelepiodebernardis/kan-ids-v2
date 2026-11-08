@@ -126,7 +126,7 @@ def verify() -> None:
         if actual != expected_digest:
             raise AssertionError(f"SHA-256 mismatch for {name}: {actual}")
     log = TEST_LOG.read_text(encoding="utf-8")
-    if "36 passed" not in log or "failed" in log.lower():
+    if "48 passed" not in log or "failed" in log.lower():
         raise AssertionError("TEST_LOG.txt does not record the expected clean PASS")
     with (HERE / "MATRIX.csv").open(newline="", encoding="utf-8") as handle:
         matrix = list(csv.DictReader(handle))

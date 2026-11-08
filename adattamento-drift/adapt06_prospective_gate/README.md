@@ -41,6 +41,12 @@ Il primo anchor ACTIVE, quando FIT192 è ancora vuota, è l'osservazione con
 rispetto agli anchor già presenti. Questo tie-break rende deterministico il
 caso degenere senza usare etichette.
 
+Prima di un replay il runner verifica tutti gli otto array di `D.npz` contro
+la provenienza archiviata. Un contenitore NPZ ricostruito può avere byte ZIP
+diversi; in tal caso vengono conservati entrambi gli hash del contenitore, ma
+l'esecuzione è ammessa soltanto se schema, dtype, forme, conteggi e SHA-256 di
+ogni array coincidono.
+
 ## Confine di autorizzazione
 
 Il checkpoint autorizzato termina con runner e test sintetici. Il pilot seed 42

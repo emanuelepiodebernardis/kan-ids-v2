@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 
 import numpy as np
@@ -11,6 +12,7 @@ from .runner import (
     PROTOCOL_MERGE,
     _archived_input_sha256,
     run_arrays,
+    verify_input_provenance,
 )
 
 
@@ -72,12 +74,110 @@ def _stream(blocks=15, block_size=10_000):
     return features, labels, np.arange(1_000_000, 1_000_000 + rows)
 
 
+def _input_fixture(tmp_path, arrays=None):
+    data = tmp_path / "data"
+    provenance = tmp_path / "provenance" / "ton"
+    data.mkdir(parents=True)
+    provenance.mkdir(parents=True)
+    if arrays is None:
+        arrays = {
+            "X": np.arange(32, dtype=np.float32).reshape(4, 8),
+            "y": np.asarray([0, 1, 0, 1], dtype=np.uint8),
+            "tipo": np.asarray([0, 1, 0, 1], dtype=np.int16),
+            "row_id": np.asarray([10, 11, 12, 13], dtype=np.int64),
+            "frt": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+            "t_start": np.asarray([0.5, 1.5, 2.5, 3.5], dtype=np.float64),
+            "t_end": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+            "tipi": np.asarray(["normal", "attack"]),
+        }
+    np.savez_compressed(data / "D.npz", **arrays)
+    labels = arrays["y"]
+    metadata = {
+        "rows": len(labels),
+        "normal": int(np.sum(labels == 0)),
+        "attack": int(np.sum(labels == 1)),
+        "sha256": "0" * 64,
+        "source_hashes_verified": True,
+        "array_sha256": {
+            name: hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest()
+            for name, value in arrays.items()
+        },
+    }
+    (data / "D.json").write_text(json.dumps(metadata), encoding="utf-8")
+    (provenance / "D.json").write_text(json.dumps(metadata), encoding="utf-8")
+    return data, tmp_path / "provenance", arrays, metadata
+
+
 def test_archived_input_digest_is_mandatory_and_well_formed():
     digest = "a" * 64
     assert _archived_input_sha256({"source_hashes": {"D": digest}}) == digest
     for metadata in ({}, {"source_hashes": {}}, {"source_hashes": {"D": "xyz"}}):
         with pytest.raises(ValueError, match="SHA-256 for D.npz"):
             _archived_input_sha256(metadata)
+
+
+def test_repacked_input_passes_when_every_named_array_matches(tmp_path):
+    data, provenance, arrays, metadata = _input_fixture(tmp_path)
+    X, y, row_ids, _, identity = verify_input_provenance(
+        data, "ton", metadata["sha256"], provenance
+    )
+    np.testing.assert_array_equal(X, arrays["X"])
+    np.testing.assert_array_equal(y, arrays["y"])
+    np.testing.assert_array_equal(row_ids, arrays["row_id"])
+    assert identity["status"] == "PASS"
+    assert identity["container_sha256_matches_archive"] is False
+    assert identity["array_sha256"] == metadata["array_sha256"]
+
+
+@pytest.mark.parametrize(
+    "changed_name", ("X", "y", "tipo", "row_id", "frt", "t_start", "t_end", "tipi")
+)
+def test_input_provenance_rejects_each_altered_array(tmp_path, changed_name):
+    data, provenance, arrays, metadata = _input_fixture(tmp_path)
+    changed = {name: value.copy() for name, value in arrays.items()}
+    if changed_name == "tipi":
+        changed[changed_name][0] = "changed"
+    else:
+        changed[changed_name].flat[0] += 1
+    np.savez_compressed(data / "D.npz", **changed)
+    with pytest.raises(ValueError, match=f"array SHA-256 mismatch for {changed_name}"):
+        verify_input_provenance(data, "ton", metadata["sha256"], provenance)
+
+
+def test_input_provenance_rejects_a_missing_array(tmp_path):
+    data, provenance, arrays, metadata = _input_fixture(tmp_path)
+    del arrays["frt"]
+    np.savez_compressed(data / "D.npz", **arrays)
+    with pytest.raises(ValueError, match="array schema"):
+        verify_input_provenance(data, "ton", metadata["sha256"], provenance)
+
+
+def test_input_provenance_rejects_misaligned_rows_even_if_declared(tmp_path):
+    _, _, arrays, _ = _input_fixture(tmp_path)
+    arrays["t_end"] = arrays["t_end"][:-1]
+    _, _, _, metadata = _input_fixture(tmp_path / "changed", arrays)
+    changed_data = tmp_path / "changed" / "data"
+    changed_provenance = tmp_path / "changed" / "provenance"
+    with pytest.raises(ValueError, match="not aligned"):
+        verify_input_provenance(
+            changed_data, "ton", metadata["sha256"], changed_provenance
+        )
+
+
+def test_input_provenance_rejects_duplicate_row_ids_even_if_declared(tmp_path):
+    arrays = {
+        "X": np.arange(32, dtype=np.float32).reshape(4, 8),
+        "y": np.asarray([0, 1, 0, 1], dtype=np.uint8),
+        "tipo": np.asarray([0, 1, 0, 1], dtype=np.int16),
+        "row_id": np.asarray([10, 10, 12, 13], dtype=np.int64),
+        "frt": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+        "t_start": np.asarray([0.5, 1.5, 2.5, 3.5], dtype=np.float64),
+        "t_end": np.asarray([1.0, 2.0, 3.0, 4.0], dtype=np.float64),
+        "tipi": np.asarray(["normal", "attack"]),
+    }
+    data, provenance, _, metadata = _input_fixture(tmp_path, arrays)
+    with pytest.raises(ValueError, match="row_id values are not unique"):
+        verify_input_provenance(data, "ton", metadata["sha256"], provenance)
 
 
 def test_synthetic_head_runner_emits_paired_tracks_and_causal_delay():
