@@ -3,12 +3,12 @@
 - file: `pilot_seed42_100_ceaf0e1.zip`;
 - dimensione: 3.509.715 byte;
 - SHA-256: `614bee42f90eb2114d804986e101caa1b3bcda7409f18ac25346ccc774d5454c`;
+- collegamento scaricabile:
+  [Google Drive](https://drive.google.com/file/d/1D_AvVA1vMnaw4xGm3OZbSr0T-K0C_wUe/view?usp=drive_link);
 - collocazione locale documentata:
   `adattamento-drift/archivio_esterno/adapt06_prospective_gate/`.
 
-Il collegamento scaricabile verrà registrato qui dopo il caricamento del file
-verificato, prima della consegna della PR. Il file `.zip.sha256` affianca
-l'archivio nella directory esterna.
+Il file `.zip.sha256` affianca l'archivio nella directory esterna.
 
 Il pacchetto contiene 12 report JSON, 20 traiettorie adattive, comandi,
 ambiente, tempi, memoria, contabilità delle label, supporti CAL/VERIFY,
