@@ -3,8 +3,9 @@
 Il protocollo è stato approvato al commit
 `3199f1eeba952a20f2be5fd60fee8b0317123627` e integrato in `main` col merge
 `e5163bce892a0aafdd5136ee7c6a618b9867eadc`. Questa directory contiene ora
-anche il checkpoint separato di implementazione e test. Non contiene risultati,
-smoke, pilot o campagne ADAPT-06.
+anche il checkpoint separato di implementazione e test e i riepiloghi leggeri
+del pilot seed 42 autorizzato dopo il merge della PR #13. Non contiene una
+campagna sui cinque seed.
 
 TON e UNSW restano stream di sviluppo già esaminati; una conferma indipendente
 appartiene ad ADAPT-07.
@@ -47,9 +48,18 @@ diversi; in tal caso vengono conservati entrambi gli hash del contenitore, ma
 l'esecuzione è ammessa soltanto se schema, dtype, forme, conteggi e SHA-256 di
 ogni array coincidono.
 
+## Pilot seed 42, primi 100 blocchi
+
+Il pilot è stato eseguito dal merge della PR #13
+`56cbfd9de62569bb1b72b63c0ec1640e4df2d318`, sul commit congelato
+`ceaf0e14a2619bbc38189a7cee046abcb0647994`, usando `--max-blocks 100` su TON
+e UNSW. I 12 JSON corrispondono a 20 traiettorie adattive. I riepiloghi,
+le decisioni, i costi e il puntatore al pacchetto completo sono in
+[`pilot_seed42/`](pilot_seed42/README.md).
+
 ## Confine di autorizzazione
 
-Il checkpoint autorizzato termina con runner e test sintetici. Il pilot seed 42
-non viene eseguito in questa consegna: richiede la verifica del PASS e una
-successiva autorizzazione. La matrice completa richiede una decisione ulteriore.
-La configurazione non sarà modificata in base ai futuri esiti.
+L'autorizzazione copre soltanto il pilot seed 42 sui primi 100 blocchi dei due
+stream. La matrice completa sui cinque seed richiede una decisione ulteriore e
+non è stata avviata. La configurazione non viene modificata in base agli esiti
+del pilot.

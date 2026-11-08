@@ -52,5 +52,6 @@ def test_documents_preserve_the_approved_gate_and_execution_boundary():
     assert "modello e soglia realmente operativi" in protocol
     assert "ricalibrata è soltanto diagnostica" in schema
     assert "repliche sfavorevoli" in protocol
-    assert "non viene eseguito" in readme
-    assert "non è autorizzato in questo checkpoint" in reproduction
+    assert "matrice completa sui cinque seed" in readme
+    assert "non è stata avviata" in readme
+    assert "decisione successiva" in reproduction
