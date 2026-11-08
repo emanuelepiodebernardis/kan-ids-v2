@@ -60,6 +60,13 @@ EXPLOIT ordina le righe rimaste per distanza assoluta dalla soglia e forma una
 shortlist di dieci volte i posti. Sulla shortlist applica farthest-first nelle
 feature trasformate rispetto a FIT192 e agli elementi già scelti nel blocco;
 `row_id` risolve gli spareggi. Il selettore non legge label correnti.
+Se FIT192 è vuota, il primo anchor farthest-first è il `row_id` minimo della
+shortlist; le selezioni successive usano le distanze dagli anchor già scelti.
+
+Per CONTROL, RANDOM-FIT e ACTIVE-EXPLORE il log distingue la probabilità
+marginale sul blocco da quella condizionata a non essere già in CONTROL. Per
+ACTIVE-EXPLOIT entrambe restano non definite e si conserva invece il rango
+deterministico.
 
 ## Soglie e riferimento threshold-only
 
@@ -122,6 +129,12 @@ che hanno effetto valutato.
 19. aggiorna la baseline threshold-only col suo CONTROL/CAL indipendente;
 20. scrivi digest, contatori, tempi e motivazioni; passa a k + 1.
 ```
+
+Per GAM/LR il digest di stato è lo SHA-256 dei parametri float64. Per ARF il
+log usa una catena SHA-256 del digest precedente, blocco FIT, `row_id` ed
+etichette arrivate: evita di serializzare l'intera foresta a ogni blocco. La
+dimensione serializzata finale e il picco RSS del processo sono misurati
+separatamente.
 
 Una label richiesta in `k` non può essere ricevuta al passo 9 né influire sui
 passi 10–20 prima della fine di `k+1`; il primo blocco predetto con il suo

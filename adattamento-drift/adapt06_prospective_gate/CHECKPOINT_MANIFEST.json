@@ -1,0 +1,37 @@
+{
+  "files": {
+    "COST_ESTIMATE.md": "f0dc3844f7d2ff727937502dbd582638ff094ae4173553c2ecf031e0ed252df4",
+    "LABEL_BUDGET.csv": "b211f78157ab9cb5a94cb7afaa2970d9366fc77f85f375f239c721d0fdbcf27a",
+    "LITERATURE_COMPARISON.md": "4852b05b0261e15a2dfb71905395dc4b815f6ef2ef8708a38f43353d4ec93253",
+    "MATRIX.csv": "6638ce1006261f38f7a4a604900a1554b61da34781a5d209a795ece524378053",
+    "PROTOCOL.md": "19d70e2a82ab849cf422265e27cbd50a868af8666e9799e654b019d71cc08991",
+    "README.md": "9d70b2d0ab278489cac038e2f8f6314750b3574a0504937ccd655dba591c74c9",
+    "REPRODUCTION.md": "0227502bc9234ded09da653dc40d7b9190944ccd72b31e33f3c4a75573968507",
+    "TEMPORAL_SCHEMA.md": "dd7a36b8d7abd45d21e26747daf78cc3233029def1d7fe05078c54f7915afc7f",
+    "TEST_LOG.txt": "a9c2c6ebf60938e10e99ac618fa2d6566c5c2a4667132c3e8d32d21a99d2483b",
+    "__init__.py": "0b1bee3f77daae5b30662e27678a0bf5b44a3f2b5a7f19905ace71780fef4b95",
+    "core.py": "8c52803db7ce258e8539cb68d03f92acb6b99e3983d8e3ff2adf8ae6819b8324",
+    "models.py": "6192113552ab1fbaf938a4770ec141d04f7ba9a0b9d7e29ae0cc2220046ceb2a",
+    "runner.py": "d11bee7d294cbd5ac7a2de991a033ad1e68fe32132174f52621d88ab4074a601",
+    "test_contract.py": "82ba4a53967037492a40f668b6381e72159e4ee91da48272f2889cc8c8f01ecb",
+    "test_core.py": "5ecfd7a10690a42e08b7dd7260d4b384276da7ea6b40aa79f435906590cee2ec",
+    "test_models.py": "be8fc029c9ba56fe8ec0ca748601fccb1f52c41236c2b5ee9d953a1ec850882f",
+    "test_runner.py": "3131d65b2b4c507ddb0feb59be0eefe022fa578c14c6b4cd89eb5a8d1621ff93",
+    "verify_checkpoint.py": "d5474d94ef9c70c29816d898a4c26f97aff0ad517eeaacb2de97dce951b6b8e5"
+  },
+  "implementation_commit": "6f19ae3b2cc3d988ee6cc8bbbd6c896422ee4aab",
+  "protocol_commit": "3199f1eeba952a20f2be5fd60fee8b0317123627",
+  "protocol_merge": "e5163bce892a0aafdd5136ee7c6a618b9867eadc",
+  "schema": "adapt06-implementation-checkpoint-v1",
+  "scope": "runner_and_synthetic_tests_only_no_pilot",
+  "test_command": [
+    "python",
+    "-m",
+    "pytest",
+    "adattamento-drift/adapt06_prospective_gate/test_core.py",
+    "adattamento-drift/adapt06_prospective_gate/test_contract.py",
+    "adattamento-drift/adapt06_prospective_gate/test_models.py",
+    "adattamento-drift/adapt06_prospective_gate/test_runner.py",
+    "-q"
+  ]
+}
