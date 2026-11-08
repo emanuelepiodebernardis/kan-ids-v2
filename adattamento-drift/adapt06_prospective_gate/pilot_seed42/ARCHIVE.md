@@ -1,8 +1,8 @@
 # Archivio completo del pilot
 
 - file: `pilot_seed42_100_ceaf0e1.zip`;
-- dimensione: 3.509.708 byte;
-- SHA-256: `a822d492dfc8818297502eb77ad804bfd2ba59c834de72066755c9f07d43739b`;
+- dimensione: 3.509.715 byte;
+- SHA-256: `614bee42f90eb2114d804986e101caa1b3bcda7409f18ac25346ccc774d5454c`;
 - collocazione locale documentata:
   `adattamento-drift/archivio_esterno/adapt06_prospective_gate/`.
 
