@@ -1,0 +1,8 @@
+ADAPT-06 full-matrix preflight, Windows 11, Python 3.13
+Command: python -m pytest adattamento-drift/adapt06_prospective_gate -q
+Result: 55 passed in 27.60s
+
+Static checks:
+- ruff check: PASS
+- ruff format --check: PASS (12 files)
+- py_compile run_full_matrix.py analyze_full_matrix.py: PASS
