@@ -63,7 +63,9 @@ py -3.13 ANALYZE_PILOT.py
 
 Il comando deve riportare `PASS`, 12 report, 20 traiettorie adattive, nessuna
 promozione GATED, 12 rifiuti per danno, quattro candidati pendenti e quattro
-report con supporto insufficiente. `SHA256SUMS.txt` verifica prima i file
+report con supporto insufficiente. Deve inoltre confermare la conservazione dei
+ruoli in 12/12 report: RANDOM usa CONTROL+RANDOM_FIT, ACTIVE usa
+CONTROL+ACTIVE_EXPLORE+ACTIVE_EXPLOIT. `SHA256SUMS.txt` verifica prima i file
 consegnati. Non si sostituisce `--max-blocks 100` con una corsa completa senza
 una decisione successiva.
 
@@ -94,3 +96,6 @@ I test verificano:
 12. uguaglianza e valori appena sotto/sopra i margini inclusivi di recall e
     FPR, usando conteggi esatti nel gate e una tolleranza limitata al solo
     arrotondamento nella media fra seed.
+13. conteggio dei ruoli direttamente dai `query_audit`, conservazione delle
+    richieste per RANDOM e ACTIVE e ricalcolo delle interpretazioni numeriche
+    del pilot dalle tabelle consegnate.

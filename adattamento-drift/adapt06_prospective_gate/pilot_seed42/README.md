@@ -19,6 +19,9 @@ TON e UNSW. L'esecuzione usa il commit
   e candidati pendenti;
 - [`PILOT_MANIFEST.json`](PILOT_MANIFEST.json): ambiente, commit, hash dei 12
   JSON e dei file di analisi;
+- [`ORIGINAL_REPORT_SHA256.json`](ORIGINAL_REPORT_SHA256.json): inventario
+  congelato degli hash dei 12 JSON originali, verificato prima di ogni
+  rigenerazione;
 - [`ARCHIVE.md`](ARCHIVE.md): posizione, dimensione e SHA-256 del pacchetto
   completo esterno.
 

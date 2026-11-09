@@ -4,14 +4,38 @@
     "python": "3.13.2"
   },
   "checks": {
+    "active_role_counts": {
+      "ACTIVE_EXPLOIT": 6000,
+      "ACTIVE_EXPLORE": 1500,
+      "CONTROL": 2500,
+      "RANDOM_FIT": 0
+    },
     "adaptive_trajectories": 20,
     "all_tracks_including_references": 52,
+    "final_tests_passed": 50,
     "gated_promotions": 0,
     "pending_candidate_reports": 4,
     "preflight_tests_passed": 48,
+    "random_role_counts": {
+      "ACTIVE_EXPLOIT": 0,
+      "ACTIVE_EXPLORE": 0,
+      "CONTROL": 2500,
+      "RANDOM_FIT": 7500
+    },
     "reject_harm": 12,
     "reports": 12,
-    "support_insufficient_reports": 4
+    "role_conservation_reports": 12,
+    "support_insufficient_reports": 4,
+    "unsw_arf_adaptive_fpr": {
+      "active": 0.9503186115165605,
+      "random": 0.9800017201733328,
+      "threshold_b_preserved": true
+    },
+    "unsw_gam_active": {
+      "always_minus_gated_fpr_pp": 6.505417281164862,
+      "gated_recall_advantage_over_always_pp": 15.515660371951745,
+      "primary_fpr_comparability_pass": false
+    }
   },
   "costs": {
     "maximum_online_logical_payload_bytes": 101974,
@@ -34,8 +58,8 @@
       "sha256": "fd57be1b04edea158dc49ec471bf6e1c04ff49bf5dc7094cc8c48170be3b711e"
     },
     "ANALYZE_PILOT.py": {
-      "bytes": 21376,
-      "sha256": "8dec2b278e29b5a8d50654fedbf989ab72bd18fb7118546fb30b249a06babe48"
+      "bytes": 29412,
+      "sha256": "3a0815b27d487b010029a1507dad9cf9bed10268b4ddcd5a3b3522cfceeea186"
     },
     "CANDIDATE_DECISIONS.csv": {
       "bytes": 3613,
@@ -49,9 +73,21 @@
       "bytes": 1577,
       "sha256": "0f3195db28d0f493488259f27196e6ceced44a89d09f8ce4e0a958a0bfa53d31"
     },
+    "FINAL_CHECKPOINT_MANIFEST.json": {
+      "bytes": 2270,
+      "sha256": "8e70ec1826e50f59d3f41a0becd419738754adea4367fc956bee91ea98288ce7"
+    },
+    "FINAL_TEST_LOG.txt": {
+      "bytes": 354,
+      "sha256": "23de6e1b43378f59b8ce8af1992cde2344cd2ea9e6103f4fd06df396d1afa243"
+    },
+    "ORIGINAL_REPORT_SHA256.json": {
+      "bytes": 1217,
+      "sha256": "479c2a634bfa51fc7c5789e865c80cc8d0ffe06b112ef70eeea2206496c4afe9"
+    },
     "PILOT_REPORT.md": {
-      "bytes": 2911,
-      "sha256": "005a1e85f371c182ce545f6ee85efc2f584b30e1f803ab5685fbebd879022439"
+      "bytes": 4296,
+      "sha256": "a0001186be619da8f99e048b324c3d4cbbc36a6203fb7308f3c1b4897480f58f"
     },
     "PREFLIGHT_CHECKPOINT_MANIFEST.json": {
       "bytes": 2270,
@@ -62,8 +98,8 @@
       "sha256": "18baa2f1ef0e0cbaaccb76287e579c0d1667fbe4829bd96d14f7a81c1058df1e"
     },
     "REPORT_SUMMARY.csv": {
-      "bytes": 4128,
-      "sha256": "fb38bc68d3d752c8ad97e75097f63fa2d7925d052da295e8b0059f7199873bff"
+      "bytes": 4337,
+      "sha256": "115e8d769df089b717312d98b980d6de609edd4ba76e5fa2ce3a52f59f722116"
     },
     "RUN_PILOT.ps1": {
       "bytes": 4503,

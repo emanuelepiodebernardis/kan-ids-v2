@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 from .core import budget_for_block
@@ -55,3 +56,98 @@ def test_documents_preserve_the_approved_gate_and_execution_boundary():
     assert "matrice completa sui cinque seed" in readme
     assert "non è stata avviata" in readme
     assert "decisione successiva" in reproduction
+
+
+def test_pilot_request_roles_are_logged_and_conserved_for_both_policies():
+    rows = _csv("pilot_seed42/REPORT_SUMMARY.csv")
+    assert len(rows) == 12
+    assert sum(row["acquisition"] == "random" for row in rows) == 6
+    assert sum(row["acquisition"] == "active" for row in rows) == 6
+    for row in rows:
+        requested = int(row["labels_requested"])
+        counts = {
+            "CONTROL": int(row["control_requests"]),
+            "RANDOM_FIT": int(row["random_fit_requests"]),
+            "ACTIVE_EXPLORE": int(row["active_explore_requests"]),
+            "ACTIVE_EXPLOIT": int(row["active_exploit_requests"]),
+        }
+        expected = (
+            {
+                "CONTROL": 2_500,
+                "RANDOM_FIT": 7_500,
+                "ACTIVE_EXPLORE": 0,
+                "ACTIVE_EXPLOIT": 0,
+            }
+            if row["acquisition"] == "random"
+            else {
+                "CONTROL": 2_500,
+                "RANDOM_FIT": 0,
+                "ACTIVE_EXPLORE": 1_500,
+                "ACTIVE_EXPLOIT": 6_000,
+            }
+        )
+        assert counts == expected
+        assert sum(counts.values()) == requested == int(row["role_requests_total"])
+        assert row["role_conservation_pass"] == "True"
+
+
+def test_pilot_interpretation_is_recomputed_from_delivered_tables():
+    rows = _csv("pilot_seed42/TRACK_METRICS.csv")
+
+    def track(dataset: str, family: str, acquisition: str, name: str):
+        return next(
+            row
+            for row in rows
+            if row["dataset"] == dataset
+            and row["family"] == family
+            and row["acquisition"] == acquisition
+            and row["track"] == name
+        )
+
+    metric_fields = (
+        "tn",
+        "fp",
+        "fn",
+        "tp",
+        "normal",
+        "attack",
+        "recall",
+        "fpr",
+        "balanced_accuracy",
+        "auroc_valid_blocks",
+        "auroc_macro",
+        "auroc_normal_weighted",
+    )
+
+    def metrics(row):
+        return tuple(row[field] for field in metric_fields)
+
+    for family in ("spline", "lr"):
+        for acquisition in ("random", "active"):
+            ton = [
+                track("ton", family, acquisition, name)
+                for name in ("always", "gated", "frozen_b")
+            ]
+            assert metrics(ton[0]) == metrics(ton[1]) == metrics(ton[2])
+            assert metrics(track("unsw", family, acquisition, "gated")) == metrics(
+                track("unsw", family, acquisition, "frozen_b")
+            )
+
+    gam_always = track("unsw", "spline", "active", "always")
+    gam_gated = track("unsw", "spline", "active", "gated")
+    recall_advantage_pp = 100 * (
+        float(gam_gated["recall"]) - float(gam_always["recall"])
+    )
+    fpr_distance_pp = 100 * (float(gam_always["fpr"]) - float(gam_gated["fpr"]))
+    assert 15.51 < recall_advantage_pp < 15.53
+    assert 6.50 < fpr_distance_pp < 6.52
+
+    manifest = json.loads(
+        (HERE / "pilot_seed42/PILOT_MANIFEST.json").read_text(encoding="utf-8")
+    )
+    checks = manifest["checks"]
+    assert checks["role_conservation_reports"] == 12
+    assert checks["unsw_gam_active"]["primary_fpr_comparability_pass"] is False
+    assert checks["unsw_arf_adaptive_fpr"]["random"] > 0.98
+    assert checks["unsw_arf_adaptive_fpr"]["active"] > 0.95
+    assert checks["unsw_arf_adaptive_fpr"]["threshold_b_preserved"] is True
