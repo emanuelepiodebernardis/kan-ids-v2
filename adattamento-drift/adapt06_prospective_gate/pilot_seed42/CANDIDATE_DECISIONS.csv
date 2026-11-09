@@ -1,0 +1,33 @@
+dataset,family,acquisition,block,freeze_block,status,look_index,normal,attack,candidate_recall,candidate_fpr,incumbent_recall,incumbent_fpr,recall_delta,fpr_delta,reason
+unsw,spline,random,17,,FREEZE,,,,,,,,,,
+unsw,spline,random,36,17,REJECT_HARM,0,350,100,0.94,0.07428571428571429,0.89,0.017142857142857144,0.04999999999999993,0.05714285714285715,a preregistered harm boundary is crossed
+unsw,spline,random,37,,FREEZE,,,,,,,,,,
+unsw,spline,random,58,37,REJECT_HARM,0,400,100,0.96,0.0375,0.92,0.01,0.039999999999999925,0.027499999999999997,a preregistered harm boundary is crossed
+unsw,spline,random,59,,FREEZE,,,,,,,,,,
+unsw,spline,random,79,59,REJECT_HARM,0,374,101,0.9801980198019802,0.2914438502673797,0.9702970297029703,0.0106951871657754,0.00990099009900991,0.2807486631016043,a preregistered harm boundary is crossed
+unsw,spline,random,80,,FREEZE,,,,,,,,,,
+unsw,spline,random,99,80,PENDING_AT_PILOT_END,,355,95,0.9789473684210527,0.03380281690140845,0.968421052631579,0.030985915492957747,,,pilot prefix ended; no terminal gate decision was forced
+unsw,spline,active,17,,FREEZE,,,,,,,,,,
+unsw,spline,active,36,17,REJECT_HARM,0,350,100,0.12,0.054285714285714284,0.89,0.017142857142857144,-0.77,0.037142857142857144,a preregistered harm boundary is crossed
+unsw,spline,active,37,,FREEZE,,,,,,,,,,
+unsw,spline,active,58,37,REJECT_HARM,0,400,100,0.91,0.025,0.92,0.01,-0.010000000000000009,0.015000000000000001,a preregistered harm boundary is crossed
+unsw,spline,active,59,,FREEZE,,,,,,,,,,
+unsw,spline,active,79,59,REJECT_HARM,0,374,101,0.9900990099009901,0.29411764705882354,0.9702970297029703,0.0106951871657754,0.01980198019801982,0.28342245989304815,a preregistered harm boundary is crossed
+unsw,spline,active,80,,FREEZE,,,,,,,,,,
+unsw,spline,active,99,80,PENDING_AT_PILOT_END,,355,95,0.968421052631579,0.03380281690140845,0.968421052631579,0.030985915492957747,,,pilot prefix ended; no terminal gate decision was forced
+unsw,lr,random,17,,FREEZE,,,,,,,,,,
+unsw,lr,random,36,17,REJECT_HARM,0,350,100,0.9,0.02857142857142857,0.84,0.017142857142857144,0.06000000000000005,0.011428571428571427,a preregistered harm boundary is crossed
+unsw,lr,random,37,,FREEZE,,,,,,,,,,
+unsw,lr,random,58,37,REJECT_HARM,0,400,100,0.99,0.0425,0.91,0.02,0.07999999999999996,0.022500000000000003,a preregistered harm boundary is crossed
+unsw,lr,random,59,,FREEZE,,,,,,,,,,
+unsw,lr,random,79,59,REJECT_HARM,0,374,101,0.9603960396039604,0.026737967914438502,0.9108910891089109,0.0106951871657754,0.04950495049504944,0.016042780748663103,a preregistered harm boundary is crossed
+unsw,lr,random,80,,FREEZE,,,,,,,,,,
+unsw,lr,random,99,80,PENDING_AT_PILOT_END,,355,95,0.9368421052631579,0.04225352112676056,0.8631578947368421,0.03943661971830986,,,pilot prefix ended; no terminal gate decision was forced
+unsw,lr,active,17,,FREEZE,,,,,,,,,,
+unsw,lr,active,36,17,REJECT_HARM,0,350,100,0.15,0.03142857142857143,0.84,0.017142857142857144,-0.69,0.014285714285714287,a preregistered harm boundary is crossed
+unsw,lr,active,37,,FREEZE,,,,,,,,,,
+unsw,lr,active,58,37,REJECT_HARM,0,400,100,1.0,0.0475,0.91,0.02,0.08999999999999997,0.0275,a preregistered harm boundary is crossed
+unsw,lr,active,59,,FREEZE,,,,,,,,,,
+unsw,lr,active,79,59,REJECT_HARM,0,374,101,0.9702970297029703,0.026737967914438502,0.9108910891089109,0.0106951871657754,0.05940594059405935,0.016042780748663103,a preregistered harm boundary is crossed
+unsw,lr,active,80,,FREEZE,,,,,,,,,,
+unsw,lr,active,99,80,PENDING_AT_PILOT_END,,355,95,0.9894736842105263,0.05070422535211268,0.8631578947368421,0.03943661971830986,,,pilot prefix ended; no terminal gate decision was forced

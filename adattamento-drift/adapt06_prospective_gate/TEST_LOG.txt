@@ -1,3 +1,3 @@
 $ python -m pytest adattamento-drift/adapt06_prospective_gate/test_core.py adattamento-drift/adapt06_prospective_gate/test_contract.py adattamento-drift/adapt06_prospective_gate/test_models.py adattamento-drift/adapt06_prospective_gate/test_runner.py -q
-....................................                                     [100%]
-36 passed in 14.22s
+..................................................                       [100%]
+50 passed in 39.21s
