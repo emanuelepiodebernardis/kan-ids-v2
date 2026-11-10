@@ -73,6 +73,12 @@ La fine del prefisso produce `PENDING_AT_PILOT_END` per un candidato ancora
 aperto: non simula la fine reale dello stream, non forza un withholding e non
 trasferisce retroattivamente VERIFY in CAL.
 
+Questa sezione conserva il confine vigente al momento del pilot. La matrice
+completa sui cinque seed è stata successivamente autorizzata, senza modificare
+il protocollo, dopo la verifica della PR #14. Runner, analisi, archivio e
+comandi della campagna completa sono descritti separatamente in
+[`FULL_MATRIX_REPRODUCTION.md`](FULL_MATRIX_REPRODUCTION.md).
+
 ## Controlli coperti
 
 I test verificano:

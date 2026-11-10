@@ -3,7 +3,17 @@ from __future__ import annotations
 from collections import Counter
 from pathlib import Path
 
-from .analyze_full_matrix import expected_report_names, expected_roles, primary_seed_row
+from .analyze_full_matrix import (
+    REPRODUCTION_FILES,
+    REPRODUCTION_LIGHTWEIGHT_FIGURES,
+    REPRODUCTION_LIGHTWEIGHT_FILES,
+    REPRODUCTION_PILOT_FILES,
+    REPRODUCTION_TON_TEMPORAL_FILES,
+    expected_report_names,
+    expected_roles,
+    primary_seed_row,
+    summarize_paired,
+)
 from .core import aggregate_seed_outcomes
 from .run_full_matrix import command_for, matrix_cells
 
@@ -119,3 +129,55 @@ def test_archive_arcname_is_relative_to_package_root():
     assert (Path(root.name) / nested.relative_to(root)).as_posix() == (
         "full_matrix_deadbeef/reports/ton.json"
     )
+
+
+def test_paired_summary_requires_all_five_seeds_and_reports_dispersion():
+    rows = []
+    for dataset in ("ton", "unsw"):
+        for family in ("spline", "lr"):
+            for acquisition in ("random", "active"):
+                for seed, recall_delta in zip(
+                    range(42, 47), (0.01, 0.02, 0.03, 0.04, 0.05)
+                ):
+                    rows.append(
+                        {
+                            "dataset": dataset,
+                            "family": family,
+                            "acquisition": acquisition,
+                            "seed": seed,
+                            "recall_delta_second_minus_first": recall_delta,
+                            "fpr_delta_second_minus_first": 0.002 * (seed - 44),
+                            "balanced_accuracy_delta_second_minus_first": recall_delta
+                            / 2,
+                        }
+                    )
+    summary = summarize_paired(rows)
+    assert len(summary) == 8
+    assert all(row["seeds"] == 5 for row in summary)
+    assert all(abs(float(row["mean_recall_delta"]) - 0.03) < 1e-15 for row in summary)
+    assert all(float(row["sample_sd_recall_delta"]) > 0 for row in summary)
+    assert all(row["recall_improved_seeds"] == 5 for row in summary)
+    assert all(row["absolute_fpr_delta_le_1pp_seeds"] == 5 for row in summary)
+
+
+def test_reproduction_bundle_covers_runner_analysis_tests_and_protocol():
+    required = {
+        "run_full_matrix.py",
+        "analyze_full_matrix.py",
+        "test_full_matrix.py",
+        "PROTOCOL.md",
+        "FULL_MATRIX_REPRODUCTION.md",
+        "FULL_MATRIX_TEST_LOG.txt",
+    }
+    assert required <= set(REPRODUCTION_FILES)
+    assert set(REPRODUCTION_TON_TEMPORAL_FILES) == {
+        "replay.py",
+        "soglia_bilanciata.py",
+    }
+    assert {
+        "REPORT_SUMMARY.csv",
+        "TRACK_METRICS.csv",
+        "PILOT_MANIFEST.json",
+    } <= set(REPRODUCTION_PILOT_FILES)
+    assert "AGGREGATE_DECISION.json" in REPRODUCTION_LIGHTWEIGHT_FILES
+    assert len(REPRODUCTION_LIGHTWEIGHT_FIGURES) == 4

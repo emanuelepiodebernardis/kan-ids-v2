@@ -1,0 +1,47 @@
+{
+  "datasets": {
+    "ton": {
+      "fpr_pass": 0,
+      "included_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mean_recall_delta": 0.09262895410918742,
+      "planned": 5,
+      "reported": 5,
+      "status": "NO-GO",
+      "supported": 5,
+      "unfavorable_fpr_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    "unsw": {
+      "fpr_pass": 2,
+      "included_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "mean_recall_delta": 0.24377007942265477,
+      "planned": 5,
+      "reported": 5,
+      "status": "NO-GO",
+      "supported": 5,
+      "unfavorable_fpr_seeds": [
+        42,
+        44,
+        46
+      ]
+    }
+  },
+  "overall": "NO-GO"
+}

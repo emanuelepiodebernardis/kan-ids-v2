@@ -9,6 +9,8 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import shutil
+import statistics
 import sys
 import zipfile
 
@@ -57,6 +59,61 @@ METRIC_FIELDS = (
     "auroc_normal_weighted",
 )
 
+REPRODUCTION_FILES = (
+    "__init__.py",
+    "analyze_full_matrix.py",
+    "core.py",
+    "models.py",
+    "runner.py",
+    "run_full_matrix.py",
+    "test_contract.py",
+    "test_core.py",
+    "test_full_matrix.py",
+    "test_models.py",
+    "test_runner.py",
+    "verify_checkpoint.py",
+    "CHECKPOINT_MANIFEST.json",
+    "COST_ESTIMATE.md",
+    "FULL_MATRIX_AUTHORIZATION.md",
+    "FULL_MATRIX_REPRODUCTION.md",
+    "FULL_MATRIX_TEST_LOG.txt",
+    "LABEL_BUDGET.csv",
+    "LITERATURE_COMPARISON.md",
+    "MATRIX.csv",
+    "PROTOCOL.md",
+    "README.md",
+    "REPRODUCTION.md",
+    "TEMPORAL_SCHEMA.md",
+    "TEST_LOG.txt",
+)
+REPRODUCTION_TON_TEMPORAL_FILES = ("replay.py", "soglia_bilanciata.py")
+REPRODUCTION_PILOT_FILES = (
+    "ADAPTIVE_TRAJECTORIES.csv",
+    "ARCHIVE.md",
+    "CANDIDATE_DECISIONS.csv",
+    "ORIGINAL_REPORT_SHA256.json",
+    "PILOT_MANIFEST.json",
+    "PILOT_REPORT.md",
+    "README.md",
+    "REPORT_SUMMARY.csv",
+    "TRACK_METRICS.csv",
+)
+REPRODUCTION_LIGHTWEIGHT_FILES = (
+    "AGGREGATE_DECISION.json",
+    "DECISION_COUNTS.csv",
+    "FULL_MATRIX_REPORT.md",
+    "PAIRED_GROUP_SUMMARY.csv",
+    "PRIMARY_SEED_OUTCOMES.csv",
+    "README.md",
+    "REPORT_SUMMARY.csv",
+)
+REPRODUCTION_LIGHTWEIGHT_FIGURES = (
+    "execution_costs.png",
+    "gate_decisions.png",
+    "primary_paired_deltas.png",
+    "primary_recall_fpr.png",
+)
+
 
 def sha256(path: Path) -> str:
     digest = hashlib.sha256()
@@ -68,6 +125,63 @@ def sha256(path: Path) -> str:
 
 def file_record(path: Path) -> dict[str, object]:
     return {"sha256": sha256(path), "bytes": path.stat().st_size}
+
+
+def copy_reproduction_bundle(root: Path) -> list[Path]:
+    destination = root / "reproduction" / "adapt06_prospective_gate"
+    destination.mkdir(parents=True, exist_ok=True)
+    copied = []
+    for name in REPRODUCTION_FILES:
+        source = HERE / name
+        target = destination / name
+        if not source.is_file():
+            raise AssertionError(f"missing reproduction source: {name}")
+        if source.resolve() != target.resolve():
+            shutil.copy2(source, target)
+        copied.append(target)
+    temporal_source = HERE.parent / "ton_temporal"
+    temporal_destination = root / "reproduction" / "ton_temporal"
+    temporal_destination.mkdir(parents=True, exist_ok=True)
+    for name in REPRODUCTION_TON_TEMPORAL_FILES:
+        source = temporal_source / name
+        target = temporal_destination / name
+        if not source.is_file():
+            raise AssertionError(f"missing temporal reproduction source: {name}")
+        if source.resolve() != target.resolve():
+            shutil.copy2(source, target)
+        copied.append(target)
+    pilot_source = HERE / "pilot_seed42"
+    pilot_destination = destination / "pilot_seed42"
+    pilot_destination.mkdir(parents=True, exist_ok=True)
+    for name in REPRODUCTION_PILOT_FILES:
+        source = pilot_source / name
+        target = pilot_destination / name
+        if not source.is_file():
+            raise AssertionError(f"missing pilot reproduction source: {name}")
+        if source.resolve() != target.resolve():
+            shutil.copy2(source, target)
+        copied.append(target)
+    lightweight_source = HERE / "full_matrix"
+    lightweight_destination = destination / "full_matrix"
+    figure_destination = lightweight_destination / "figures"
+    figure_destination.mkdir(parents=True, exist_ok=True)
+    for name in REPRODUCTION_LIGHTWEIGHT_FILES:
+        source = lightweight_source / name
+        target = lightweight_destination / name
+        if not source.is_file():
+            raise AssertionError(f"missing lightweight reproduction source: {name}")
+        if source.resolve() != target.resolve():
+            shutil.copy2(source, target)
+        copied.append(target)
+    for name in REPRODUCTION_LIGHTWEIGHT_FIGURES:
+        source = lightweight_source / "figures" / name
+        target = figure_destination / name
+        if not source.is_file():
+            raise AssertionError(f"missing lightweight figure: {name}")
+        if source.resolve() != target.resolve():
+            shutil.copy2(source, target)
+        copied.append(target)
+    return copied
 
 
 def write_csv(path: Path, rows: list[dict[str, object]]) -> None:
@@ -167,9 +281,66 @@ def paired_row(report: dict, track_a: str, track_b: str) -> dict[str, object]:
     }
 
 
+def summarize_paired(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    summaries = []
+    for dataset in DATASETS:
+        for family in ("spline", "lr"):
+            for acquisition in ACQUISITIONS:
+                group = [
+                    row
+                    for row in rows
+                    if row["dataset"] == dataset
+                    and row["family"] == family
+                    and row["acquisition"] == acquisition
+                ]
+                if len(group) != 5 or {int(row["seed"]) for row in group} != set(
+                    range(42, 47)
+                ):
+                    raise AssertionError(
+                        f"incomplete paired group: {dataset}/{family}/{acquisition}"
+                    )
+                recall = [
+                    float(row["recall_delta_second_minus_first"]) for row in group
+                ]
+                fpr = [float(row["fpr_delta_second_minus_first"]) for row in group]
+                balanced = [
+                    float(row["balanced_accuracy_delta_second_minus_first"])
+                    for row in group
+                ]
+                summaries.append(
+                    {
+                        "dataset": dataset,
+                        "family": family,
+                        "acquisition": acquisition,
+                        "seeds": 5,
+                        "mean_recall_delta": statistics.fmean(recall),
+                        "sample_sd_recall_delta": statistics.stdev(recall),
+                        "min_recall_delta": min(recall),
+                        "max_recall_delta": max(recall),
+                        "recall_improved_seeds": sum(value > 0 for value in recall),
+                        "mean_fpr_delta": statistics.fmean(fpr),
+                        "sample_sd_fpr_delta": statistics.stdev(fpr),
+                        "min_fpr_delta": min(fpr),
+                        "max_fpr_delta": max(fpr),
+                        "absolute_fpr_delta_le_1pp_seeds": sum(
+                            abs(value) <= 0.01 + 1e-15 for value in fpr
+                        ),
+                        "mean_balanced_accuracy_delta": statistics.fmean(balanced),
+                        "sample_sd_balanced_accuracy_delta": statistics.stdev(balanced),
+                    }
+                )
+    return summaries
+
+
 def plot_primary(rows: list[dict[str, object]], out: Path) -> None:
     fig, axes = plt.subplots(1, 2, figsize=(11, 4.5), sharex=True, sharey=True)
     colors = {42: "#1f77b4", 43: "#ff7f0e", 44: "#2ca02c", 45: "#d62728", 46: "#9467bd"}
+    label_offsets = {
+        ("ton", 42): (6, -9),
+        ("ton", 43): (-12, 5),
+        ("ton", 44): (-18, 5),
+        ("ton", 45): (6, -9),
+    }
     for axis, dataset in zip(axes, DATASETS, strict=True):
         subset = [row for row in rows if row["dataset"] == dataset]
         for row in subset:
@@ -187,7 +358,7 @@ def plot_primary(rows: list[dict[str, object]], out: Path) -> None:
                     100 * float(row["fpr_delta"]),
                     100 * float(row["recall_delta"]),
                 ),
-                xytext=(4, 4),
+                xytext=label_offsets.get((dataset, seed), (4, 4)),
                 textcoords="offset points",
                 fontsize=8,
             )
@@ -554,10 +725,12 @@ def main(argv: list[str] | None = None) -> None:
         )
 
     aggregate = aggregate_seed_outcomes(primary)
+    paired_summary = summarize_paired(paired)
     write_csv(root / "REPORT_SUMMARY.csv", summaries)
     write_csv(root / "ADAPTIVE_TRAJECTORIES.csv", trajectories)
     write_csv(root / "TRACK_METRICS.csv", tracks)
     write_csv(root / "PAIRED_SEED_COMPARISONS.csv", paired)
+    write_csv(root / "PAIRED_GROUP_SUMMARY.csv", paired_summary)
     write_csv(root / "PRIMARY_SEED_OUTCOMES.csv", primary)
     write_csv(root / "CANDIDATE_DECISIONS.csv", decisions)
     write_csv(root / "DECISION_COUNTS.csv", decision_rows)
@@ -591,6 +764,19 @@ def main(argv: list[str] | None = None) -> None:
             f"{item['fpr_pass']}/5 | "
             f"{italian(None if mean_recall is None else 100 * mean_recall, 2)} pp |"
         )
+    paired_lines = [
+        (
+            f"| {row['dataset'].upper()} | {str(row['family']).upper()} | "
+            f"{str(row['acquisition']).upper()} | "
+            f"{italian(100 * float(row['mean_recall_delta']), 2)} ± "
+            f"{italian(100 * float(row['sample_sd_recall_delta']), 2)} | "
+            f"{italian(100 * float(row['mean_fpr_delta']), 2)} ± "
+            f"{italian(100 * float(row['sample_sd_fpr_delta']), 2)} | "
+            f"{row['recall_improved_seeds']}/5 | "
+            f"{row['absolute_fpr_delta_le_1pp_seeds']}/5 |"
+        )
+        for row in paired_summary
+    ]
     report_lines = [
         "# ADAPT-06 — matrice completa del gate prospettico",
         "",
@@ -612,6 +798,14 @@ def main(argv: list[str] | None = None) -> None:
         f"**Esito complessivo: {aggregate['overall']}**.",
         "",
         "L'esito usa GAM ACTIVE, confusioni aggregate sull'intero stream e tutti i seed supportati, compresi quelli con FPR sfavorevole. GO richiede almeno quattro seed supportati, almeno quattro FPR_PASS e un aumento medio di recall di almeno 2 punti percentuali in entrambi i dataset.",
+        "",
+        "## Confronti appaiati sui cinque seed",
+        "",
+        "| Dataset | Famiglia | Acquisizione | Δ recall medio ± DS (pp) | Δ FPR medio ± DS (pp) | Recall migliore | |ΔFPR| ≤ 1 pp |",
+        "|---|---|---|---:|---:|---:|---:|",
+        *paired_lines,
+        "",
+        "Le dispersioni sono deviazioni standard campionarie sulle cinque differenze appaiate. Un Δ positivo indica GATED maggiore di ALWAYS. La colonna |ΔFPR| ≤ 1 pp descrive soltanto la distanza; l'esito primario richiede anche FPR GATED non superiore al 6%.",
         "",
         "## Inventario e controlli",
         "",
@@ -635,19 +829,21 @@ def main(argv: list[str] | None = None) -> None:
         "",
         "## Tabelle e figure",
         "",
-        "`PRIMARY_SEED_OUTCOMES.csv` e `AGGREGATE_DECISION.json` implementano la regola primaria. `PAIRED_SEED_COMPARISONS.csv` conserva i 40 confronti GATED−ALWAYS per GAM/LR e RANDOM/ACTIVE. `ADAPTIVE_TRAJECTORIES.csv` contiene le 100 traiettorie; `CANDIDATE_DECISIONS.csv` conserva ogni freeze, look, promozione, rifiuto e withholding.",
+        "`PRIMARY_SEED_OUTCOMES.csv` e `AGGREGATE_DECISION.json` implementano la regola primaria. `PAIRED_SEED_COMPARISONS.csv` conserva i 40 confronti GATED−ALWAYS per GAM/LR e RANDOM/ACTIVE; `PAIRED_GROUP_SUMMARY.csv` ne riporta media, dispersione e supporto sui cinque seed. `ADAPTIVE_TRAJECTORIES.csv` contiene le 100 traiettorie; `CANDIDATE_DECISIONS.csv` conserva ogni freeze, look, promozione, rifiuto e withholding.",
         "",
         "Le figure mostrano differenze primarie appaiate, livelli di recall/FPR, decisioni del gate e costi per cella. Sono descrittive e non modificano i criteri preregistrati.",
     ]
     (root / "FULL_MATRIX_REPORT.md").write_text(
         "\n".join(report_lines) + "\n", encoding="utf-8", newline="\n"
     )
+    reproduction_files = copy_reproduction_bundle(root)
 
     generated = [
         "REPORT_SUMMARY.csv",
         "ADAPTIVE_TRAJECTORIES.csv",
         "TRACK_METRICS.csv",
         "PAIRED_SEED_COMPARISONS.csv",
+        "PAIRED_GROUP_SUMMARY.csv",
         "PRIMARY_SEED_OUTCOMES.csv",
         "CANDIDATE_DECISIONS.csv",
         "DECISION_COUNTS.csv",
@@ -670,6 +866,7 @@ def main(argv: list[str] | None = None) -> None:
             "reports": len(summaries),
             "adaptive_trajectories": len(trajectories),
             "paired_comparisons": len(paired),
+            "paired_groups": len(paired_summary),
             "primary_seed_outcomes": len(primary),
             "role_conservation_reports": sum(
                 bool(row["role_conservation_pass"]) for row in summaries
@@ -688,6 +885,10 @@ def main(argv: list[str] | None = None) -> None:
         },
         "reports": report_records,
         "files": {name: file_record(root / name) for name in generated},
+        "reproduction_files": {
+            path.relative_to(root).as_posix(): file_record(path)
+            for path in reproduction_files
+        },
     }
     (root / "ANALYSIS_MANIFEST.json").write_text(
         json.dumps(analysis_manifest, indent=2, sort_keys=True) + "\n",

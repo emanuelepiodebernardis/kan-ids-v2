@@ -3,9 +3,9 @@
 Il protocollo è stato approvato al commit
 `3199f1eeba952a20f2be5fd60fee8b0317123627` e integrato in `main` col merge
 `e5163bce892a0aafdd5136ee7c6a618b9867eadc`. Questa directory contiene ora
-anche il checkpoint separato di implementazione e test e i riepiloghi leggeri
-del pilot seed 42 autorizzato dopo il merge della PR #13. Non contiene una
-campagna sui cinque seed.
+anche il checkpoint separato di implementazione e test, i riepiloghi leggeri
+del pilot seed 42 e quelli della matrice completa autorizzata dopo la verifica
+della PR #14.
 
 TON e UNSW restano stream di sviluppo già esaminati; una conferma indipendente
 appartiene ad ADAPT-07.
@@ -57,9 +57,16 @@ e UNSW. I 12 JSON corrispondono a 20 traiettorie adattive. I riepiloghi,
 le decisioni, i costi e il puntatore al pacchetto completo sono in
 [`pilot_seed42/`](pilot_seed42/README.md).
 
-## Confine di autorizzazione
+## Matrice completa autorizzata
 
-L'autorizzazione copre soltanto il pilot seed 42 sui primi 100 blocchi dei due
-stream. La matrice completa sui cinque seed richiede una decisione ulteriore e
-non è stata avviata. La configurazione non viene modificata in base agli esiti
-del pilot.
+Dopo la verifica del pilot, la matrice congelata è stata autorizzata sui cinque
+seed 42--46 e sugli stream completi TON e UNSW. Comprende 60 report JSON e 100
+traiettorie adattive; ogni cella riparte dagli stati A/B archiviati in una nuova
+directory. Configurazione, budget e criteri non sono stati modificati in base
+agli esiti del pilot.
+
+Il runner, i controlli e i comandi sono descritti in
+[`FULL_MATRIX_REPRODUCTION.md`](FULL_MATRIX_REPRODUCTION.md). I riepiloghi
+leggeri versionati sono in [`full_matrix/`](full_matrix/); i 60 JSON e il
+pacchetto completo restano nell'archivio esterno indicato nel relativo
+manifest.

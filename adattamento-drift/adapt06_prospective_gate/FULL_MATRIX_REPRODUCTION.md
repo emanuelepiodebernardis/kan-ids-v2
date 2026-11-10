@@ -30,3 +30,17 @@ L'analisi deve riportare `PASS reports=60 adaptive_trajectories=100`, verificare
 inventario, provenienza, ordine dei blocchi e conservazione delle richieste,
 quindi produrre confronto appaiato, costi, decisione aggregata, quattro figure,
 manifest, `SHA256SUMS.txt`, ZIP e relativo SHA-256.
+
+Il pacchetto estratto contiene sotto `reproduction/adapt06_prospective_gate/`
+il codice, i test e i documenti congelati; le due dipendenze storiche sono in
+`reproduction/ton_temporal/`. Dopo avere verificato
+`SHA256SUMS.txt`, le analisi salvate si rigenerano dalla radice estratta senza
+accedere ai flussi originali:
+
+```powershell
+py -3.13 reproduction/adapt06_prospective_gate/analyze_full_matrix.py `
+  --root .
+```
+
+La rigenerazione ricalcola tabelle, decisione e figure dai 60 JSON conservati;
+non esegue nuovi fit, tuning o replay.

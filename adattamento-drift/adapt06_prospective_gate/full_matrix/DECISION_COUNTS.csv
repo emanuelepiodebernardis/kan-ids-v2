@@ -1,0 +1,13 @@
+dataset,family,acquisition,freeze,wait,accept,reject_harm,withhold_insufficient,withhold_ambiguous,stream_end_insufficient,stream_end_ambiguous
+ton,arf,active,0,0,0,0,0,0,0,0
+ton,arf,random,0,0,0,0,0,0,0,0
+ton,lr,active,18,0,0,10,8,0,3,0
+ton,lr,random,18,0,0,10,8,0,3,0
+ton,spline,active,18,0,0,10,8,0,3,0
+ton,spline,random,18,0,0,10,8,0,3,0
+unsw,arf,active,0,0,0,0,0,0,0,0
+unsw,arf,random,0,0,0,0,0,0,0,0
+unsw,lr,active,21,0,1,15,5,0,5,0
+unsw,lr,random,19,3,3,10,5,1,5,0
+unsw,spline,active,17,5,1,10,3,3,3,2
+unsw,spline,random,15,8,0,8,1,6,1,4
