@@ -33,6 +33,22 @@ non esclusi come dati mancanti.
 - `REPORT_SUMMARY.csv`: inventario sintetico dei 60 report;
 - `figures/`: quattro figure descrittive riproducibili.
 
+La finalizzazione interpretativa richiesta dopo la verifica della matrice è
+separata dai risultati preregistrati:
+
+- `PRIMARY_REFERENCE_COMPARISON.csv`: Frozen/B, threshold-only, ALWAYS e
+  GATED per dataset e seed, con recall, FPR e conteggi degli aggiornamenti;
+- `PRIMARY_GATE_DIAGNOSTICS.csv`: eleggibilità CAL, decisioni e frontiere di
+  danno per i dieci report GAM ACTIVE;
+- `GATE_FINALIZATION_NOTE.md`: nota descrittiva su eleggibilità, withholding e
+  distinzione fra protezione e miglioramento rispetto a Frozen/B;
+- `FINALIZATION_MANIFEST.json`: commit eseguito, provenienza, hash dei dieci
+  report e degli output della finalizzazione.
+- `FINALIZATION_TEST_LOG.txt`: comando ed esito dei controlli della consegna.
+
+Questi file sono prodotti da `../finalize_full_matrix.py` usando soltanto i
+report esistenti. Non modificano il NO-GO né introducono nuovi criteri.
+
 I JSON completi, le 100 traiettorie, i confronti per seed, i log, i comandi,
 l'ambiente e il codice di riproduzione sono conservati nello ZIP esterno
 descritto in `ARCHIVE.md`. Nessun nuovo fit iniziale o tuning è stato eseguito.

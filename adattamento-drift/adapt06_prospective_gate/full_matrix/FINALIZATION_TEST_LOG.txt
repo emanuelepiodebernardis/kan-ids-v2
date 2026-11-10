@@ -1,0 +1,14 @@
+ADAPT-06 gate finalization, Windows 11, Python 3.13
+Command: python -m pytest adattamento-drift/adapt06_prospective_gate -q --basetemp .pytest-tmp-finalization-20261111
+Result: 62 passed in 17.15s
+
+Finalization command:
+python adattamento-drift/adapt06_prospective_gate/finalize_full_matrix.py --root adattamento-drift/archivio_esterno/adapt06_prospective_gate/full_matrix_2b2ec4d --out adattamento-drift/adapt06_prospective_gate/full_matrix
+Result: PASS primary_reports=10 reference_rows=10 diagnostic_rows=10 outcome=NO-GO
+
+Static checks:
+- ruff check: PASS
+- ruff format --check: PASS (14 files)
+- git diff --check: PASS
+
+No fit, tuning or replay was executed.

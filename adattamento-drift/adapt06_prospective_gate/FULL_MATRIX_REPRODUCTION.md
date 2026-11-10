@@ -44,3 +44,17 @@ py -3.13 reproduction/adapt06_prospective_gate/analyze_full_matrix.py `
 
 La rigenerazione ricalcola tabelle, decisione e figure dai 60 JSON conservati;
 non esegue nuovi fit, tuning o replay.
+
+La finalizzazione interpretativa GAM ACTIVE si rigenera dal clone, indicando
+la directory estratta del pacchetto completo:
+
+```powershell
+py -3.13 adattamento-drift/adapt06_prospective_gate/finalize_full_matrix.py `
+  --root <pacchetto-estratto>/full_matrix_2b2ec4d `
+  --out adattamento-drift/adapt06_prospective_gate/full_matrix
+```
+
+Il comando deve riportare dieci report primari e dieci righe diagnostiche. Il
+manifest verifica anche dimensione e SHA-256 dello ZIP locale indicato in
+`ARCHIVE.md`; il commit della consegna è lo SHA della PR che contiene gli
+output, distinto dal commit eseguito `2b2ec4d`.

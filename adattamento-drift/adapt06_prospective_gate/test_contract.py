@@ -184,7 +184,8 @@ def test_full_matrix_lightweight_delivery_is_complete_and_scoped():
         "primary_recall_fpr.png",
     ]
     assert sorted(path.name for path in delivery.glob("*.json")) == [
-        "AGGREGATE_DECISION.json"
+        "AGGREGATE_DECISION.json",
+        "FINALIZATION_MANIFEST.json",
     ]
 
     archive_path = delivery / "ARCHIVE.md"
