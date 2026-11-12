@@ -1,0 +1,60 @@
+{
+  "schema": "adapt06b-checkpoint-a-v1",
+  "base_merge": "665356fd38e5bd65972b39288097432f20728fb6",
+  "checkpoint_date": "2026-11-15",
+  "scope": {
+    "family": "spline",
+    "acquisition": "random",
+    "datasets": ["ton", "unsw"],
+    "seeds": [42],
+    "full_stream": true,
+    "pilot_executed_at_checkpoint_a": false,
+    "pilot_requires_review": true
+  },
+  "label_budget": {
+    "fraction": 0.01,
+    "control_fraction_of_budget": 0.25,
+    "fit_fraction_of_budget": 0.75,
+    "delay_blocks": 1,
+    "second_annotations": false
+  },
+  "fit": {
+    "capacity": 192,
+    "quota_per_class": 96,
+    "minimum_per_class": 32
+  },
+  "cal": {
+    "capacity": 256,
+    "quota_per_class": 128,
+    "maximum_observation_age_blocks": 50,
+    "minimum_per_class": 100
+  },
+  "verify": {
+    "looks_per_class": [[100, 100], [200, 200], [400, 400]],
+    "expiry_blocks": 50,
+    "minimum_recall_delta": 0.02,
+    "maximum_fpr_delta": 0.01,
+    "maximum_candidate_fpr": 0.06
+  },
+  "threshold": {
+    "target_fpr": 0.05,
+    "prediction_rule": "score > threshold",
+    "effective_delay_after_calibration_blocks": 1,
+    "maintenance_paused_during_verify": true,
+    "resume_after_cycle_closure_blocks": 1
+  },
+  "controls": [
+    "frozen_b",
+    "threshold_only_autonomous",
+    "gated_legacy",
+    "gated_decoupled",
+    "threshold_only_matched"
+  ],
+  "execution": {
+    "workers_planned": 2,
+    "blas_threads_per_process": 1,
+    "new_output_directory_required": true,
+    "overwrite_existing_reports": false
+  }
+}
+
