@@ -53,9 +53,10 @@ def test_documents_preserve_the_approved_gate_and_execution_boundary():
     assert "modello e soglia realmente operativi" in protocol
     assert "ricalibrata è soltanto diagnostica" in schema
     assert "repliche sfavorevoli" in protocol
-    assert "matrice completa sui cinque seed" in readme
-    assert "non è stata avviata" in readme
+    assert "Matrice completa autorizzata" in readme
+    assert "60 report JSON e 100" in readme
     assert "decisione successiva" in reproduction
+    assert "successivamente autorizzata" in reproduction
 
 
 def test_pilot_request_roles_are_logged_and_conserved_for_both_policies():
@@ -151,3 +152,49 @@ def test_pilot_interpretation_is_recomputed_from_delivered_tables():
     assert checks["unsw_arf_adaptive_fpr"]["random"] > 0.98
     assert checks["unsw_arf_adaptive_fpr"]["active"] > 0.95
     assert checks["unsw_arf_adaptive_fpr"]["threshold_b_preserved"] is True
+
+
+def test_full_matrix_lightweight_delivery_is_complete_and_scoped():
+    delivery = HERE / "full_matrix"
+    aggregate = json.loads(
+        (delivery / "AGGREGATE_DECISION.json").read_text(encoding="utf-8")
+    )
+    assert aggregate["overall"] == "NO-GO"
+    assert aggregate["datasets"]["ton"]["fpr_pass"] == 0
+    assert aggregate["datasets"]["unsw"]["fpr_pass"] == 2
+
+    with (delivery / "REPORT_SUMMARY.csv").open(newline="", encoding="utf-8") as f:
+        assert len(list(csv.DictReader(f))) == 60
+    with (delivery / "PRIMARY_SEED_OUTCOMES.csv").open(
+        newline="", encoding="utf-8"
+    ) as f:
+        primary = list(csv.DictReader(f))
+    assert len(primary) == 10
+    assert {int(row["seed"]) for row in primary} == set(range(42, 47))
+    with (delivery / "PAIRED_GROUP_SUMMARY.csv").open(
+        newline="", encoding="utf-8"
+    ) as f:
+        assert len(list(csv.DictReader(f))) == 8
+
+    figures = sorted(path.name for path in (delivery / "figures").glob("*.png"))
+    assert figures == [
+        "execution_costs.png",
+        "gate_decisions.png",
+        "primary_paired_deltas.png",
+        "primary_recall_fpr.png",
+    ]
+    assert sorted(path.name for path in delivery.glob("*.json")) == [
+        "AGGREGATE_DECISION.json",
+        "FINALIZATION_MANIFEST.json",
+    ]
+
+    archive_path = delivery / "ARCHIVE.md"
+    if archive_path.exists():
+        archive = archive_path.read_text(encoding="utf-8")
+        assert "60 report JSON originali" in archive
+        sha_line = next(
+            line for line in archive.splitlines() if line.startswith("- SHA-256:")
+        )
+        digest = sha_line.split("`")[1]
+        assert len(digest) == 64
+        assert all(character in "0123456789abcdef" for character in digest)
