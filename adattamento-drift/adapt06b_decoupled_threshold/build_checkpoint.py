@@ -65,6 +65,8 @@ def build() -> dict:
             "synthetic causal and gate tests",
             "legacy regression tests",
             "paired request and label-accounting tests",
+            "independent report-invariant recomputation and negative tests",
+            "separate child-process execution contract test",
             "static and formatting checks",
         ],
         "planned_not_executed": [

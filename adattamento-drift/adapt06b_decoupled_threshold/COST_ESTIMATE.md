@@ -20,7 +20,9 @@ Con i due dataset in parallelo il limite inferiore è 557,526 s = 9,292 minuti.
 La previsione prudenziale è **15–20 minuti seriali** oppure **12–15 minuti di
 wall time con due worker**, includendo caricamento, JSON e hash.
 
-La variante condivide la CAL256 col controllo threshold-only matched e aggiunge
+I picchi RSS futuri di legacy e variante saranno misurati in processi figli
+nuovi e distinti; nessun valore includerà gli oggetti rimasti dal replay
+precedente. La variante condivide la CAL256 col controllo threshold-only matched e aggiunge
 al massimo 24 byte di stato numerico per la soglia matched corrente e le due
 soglie proposte in attesa; non aggiunge un
 secondo buffer CAL. La baseline threshold-only autonoma conserva la propria

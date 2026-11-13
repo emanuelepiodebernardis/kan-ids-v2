@@ -31,6 +31,9 @@ def test_versioned_configuration_matches_the_frozen_protocol_constants():
     assert config["verify"]["minimum_recall_delta"] == core.MIN_RECALL_DELTA
     assert config["verify"]["maximum_fpr_delta"] == core.MAX_FPR_DELTA
     assert config["verify"]["maximum_candidate_fpr"] == core.MAX_CANDIDATE_FPR
+    assert config["checkpoint_date"] == "2026-11-13"
+    assert config["threshold"]["cal_eligibility_observed"].startswith("end_of_block")
+    assert config["threshold"]["first_application_frontier"].startswith("next_block")
 
 
 def test_checkpoint_documents_distinguish_executed_work_from_planned_pilot():
@@ -42,6 +45,8 @@ def test_checkpoint_documents_distinguish_executed_work_from_planned_pilot():
     assert "non è previsto `--max-blocks`" in commands
     assert "pilot completo sarà eseguito soltanto dopo il riesame" in protocol
     assert "ACTIVE, LR, ARF" in protocol
+    assert "rispettivamente 9 e 10" in protocol
+    assert "processi figli distinti" in commands
 
 
 def test_manifest_builder_rejects_results_and_records_every_delivery_file():

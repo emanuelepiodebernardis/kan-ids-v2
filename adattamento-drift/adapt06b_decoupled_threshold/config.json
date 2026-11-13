@@ -1,7 +1,7 @@
 {
   "schema": "adapt06b-checkpoint-a-v1",
   "base_merge": "665356fd38e5bd65972b39288097432f20728fb6",
-  "checkpoint_date": "2026-11-15",
+  "checkpoint_date": "2026-11-13",
   "scope": {
     "family": "spline",
     "acquisition": "random",
@@ -39,6 +39,8 @@
   "threshold": {
     "target_fpr": 0.05,
     "prediction_rule": "score > threshold",
+    "cal_eligibility_observed": "end_of_block_after_delayed_label_arrival",
+    "first_application_frontier": "next_block_before_prediction",
     "effective_delay_after_calibration_blocks": 1,
     "maintenance_paused_during_verify": true,
     "resume_after_cycle_closure_blocks": 1

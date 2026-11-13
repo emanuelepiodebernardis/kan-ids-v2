@@ -10,6 +10,9 @@ e promozione dei pesi. La base è il merge della PR #15:
 - modalità GAM/RANDOM separata e disattivata nel percorso legacy;
 - controllo appaiato dei cinque bracci;
 - test sintetici di causalità, ruoli, soglia, gate e regressione;
+- ricalcolo autonomo di budget, digest, riepiloghi, ruoli e stato terminale;
+- controprove negative su sovrapposizioni, causalità e candidati pendenti;
+- processi distinti per le misure RSS di legacy e variante;
 - comandi e stima dei due replay completi;
 - controlli statici, log e manifest del codice.
 
@@ -27,7 +30,7 @@ sono in `config.json`.
 
 - `runner.py`: variante decoupled, limitata a GAM/RANDOM;
 - `run_pilot.py`: futuro comando appaiato legacy/variante per un dataset;
-- `verify_pair.py`: identità di richieste, budget e tabella dei cinque controlli;
+- `verify_pair.py`: identità, invarianti autonome e tabella dei cinque controlli;
 - `test_checkpoint.py`: controprove sintetiche;
 - `COST_ESTIMATE.md`: costo previsto, distinto dalle misure future;
 - `CHECKPOINT_MANIFEST.json` e `TEST_LOG.txt`: provenienza e verifiche.

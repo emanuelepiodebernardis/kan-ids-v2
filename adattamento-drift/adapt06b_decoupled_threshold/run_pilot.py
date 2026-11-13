@@ -18,9 +18,8 @@ REPOSITORY = HERE.parents[1]
 if str(HERE.parent) not in sys.path:
     sys.path.insert(0, str(HERE.parent))
 
-from adapt06_prospective_gate.runner import file_sha256, run as run_legacy  # noqa: E402
+from adapt06_prospective_gate.runner import file_sha256  # noqa: E402
 from adapt06b_decoupled_threshold import BASE_MERGE  # noqa: E402
-from adapt06b_decoupled_threshold.runner import run as run_variant  # noqa: E402
 from adapt06b_decoupled_threshold.verify_pair import verify_reports  # noqa: E402
 
 THREAD_ENVIRONMENT = (
@@ -89,23 +88,18 @@ def run_dataset(
         "--seed",
         str(seed),
     ]
-    run_legacy(
-        data=data,
-        model_root=model_root,
-        output=legacy_path,
-        dataset=dataset,
-        family="spline",
-        seed=seed,
-        acquisition="random",
-        command=legacy_command,
+    child_environment = os.environ.copy()
+    subprocess.run(
+        legacy_command,
+        cwd=REPOSITORY,
+        env=child_environment,
+        check=True,
     )
-    run_variant(
-        data=data,
-        model_root=model_root,
-        output=variant_path,
-        dataset=dataset,
-        seed=seed,
-        command=variant_command,
+    subprocess.run(
+        variant_command,
+        cwd=REPOSITORY,
+        env=child_environment,
+        check=True,
     )
     legacy = _load(legacy_path)
     variant = _load(variant_path)
@@ -140,6 +134,14 @@ def run_dataset(
         "command": command or [],
         "thread_environment": {
             name: os.environ.get(name) for name in THREAD_ENVIRONMENT
+        },
+        "replay_processes": {
+            "isolation": "one fresh child process per report, executed sequentially",
+            "legacy_command": legacy_command,
+            "variant_command": variant_command,
+            "peak_rss_interpretation": (
+                "each report records the peak RSS of its own fresh process"
+            ),
         },
         "files": {
             path.name: {

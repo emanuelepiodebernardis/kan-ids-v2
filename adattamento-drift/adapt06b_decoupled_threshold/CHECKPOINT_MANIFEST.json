@@ -1,65 +1,67 @@
 {
   "base_merge": "665356fd38e5bd65972b39288097432f20728fb6",
-  "checkpoint_date": "2026-11-15",
+  "checkpoint_date": "2026-11-13",
   "delivery_commit_identification": "the PR head containing this manifest; record its SHA in the PR",
   "executed": [
     "synthetic causal and gate tests",
     "legacy regression tests",
     "paired request and label-accounting tests",
+    "independent report-invariant recomputation and negative tests",
+    "separate child-process execution contract test",
     "static and formatting checks"
   ],
   "files": {
     "COST_ESTIMATE.md": {
-      "bytes": 1650,
-      "sha256": "ee6b10afef49e5373b9f40368caf1091def31214ccdc8d08c355bd49f402fdac"
+      "bytes": 1812,
+      "sha256": "9247c961984977d11a5bb28222a356a84bfb09b3a82d67215c7a969d3ccc2954"
     },
     "PILOT_COMMANDS.md": {
-      "bytes": 1526,
-      "sha256": "599ebd867b5f5308b8596368105383ffa27b3c07ba24450ffaa00e8c2f29abec"
+      "bytes": 1721,
+      "sha256": "876d06889e0e087935bb6abbd1285cc803d64fcbc20d92f9f926f897548607cf"
     },
     "PROTOCOL.md": {
-      "bytes": 6067,
-      "sha256": "4e6879962cffad1e9570ff0e85ed95876ed28e2a7218762189ebd3a18f121caa"
+      "bytes": 7190,
+      "sha256": "64a8f2a64f4ef322029e269ef44b4e8f9f0721ed8715e51d5371e33cf8fbc33a"
     },
     "README.md": {
-      "bytes": 1938,
-      "sha256": "6c9fe4777a2ffceb7b3a45862a6e40b836083d70a6d4e0fcad2d0bf5ef6f742a"
+      "bytes": 2151,
+      "sha256": "5baf1ab34a38d34d67e6256f6229e4975d89b6a62f8dacf850b53783ff95ff41"
     },
     "TEST_LOG.txt": {
-      "bytes": 554,
-      "sha256": "22da81e5679a45aafc6a0993c0a1e05ab7dab06be4fcc8af15cdd47e7c531f2c"
+      "bytes": 1015,
+      "sha256": "91aefeb1b92dde19032f6e877aca72aee76bfe344fcc86a65cca69b534902682"
     },
     "__init__.py": {
       "bytes": 184,
       "sha256": "c0eb0c81da6e054d9f1a945f475478c6c48d6da80186522132cff1711c535852"
     },
     "build_checkpoint.py": {
-      "bytes": 3198,
-      "sha256": "0e86bd24e5f221f17b391cc93e3f48796dbf44709a3e13553591f12feb8989a5"
+      "bytes": 3337,
+      "sha256": "b3a6dca2acf83cb7b3dfe163ffc4b22c2ff0fb1f556e4821961d97c53b677a0e"
     },
     "config.json": {
-      "bytes": 1514,
-      "sha256": "a64576b0d2a5cce471906d9159a89caec20b3eb53fbdd92f71860a05a14ea774"
+      "bytes": 1656,
+      "sha256": "ee04f471bb6d5afb97dea0b232b4c3da9c636079ec1d94a2a018fa1c21c2c892"
     },
     "run_pilot.py": {
-      "bytes": 5265,
-      "sha256": "fa7ae9f31207ec7967f490036a640003d7bea552192dd155e62fcaeab1d3ff95"
+      "bytes": 5401,
+      "sha256": "9d0c89b66d6885e966dbad40c9fb3c1d3a1cd64be6a85a1e6de640aca6a092b5"
     },
     "runner.py": {
-      "bytes": 6016,
-      "sha256": "bc9d0a7f4f450a3dd329b2593e480c6c5cfa7c1452b713026d15607df54cf92c"
+      "bytes": 6262,
+      "sha256": "d841c1332d8c1c2e4d4f432af966c1a207b6e0c2886f6d57a56abe3636508827"
     },
     "test_checkpoint.py": {
-      "bytes": 13303,
-      "sha256": "0f46c1d70d20c8244618ebb2e45a3a2a17e948d018d0ca807e50127aa8347c27"
+      "bytes": 19173,
+      "sha256": "34920fbae9272b38dd848c096f663c1b4bec4f313601683459c8a764d6323c9e"
     },
     "test_contract.py": {
-      "bytes": 2661,
-      "sha256": "7856d40112f99577ed9d5407ef4dc123e336e3d66420d04c2d5710a5d0fe37e4"
+      "bytes": 2983,
+      "sha256": "8f5cda7284b9cce544a4a38b19518b1363e3bffe7086106f7efbf4f13b490a87"
     },
     "verify_pair.py": {
-      "bytes": 9507,
-      "sha256": "b1dd5bf78fe9b9dc6e89245061d50aeb0a828715b6c13fbb90569f6e2264e86a"
+      "bytes": 22568,
+      "sha256": "8af23589835887fd22344e0a676bdb446da121c18548bfbc4549d6ae872decfe"
     }
   },
   "legacy_engine": {

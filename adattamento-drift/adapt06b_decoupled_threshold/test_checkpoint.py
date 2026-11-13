@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import copy
 import json
+from pathlib import Path
+import subprocess
 
 import numpy as np
 import pytest
@@ -83,6 +85,21 @@ def _without_runtime(report: dict) -> dict:
     memory.pop("process_peak_rss_mib", None)
     memory.pop("process_peak_rss_method", None)
     return value
+
+
+def _paired_reports(blocks: int = 24) -> tuple[dict, dict]:
+    X, y, row_ids = _stream(blocks)
+    common = dict(
+        raw_features=X,
+        labels=y,
+        row_ids=row_ids,
+        adapter=SyntheticGamAdapter(),
+        initial_threshold=5.0,
+        dataset="ton",
+        seed=42,
+        acquisition="random",
+    )
+    return run_legacy_arrays(**common), run_variant_arrays(**common)
 
 
 def _gate_evidence(candidate_tp: int, incumbent_tp: int, candidate_fp: int = 5):
@@ -340,12 +357,160 @@ def test_random_requests_and_label_accounting_are_identical_between_arms():
     }
     changed = copy.deepcopy(variant)
     changed["query_sequence_sha256"] = "0" * 64
-    with pytest.raises(AssertionError, match="request hashes"):
+    with pytest.raises(AssertionError, match="query sequence digest"):
         verify_reports(legacy, changed)
     changed = copy.deepcopy(variant)
     changed["per_block"][0]["budget"]["fit"] += 1
-    with pytest.raises(AssertionError, match="budgets"):
+    with pytest.raises(AssertionError, match="disagree with budget"):
         verify_reports(legacy, changed)
+
+
+def test_verifier_rejects_fit_cal_overlap_independently_of_runner():
+    legacy, variant = _paired_reports()
+    changed = copy.deepcopy(variant)
+    record = next(
+        item
+        for item in changed["per_block"]
+        if item["memory_observation_ids"]["fit"]
+        and item["memory_observation_ids"]["cal"]
+    )
+    record["memory_observation_ids"]["cal"][0] = record["memory_observation_ids"][
+        "fit"
+    ][0]
+    with pytest.raises(AssertionError, match="FIT/CAL overlap"):
+        verify_reports(legacy, changed)
+
+
+def test_verifier_rejects_non_causal_first_effect_even_when_pair_matches():
+    legacy, variant = _paired_reports()
+    for report in (legacy, variant):
+        query = report["per_block"][0]["query_audit"][0]
+        query["first_effect_block"] = query["arrival_block"]
+    with pytest.raises(AssertionError, match="non-causal query first effect"):
+        verify_reports(legacy, variant)
+
+
+def test_verifier_recomputes_query_digests_instead_of_trusting_the_pair():
+    legacy, variant = _paired_reports()
+    for report in (legacy, variant):
+        report["per_block"][0]["query_audit"][0]["observation_id"] += 9_000_000
+    with pytest.raises(AssertionError, match="query digest does not match IDs"):
+        verify_reports(legacy, variant)
+
+
+def test_verifier_recomputes_summary_instead_of_trusting_the_pair():
+    legacy, variant = _paired_reports()
+    for report in (legacy, variant):
+        report["summary"]["frozen_b"]["fp"] += 1
+    with pytest.raises(AssertionError, match="summary field"):
+        verify_reports(legacy, variant)
+
+
+def test_verifier_rejects_pending_candidate_at_full_stream_end():
+    legacy, variant = _paired_reports()
+    changed = copy.deepcopy(variant)
+    changed["candidate_pending_at_end"] = True
+    with pytest.raises(AssertionError, match="pending-candidate"):
+        verify_reports(legacy, changed)
+
+
+def test_verifier_derives_pending_candidate_from_unclosed_freeze():
+    legacy, variant = _paired_reports()
+    changed = copy.deepcopy(variant)
+    freeze = next(
+        int(event["block"])
+        for event in reversed(changed["decisions"])
+        if event.get("status") == "FREEZE"
+    )
+    changed["decisions"] = [
+        event
+        for event in changed["decisions"]
+        if not (
+            event.get("freeze_block") == freeze
+            and str(event.get("status", "")).startswith(
+                ("ACCEPT", "REJECT", "WITHHOLD")
+            )
+        )
+    ]
+    changed["candidate_pending_at_end"] = False
+    with pytest.raises(AssertionError, match="pending-candidate flag"):
+        verify_reports(legacy, changed)
+
+
+def test_verifier_rejects_scope_that_hides_a_full_stream():
+    legacy, variant = _paired_reports()
+    for report in (legacy, variant):
+        report["scope"] = "pilot"
+    with pytest.raises(AssertionError, match="scope disagrees"):
+        verify_reports(legacy, variant)
+
+
+def test_temporal_frontier_distinguishes_cal_eligibility_from_application():
+    legacy, variant = _paired_reports()
+    paired = verify_reports(legacy, variant)
+    assert paired["first_cal_eligible_block"] == 9
+    assert paired["first_threshold_application_block"] == 10
+    assert paired["temporal_frontier"] == "first_threshold_application_block"
+    assert variant["per_block"][9]["thresholds_used"]["gated"] == 5.0
+    assert variant["per_block"][10]["thresholds_used"]["gated"] != 5.0
+    assert all(
+        set(interval)
+        == {
+            "before_first_threshold_application",
+            "from_first_threshold_application",
+        }
+        for interval in paired["intervals"].values()
+    )
+
+
+def test_pilot_runs_each_report_in_a_fresh_child_process(tmp_path, monkeypatch):
+    legacy, variant = _paired_reports(blocks=16)
+    legacy["memory"]["process_peak_rss_mib"] = 111.0
+    variant["memory"]["process_peak_rss_mib"] = 222.0
+    calls = []
+
+    def fake_run(command, *, cwd, env, check):
+        calls.append({"command": command, "cwd": cwd, "env": env, "check": check})
+        output = Path(command[command.index("--out") + 1])
+        report = (
+            variant
+            if Path(command[1]).parent.name == "adapt06b_decoupled_threshold"
+            else legacy
+        )
+        output.write_text(
+            json.dumps(report, allow_nan=False) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+    monkeypatch.setattr(
+        subprocess,
+        "check_output",
+        lambda *args, **kwargs: f"{'f' * 40}\n",
+    )
+    for name in (
+        "OMP_NUM_THREADS",
+        "MKL_NUM_THREADS",
+        "OPENBLAS_NUM_THREADS",
+        "NUMEXPR_NUM_THREADS",
+    ):
+        monkeypatch.setenv(name, "1")
+    output = tmp_path / "fresh-process-pair"
+    manifest = run_dataset(
+        data=tmp_path / "data",
+        model_root=tmp_path / "models",
+        output=output,
+        dataset="ton",
+    )
+    assert len(calls) == 2
+    assert all(call["check"] is True for call in calls)
+    assert calls[0]["command"] != calls[1]["command"]
+    assert manifest["replay_processes"]["isolation"].startswith("one fresh")
+    pair = json.loads((output / "ton_seed42_pair.json").read_text(encoding="utf-8"))
+    assert pair["costs"]["legacy_peak_rss_mib"] == 111.0
+    assert pair["costs"]["decoupled_peak_rss_mib"] == 222.0
 
 
 def test_legacy_default_and_explicit_disabled_mode_are_regression_identical():
@@ -370,8 +535,6 @@ def test_legacy_default_and_explicit_disabled_mode_are_regression_identical():
 
 
 def test_checkpoint_configuration_is_valid_and_marks_pilot_as_planned_only():
-    from pathlib import Path
-
     config = json.loads(
         (Path(__file__).resolve().parent / "config.json").read_text(encoding="utf-8")
     )
@@ -381,3 +544,4 @@ def test_checkpoint_configuration_is_valid_and_marks_pilot_as_planned_only():
     assert config["scope"]["family"] == "spline"
     assert config["scope"]["acquisition"] == "random"
     assert len(config["controls"]) == 5
+    assert config["checkpoint_date"] == "2026-11-13"

@@ -43,7 +43,10 @@ py -3.13 adattamento-drift/adapt06b_decoupled_threshold/run_pilot.py `
 ```
 
 Ogni comando produce un JSON legacy, un JSON decoupled, il confronto appaiato
-e un manifest con SHA-256. I due dataset possono essere eseguiti in terminali
-separati con BLAS a un thread; la modalità di esecuzione effettiva dovrà essere
-registrata nel manifest della consegna.
+e un manifest con SHA-256. All'interno di ciascun comando, legacy e variante
+sono eseguiti sequenzialmente in processi figli distinti; i picchi RSS sono
+quindi indipendenti e non includono la storia del replay precedente. I due
+dataset possono essere eseguiti in terminali separati con BLAS a un thread; la
+modalità di esecuzione effettiva dovrà essere registrata nel manifest della
+consegna.
 

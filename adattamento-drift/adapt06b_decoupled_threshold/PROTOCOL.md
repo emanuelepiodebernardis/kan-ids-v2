@@ -49,6 +49,15 @@ efficacia. La soglia operativa può essere aggiornata anche se FIT non è ancora
 eleggibile. Se anche FIT è eleggibile, il FREEZE avviene dopo che la soglia
 proposta è diventata operativa, non nello stesso blocco in cui è stata stimata.
 
+Si distinguono quindi due frontiere. Il **primo blocco CAL eleggibile** è il
+blocco alla cui fine, dopo l'arrivo ritardato delle label, CAL raggiunge il
+supporto minimo 100/100. Le predizioni di quel blocco hanno già usato la
+soglia precedente. La **prima applicazione della soglia** è l'apertura del
+blocco successivo, prima delle sue predizioni. Nel caso sintetico di 24 blocchi
+le due frontiere sono rispettivamente 9 e 10. Tutti i confronti temporali
+prima/dopo usano la seconda frontiera, uguale per i cinque controlli, così il
+blocco di eleggibilità non viene attribuito retroattivamente alla nuova soglia.
+
 Al FREEZE si fissano atomicamente quattro elementi: pesi e soglia del candidato,
 pesi e soglia dell'incumbent operativo. Durante VERIFY queste due coppie non
 cambiano. I CONTROL osservati dopo il FREEZE alimentano soltanto VERIFY; non
@@ -94,14 +103,21 @@ tempo di predizione, fit e calibrazione.
 
 Il futuro pilot usa gli stream completi TON e UNSW, GAM/RANDOM, seed 42 e stati
 A/B archiviati. Non usa `--max-blocks` e non esegue un nuovo fit iniziale. Per
-dataset produce un report legacy, uno decoupled e una verifica appaiata. La
-tabella prevista riporta recall, FPR, differenze dalla threshold-only autonoma,
-promozioni, variazioni della soglia, primo blocco CAL eleggibile, withholding,
-label, tempi e memoria, insieme a intervalli prima/dopo l'eleggibilità.
+dataset produce un report legacy, uno decoupled e una verifica appaiata. I due
+report vengono generati sequenzialmente in processi figli nuovi: il picco RSS
+di ciascun report appartiene soltanto al proprio replay. Il confronto legge i
+JSON dopo la terminazione di entrambi. La tabella prevista riporta recall, FPR,
+differenze dalla threshold-only autonoma, promozioni, variazioni della soglia,
+primo blocco CAL eleggibile, prima applicazione della soglia, withholding,
+label, tempi e memoria, insieme a intervalli divisi sulla prima applicazione.
 
 Il passaggio tecnico successivo richiede: provenienza PASS, richieste e budget
 identici, nessuna violazione causale o di ruolo, report completi e nessun errore
-terminale. Il singolo seed non può stabilire superiorità scientifica. Qualsiasi
+terminale. Il verificatore ricalcola dai log budget, digest delle richieste,
+confusioni aggregate, completezza dello stream, chiusura dei cicli e
+corrispondenza fra proposte e applicazioni della soglia: non considera
+sufficiente che i due report dichiarino gli stessi valori. Il singolo seed non
+può stabilire superiorità scientifica. Qualsiasi
 decisione su cinque seed, ACTIVE o ADAPT-07 richiede un protocollo successivo e
 non può selezionare soltanto risultati favorevoli.
 

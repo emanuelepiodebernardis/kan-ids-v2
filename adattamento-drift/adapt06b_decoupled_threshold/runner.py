@@ -46,6 +46,11 @@ def run_arrays(**kwargs) -> dict:
     report["schema"] = SCHEMA
     report["base_merge"] = BASE_MERGE
     report["method"] = "gated_decoupled_operational_threshold"
+    report["temporal_convention"] = {
+        "cal_eligibility": "end_of_block_after_delayed_label_arrival",
+        "threshold_application": "next_block_before_prediction",
+        "interval_frontier": "first_threshold_application_block",
+    }
     report["executed"] = True
     report["planned_only"] = False
     return report
