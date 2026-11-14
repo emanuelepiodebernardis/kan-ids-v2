@@ -1,0 +1,21 @@
+ADAPT-06B checkpoint A revision, 2026-11-13, Windows 11, Python 3.13
+
+Functional legacy and checkpoint suite, before manifest generation:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q -k "not test_delivered_manifest_hashes_every_named_file" --basetemp .pytest-tmp-adapt06b-final-3
+Result: 89 passed, 1 post-manifest packaging test deselected in 47.08s
+
+The suite includes independent negative checks for FIT/CAL overlap, non-causal
+first_effect_block, a candidate pending at full-stream end, the 9/10 temporal
+frontier, altered scope, stale request digests, altered summaries, and separate
+legacy/variant child-process execution.
+
+Static checks:
+- ruff check: PASS
+- ruff format --check: PASS (21 files)
+- git diff --check: PASS
+
+Post-manifest packaging suite:
+python -m pytest adattamento-drift/adapt06b_decoupled_threshold/test_contract.py -q --basetemp .pytest-tmp-adapt06b-package
+Result: 4 passed
+
+No real-data pilot, fit or replay was executed.
