@@ -56,6 +56,7 @@ def build() -> dict:
         raise AssertionError(f"unexpected real-data results: {unexpected_results}")
     return {
         "schema": "adapt06b-checkpoint-a-manifest-v1",
+        "scope": "historical checkpoint A before the authorized pilot",
         "base_merge": BASE_MERGE,
         "delivery_commit_identification": (
             "the PR head containing this manifest; record its SHA in the PR"

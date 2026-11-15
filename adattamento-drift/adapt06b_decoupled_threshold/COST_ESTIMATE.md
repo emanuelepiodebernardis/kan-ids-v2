@@ -1,8 +1,9 @@
 # Stima dei costi del pilot ADAPT-06B
 
 La stima usa esclusivamente i tempi misurati nella matrice ADAPT-06 sullo stesso
-hardware, GAM/RANDOM, seed 42. Non è un risultato ADAPT-06B e sarà sostituita
-dai tempi effettivi del pilot.
+hardware, GAM/RANDOM, seed 42. Non è un risultato ADAPT-06B. Viene conservata
+come previsione preregistrata; i costi effettivi sono riportati in
+`pilot_seed42_02b82af/PILOT_REPORT.md` e nei JSON originali.
 
 | Dataset | Wall time legacy | Replay legacy | Picco RSS legacy |
 |---|---:|---:|---:|

@@ -18,4 +18,5 @@ Post-manifest packaging suite:
 python -m pytest adattamento-drift/adapt06b_decoupled_threshold/test_contract.py -q --basetemp .pytest-tmp-adapt06b-package
 Result: 4 passed
 
-No real-data pilot, fit or replay was executed.
+This log and CHECKPOINT_MANIFEST.json describe checkpoint A before pilot
+authorization. No real-data pilot, fit or replay was executed in that phase.

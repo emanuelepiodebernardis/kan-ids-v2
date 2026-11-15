@@ -1,0 +1,80 @@
+{
+  "base_merge": "665356fd38e5bd65972b39288097432f20728fb6",
+  "command": [
+    "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\run_pilot.py",
+    "--data",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\ton",
+    "--model-root",
+    "adattamento-drift/review_extension/models",
+    "--out",
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42",
+    "--dataset",
+    "ton",
+    "--seed",
+    "42"
+  ],
+  "dataset": "ton",
+  "execution_commit": "02b82af36ae8151e4ac83d806f434704e4557abd",
+  "files": {
+    "ton_seed42_decoupled.json": {
+      "bytes": 24720739,
+      "sha256": "9f97dc7212dbe6a5e2f4f4efb750cb4cf277824cc990b5887a2feab9c12ca8f9"
+    },
+    "ton_seed42_legacy.json": {
+      "bytes": 18267267,
+      "sha256": "086a0e03c9cbdc3ca1c596f0e862beae3aebc1946f8f13235ffac023aa60d253"
+    },
+    "ton_seed42_pair.json": {
+      "bytes": 5742,
+      "sha256": "7278dfdaa0c7a8204e19db958f759cc5b1efd96498bf12ae07b5e52b0f9545dc"
+    }
+  },
+  "full_stream": true,
+  "initialization": "archived A/B",
+  "replay_processes": {
+    "isolation": "one fresh child process per report, executed sequentially",
+    "legacy_command": [
+      "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06_prospective_gate\\runner.py",
+      "--data",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\ton",
+      "--model-root",
+      "adattamento-drift\\review_extension\\models",
+      "--out",
+      "adattamento-drift\\adapt06b_decoupled_threshold\\pilot_seed42_02b82af\\ton_seed42\\ton_seed42_legacy.json",
+      "--dataset",
+      "ton",
+      "--family",
+      "spline",
+      "--seed",
+      "42",
+      "--acquisition",
+      "random"
+    ],
+    "peak_rss_interpretation": "each report records the peak RSS of its own fresh process",
+    "variant_command": [
+      "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\runner.py",
+      "--data",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\ton",
+      "--model-root",
+      "adattamento-drift\\review_extension\\models",
+      "--out",
+      "adattamento-drift\\adapt06b_decoupled_threshold\\pilot_seed42_02b82af\\ton_seed42\\ton_seed42_decoupled.json",
+      "--dataset",
+      "ton",
+      "--seed",
+      "42"
+    ]
+  },
+  "schema": "adapt06b-pilot-dataset-manifest-v1",
+  "seed": 42,
+  "status": "PASS",
+  "thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

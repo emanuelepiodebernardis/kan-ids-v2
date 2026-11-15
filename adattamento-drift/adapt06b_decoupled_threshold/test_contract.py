@@ -41,6 +41,7 @@ def test_checkpoint_documents_distinguish_executed_work_from_planned_pilot():
     commands = (HERE / "PILOT_COMMANDS.md").read_text(encoding="utf-8")
     protocol = (HERE / "PROTOCOL.md").read_text(encoding="utf-8")
     assert "Soltanto pianificato" in readme
+    assert "Pilot autorizzato e consegnato" in readme
     assert "non eseguiti al checkpoint A" in commands
     assert "non è previsto `--max-blocks`" in commands
     assert "pilot completo sarà eseguito soltanto dopo il riesame" in protocol
@@ -52,6 +53,7 @@ def test_checkpoint_documents_distinguish_executed_work_from_planned_pilot():
 def test_manifest_builder_rejects_results_and_records_every_delivery_file():
     manifest = build()
     assert manifest["pilot_results_present"] is False
+    assert manifest["scope"].startswith("historical checkpoint A")
     assert set(manifest["files"]) == set(FILES)
     assert manifest["base_merge"] == BASE_MERGE
 

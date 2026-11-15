@@ -4,6 +4,11 @@ Questi comandi sono **pianificati e non eseguiti al checkpoint A**. Devono
 essere lanciati soltanto dopo il riesame del protocollo e del codice, dalla
 radice del clone e dal commit congelato della futura autorizzazione.
 
+Il riesame è stato successivamente superato e i comandi sono stati eseguiti il
+15 novembre 2026 dal commit
+`02b82af36ae8151e4ac83d806f434704e4557abd`. Comandi effettivi e ambiente sono
+conservati in `pilot_seed42_02b82af/EXECUTION_LOG.txt` e nei due manifest.
+
 ## Controlli prima del pilot
 
 ```powershell
