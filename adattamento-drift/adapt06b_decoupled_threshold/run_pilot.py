@@ -1,26 +1,23 @@
-"""Run one authorized ADAPT-06B dataset pair after checkpoint review.
-
-This command is prepared at checkpoint A but must not be executed before the
-reviewer authorizes the real-data pilot.
-"""
+"""Run one authorized ADAPT-06B GAM/RANDOM dataset/seed pair."""
 
 from __future__ import annotations
 
 import argparse
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
+from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 REPOSITORY = HERE.parents[1]
 if str(HERE.parent) not in sys.path:
     sys.path.insert(0, str(HERE.parent))
 
-from adapt06_prospective_gate.runner import file_sha256  # noqa: E402
-from adapt06b_decoupled_threshold import BASE_MERGE  # noqa: E402
-from adapt06b_decoupled_threshold.verify_pair import verify_reports  # noqa: E402
+from adapt06_prospective_gate.runner import file_sha256
+
+from adapt06b_decoupled_threshold import BASE_MERGE
+from adapt06b_decoupled_threshold.verify_pair import verify_reports
 
 THREAD_ENVIRONMENT = (
     "OMP_NUM_THREADS",
@@ -41,8 +38,11 @@ def run_dataset(
     output: Path,
     dataset: str,
     seed: int = 42,
+    phase: str = "pilot",
     command: list[str] | None = None,
 ) -> dict:
+    if phase not in {"pilot", "matrix"}:
+        raise ValueError(f"unsupported execution phase: {phase}")
     invalid_threads = {
         name: os.environ.get(name)
         for name in THREAD_ENVIRONMENT
@@ -127,6 +127,7 @@ def run_dataset(
         "status": "PASS",
         "dataset": dataset,
         "seed": seed,
+        "phase": phase,
         "base_merge": BASE_MERGE,
         "execution_commit": head,
         "full_stream": True,
@@ -166,7 +167,8 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--model-root", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--dataset", choices=("ton", "unsw"), required=True)
-    parser.add_argument("--seed", type=int, choices=(42,), default=42)
+    parser.add_argument("--seed", type=int, choices=range(42, 47), required=True)
+    parser.add_argument("--phase", choices=("pilot", "matrix"), default="pilot")
     args = parser.parse_args(argv)
     result = run_dataset(
         data=args.data,
@@ -174,6 +176,7 @@ def main(argv: list[str] | None = None) -> None:
         output=args.out,
         dataset=args.dataset,
         seed=args.seed,
+        phase=args.phase,
         command=[
             sys.executable,
             str(Path(__file__).resolve()),

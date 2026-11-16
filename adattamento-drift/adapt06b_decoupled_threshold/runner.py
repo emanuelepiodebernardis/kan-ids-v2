@@ -10,11 +10,11 @@ from __future__ import annotations
 import argparse
 import json
 import os
-from pathlib import Path
 import platform
 import subprocess
 import sys
 import time
+from pathlib import Path
 
 import numpy as np
 
@@ -23,16 +23,19 @@ REPOSITORY = HERE.parents[1]
 if str(HERE.parent) not in sys.path:
     sys.path.insert(0, str(HERE.parent))
 
-from adapt06_prospective_gate.models import load_archived_adapter  # noqa: E402
-from adapt06_prospective_gate.runner import (  # noqa: E402
+from adapt06_prospective_gate.models import load_archived_adapter
+from adapt06_prospective_gate.runner import (
     _archived_input_sha256,
     _metadata_threshold,
     array_sha256,
     file_sha256,
-    run_arrays as run_legacy_arrays,
     verify_input_provenance,
 )
-from adapt06b_decoupled_threshold import BASE_MERGE, SCHEMA  # noqa: E402
+from adapt06_prospective_gate.runner import (
+    run_arrays as run_legacy_arrays,
+)
+
+from adapt06b_decoupled_threshold import BASE_MERGE, SCHEMA
 
 
 def run_arrays(**kwargs) -> dict:
@@ -157,7 +160,7 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--model-root", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--dataset", choices=("ton", "unsw"), required=True)
-    parser.add_argument("--seed", type=int, choices=(42,), default=42)
+    parser.add_argument("--seed", type=int, choices=range(42, 47), required=True)
     args = parser.parse_args(argv)
     command = [sys.executable, str(Path(__file__).resolve()), *(argv or sys.argv[1:])]
     result = run(

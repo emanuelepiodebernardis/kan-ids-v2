@@ -50,7 +50,8 @@ def build() -> dict:
     unexpected_results = sorted(
         path.name
         for path in HERE.glob("*.json")
-        if path.name not in {"config.json", "CHECKPOINT_MANIFEST.json"}
+        if path.name
+        not in {"config.json", "matrix_config.json", "CHECKPOINT_MANIFEST.json"}
     )
     if unexpected_results:
         raise AssertionError(f"unexpected real-data results: {unexpected_results}")

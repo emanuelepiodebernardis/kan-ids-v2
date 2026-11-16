@@ -1,0 +1,17 @@
+ADAPT-06B-MATRIX pre-execution verification
+Date: 2026-11-16
+Platform: Windows 11; Python 3.13.2
+
+Scope:
+- unchanged ADAPT-06 prospective-gate tests;
+- ADAPT-06B pilot and delivery tests;
+- matrix seed limits, seed propagation, pilot immutability and aggregation;
+- static checks for the new and modified matrix files.
+
+Command:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q
+
+Result: 99 passed in 51.51s
+
+Static checks on the new and modified matrix files: PASS.
+No seed-43--46 replay had been executed when this file was created.
