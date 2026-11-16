@@ -1,0 +1,83 @@
+{
+  "base_merge": "665356fd38e5bd65972b39288097432f20728fb6",
+  "command": [
+    "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\run_pilot.py",
+    "--data",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\unsw",
+    "--model-root",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\review_extension\\models",
+    "--out",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\matrix_seed42_46_ed50e86\\new_replays\\unsw_seed46",
+    "--dataset",
+    "unsw",
+    "--seed",
+    "46",
+    "--phase",
+    "matrix"
+  ],
+  "dataset": "unsw",
+  "execution_commit": "ed50e86805c6591b967b39a7be982f4e8d30eeab",
+  "files": {
+    "unsw_seed46_decoupled.json": {
+      "bytes": 8179282,
+      "sha256": "c0988cded8fca3388ab9d48f77172011e8b14bd110ece8182b8622d23bab6cbe"
+    },
+    "unsw_seed46_legacy.json": {
+      "bytes": 5817716,
+      "sha256": "3ce39b8152f3557b91c84a48dd5acd4d948e199d3cdf2dabce2912c89cde7882"
+    },
+    "unsw_seed46_pair.json": {
+      "bytes": 5803,
+      "sha256": "48b3b4bd0b4cf8227e0533f73fddb2e9a6fb8dc4afb5e4e46a43bb5106f2f795"
+    }
+  },
+  "full_stream": true,
+  "initialization": "archived A/B",
+  "phase": "matrix",
+  "replay_processes": {
+    "isolation": "one fresh child process per report, executed sequentially",
+    "legacy_command": [
+      "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06_prospective_gate\\runner.py",
+      "--data",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\unsw",
+      "--model-root",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\review_extension\\models",
+      "--out",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\matrix_seed42_46_ed50e86\\new_replays\\unsw_seed46\\unsw_seed46_legacy.json",
+      "--dataset",
+      "unsw",
+      "--family",
+      "spline",
+      "--seed",
+      "46",
+      "--acquisition",
+      "random"
+    ],
+    "peak_rss_interpretation": "each report records the peak RSS of its own fresh process",
+    "variant_command": [
+      "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\runner.py",
+      "--data",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\unsw",
+      "--model-root",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\review_extension\\models",
+      "--out",
+      "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\matrix_seed42_46_ed50e86\\new_replays\\unsw_seed46\\unsw_seed46_decoupled.json",
+      "--dataset",
+      "unsw",
+      "--seed",
+      "46"
+    ]
+  },
+  "schema": "adapt06b-pilot-dataset-manifest-v1",
+  "seed": 46,
+  "status": "PASS",
+  "thread_environment": {
+    "MKL_NUM_THREADS": "1",
+    "NUMEXPR_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  }
+}

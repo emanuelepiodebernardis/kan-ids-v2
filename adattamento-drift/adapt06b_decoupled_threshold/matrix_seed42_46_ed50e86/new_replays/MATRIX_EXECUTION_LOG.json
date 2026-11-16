@@ -1,0 +1,88 @@
+{
+  "cases": [
+    {
+      "dataset": "ton",
+      "elapsed_wall_seconds": 472.1012204000144,
+      "manifest": "ton_seed43/MANIFEST.json",
+      "manifest_sha256": "e45abd84e8458c8ce041e9fa30275b17588eb928dc4a6fcb9c4c82b4263f46f9",
+      "seed": 43,
+      "status": "PASS"
+    },
+    {
+      "dataset": "ton",
+      "elapsed_wall_seconds": 604.62538089999,
+      "manifest": "ton_seed44/MANIFEST.json",
+      "manifest_sha256": "fea7827f4f84cfdbb1f318d032f4b5c804ea341de855f4291cdde29e8e2efbec",
+      "seed": 44,
+      "status": "PASS"
+    },
+    {
+      "dataset": "ton",
+      "elapsed_wall_seconds": 484.38074210000923,
+      "manifest": "ton_seed45/MANIFEST.json",
+      "manifest_sha256": "5282658f54be37e34ecefd929471a087f738719f3223d563defd64ea4040a4a3",
+      "seed": 45,
+      "status": "PASS"
+    },
+    {
+      "dataset": "ton",
+      "elapsed_wall_seconds": 395.2985023999936,
+      "manifest": "ton_seed46/MANIFEST.json",
+      "manifest_sha256": "f3df667d435edf0b53e515c3f6d2b88c2d769dc78a31483a2f4adc8338d3707b",
+      "seed": 46,
+      "status": "PASS"
+    },
+    {
+      "dataset": "unsw",
+      "elapsed_wall_seconds": 224.71161220001522,
+      "manifest": "unsw_seed43/MANIFEST.json",
+      "manifest_sha256": "81f2b5d4fde84b3b820fed0ae146fd9f734aba274949c822efa2bf98c0e5b4e5",
+      "seed": 43,
+      "status": "PASS"
+    },
+    {
+      "dataset": "unsw",
+      "elapsed_wall_seconds": 152.80247880000388,
+      "manifest": "unsw_seed44/MANIFEST.json",
+      "manifest_sha256": "b8f91fe80287ecdc0ed578356dc21c6891bd32d68e6bf8a02497c81bcb0d7bef",
+      "seed": 44,
+      "status": "PASS"
+    },
+    {
+      "dataset": "unsw",
+      "elapsed_wall_seconds": 53.709680800006026,
+      "manifest": "unsw_seed45/MANIFEST.json",
+      "manifest_sha256": "5b2efb82845a93d8c8c343c8a7de91d988020f135d837a9d94ecc1584997a250",
+      "seed": 45,
+      "status": "PASS"
+    },
+    {
+      "dataset": "unsw",
+      "elapsed_wall_seconds": 54.850910099979956,
+      "manifest": "unsw_seed46/MANIFEST.json",
+      "manifest_sha256": "34edd589c5c144a777c97c1654c2e723604e2bf857122709082ae1415f87c77d",
+      "seed": 46,
+      "status": "PASS"
+    }
+  ],
+  "command": [
+    "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\run_matrix.py",
+    "--data-root",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data",
+    "--model-root",
+    "adattamento-drift/review_extension/models",
+    "--preflight",
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/PREFLIGHT.json",
+    "--out",
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays"
+  ],
+  "config_sha256": "3126ca16e74485f79a0b5d3bd27e556983e9008f1a8499a6a059f5d705da0231",
+  "elapsed_wall_seconds": 2442.741112799995,
+  "execution_commit": "ed50e86805c6591b967b39a7be982f4e8d30eeab",
+  "finished_utc": "2026-11-16T17:35:36.094283+00:00",
+  "preflight_sha256": "b7afd42bf36afc5407150b1bb7bbe41db3a4fe6696e0b1fdde2e2547403294d9",
+  "schema": "adapt06b-matrix-execution-log-v1",
+  "started_utc": "2026-11-16T16:54:53.353175+00:00",
+  "status": "PASS"
+}

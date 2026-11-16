@@ -1,0 +1,234 @@
+{
+  "control_rows": 50,
+  "delivery_commit_identification": "the PR head containing this manifest",
+  "execution_commit": "ed50e86805c6591b967b39a7be982f4e8d30eeab",
+  "files": {
+    "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_COMMANDS.md": {
+      "bytes": 1826,
+      "sha256": "9e955518965f9e0790bba74173134f366c37f54f9872b9188a7bb24d8948f746"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_DELIVERY.md": {
+      "bytes": 1478,
+      "sha256": "9bb619715555cb24de2115f67b7fecbbcbaf9966b3837848890ae7416f0fffe5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_PROTOCOL.md": {
+      "bytes": 3467,
+      "sha256": "a7adb1bb2f66a370ca3609d049a458b2bb07943b64018ba52b25aa531fd59059"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_TEST_LOG.txt": {
+      "bytes": 1545,
+      "sha256": "33d192dde7dab88465f40092f264e07fab3d8d88cb822db8784f941c6fe6c71c"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/analyze_matrix.py": {
+      "bytes": 33085,
+      "sha256": "14a6553f1e0496ea98029d0efb114e69e3eee64b95661f73690cc4ae44b30222"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_config.json": {
+      "bytes": 3949,
+      "sha256": "3126ca16e74485f79a0b5d3bd27e556983e9008f1a8499a6a059f5d705da0231"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/PREFLIGHT.json": {
+      "bytes": 15390,
+      "sha256": "b7afd42bf36afc5407150b1bb7bbe41db3a4fe6696e0b1fdde2e2547403294d9"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/FIGURE_1_PAIRED_DELTAS.png": {
+      "bytes": 68450,
+      "sha256": "3e253ecf426bdd3591adb649edf6c1367fdeaaac9c0f7029d8659dabc53829b3"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/FIGURE_2_TEMPORAL_TRAJECTORIES.png": {
+      "bytes": 288745,
+      "sha256": "5433c4910144e7311b94db5cc95a6ade1da953a6eee83ffd911706cdacb8761d"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_ALL_CONTROLS.csv": {
+      "bytes": 6820,
+      "sha256": "bc4a1adf1d80374563704063615404e3f547b1b3ba94853bd221364e96240e14"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_DATASET_SUMMARY.csv": {
+      "bytes": 873,
+      "sha256": "1f83e676dd3fa4c6345562248bc22d2106261e0c6f05ee601aa0596ba7f4d49f"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_DECISIONS.csv": {
+      "bytes": 429,
+      "sha256": "f24e045b944a3e3e408d3f38984b741519e394d7ffc8be8239b62164a6c5da26"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_ENVIRONMENT.json": {
+      "bytes": 1131,
+      "sha256": "f6a3499ba6d97225f6933e9256659e8d324de7d4dfa4442a91bf6ef8509563a8"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_INTERVALS.csv": {
+      "bytes": 12382,
+      "sha256": "387bbca25d21fbff8349826db67d6923e89cee3c6532db5c7c7a330314ca943e"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_PAIRED.csv": {
+      "bytes": 3240,
+      "sha256": "dbd760cc60eaa51715a14b8392d8a89cbe64049af920a6f087fd4d4c4c4fe312"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_REPORT.md": {
+      "bytes": 5464,
+      "sha256": "1e1f9d974ef704ba3daa90be32368e4b514846207d76dcfc94e0943b0d407560"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/PILOT_INDEX.json": {
+      "bytes": 1184,
+      "sha256": "d08aee17c17e97af760a656de7b290dbfa1ce76ee422c881b5e185d1222b69f5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/MATRIX_EXECUTION_LOG.json": {
+      "bytes": 3260,
+      "sha256": "4de8f3d66e6a321511b29601ca69e14e18598e8bb9283273e4e428043d11726c"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/MATRIX_RUN_MANIFEST.json": {
+      "bytes": 5836,
+      "sha256": "5b6b5b4c8cb0b5a230e86eda3f7912767e50dd458d259ed2929359fc63b1b909"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed43/MANIFEST.json": {
+      "bytes": 3614,
+      "sha256": "e45abd84e8458c8ce041e9fa30275b17588eb928dc4a6fcb9c4c82b4263f46f9"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed43/ton_seed43_decoupled.json": {
+      "bytes": 24684527,
+      "sha256": "f82f4fc9d10ed4ab1034ff8b9abb5ec4d14b2286e34a1c344315b8ad36fd33cb"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed43/ton_seed43_legacy.json": {
+      "bytes": 18232627,
+      "sha256": "227cd30bf7b0aa4a3c2cf70ca60a6685e8b729451fd8ba03295e425d37c3067f"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed43/ton_seed43_pair.json": {
+      "bytes": 5833,
+      "sha256": "54f2f404c086d23470d041a023e158456d5015f55529c47e462df485523f9669"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed44/MANIFEST.json": {
+      "bytes": 3614,
+      "sha256": "fea7827f4f84cfdbb1f318d032f4b5c804ea341de855f4291cdde29e8e2efbec"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed44/ton_seed44_decoupled.json": {
+      "bytes": 24709079,
+      "sha256": "480d0136aff7c120a8f9ee8e649db7159f9da591d2c2bb9dbb79248dd1aedf67"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed44/ton_seed44_legacy.json": {
+      "bytes": 18261291,
+      "sha256": "6d6c6759e78e8eb767646d067a47f686bf529d409cbff22dd47cfd7491ea38f0"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed44/ton_seed44_pair.json": {
+      "bytes": 5824,
+      "sha256": "797cdc373eaf2b7a9d3bf56b0f6f540f4e03710df8b0ce88aba590515f09247c"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed45/MANIFEST.json": {
+      "bytes": 3614,
+      "sha256": "5282658f54be37e34ecefd929471a087f738719f3223d563defd64ea4040a4a3"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed45/ton_seed45_decoupled.json": {
+      "bytes": 24798772,
+      "sha256": "85f48fcf177f4f931ea1d9b27d414887d959b72767149102057434e0bb4e588c"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed45/ton_seed45_legacy.json": {
+      "bytes": 18293525,
+      "sha256": "6ff3ca64bcea8c5aaa21fc4791376aa8710d6ff129d5b359344badc16300eb19"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed45/ton_seed45_pair.json": {
+      "bytes": 5837,
+      "sha256": "99d6fe24098151058788321be41f4ea36f6be265ee9dfaa10ae9381af2cf1e42"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed46/MANIFEST.json": {
+      "bytes": 3614,
+      "sha256": "f3df667d435edf0b53e515c3f6d2b88c2d769dc78a31483a2f4adc8338d3707b"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed46/ton_seed46_decoupled.json": {
+      "bytes": 24763770,
+      "sha256": "80119c792a4a3caef5a76820835f0eb0b8676761718933504bb41e4a5abdd112"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed46/ton_seed46_legacy.json": {
+      "bytes": 18261965,
+      "sha256": "7088e8f1e25d0ff8dade84fafceb6c03b1c38ff01376cd0348878aa705e47523"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed46/ton_seed46_pair.json": {
+      "bytes": 5792,
+      "sha256": "0a629f37b11970e958abc61e1d25a28f7ed0a47a2afeacb9a38847612e3943a3"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed43/MANIFEST.json": {
+      "bytes": 3627,
+      "sha256": "81f2b5d4fde84b3b820fed0ae146fd9f734aba274949c822efa2bf98c0e5b4e5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed43/unsw_seed43_decoupled.json": {
+      "bytes": 7830135,
+      "sha256": "848143a3387fa558090e6c137bd366cdef14b92b73bbceac1016088408fb3e3a"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed43/unsw_seed43_legacy.json": {
+      "bytes": 5748932,
+      "sha256": "6f50273672a9a1947214dd254d34b1ed839e30acfedae1d7198558f2bb9314a5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed43/unsw_seed43_pair.json": {
+      "bytes": 5800,
+      "sha256": "c4084402726dd159c62f1aed65a108c96331c45d41cba7bb695fbabd6c8df392"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed44/MANIFEST.json": {
+      "bytes": 3627,
+      "sha256": "b8f91fe80287ecdc0ed578356dc21c6891bd32d68e6bf8a02497c81bcb0d7bef"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed44/unsw_seed44_decoupled.json": {
+      "bytes": 7676676,
+      "sha256": "23fa2a21775d7602740bad0780675ac1637c5cd03f741657290fa43dc05d02d5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed44/unsw_seed44_legacy.json": {
+      "bytes": 5712312,
+      "sha256": "52d3b06f8267ed4de42c3f32c79b6199c3d25769486a31d90dfccace53f942d5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed44/unsw_seed44_pair.json": {
+      "bytes": 5756,
+      "sha256": "85aa1c4ba10ff04bd99ace8882c674c8919baf6206587e54bc1e65bc29202eaf"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed45/MANIFEST.json": {
+      "bytes": 3627,
+      "sha256": "5b2efb82845a93d8c8c343c8a7de91d988020f135d837a9d94ecc1584997a250"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed45/unsw_seed45_decoupled.json": {
+      "bytes": 8136618,
+      "sha256": "916aa9d82784f24ac407778295359ae2a0cf6b57e13a462b2f6f5946c28f698a"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed45/unsw_seed45_legacy.json": {
+      "bytes": 5804602,
+      "sha256": "65b083ad568361dfcd372adf77898220cbd1ac351ff7eeed1e17f7c15379964a"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed45/unsw_seed45_pair.json": {
+      "bytes": 5843,
+      "sha256": "c19718a41d704f6ce03289877ded02b87968675345f3db055481214b93f56d5b"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed46/MANIFEST.json": {
+      "bytes": 3627,
+      "sha256": "34edd589c5c144a777c97c1654c2e723604e2bf857122709082ae1415f87c77d"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed46/unsw_seed46_decoupled.json": {
+      "bytes": 8179282,
+      "sha256": "c0988cded8fca3388ab9d48f77172011e8b14bd110ece8182b8622d23bab6cbe"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed46/unsw_seed46_legacy.json": {
+      "bytes": 5817716,
+      "sha256": "3ce39b8152f3557b91c84a48dd5acd4d948e199d3cdf2dabce2912c89cde7882"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed46/unsw_seed46_pair.json": {
+      "bytes": 5803,
+      "sha256": "48b3b4bd0b4cf8227e0533f73fddb2e9a6fb8dc4afb5e4e46a43bb5106f2f795"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/preflight_matrix.py": {
+      "bytes": 8317,
+      "sha256": "a327fab5573844ba30c5594d5df64945c3e9abd5e919902354c6de7fbec7284d"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/run_matrix.py": {
+      "bytes": 6945,
+      "sha256": "dad7b8e66debab8cf3a0e9b9deca5e2c3a95688ea7a71fdb3edb26ad9618b580"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/test_matrix.py": {
+      "bytes": 6262,
+      "sha256": "c6882e5bba7284021ef46999bf1a869ceef05229ca71d36bacdf011754112ea7"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/test_matrix_delivery.py": {
+      "bytes": 5436,
+      "sha256": "37539a54260ea69d897b0d365af386ce632dbc1715e5faab6767e4436aa66faa"
+    }
+  },
+  "new_pairs": 8,
+  "new_reports": 16,
+  "paired_rows": 10,
+  "pilot_pairs_indexed": 2,
+  "pilot_reports_indexed": 4,
+  "provenance_files": 11,
+  "schema": "adapt06b-matrix-delivery-manifest-v1"
+}

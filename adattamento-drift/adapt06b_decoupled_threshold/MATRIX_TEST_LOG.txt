@@ -1,17 +1,39 @@
-ADAPT-06B-MATRIX pre-execution verification
+ADAPT-06B-MATRIX verification log
 Date: 2026-11-16
 Platform: Windows 11; Python 3.13.2
 
+PRE-EXECUTION
+Commit: ed50e86805c6591b967b39a7be982f4e8d30eeab
 Scope:
 - unchanged ADAPT-06 prospective-gate tests;
 - ADAPT-06B pilot and delivery tests;
 - matrix seed limits, seed propagation, pilot immutability and aggregation;
 - static checks for the new and modified matrix files.
-
 Command:
 python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q
-
 Result: 99 passed in 51.51s
+No seed-43--46 replay had been executed at this point.
 
-Static checks on the new and modified matrix files: PASS.
-No seed-43--46 replay had been executed when this file was created.
+EXECUTION
+Preflight: PASS; 10 A/B states, archived streams and seed-42 pilot verified.
+New output: 16 replay reports and 8 paired comparisons, in a new directory.
+Pilot seed 42: read only; no rerun and no overwrite.
+Wall time of the serial matrix launcher: 2442.741 s.
+
+POST-EXECUTION
+Scope added:
+- integrity of all 16 new reports and 8 new pairs;
+- unchanged hashes of the 4 pilot reports and 2 pilot pairs;
+- exact extent of 50 control rows and 10 paired rows;
+- regeneration of tables and report from verified JSON;
+- identity of the recorded environment across all 20 replay reports;
+- terminal state, labels in transit and null/adverse outcomes;
+- SHA-256 and byte counts for outputs and provenance.
+Command:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q
+Result: 106 passed.
+
+Static checks:
+python -m ruff check analyze_matrix.py test_matrix.py test_matrix_delivery.py
+git diff --check
+Result: PASS.

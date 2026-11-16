@@ -1,0 +1,11 @@
+dataset,seed,ACCEPT,FREEZE,REJECT_HARM,WAIT,WITHHOLD_INSUFFICIENT,WITHHOLD_STREAM_END_AMBIGUOUS,WITHHOLD_STREAM_END_INSUFFICIENT,candidate_pending_at_end
+ton,42,0,3,2,0,1,0,0,False
+ton,43,0,3,2,1,0,0,0,False
+ton,44,0,3,2,0,1,0,0,False
+ton,45,0,2,1,1,1,0,0,False
+ton,46,0,2,1,1,1,0,0,False
+unsw,42,1,3,1,1,0,1,0,False
+unsw,43,0,3,2,1,0,1,0,False
+unsw,44,0,4,3,0,0,0,1,False
+unsw,45,0,3,1,2,0,0,1,False
+unsw,46,0,2,0,3,0,1,0,False

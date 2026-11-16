@@ -174,6 +174,9 @@ def test_dataset_summary_keeps_zero_and_adverse_seeds_visible():
                     "seed": seed,
                     "delta_recall_pp": recall,
                     "delta_fpr_pp": fpr,
+                    "delta_recall_vs_matched_pp": recall,
+                    "delta_fpr_vs_matched_pp": fpr,
+                    "weight_promotions": 0,
                 }
             )
     summary = {item["dataset"]: item for item in dataset_summary(rows)}

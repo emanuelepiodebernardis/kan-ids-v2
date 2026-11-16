@@ -1,0 +1,39 @@
+{
+  "common_environment": {
+    "numpy": "2.3.5",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.13.2",
+    "pythonhashseed": null,
+    "river": "0.22.0",
+    "sklearn": "1.7.2"
+  },
+  "measurement_processes": "legacy and decoupled executed separately",
+  "recorded_by_runner": {
+    "decoupled": {
+      "numpy": "2.3.5",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "python": "3.13.2",
+      "pythonhashseed": null,
+      "river": "0.22.0",
+      "sklearn": "1.7.2",
+      "thread_limits": {
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      }
+    },
+    "legacy": {
+      "numpy": "2.3.5",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "python": "3.13.2",
+      "pythonhashseed": null,
+      "river": "0.22.0",
+      "sklearn": "1.7.2"
+    }
+  },
+  "recording_note": "the legacy runner records package versions; the decoupled runner also records the inherited one-thread BLAS limits",
+  "reports_checked": 20,
+  "same_core_environment_for_all_reports": true,
+  "schema": "adapt06b-matrix-environment-v1"
+}

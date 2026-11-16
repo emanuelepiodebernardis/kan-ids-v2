@@ -178,6 +178,9 @@ def paired_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
             case = cases[(dataset, seed)]
             auto = case["legacy"]["summary"]["threshold_only"]
             decoupled = case["decoupled"]["summary"]["gated"]
+            matched = case["decoupled"]["summary"]["threshold_matched"]
+            frozen = case["legacy"]["summary"]["frozen_b"]
+            legacy = case["legacy"]["summary"]["gated"]
             pair = case["pair"]
             rows.append(
                 {
@@ -188,6 +191,18 @@ def paired_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
                     "delta_tp": decoupled["tp"] - auto["tp"],
                     "delta_fn": decoupled["fn"] - auto["fn"],
                     "delta_fp": decoupled["fp"] - auto["fp"],
+                    "delta_recall_vs_matched_pp": 100.0
+                    * (decoupled["recall"] - matched["recall"]),
+                    "delta_fpr_vs_matched_pp": 100.0
+                    * (decoupled["fpr"] - matched["fpr"]),
+                    "delta_recall_vs_frozen_pp": 100.0
+                    * (decoupled["recall"] - frozen["recall"]),
+                    "delta_fpr_vs_frozen_pp": 100.0
+                    * (decoupled["fpr"] - frozen["fpr"]),
+                    "delta_recall_vs_legacy_pp": 100.0
+                    * (decoupled["recall"] - legacy["recall"]),
+                    "delta_fpr_vs_legacy_pp": 100.0
+                    * (decoupled["fpr"] - legacy["fpr"]),
                     "weight_promotions": pair["decoupled_promotions"],
                     "threshold_changes": pair["decoupled_threshold_changes"],
                     "first_cal_eligible_block": pair["first_cal_eligible_block"],
@@ -203,6 +218,14 @@ def paired_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
                     "unique_labels": pair["unique_labels_requested"],
                     "control_labels": pair["roles"].get("CONTROL", 0),
                     "random_fit_labels": pair["roles"].get("RANDOM_FIT", 0),
+                    "legacy_pending_labels_at_end": case["legacy"]["pending_labels"],
+                    "decoupled_pending_labels_at_end": case["decoupled"][
+                        "pending_labels"
+                    ],
+                    "legacy_pending_batches_at_end": case["legacy"]["pending_batches"],
+                    "decoupled_pending_batches_at_end": case["decoupled"][
+                        "pending_batches"
+                    ],
                     "legacy_replay_seconds": pair["costs"]["legacy_replay_seconds"],
                     "decoupled_replay_seconds": pair["costs"][
                         "decoupled_replay_seconds"
@@ -226,6 +249,8 @@ def dataset_summary(rows: list[dict]) -> list[dict]:
         subset = [row for row in rows if row["dataset"] == dataset]
         recall = [row["delta_recall_pp"] for row in subset]
         fpr = [row["delta_fpr_pp"] for row in subset]
+        matched_recall = [row["delta_recall_vs_matched_pp"] for row in subset]
+        matched_fpr = [row["delta_fpr_vs_matched_pp"] for row in subset]
         worst = min(
             subset, key=lambda row: (row["delta_recall_pp"], -row["delta_fpr_pp"])
         )
@@ -245,6 +270,14 @@ def dataset_summary(rows: list[dict]) -> list[dict]:
                 "favorable_fpr_seeds": sum(value < 0.0 for value in fpr),
                 "favorable_both_seeds": sum(
                     row["delta_recall_pp"] > 0.0 and row["delta_fpr_pp"] < 0.0
+                    for row in subset
+                ),
+                "promoted_seeds": sum(row["weight_promotions"] > 0 for row in subset),
+                "delta_recall_vs_matched_mean_pp": statistics.mean(matched_recall),
+                "delta_fpr_vs_matched_mean_pp": statistics.mean(matched_fpr),
+                "favorable_both_vs_matched_seeds": sum(
+                    row["delta_recall_vs_matched_pp"] > 0.0
+                    and row["delta_fpr_vs_matched_pp"] < 0.0
                     for row in subset
                 ),
                 "worst_seed": worst["seed"],
@@ -325,9 +358,9 @@ def _cumulative(records: list[dict], track: str) -> tuple[np.ndarray, np.ndarray
 
 
 def plot_deltas(rows: list[dict], path: Path) -> None:
-    fig, ax = plt.subplots(figsize=(7.2, 5.2))
+    fig, axes = plt.subplots(1, 2, figsize=(11.2, 4.8))
     styles = {"ton": ("#1f77b4", "o"), "unsw": ("#d62728", "s")}
-    for dataset in DATASETS:
+    for ax, dataset in zip(axes, DATASETS, strict=True):
         color, marker = styles[dataset]
         subset = [row for row in rows if row["dataset"] == dataset]
         ax.scatter(
@@ -340,20 +373,28 @@ def plot_deltas(rows: list[dict], path: Path) -> None:
             zorder=3,
         )
         for row in subset:
+            offsets = {
+                42: (6, 9),
+                43: (6, 7),
+                44: (6, -15),
+                45: (6, 7),
+                46: (6, -27),
+            }
             ax.annotate(
                 str(row["seed"]),
                 (row["delta_fpr_pp"], row["delta_recall_pp"]),
-                xytext=(5, 4),
+                xytext=offsets[int(row["seed"])],
                 textcoords="offset points",
                 fontsize=8,
             )
-    ax.axhline(0.0, color="black", linewidth=0.8)
-    ax.axvline(0.0, color="black", linewidth=0.8)
-    ax.set_xlabel("Δ FPR: GATED decoupled − threshold-only autonoma (pp)")
-    ax.set_ylabel("Δ recall: GATED decoupled − threshold-only autonoma (pp)")
-    ax.set_title("Differenze appaiate per dataset e seed")
-    ax.grid(alpha=0.22)
-    ax.legend(frameon=False)
+        ax.axhline(0.0, color="black", linewidth=0.8)
+        ax.axvline(0.0, color="black", linewidth=0.8)
+        ax.set_xlabel("Δ FPR (pp)")
+        ax.set_ylabel("Δ recall (pp)")
+        ax.set_title(dataset.upper())
+        ax.grid(alpha=0.22)
+        ax.legend(frameon=False)
+    fig.suptitle("GATED decoupled − threshold-only autonoma, per seed")
     fig.tight_layout()
     fig.savefig(path, dpi=180)
     plt.close(fig)
@@ -419,7 +460,12 @@ def plot_trajectories(cases: dict[tuple[str, int], dict], path: Path) -> None:
     plt.close(fig)
 
 
-def render_report(summary: list[dict], paired: list[dict]) -> str:
+def render_report(
+    summary: list[dict],
+    paired: list[dict],
+    decisions: list[dict],
+    execution_log: dict,
+) -> str:
     lines = [
         "# ADAPT-06B-MATRIX — robustezza GAM/RANDOM, seed 42–46",
         "",
@@ -445,10 +491,27 @@ def render_report(summary: list[dict], paired: list[dict]) -> str:
     lines.extend(
         [
             "",
+            "## Controlli diagnostici",
+            "",
+            "| Dataset | Seed | Promozioni | Δ recall vs matched | Δ FPR vs matched | Δ recall vs Frozen/B | Δ FPR vs Frozen/B |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for row in paired:
+        lines.append(
+            f"| {row['dataset'].upper()} | {row['seed']} | {row['weight_promotions']} | "
+            f"{row['delta_recall_vs_matched_pp']:+.3f} | "
+            f"{row['delta_fpr_vs_matched_pp']:+.3f} | "
+            f"{row['delta_recall_vs_frozen_pp']:+.3f} | "
+            f"{row['delta_fpr_vs_frozen_pp']:+.3f} |"
+        )
+    lines.extend(
+        [
+            "",
             "## Sintesi per dataset",
             "",
-            "| Dataset | Δ recall media ± ds (pp) | Intervallo | Δ FPR media ± ds (pp) | Intervallo | Recall favorevole | FPR favorevole | Entrambe | Seed peggiore |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
+            "| Dataset | Δ recall media ± ds (pp) | Intervallo | Δ FPR media ± ds (pp) | Intervallo | Recall favorevole | FPR favorevole | Entrambe vs autonoma | Seed con promozioni | Entrambe vs matched | Seed peggiore |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for row in summary:
@@ -459,12 +522,90 @@ def render_report(summary: list[dict], paired: list[dict]) -> str:
             f"{row['delta_fpr_sd_pp']:.3f} | [{row['delta_fpr_min_pp']:+.3f}, "
             f"{row['delta_fpr_max_pp']:+.3f}] | {row['favorable_recall_seeds']}/5 | "
             f"{row['favorable_fpr_seeds']}/5 | {row['favorable_both_seeds']}/5 | "
+            f"{row['promoted_seeds']}/5 | {row['favorable_both_vs_matched_seeds']}/5 | "
             f"{row['worst_seed']} |"
+        )
+    decision_map = {(row["dataset"], int(row["seed"])): row for row in decisions}
+    lines.extend(
+        [
+            "",
+            "## Gate, CAL e stato terminale",
+            "",
+            (
+                "Gli indici di blocco sono 0-based. La contabilità riporta label "
+                "uniche, distinte per ruolo, e label già richieste ma ancora in "
+                "transito alla fine dello stream."
+            ),
+            "",
+            "| Dataset | Seed | Prima CAL/applicazione | Cambi soglia | Decisioni | Label uniche (CONTROL/RANDOM_FIT) | Label/batch pendenti | Candidato pendente |",
+            "|---|---:|---:|---:|---|---:|---:|---:|",
+        ]
+    )
+    decision_fields = (
+        "ACCEPT",
+        "FREEZE",
+        "REJECT_HARM",
+        "WAIT",
+        "WITHHOLD_INSUFFICIENT",
+        "WITHHOLD_STREAM_END_AMBIGUOUS",
+        "WITHHOLD_STREAM_END_INSUFFICIENT",
+    )
+    for row in paired:
+        decision = decision_map[(row["dataset"], int(row["seed"]))]
+        compact = ", ".join(
+            f"{field}={decision[field]}"
+            for field in decision_fields
+            if int(decision[field]) > 0
+        )
+        lines.append(
+            f"| {row['dataset'].upper()} | {row['seed']} | "
+            f"{row['first_cal_eligible_block']}/{row['first_threshold_application_block']} | "
+            f"{row['threshold_changes']} | {compact} | "
+            f"{row['unique_labels']} ({row['control_labels']}/{row['random_fit_labels']}) | "
+            f"{row['decoupled_pending_labels_at_end']}/{row['decoupled_pending_batches_at_end']} | "
+            f"{row['candidate_pending_decoupled']} |"
         )
     lines.extend(
         [
             "",
+            "## Costi osservati",
+            "",
+            "| Dataset | Replay legacy medio (s) | Replay decoupled medio (s) | RSS legacy massimo (MiB) | RSS decoupled massimo (MiB) | Payload legacy massimo (B) | Payload decoupled massimo (B) |",
+            "|---|---:|---:|---:|---:|---:|---:|",
+        ]
+    )
+    for dataset in DATASETS:
+        subset = [row for row in paired if row["dataset"] == dataset]
+        lines.append(
+            f"| {dataset.upper()} | "
+            f"{statistics.mean(row['legacy_replay_seconds'] for row in subset):.3f} | "
+            f"{statistics.mean(row['decoupled_replay_seconds'] for row in subset):.3f} | "
+            f"{max(row['legacy_peak_rss_mib'] for row in subset):.1f} | "
+            f"{max(row['decoupled_peak_rss_mib'] for row in subset):.1f} | "
+            f"{max(row['legacy_payload_bytes'] for row in subset):,} | "
+            f"{max(row['decoupled_payload_bytes'] for row in subset):,} |"
+        )
+    lines.extend(
+        [
+            "",
+            (
+                "Il launcher seriale delle otto coppie nuove ha richiesto "
+                f"{execution_log['elapsed_wall_seconds']:.3f} s "
+                f"({execution_log['elapsed_wall_seconds'] / 60.0:.3f} min), "
+                "inclusi caricamenti, scrittura e verifiche fra i processi."
+            ),
+            "",
             "## Limiti e lettura",
+            "",
+            (
+                "Su TON non avviene alcuna promozione in cinque seed e GATED decoupled "
+                "coincide sempre con threshold-only matched: non emerge quindi un beneficio "
+                "dei pesi. Su UNSW il confronto primario è favorevole su entrambe le metriche "
+                "in 5/5 seed, ma una promozione avviene soltanto nel seed 42. Nei seed 43–46 "
+                "GATED decoupled coincide con matched; il vantaggio rispetto alla baseline "
+                "autonoma deriva dalla diversa cadenza della soglia, non dai pesi. Nel seed "
+                "42 la promozione aumenta il recall rispetto a matched ma aumenta anche l'FPR."
+            ),
             "",
             (
                 "Le differenze di recall e FPR devono essere lette congiuntamente. I "
@@ -504,10 +645,66 @@ def build_pilot_index(pilot_root: Path) -> dict:
     }
 
 
+def build_environment_summary(cases: dict[tuple[str, int], dict]) -> dict:
+    by_runner = {"legacy": [], "decoupled": []}
+    for dataset in DATASETS:
+        for seed in SEEDS:
+            for source in ("legacy", "decoupled"):
+                by_runner[source].append(
+                    cases[(dataset, seed)][source]["environment"]
+                )
+    canonical = {
+        source: {json.dumps(item, sort_keys=True) for item in environments}
+        for source, environments in by_runner.items()
+    }
+    if any(len(values) != 1 for values in canonical.values()):
+        raise AssertionError("environment changed within one replay runner")
+    recorded = {
+        source: environments[0] for source, environments in by_runner.items()
+    }
+    core_keys = ("python", "platform", "numpy", "sklearn", "river", "pythonhashseed")
+    common = {key: recorded["legacy"][key] for key in core_keys}
+    if any(recorded["decoupled"][key] != value for key, value in common.items()):
+        raise AssertionError("core environment differs between replay runners")
+    return {
+        "schema": "adapt06b-matrix-environment-v1",
+        "reports_checked": sum(len(items) for items in by_runner.values()),
+        "same_core_environment_for_all_reports": True,
+        "common_environment": common,
+        "recorded_by_runner": recorded,
+        "recording_note": (
+            "the legacy runner records package versions; the decoupled runner also "
+            "records the inherited one-thread BLAS limits"
+        ),
+        "measurement_processes": "legacy and decoupled executed separately",
+    }
+
+
 def build_delivery_manifest(
     *, matrix_root: Path, output: Path, execution_commit: str
 ) -> dict:
     files = {}
+    provenance_files = (
+        HERE / "MATRIX_PROTOCOL.md",
+        HERE / "matrix_config.json",
+        HERE / "MATRIX_COMMANDS.md",
+        HERE / "MATRIX_DELIVERY.md",
+        HERE / "MATRIX_TEST_LOG.txt",
+        HERE / "preflight_matrix.py",
+        HERE / "run_matrix.py",
+        HERE / "analyze_matrix.py",
+        HERE / "test_matrix.py",
+        HERE / "test_matrix_delivery.py",
+        matrix_root.parent / "PREFLIGHT.json",
+    )
+    for path in provenance_files:
+        if not path.is_file():
+            raise FileNotFoundError(f"missing delivery provenance file: {path}")
+        relative = path.relative_to(REPOSITORY).as_posix()
+        files[relative] = {
+            "bytes": path.stat().st_size,
+            "sha256": file_sha256(path),
+        }
     for root in (matrix_root, output):
         for path in sorted(root.rglob("*")):
             if path.is_file() and path.name != "MATRIX_DELIVERY_MANIFEST.json":
@@ -525,6 +722,8 @@ def build_delivery_manifest(
         "new_reports": 16,
         "new_pairs": 8,
         "control_rows": 50,
+        "paired_rows": 10,
+        "provenance_files": len(provenance_files),
         "files": dict(sorted(files.items())),
     }
 
@@ -546,6 +745,7 @@ def main(argv: list[str] | None = None) -> None:
     summary = dataset_summary(paired)
     decisions = decisions_rows(cases)
     intervals = intervals_rows(cases)
+    execution_log = _load(args.matrix_root / "MATRIX_EXECUTION_LOG.json")
     control_fields = tuple(controls[0])
     paired_fields = tuple(paired[0])
     summary_fields = tuple(summary[0])
@@ -556,12 +756,20 @@ def main(argv: list[str] | None = None) -> None:
     _write(args.out / "MATRIX_DATASET_SUMMARY.csv", _csv(summary, summary_fields))
     _write(args.out / "MATRIX_DECISIONS.csv", _csv(decisions, decision_fields))
     _write(args.out / "MATRIX_INTERVALS.csv", _csv(intervals, interval_fields))
-    _write(args.out / "MATRIX_REPORT.md", render_report(summary, paired))
+    _write(
+        args.out / "MATRIX_REPORT.md",
+        render_report(summary, paired, decisions, execution_log),
+    )
     (args.out / "PILOT_INDEX.json").write_text(
         json.dumps(
             build_pilot_index(args.pilot_root.resolve()), indent=2, sort_keys=True
         )
         + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
+    (args.out / "MATRIX_ENVIRONMENT.json").write_text(
+        json.dumps(build_environment_summary(cases), indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
         newline="\n",
     )

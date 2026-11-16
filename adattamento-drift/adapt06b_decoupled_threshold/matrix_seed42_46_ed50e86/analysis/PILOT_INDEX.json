@@ -1,0 +1,31 @@
+{
+  "files": {
+    "pilot_seed42_02b82af/ton_seed42/ton_seed42_decoupled.json": {
+      "bytes": 24720739,
+      "sha256": "9f97dc7212dbe6a5e2f4f4efb750cb4cf277824cc990b5887a2feab9c12ca8f9"
+    },
+    "pilot_seed42_02b82af/ton_seed42/ton_seed42_legacy.json": {
+      "bytes": 18267267,
+      "sha256": "086a0e03c9cbdc3ca1c596f0e862beae3aebc1946f8f13235ffac023aa60d253"
+    },
+    "pilot_seed42_02b82af/ton_seed42/ton_seed42_pair.json": {
+      "bytes": 5742,
+      "sha256": "7278dfdaa0c7a8204e19db958f759cc5b1efd96498bf12ae07b5e52b0f9545dc"
+    },
+    "pilot_seed42_02b82af/unsw_seed42/unsw_seed42_decoupled.json": {
+      "bytes": 7967165,
+      "sha256": "86603205e59a51413c38bc44d0ff06bbacaf8fda3bb1c2dffbe1d7c0d25606d3"
+    },
+    "pilot_seed42_02b82af/unsw_seed42/unsw_seed42_legacy.json": {
+      "bytes": 5815577,
+      "sha256": "784a1b8c8c990cc45b002d3b14e3440af3d26c358511808db8c1b31098bafe8d"
+    },
+    "pilot_seed42_02b82af/unsw_seed42/unsw_seed42_pair.json": {
+      "bytes": 5827,
+      "sha256": "020cc3fba3d7333c06192df76d022131cb5d62a5cc7d6f6405b191b6480bfc34"
+    }
+  },
+  "reused_without_rerun": true,
+  "schema": "adapt06b-matrix-pilot-index-v1",
+  "seed": 42
+}

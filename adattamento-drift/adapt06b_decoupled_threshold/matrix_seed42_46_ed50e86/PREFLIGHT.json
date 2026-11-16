@@ -1,0 +1,330 @@
+{
+  "artifacts": {
+    "ton": {
+      "models": {
+        "42": {
+          "initial_sample_sha256": "385e41d30996395f36bf2e54ff8308117c7bcab5ce087ddda90e90341750f6e0",
+          "metadata_file": "adattamento-drift/review_extension/models/ton/spline_42/ready.json",
+          "metadata_sha256": "ec4394292359bb29f8a3c50ceb2f9fbfad902d1f5dfc0d457e062fa359906488",
+          "model_file": "adattamento-drift/review_extension/models/ton/spline_42/model.pkl",
+          "model_sha256": "5790508f28104bf9e49ad4262a07268f44eda1584f0f896a207c4f9a7b5d542d",
+          "source_sha256": {
+            "A": "2cc5c99b572c1bf6b1305f32516d3cf8778f514af76526a6d3944b13227c1c19",
+            "B": "3fdb5b9fdc88010514e3a2af21647f8133e51124aa7746a304c904722f6bcafb",
+            "D": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8"
+          }
+        },
+        "43": {
+          "initial_sample_sha256": "2dd7fa3ac00ce2fdddb2f6a39064e818f9634c1c6033e9b6e815783a81acb255",
+          "metadata_file": "adattamento-drift/review_extension/models/ton/spline_43/ready.json",
+          "metadata_sha256": "b14ad6be870e533bc57a587a3bc3fd01b6fe68f1f9b729a9ae0d605293940611",
+          "model_file": "adattamento-drift/review_extension/models/ton/spline_43/model.pkl",
+          "model_sha256": "3d9489a66039946786dfcd439a76307cf19cd380b58763568ebef8c21fba28da",
+          "source_sha256": {
+            "A": "2cc5c99b572c1bf6b1305f32516d3cf8778f514af76526a6d3944b13227c1c19",
+            "B": "3fdb5b9fdc88010514e3a2af21647f8133e51124aa7746a304c904722f6bcafb",
+            "D": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8"
+          }
+        },
+        "44": {
+          "initial_sample_sha256": "adea50e6ecb40d11927ed73c17b1e90048e4d167893d85a839871a7efd941b38",
+          "metadata_file": "adattamento-drift/review_extension/models/ton/spline_44/ready.json",
+          "metadata_sha256": "7841265f80ad59ee0e9d5ff7db28de360e6e61bfe5ddd9aca6f5423503cefd94",
+          "model_file": "adattamento-drift/review_extension/models/ton/spline_44/model.pkl",
+          "model_sha256": "ce5e25cb5a1b3281adcb36599d02230f799728aca1661b8501b0c657d971c33c",
+          "source_sha256": {
+            "A": "2cc5c99b572c1bf6b1305f32516d3cf8778f514af76526a6d3944b13227c1c19",
+            "B": "3fdb5b9fdc88010514e3a2af21647f8133e51124aa7746a304c904722f6bcafb",
+            "D": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8"
+          }
+        },
+        "45": {
+          "initial_sample_sha256": "eaff8b01c92469c3589113deaca575c5274e0ca23f06918cc580f09e58104a77",
+          "metadata_file": "adattamento-drift/review_extension/models/ton/spline_45/ready.json",
+          "metadata_sha256": "22d05455649a72e9531b02570196b8c6f995caafdda72965af871b0f71d99358",
+          "model_file": "adattamento-drift/review_extension/models/ton/spline_45/model.pkl",
+          "model_sha256": "3f2fbae3d3b19c9d936e9fdc85949f8ba980e03db1f5a4eb0fe3073f9d155bea",
+          "source_sha256": {
+            "A": "2cc5c99b572c1bf6b1305f32516d3cf8778f514af76526a6d3944b13227c1c19",
+            "B": "3fdb5b9fdc88010514e3a2af21647f8133e51124aa7746a304c904722f6bcafb",
+            "D": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8"
+          }
+        },
+        "46": {
+          "initial_sample_sha256": "2d670c67eb35157e76905132f1193ce01ee437400aa048d6dec7380a2e57ae8d",
+          "metadata_file": "adattamento-drift/review_extension/models/ton/spline_46/ready.json",
+          "metadata_sha256": "d039fe5a01c4a5a294897b086ffd78b869cb6276d8d0cc1f10453e33349f3f38",
+          "model_file": "adattamento-drift/review_extension/models/ton/spline_46/model.pkl",
+          "model_sha256": "6e1ddcc7fb55f28df837e718cb84b888627ee5665e5791781f0c89e67075dfee",
+          "source_sha256": {
+            "A": "2cc5c99b572c1bf6b1305f32516d3cf8778f514af76526a6d3944b13227c1c19",
+            "B": "3fdb5b9fdc88010514e3a2af21647f8133e51124aa7746a304c904722f6bcafb",
+            "D": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8"
+          }
+        }
+      },
+      "retained_arrays_sha256": {
+        "X": "e79a06ba049b9a31317ce9704e57eb8b38849238bdba4b1a29fe17901e5333f1",
+        "row_id": "7367b1531be0f4c7b3c3204c507d683169cb31e95eabc2dd75e265cb2cba771a",
+        "y": "d8c5ca13dc1b1407c7923a12d84f80e9adba135e11fa62c721fd65b271b95a6b"
+      },
+      "stream_container_sha256": "f4c900c8b5ce9ced82deec6e7f2255f46d117d17957d99c21806d2f918143bb4",
+      "stream_file": "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\ton\\D.npz",
+      "stream_identity": {
+        "archived_metadata_sha256": "7bd1ea39ae5b752b064469952790ae5fcdcafcaa32c26c4e05dfa38761584958",
+        "archived_npz_sha256": "acc86e9ffebb24ed08bf8df599940c0ecb9140d2495d438b78b7355efd7eece8",
+        "array_dtypes": {
+          "X": "float32",
+          "frt": "float64",
+          "row_id": "int64",
+          "t_end": "float64",
+          "t_start": "float64",
+          "tipi": "<U10",
+          "tipo": "int16",
+          "y": "uint8"
+        },
+        "array_sha256": {
+          "X": "e79a06ba049b9a31317ce9704e57eb8b38849238bdba4b1a29fe17901e5333f1",
+          "frt": "95b17d5d2594c1d3c1c82e3415507bfb470dbec8a5bfbbe2ab26abc0f17cfdb7",
+          "row_id": "7367b1531be0f4c7b3c3204c507d683169cb31e95eabc2dd75e265cb2cba771a",
+          "t_end": "95b17d5d2594c1d3c1c82e3415507bfb470dbec8a5bfbbe2ab26abc0f17cfdb7",
+          "t_start": "144baf7798e58f75cc0a22682f2157cdf42bd6667fff07032d7f405a6e190cea",
+          "tipi": "3ac3710e45838001647d1a17943cd627af2c0df42d5d064827bd383318bbdc1b",
+          "tipo": "a8396b7c95d716d87de7872916800b9d2aa536c4f2ebd1f16c0e991183e55500",
+          "y": "d8c5ca13dc1b1407c7923a12d84f80e9adba135e11fa62c721fd65b271b95a6b"
+        },
+        "array_shapes": {
+          "X": [
+            3549973,
+            8
+          ],
+          "frt": [
+            3549973
+          ],
+          "row_id": [
+            3549973
+          ],
+          "t_end": [
+            3549973
+          ],
+          "t_start": [
+            3549973
+          ],
+          "tipi": [
+            6
+          ],
+          "tipo": [
+            3549973
+          ],
+          "y": [
+            3549973
+          ]
+        },
+        "attack": 3240300,
+        "container_note": "NPZ container bytes may differ after deterministic reconstruction; scientific identity is enforced on every named array",
+        "container_sha256_matches_archive": false,
+        "local_metadata_sha256": "43f4ae43ab0f68185238efe0a1fce6858e6909f937df95aa856ae26ea180142e",
+        "normal": 309673,
+        "reconstructed_npz_sha256": "f4c900c8b5ce9ced82deec6e7f2255f46d117d17957d99c21806d2f918143bb4",
+        "row_id_unique": true,
+        "rows": 3549973,
+        "status": "PASS"
+      }
+    },
+    "unsw": {
+      "models": {
+        "42": {
+          "initial_sample_sha256": "6b31cb37003319c90f4cba189b53096275675fe95bd1f4aed40f45081bd3e688",
+          "metadata_file": "adattamento-drift/review_extension/models/unsw/spline_42/ready.json",
+          "metadata_sha256": "b336960d15fe0a4bdac27c4afccd595b6dbe470f455a89150ba08fcdae20252f",
+          "model_file": "adattamento-drift/review_extension/models/unsw/spline_42/model.pkl",
+          "model_sha256": "fbd7699d34efd0f95707067f4eb7925db0023c2cd4e9a7e9d4783052e853dac7",
+          "source_sha256": {
+            "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+            "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+            "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+          }
+        },
+        "43": {
+          "initial_sample_sha256": "746c1001cc7b913e7c9c36ad68f48277e20741eae4fcaa3c10bd346eeb272cc9",
+          "metadata_file": "adattamento-drift/review_extension/models/unsw/spline_43/ready.json",
+          "metadata_sha256": "61a725b56f5c7302ce0a8cb4249cfc5eec0f4487df9ca735b2c1350995480766",
+          "model_file": "adattamento-drift/review_extension/models/unsw/spline_43/model.pkl",
+          "model_sha256": "d2c3a6e35acce1a89781d334cec1b47b5cc32f768d42b0ad991a639154a35fbe",
+          "source_sha256": {
+            "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+            "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+            "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+          }
+        },
+        "44": {
+          "initial_sample_sha256": "deacc80ea6023441b79f09feee58fa04c1c460aac527c4fca2abde2d700afa25",
+          "metadata_file": "adattamento-drift/review_extension/models/unsw/spline_44/ready.json",
+          "metadata_sha256": "0365252e86c319e1dfe5decbec494b7832d131932adaa7c67399136c60fe57dd",
+          "model_file": "adattamento-drift/review_extension/models/unsw/spline_44/model.pkl",
+          "model_sha256": "22a495cd4b73931d96085a5325edc3d6fff7c8ea4432eae112736493883fe807",
+          "source_sha256": {
+            "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+            "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+            "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+          }
+        },
+        "45": {
+          "initial_sample_sha256": "2b2e0dd7f17942be000dec11a9de810dc2d0e55d6689720012392950fef33c47",
+          "metadata_file": "adattamento-drift/review_extension/models/unsw/spline_45/ready.json",
+          "metadata_sha256": "bf3a62628be891adb27e1475150ed77ad0474b31c5aba3bb6b32f662b6445c73",
+          "model_file": "adattamento-drift/review_extension/models/unsw/spline_45/model.pkl",
+          "model_sha256": "21c294e2581b7949a27ba364ac48c6f8fc8b8bfd9b9f63ab8a037fcf6af84727",
+          "source_sha256": {
+            "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+            "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+            "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+          }
+        },
+        "46": {
+          "initial_sample_sha256": "ebaee2c8a4a63dd054d6b4326dae80ee6df13e2dea2b1fddeed18ef58cf9238b",
+          "metadata_file": "adattamento-drift/review_extension/models/unsw/spline_46/ready.json",
+          "metadata_sha256": "aa480a43abf1af344fb4db1dd3ebed662c0818010f03a8fadd7bbe03db50f6d1",
+          "model_file": "adattamento-drift/review_extension/models/unsw/spline_46/model.pkl",
+          "model_sha256": "79f609927cf981353c8c30e909c0d8ce156919028b9d027a002e54004e38d489",
+          "source_sha256": {
+            "A": "0b17f5258cf3f9abc029c417d064dc87bf9a61a7ef01fcb2ea75af1f60d301fa",
+            "B": "218f24bbf8fec258f0dc808eaf73bb489feb8d83629b4f09f3b244542c33eaa9",
+            "D": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db"
+          }
+        }
+      },
+      "retained_arrays_sha256": {
+        "X": "9c7752da40fcfac5312b450b94d51b3a72816c8395713dd47736bf162b4983aa",
+        "row_id": "aa0caf82d4ed4c76f263bad5557b95afce96f50d75e9f706b635347b62486f3d",
+        "y": "ac963503b9435f26952c342271e6159a2e4e52f0ff8c5f1ae24c5d2c695f7656"
+      },
+      "stream_container_sha256": "c20c87d2eb977531bb101ad9170efcfafdb728036dd1e6963a812675242ee3e6",
+      "stream_file": "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data\\unsw\\D.npz",
+      "stream_identity": {
+        "archived_metadata_sha256": "10b9c69a4ba45fd0832ea97abf8e035172aea6d747390e0b638163adcf2ad05f",
+        "archived_npz_sha256": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db",
+        "array_dtypes": {
+          "X": "float32",
+          "frt": "float64",
+          "row_id": "int64",
+          "t_end": "float64",
+          "t_start": "float64",
+          "tipi": "<U14",
+          "tipo": "int16",
+          "y": "uint8"
+        },
+        "array_sha256": {
+          "X": "9c7752da40fcfac5312b450b94d51b3a72816c8395713dd47736bf162b4983aa",
+          "frt": "5a3e02da7864bff1692f7f122283e0f9a4de329e5fb4546bab517a40c649eb82",
+          "row_id": "aa0caf82d4ed4c76f263bad5557b95afce96f50d75e9f706b635347b62486f3d",
+          "t_end": "37b06c1e341b57d98074c08cc9cf06a16116f947ddee21126e4ca6f0ee932a23",
+          "t_start": "fc31e220559f5b694a32fff92dabd1814c296d7167dd6fe3dc450255e7f6346a",
+          "tipi": "16b21348b11ddefec4d702d249ef25e3ca96e3a03399f7ceb4abcad41299795d",
+          "tipo": "f5644b2d62bfed81fc719f5e41bf04b6d345f40f637f0f05b7da2a32e9671ad7",
+          "y": "ac963503b9435f26952c342271e6159a2e4e52f0ff8c5f1ae24c5d2c695f7656"
+        },
+        "array_shapes": {
+          "X": [
+            1016018,
+            8
+          ],
+          "frt": [
+            1016018
+          ],
+          "row_id": [
+            1016018
+          ],
+          "t_end": [
+            1016018
+          ],
+          "t_start": [
+            1016018
+          ],
+          "tipi": [
+            10
+          ],
+          "tipo": [
+            1016018
+          ],
+          "y": [
+            1016018
+          ]
+        },
+        "attack": 212282,
+        "container_note": "NPZ container bytes may differ after deterministic reconstruction; scientific identity is enforced on every named array",
+        "container_sha256_matches_archive": false,
+        "local_metadata_sha256": "31f3c76177a1056b8952eac68a6f4f1d74a85e6b788e7ba35dbe52b617328b04",
+        "normal": 803736,
+        "reconstructed_npz_sha256": "c20c87d2eb977531bb101ad9170efcfafdb728036dd1e6963a812675242ee3e6",
+        "row_id_unique": true,
+        "rows": 1016018,
+        "status": "PASS"
+      }
+    }
+  },
+  "cases": [
+    {
+      "dataset": "ton",
+      "seed": 43
+    },
+    {
+      "dataset": "ton",
+      "seed": 44
+    },
+    {
+      "dataset": "ton",
+      "seed": 45
+    },
+    {
+      "dataset": "ton",
+      "seed": 46
+    },
+    {
+      "dataset": "unsw",
+      "seed": 43
+    },
+    {
+      "dataset": "unsw",
+      "seed": 44
+    },
+    {
+      "dataset": "unsw",
+      "seed": 45
+    },
+    {
+      "dataset": "unsw",
+      "seed": 46
+    }
+  ],
+  "command": [
+    "C:\\Users\\emanu\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\paper2-dtrap-final-integration\\adattamento-drift\\adapt06b_decoupled_threshold\\preflight_matrix.py",
+    "--data-root",
+    "C:\\Users\\emanu\\Documents\\Codex\\2026-10-08\\co\\work\\adapt05\\data",
+    "--model-root",
+    "adattamento-drift/review_extension/models",
+    "--out",
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/PREFLIGHT.json"
+  ],
+  "config_file": "adattamento-drift/adapt06b_decoupled_threshold/matrix_config.json",
+  "config_sha256": "3126ca16e74485f79a0b5d3bd27e556983e9008f1a8499a6a059f5d705da0231",
+  "environment": {
+    "python": "3.13.2",
+    "thread_limits": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    }
+  },
+  "execution_commit": "ed50e86805c6591b967b39a7be982f4e8d30eeab",
+  "pilot": {
+    "files_verified": 13,
+    "manifest": "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/DELIVERY_MANIFEST.json",
+    "sha256": "ac628c786b36b7da18eb9ad465110d121f3f62c129e203024392082a8c775abb",
+    "status": "PASS"
+  },
+  "schema": "adapt06b-matrix-preflight-v1",
+  "status": "PASS"
+}
