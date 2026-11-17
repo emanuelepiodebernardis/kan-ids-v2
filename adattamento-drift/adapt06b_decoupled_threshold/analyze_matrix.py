@@ -8,6 +8,7 @@ import io
 import json
 import statistics
 import sys
+from collections import Counter
 from pathlib import Path
 
 import matplotlib
@@ -43,6 +44,16 @@ CONTROL_TRACKS = {
     "gated_decoupled": ("decoupled", "gated"),
     "threshold_only_matched": ("decoupled", "threshold_matched"),
 }
+DECISION_STATUS_ORDER = (
+    "ACCEPT",
+    "FREEZE",
+    "REJECT_HARM",
+    "WAIT",
+    "WITHHOLD_INSUFFICIENT",
+    "WITHHOLD_AMBIGUOUS",
+    "WITHHOLD_STREAM_END_AMBIGUOUS",
+    "WITHHOLD_STREAM_END_INSUFFICIENT",
+)
 
 
 def _load(path: Path) -> dict:
@@ -171,6 +182,32 @@ def controls_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
     return rows
 
 
+def promotion_events(case: dict) -> list[dict]:
+    records = case["decoupled"]["per_block"]
+    promotions = []
+    for event in case["decoupled"]["decisions"]:
+        if event.get("status") != "ACCEPT":
+            continue
+        decision_block = int(event["block"])
+        candidate_digest = event["candidate_digest"]
+        applications = [
+            int(record["block"])
+            for record in records
+            if int(record["block"]) > decision_block
+            and record["state_digests_used"].get("gated") == candidate_digest
+        ]
+        if not applications:
+            raise AssertionError("accepted weights are never used in later predictions")
+        promotions.append(
+            {
+                "decision_block": decision_block,
+                "application_block": min(applications),
+                "candidate_digest": candidate_digest,
+            }
+        )
+    return promotions
+
+
 def paired_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
     rows = []
     for dataset in DATASETS:
@@ -182,6 +219,7 @@ def paired_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
             frozen = case["legacy"]["summary"]["frozen_b"]
             legacy = case["legacy"]["summary"]["gated"]
             pair = case["pair"]
+            promotions = promotion_events(case)
             rows.append(
                 {
                     "dataset": dataset,
@@ -199,11 +237,21 @@ def paired_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
                     * (decoupled["recall"] - frozen["recall"]),
                     "delta_fpr_vs_frozen_pp": 100.0
                     * (decoupled["fpr"] - frozen["fpr"]),
+                    "delta_tn_vs_frozen": decoupled["tn"] - frozen["tn"],
+                    "delta_fp_vs_frozen": decoupled["fp"] - frozen["fp"],
+                    "delta_fn_vs_frozen": decoupled["fn"] - frozen["fn"],
+                    "delta_tp_vs_frozen": decoupled["tp"] - frozen["tp"],
                     "delta_recall_vs_legacy_pp": 100.0
                     * (decoupled["recall"] - legacy["recall"]),
                     "delta_fpr_vs_legacy_pp": 100.0
                     * (decoupled["fpr"] - legacy["fpr"]),
                     "weight_promotions": pair["decoupled_promotions"],
+                    "accept_blocks": ";".join(
+                        str(item["decision_block"]) for item in promotions
+                    ),
+                    "weight_application_blocks": ";".join(
+                        str(item["application_block"]) for item in promotions
+                    ),
                     "threshold_changes": pair["decoupled_threshold_changes"],
                     "first_cal_eligible_block": pair["first_cal_eligible_block"],
                     "first_threshold_application_block": pair[
@@ -289,25 +337,21 @@ def dataset_summary(rows: list[dict]) -> list[dict]:
 
 
 def decisions_rows(cases: dict[tuple[str, int], dict]) -> list[dict]:
-    statuses = (
-        "ACCEPT",
-        "FREEZE",
-        "REJECT_HARM",
-        "WAIT",
-        "WITHHOLD_INSUFFICIENT",
-        "WITHHOLD_STREAM_END_AMBIGUOUS",
-        "WITHHOLD_STREAM_END_INSUFFICIENT",
-    )
+    observed = {
+        event["status"]
+        for case in cases.values()
+        for event in case["decoupled"]["decisions"]
+    }
+    statuses = tuple(status for status in DECISION_STATUS_ORDER if status in observed)
+    statuses += tuple(sorted(observed - set(statuses)))
     rows = []
     for dataset in DATASETS:
         for seed in SEEDS:
-            pair = cases[(dataset, seed)]["pair"]
-            counts = pair["decisions"]["decoupled"]
+            report = cases[(dataset, seed)]["decoupled"]
+            counts = Counter(event["status"] for event in report["decisions"])
             row = {"dataset": dataset, "seed": seed}
             row.update({status: counts.get(status, 0) for status in statuses})
-            row["candidate_pending_at_end"] = pair["candidate_pending_at_end"][
-                "decoupled"
-            ]
+            row["candidate_pending_at_end"] = report["candidate_pending_at_end"]
             rows.append(row)
     return rows
 
@@ -425,19 +469,39 @@ def plot_trajectories(cases: dict[tuple[str, int], dict], path: Path) -> None:
                     axes[row_index, column].axvline(
                         first, color="#2ca02c", alpha=0.16, linewidth=0.8
                     )
-            promotion_blocks = [
-                int(event["block"])
-                for event in case["decoupled"]["decisions"]
-                if event.get("status") == "ACCEPT"
-            ]
             recall, fpr = _cumulative(case["decoupled"]["per_block"], "gated")
-            for block in promotion_blocks:
-                if block < len(recall):
+            for promotion in promotion_events(case):
+                decision_block = promotion["decision_block"]
+                application_block = promotion["application_block"]
+                if decision_block < len(recall):
                     axes[row_index, 0].scatter(
-                        block, 100.0 * recall[block], marker="*", color="#ff7f0e", s=28
+                        decision_block,
+                        100.0 * recall[decision_block],
+                        marker="X",
+                        color="#ff7f0e",
+                        s=34,
                     )
                     axes[row_index, 1].scatter(
-                        block, 100.0 * fpr[block], marker="*", color="#ff7f0e", s=28
+                        decision_block,
+                        100.0 * fpr[decision_block],
+                        marker="X",
+                        color="#ff7f0e",
+                        s=34,
+                    )
+                if application_block < len(recall):
+                    axes[row_index, 0].scatter(
+                        application_block,
+                        100.0 * recall[application_block],
+                        marker="*",
+                        color="#9467bd",
+                        s=44,
+                    )
+                    axes[row_index, 1].scatter(
+                        application_block,
+                        100.0 * fpr[application_block],
+                        marker="*",
+                        color="#9467bd",
+                        s=44,
                     )
         axes[row_index, 0].set_ylabel(f"{dataset.upper()} — percentuale")
         axes[row_index, 0].set_title("Recall cumulativo")
@@ -449,12 +513,19 @@ def plot_trajectories(cases: dict[tuple[str, int], dict], path: Path) -> None:
     handles.extend(
         [
             plt.Line2D([0], [0], color="#2ca02c", linewidth=1.2),
-            plt.Line2D([0], [0], marker="*", color="#ff7f0e", linestyle="None"),
+            plt.Line2D([0], [0], marker="X", color="#ff7f0e", linestyle="None"),
+            plt.Line2D([0], [0], marker="*", color="#9467bd", linestyle="None"),
         ]
     )
-    legend_labels.extend(["prima applicazione soglia", "promozione pesi"])
-    fig.legend(handles, legend_labels, loc="lower center", ncol=4, frameon=False)
-    fig.suptitle("Traiettorie dei controlli principali — tutti i seed")
+    legend_labels.extend(
+        [
+            "prima applicazione soglia",
+            "ACCEPT (decisione)",
+            "primo uso dei pesi promossi",
+        ]
+    )
+    fig.legend(handles, legend_labels, loc="lower center", ncol=5, frameon=False)
+    fig.suptitle("Traiettorie dei controlli principali — blocchi 0-based")
     fig.tight_layout(rect=(0, 0.06, 1, 0.96))
     fig.savefig(path, dpi=180)
     plt.close(fig)
@@ -493,8 +564,8 @@ def render_report(
             "",
             "## Controlli diagnostici",
             "",
-            "| Dataset | Seed | Promozioni | Δ recall vs matched | Δ FPR vs matched | Δ recall vs Frozen/B | Δ FPR vs Frozen/B |",
-            "|---|---:|---:|---:|---:|---:|---:|",
+            "| Dataset | Seed | Promozioni | Δ recall vs matched | Δ FPR vs matched | Δ TP vs Frozen/B | Δ FP vs Frozen/B | Δ recall vs Frozen/B | Δ FPR vs Frozen/B |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|",
         ]
     )
     for row in paired:
@@ -502,6 +573,8 @@ def render_report(
             f"| {row['dataset'].upper()} | {row['seed']} | {row['weight_promotions']} | "
             f"{row['delta_recall_vs_matched_pp']:+.3f} | "
             f"{row['delta_fpr_vs_matched_pp']:+.3f} | "
+            f"{row['delta_tp_vs_frozen']:+d} | "
+            f"{row['delta_fp_vs_frozen']:+d} | "
             f"{row['delta_recall_vs_frozen_pp']:+.3f} | "
             f"{row['delta_fpr_vs_frozen_pp']:+.3f} |"
         )
@@ -541,14 +614,10 @@ def render_report(
             "|---|---:|---:|---:|---|---:|---:|---:|",
         ]
     )
-    decision_fields = (
-        "ACCEPT",
-        "FREEZE",
-        "REJECT_HARM",
-        "WAIT",
-        "WITHHOLD_INSUFFICIENT",
-        "WITHHOLD_STREAM_END_AMBIGUOUS",
-        "WITHHOLD_STREAM_END_INSUFFICIENT",
+    decision_fields = tuple(
+        key
+        for key in decisions[0]
+        if key not in {"dataset", "seed", "candidate_pending_at_end"}
     )
     for row in paired:
         decision = decision_map[(row["dataset"], int(row["seed"]))]
@@ -567,6 +636,15 @@ def render_report(
         )
     lines.extend(
         [
+            "",
+            "## Figure e frontiere temporali",
+            "",
+            (
+                "La Figura 2 usa indici di blocco 0-based. Il marcatore `X` arancione "
+                "indica la decisione ACCEPT; la stella viola indica il primo blocco "
+                "le cui predizioni usano i pesi promossi. Nell'unica promozione, "
+                "UNSW seed 42, i due eventi sono rispettivamente i blocchi 37 e 38."
+            ),
             "",
             "## Costi osservati",
             "",
@@ -616,6 +694,16 @@ def render_report(
             ),
             "",
             (
+                "Nel confronto esatto con Frozen/B su UNSW, Frozen/B domina GATED "
+                "decoupled nei seed 43–45: il seed 43 perde 493 TP e aggiunge 3.388 "
+                "FP, il seed 44 conserva i TP e aggiunge 2.863 FP, il seed 45 "
+                "conserva i TP e aggiunge 1.701 FP. Nel seed 46 decoupled aggiunge "
+                "soltanto 1 TP e 593 FP; nel seed 42 aggiunge 3.162 TP e 10.628 FP. "
+                "I conteggi sono riportati senza affidarsi all'arrotondamento delle "
+                "percentuali."
+            ),
+            "",
+            (
                 "Tutti i seed, comprese repliche nulle o sfavorevoli, sono conservati. "
                 "Le statistiche descrivono robustezza rispetto all'inizializzazione sugli "
                 "stessi stream, non generalizzazione a nuove catture né superiorità "
@@ -650,18 +738,14 @@ def build_environment_summary(cases: dict[tuple[str, int], dict]) -> dict:
     for dataset in DATASETS:
         for seed in SEEDS:
             for source in ("legacy", "decoupled"):
-                by_runner[source].append(
-                    cases[(dataset, seed)][source]["environment"]
-                )
+                by_runner[source].append(cases[(dataset, seed)][source]["environment"])
     canonical = {
         source: {json.dumps(item, sort_keys=True) for item in environments}
         for source, environments in by_runner.items()
     }
     if any(len(values) != 1 for values in canonical.values()):
         raise AssertionError("environment changed within one replay runner")
-    recorded = {
-        source: environments[0] for source, environments in by_runner.items()
-    }
+    recorded = {source: environments[0] for source, environments in by_runner.items()}
     core_keys = ("python", "platform", "numpy", "sklearn", "river", "pythonhashseed")
     common = {key: recorded["legacy"][key] for key in core_keys}
     if any(recorded["decoupled"][key] != value for key, value in common.items()):

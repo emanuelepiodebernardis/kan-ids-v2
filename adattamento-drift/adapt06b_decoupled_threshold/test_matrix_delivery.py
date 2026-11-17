@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,7 @@ from adapt06b_decoupled_threshold.analyze_matrix import (
     decisions_rows,
     intervals_rows,
     paired_rows,
+    promotion_events,
     render_report,
     verify_matrix,
 )
@@ -40,9 +42,7 @@ def cases() -> dict:
 
 
 def test_matrix_contains_exactly_the_preregistered_cases(cases):
-    assert set(cases) == {
-        (dataset, seed) for dataset in DATASETS for seed in SEEDS
-    }
+    assert set(cases) == {(dataset, seed) for dataset in DATASETS for seed in SEEDS}
     assert len(list(NEW_REPLAYS.glob("*_seed*/*_legacy.json"))) == 8
     assert len(list(NEW_REPLAYS.glob("*_seed*/*_decoupled.json"))) == 8
     assert len(list(NEW_REPLAYS.glob("*_seed*/*_pair.json"))) == 8
@@ -78,9 +78,9 @@ def test_tables_and_report_reproduce_from_verified_reports(cases):
     assert len(_read_csv("MATRIX_DATASET_SUMMARY.csv")) == 2
     assert len(_read_csv("MATRIX_DECISIONS.csv")) == 10
     assert len(_read_csv("MATRIX_INTERVALS.csv")) == 100
-    assert (ANALYSIS / "MATRIX_REPORT.md").read_text(
-        encoding="utf-8"
-    ) == render_report(summary, paired, decisions, execution_log)
+    assert (ANALYSIS / "MATRIX_REPORT.md").read_text(encoding="utf-8") == render_report(
+        summary, paired, decisions, execution_log
+    )
 
 
 def test_environment_summary_covers_all_twenty_reports(cases):
@@ -116,6 +116,68 @@ def test_scientific_interpretation_keeps_null_and_adverse_results(cases):
     )
     assert rows[("unsw", 42)]["delta_recall_vs_matched_pp"] > 0.0
     assert rows[("unsw", 42)]["delta_fpr_vs_matched_pp"] > 0.0
+
+
+def test_decision_summary_matches_logs_and_every_candidate_cycle_closes(cases):
+    rows = {(row["dataset"], row["seed"]): row for row in decisions_rows(cases)}
+    fixed_fields = {"dataset", "seed", "candidate_pending_at_end"}
+    for key, case in cases.items():
+        events = case["decoupled"]["decisions"]
+        expected = Counter(event["status"] for event in events)
+        row = rows[key]
+        delivered = Counter(
+            {
+                field: int(value)
+                for field, value in row.items()
+                if field not in fixed_fields
+            }
+        )
+        assert delivered == expected
+        freezes = Counter(
+            event["candidate_digest"] for event in events if event["status"] == "FREEZE"
+        )
+        terminal = Counter(
+            event["candidate_digest"]
+            for event in events
+            if event["status"] in {"ACCEPT", "REJECT_HARM"}
+            or event["status"].startswith("WITHHOLD_")
+        )
+        assert freezes == terminal
+        assert len(freezes) == case["decoupled"]["updates"]["candidate_freezes"]
+        assert row["candidate_pending_at_end"] is False
+
+
+def test_promotion_timing_and_exact_frozen_b_counts(cases):
+    promotions = promotion_events(cases[("unsw", 42)])
+    assert promotions == [
+        {
+            "decision_block": 37,
+            "application_block": 38,
+            "candidate_digest": (
+                "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be"
+            ),
+        }
+    ]
+    assert all(
+        promotion_events(cases[(dataset, seed)]) == []
+        for dataset in DATASETS
+        for seed in SEEDS
+        if (dataset, seed) != ("unsw", 42)
+    )
+    rows = {(row["dataset"], row["seed"]): row for row in paired_rows(cases)}
+    expected_unsw = {
+        42: (3162, 10628),
+        43: (-493, 3388),
+        44: (0, 2863),
+        45: (0, 1701),
+        46: (1, 593),
+    }
+    for seed, (delta_tp, delta_fp) in expected_unsw.items():
+        row = rows[("unsw", seed)]
+        assert row["delta_tp_vs_frozen"] == delta_tp
+        assert row["delta_fn_vs_frozen"] == -delta_tp
+        assert row["delta_fp_vs_frozen"] == delta_fp
+        assert row["delta_tn_vs_frozen"] == -delta_fp
 
 
 def test_terminal_state_and_label_accounting_are_preserved(cases):

@@ -8,20 +8,20 @@
       "sha256": "9e955518965f9e0790bba74173134f366c37f54f9872b9188a7bb24d8948f746"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_DELIVERY.md": {
-      "bytes": 1478,
-      "sha256": "9bb619715555cb24de2115f67b7fecbbcbaf9966b3837848890ae7416f0fffe5"
+      "bytes": 1716,
+      "sha256": "51030bef1a73d6cbf0c7295d12743ddf9deda859253702d1918cb297686116c6"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_PROTOCOL.md": {
       "bytes": 3467,
       "sha256": "a7adb1bb2f66a370ca3609d049a458b2bb07943b64018ba52b25aa531fd59059"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/MATRIX_TEST_LOG.txt": {
-      "bytes": 1545,
-      "sha256": "33d192dde7dab88465f40092f264e07fab3d8d88cb822db8784f941c6fe6c71c"
+      "bytes": 1826,
+      "sha256": "dc69a13fc3a8e73cd79a3dc9a25aa010e0f003e85cd54527fe07f0f3bd16ce42"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/analyze_matrix.py": {
-      "bytes": 33085,
-      "sha256": "14a6553f1e0496ea98029d0efb114e69e3eee64b95661f73690cc4ae44b30222"
+      "bytes": 36990,
+      "sha256": "4980c76b224d08eeeae36f353e411bf830d79a9bdbc2f6b5cc72c35a408239db"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_config.json": {
       "bytes": 3949,
@@ -36,8 +36,8 @@
       "sha256": "3e253ecf426bdd3591adb649edf6c1367fdeaaac9c0f7029d8659dabc53829b3"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/FIGURE_2_TEMPORAL_TRAJECTORIES.png": {
-      "bytes": 288745,
-      "sha256": "5433c4910144e7311b94db5cc95a6ade1da953a6eee83ffd911706cdacb8761d"
+      "bytes": 294966,
+      "sha256": "c9c8530f81cb285f393c50ab62bf1511962268691890ecd0c0f64f9823f8aa35"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_ALL_CONTROLS.csv": {
       "bytes": 6820,
@@ -48,8 +48,8 @@
       "sha256": "1f83e676dd3fa4c6345562248bc22d2106261e0c6f05ee601aa0596ba7f4d49f"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_DECISIONS.csv": {
-      "bytes": 429,
-      "sha256": "f24e045b944a3e3e408d3f38984b741519e394d7ffc8be8239b62164a6c5da26"
+      "bytes": 468,
+      "sha256": "a85617a372a39c8d95941fa29f5e67b92ab869f8009505277275ccfd6ba0cb92"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_ENVIRONMENT.json": {
       "bytes": 1131,
@@ -60,12 +60,12 @@
       "sha256": "387bbca25d21fbff8349826db67d6923e89cee3c6532db5c7c7a330314ca943e"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_PAIRED.csv": {
-      "bytes": 3240,
-      "sha256": "dbd760cc60eaa51715a14b8392d8a89cbe64049af920a6f087fd4d4c4c4fe312"
+      "bytes": 3588,
+      "sha256": "6220de43cbd324e9415f48cf47a4a89a0b011aed67402410a10e8f6e09a2e0f0"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/MATRIX_REPORT.md": {
-      "bytes": 5464,
-      "sha256": "1e1f9d974ef704ba3daa90be32368e4b514846207d76dcfc94e0943b0d407560"
+      "bytes": 6445,
+      "sha256": "a559f963151e2dd6e14d84cbbfd2b9a44dca2d2a54cd30f6cf14f9500c1ad21e"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/analysis/PILOT_INDEX.json": {
       "bytes": 1184,
@@ -220,8 +220,8 @@
       "sha256": "c6882e5bba7284021ef46999bf1a869ceef05229ca71d36bacdf011754112ea7"
     },
     "adattamento-drift/adapt06b_decoupled_threshold/test_matrix_delivery.py": {
-      "bytes": 5436,
-      "sha256": "37539a54260ea69d897b0d365af386ce632dbc1715e5faab6767e4436aa66faa"
+      "bytes": 7718,
+      "sha256": "b5fd89c7178520f85d7c3b589794f387d739d58d06ec3ae9a94f52468d9927e8"
     }
   },
   "new_pairs": 8,

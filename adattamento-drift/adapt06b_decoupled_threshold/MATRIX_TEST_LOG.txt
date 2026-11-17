@@ -27,11 +27,16 @@ Scope added:
 - exact extent of 50 control rows and 10 paired rows;
 - regeneration of tables and report from verified JSON;
 - identity of the recorded environment across all 20 replay reports;
+- exact agreement between every decision status in the logs and the summary,
+  with one terminal outcome for every frozen candidate;
+- distinction between the ACCEPT decision block and the first block using the
+  promoted weights;
+- exact TP/FN/FP/TN differences against Frozen/B;
 - terminal state, labels in transit and null/adverse outcomes;
 - SHA-256 and byte counts for outputs and provenance.
 Command:
 python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q
-Result: 106 passed.
+Result: 108 passed.
 
 Static checks:
 python -m ruff check analyze_matrix.py test_matrix.py test_matrix_delivery.py

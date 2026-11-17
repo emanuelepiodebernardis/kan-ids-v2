@@ -23,6 +23,9 @@ La consegna completa è in `matrix_seed42_46_ed50e86/`:
 
 `test_matrix_delivery.py` ricalcola confronti, tabelle e rapporto dai report,
 verifica il manifest, controlla che il pilot sia rimasto invariato e conserva
-esplicitamente gli esiti nulli o sfavorevoli. Il commit di consegna è distinto
+esplicitamente gli esiti nulli o sfavorevoli. Controlla inoltre che ogni stato
+decisionale dei log sia riportato, che ogni candidato congelato abbia un esito
+terminale, che decisione ACCEPT e prima applicazione dei pesi restino distinte
+e che i conteggi contro Frozen/B siano esatti. Il commit di consegna è distinto
 dal commit di esecuzione ed è identificato dall'HEAD della PR che contiene il
 manifest.
