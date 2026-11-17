@@ -1,0 +1,31 @@
+ADAPT-06B authorized pilot, 2026-11-15
+Execution commit: 02b82af36ae8151e4ac83d806f434704e4557abd
+Environment: Windows 11, Python 3.13.2, NumPy 2.3.5, scikit-learn 1.7.2, river 0.22.0
+Thread limits: OMP=1, MKL=1, OPENBLAS=1, NUMEXPR=1
+Initialization: archived A/B; no new initial fit or tuning
+Scope: full TON and UNSW streams, spline-GAM, RANDOM, seed 42
+
+Preflight:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q --basetemp .pytest-tmp-adapt06b-pilot-preflight
+Result: 90 passed in 67.08s
+
+TON command:
+C:\Users\emanu\AppData\Local\Programs\Python\Python313\python.exe adattamento-drift/adapt06b_decoupled_threshold/run_pilot.py --data C:\Users\emanu\Documents\Codex\2026-10-08\co\work\adapt05\data\ton --model-root adattamento-drift/review_extension/models --out adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42 --dataset ton --seed 42
+Result: PASS; 355 blocks; execution commit 02b82af36ae8151e4ac83d806f434704e4557abd
+
+UNSW command:
+C:\Users\emanu\AppData\Local\Programs\Python\Python313\python.exe adattamento-drift/adapt06b_decoupled_threshold/run_pilot.py --data C:\Users\emanu\Documents\Codex\2026-10-08\co\work\adapt05\data\unsw --model-root adattamento-drift/review_extension/models --out adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42 --dataset unsw --seed 42
+Result: PASS; 102 blocks; execution commit 02b82af36ae8151e4ac83d806f434704e4557abd
+
+Each dataset command launched legacy and decoupled sequentially in separate child processes.
+No five-seed matrix, ACTIVE acquisition, ADAPT-07, new initial fit or tuning was executed.
+
+Post-run delivery verification:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold -q --basetemp .pytest-tmp-adapt06b-pilot-final2
+Result: 93 passed
+
+Static checks:
+python -m ruff check adattamento-drift/adapt06b_decoupled_threshold
+python -m ruff format --check adattamento-drift/adapt06b_decoupled_threshold
+git diff --check
+Result: PASS

@@ -1,0 +1,67 @@
+{
+  "acquisition": "RANDOM",
+  "datasets": [
+    "ton",
+    "unsw"
+  ],
+  "delivery_commit_identification": "the PR head containing this manifest",
+  "execution_commit": "02b82af36ae8151e4ac83d806f434704e4557abd",
+  "family": "spline-GAM",
+  "files": {
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/EXECUTION_LOG.txt": {
+      "bytes": 2064,
+      "sha256": "ad1ee6d462678b8126e5c091dbf0d030cb7c1cd840c91fbc2a73cdb65e3b8b98"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/PILOT_REPORT.md": {
+      "bytes": 3273,
+      "sha256": "d498be6d31ccbc919bbd1f97959fe2ec524f5db8ba54e0effdff5bdb2b178adb"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/PILOT_SUMMARY.csv": {
+      "bytes": 1566,
+      "sha256": "99c8a3253748213e3982b8ea2610826b754d3267036a879a2b460479ae69aaae"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42/MANIFEST.json": {
+      "bytes": 3004,
+      "sha256": "31b44c5beeda851fb8e3bbffafa58f80afc456314eb6c46daed8594f5f568053"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42/ton_seed42_decoupled.json": {
+      "bytes": 24720739,
+      "sha256": "9f97dc7212dbe6a5e2f4f4efb750cb4cf277824cc990b5887a2feab9c12ca8f9"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42/ton_seed42_legacy.json": {
+      "bytes": 18267267,
+      "sha256": "086a0e03c9cbdc3ca1c596f0e862beae3aebc1946f8f13235ffac023aa60d253"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42/ton_seed42_pair.json": {
+      "bytes": 5742,
+      "sha256": "7278dfdaa0c7a8204e19db958f759cc5b1efd96498bf12ae07b5e52b0f9545dc"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42/MANIFEST.json": {
+      "bytes": 3017,
+      "sha256": "55df95657d75db1eabb1592ee1d6b1525fcbd785c0cb51488e92ff8e8509eb7a"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42/unsw_seed42_decoupled.json": {
+      "bytes": 7967165,
+      "sha256": "86603205e59a51413c38bc44d0ff06bbacaf8fda3bb1c2dffbe1d7c0d25606d3"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42/unsw_seed42_legacy.json": {
+      "bytes": 5815577,
+      "sha256": "784a1b8c8c990cc45b002d3b14e3440af3d26c358511808db8c1b31098bafe8d"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42/unsw_seed42_pair.json": {
+      "bytes": 5827,
+      "sha256": "020cc3fba3d7333c06192df76d022131cb5d62a5cc7d6f6405b191b6480bfc34"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/summarize_pilot.py": {
+      "bytes": 13581,
+      "sha256": "fbdefcb71fb75816619ad15ef7a1bb68ebe9f7c17c415d9ee495370de3753dd0"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/test_pilot_delivery.py": {
+      "bytes": 2161,
+      "sha256": "363703ebd4e97e942a9ecc34302a567ba0e0e5d01592064599097ddd9dc37e24"
+    }
+  },
+  "schema": "adapt06b-pilot-delivery-manifest-v1",
+  "scope": "full streams",
+  "seed": 42
+}

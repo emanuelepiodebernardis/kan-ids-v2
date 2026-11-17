@@ -409,6 +409,7 @@ def _logical_payload(
     pending: dict[int, PendingBatch],
     cycle: CandidateCycle | None,
     states: dict[str, Any],
+    extra_threshold_scalars: int = 0,
 ) -> dict[str, int | str | bool]:
     unique_states = {id(state): state for state in states.values()}
     components = {
@@ -420,7 +421,7 @@ def _logical_payload(
         "model_states_serialized": sum(
             _state_bytes(state) for state in unique_states.values()
         ),
-        "threshold_scalars": 4 * 8,
+        "threshold_scalars": (4 + extra_threshold_scalars) * 8,
     }
     return {
         "definition": (
@@ -444,6 +445,21 @@ def _memory_matrix(
 
 def _eligible(labels: np.ndarray, minimum: int) -> bool:
     return int(np.sum(labels == 0)) >= minimum and int(np.sum(labels == 1)) >= minimum
+
+
+def _decoupled_action(
+    *, cal_eligible: bool, fit_eligible: bool, threshold_update_applied: bool
+) -> str:
+    if not cal_eligible:
+        return "NONE"
+    if threshold_update_applied and fit_eligible:
+        return "FREEZE"
+    return "CALIBRATE"
+
+
+def _observation_ids_digest(memory: ClassFifoMemory) -> str:
+    ordered = np.asarray(sorted(memory.row_ids()), dtype="<i8")
+    return hashlib.sha256(ordered.tobytes()).hexdigest()
 
 
 def _append_to_memory(
@@ -646,6 +662,7 @@ def run_arrays(
     acquisition: str,
     block_size: int = 10_000,
     max_blocks: int | None = None,
+    decoupled_threshold: bool = False,
 ) -> dict:
     """Replay arrays in temporal order; used by both the CLI and synthetic tests."""
     raw_features = np.asarray(raw_features)
@@ -667,6 +684,12 @@ def run_arrays(
     blocks = total_blocks if max_blocks is None else min(total_blocks, int(max_blocks))
     if blocks <= 0:
         raise ValueError("the replay must contain at least one block")
+    if decoupled_threshold and (
+        getattr(adapter, "family", None) != "spline" or acquisition != "random"
+    ):
+        raise ValueError(
+            "decoupled threshold mode is limited to the spline-GAM head with RANDOM acquisition"
+        )
 
     fit_memory = ClassFifoMemory(FIT_CAPACITY, FIT_QUOTA)
     cal_memory = ClassFifoMemory(CAL_CAPACITY, CAL_QUOTA, CAL_MAX_AGE)
@@ -689,6 +712,9 @@ def run_arrays(
         always_threshold = gated_threshold = float(initial_threshold)
         adaptive_state = None
     cycle: CandidateCycle | None = None
+    matched_threshold = float(initial_threshold) if decoupled_threshold else None
+    pending_threshold_update: dict[str, Any] | None = None
+    threshold_maintenance_history: list[dict[str, Any]] = []
     pending: dict[int, PendingBatch] = {}
     aggregates: dict[str, np.ndarray] = {}
     records: list[dict] = []
@@ -725,6 +751,7 @@ def run_arrays(
             pending=pending,
             cycle=cycle,
             states=states,
+            extra_threshold_scalars=3 if decoupled_threshold else 0,
         )
 
     def observe_payload(block_index: int, stage: str) -> dict[str, Any]:
@@ -735,6 +762,32 @@ def run_arrays(
         return snapshot
 
     for block in range(blocks):
+        threshold_maintenance_event: dict[str, Any] | None = None
+        threshold_update_applied = False
+        if decoupled_threshold and pending_threshold_update is not None:
+            if int(pending_threshold_update["effective_block"]) != block:
+                raise AssertionError(
+                    "pending threshold update has an invalid effect block"
+                )
+            operational_before = float(gated_threshold)
+            matched_before = float(matched_threshold)
+            gated_threshold = float(pending_threshold_update["operational_threshold"])
+            matched_threshold = float(pending_threshold_update["matched_threshold"])
+            update_counts["operational_threshold_changes"] += int(
+                gated_threshold != operational_before
+            )
+            update_counts["matched_threshold_changes"] += int(
+                matched_threshold != matched_before
+            )
+            threshold_maintenance_event = {
+                **pending_threshold_update,
+                "status": "APPLIED",
+                "operational_threshold_before": operational_before,
+                "matched_threshold_before": matched_before,
+            }
+            threshold_maintenance_history.append(threshold_maintenance_event)
+            pending_threshold_update = None
+            threshold_update_applied = True
         start = block * block_size
         stop = min((block + 1) * block_size, len(labels))
         X_block = raw_features[start:stop]
@@ -761,6 +814,9 @@ def run_arrays(
             threshold_map.update(
                 always=float(always_threshold), gated=float(gated_threshold)
             )
+            if decoupled_threshold:
+                score_map["threshold_matched"] = frozen_scores
+                threshold_map["threshold_matched"] = float(matched_threshold)
             selector_scores = adapter.score(selector_state, transformed)
         candidate_scores = diagnostic_scores = None
         if cycle is not None:
@@ -783,11 +839,31 @@ def run_arrays(
                 always=state_digest(always_state),
                 gated=state_digest(gated_state),
             )
+            if decoupled_threshold:
+                state_digests_used["threshold_matched"] = frozen_state_digest
         if cycle is not None:
             state_digests_used.update(
                 candidate_shadow=state_digest(cycle.state),
                 diagnostic_incumbent=state_digest(cycle.operational_incumbent_state),
             )
+        state_parameters_used = None
+        if decoupled_threshold:
+            state_parameters_used = {
+                "frozen_b": np.asarray(frozen_state, dtype=np.float64).tolist(),
+                "threshold_only": np.asarray(frozen_state, dtype=np.float64).tolist(),
+                "always": np.asarray(always_state, dtype=np.float64).tolist(),
+                "gated": np.asarray(gated_state, dtype=np.float64).tolist(),
+                "threshold_matched": np.asarray(
+                    frozen_state, dtype=np.float64
+                ).tolist(),
+            }
+            if cycle is not None:
+                state_parameters_used.update(
+                    candidate_shadow=np.asarray(cycle.state, dtype=np.float64).tolist(),
+                    diagnostic_incumbent=np.asarray(
+                        cycle.operational_incumbent_state, dtype=np.float64
+                    ).tolist(),
+                )
         timing["prediction_seconds"] += time.perf_counter() - tick
 
         block_counts: dict[str, dict] = {}
@@ -1037,7 +1113,58 @@ def run_arrays(
         if not adapter.is_incremental and cycle is None and not cycle_closed:
             fit_X, fit_y = _memory_matrix(fit_memory, block, width)
             cal_X, cal_y = _memory_matrix(cal_memory, block, width)
-            if _eligible(fit_y, 32) and _eligible(cal_y, 100):
+            fit_eligible = _eligible(fit_y, 32)
+            cal_eligible = _eligible(cal_y, 100)
+            freeze_allowed = fit_eligible and cal_eligible
+            decoupled_action = (
+                _decoupled_action(
+                    cal_eligible=cal_eligible,
+                    fit_eligible=fit_eligible,
+                    threshold_update_applied=threshold_update_applied,
+                )
+                if decoupled_threshold
+                else None
+            )
+            if decoupled_action == "CALIBRATE":
+                tick = time.perf_counter()
+                operational_scores = adapter.score(gated_state, cal_X)
+                proposed_operational, operational_calibration = select_fpr_threshold(
+                    operational_scores, cal_y
+                )
+                matched_scores = adapter.score(frozen_state, cal_X)
+                proposed_matched, matched_calibration = select_fpr_threshold(
+                    matched_scores, cal_y
+                )
+                timing["decoupled_threshold_calibration_seconds"] += (
+                    time.perf_counter() - tick
+                )
+                cal_ids = sorted(cal_memory.row_ids())
+                proposal = {
+                    "status": "PROPOSED"
+                    if block < blocks - 1
+                    else "NO_FUTURE_PREDICTION",
+                    "calibration_block": int(block),
+                    "effective_block": int(block + 1) if block < blocks - 1 else None,
+                    "operational_state_digest": state_digest(gated_state),
+                    "operational_threshold": float(proposed_operational),
+                    "matched_threshold": float(proposed_matched),
+                    "cal_normal": int(np.sum(cal_y == 0)),
+                    "cal_attack": int(np.sum(cal_y == 1)),
+                    "cal_observation_ids_sha256": hashlib.sha256(
+                        np.asarray(cal_ids, dtype="<i8").tobytes()
+                    ).hexdigest(),
+                    "operational_calibration": operational_calibration,
+                    "matched_calibration": matched_calibration,
+                }
+                threshold_maintenance_event = proposal
+                threshold_maintenance_history.append(proposal)
+                update_counts["operational_threshold_calibrations"] += 1
+                if block < blocks - 1:
+                    pending_threshold_update = proposal
+                freeze_allowed = False
+            elif decoupled_action == "FREEZE":
+                freeze_allowed = True
+            if freeze_allowed:
                 tick = time.perf_counter()
                 candidate_state = adapter.fit_candidate(fit_X, fit_y)
                 candidate_scores_cal = adapter.score(candidate_state, cal_X)
@@ -1086,6 +1213,20 @@ def run_arrays(
                     "operational_incumbent_digest": state_digest(gated_state),
                     "operational_incumbent_threshold": float(gated_threshold),
                     "diagnostic_incumbent_threshold": float(diagnostic_threshold),
+                    **(
+                        {
+                            "threshold_mode": "decoupled",
+                            "matched_threshold": float(matched_threshold),
+                            "candidate_parameters": np.asarray(
+                                candidate_state, dtype=np.float64
+                            ).tolist(),
+                            "operational_incumbent_parameters": np.asarray(
+                                gated_state, dtype=np.float64
+                            ).tolist(),
+                        }
+                        if decoupled_threshold
+                        else {}
+                    ),
                     "candidate_threshold": float(candidate_threshold),
                     "candidate_calibration": calibration,
                     "diagnostic_calibration": diagnostic_calibration,
@@ -1123,11 +1264,37 @@ def run_arrays(
             )
             promotion_blocks["threshold_only"].append(block)
         held_ids: list[int] = []
+        if decoupled_threshold:
+            fit_memory.expire(block)
+            cal_memory.expire(block)
+            threshold_only.memory.expire(block)
         if cycle is not None:
             held_ids.extend(cycle.evidence.observation_ids)
             for held_batch in cycle.deferred_batches:
                 held_ids.extend(map(int, held_batch.observation_ids))
         validate_role_separation(fit_memory.row_ids(), cal_memory.row_ids(), held_ids)
+        role_separation_record = None
+        memory_observation_ids = None
+        if decoupled_threshold:
+            fit_ids = sorted(fit_memory.row_ids())
+            cal_ids = sorted(cal_memory.row_ids())
+            threshold_only_ids = sorted(threshold_only.memory.row_ids())
+            verify_ids = sorted(set(held_ids))
+            memory_observation_ids = {
+                "fit": fit_ids,
+                "cal": cal_ids,
+                "threshold_only_cal": threshold_only_ids,
+            }
+            role_separation_record = {
+                "status": "PASS",
+                "fit_count": len(fit_ids),
+                "cal_count": len(cal_ids),
+                "verify_or_deferred_count": len(verify_ids),
+                "verify_or_deferred_ids": verify_ids,
+                "verify_or_deferred_ids_sha256": hashlib.sha256(
+                    np.asarray(verify_ids, dtype="<i8").tobytes()
+                ).hexdigest(),
+            }
         end_payload = observe_payload(block, "end_of_block")
         record = {
             "block": block,
@@ -1141,13 +1308,42 @@ def run_arrays(
             "first_effect_block": block + 1 if ready is not None else None,
             "thresholds_used": threshold_map,
             "state_digests_used": state_digests_used,
+            **(
+                {"state_parameters_used": state_parameters_used}
+                if decoupled_threshold
+                else {}
+            ),
             "confusion": block_counts,
             "auroc": block_auroc,
             "transient_comparisons": transient_records,
             "fit_memory": fit_memory.summary(block),
             "cal_memory": cal_memory.summary(block),
             "threshold_only_memory": threshold_only.memory.summary(block),
+            **(
+                {
+                    "memory_observation_ids_sha256": {
+                        "fit": _observation_ids_digest(fit_memory),
+                        "cal": _observation_ids_digest(cal_memory),
+                        "threshold_only_cal": _observation_ids_digest(
+                            threshold_only.memory
+                        ),
+                    },
+                    "memory_observation_ids": memory_observation_ids,
+                }
+                if decoupled_threshold
+                else {}
+            ),
             "threshold_only_update": threshold_record,
+            **(
+                {"decoupled_threshold_update": threshold_maintenance_event}
+                if decoupled_threshold
+                else {}
+            ),
+            **(
+                {"role_separation": role_separation_record}
+                if decoupled_threshold
+                else {}
+            ),
             "logical_payload_bytes": end_payload,
             "candidate": None
             if cycle is None
@@ -1226,7 +1422,13 @@ def run_arrays(
     main_tracks = (
         ["frozen_b", "threshold_only", "adaptive"]
         if adapter.is_incremental
-        else ["frozen_b", "threshold_only", "always", "gated"]
+        else [
+            "frozen_b",
+            "threshold_only",
+            "always",
+            "gated",
+            *(["threshold_matched"] if decoupled_threshold else []),
+        ]
     )
     temporal_analysis = {
         "chronological_thirds": _chronological_thirds(records, main_tracks),
@@ -1270,6 +1472,7 @@ def run_arrays(
             "maximum_fpr_delta": MAX_FPR_DELTA,
             "minimum_recall_delta": MIN_RECALL_DELTA,
             "prediction_rule": "score > threshold",
+            **({"decoupled_threshold": True} if decoupled_threshold else {}),
             "state_digest_scheme": {
                 "spline_lr": "sha256 of little-endian float64 parameters",
                 "arf": "sha256 chain over prior digest, FIT observation block, row_id and labels",
@@ -1317,6 +1520,30 @@ def run_arrays(
             "effective_changes": threshold_only.effective_changes,
             "final_threshold": threshold_only.threshold,
         },
+        **(
+            {
+                "decoupled_threshold": {
+                    "calibrations": int(
+                        update_counts["operational_threshold_calibrations"]
+                    ),
+                    "operational_effective_changes": int(
+                        update_counts["operational_threshold_changes"]
+                    ),
+                    "matched_effective_changes": int(
+                        update_counts["matched_threshold_changes"]
+                    ),
+                    "final_operational_threshold": float(gated_threshold),
+                    "final_matched_threshold": float(matched_threshold),
+                    "pending_update": pending_threshold_update,
+                    "history": threshold_maintenance_history,
+                    "shared_cal_memory": True,
+                    "additional_cal_buffer_bytes": 0,
+                    "additional_threshold_state_bytes": 24,
+                }
+            }
+            if decoupled_threshold
+            else {}
+        ),
         "per_block": records,
     }
     return report

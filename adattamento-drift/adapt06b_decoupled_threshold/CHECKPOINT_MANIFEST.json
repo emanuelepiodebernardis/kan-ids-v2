@@ -1,0 +1,81 @@
+{
+  "base_merge": "665356fd38e5bd65972b39288097432f20728fb6",
+  "checkpoint_date": "2026-11-13",
+  "delivery_commit_identification": "the PR head containing this manifest; record its SHA in the PR",
+  "executed": [
+    "synthetic causal and gate tests",
+    "legacy regression tests",
+    "paired request and label-accounting tests",
+    "independent report-invariant recomputation and negative tests",
+    "separate child-process execution contract test",
+    "static and formatting checks"
+  ],
+  "files": {
+    "COST_ESTIMATE.md": {
+      "bytes": 1908,
+      "sha256": "3e24befca64efa37d8acb9c58fd0e82da71d0b498d491b9d4df5ca35ecf6e718"
+    },
+    "PILOT_COMMANDS.md": {
+      "bytes": 1983,
+      "sha256": "2da7eaba14d7a1fb296754eb054b743b7fd4161d4faf1631dff8a1c187e88c08"
+    },
+    "PROTOCOL.md": {
+      "bytes": 7190,
+      "sha256": "64a8f2a64f4ef322029e269ef44b4e8f9f0721ed8715e51d5371e33cf8fbc33a"
+    },
+    "README.md": {
+      "bytes": 2853,
+      "sha256": "311f42bf9fd514c5cc927fe013417bd3b807afd1e9a8c7cf33e03c87dae3d1ce"
+    },
+    "TEST_LOG.txt": {
+      "bytes": 1117,
+      "sha256": "ee82c2ab38581112b6e0692ca5daf572dc369bdf3d9645aa34584dc37f4baac0"
+    },
+    "__init__.py": {
+      "bytes": 184,
+      "sha256": "c0eb0c81da6e054d9f1a945f475478c6c48d6da80186522132cff1711c535852"
+    },
+    "build_checkpoint.py": {
+      "bytes": 3409,
+      "sha256": "f1f2e62a4e7b0dfe0d3788d3e8320b450636b1cba6dd06426d49134ba47ec24d"
+    },
+    "config.json": {
+      "bytes": 1656,
+      "sha256": "ee04f471bb6d5afb97dea0b232b4c3da9c636079ec1d94a2a018fa1c21c2c892"
+    },
+    "run_pilot.py": {
+      "bytes": 5401,
+      "sha256": "9d0c89b66d6885e966dbad40c9fb3c1d3a1cd64be6a85a1e6de640aca6a092b5"
+    },
+    "runner.py": {
+      "bytes": 6262,
+      "sha256": "d841c1332d8c1c2e4d4f432af966c1a207b6e0c2886f6d57a56abe3636508827"
+    },
+    "test_checkpoint.py": {
+      "bytes": 19173,
+      "sha256": "34920fbae9272b38dd848c096f663c1b4bec4f313601683459c8a764d6323c9e"
+    },
+    "test_contract.py": {
+      "bytes": 3104,
+      "sha256": "78f807b9ccdb53432d36bd5c67b4e1ec84605f52bb6417b7c4dd1f068614f423"
+    },
+    "verify_pair.py": {
+      "bytes": 22568,
+      "sha256": "8af23589835887fd22344e0a676bdb446da121c18548bfbc4549d6ae872decfe"
+    }
+  },
+  "legacy_engine": {
+    "path": "adattamento-drift/adapt06_prospective_gate/runner.py",
+    "sha256": "6712231f968637c48d4499d34484303230ddbb42967eaafd3d50459f68870858"
+  },
+  "pilot_results_present": false,
+  "planned_not_executed": [
+    "full TON seed42 replay",
+    "full UNSW seed42 replay",
+    "five-seed matrix",
+    "ACTIVE acquisition",
+    "ADAPT-07"
+  ],
+  "schema": "adapt06b-checkpoint-a-manifest-v1",
+  "scope": "historical checkpoint A before the authorized pilot"
+}
