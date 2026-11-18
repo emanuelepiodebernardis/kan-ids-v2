@@ -36,13 +36,32 @@ appaiati, i manifest, il log, il CSV e la sintesi sono in
 confronti e rigenera la sintesi. Cinque seed, ACTIVE e ADAPT-07 non sono stati
 eseguiti.
 
+## Matrice di robustezza autorizzata
+
+Il riesame del pilot ha autorizzato l'estensione GAM/RANDOM ai seed 42–46,
+senza cambiare il metodo. `MATRIX_PROTOCOL.md` e `matrix_config.json` fissano il
+perimetro prima dei nuovi run; `preflight_matrix.py` verifica il pilot, i dieci
+stati A/B e gli stream; `run_matrix.py` orchestra soltanto le otto coppie nuove
+dei seed 43–46; `analyze_matrix.py` combina queste coppie con seed 42 e produce
+le 50 righe dei controlli, le statistiche appaiate e le due figure
+preregistrate.
+
+In questo commit di preparazione la matrice non è ancora eseguita. Il commit
+contenente protocollo, configurazione, launcher e test deve essere registrato
+come commit di esecuzione prima di aprire i dati dei nuovi replay.
+
 ## Struttura
 
 - `runner.py`: variante decoupled, limitata a GAM/RANDOM;
 - `run_pilot.py`: comando appaiato legacy/variante per un dataset;
 - `verify_pair.py`: identità, invarianti autonome e tabella dei cinque controlli;
 - `summarize_pilot.py`: verifica e sintesi riproducibile della consegna;
+- `MATRIX_PROTOCOL.md`, `matrix_config.json`: disegno e artefatti congelati;
+- `preflight_matrix.py`: controllo A/B, stream e pilot seed 42;
+- `run_matrix.py`: orchestrazione senza sovrascritture dei seed 43–46;
+- `analyze_matrix.py`: verifica, tabelle, figure e manifest della matrice;
 - `test_checkpoint.py`: controprove sintetiche;
+- `test_matrix.py`: limiti, propagazione del seed e aggregazione completa;
 - `test_pilot_delivery.py`: controlli sui report, confronti e manifest finali;
 - `COST_ESTIMATE.md`: stima pre-run, distinta dai costi effettivi consegnati;
 - `CHECKPOINT_MANIFEST.json` e `TEST_LOG.txt`: provenienza e verifiche.

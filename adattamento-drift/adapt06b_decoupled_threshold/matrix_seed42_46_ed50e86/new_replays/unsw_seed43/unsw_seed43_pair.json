@@ -1,0 +1,211 @@
+{
+  "schema": "adapt06b-paired-verification-v1",
+  "status": "PASS",
+  "dataset": "unsw",
+  "seed": 43,
+  "blocks": 102,
+  "rows": 1016018,
+  "query_sequence_sha256": "523acb2f507d1ab3adeeb2baed4647a10b2ae08c52b9f7811e92382bc35f3d78",
+  "unique_labels_requested": 10160,
+  "roles": {
+    "CONTROL": 2540,
+    "RANDOM_FIT": 7620
+  },
+  "first_cal_eligible_block": 18,
+  "first_threshold_application_block": 19,
+  "temporal_frontier": "first_threshold_application_block",
+  "controls": {
+    "frozen_b": {
+      "recall": 0.9459869418980413,
+      "fpr": 0.019726626653528024,
+      "recall_delta_vs_threshold_only": 0.059227819598458686,
+      "fpr_delta_vs_threshold_only": -0.017499527207938927,
+      "weight_promotions": 0,
+      "threshold_changes": 0
+    },
+    "threshold_only_autonomous": {
+      "recall": 0.8867591222995826,
+      "fpr": 0.03722615386146695,
+      "recall_delta_vs_threshold_only": 0.0,
+      "fpr_delta_vs_threshold_only": 0.0,
+      "weight_promotions": 0,
+      "threshold_changes": 20
+    },
+    "gated_legacy": {
+      "recall": 0.9459869418980413,
+      "fpr": 0.019726626653528024,
+      "recall_delta_vs_threshold_only": 0.059227819598458686,
+      "fpr_delta_vs_threshold_only": -0.017499527207938927,
+      "weight_promotions": 0,
+      "threshold_changes": 0
+    },
+    "gated_decoupled": {
+      "recall": 0.9436645594068268,
+      "fpr": 0.023941941134900016,
+      "recall_delta_vs_threshold_only": 0.05690543710724416,
+      "fpr_delta_vs_threshold_only": -0.013284212726566935,
+      "weight_promotions": 0,
+      "threshold_changes": 2
+    },
+    "threshold_only_matched": {
+      "recall": 0.9436645594068268,
+      "fpr": 0.023941941134900016,
+      "recall_delta_vs_threshold_only": 0.05690543710724416,
+      "fpr_delta_vs_threshold_only": -0.013284212726566935,
+      "weight_promotions": 0,
+      "threshold_changes": 2
+    }
+  },
+  "intervals": {
+    "frozen_b": {
+      "before_first_threshold_application": {
+        "tn": 141299,
+        "fp": 3024,
+        "fn": 2175,
+        "tp": 43502,
+        "normal": 144323,
+        "attack": 45677,
+        "recall": 0.9523830374148915,
+        "fpr": 0.020953001254131357
+      },
+      "from_first_threshold_application": {
+        "tn": 646582,
+        "fp": 12831,
+        "fn": 9291,
+        "tp": 157314,
+        "normal": 659413,
+        "attack": 166605,
+        "recall": 0.9442333663455479,
+        "fpr": 0.019458215109498904
+      }
+    },
+    "threshold_only_autonomous": {
+      "before_first_threshold_application": {
+        "tn": 141299,
+        "fp": 3024,
+        "fn": 2175,
+        "tp": 43502,
+        "normal": 144323,
+        "attack": 45677,
+        "recall": 0.9523830374148915,
+        "fpr": 0.020953001254131357
+      },
+      "from_first_threshold_application": {
+        "tn": 632517,
+        "fp": 26896,
+        "fn": 21864,
+        "tp": 144741,
+        "normal": 659413,
+        "attack": 166605,
+        "recall": 0.8687674439542631,
+        "fpr": 0.04078779156613534
+      }
+    },
+    "gated_legacy": {
+      "before_first_threshold_application": {
+        "tn": 141299,
+        "fp": 3024,
+        "fn": 2175,
+        "tp": 43502,
+        "normal": 144323,
+        "attack": 45677,
+        "recall": 0.9523830374148915,
+        "fpr": 0.020953001254131357
+      },
+      "from_first_threshold_application": {
+        "tn": 646582,
+        "fp": 12831,
+        "fn": 9291,
+        "tp": 157314,
+        "normal": 659413,
+        "attack": 166605,
+        "recall": 0.9442333663455479,
+        "fpr": 0.019458215109498904
+      }
+    },
+    "gated_decoupled": {
+      "before_first_threshold_application": {
+        "tn": 141299,
+        "fp": 3024,
+        "fn": 2175,
+        "tp": 43502,
+        "normal": 144323,
+        "attack": 45677,
+        "recall": 0.9523830374148915,
+        "fpr": 0.020953001254131357
+      },
+      "from_first_threshold_application": {
+        "tn": 643194,
+        "fp": 16219,
+        "fn": 9784,
+        "tp": 156821,
+        "normal": 659413,
+        "attack": 166605,
+        "recall": 0.9412742714804477,
+        "fpr": 0.0245961180625799
+      }
+    },
+    "threshold_only_matched": {
+      "before_first_threshold_application": {
+        "tn": 141299,
+        "fp": 3024,
+        "fn": 2175,
+        "tp": 43502,
+        "normal": 144323,
+        "attack": 45677,
+        "recall": 0.9523830374148915,
+        "fpr": 0.020953001254131357
+      },
+      "from_first_threshold_application": {
+        "tn": 643194,
+        "fp": 16219,
+        "fn": 9784,
+        "tp": 156821,
+        "normal": 659413,
+        "attack": 166605,
+        "recall": 0.9412742714804477,
+        "fpr": 0.0245961180625799
+      }
+    }
+  },
+  "legacy_promotions": 0,
+  "decoupled_promotions": 0,
+  "decoupled_threshold_calibrations": 3,
+  "decoupled_threshold_changes": 2,
+  "candidate_pending_at_end": {
+    "legacy": false,
+    "decoupled": false
+  },
+  "decisions": {
+    "legacy": {
+      "FREEZE": 3,
+      "REJECT_HARM": 2,
+      "WAIT": 1,
+      "WITHHOLD_STREAM_END_AMBIGUOUS": 1
+    },
+    "decoupled": {
+      "FREEZE": 3,
+      "REJECT_HARM": 2,
+      "WAIT": 1,
+      "WITHHOLD_STREAM_END_AMBIGUOUS": 1
+    }
+  },
+  "costs": {
+    "legacy_replay_seconds": 98.48407780000707,
+    "decoupled_replay_seconds": 100.96012490001158,
+    "legacy_peak_rss_mib": 255.0,
+    "decoupled_peak_rss_mib": 252.7,
+    "legacy_peak_online_logical_payload_bytes": 125498,
+    "decoupled_peak_online_logical_payload_bytes": 118318
+  },
+  "sources": {
+    "legacy": {
+      "file": "unsw_seed43_legacy.json",
+      "sha256": "6f50273672a9a1947214dd254d34b1ed839e30acfedae1d7198558f2bb9314a5"
+    },
+    "variant": {
+      "file": "unsw_seed43_decoupled.json",
+      "sha256": "848143a3387fa558090e6c137bd366cdef14b92b73bbceac1016088408fb3e3a"
+    }
+  }
+}
