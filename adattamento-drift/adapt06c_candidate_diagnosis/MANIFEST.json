@@ -1,0 +1,91 @@
+{
+  "base_merge": "24e25723ffac292b419adf2cff4378bc8d0b2c4a",
+  "delivery_commit_identification": "the PR head containing this manifest",
+  "outputs": {
+    "CANDIDATE_DIAGNOSIS.csv": {
+      "bytes": 9184,
+      "sha256": "6b417e68be6a418ed54a03ecda9bf1ebf8e5cba86ca65c1c702315d773245efa"
+    },
+    "CANDIDATE_LOOKS.csv": {
+      "bytes": 11563,
+      "sha256": "8ccb182d8b7f425fbbdd4e40804783a5bfe3f6fded9da56bf4e7f8766ee5f5f1"
+    },
+    "CANDIDATE_NOTE.md": {
+      "bytes": 4577,
+      "sha256": "38bfb2d5bdaf0bc12165942327e6087eedbf48dfc543824ef8dba440d510074e"
+    }
+  },
+  "provenance": {
+    "PROTOCOL.md": {
+      "bytes": 2086,
+      "sha256": "503b00f444c4c3954ffabadac976565664bbde6f44c41e28a28aaf10ab668d95"
+    },
+    "README.md": {
+      "bytes": 1358,
+      "sha256": "0ee39efaff9f132108edb89e09a1544cc35fa0a4aaaf22d0e6106f0c49458f1a"
+    },
+    "TEST_LOG.txt": {
+      "bytes": 811,
+      "sha256": "41489bcaf42d7209a800031da95942d8aadd46146dc75284247a7d0321874325"
+    },
+    "__init__.py": {
+      "bytes": 59,
+      "sha256": "99a2d6e486f633b05bacfd726e7e9c39078098f83849898d1226a7aa77a0797b"
+    },
+    "analyze_candidates.py": {
+      "bytes": 25336,
+      "sha256": "579a4880b2c5ce34822fc228ac097d802891abd11bc2805da26e9ceca6f4446c"
+    },
+    "test_candidate_diagnosis.py": {
+      "bytes": 5745,
+      "sha256": "15375ed269a23037dae7b9348d72a5162106d2eb0f09671196695d34f105b60e"
+    }
+  },
+  "schema": "adapt06c-candidate-diagnosis-manifest-v1",
+  "source_commits": [
+    "02b82af36ae8151e4ac83d806f434704e4557abd",
+    "ed50e86805c6591b967b39a7be982f4e8d30eeab"
+  ],
+  "source_reports": {
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed43/ton_seed43_decoupled.json": {
+      "bytes": 24684527,
+      "sha256": "f82f4fc9d10ed4ab1034ff8b9abb5ec4d14b2286e34a1c344315b8ad36fd33cb"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed44/ton_seed44_decoupled.json": {
+      "bytes": 24709079,
+      "sha256": "480d0136aff7c120a8f9ee8e649db7159f9da591d2c2bb9dbb79248dd1aedf67"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed45/ton_seed45_decoupled.json": {
+      "bytes": 24798772,
+      "sha256": "85f48fcf177f4f931ea1d9b27d414887d959b72767149102057434e0bb4e588c"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/ton_seed46/ton_seed46_decoupled.json": {
+      "bytes": 24763770,
+      "sha256": "80119c792a4a3caef5a76820835f0eb0b8676761718933504bb41e4a5abdd112"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed43/unsw_seed43_decoupled.json": {
+      "bytes": 7830135,
+      "sha256": "848143a3387fa558090e6c137bd366cdef14b92b73bbceac1016088408fb3e3a"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed44/unsw_seed44_decoupled.json": {
+      "bytes": 7676676,
+      "sha256": "23fa2a21775d7602740bad0780675ac1637c5cd03f741657290fa43dc05d02d5"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed45/unsw_seed45_decoupled.json": {
+      "bytes": 8136618,
+      "sha256": "916aa9d82784f24ac407778295359ae2a0cf6b57e13a462b2f6f5946c28f698a"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/matrix_seed42_46_ed50e86/new_replays/unsw_seed46/unsw_seed46_decoupled.json": {
+      "bytes": 8179282,
+      "sha256": "c0988cded8fca3388ab9d48f77172011e8b14bd110ece8182b8622d23bab6cbe"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/ton_seed42/ton_seed42_decoupled.json": {
+      "bytes": 24720739,
+      "sha256": "9f97dc7212dbe6a5e2f4f4efb750cb4cf277824cc990b5887a2feab9c12ca8f9"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42/unsw_seed42_decoupled.json": {
+      "bytes": 7967165,
+      "sha256": "86603205e59a51413c38bc44d0ff06bbacaf8fda3bb1c2dffbe1d7c0d25606d3"
+    }
+  }
+}
