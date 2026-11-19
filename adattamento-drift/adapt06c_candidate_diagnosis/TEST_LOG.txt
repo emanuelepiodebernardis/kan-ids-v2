@@ -1,0 +1,23 @@
+ADAPT-06C verification log
+Date: 2026-11-18
+Platform: Windows 11; Python 3.13.2
+
+Extraction:
+python adattamento-drift/adapt06c_candidate_diagnosis/analyze_candidates.py
+Result: PASS cycles=28 looks=38 accept=1 reject=15 withhold=12
+
+Targeted tests:
+python -m pytest adattamento-drift/adapt06c_candidate_diagnosis -q
+Result: 7 passed
+
+Related ADAPT-06/06B/06C suite:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06c_candidate_diagnosis -q
+Result: 115 passed in 57.35 s
+
+Static checks:
+python -m ruff check adattamento-drift/adapt06c_candidate_diagnosis
+python -m ruff format --check adattamento-drift/adapt06c_candidate_diagnosis
+git diff --check
+Result: PASS
+
+No fit, replay, tuning or source JSON modification was performed.
