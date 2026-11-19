@@ -11,8 +11,8 @@
       "sha256": "8ccb182d8b7f425fbbdd4e40804783a5bfe3f6fded9da56bf4e7f8766ee5f5f1"
     },
     "CANDIDATE_NOTE.md": {
-      "bytes": 4577,
-      "sha256": "38bfb2d5bdaf0bc12165942327e6087eedbf48dfc543824ef8dba440d510074e"
+      "bytes": 4611,
+      "sha256": "860db05c48c17decae07138088b772b9bfc9d404b24ae29279b0d37e144a1846"
     }
   },
   "provenance": {
@@ -26,19 +26,19 @@
     },
     "TEST_LOG.txt": {
       "bytes": 811,
-      "sha256": "41489bcaf42d7209a800031da95942d8aadd46146dc75284247a7d0321874325"
+      "sha256": "56d3f6375194f239c4ac40d509519e750af8b4dd6c109dd86e99101224f200d9"
     },
     "__init__.py": {
       "bytes": 59,
       "sha256": "99a2d6e486f633b05bacfd726e7e9c39078098f83849898d1226a7aa77a0797b"
     },
     "analyze_candidates.py": {
-      "bytes": 25336,
-      "sha256": "579a4880b2c5ce34822fc228ac097d802891abd11bc2805da26e9ceca6f4446c"
+      "bytes": 25370,
+      "sha256": "ca0adda114b101a62c1c1aeb376ebf2798ce63b8827c5785b36ef014d3db0a3d"
     },
     "test_candidate_diagnosis.py": {
-      "bytes": 5745,
-      "sha256": "15375ed269a23037dae7b9348d72a5162106d2eb0f09671196695d34f105b60e"
+      "bytes": 5837,
+      "sha256": "6eb7610e1952783baf0a480f7e9418d64120d4ed5d6d1cb1ea18a1eff55419ec"
     }
   },
   "schema": "adapt06c-candidate-diagnosis-manifest-v1",

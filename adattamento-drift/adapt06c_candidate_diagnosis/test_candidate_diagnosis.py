@@ -101,6 +101,8 @@ def test_generated_csv_and_note_are_exactly_reproducible(reports, extracted):
     assert note.count("**Ipotesi ") == 2
     assert note.count("**Ipotesi 1 — preferita.**") == 1
     assert note.count("Propongo un solo esperimento minimo") == 1
+    assert "almeno 2%" not in note
+    assert note.count("almeno 2 punti percentuali") == 2
 
 
 def test_manifest_hashes_sources_and_products_without_copying_json(reports):

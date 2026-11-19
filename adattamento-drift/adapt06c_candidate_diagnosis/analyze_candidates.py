@@ -427,7 +427,8 @@ decoupled già verificati, senza nuovi fit, replay o tuning. La chiave di un
 ciclo è dataset/seed/blocco di `FREEZE`/digest. Il confronto usa esclusivamente
 l'incumbent operativo congelato all'apertura e le stesse osservazioni VERIFY.
 Le condizioni sono ricalcolate con rapporti esatti sui conteggi: guadagno di
-recall almeno 2%, aumento FPR non oltre 1 punto e FPR candidato non oltre 6%.
+recall almeno 2 punti percentuali, aumento FPR non oltre 1 punto e FPR candidato
+non oltre 6%.
 
 I 28 `FREEZE` producono {outcomes["ACCEPT"]} `ACCEPT`,
 {outcomes["REJECT_HARM"]} `REJECT_HARM` e {sum(value for key, value in outcomes.items() if key.startswith("WITHHOLD"))} `WITHHOLD`;
@@ -463,7 +464,7 @@ FP: sono compromessi empirici, non automaticamente esiti favorevoli. Altri
 per quadrante è distinta dall'esito del gate. Fra i 15 candidati rifiutati, le
 violazioni simultanee restano tutte visibili: FPR candidato oltre 6% in
 {triggers["CANDIDATE_FPR_GT_0.06"]} look, delta FPR oltre 1 punto in
-{triggers["FPR_DELTA_GT_0.01"]} e danno di recall almeno 2% in
+{triggers["FPR_DELTA_GT_0.01"]} e danno di recall almeno 2 punti percentuali in
 {triggers["RECALL_HARM_GE_0.02"]}. Questi conteggi non sono cause indipendenti:
 più condizioni possono fallire nello stesso look.
 

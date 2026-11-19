@@ -12,7 +12,7 @@ Result: 7 passed
 
 Related ADAPT-06/06B/06C suite:
 python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06c_candidate_diagnosis -q
-Result: 115 passed in 44.26 s
+Result: 115 passed in 57.35 s
 
 Static checks:
 python -m ruff check adattamento-drift/adapt06c_candidate_diagnosis
