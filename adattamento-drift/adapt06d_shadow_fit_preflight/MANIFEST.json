@@ -1,0 +1,103 @@
+{
+  "base_merge": "fe18b0f5a83d51076c07a621430b69225c026ccd",
+  "delivery_commit_identification": "the PR head containing this manifest",
+  "outputs": {
+    "CAL_MEMBERS.csv": {
+      "bytes": 35995,
+      "sha256": "5bda385459ef0ef1f31bae8203737c20fc1f0a4729efb652b7c995cdb5c4ef85"
+    },
+    "CONFIG.json": {
+      "bytes": 14286,
+      "sha256": "19f7e9cefe5633bde0f0e3d26fb4a5f924879588228136725dbdd6b2f9d2520a"
+    },
+    "FIT_INVENTORY.csv": {
+      "bytes": 2422,
+      "sha256": "775fbb08ec2918d8a6c83bb866679d4b30b488cce0423da4210001589337c249"
+    },
+    "FIT_MEMBERS.csv": {
+      "bytes": 164300,
+      "sha256": "00d3f765a8077a3e0d52a3c2c89bc7c60b298ebbace13e672d1ae8c0f4b8983d"
+    },
+    "PREFLIGHT.md": {
+      "bytes": 1698,
+      "sha256": "f17003fcef474ce90b79bfc145088a622de8774e02446d16087d3f994fe838a9"
+    },
+    "PREFLIGHT_CASES.csv": {
+      "bytes": 1937,
+      "sha256": "87328ff5563842a32999575c5a0c65e43921b556e79572697978a5c7f2b7c574"
+    },
+    "VERIFY_MEMBERS.csv": {
+      "bytes": 75944,
+      "sha256": "0dd71ae2ebd023751988a820a0ecc8167a82917712445a9a59c08273b2c68142"
+    }
+  },
+  "provenance": {
+    "PROTOCOL.md": {
+      "bytes": 6157,
+      "sha256": "45e0ebdcd411518718fa3e9cf89f078aad9cca20cef5d59485903ac9d8c582d1"
+    },
+    "README.md": {
+      "bytes": 1761,
+      "sha256": "7edc3b966f53ae6a414d3af071eda3fde92877eb36b81a6a1c985d19b9fd4bf1"
+    },
+    "TEST_LOG.txt": {
+      "bytes": 955,
+      "sha256": "e05e9cd59bba5a10f2c78ebddd039b4e988a4b78d274db904ef89b39601481eb"
+    },
+    "__init__.py": {
+      "bytes": 48,
+      "sha256": "e41002d8bfabd1eef9790796f55ff833ce685044d2eeae02e6fb86f3d6d21601"
+    },
+    "build_preflight.py": {
+      "bytes": 34760,
+      "sha256": "35533069fb8d093f67aea88deaa61686fe66329e832bec2832eeb93542e0d14f"
+    },
+    "test_preflight.py": {
+      "bytes": 11171,
+      "sha256": "70bd3ccf2b582d7412e1ded30d7ffc347b4893e98aaa34e59d9be9ef1659c793"
+    }
+  },
+  "schema": "adapt06d-shadow-fit-preflight-manifest-v1",
+  "sources": {
+    "adattamento-drift/adapt06_prospective_gate/core.py": {
+      "bytes": 28452,
+      "sha256": "8c52803db7ce258e8539cb68d03f92acb6b99e3983d8e3ff2adf8ae6819b8324"
+    },
+    "adattamento-drift/adapt06_prospective_gate/models.py": {
+      "bytes": 4779,
+      "sha256": "6192113552ab1fbaf938a4770ec141d04f7ba9a0b9d7e29ae0cc2220046ceb2a"
+    },
+    "adattamento-drift/adapt06_prospective_gate/runner.py": {
+      "bytes": 66383,
+      "sha256": "6712231f968637c48d4499d34484303230ddbb42967eaafd3d50459f68870858"
+    },
+    "adattamento-drift/adapt06b_decoupled_threshold/pilot_seed42_02b82af/unsw_seed42/unsw_seed42_decoupled.json": {
+      "bytes": 7967165,
+      "sha256": "86603205e59a51413c38bc44d0ff06bbacaf8fda3bb1c2dffbe1d7c0d25606d3"
+    },
+    "adattamento-drift/review_extension/models/unsw/spline_42/model.pkl": {
+      "bytes": 2145,
+      "sha256": "fbd7699d34efd0f95707067f4eb7925db0023c2cd4e9a7e9d4783052e853dac7"
+    },
+    "adattamento-drift/review_extension/models/unsw/spline_42/ready.json": {
+      "bytes": 866,
+      "sha256": "b336960d15fe0a4bdac27c4afccd595b6dbe470f455a89150ba08fcdae20252f"
+    },
+    "adattamento-drift/review_extension/provenance/unsw/D.json": {
+      "bytes": 1943,
+      "sha256": "10b9c69a4ba45fd0832ea97abf8e035172aea6d747390e0b638163adcf2ad05f"
+    },
+    "adattamento-drift/ton_temporal/replay.py": {
+      "bytes": 52931,
+      "sha256": "6869cd6b11247559ba50d08a1ffda19ebcd0d8d76bb910c1b10bef446ca103d5"
+    },
+    "external/unsw/D.json": {
+      "bytes": 1999,
+      "sha256": "31f3c76177a1056b8952eac68a6f4f1d74a85e6b788e7ba35dbe52b617328b04"
+    },
+    "external/unsw/D.npz": {
+      "bytes": 9610839,
+      "sha256": "c20c87d2eb977531bb101ad9170efcfafdb728036dd1e6963a812675242ee3e6"
+    }
+  }
+}
