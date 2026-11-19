@@ -1,0 +1,23 @@
+ADAPT-06D verification log
+Date: 2026-11-19
+Platform: Windows 11; Python 3.13.2
+
+Preflight generation:
+python adattamento-drift/adapt06d_shadow_fit_preflight/build_preflight.py --data-dir C:\percorso\unsw
+Result: PASS cases=3 inventories=6 fit_members=1344 fits=0 replays=0 scoring=0; 12.8 s
+
+Targeted tests:
+python -m pytest adattamento-drift/adapt06d_shadow_fit_preflight -q
+Result: 8 passed in 15.93 s
+
+Related ADAPT-06/06B/06C/06D suite:
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06c_candidate_diagnosis adattamento-drift/adapt06d_shadow_fit_preflight -q
+Result: 123 passed in 117.49 s
+
+Static checks:
+python -m ruff check adattamento-drift/adapt06d_shadow_fit_preflight
+python -m ruff format --check adattamento-drift/adapt06d_shadow_fit_preflight
+git diff --check
+Result: PASS
+
+No fit, candidate scoring, replay, promotion or source modification was performed.
