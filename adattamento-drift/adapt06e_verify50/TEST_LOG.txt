@@ -1,0 +1,22 @@
+ADAPT-06E — protocol/code checkpoint
+Date: 2026-11-23
+Platform: Windows
+
+Command:
+python -m pytest adattamento-drift/adapt06e_verify50/test_verify50.py -q
+
+Result:
+15 passed in 38.93s
+
+Regression command:
+python -m pytest adattamento-drift/adapt06e_verify50/test_verify50.py adattamento-drift/adapt06b_decoupled_threshold/test_contract.py -q
+
+Result:
+19 passed in 49.56s
+
+Static checks:
+ruff check adattamento-drift/adapt06e_verify50
+All checks passed.
+
+No real-stream variant result was opened before these checks.
+

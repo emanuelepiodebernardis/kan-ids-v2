@@ -1,0 +1,71 @@
+{
+  "files": {
+    "COMMANDS.md": {
+      "bytes": 1524,
+      "sha256": "76df8758e5ca6ad42626a783136edc9fe3224c8af2b450db7a4493db1354b5c7"
+    },
+    "DRAFT_PR.md": {
+      "bytes": 1250,
+      "sha256": "a10f9b950027dc85f7dfaac12e9d3aaf869d96541ff1739df79b151ce4483879"
+    },
+    "PROTOCOL.md": {
+      "bytes": 3664,
+      "sha256": "acfd6cd8616d6a26142c603f37e4d24b8686384aa4baf0c85b692a0082caf961"
+    },
+    "README.md": {
+      "bytes": 2059,
+      "sha256": "32609b14d3e420091e85926ad0ed6306c886d5da256f90122caa5881f1499bdb"
+    },
+    "TEST_LOG.txt": {
+      "bytes": 519,
+      "sha256": "43657ffc4ec645cc5b7456dded1a63adf084fd85564d7fb642d51b30f077fe44"
+    },
+    "__init__.py": {
+      "bytes": 223,
+      "sha256": "8fb17aed16b08614fee74a68c8d2cafb144fa05b0a3655a6fe531444b6c8ff97"
+    },
+    "analyze.py": {
+      "bytes": 18446,
+      "sha256": "48e9201dba523331dcc31f7c0dc7daaf236ca56279df2b13ee783ff262a00ecf"
+    },
+    "build_checkpoint.py": {
+      "bytes": 1408,
+      "sha256": "0aa5d45cd48b93e2537f2edd275a117edc1fdd95d87df9ae7eb5ea28b25dfd63"
+    },
+    "config.json": {
+      "bytes": 1347,
+      "sha256": "6b370c7026a7d8b98f6afef318d819dd2286579f3916739ae168e8b9004c34d4"
+    },
+    "engine.py": {
+      "bytes": 71381,
+      "sha256": "1e5cda84d392dc2e4caff98391e21ee6b1716dbcbb8780ad869f5d6fdbf06e2c"
+    },
+    "preflight.py": {
+      "bytes": 5174,
+      "sha256": "d06c0ecba86ad47e3f5718d9afd31ca6a77bef926a7250a5930b4ad9d5d0f270"
+    },
+    "run_matrix.py": {
+      "bytes": 7485,
+      "sha256": "89849ea288835e607bbd8bea2371a4c519af658bb005934da71186ca201f8f40"
+    },
+    "runner.py": {
+      "bytes": 6145,
+      "sha256": "66629a44edea843daae7954b7f2608997f61a0b3fb7742f0d6c5aee7114c7690"
+    },
+    "test_verify50.py": {
+      "bytes": 10491,
+      "sha256": "6a9b4947ed9df77ee0468c69f6f3e3934dd1ff42875be4c6fd5a6d9f0eaf19c9"
+    },
+    "verify_reference.py": {
+      "bytes": 4995,
+      "sha256": "ddb85f72b3fa8be2da51e313a832fa20d8cf52bf7915f5cead1ecf9ce8b583b7"
+    },
+    "verify_report.py": {
+      "bytes": 5843,
+      "sha256": "eab16270c6d1fe6f384ef918f5e794f24dfb0b5cda1d7821fb36aacc2b94c0bf"
+    }
+  },
+  "real_stream_variant_results_present": false,
+  "schema": "adapt06e-checkpoint-manifest-v1",
+  "status": "PASS"
+}
