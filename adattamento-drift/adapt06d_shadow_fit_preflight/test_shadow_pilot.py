@@ -17,6 +17,7 @@ from adapt06d_shadow_fit_preflight.run_shadow_pilot import (
     _margins,
     _positions,
     _primary_outcome,
+    _write_stop_artifact,
 )
 
 
@@ -107,6 +108,15 @@ def test_fit192_reference_comparison_checks_every_preregistered_quantity():
         reference=reference,
     )
     assert comparison["pass"]
+    assert comparison["observed_errors"] == {
+        "parameter_max_abs": 0.0,
+        "threshold_abs": 0.0,
+        "calibration_rate_abs": {
+            "target_fpr": 0.0,
+            "calibration_recall": 0.0,
+            "calibration_fpr": 0.0,
+        },
+    }
     altered = dict(calibration, calibration_recall=0.89)
     assert not _compare_fit192(
         candidate=parameters,
@@ -141,6 +151,22 @@ def test_primary_outcome_requires_additional_pass_preservation_and_no_new_harm()
     assert not _primary_outcome(cases)["criterion_satisfied"]
 
 
+def test_failed_fit192_guard_writes_a_stop_artifact_without_fit256(tmp_path):
+    _write_stop_artifact(
+        output_dir=tmp_path,
+        execution_commit="a" * 40,
+        environment={"python": "3.13.2"},
+        failed_freeze_blocks=[39],
+        cases=[
+            {"freeze_block": 39, "fit192": {"reference_reproduction": {"pass": False}}}
+        ],
+    )
+    artifact = json.loads((tmp_path / "SHADOW_STOP.json").read_text("utf-8"))
+    assert artifact["status"] == "STOP_FIT192_MISMATCH"
+    assert artifact["failed_freeze_blocks"] == [39]
+    assert artifact["fit256_executed"] == 0
+
+
 def test_saved_results_keep_protocol_guard_and_shadow_constraints():
     results = _results()
     assert results["protocol_reference"] == PROTOCOL_REFERENCE
@@ -160,6 +186,8 @@ def test_saved_results_keep_protocol_guard_and_shadow_constraints():
     assert all(
         case["fit192"]["reference_reproduction"]["pass"] for case in results["cases"]
     )
+    assert all("fit256_vs_fit192" in case for case in results["cases"])
+    assert not (HERE / "SHADOW_STOP.json").exists()
 
 
 def test_saved_csv_contains_all_six_comparisons_and_matches_json():

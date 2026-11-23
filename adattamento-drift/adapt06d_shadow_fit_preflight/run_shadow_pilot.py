@@ -269,20 +269,27 @@ def _compare_fit192(
     gate: dict[str, Any],
     reference: dict[str, Any],
 ) -> dict[str, Any]:
+    reference_parameters = np.asarray(
+        reference["fit192_reference_candidate"]["parameters"], dtype=np.float64
+    )
+    parameter_max_abs_error = float(
+        np.max(np.abs(np.asarray(candidate, dtype=np.float64) - reference_parameters))
+    )
+    threshold_abs_error = abs(
+        float(threshold) - float(reference["fit192_reference_candidate"]["threshold"])
+    )
+    calibration_rate_abs_errors = {
+        key: abs(
+            float(calibration[key])
+            - float(reference["fit192_reference_candidate"]["calibration"][key])
+        )
+        for key in ("target_fpr", "calibration_recall", "calibration_fpr")
+    }
     checks = {
-        "parameters": bool(
-            np.allclose(
-                candidate,
-                np.asarray(reference["fit192_reference_candidate"]["parameters"]),
-                rtol=0.0,
-                atol=ABS_TOLERANCE,
-            )
-        ),
+        "parameters": parameter_max_abs_error <= ABS_TOLERANCE,
         "parameter_digest": state_digest(candidate)
         == reference["fit192_reference_candidate"]["digest"],
-        "threshold": _close(
-            threshold, reference["fit192_reference_candidate"]["threshold"]
-        ),
+        "threshold": threshold_abs_error <= ABS_TOLERANCE,
         "calibration_counts": all(
             calibration[key]
             == reference["fit192_reference_candidate"]["calibration"][key]
@@ -312,7 +319,17 @@ def _compare_fit192(
         "decision": gate["status"]
         == reference["fixed_verify_first_look"]["original_status"],
     }
-    return {"checks": checks, "pass": all(checks.values())}
+    return {
+        "checks": checks,
+        "observed_errors": {
+            "parameter_max_abs": parameter_max_abs_error,
+            "threshold_abs": threshold_abs_error,
+            "calibration_rate_abs": calibration_rate_abs_errors,
+        },
+        "absolute_tolerance": ABS_TOLERANCE,
+        "relative_tolerance": 0.0,
+        "pass": all(checks.values()),
+    }
 
 
 def _environment(execution_commit: str) -> dict[str, Any]:
@@ -530,11 +547,56 @@ def _primary_outcome(cases: list[dict[str, Any]]) -> dict[str, Any]:
         "new_harm_freeze_blocks": new_harm,
         "criterion_satisfied": favorable,
         "interpretation": (
-            "exploratory favorable signal; requires an agreed follow-up"
+            "segnale esplorativo favorevole; richiede un seguito concordato"
             if favorable
-            else "null for these three preregistered cases; no general conclusion"
+            else "esito nullo per i tre casi preregistrati; nessuna conclusione generale"
         ),
     }
+
+
+def _capacity_comparison(case: dict[str, Any]) -> dict[str, Any]:
+    fit192 = case["fit192"]
+    fit256 = case["fit256"]
+    metrics192 = fit192["gate"]["metrics"]["candidate"]
+    metrics256 = fit256["gate"]["metrics"]["candidate"]
+    return {
+        "candidate_tp_delta": int(metrics256["tp"] - metrics192["tp"]),
+        "candidate_fp_delta": int(metrics256["fp"] - metrics192["fp"]),
+        "candidate_fn_delta": int(metrics256["fn"] - metrics192["fn"]),
+        "candidate_tn_delta": int(metrics256["tn"] - metrics192["tn"]),
+        "recall_delta_pp": 100.0 * (metrics256["recall"] - metrics192["recall"]),
+        "fpr_delta_pp": 100.0 * (metrics256["fpr"] - metrics192["fpr"]),
+        "threshold_delta": float(
+            fit256["candidate"]["threshold"] - fit192["candidate"]["threshold"]
+        ),
+        "gate_transition": f"{fit192['gate']['status']} -> {fit256['gate']['status']}",
+    }
+
+
+def _write_stop_artifact(
+    *,
+    output_dir: Path,
+    execution_commit: str,
+    environment: dict[str, Any],
+    failed_freeze_blocks: list[int],
+    cases: list[dict[str, Any]],
+) -> None:
+    artifact = {
+        "schema": "adapt06d-shadow-stop-v1",
+        "protocol_reference": PROTOCOL_REFERENCE,
+        "execution_commit": execution_commit,
+        "environment": environment,
+        "status": "STOP_FIT192_MISMATCH",
+        "failed_freeze_blocks": failed_freeze_blocks,
+        "fit256_executed": 0,
+        "cases": cases,
+    }
+    output_dir.mkdir(parents=True, exist_ok=True)
+    (output_dir / "SHADOW_STOP.json").write_text(
+        json.dumps(artifact, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
 
 
 def _csv_text(rows: list[dict[str, Any]]) -> str:
@@ -578,6 +640,25 @@ def _report_markdown(results: dict[str, Any]) -> str:
                 f"{100 * item['gate']['fpr_delta']:+.3f} pp | "
                 f"`{item['gate']['status']}` |"
             )
+    lines.extend(
+        [
+            "",
+            "## Confronto diretto FIT256 − FIT192",
+            "",
+            "| FREEZE → look | Δ TP | Δ FP | Δ recall | Δ FPR | Transizione gate |",
+            "|---|---:|---:|---:|---:|---|",
+        ]
+    )
+    for case in results["cases"]:
+        comparison = case["fit256_vs_fit192"]
+        lines.append(
+            f"| {case['freeze_block']} → {case['primary_look_block']} | "
+            f"{comparison['candidate_tp_delta']:+d} | "
+            f"{comparison['candidate_fp_delta']:+d} | "
+            f"{comparison['recall_delta_pp']:+.3f} pp | "
+            f"{comparison['fpr_delta_pp']:+.3f} pp | "
+            f"`{comparison['gate_transition']}` |"
+        )
     outcome = results["primary_outcome"]
     lines.extend(
         [
@@ -721,6 +802,13 @@ def run(data_dir: Path, output_dir: Path, command: str) -> dict[str, Any]:
         if not case["fit192"]["reference_reproduction"]["pass"]
     ]
     if failed:
+        _write_stop_artifact(
+            output_dir=output_dir,
+            execution_commit=execution_commit,
+            environment=environment,
+            failed_freeze_blocks=failed,
+            cases=cases,
+        )
         raise RuntimeError(
             f"FIT192 guard failed at FREEZE {failed}; FIT256 was not executed"
         )
@@ -735,6 +823,7 @@ def run(data_dir: Path, output_dir: Path, command: str) -> dict[str, Any]:
             reference=references[freeze],
             capacity=256,
         )
+        case["fit256_vs_fit192"] = _capacity_comparison(case)
 
     fit_total = sum(
         case[key]["timings_seconds"]["fit"]
