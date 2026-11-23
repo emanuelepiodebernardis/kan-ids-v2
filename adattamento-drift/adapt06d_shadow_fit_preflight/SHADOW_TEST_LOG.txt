@@ -1,0 +1,42 @@
+ADAPT-06D shadow-pilot verification log
+Date: 2026-11-23
+Platform: Windows 11
+
+Protocol reference:
+89394d542f5b3eaa56e63b06348de251cc48e52a
+
+Execution commit:
+b21cdad66deb46eec571b0eb9a7475339bac4b75
+
+Execution environment:
+Python 3.13.2; NumPy 2.3.5; scikit-learn 1.7.2; SciPy 1.17.0;
+joblib 1.6.0; OMP/MKL/OPENBLAS/NUMEXPR thread limits fixed to 1.
+
+Pilot command (PowerShell, from clone root):
+$env:OMP_NUM_THREADS = "1"
+$env:MKL_NUM_THREADS = "1"
+$env:OPENBLAS_NUM_THREADS = "1"
+$env:NUMEXPR_NUM_THREADS = "1"
+python adattamento-drift/adapt06d_shadow_fit_preflight/run_shadow_pilot.py --data-dir C:\percorso\unsw
+
+Pilot result:
+PASS fit192=3/3 fit256=3/3 promotions=0 criterion=False
+
+Windows/Linux portability follow-up:
+The three requested transformed rows were read from the original inputs and
+archived model without executing any fit, calibration, scoring or gate.
+Result: 20/24 binary32 words identical; four platform differences documented
+in TRANSFORM_PORTABILITY.md. numpy.show_runtime() is recorded separately.
+
+Final targeted tests in the scientific execution environment
+(Python 3.13.2; NumPy 2.3.5; scikit-learn 1.7.2; pytest 8.4.2;
+thread limits fixed to 1):
+python -m pytest adattamento-drift/adapt06d_shadow_fit_preflight -q
+Result: 18 passed in 6.28 s
+
+Final related suite in the repository verification environment
+(Python 3.13.2; NumPy 2.5.4; scikit-learn 1.7.2; pytest 8.4.2):
+python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06c_candidate_diagnosis adattamento-drift/adapt06d_shadow_fit_preflight -q
+Result: 133 passed in 48.49 s
+
+No candidate was promoted; no trajectory, case, margin or tolerance was changed.

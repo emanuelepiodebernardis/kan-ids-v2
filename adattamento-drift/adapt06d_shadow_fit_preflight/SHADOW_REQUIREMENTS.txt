@@ -1,0 +1,10 @@
+# Scientific runtime used by the ADAPT-06D shadow pilot (Python 3.13.2).
+numpy==2.3.5
+scipy==1.17.0
+scikit-learn==1.7.2
+joblib==1.6.0
+threadpoolctl==3.8.0
+cloudpickle==3.1.3
+
+# Targeted verification.
+pytest==8.4.2

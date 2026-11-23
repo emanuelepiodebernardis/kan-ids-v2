@@ -1,0 +1,453 @@
+{
+  "adapt06c_verified_head": "6ddcda92a5bfdaa6fe67ae3331dec2f32811c99b",
+  "base_merge": "fe18b0f5a83d51076c07a621430b69225c026ccd",
+  "checkpoint_date": "2026-11-19",
+  "cost_basis_seconds": {
+    "recorded_full_decoupled_replay": 46.219242699999086,
+    "recorded_input_load": 1.4594629000002897,
+    "recorded_three_candidate_fit_and_calibrations": 0.1300902999992104
+  },
+  "execution": {
+    "candidate_scoring_performed": false,
+    "fit_performed": false,
+    "planned_future_fits": {
+      "FIT192_control": 3,
+      "FIT256_shadow": 3
+    },
+    "promotion_performed": false,
+    "replay_performed": false
+  },
+  "external_dependencies": {
+    "D.json": {
+      "locator": "--data-dir/D.json",
+      "sha256": "31f3c76177a1056b8952eac68a6f4f1d74a85e6b788e7ba35dbe52b617328b04"
+    },
+    "D.npz": {
+      "locator": "--data-dir/D.npz",
+      "sha256": "c20c87d2eb977531bb101ad9170efcfafdb728036dd1e6963a812675242ee3e6"
+    }
+  },
+  "fixed_cases": [
+    {
+      "fit192_reference_candidate": {
+        "calibration": {
+          "calibration_fpr": 0.0,
+          "calibration_recall": 0.9826086956521739,
+          "candidate_count": 151,
+          "target_fpr": 0.05,
+          "tie_count": 1
+        },
+        "digest": "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be",
+        "fit_counts": [
+          96,
+          96
+        ],
+        "fit_ids_sha256": "7b98d9305476823853404e9754f630bcf5164ac7ed895975c9bbfdca6d39db00",
+        "parameters": [
+          0.30142619641006163,
+          3.3747974079621996,
+          0.5749675852877965,
+          0.9998989659476848,
+          -0.07683104533077442,
+          1.1947562503122737,
+          1.328559617093165,
+          2.3916387976333864,
+          4.944421569168315
+        ],
+        "parameters_sha256": "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be",
+        "threshold": -0.2320049673166089
+      },
+      "fixed_cal": {
+        "counts": [
+          141,
+          115
+        ],
+        "ids_sha256": "223123c3ac31230b3b622d9e396089f14e5d5d6fee8359faa9bf2740bea95c5e",
+        "target_fpr": 0.05
+      },
+      "fixed_verify_first_look": {
+        "candidate_confusion": {
+          "fn": 6,
+          "fp": 8,
+          "tn": 342,
+          "tp": 94
+        },
+        "counts": [
+          350,
+          100
+        ],
+        "ids_sha256": "3d35416bd46bc431fcb8835a14c98e874c6621209c6b11d0111682fd1793f320",
+        "operational_incumbent_confusion": {
+          "fn": 11,
+          "fp": 6,
+          "tn": 344,
+          "tp": 89
+        },
+        "original_status": "ACCEPT"
+      },
+      "freeze_block": 18,
+      "operational_incumbent": {
+        "digest": "7ec680d9766e591185bf0ebaf6af892a2a7961c075186a9b5f2bfcde1595b353",
+        "parameters": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          -2.0545376800791884
+        ],
+        "parameters_sha256": "7ec680d9766e591185bf0ebaf6af892a2a7961c075186a9b5f2bfcde1595b353",
+        "threshold": -0.3207037599530236
+      },
+      "primary_look_block": 37
+    },
+    {
+      "fit192_reference_candidate": {
+        "calibration": {
+          "calibration_fpr": 0.015625,
+          "calibration_recall": 0.90625,
+          "candidate_count": 159,
+          "target_fpr": 0.05,
+          "tie_count": 1
+        },
+        "digest": "87a6a27f37e660043fe638c898dcc15fe803f13dfe932a95ae3ce0df339511e7",
+        "fit_counts": [
+          96,
+          96
+        ],
+        "fit_ids_sha256": "a239f5bb04bb2ce034f8e8859eab6380036d988be010314ecc8ba60f800b27b1",
+        "parameters": [
+          0.7344912098750037,
+          1.698069412573819,
+          0.5019959575314873,
+          0.6129175529343833,
+          1.1007399147518464,
+          1.3408534007874144,
+          0.834612921877145,
+          0.6871666483607359,
+          -1.086444466044213
+        ],
+        "parameters_sha256": "87a6a27f37e660043fe638c898dcc15fe803f13dfe932a95ae3ce0df339511e7",
+        "threshold": 0.2934043755904798
+      },
+      "fixed_cal": {
+        "counts": [
+          128,
+          128
+        ],
+        "ids_sha256": "acd0892aa7e20eb336db08e8eb2d1a925ea74798be6b13ba8374f7cb36c25984",
+        "target_fpr": 0.05
+      },
+      "fixed_verify_first_look": {
+        "candidate_confusion": {
+          "fn": 14,
+          "fp": 9,
+          "tn": 438,
+          "tp": 89
+        },
+        "counts": [
+          447,
+          103
+        ],
+        "ids_sha256": "fed15981d312922ea5cc2c56388f9504699112f107f675c4ce9829d25752af3a",
+        "operational_incumbent_confusion": {
+          "fn": 5,
+          "fp": 12,
+          "tn": 435,
+          "tp": 98
+        },
+        "original_status": "REJECT_HARM"
+      },
+      "freeze_block": 39,
+      "operational_incumbent": {
+        "digest": "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be",
+        "parameters": [
+          0.30142619641006163,
+          3.3747974079621996,
+          0.5749675852877965,
+          0.9998989659476848,
+          -0.07683104533077442,
+          1.1947562503122737,
+          1.328559617093165,
+          2.3916387976333864,
+          4.944421569168315
+        ],
+        "parameters_sha256": "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be",
+        "threshold": -0.31752802917827694
+      },
+      "primary_look_block": 62
+    },
+    {
+      "fit192_reference_candidate": {
+        "calibration": {
+          "calibration_fpr": 0.0234375,
+          "calibration_recall": 0.96875,
+          "candidate_count": 166,
+          "target_fpr": 0.05,
+          "tie_count": 1
+        },
+        "digest": "9d586f45fb8f1027445ffb9010fc2c93b46e6b928b0bacdf0256b5d266d203f3",
+        "fit_counts": [
+          96,
+          96
+        ],
+        "fit_ids_sha256": "b302a90b1e5e20ad636ca255c69148ad48478f7ec22dfe802191dc5b6dd94093",
+        "parameters": [
+          1.402113229619251,
+          3.068542838164842,
+          1.242114386100758,
+          1.3247267737750945,
+          0.49839696823862806,
+          0.7400119273919017,
+          0.6569794663386028,
+          2.228400069806058,
+          6.996773328298739
+        ],
+        "parameters_sha256": "9d586f45fb8f1027445ffb9010fc2c93b46e6b928b0bacdf0256b5d266d203f3",
+        "threshold": -0.49227430376034853
+      },
+      "fixed_cal": {
+        "counts": [
+          128,
+          128
+        ],
+        "ids_sha256": "9864128899edeece8f352252a829ae6356a01d5d254c43d8d0cdeeefa6aeb764",
+        "target_fpr": 0.05
+      },
+      "fixed_verify_first_look": {
+        "candidate_confusion": {
+          "fn": 3,
+          "fp": 20,
+          "tn": 476,
+          "tp": 101
+        },
+        "counts": [
+          496,
+          104
+        ],
+        "ids_sha256": "d09e6804f7f645520adeece2dd344d67ac130dd55a624c423fc174a8477c1056",
+        "operational_incumbent_confusion": {
+          "fn": 4,
+          "fp": 30,
+          "tn": 466,
+          "tp": 100
+        },
+        "original_status": "WAIT"
+      },
+      "freeze_block": 64,
+      "operational_incumbent": {
+        "digest": "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be",
+        "parameters": [
+          0.30142619641006163,
+          3.3747974079621996,
+          0.5749675852877965,
+          0.9998989659476848,
+          -0.07683104533077442,
+          1.1947562503122737,
+          1.328559617093165,
+          2.3916387976333864,
+          4.944421569168315
+        ],
+        "parameters_sha256": "2d346814fd7a487b26e30a3026aad37de5841dc128d1765eb066eefda1d240be",
+        "threshold": -0.6319217113929261
+      },
+      "primary_look_block": 89
+    }
+  ],
+  "fixed_gate": {
+    "additional_pass_definition": "a fixed case in which FIT256 satisfies all three gate margins and FIT192 does not",
+    "comparison_reference": "each FIT192 or FIT256 candidate versus the same fixed operational incumbent on the same first-look VERIFY observations",
+    "future_primary_criterion": "at least one additional all-margin pass; preserve the already acceptable case; introduce no new harm-boundary violation",
+    "maximum_candidate_fpr_percent": 6.0,
+    "maximum_fpr_delta_pp": 1.0,
+    "minimum_recall_delta_pp": 2.0
+  },
+  "future_cost_estimate_seconds": {
+    "input_verification_and_causal_reconstruction": [
+      5,
+      15
+    ],
+    "packaging_tests_and_manifest": [
+      45,
+      120
+    ],
+    "serial_total": [
+      56,
+      160
+    ],
+    "six_candidate_threshold_calibrations": [
+      0.5,
+      2
+    ],
+    "status": "planning estimate, not a measurement or deadline",
+    "three_fit192_and_three_fit256": [
+      0.5,
+      3
+    ],
+    "three_fixed_verify_intervals_scoring_and_checks": [
+      5,
+      20
+    ]
+  },
+  "future_execution_guard": {
+    "candidate_parameter_max_abs_tolerance": 1e-12,
+    "candidate_threshold_abs_tolerance": 1e-12,
+    "derived_metric_abs_tolerance": 1e-12,
+    "fit192_confusion_counts_and_decision": "exact",
+    "fit192_membership_and_labels": "exact",
+    "on_failure": "STOP before every FIT256 fit and explain the mismatch"
+  },
+  "future_fit_specification": {
+    "C": 1.0,
+    "candidate_threshold": "recomputed independently on the fixed original CAL with the frozen target-FPR rule",
+    "estimator": "sklearn.linear_model.LogisticRegression",
+    "fit_intercept": true,
+    "fresh_estimator_per_candidate": true,
+    "input_order": "exact FIT_MEMBERS.csv position order",
+    "max_iter": 1000,
+    "preprocessing": "archived UNSW spline_42 transform from model.pkl",
+    "random_state": null,
+    "representation": "archived GAM representation; same initial A/B state",
+    "ridge": 1.0,
+    "solver": "lbfgs (scikit-learn default)",
+    "thread_limits": {
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "OPENBLAS_NUM_THREADS": "1"
+    },
+    "warm_start": false
+  },
+  "limitations": [
+    "the historical report stores canonical sorted FIT IDs, not the internal FIFO order",
+    "the historical report does not store the transformed FIT matrix digest",
+    "causal order and transformed-feature digests are new preflight products and require future FIT192 reproduction"
+  ],
+  "preflight": {
+    "cases": 3,
+    "status": "PASS"
+  },
+  "schema": "adapt06d-shadow-fit-preflight-v1",
+  "scope": {
+    "acquisition": "RANDOM",
+    "dataset": "unsw",
+    "family": "GAM",
+    "fit_memories": [
+      {
+        "capacity": 192,
+        "quota_per_class": 96,
+        "rule": "FIFO with lending"
+      },
+      {
+        "capacity": 256,
+        "quota_per_class": 128,
+        "rule": "FIFO with lending"
+      }
+    ],
+    "freeze_and_primary_look_blocks_0_based": [
+      [
+        18,
+        37
+      ],
+      [
+        39,
+        62
+      ],
+      [
+        64,
+        89
+      ]
+    ],
+    "seed": 42
+  },
+  "source": {
+    "historical_runner_sha256": "d841c1332d8c1c2e4d4f432af966c1a207b6e0c2886f6d57a56abe3636508827",
+    "input_identity": {
+      "archived_metadata_sha256": "10b9c69a4ba45fd0832ea97abf8e035172aea6d747390e0b638163adcf2ad05f",
+      "archived_npz_sha256": "ddf7a96654d72531364acec2679bd93ca248fdbb082f6cda3c2e867863ead3db",
+      "array_dtypes": {
+        "X": "float32",
+        "frt": "float64",
+        "row_id": "int64",
+        "t_end": "float64",
+        "t_start": "float64",
+        "tipi": "<U14",
+        "tipo": "int16",
+        "y": "uint8"
+      },
+      "array_sha256": {
+        "X": "9c7752da40fcfac5312b450b94d51b3a72816c8395713dd47736bf162b4983aa",
+        "frt": "5a3e02da7864bff1692f7f122283e0f9a4de329e5fb4546bab517a40c649eb82",
+        "row_id": "aa0caf82d4ed4c76f263bad5557b95afce96f50d75e9f706b635347b62486f3d",
+        "t_end": "37b06c1e341b57d98074c08cc9cf06a16116f947ddee21126e4ca6f0ee932a23",
+        "t_start": "fc31e220559f5b694a32fff92dabd1814c296d7167dd6fe3dc450255e7f6346a",
+        "tipi": "16b21348b11ddefec4d702d249ef25e3ca96e3a03399f7ceb4abcad41299795d",
+        "tipo": "f5644b2d62bfed81fc719f5e41bf04b6d345f40f637f0f05b7da2a32e9671ad7",
+        "y": "ac963503b9435f26952c342271e6159a2e4e52f0ff8c5f1ae24c5d2c695f7656"
+      },
+      "array_shapes": {
+        "X": [
+          1016018,
+          8
+        ],
+        "frt": [
+          1016018
+        ],
+        "row_id": [
+          1016018
+        ],
+        "t_end": [
+          1016018
+        ],
+        "t_start": [
+          1016018
+        ],
+        "tipi": [
+          10
+        ],
+        "tipo": [
+          1016018
+        ],
+        "y": [
+          1016018
+        ]
+      },
+      "attack": 212282,
+      "container_note": "NPZ container bytes may differ after deterministic reconstruction; scientific identity is enforced on every named array",
+      "container_sha256_matches_archive": false,
+      "local_metadata_sha256": "31f3c76177a1056b8952eac68a6f4f1d74a85e6b788e7ba35dbe52b617328b04",
+      "normal": 803736,
+      "reconstructed_npz_sha256": "c20c87d2eb977531bb101ad9170efcfafdb728036dd1e6963a812675242ee3e6",
+      "row_id_unique": true,
+      "rows": 1016018,
+      "status": "PASS"
+    },
+    "preflight_implementation_sha256": {
+      "adattamento-drift/adapt06_prospective_gate/core.py": "8c52803db7ce258e8539cb68d03f92acb6b99e3983d8e3ff2adf8ae6819b8324",
+      "adattamento-drift/adapt06_prospective_gate/models.py": "6192113552ab1fbaf938a4770ec141d04f7ba9a0b9d7e29ae0cc2220046ceb2a",
+      "adattamento-drift/adapt06_prospective_gate/runner.py": "6712231f968637c48d4499d34484303230ddbb42967eaafd3d50459f68870858",
+      "adattamento-drift/ton_temporal/replay.py": "6869cd6b11247559ba50d08a1ffda19ebcd0d8d76bb910c1b10bef446ca103d5"
+    },
+    "protocol_commit": "3199f1eeba952a20f2be5fd60fee8b0317123627",
+    "protocol_merge": "e5163bce892a0aafdd5136ee7c6a618b9867eadc",
+    "query_sequence_sha256": "20e54500ac3dfcc0fa3e636e2d5eb3a0834e226cecb38989b2626391d8b9651a",
+    "report_commit": "02b82af36ae8151e4ac83d806f434704e4557abd",
+    "report_environment": {
+      "numpy": "2.3.5",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "python": "3.13.2",
+      "pythonhashseed": null,
+      "river": "0.22.0",
+      "sklearn": "1.7.2",
+      "thread_limits": {
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      }
+    }
+  }
+}
