@@ -6,6 +6,7 @@ import argparse
 import csv
 import io
 import json
+import statistics
 import sys
 from collections import Counter
 from pathlib import Path
@@ -15,7 +16,7 @@ REPOSITORY = HERE.parents[1]
 if str(HERE.parent) not in sys.path:
     sys.path.insert(0, str(HERE.parent))
 
-from adapt06b_decoupled_threshold.analyze_matrix import verify_matrix
+from adapt06b_decoupled_threshold.verify_pair import verify_reports
 
 from adapt06e_verify50.engine import file_sha256
 from adapt06e_verify50.preflight import DATASETS, SEEDS
@@ -70,6 +71,57 @@ def verify_variant_matrix(root: Path) -> dict[tuple[str, int], dict]:
     return cases
 
 
+def verify_historical_matrix(root: Path) -> dict[tuple[str, int], dict]:
+    """Load ADAPT-06B only after checking its stored manifests and pairs."""
+    matrix_root = root / "matrix_seed42_46_ed50e86" / "new_replays"
+    run_manifest = load_json(matrix_root / "MATRIX_RUN_MANIFEST.json")
+    if run_manifest.get("status") != "PASS":
+        raise AssertionError("historical ADAPT-06B matrix did not pass")
+    for relative, record in run_manifest["files"].items():
+        path = matrix_root / relative
+        if path.stat().st_size != int(record["bytes"]):
+            raise AssertionError(f"historical byte count differs: {relative}")
+        if file_sha256(path) != record["sha256"]:
+            raise AssertionError(f"historical SHA-256 differs: {relative}")
+
+    cases = {}
+    for dataset in DATASETS:
+        for seed in SEEDS:
+            case_root = (
+                root / "pilot_seed42_02b82af" / f"{dataset}_seed42"
+                if seed == 42
+                else matrix_root / f"{dataset}_seed{seed}"
+            )
+            paths = {
+                "legacy": case_root / f"{dataset}_seed{seed}_legacy.json",
+                "decoupled": case_root / f"{dataset}_seed{seed}_decoupled.json",
+                "pair": case_root / f"{dataset}_seed{seed}_pair.json",
+                "manifest": case_root / "MANIFEST.json",
+            }
+            loaded = {name: load_json(path) for name, path in paths.items()}
+            manifest = loaded["manifest"]
+            for filename, record in manifest["files"].items():
+                path = case_root / filename
+                if path.stat().st_size != int(record["bytes"]):
+                    raise AssertionError(
+                        f"{dataset}/seed{seed}: historical byte count differs"
+                    )
+                if file_sha256(path) != record["sha256"]:
+                    raise AssertionError(
+                        f"{dataset}/seed{seed}: historical SHA-256 differs"
+                    )
+            recomputed = verify_reports(loaded["legacy"], loaded["decoupled"])
+            stored_pair = {
+                key: value for key, value in loaded["pair"].items() if key != "sources"
+            }
+            if recomputed != stored_pair:
+                raise AssertionError(
+                    f"{dataset}/seed{seed}: historical pair no longer reproduces"
+                )
+            cases[(dataset, seed)] = loaded
+    return cases
+
+
 def metric_row(dataset: str, seed: int, name: str, metrics: dict) -> dict:
     return {
         "dataset": dataset,
@@ -90,6 +142,9 @@ def analyze_cases(variant_cases: dict, historical_cases: dict) -> dict:
     decision_rows = []
     promotion_rows = []
     cost_rows = []
+    trajectory_rows = []
+    cycle_rows = []
+    timing_rows = []
     stream_seed_success: dict[str, list[dict]] = {dataset: [] for dataset in DATASETS}
 
     for dataset in DATASETS:
@@ -155,11 +210,13 @@ def analyze_cases(variant_cases: dict, historical_cases: dict) -> dict:
             )
 
             terminal_statuses = Counter()
+            terminal_by_freeze = {}
             for event in variant["decisions"]:
                 status = event["status"]
                 if status == "FREEZE" or status == "WAIT":
                     continue
                 terminal_statuses[status] += 1
+                terminal_by_freeze[event.get("freeze_block")] = event
                 decision_rows.append(
                     {
                         "dataset": dataset,
@@ -174,6 +231,111 @@ def analyze_cases(variant_cases: dict, historical_cases: dict) -> dict:
                             event["block"] - event["freeze_block"]
                             if event.get("freeze_block") is not None
                             else None
+                        ),
+                    }
+                )
+
+            freeze_events = {
+                event["block"]: event
+                for event in variant["decisions"]
+                if event["status"] == "FREEZE"
+            }
+            for freeze_block, freeze in freeze_events.items():
+                terminal = terminal_by_freeze.get(freeze_block)
+                extra = variant["verify_extra"]["by_cycle_freeze_block"].get(
+                    str(freeze_block), {}
+                )
+                cycle_rows.append(
+                    {
+                        "dataset": dataset,
+                        "seed": seed,
+                        "freeze_block": freeze_block,
+                        "fit_normal": freeze["fit_counts"][0],
+                        "fit_attack": freeze["fit_counts"][1],
+                        "cal_normal": freeze["cal_counts"][0],
+                        "cal_attack": freeze["cal_counts"][1],
+                        "verify_extra_requested": extra.get("requested", 0),
+                        "verify_extra_used": extra.get("used_for_verify", 0),
+                        "verify_extra_late": extra.get("arrived_after_cycle_close", 0),
+                        "terminal_status": terminal["status"] if terminal else None,
+                        "decision_block": terminal.get("block") if terminal else None,
+                        "elapsed_blocks": (
+                            terminal["block"] - freeze_block if terminal else None
+                        ),
+                        "verify_normal": terminal.get("normal") if terminal else None,
+                        "verify_attack": terminal.get("attack") if terminal else None,
+                    }
+                )
+
+            first_role_change = next(
+                (
+                    block["block"]
+                    for block in variant["per_block"]
+                    if any(
+                        item["role"] == "VERIFY_EXTRA" for item in block["query_audit"]
+                    )
+                ),
+                None,
+            )
+            if first_role_change is not None:
+                for block in variant["per_block"][first_role_change:]:
+                    roles = Counter(item["role"] for item in block["query_audit"])
+                    candidate = block.get("candidate") or {}
+                    trajectory_rows.append(
+                        {
+                            "dataset": dataset,
+                            "seed": seed,
+                            "block": block["block"],
+                            "control": roles["CONTROL"],
+                            "verify_extra": roles["VERIFY_EXTRA"],
+                            "random_fit": roles["RANDOM_FIT"],
+                            "fit_normal": block["fit_memory"]["normal"],
+                            "fit_attack": block["fit_memory"]["attack"],
+                            "cal_normal": block["cal_memory"]["normal"],
+                            "cal_attack": block["cal_memory"]["attack"],
+                            "candidate_freeze_block": candidate.get("freeze_block"),
+                            "event_statuses": ";".join(
+                                event["status"] for event in block["events"]
+                            ),
+                            "gated_threshold": block["thresholds_used"]["gated"],
+                            "gated_state_digest": block["state_digests_used"]["gated"],
+                        }
+                    )
+
+            for policy, report in (
+                ("verify50", variant),
+                ("adapt06b", historical),
+            ):
+                terminals = [
+                    event
+                    for event in report["decisions"]
+                    if event["status"] not in {"FREEZE", "WAIT"}
+                ]
+                elapsed = [
+                    event["block"] - event["freeze_block"]
+                    for event in terminals
+                    if event.get("freeze_block") is not None
+                ]
+                statuses = Counter(event["status"] for event in terminals)
+                timing_rows.append(
+                    {
+                        "dataset": dataset,
+                        "seed": seed,
+                        "policy": policy,
+                        "cycles": len(terminals),
+                        "accept": statuses["ACCEPT"],
+                        "reject_harm": statuses["REJECT_HARM"],
+                        "withhold": sum(
+                            count
+                            for status, count in statuses.items()
+                            if status.startswith("WITHHOLD")
+                        ),
+                        "median_blocks_to_decision": (
+                            statistics.median(elapsed) if elapsed else None
+                        ),
+                        "maximum_blocks_to_decision": max(elapsed) if elapsed else None,
+                        "first_verify_extra_block": (
+                            first_role_change if policy == "verify50" else None
                         ),
                     }
                 )
@@ -274,26 +436,42 @@ def analyze_cases(variant_cases: dict, historical_cases: dict) -> dict:
         "decisions": decision_rows,
         "promotions": promotion_rows,
         "costs": cost_rows,
+        "trajectory": trajectory_rows,
+        "cycles": cycle_rows,
+        "decision_timing": timing_rows,
         "streams": stream_rows,
     }
 
 
 def render_report(products: dict, execution_commit: str) -> str:
+    comparisons = {
+        (row["dataset"], row["seed"], row["comparator"]): row
+        for row in products["comparisons"]
+    }
+    promotions = Counter(row["dataset"] for row in products["promotions"])
+    costs = products["costs"]
+    elapsed_total = sum(row["elapsed_replay_seconds"] for row in costs)
+    rss_values = [row["peak_rss_mib"] for row in costs]
+    label_total = sum(row["unique_label_requests"] for row in costs)
+    verify_extra_total = sum(row["verify_extra_requests"] for row in costs)
+    late_total = sum(row["verify_extra_late"] for row in costs)
+    pending_total = sum(row["verify_extra_pending"] for row in costs)
+
     paired_a = [
         row for row in products["comparisons"] if row["comparator"] == "adapt06b"
     ]
-    best = min(paired_a, key=lambda row: row["delta_fp"] - row["delta_tp"])
-    worst = max(paired_a, key=lambda row: row["delta_fp"] - row["delta_tp"])
+    descriptive_best = min(paired_a, key=lambda row: row["delta_fp"] - row["delta_tp"])
+    descriptive_worst = max(paired_a, key=lambda row: row["delta_fp"] - row["delta_tp"])
     lines = [
         "# ADAPT-06E — risultati VERIFY 50/100",
         "",
         f"Commit di esecuzione: `{execution_commit}`.",
         "",
         (
-            "La matrice comprende i due stream completi e i seed 42–46. Gli stessi ID "
-            "richiesti dal riferimento sono stati ripartiti diversamente soltanto mentre "
-            "un candidato era aperto. Tutti i risultati, inclusi quelli nulli o "
-            "sfavorevoli, sono inclusi."
+            "La matrice comprende TON e UNSW completi, seed 42–46. Il budget resta "
+            "all'1% e gli ID richiesti coincidono, blocco per blocco, con ADAPT-06B. "
+            "La sola differenza è l'assegnazione temporanea della testa RANDOM_FIT a "
+            "VERIFY_EXTRA mentre un candidato è aperto. Tutti gli esiti sono inclusi."
         ),
         "",
         "## Decisione preregistrata",
@@ -301,46 +479,111 @@ def render_report(products: dict, execution_commit: str) -> str:
     ]
     for row in products["streams"]:
         ids = row["successful_seed_ids"] or "nessuno"
+        guard = "PASS" if row["all_seeds_pass_fpr_guard"] else "FAIL"
         lines.append(
             f"- **{row['dataset'].upper()}: {row['decision']}** — "
-            f"{row['successful_seeds']}/5 seed soddisfano simultaneamente i due "
-            f"confronti operativi (seed: {ids}); guardia FPR su tutti i seed: "
-            f"{row['all_seeds_pass_fpr_guard']}."
+            f"{row['successful_seeds']}/5 seed soddisfano simultaneamente "
+            f"ΔTP>0 e ΔFP≤0 sia contro ADAPT-06B sia contro matched; "
+            f"seed: {ids}. Guardia ΔFPR≤1 pp contro ADAPT-06B: {guard}."
         )
+
     lines.extend(
         [
             "",
-            "## Casi estremi rispetto ad ADAPT-06B",
+            "## Confronti per seed",
+            "",
+            "| Stream | Seed | vs ADAPT-06B ΔTP / ΔFP | vs matched ΔTP / ΔFP | Promozioni |",
+            "|---|---:|---:|---:|---:|",
+        ]
+    )
+    promotion_counts = Counter(
+        (row["dataset"], row["seed"]) for row in products["promotions"]
+    )
+    for dataset in DATASETS:
+        for seed in SEEDS:
+            versus_a = comparisons[(dataset, seed, "adapt06b")]
+            versus_b = comparisons[(dataset, seed, "matched_same_policy")]
+            lines.append(
+                f"| {dataset.upper()} | {seed} | "
+                f"{versus_a['delta_tp']:+d} / {versus_a['delta_fp']:+d} | "
+                f"{versus_b['delta_tp']:+d} / {versus_b['delta_fp']:+d} | "
+                f"{promotion_counts[(dataset, seed)]} |"
+            )
+
+    lines.extend(
+        [
             "",
             (
-                "Il caso migliore e quello peggiore sono ordinati per variazione "
-                "dell'errore operativo `delta_FP - delta_TP`; questa scelta è descrittiva "
-                "e non sostituisce la regola GO/NO-GO."
+                "Su TON non avviene alcuna promozione: la variante coincide con il "
+                "controllo matched in tutti i seed e con ADAPT-06B in quattro seed; "
+                "nel seed 42 cambia soltanto di −3 FP. Aumentare VERIFY non produce "
+                "quindi un beneficio dei pesi."
             ),
             "",
             (
-                f"- Migliore: {best['dataset'].upper()} seed {best['seed']}, "
-                f"ΔTP={best['delta_tp']:+d}, ΔFP={best['delta_fp']:+d}, "
-                f"Δrecall={best['delta_recall_pp']:+.4f} pp, "
-                f"ΔFPR={best['delta_fpr_pp']:+.4f} pp."
-            ),
-            (
-                f"- Peggiore: {worst['dataset'].upper()} seed {worst['seed']}, "
-                f"ΔTP={worst['delta_tp']:+d}, ΔFP={worst['delta_fp']:+d}, "
-                f"Δrecall={worst['delta_recall_pp']:+.4f} pp, "
-                f"ΔFPR={worst['delta_fpr_pp']:+.4f} pp."
+                "Su UNSW avvengono tre promozioni. Nel seed 43, rispetto al matched, "
+                "la promozione aggiunge 825 TP e riduce 11.890 FP, ma rispetto ad "
+                "ADAPT-06B aggiunge 1.320 TP e 1.004 FP: il vincolo ΔFP≤0 non è "
+                "soddisfatto. Nei seed 45 e 46 i piccoli guadagni di TP sono "
+                "accompagnati da aumenti di FP contro entrambi i riferimenti. Nei "
+                "seed 42 e 44 non vi è promozione e la variante coincide con matched."
             ),
             "",
-            "## Interpretazione vincolata",
+            "## Riferimenti esterni al criterio primario",
             "",
             (
-                "L'aumento della quota VERIFY misura se decisioni più rapide producono "
-                "un beneficio operativo; non modifica il budget e non autorizza "
-                "conclusioni di superiorità generale. I confronti con Frozen/B e con la "
-                "threshold-only autonoma restano visibili in `COMPARISONS.csv`. Gli "
-                "esiti del gate derivano esclusivamente dalle etichette richieste; le "
-                "etichette complete sono usate soltanto per valutare predizioni già "
-                "emesse."
+                "Contro Frozen/B, TON riduce gli FP ma perde TP in tutti i seed. Su "
+                "UNSW la variante non riduce mai gli FP: nel seed 42 aggiunge 2.281 FP "
+                "senza TP; negli altri seed aggiunge fra 2.057 e 4.392 FP per guadagni "
+                "fra 0 e 827 TP. Contro la threshold-only storica, UNSW riduce gli FP "
+                "in tutti i seed, ma nel seed 42 perde 684 TP; gli altri quattro seed "
+                "guadagnano TP. Questi confronti restano diagnostici e non sostituiscono "
+                "il criterio preregistrato."
+            ),
+            "",
+            "## Decisioni, costo e casi estremi",
+            "",
+            (
+                f"Le promozioni sono {promotions['ton']} su TON e "
+                f"{promotions['unsw']} su UNSW. I tempi per ciclo e gli esiti "
+                "REJECT/WITHHOLD sono in DECISION_TIMING.csv e CYCLES.csv; le "
+                "variazioni successive a ciascuna promozione sono in PROMOTIONS.csv. "
+                "TRAJECTORY.csv ricostruisce FIT, CAL, candidato, soglia e decisioni "
+                "dal primo cambiamento di ruolo."
+            ),
+            "",
+            (
+                f"I dieci replay richiedono {elapsed_total:.1f} s seriali; il picco "
+                f"RSS per processo varia da {min(rss_values):.1f} a "
+                f"{max(rss_values):.1f} MiB. Sono registrate {label_total:,} richieste "
+                f"uniche, di cui {verify_extra_total:,} VERIFY_EXTRA; "
+                f"{late_total:,} arrivano dopo la chiusura del ciclo e "
+                f"{pending_total:,} restano pendenti alla fine dello stream. Nessuna "
+                "di queste etichette entra in FIT o CAL."
+            ),
+            "",
+            (
+                "Il caso descrittivamente migliore per variazione dell'errore totale "
+                f"contro ADAPT-06B è {descriptive_best['dataset'].upper()} seed "
+                f"{descriptive_best['seed']} (ΔTP={descriptive_best['delta_tp']:+d}, "
+                f"ΔFP={descriptive_best['delta_fp']:+d}); resta un compromesso perché "
+                "perde TP. Il peggiore è "
+                f"{descriptive_worst['dataset'].upper()} seed "
+                f"{descriptive_worst['seed']} "
+                f"(ΔTP={descriptive_worst['delta_tp']:+d}, "
+                f"ΔFP={descriptive_worst['delta_fp']:+d}). Questa graduatoria è "
+                "descrittiva e non modifica il NO-GO."
+            ),
+            "",
+            "## Conclusione limitata",
+            "",
+            (
+                "Una quota VERIFY maggiore accelera o completa alcune decisioni, ma "
+                "non soddisfa il criterio operativo in alcun seed. Il risultato chiude "
+                "questa ipotesi nel perimetro preregistrato; non dimostra inefficacia "
+                "generale del controllo prospettico né autorizza tuning o ADAPT-07. "
+                "Le etichette complete sono state usate soltanto per valutare "
+                "predizioni già emesse."
             ),
             "",
         ]
@@ -357,10 +600,7 @@ def main(argv: list[str] | None = None) -> None:
         raise FileExistsError(f"refusing to overwrite analysis: {args.out}")
     variant_root = args.variant_root.resolve()
     historical_root = HERE.parent / "adapt06b_decoupled_threshold"
-    historical_cases = verify_matrix(
-        historical_root / "pilot_seed42_02b82af",
-        historical_root / "matrix_seed42_46_ed50e86" / "new_replays",
-    )
+    historical_cases = verify_historical_matrix(historical_root)
     variant_cases = verify_variant_matrix(variant_root)
     products = analyze_cases(variant_cases, historical_cases)
     args.out.mkdir(parents=True)
@@ -425,6 +665,51 @@ def main(argv: list[str] | None = None) -> None:
             "unresolved_candidates",
             "promotions",
         ),
+        "CYCLES.csv": (
+            "dataset",
+            "seed",
+            "freeze_block",
+            "fit_normal",
+            "fit_attack",
+            "cal_normal",
+            "cal_attack",
+            "verify_extra_requested",
+            "verify_extra_used",
+            "verify_extra_late",
+            "terminal_status",
+            "decision_block",
+            "elapsed_blocks",
+            "verify_normal",
+            "verify_attack",
+        ),
+        "DECISION_TIMING.csv": (
+            "dataset",
+            "seed",
+            "policy",
+            "cycles",
+            "accept",
+            "reject_harm",
+            "withhold",
+            "median_blocks_to_decision",
+            "maximum_blocks_to_decision",
+            "first_verify_extra_block",
+        ),
+        "TRAJECTORY.csv": (
+            "dataset",
+            "seed",
+            "block",
+            "control",
+            "verify_extra",
+            "random_fit",
+            "fit_normal",
+            "fit_attack",
+            "cal_normal",
+            "cal_attack",
+            "candidate_freeze_block",
+            "event_statuses",
+            "gated_threshold",
+            "gated_state_digest",
+        ),
         "STREAM_DECISIONS.csv": (
             "dataset",
             "successful_seeds",
@@ -440,6 +725,9 @@ def main(argv: list[str] | None = None) -> None:
         "DECISIONS.csv": "decisions",
         "PROMOTIONS.csv": "promotions",
         "COSTS.csv": "costs",
+        "CYCLES.csv": "cycles",
+        "DECISION_TIMING.csv": "decision_timing",
+        "TRAJECTORY.csv": "trajectory",
         "STREAM_DECISIONS.csv": "streams",
     }
     for filename, columns in fields.items():
@@ -458,7 +746,7 @@ def main(argv: list[str] | None = None) -> None:
         "schema": "adapt06e-analysis-manifest-v1",
         "status": "PASS",
         "execution_commit": run_manifest["execution_commit"],
-        "source_run_manifest": str((variant_root / "RUN_MANIFEST.json").resolve()),
+        "source_run_manifest": "../reports/RUN_MANIFEST.json",
         "source_run_manifest_sha256": file_sha256(variant_root / "RUN_MANIFEST.json"),
         "historical_reference": "verified ADAPT-06B seed42--46 reports",
         "files": files,

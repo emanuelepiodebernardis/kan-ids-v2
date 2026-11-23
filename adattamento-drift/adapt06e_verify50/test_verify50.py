@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
+import subprocess
 from pathlib import Path
 
 import numpy as np
 import pytest
 from adapt06_prospective_gate.runner import run_arrays as run_historical_arrays
 
-from adapt06e_verify50.engine import file_sha256
+from adapt06e_verify50 import EXECUTION_COMMIT
 from adapt06e_verify50.engine import run_arrays as run_engine_arrays
 from adapt06e_verify50.runner import run_arrays as run_variant_arrays
 from adapt06e_verify50.verify_report import verify_report
@@ -310,6 +312,10 @@ def test_checkpoint_manifest_covers_immutable_inputs_when_present():
     manifest = json.loads(path.read_text(encoding="utf-8"))
     assert manifest["real_stream_variant_results_present"] is False
     for name, record in manifest["files"].items():
-        target = HERE / name
-        assert target.stat().st_size == record["bytes"]
-        assert file_sha256(target) == record["sha256"]
+        relative = f"adattamento-drift/adapt06e_verify50/{name}"
+        content = subprocess.check_output(
+            ["git", "show", f"{EXECUTION_COMMIT}:{relative}"],
+            cwd=HERE.parents[1],
+        )
+        assert len(content) == record["bytes"]
+        assert hashlib.sha256(content).hexdigest() == record["sha256"]
