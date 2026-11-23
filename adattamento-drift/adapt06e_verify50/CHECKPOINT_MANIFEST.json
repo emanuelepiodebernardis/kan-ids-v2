@@ -33,8 +33,8 @@
       "sha256": "0aa5d45cd48b93e2537f2edd275a117edc1fdd95d87df9ae7eb5ea28b25dfd63"
     },
     "config.json": {
-      "bytes": 1362,
-      "sha256": "fb03474ffa570db67297fd30cd9085c2c1494bd48d5d94f3a04fc9ecf9916906"
+      "bytes": 1267,
+      "sha256": "df35b3fe0b792f2c908e1b55700cd062efe701dce46bc0b27fd6fb3a0145f14c"
     },
     "engine.py": {
       "bytes": 71381,
