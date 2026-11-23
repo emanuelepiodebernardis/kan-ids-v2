@@ -40,3 +40,36 @@ le memorie con la classe originale e rigenera:
 
 I JSON sorgente e gli artefatti esterni sono aperti in sola lettura e non sono
 copiati nel pacchetto Git.
+
+## Pilot shadow autorizzato
+
+Il pilot conserva `89394d542f5b3eaa56e63b06348de251cc48e52a` come
+riferimento del protocollo. Deve essere eseguito da un commit pulito, con gli
+stessi limiti ai thread del report storico. In PowerShell, dalla radice del
+clone:
+
+```powershell
+$env:OMP_NUM_THREADS = "1"
+$env:MKL_NUM_THREADS = "1"
+$env:OPENBLAS_NUM_THREADS = "1"
+$env:NUMEXPR_NUM_THREADS = "1"
+python adattamento-drift/adapt06d_shadow_fit_preflight/run_shadow_pilot.py `
+  --data-dir C:\percorso\unsw
+```
+
+Il runner rigenera prima gli otto prodotti del preflight e ne richiede
+l'identità byte per byte. Esegue quindi i tre controlli FIT192 e consente i tre
+FIT256 soltanto se parametri, calibrazioni, confusioni e decisioni FIT192
+coincidono con il riferimento entro le tolleranze preregistrate. Non effettua
+promozioni e non modifica la traiettoria.
+
+Dopo i test, il manifest della consegna si rigenera con:
+
+```powershell
+python adattamento-drift/adapt06d_shadow_fit_preflight/build_shadow_manifest.py `
+  --data-dir C:\percorso\unsw
+```
+
+I prodotti del pilot sono `SHADOW_RESULTS.json`, `SHADOW_COMPARISON.csv`,
+`SHADOW_REPORT.md`, `SHADOW_ENVIRONMENT.json`, `SHADOW_RUN_LOG.txt`,
+`SHADOW_TEST_LOG.txt` e `SHADOW_MANIFEST.json`.
