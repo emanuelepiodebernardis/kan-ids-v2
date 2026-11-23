@@ -233,7 +233,27 @@ def test_shadow_manifest_covers_sources_products_and_external_inputs():
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert len(manifest["external_inputs"]) == 2
     assert len(manifest["sources"]) == 18
-    assert len(manifest["products"]) == 6
+    assert len(manifest["products"]) == 8
     for name, entry in manifest["products"].items():
         path = HERE / name
         assert entry == {"bytes": path.stat().st_size, "sha256": file_sha256(path)}
+
+
+def test_saved_portability_check_contains_the_three_exact_windows_rows():
+    note = (HERE / "TRANSFORM_PORTABILITY.md").read_text(encoding="utf-8")
+    expected = {
+        1670187: "3f02822c be94318f bf67820c be996b53 bf3f66b4 bec16a8a bf2d3823 4157111c",
+        1869967: "bef9cdda bfa2f86a c042113c bfa926ed bf9bfedb bfaef6b7 c0027d1d be02ceb8",
+        2093794: "3f7a7137 beab9609 bdf9736f be996b53 bef1b8a1 bec16a8a beb86f0e 41134a3c",
+    }
+    for observation_id, words in expected.items():
+        assert f"| {observation_id} |" in note
+        assert f"| `{words}` |" in note
+    rows_section = note.split("## Tre righe richieste", 1)[1].split(
+        "## Esito del confronto", 1
+    )[0]
+    assert rows_section.count("\n| 1670187 |") == 1
+    assert rows_section.count("\n| 1869967 |") == 1
+    assert rows_section.count("\n| 2093794 |") == 1
+    assert "Venti delle 24 feature coincidono bit per bit" in note
+    assert "i sei fit del pilot non sono stati ripetuti" in note

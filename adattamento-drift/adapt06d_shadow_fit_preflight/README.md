@@ -73,3 +73,12 @@ python adattamento-drift/adapt06d_shadow_fit_preflight/build_shadow_manifest.py 
 I prodotti del pilot sono `SHADOW_RESULTS.json`, `SHADOW_COMPARISON.csv`,
 `SHADOW_REPORT.md`, `SHADOW_ENVIRONMENT.json`, `SHADOW_RUN_LOG.txt`,
 `SHADOW_TEST_LOG.txt` e `SHADOW_MANIFEST.json`.
+
+## Riscontro di portabilita' Windows/Linux
+
+La verifica successiva al pilot non ripete alcun fit. Le tre righe richieste,
+espresse come parole IEEE 754 binary32 per preservarne esattamente i bit, sono
+in `TRANSFORM_PORTABILITY.md`; `NUMPY_SHOW_RUNTIME_WINDOWS.txt` registra il
+runtime numerico dell'esecuzione Windows. La nota separa le differenze della
+trasformazione dal risultato del pilot e non modifica protocollo, margini,
+decisioni o traiettoria.

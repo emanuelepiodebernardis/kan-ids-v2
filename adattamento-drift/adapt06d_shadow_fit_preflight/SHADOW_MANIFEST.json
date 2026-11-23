@@ -11,6 +11,10 @@
     }
   },
   "products": {
+    "NUMPY_SHOW_RUNTIME_WINDOWS.txt": {
+      "bytes": 1960,
+      "sha256": "cf5a07aa88e0323c3a58298ef3f266e8129baf93275ccd1310d34f05606b32ff"
+    },
     "SHADOW_COMPARISON.csv": {
       "bytes": 2520,
       "sha256": "22cffae7d61999e1bf1ed98f8580b51d95ebeef1c18faceed7b230d1e89cfee0"
@@ -32,8 +36,12 @@
       "sha256": "65addfd3d5f654884db33e3e35d36d0974d96153340a50907846e8f422a91b01"
     },
     "SHADOW_TEST_LOG.txt": {
-      "bytes": 1383,
-      "sha256": "8a93f98c61725dd1f2264676de67d636d5f34ac8058dfff569d3a72e13df1595"
+      "bytes": 1718,
+      "sha256": "7e9bd6231a68982fa2f3e981125ece278a701542bbfd3da31c9d5bfde251fcda"
+    },
+    "TRANSFORM_PORTABILITY.md": {
+      "bytes": 3005,
+      "sha256": "1cba1e4090ff76ac3fa83bcf7333474d459e5dbad825f8367d4d51148ee82cf3"
     }
   },
   "protocol_reference": "89394d542f5b3eaa56e63b06348de251cc48e52a",
@@ -65,15 +73,15 @@
     },
     "adapt06d_shadow_fit_preflight/MANIFEST.json": {
       "bytes": 3765,
-      "sha256": "d482cfd431ee4991c6524213ee933985ebd0abffeae2a78a776428f63084b1cb"
+      "sha256": "472bf8ed48b4e4a01955cda14eec00fe8ac5dfc1345109c8bb9c1347f5bcc3cf"
     },
     "adapt06d_shadow_fit_preflight/PROTOCOL.md": {
       "bytes": 6157,
       "sha256": "45e0ebdcd411518718fa3e9cf89f078aad9cca20cef5d59485903ac9d8c582d1"
     },
     "adapt06d_shadow_fit_preflight/README.md": {
-      "bytes": 2989,
-      "sha256": "39e81af56bbd7561cd8d6b8c331e5d0ba8ec1412529e10ee019fc5be65ef352c"
+      "bytes": 3444,
+      "sha256": "a01eb81762c22ce9149a398928d2016adba0239c884bbafc7b0109137c5f7fa1"
     },
     "adapt06d_shadow_fit_preflight/SHADOW_REQUIREMENTS.txt": {
       "bytes": 214,
@@ -88,16 +96,16 @@
       "sha256": "35533069fb8d093f67aea88deaa61686fe66329e832bec2832eeb93542e0d14f"
     },
     "adapt06d_shadow_fit_preflight/build_shadow_manifest.py": {
-      "bytes": 4199,
-      "sha256": "eb37a7954ced935170f6ad2885e4835455d9dc5358b3d0f9c01fcfb6cee0d188"
+      "bytes": 4269,
+      "sha256": "30363f440af8b459c0f7e99bf4b5a8ca8336f8c59f8973e5cf374481a3efb274"
     },
     "adapt06d_shadow_fit_preflight/run_shadow_pilot.py": {
       "bytes": 32933,
       "sha256": "8d17ea8bd6f0e2f1183f312bd13baea13a903106a65e24b3b7c2aa07e375c50c"
     },
     "adapt06d_shadow_fit_preflight/test_shadow_pilot.py": {
-      "bytes": 8181,
-      "sha256": "17f5608bc58548b7e654ead6649980db1e668985c11394fc0b0f31440be65747"
+      "bytes": 9171,
+      "sha256": "bd24960d1129e2e5890d9369fff5af2bdad1a953ea798439067e10601a96ea18"
     },
     "review_extension/models/unsw/spline_42/model.pkl": {
       "bytes": 2145,
