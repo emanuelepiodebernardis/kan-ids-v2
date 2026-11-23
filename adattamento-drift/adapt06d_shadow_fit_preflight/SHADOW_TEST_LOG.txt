@@ -22,12 +22,15 @@ python adattamento-drift/adapt06d_shadow_fit_preflight/run_shadow_pilot.py --dat
 Pilot result:
 PASS fit192=3/3 fit256=3/3 promotions=0 criterion=False
 
-Final targeted tests:
+Final targeted tests in the scientific execution environment
+(Python 3.13.2; NumPy 2.3.5; scikit-learn 1.7.2; pytest 8.4.2;
+thread limits fixed to 1):
 python -m pytest adattamento-drift/adapt06d_shadow_fit_preflight -q
-Result: 17 passed in 17.02 s
+Result: 17 passed in 22.55 s
 
-Final related suite:
+Final related suite in the repository verification environment
+(Python 3.13.2; NumPy 2.5.4; scikit-learn 1.7.2; pytest 8.4.2):
 python -m pytest adattamento-drift/adapt06_prospective_gate adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06c_candidate_diagnosis adattamento-drift/adapt06d_shadow_fit_preflight -q
-Result: 132 passed in 123.23 s
+Result: 132 passed in 115.59 s
 
 No candidate was promoted; no trajectory, case, margin or tolerance was changed.

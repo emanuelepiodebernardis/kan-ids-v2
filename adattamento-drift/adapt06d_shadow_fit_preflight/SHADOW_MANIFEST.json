@@ -32,8 +32,8 @@
       "sha256": "65addfd3d5f654884db33e3e35d36d0974d96153340a50907846e8f422a91b01"
     },
     "SHADOW_TEST_LOG.txt": {
-      "bytes": 1148,
-      "sha256": "d608ea60e4f36ec70bda84a1c1544024886e42587fa375dc5f90e9ca46357ed8"
+      "bytes": 1383,
+      "sha256": "8a93f98c61725dd1f2264676de67d636d5f34ac8058dfff569d3a72e13df1595"
     }
   },
   "protocol_reference": "89394d542f5b3eaa56e63b06348de251cc48e52a",
@@ -67,13 +67,29 @@
       "bytes": 3765,
       "sha256": "d482cfd431ee4991c6524213ee933985ebd0abffeae2a78a776428f63084b1cb"
     },
+    "adapt06d_shadow_fit_preflight/PROTOCOL.md": {
+      "bytes": 6157,
+      "sha256": "45e0ebdcd411518718fa3e9cf89f078aad9cca20cef5d59485903ac9d8c582d1"
+    },
+    "adapt06d_shadow_fit_preflight/README.md": {
+      "bytes": 2989,
+      "sha256": "39e81af56bbd7561cd8d6b8c331e5d0ba8ec1412529e10ee019fc5be65ef352c"
+    },
+    "adapt06d_shadow_fit_preflight/SHADOW_REQUIREMENTS.txt": {
+      "bytes": 214,
+      "sha256": "04f95d211a9bd10eacb79c12cdd9b8e4bd4872d42a84e007e1bce8e06c95962b"
+    },
     "adapt06d_shadow_fit_preflight/VERIFY_MEMBERS.csv": {
       "bytes": 75944,
       "sha256": "0dd71ae2ebd023751988a820a0ecc8167a82917712445a9a59c08273b2c68142"
     },
+    "adapt06d_shadow_fit_preflight/build_preflight.py": {
+      "bytes": 34760,
+      "sha256": "35533069fb8d093f67aea88deaa61686fe66329e832bec2832eeb93542e0d14f"
+    },
     "adapt06d_shadow_fit_preflight/build_shadow_manifest.py": {
-      "bytes": 3559,
-      "sha256": "5e721e325310fa28a36f775f98553b1aa96a97a3aa1c9a5bcc91751705e3d3cb"
+      "bytes": 4199,
+      "sha256": "eb37a7954ced935170f6ad2885e4835455d9dc5358b3d0f9c01fcfb6cee0d188"
     },
     "adapt06d_shadow_fit_preflight/run_shadow_pilot.py": {
       "bytes": 32933,
@@ -81,7 +97,15 @@
     },
     "adapt06d_shadow_fit_preflight/test_shadow_pilot.py": {
       "bytes": 8181,
-      "sha256": "47f35f49c49e3c0ee18f8249528d57c20deac110b8fe5132f8df9e780c4b487f"
+      "sha256": "17f5608bc58548b7e654ead6649980db1e668985c11394fc0b0f31440be65747"
+    },
+    "review_extension/models/unsw/spline_42/model.pkl": {
+      "bytes": 2145,
+      "sha256": "fbd7699d34efd0f95707067f4eb7925db0023c2cd4e9a7e9d4783052e853dac7"
+    },
+    "review_extension/models/unsw/spline_42/ready.json": {
+      "bytes": 866,
+      "sha256": "b336960d15fe0a4bdac27c4afccd595b6dbe470f455a89150ba08fcdae20252f"
     },
     "ton_temporal/replay.py": {
       "bytes": 52931,

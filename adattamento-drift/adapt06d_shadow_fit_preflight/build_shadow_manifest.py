@@ -18,6 +18,8 @@ from adapt06d_shadow_fit_preflight.build_preflight import file_sha256
 REPOSITORY = HERE.parents[1]
 
 SOURCE_PATHS = {
+    "adapt06d_shadow_fit_preflight/PROTOCOL.md": HERE / "PROTOCOL.md",
+    "adapt06d_shadow_fit_preflight/README.md": HERE / "README.md",
     "adapt06d_shadow_fit_preflight/CONFIG.json": HERE / "CONFIG.json",
     "adapt06d_shadow_fit_preflight/MANIFEST.json": HERE / "MANIFEST.json",
     "adapt06d_shadow_fit_preflight/FIT_MEMBERS.csv": HERE / "FIT_MEMBERS.csv",
@@ -27,6 +29,9 @@ SOURCE_PATHS = {
     "adapt06d_shadow_fit_preflight/test_shadow_pilot.py": HERE / "test_shadow_pilot.py",
     "adapt06d_shadow_fit_preflight/build_shadow_manifest.py": HERE
     / "build_shadow_manifest.py",
+    "adapt06d_shadow_fit_preflight/build_preflight.py": HERE / "build_preflight.py",
+    "adapt06d_shadow_fit_preflight/SHADOW_REQUIREMENTS.txt": HERE
+    / "SHADOW_REQUIREMENTS.txt",
     "adapt06_prospective_gate/core.py": ADAPTAMENTO
     / "adapt06_prospective_gate"
     / "core.py",
@@ -34,6 +39,18 @@ SOURCE_PATHS = {
     / "adapt06_prospective_gate"
     / "models.py",
     "ton_temporal/replay.py": ADAPTAMENTO / "ton_temporal" / "replay.py",
+    "review_extension/models/unsw/spline_42/model.pkl": ADAPTAMENTO
+    / "review_extension"
+    / "models"
+    / "unsw"
+    / "spline_42"
+    / "model.pkl",
+    "review_extension/models/unsw/spline_42/ready.json": ADAPTAMENTO
+    / "review_extension"
+    / "models"
+    / "unsw"
+    / "spline_42"
+    / "ready.json",
     "adapt06b_decoupled_threshold/unsw_seed42_decoupled.json": ADAPTAMENTO
     / "adapt06b_decoupled_threshold"
     / "pilot_seed42_02b82af"

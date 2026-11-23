@@ -232,7 +232,7 @@ def test_shadow_manifest_covers_sources_products_and_external_inputs():
         pytest.skip("shadow manifest has not been finalized yet")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert len(manifest["external_inputs"]) == 2
-    assert len(manifest["sources"]) == 12
+    assert len(manifest["sources"]) == 18
     assert len(manifest["products"]) == 6
     for name, entry in manifest["products"].items():
         path = HERE / name
