@@ -1,0 +1,91 @@
+{
+  "execution_commit": "b21cdad66deb46eec571b0eb9a7475339bac4b75",
+  "external_inputs": {
+    "D.json": {
+      "bytes": 1999,
+      "sha256": "31f3c76177a1056b8952eac68a6f4f1d74a85e6b788e7ba35dbe52b617328b04"
+    },
+    "D.npz": {
+      "bytes": 9610839,
+      "sha256": "c20c87d2eb977531bb101ad9170efcfafdb728036dd1e6963a812675242ee3e6"
+    }
+  },
+  "products": {
+    "SHADOW_COMPARISON.csv": {
+      "bytes": 2520,
+      "sha256": "22cffae7d61999e1bf1ed98f8580b51d95ebeef1c18faceed7b230d1e89cfee0"
+    },
+    "SHADOW_ENVIRONMENT.json": {
+      "bytes": 465,
+      "sha256": "7e5d08dc7b4553e91f6f9e364ffc83499510ff86950d57d3472d4d6ab3e68609"
+    },
+    "SHADOW_REPORT.md": {
+      "bytes": 2376,
+      "sha256": "7557d9f4f116d0b0502cbacbb01a312011113661ecfed7a2e11430835c921ead"
+    },
+    "SHADOW_RESULTS.json": {
+      "bytes": 154938,
+      "sha256": "d17ad3e13599a164aa2f3e5dfc24fa1cb8b268ef96b6e7b0b8c6c2edd5121f7c"
+    },
+    "SHADOW_RUN_LOG.txt": {
+      "bytes": 398,
+      "sha256": "65addfd3d5f654884db33e3e35d36d0974d96153340a50907846e8f422a91b01"
+    },
+    "SHADOW_TEST_LOG.txt": {
+      "bytes": 1148,
+      "sha256": "d608ea60e4f36ec70bda84a1c1544024886e42587fa375dc5f90e9ca46357ed8"
+    }
+  },
+  "protocol_reference": "89394d542f5b3eaa56e63b06348de251cc48e52a",
+  "schema": "adapt06d-shadow-manifest-v1",
+  "sources": {
+    "adapt06_prospective_gate/core.py": {
+      "bytes": 28452,
+      "sha256": "8c52803db7ce258e8539cb68d03f92acb6b99e3983d8e3ff2adf8ae6819b8324"
+    },
+    "adapt06_prospective_gate/models.py": {
+      "bytes": 4779,
+      "sha256": "6192113552ab1fbaf938a4770ec141d04f7ba9a0b9d7e29ae0cc2220046ceb2a"
+    },
+    "adapt06b_decoupled_threshold/unsw_seed42_decoupled.json": {
+      "bytes": 7967165,
+      "sha256": "86603205e59a51413c38bc44d0ff06bbacaf8fda3bb1c2dffbe1d7c0d25606d3"
+    },
+    "adapt06d_shadow_fit_preflight/CAL_MEMBERS.csv": {
+      "bytes": 35995,
+      "sha256": "5bda385459ef0ef1f31bae8203737c20fc1f0a4729efb652b7c995cdb5c4ef85"
+    },
+    "adapt06d_shadow_fit_preflight/CONFIG.json": {
+      "bytes": 14286,
+      "sha256": "19f7e9cefe5633bde0f0e3d26fb4a5f924879588228136725dbdd6b2f9d2520a"
+    },
+    "adapt06d_shadow_fit_preflight/FIT_MEMBERS.csv": {
+      "bytes": 164300,
+      "sha256": "00d3f765a8077a3e0d52a3c2c89bc7c60b298ebbace13e672d1ae8c0f4b8983d"
+    },
+    "adapt06d_shadow_fit_preflight/MANIFEST.json": {
+      "bytes": 3765,
+      "sha256": "d482cfd431ee4991c6524213ee933985ebd0abffeae2a78a776428f63084b1cb"
+    },
+    "adapt06d_shadow_fit_preflight/VERIFY_MEMBERS.csv": {
+      "bytes": 75944,
+      "sha256": "0dd71ae2ebd023751988a820a0ecc8167a82917712445a9a59c08273b2c68142"
+    },
+    "adapt06d_shadow_fit_preflight/build_shadow_manifest.py": {
+      "bytes": 3559,
+      "sha256": "5e721e325310fa28a36f775f98553b1aa96a97a3aa1c9a5bcc91751705e3d3cb"
+    },
+    "adapt06d_shadow_fit_preflight/run_shadow_pilot.py": {
+      "bytes": 32933,
+      "sha256": "8d17ea8bd6f0e2f1183f312bd13baea13a903106a65e24b3b7c2aa07e375c50c"
+    },
+    "adapt06d_shadow_fit_preflight/test_shadow_pilot.py": {
+      "bytes": 8181,
+      "sha256": "47f35f49c49e3c0ee18f8249528d57c20deac110b8fe5132f8df9e780c4b487f"
+    },
+    "ton_temporal/replay.py": {
+      "bytes": 52931,
+      "sha256": "6869cd6b11247559ba50d08a1ffda19ebcd0d8d76bb910c1b10bef446ca103d5"
+    }
+  }
+}

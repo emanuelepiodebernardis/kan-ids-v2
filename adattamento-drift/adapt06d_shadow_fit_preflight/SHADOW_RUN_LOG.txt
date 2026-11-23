@@ -1,0 +1,9 @@
+ADAPT-06D shadow pilot run
+Protocol reference: 89394d542f5b3eaa56e63b06348de251cc48e52a
+Execution commit: b21cdad66deb46eec571b0eb9a7475339bac4b75
+Command: python adattamento-drift/adapt06d_shadow_fit_preflight/run_shadow_pilot.py --data-dir C:\percorso\unsw
+Preflight byte reproduction: PASS (8/8)
+FIT192 guard: PASS (3/3)
+FIT256 shadow runs: COMPLETE (3/3)
+Promotions: 0
+Primary criterion: False
