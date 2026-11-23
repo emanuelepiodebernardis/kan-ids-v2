@@ -28,10 +28,12 @@ def _results() -> dict:
 
 
 def test_positions_preserve_requested_order_and_reject_missing_ids():
-    row_ids = np.asarray([10, 20, 30, 40], dtype=np.int64)
-    assert _positions(row_ids, [30, 10]).tolist() == [2, 0]
+    row_ids = np.asarray([30, 10, 40, 20], dtype=np.int64)
+    assert _positions(row_ids, [30, 10]).tolist() == [0, 1]
     with pytest.raises(AssertionError, match="absent"):
         _positions(row_ids, [25])
+    with pytest.raises(AssertionError, match="unique"):
+        _positions(np.asarray([10, 20, 10], dtype=np.int64), [10])
 
 
 def test_margin_boundaries_are_exact_on_counts():

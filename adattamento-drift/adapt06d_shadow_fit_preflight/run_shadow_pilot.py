@@ -145,25 +145,36 @@ def _group_members(
     return grouped
 
 
-def _positions(row_ids: np.ndarray, requested_ids: list[int]) -> np.ndarray:
-    if len(row_ids) and not np.all(row_ids[1:] > row_ids[:-1]):
-        raise AssertionError("D row_id must be strictly increasing")
+def _positions(
+    row_ids: np.ndarray,
+    requested_ids: list[int],
+    *,
+    sorter: np.ndarray | None = None,
+) -> np.ndarray:
+    if sorter is None:
+        sorter = np.argsort(row_ids, kind="stable")
+    if sorter.shape != row_ids.shape:
+        raise ValueError("row_id sorter has the wrong shape")
+    sorted_ids = row_ids[sorter]
+    if len(sorted_ids) > 1 and np.any(sorted_ids[1:] == sorted_ids[:-1]):
+        raise AssertionError("D row_id values must be unique")
     requested = np.asarray(requested_ids, dtype=np.int64)
-    positions = np.searchsorted(row_ids, requested)
-    if np.any(positions >= len(row_ids)) or not np.array_equal(
-        row_ids[positions], requested
+    sorted_positions = np.searchsorted(sorted_ids, requested)
+    if np.any(sorted_positions >= len(sorted_ids)) or not np.array_equal(
+        sorted_ids[sorted_positions], requested
     ):
         raise AssertionError("a preregistered observation_id is absent from D")
-    return positions
+    return sorter[sorted_positions]
 
 
 def _arrays_for_members(
     arrays: dict[str, np.ndarray],
     members: list[dict[str, str]],
     adapter: Any,
+    row_id_sorter: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray, list[int]]:
     ids = [int(row["observation_id"]) for row in members]
-    positions = _positions(arrays["row_id"], ids)
+    positions = _positions(arrays["row_id"], ids, sorter=row_id_sorter)
     labels = np.asarray(arrays["y"][positions], dtype=np.uint8)
     expected = np.asarray([int(row["label"]) for row in members], dtype=np.uint8)
     if not np.array_equal(labels, expected):
@@ -668,16 +679,17 @@ def run(data_dir: Path, output_dir: Path, command: str) -> dict[str, Any]:
     prepared: dict[tuple[int, int], tuple[np.ndarray, np.ndarray, list[int]]] = {}
     prepared_cal: dict[int, tuple[np.ndarray, np.ndarray, list[int]]] = {}
     prepared_verify: dict[int, tuple[np.ndarray, np.ndarray, list[int]]] = {}
+    row_id_sorter = np.argsort(arrays["row_id"], kind="stable")
     for freeze, _look in CASES:
         prepared_cal[freeze] = _arrays_for_members(
-            arrays, cal_groups[(freeze,)], adapter
+            arrays, cal_groups[(freeze,)], adapter, row_id_sorter
         )
         prepared_verify[freeze] = _arrays_for_members(
-            arrays, verify_groups[(freeze,)], adapter
+            arrays, verify_groups[(freeze,)], adapter, row_id_sorter
         )
         for capacity in (192, 256):
             prepared[(freeze, capacity)] = _arrays_for_members(
-                arrays, fit_groups[(freeze, capacity)], adapter
+                arrays, fit_groups[(freeze, capacity)], adapter, row_id_sorter
             )
     reconstruction_seconds = time.perf_counter() - tick
 
