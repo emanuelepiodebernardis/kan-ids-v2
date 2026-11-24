@@ -1,0 +1,126 @@
+{
+  "candidate": {
+    "accept_block": 63,
+    "cal": {
+      "count": 256,
+      "first_observation_id": 1700412,
+      "last_observation_id": 1933632,
+      "observation_ids_sha256": "5377b1482b89accf5c1dcb3d4ca531c57c837f02b461f7a4df4aaad869956666"
+    },
+    "first_effect_block": 64,
+    "fit": {
+      "count": 192,
+      "first_observation_id": 1855420,
+      "last_observation_id": 1933814,
+      "observation_ids_sha256": "aa4ee1a84dba5e98b5e0e546f7a2b880da18aaf60edc4373cf888d72f7381f9e"
+    },
+    "freeze_block": 41,
+    "parameters": [
+      0.47488231442321666,
+      2.972627538888127,
+      0.8312609594734501,
+      1.2193059918441658,
+      -0.08820115339329908,
+      0.40770624387059434,
+      1.3136239380529224,
+      1.3467843089998346,
+      4.352850328858383
+    ],
+    "state_digest": "a1c014c98062407130de456d9be7432519894d45d904ecc1e0d14d5f7ef08c86",
+    "threshold": -0.10554843372708511
+  },
+  "first_operational_use": {
+    "block": 64,
+    "matches_frozen_candidate": true,
+    "parameters": [
+      0.47488231442321666,
+      2.972627538888127,
+      0.8312609594734501,
+      1.2193059918441658,
+      -0.08820115339329908,
+      0.40770624387059434,
+      1.3136239380529224,
+      1.3467843089998346,
+      4.352850328858383
+    ],
+    "state_digest": "a1c014c98062407130de456d9be7432519894d45d904ecc1e0d14d5f7ef08c86",
+    "threshold": -0.10554843372708511
+  },
+  "full_stream_confusion": {
+    "linux_reported": {
+      "fp": 18631,
+      "tp": 201178
+    },
+    "windows": {
+      "fp": 18590,
+      "tp": 201179
+    },
+    "windows_minus_linux": {
+      "fp": -41,
+      "tp": 1
+    }
+  },
+  "linux_artifact_comparison": {
+    "cal_observation_ids_sha256": {
+      "equal": true,
+      "linux": "5377b1482b89accf5c1dcb3d4ca531c57c837f02b461f7a4df4aaad869956666",
+      "windows": "5377b1482b89accf5c1dcb3d4ca531c57c837f02b461f7a4df4aaad869956666"
+    },
+    "environment": {
+      "blas_threads": 1,
+      "numpy": "2.3.5",
+      "python": "3.13.5",
+      "scikit_learn": "1.7.2",
+      "scipy": "1.16.2"
+    },
+    "fit_observation_ids_sha256": {
+      "equal": true,
+      "linux": "aa4ee1a84dba5e98b5e0e546f7a2b880da18aaf60edc4373cf888d72f7381f9e",
+      "windows": "aa4ee1a84dba5e98b5e0e546f7a2b880da18aaf60edc4373cf888d72f7381f9e"
+    },
+    "interpretation": "FIT and CAL membership digests coincide, while the applied threshold already differs at the first operational block. The Linux parameter vector was not reported, so the divergence cannot be attributed specifically to fitting or calibration from the available logs.",
+    "operational_threshold_from_block_64": {
+      "equal": false,
+      "linux": -0.09784439655829225,
+      "windows": -0.10554843372708511,
+      "windows_minus_linux": -0.0077040371687928655
+    },
+    "parameters": {
+      "linux": null,
+      "status": "LINUX_VECTOR_NOT_REPORTED_IN_TRELLO_CARD",
+      "windows": [
+        0.47488231442321666,
+        2.972627538888127,
+        0.8312609594734501,
+        1.2193059918441658,
+        -0.08820115339329908,
+        0.40770624387059434,
+        1.3136239380529224,
+        1.3467843089998346,
+        4.352850328858383
+      ]
+    },
+    "status": "PARTIAL_LINUX_VALUES_REPORTED"
+  },
+  "schema": "adapt06e-unsw45-platform-audit-v1",
+  "source": {
+    "environment": {
+      "numpy": "2.3.5",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "python": "3.13.2",
+      "pythonhashseed": null,
+      "river": "0.22.0",
+      "sklearn": "1.7.2",
+      "thread_limits": {
+        "MKL_NUM_THREADS": "1",
+        "NUMEXPR_NUM_THREADS": "1",
+        "OMP_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1"
+      }
+    },
+    "execution_commit": "28a81d5de70642d6f76d31a79d865103e4eb5bd2",
+    "report": "unsw_seed45_verify50.json",
+    "report_sha256": "1259d7a476ffa61a9d04d2355ba80bd366c019d23d109adbfca8a0ab29166f27"
+  },
+  "status": "PASS"
+}

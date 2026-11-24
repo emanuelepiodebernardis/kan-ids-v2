@@ -1,0 +1,4 @@
+dataset,seed,decision_block,first_operational_block,last_block_before_next_promotion,observations_remaining,delta_tp_vs_matched,delta_fp_vs_matched
+unsw,43,35,36,101,656018,825,-11890
+unsw,45,63,64,101,376018,321,936
+unsw,46,100,101,101,6018,30,26

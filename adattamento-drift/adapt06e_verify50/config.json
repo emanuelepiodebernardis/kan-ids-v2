@@ -1,0 +1,41 @@
+{
+  "schema": "adapt06e-verify50-config-v1",
+  "frozen_before_variant_results": true,
+  "base_main": "fe18b0f5a83d51076c07a621430b69225c026ccd",
+  "reference_config": "adattamento-drift/adapt06b_decoupled_threshold/matrix_config.json",
+  "reference_config_sha256": "3126ca16e74485f79a0b5d3bd27e556983e9008f1a8499a6a059f5d705da0231",
+  "datasets": ["ton", "unsw"],
+  "seeds": [42, 43, 44, 45, 46],
+  "family": "spline",
+  "acquisition": "random",
+  "full_stream": true,
+  "parameters": {
+    "label_budget_fraction": 0.01,
+    "control_fraction_without_open_candidate": 0.25,
+    "verify_fraction_when_cycle_open": 0.5,
+    "verify_extra_source": "head_of_original_random_fit_order",
+    "delay_blocks": 1,
+    "fit_capacity": 192,
+    "cal_capacity": 256,
+    "verify_looks_per_class": [[100, 100], [200, 200], [400, 400]],
+    "verify_expiry_blocks": 50,
+    "minimum_recall_delta": 0.02,
+    "maximum_fpr_delta": 0.01,
+    "maximum_candidate_fpr": 0.06,
+    "target_fpr": 0.05,
+    "prediction_rule": "score > threshold"
+  },
+  "comparators": [
+    "adapt06b_gated",
+    "threshold_matched_same_policy",
+    "frozen_b",
+    "threshold_only_autonomous"
+  ],
+  "excluded": [
+    "new initial fit",
+    "tuning",
+    "ACTIVE",
+    "new datasets",
+    "ADAPT-07"
+  ]
+}

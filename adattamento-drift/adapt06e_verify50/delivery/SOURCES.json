@@ -1,0 +1,56 @@
+{
+  "analysis_manifest_sha256": "ae325ac44e24a4481a0ce2684378a3eba53bc93b06218960505d26d9450add23",
+  "execution_commit": "28a81d5de70642d6f76d31a79d865103e4eb5bd2",
+  "files": {
+    "ANALYSIS_MANIFEST.json": {
+      "bytes": 1716,
+      "sha256": "ae325ac44e24a4481a0ce2684378a3eba53bc93b06218960505d26d9450add23"
+    },
+    "COMPARISONS.csv": {
+      "bytes": 2838,
+      "sha256": "a14fa445ed8662fe6ce783bd956d81382200508d62c6d3439f83ecd33a9f2520"
+    },
+    "COSTS.csv": {
+      "bytes": 961,
+      "sha256": "3f6fecd9be6479c5fc994b62fcd6e0a340724d97fd08a49dce7717d043b87c5a"
+    },
+    "CYCLES.csv": {
+      "bytes": 2693,
+      "sha256": "015f3b3ba9097d66919e55c3d7096c044e940d02764f45dcaaee966299fd4dbd"
+    },
+    "DECISIONS.csv": {
+      "bytes": 1699,
+      "sha256": "444f4ba664f22b281730131e417602221bf448a21b1d112ba28f762af0beff4c"
+    },
+    "DECISION_TIMING.csv": {
+      "bytes": 805,
+      "sha256": "792555578ff2de20af9f8f3d143965bf21cb291548d8cb848076cbde78602a3d"
+    },
+    "METRICS.csv": {
+      "bytes": 4539,
+      "sha256": "74e4f317cc2f09154a15a4adfdb39c1d4fe70dbb854892f67030984e2588a557"
+    },
+    "PROMOTIONS.csv": {
+      "bytes": 248,
+      "sha256": "cb465dc793fd6095e9e9cf03228d9d8e441f25f70558354634e5722071f872a1"
+    },
+    "REPORT.md": {
+      "bytes": 3747,
+      "sha256": "301e6e79f3c9accdb060c767baeabf8e020f9ba1f13dcd007ac3114344ad59cb"
+    },
+    "STREAM_DECISIONS.csv": {
+      "bytes": 146,
+      "sha256": "920ef4dd084b0ab5a0a10e94fe0699efce0d79abaeaf67ead3e9d8ccfd9b1e64"
+    },
+    "TRAJECTORY.csv": {
+      "bytes": 99076,
+      "sha256": "bf84a78ea9a04952dfd3dfa5e1195592fa9cb0680a9bf6c8dfca618ac692e9ca"
+    }
+  },
+  "preflight_sha256": "a8e9bd311f0aa205a4cf1f8ae6355d627465a5eea313a676e818869299e5629b",
+  "reference_verification_sha256": "040424ddc196082c2a0f476e6c59bdfdac5df850be37c90341bfa48774e8c55a",
+  "reports": 10,
+  "run_manifest_sha256": "ef9cdaa55565e9ea62d8e8748ec649649a2cadb78a63ffb5e9e10973396596da",
+  "schema": "adapt06e-delivery-sources-v1",
+  "status": "PASS"
+}
