@@ -67,7 +67,7 @@ def main(argv: list[str] | None = None) -> None:
                 sys.executable,
                 str(HERE / "runner.py"),
                 "--data",
-                str(args.data_root.resolve()),
+                str(args.data_root.resolve() / dataset),
                 "--model-root",
                 str(args.model_root.resolve()),
                 "--out",
