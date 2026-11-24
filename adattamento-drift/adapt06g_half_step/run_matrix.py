@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
 import json
 import os
 import platform
@@ -29,12 +30,61 @@ THREAD_VARS = (
 )
 
 
+def run_case(
+    *,
+    dataset: str,
+    seed: int,
+    data_root: Path,
+    model_root: Path,
+    out: Path,
+    env: dict[str, str],
+) -> dict:
+    destination = out / f"{dataset}_seed{seed}_halfstep.json"
+    command = [
+        sys.executable,
+        str(HERE / "runner.py"),
+        "--data",
+        str(data_root / dataset),
+        "--model-root",
+        str(model_root),
+        "--out",
+        str(destination),
+        "--dataset",
+        dataset,
+        "--seed",
+        str(seed),
+    ]
+    tick = time.perf_counter()
+    completed = subprocess.run(
+        command,
+        cwd=REPOSITORY,
+        env=env,
+        text=True,
+        capture_output=True,
+        check=True,
+    )
+    elapsed = time.perf_counter() - tick
+    report = load_json(destination)
+    verification = verify_report(report)
+    return {
+        "dataset": dataset,
+        "seed": seed,
+        "command": command,
+        "elapsed_process_seconds": elapsed,
+        "stdout": completed.stdout.strip(),
+        "stderr": completed.stderr.strip(),
+        "verification": verification,
+        "destination": destination,
+    }
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-root", type=Path, required=True)
     parser.add_argument("--model-root", type=Path, required=True)
     parser.add_argument("--preflight", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument("--workers", type=int, choices=(1, 2), default=2)
     args = parser.parse_args(argv)
     out = args.out.resolve()
     if out.exists():
@@ -60,53 +110,35 @@ def main(argv: list[str] | None = None) -> None:
     commands = []
     files = {}
     started = time.perf_counter()
-    for dataset in DATASETS:
-        for seed in SEEDS:
-            destination = out / f"{dataset}_seed{seed}_halfstep.json"
-            command = [
-                sys.executable,
-                str(HERE / "runner.py"),
-                "--data",
-                str(args.data_root.resolve() / dataset),
-                "--model-root",
-                str(args.model_root.resolve()),
-                "--out",
-                str(destination),
-                "--dataset",
-                dataset,
-                "--seed",
-                str(seed),
-            ]
-            tick = time.perf_counter()
-            completed = subprocess.run(
-                command,
-                cwd=REPOSITORY,
+    cases = [(dataset, seed) for dataset in DATASETS for seed in SEEDS]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as executor:
+        futures = {
+            executor.submit(
+                run_case,
+                dataset=dataset,
+                seed=seed,
+                data_root=args.data_root.resolve(),
+                model_root=args.model_root.resolve(),
+                out=out,
                 env=env,
-                text=True,
-                capture_output=True,
-                check=True,
-            )
-            elapsed = time.perf_counter() - tick
-            report = load_json(destination)
-            verification = verify_report(report)
-            record = {
-                "dataset": dataset,
-                "seed": seed,
-                "command": command,
-                "elapsed_process_seconds": elapsed,
-                "stdout": completed.stdout.strip(),
-                "stderr": completed.stderr.strip(),
-                "verification": verification,
-            }
+            ): (dataset, seed)
+            for dataset, seed in cases
+        }
+        for future in concurrent.futures.as_completed(futures):
+            record = future.result()
+            destination = record.pop("destination")
             commands.append(record)
             files[destination.name] = {
                 "bytes": destination.stat().st_size,
                 "sha256": file_sha256(destination),
             }
             print(
-                f"PASS {dataset} seed{seed} {elapsed:.3f} seconds",
+                f"PASS {record['dataset']} seed{record['seed']} "
+                f"{record['elapsed_process_seconds']:.3f} seconds",
                 flush=True,
             )
+    commands.sort(key=lambda item: (item["dataset"], item["seed"]))
+    files = dict(sorted(files.items()))
     elapsed_total = time.perf_counter() - started
     execution_log = out / "EXECUTION_LOG.json"
     execution_log.write_text(
@@ -128,8 +160,12 @@ def main(argv: list[str] | None = None) -> None:
         "reports": 10,
         "datasets": list(DATASETS),
         "seeds": list(SEEDS),
-        "process_isolation": "one fresh child process per replay; serial launch",
-        "elapsed_serial_seconds": elapsed_total,
+        "process_isolation": "one fresh child process per replay",
+        "parallel_workers": args.workers,
+        "elapsed_wall_seconds": elapsed_total,
+        "elapsed_process_seconds_sum": sum(
+            item["elapsed_process_seconds"] for item in commands
+        ),
         "environment": {
             "python": platform.python_version(),
             "platform": platform.platform(),
@@ -143,7 +179,7 @@ def main(argv: list[str] | None = None) -> None:
         encoding="utf-8",
         newline="\n",
     )
-    print(f"PASS 10 reports {elapsed_total:.3f} serial seconds", flush=True)
+    print(f"PASS 10 reports {elapsed_total:.3f} wall seconds", flush=True)
 
 
 if __name__ == "__main__":

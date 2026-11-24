@@ -21,16 +21,17 @@ report ADAPT-06E originali prima dei nuovi replay:
   --out adattamento-drift/archivio_esterno/adapt06g_half_step/<sha>/PREFLIGHT.json
 ```
 
-La matrice usa un processo nuovo per ciascun replay e imposta a uno i thread
-BLAS/OpenMP. Il launcher rifiuta una directory già esistente e un commit o una
-configurazione diversi dal preflight.
+La matrice usa un processo nuovo per ciascun replay, due processi concorrenti e
+un solo thread BLAS/OpenMP per processo. Il launcher rifiuta una directory già
+esistente e un commit o una configurazione diversi dal preflight.
 
 ```powershell
 <python> adattamento-drift/adapt06g_half_step/run_matrix.py `
   --data-root <data-root> `
   --model-root adattamento-drift/review_extension/models `
   --preflight adattamento-drift/archivio_esterno/adapt06g_half_step/<sha>/PREFLIGHT.json `
-  --out adattamento-drift/archivio_esterno/adapt06g_half_step/<sha>/reports
+  --out adattamento-drift/archivio_esterno/adapt06g_half_step/<sha>/reports `
+  --workers 2
 ```
 
 L'analisi ricalcola i confronti dai report verificati:
