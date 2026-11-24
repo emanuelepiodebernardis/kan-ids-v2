@@ -1,0 +1,66 @@
+{
+  "schema": "adapt06g-half-step-config-v1",
+  "frozen_before_results": true,
+  "base_main_merge": "2bca5e54f4c8607173666865b80e0af4c81b8543",
+  "base_adapt06f": "5878d78fd2c9e157f8b2c0c26b4b6ec6f3e2c377",
+  "source_adapt06e_execution_commit": "28a81d5de70642d6f76d31a79d865103e4eb5bd2",
+  "source_adapt06e_archive_sha256": "91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef",
+  "datasets": ["ton", "unsw"],
+  "seeds": [42, 43, 44, 45, 46],
+  "family": "spline",
+  "acquisition": "random",
+  "full_stream": true,
+  "variant": {
+    "name": "half_step",
+    "coefficient": 0.5,
+    "formula": "candidate = (1 - coefficient) * operational_incumbent + coefficient * full_fit",
+    "parameter_count": 9,
+    "includes_intercept": true,
+    "calibration": "existing CAL before VERIFY with the ADAPT-06E rule"
+  },
+  "parameters": {
+    "label_budget_fraction": 0.01,
+    "delay_blocks": 1,
+    "fit_capacity": 192,
+    "fit_quota_per_class": 96,
+    "fit_minimum_per_class": 32,
+    "cal_capacity": 256,
+    "cal_quota_per_class": 128,
+    "cal_maximum_observation_age_blocks": 50,
+    "cal_minimum_per_class": 100,
+    "verify_fraction_when_cycle_open": 0.5,
+    "verify_looks_per_class": [[100, 100], [200, 200], [400, 400]],
+    "verify_expiry_blocks": 50,
+    "minimum_recall_delta": 0.02,
+    "maximum_fpr_delta": 0.01,
+    "maximum_candidate_fpr": 0.06,
+    "target_fpr": 0.05,
+    "prediction_rule": "score > threshold"
+  },
+  "comparators": [
+    "adapt06e_gated_full_step",
+    "fixed_weights_same_calendar_and_calibration",
+    "frozen_b",
+    "adapt06b_gated"
+  ],
+  "primary_criterion": {
+    "per_seed": "delta_tp > 0 and delta_fp <= 0 against both ADAPT-06E and fixed-weights matched",
+    "stream_support": "the same three or more seeds"
+  },
+  "adapt07_criterion": {
+    "minimum_distinct_temporal_episodes": 2,
+    "same_seed_constraint": "no FP increase against ADAPT-06B",
+    "episode_identity": "dataset plus contiguous block interval; repeated seeds count once"
+  },
+  "excluded": [
+    "new initial fit",
+    "new labels",
+    "tuning",
+    "ACTIVE",
+    "LR",
+    "ARF",
+    "new datasets",
+    "ADAPT-07"
+  ]
+}
+
