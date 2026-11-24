@@ -1,0 +1,37 @@
+{
+  "schema": "adapt06f-next-block-config-v1",
+  "datasets": ["ton", "unsw"],
+  "seeds": [42, 43, 44, 45, 46],
+  "family": "spline",
+  "block_size": 10000,
+  "source_execution_commit": "28a81d5de70642d6f76d31a79d865103e4eb5bd2",
+  "source_initial_delivery_commit": "399887cad331d6fbc36b329b4376a5b641a92505",
+  "source_platform_audit_commit": "6ee5eb350c02db6dca840e22958fdbf2b15f10a2",
+  "source_delivery_commit": "7cecfb78df6a876789fb546b3fdfe27bb646e56c",
+  "source_archive_sha256": "91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef",
+  "source_archive_url": "https://drive.google.com/file/d/1OCTJSaD9blogZM2zcQ4aXeGaZPWJgjCt/view?usp=drive_link",
+  "unsw45_report_sha256": "1259d7a476ffa61a9d04d2355ba80bd366c019d23d109adbfca8a0ab29166f27",
+  "expected_cycles": 38,
+  "expected_terminal_statuses": {
+    "ACCEPT": 3,
+    "REJECT_HARM": 24,
+    "WITHHOLD_AMBIGUOUS": 7,
+    "WITHHOLD_STREAM_END_AMBIGUOUS": 3,
+    "WITHHOLD_STREAM_END_INSUFFICIENT": 1
+  },
+  "expected_without_next_block": 4,
+  "favorable_rule": "delta_tp > 0 and delta_fp <= 0",
+  "prediction_rule": "score > threshold",
+  "input_identity": "all named arrays with shape, dtype and observation order",
+  "npz_container_sha256_must_match_original": false,
+  "counterfactual_scope": "only the complete or partial block immediately after the terminal decision",
+  "labels_in_next_block_used_for": "counting TP, FP, attacks and normals only",
+  "forbidden_operations": [
+    "fit",
+    "threshold selection",
+    "trajectory mutation",
+    "new replay",
+    "tuning"
+  ]
+}
+
