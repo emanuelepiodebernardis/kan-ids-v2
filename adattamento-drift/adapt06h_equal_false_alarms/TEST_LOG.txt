@@ -1,0 +1,23 @@
+ADAPT-06H — verifiche locali
+
+Protocollo: 9c9acd64ad5a0cca2bc98a90de1aae873bac8e3d
+Codice di produzione: cdc7deff2ff8f4f271569eac77dc95b9e7ae1fb0
+
+Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
+117 passed in 45.41s
+Questa esecuzione precede l'allineamento editoriale della nota.
+
+Rigenerazione con i due blocchi PowerShell di COMMANDS.md:
+PASS CYCLES.csv
+PASS SEEDS.csv
+PASS EPISODES.csv
+PASS DECISION.json
+PASS NOTE.md
+12 passed in 4.56s
+
+I quattro prodotti numerici sono identici a quelli calcolati prima
+dell'allineamento editoriale. Verifiche indipendenti dai CSV: 38 cicli,
+34 blocchi osservabili, quattro righe senza metriche, tre ACCEPT riprodotti,
+ritardo CAL, tetti sui supporti usati per calibrare, confusioni e totali
+appaiati per seme. Controllati anche dimensioni, SHA-256 e provenienza
+riportati nel manifest. Ruff PASS.
