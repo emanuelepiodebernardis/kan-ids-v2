@@ -1,0 +1,42 @@
+ADAPT-06F — controlli locali del 24 novembre 2026
+
+Ambiente di analisi
+- Windows 11
+- Python 3.12.7
+- NumPy 2.3.5
+- scikit-learn 1.7.2
+- OMP/MKL/OPENBLAS/NUMEXPR_NUM_THREADS=1 durante la rigenerazione
+
+Codice eseguito
+- commit locale del protocollo e dello script:
+  df4c679ae74d578c0c024d7eb2ea1404a1fab661
+- sorgente ADAPT-06E:
+  28a81d5de70642d6f76d31a79d865103e4eb5bd2
+
+Comando mirato
+python -m pytest adattamento-drift/adapt06f_next_block/test_next_block.py -q
+
+Esito
+12 passed
+
+Regressione ADAPT-06E
+python -m pytest adattamento-drift/adapt06e_verify50 -q
+
+Esito
+29 passed
+
+Controllo statico
+ruff check adattamento-drift/adapt06f_next_block
+
+Esito
+All checks passed!
+
+Rigenerazione
+- 38/38 cicli riconciliati;
+- 34 blocchi successivi valutati;
+- 4 cicli a fine stream conservati come NO_NEXT_BLOCK;
+- 3/3 ACCEPT riprodotti su stato, soglia e confusioni;
+- CSV, SUMMARY.json, NOTE.md e MANIFEST.json identici bit per bit in due
+  rigenerazioni separate dal commit fissato.
+
+Non sono stati eseguiti fit, selezione di soglie, replay o tuning.

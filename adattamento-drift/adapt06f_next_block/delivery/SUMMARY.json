@@ -1,0 +1,79 @@
+{
+  "accept_replay_verified": 3,
+  "by_terminal_group": {
+    "rejected": {
+      "evaluated": 24,
+      "favorable_diagnostic": 1,
+      "favorable_operational": 0
+    },
+    "withheld": {
+      "evaluated": 7,
+      "favorable_diagnostic": 4,
+      "favorable_operational": 4
+    }
+  },
+  "cycles": 38,
+  "evaluated": 34,
+  "favorable_diagnostic": 5,
+  "favorable_diagnostic_by_dataset": {
+    "ton": [
+      42,
+      43,
+      45,
+      46
+    ],
+    "unsw": [
+      45
+    ]
+  },
+  "favorable_diagnostic_cases": [
+    "ton/42/freeze302",
+    "ton/43/freeze302",
+    "ton/45/freeze302",
+    "ton/46/freeze302",
+    "unsw/45/freeze65"
+  ],
+  "favorable_diagnostic_traffic_episodes": [
+    "ton/decision352/next353",
+    "unsw/decision75/next76"
+  ],
+  "favorable_only_at_comparable_calibration": [
+    {
+      "case": "unsw/45/freeze65",
+      "delta_fp_diagnostic": -5,
+      "delta_fp_operational": 11,
+      "delta_tp_diagnostic": 9,
+      "delta_tp_operational": 87
+    }
+  ],
+  "favorable_operational": 4,
+  "favorable_operational_by_dataset": {
+    "ton": [
+      42,
+      43,
+      45,
+      46
+    ]
+  },
+  "favorable_operational_cases": [
+    "ton/42/freeze302",
+    "ton/43/freeze302",
+    "ton/45/freeze302",
+    "ton/46/freeze302"
+  ],
+  "favorable_operational_delta_ranges": {
+    "fp": [
+      -1994,
+      -1508
+    ],
+    "tp": [
+      6,
+      18
+    ]
+  },
+  "favorable_operational_traffic_episodes": [
+    "ton/decision352/next353"
+  ],
+  "nonaccepted_evaluated": 31,
+  "without_next_block": 4
+}
