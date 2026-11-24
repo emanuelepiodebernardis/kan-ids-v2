@@ -29,6 +29,12 @@ servono soltanto al conteggio di TP e FP. Non sono eseguiti fit,
 ricalibrazioni, replay, tuning o modifiche della traiettoria. Il criterio
 favorevole è `delta_tp > 0` e `delta_fp <= 0`.
 
+La verifica di `D.npz` è portabile fra Windows e Linux: non richiede che i byte
+del contenitore ricompresso abbiano lo stesso SHA-256. Verifica invece, per
+tutti gli otto array, digest del contenuto non compresso, forma e dtype, oltre
+all'unicità e al digest sequenziale di `row_id`. Restano invariati i controlli
+sullo ZIP ADAPT-06E, sui report e sui modelli A/B.
+
 ## Risultati
 
 Tutti i 38 cicli sono riconciliati. Trentaquattro hanno un blocco successivo;
@@ -58,8 +64,9 @@ modifica il NO-GO preregistrato di ADAPT-06E.
 - un unico CSV con una riga per ciclo;
 - nota breve, riepilogo JSON e manifest con la catena degli hash;
 - script e comando PowerShell riproducibili;
-- 12 test mirati su estensione, riconciliazione, casi terminali, regola
-  favorevole, blocco parziale, tre `ACCEPT`, provenienza e portabilità;
+- 15 test mirati su estensione, riconciliazione, casi terminali, regola
+  favorevole, blocco parziale, tre `ACCEPT`, ricompressione di `D.npz`, array
+  alterati, ordine delle osservazioni, provenienza e portabilità;
 - `ruff check` superato.
 
 I report originali e lo ZIP sorgente rimangono invariati. La PR resta Draft

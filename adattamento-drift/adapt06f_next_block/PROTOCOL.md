@@ -41,6 +41,15 @@ script confronta inoltre direttamente con lo ZIP i dieci JSON,
 byte per byte a quelle dell'archivio. Sono rifiutati cicli mancanti, duplicati
 o non riconciliati.
 
+Per `D.npz` l'identità non dipende dai byte del contenitore ZIP: una diversa
+implementazione o livello di compressione può produrre un file con SHA-256
+diverso senza cambiare i dati. Sono quindi vincolanti, per tutti gli otto array
+`X`, `y`, `tipo`, `row_id`, `frt`, `t_start`, `t_end` e `tipi`, digest del
+contenuto non compresso, forma e dtype. Il digest sequenziale di `row_id` e la
+sua unicità controllano esplicitamente l'ordine delle osservazioni. Il
+contenitore ricompresso è accettato soltanto se tutte queste invarianti
+coincidono con il rendiconto originale.
+
 Per ognuno dei tre `ACCEPT`, il candidato deve coincidere nel blocco `d+1` con
 lo stato, la soglia e i parametri `gated` registrati. Anche TP e FP ricalcolati
 devono coincidere con il rendiconto. Questo controllo presidia la frontiera

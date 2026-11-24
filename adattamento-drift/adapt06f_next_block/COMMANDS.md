@@ -36,4 +36,7 @@ ruff check adattamento-drift/adapt06f_next_block
 
 Nessun comando di questa analisi avvia training o replay. Le etichette di
 `d+1` sono lette soltanto per ricavare le confusioni dei tre stati già salvati.
+Un `D.npz` ricompresso è ammesso: il programma non richiede lo stesso SHA-256
+del contenitore, ma verifica digest, forma e dtype di ogni array e l'ordine
+completo di `row_id`.
 

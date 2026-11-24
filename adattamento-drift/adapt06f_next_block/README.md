@@ -26,6 +26,12 @@ L'archivio sorgente è disponibile nel
 Lo script richiede che i dieci report, `RUN_MANIFEST.json` e `CYCLES.csv`
 coincidano byte per byte con le copie contenute in questo ZIP.
 
+Il file `D.npz` può invece avere un hash di contenitore diverso dopo la
+ricompressione. La verifica scientifica riguarda separatamente tutti gli otto
+array: contenuto non compresso, forma, dtype e ordine delle osservazioni
+definito da `row_id`. Un singolo valore o una variazione dell'ordine causano il
+rifiuto dell'input.
+
 I cinque semi di uno stesso dataset condividono la medesima cattura. Le righe
 per seme misurano la sensibilità alla selezione casuale delle etichette e non
 sono repliche indipendenti del traffico.

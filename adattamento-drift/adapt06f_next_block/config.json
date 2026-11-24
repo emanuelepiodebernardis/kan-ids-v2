@@ -22,6 +22,8 @@
   "expected_without_next_block": 4,
   "favorable_rule": "delta_tp > 0 and delta_fp <= 0",
   "prediction_rule": "score > threshold",
+  "input_identity": "all named arrays with shape, dtype and observation order",
+  "npz_container_sha256_must_match_original": false,
   "counterfactual_scope": "only the complete or partial block immediately after the terminal decision",
   "labels_in_next_block_used_for": "counting TP, FP, attacks and normals only",
   "forbidden_operations": [

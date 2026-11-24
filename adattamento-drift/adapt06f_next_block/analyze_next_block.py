@@ -28,7 +28,9 @@ if str(HERE.parent) not in sys.path:
 from adapt06_prospective_gate.core import confusion, rates
 from adapt06_prospective_gate.models import load_archived_adapter, state_digest
 from adapt06e_verify50.engine import (
+    INPUT_ARRAYS,
     _archived_input_sha256,
+    array_sha256,
     file_sha256,
     verify_input_provenance,
 )
@@ -177,6 +179,54 @@ def verify_report_manifest(reports: Path) -> tuple[dict[str, Any], dict[str, str
     return manifest, hashes
 
 
+def npz_array_identity(path: Path) -> dict[str, Any]:
+    """Return compression-independent identity for every named NPZ array."""
+    arrays: dict[str, np.ndarray] = {}
+    with np.load(path, allow_pickle=False) as archive:
+        if set(archive.files) != set(INPUT_ARRAYS):
+            raise ValueError("D.npz has an unexpected array schema")
+        for name in INPUT_ARRAYS:
+            arrays[name] = np.array(archive[name], copy=True)
+    row_ids = arrays["row_id"]
+    labels = arrays["y"]
+    return {
+        "rows": len(arrays["X"]),
+        "normal": int(np.sum(labels == 0)),
+        "attack": int(np.sum(labels == 1)),
+        "array_sha256": {
+            name: hashlib.sha256(
+                np.ascontiguousarray(value).tobytes()
+            ).hexdigest()
+            for name, value in arrays.items()
+        },
+        "array_shapes": {name: list(value.shape) for name, value in arrays.items()},
+        "array_dtypes": {name: str(value.dtype) for name, value in arrays.items()},
+        "row_id_unique": len(np.unique(row_ids)) == len(row_ids),
+        "observation_order_sha256": hashlib.sha256(
+            np.ascontiguousarray(row_ids).tobytes()
+        ).hexdigest(),
+    }
+
+
+def verify_npz_array_identity(path: Path, expected: dict[str, Any]) -> dict[str, Any]:
+    """Reject any array or row-order drift while ignoring NPZ compression bytes."""
+    actual = npz_array_identity(path)
+    for field in ("rows", "normal", "attack", "array_shapes", "array_dtypes"):
+        if actual[field] != expected[field]:
+            raise ValueError(f"D.npz scientific identity mismatch for {field}")
+    expected_hashes = expected["array_sha256"]
+    if set(expected_hashes) != set(INPUT_ARRAYS):
+        raise ValueError("report input identity has an unexpected array schema")
+    for name in INPUT_ARRAYS:
+        if actual["array_sha256"][name] != expected_hashes[name]:
+            raise ValueError(f"D.npz array SHA-256 mismatch for {name}")
+    if not actual["row_id_unique"] or not expected.get("row_id_unique"):
+        raise ValueError("D.npz row_id values are not unique")
+    if actual["observation_order_sha256"] != expected_hashes["row_id"]:
+        raise ValueError("D.npz observation order differs from the report")
+    return actual
+
+
 def read_cycles(path: Path) -> list[dict[str, str]]:
     with path.open(encoding="utf-8", newline="") as handle:
         rows = list(csv.DictReader(handle))
@@ -275,13 +325,22 @@ def analyze_report(
         raise ValueError(f"archived model SHA-256 mismatch for {dataset}/{seed}")
     if file_sha256(metadata_path) != report["provenance"]["metadata_sha256"]:
         raise ValueError(f"archived metadata SHA-256 mismatch for {dataset}/{seed}")
-    X, y, _row_ids, stream_path, input_identity = verify_input_provenance(
+    X, y, row_ids, stream_path, input_identity = verify_input_provenance(
         data_root / dataset, dataset, _archived_input_sha256(metadata)
     )
-    if file_sha256(stream_path) != report["provenance"]["input_sha256"]:
-        raise ValueError(f"input container SHA-256 mismatch for {dataset}")
-    if input_identity["array_sha256"] != report["provenance"]["input_identity"]["array_sha256"]:
+    expected_input_identity = report["provenance"]["input_identity"]
+    actual_input_identity = verify_npz_array_identity(
+        stream_path, expected_input_identity
+    )
+    if input_identity["array_sha256"] != expected_input_identity["array_sha256"]:
         raise ValueError(f"input array identity mismatch for {dataset}")
+    for name, value in (("X", X), ("y", y), ("row_id", row_ids)):
+        if array_sha256(value) != report["provenance"]["arrays"][name]:
+            raise ValueError(f"ordered runner array mismatch for {dataset}/{name}")
+    if actual_input_identity["observation_order_sha256"] != expected_input_identity[
+        "array_sha256"
+    ]["row_id"]:
+        raise ValueError(f"observation order mismatch for {dataset}")
 
     freezes, terminals = terminal_events(report)
     output: list[dict[str, Any]] = []

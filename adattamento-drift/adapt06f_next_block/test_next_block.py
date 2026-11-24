@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
@@ -15,6 +16,7 @@ from adapt06f_next_block.analyze_next_block import (
     summarize,
     terminal_events,
     verify_accept_replay,
+    verify_npz_array_identity,
 )
 
 HERE = Path(__file__).resolve().parent
@@ -47,6 +49,77 @@ def synthetic_row(
         "delta_fp_diagnostic": 0,
         "accept_replay_verified": "true" if status == "ACCEPT" else "not_applicable",
     }
+
+
+def synthetic_npz_arrays() -> dict[str, object]:
+    import numpy as np
+
+    return {
+        "X": np.arange(24, dtype=np.float32).reshape(3, 8),
+        "y": np.array([0, 1, 0], dtype=np.uint8),
+        "tipo": np.array([0, 1, 0], dtype=np.int16),
+        "row_id": np.array([101, 102, 103], dtype=np.int64),
+        "frt": np.array([1.0, 2.0, 3.0], dtype=np.float64),
+        "t_start": np.array([10.0, 20.0, 30.0], dtype=np.float64),
+        "t_end": np.array([11.0, 21.0, 31.0], dtype=np.float64),
+        "tipi": np.array(["normal", "attack"], dtype="<U10"),
+    }
+
+
+def expected_npz_identity(arrays: dict[str, object]) -> dict:
+    import numpy as np
+
+    return {
+        "rows": 3,
+        "normal": 2,
+        "attack": 1,
+        "array_sha256": {
+            name: hashlib.sha256(np.ascontiguousarray(value).tobytes()).hexdigest()
+            for name, value in arrays.items()
+        },
+        "array_shapes": {name: list(value.shape) for name, value in arrays.items()},
+        "array_dtypes": {name: str(value.dtype) for name, value in arrays.items()},
+        "row_id_unique": True,
+    }
+
+
+def test_recompressed_npz_with_identical_arrays_is_accepted(tmp_path: Path):
+    import numpy as np
+
+    arrays = synthetic_npz_arrays()
+    plain = tmp_path / "plain.npz"
+    compressed = tmp_path / "compressed.npz"
+    np.savez(plain, **arrays)
+    np.savez_compressed(compressed, **arrays)
+    assert hashlib.sha256(plain.read_bytes()).hexdigest() != hashlib.sha256(
+        compressed.read_bytes()
+    ).hexdigest()
+    expected = expected_npz_identity(arrays)
+    assert verify_npz_array_identity(plain, expected)["array_sha256"] == expected[
+        "array_sha256"
+    ]
+    assert verify_npz_array_identity(compressed, expected)[
+        "array_sha256"
+    ] == expected["array_sha256"]
+
+
+@pytest.mark.parametrize("altered", ["X", "row_id"])
+def test_altered_array_or_observation_order_is_rejected(
+    tmp_path: Path, altered: str
+):
+    import numpy as np
+
+    arrays = synthetic_npz_arrays()
+    expected = expected_npz_identity(arrays)
+    changed = {name: np.array(value, copy=True) for name, value in arrays.items()}
+    if altered == "X":
+        changed["X"][0, 0] += 1.0
+    else:
+        changed["row_id"][[0, 1]] = changed["row_id"][[1, 0]]
+    path = tmp_path / f"altered_{altered}.npz"
+    np.savez_compressed(path, **changed)
+    with pytest.raises(ValueError, match=altered):
+        verify_npz_array_identity(path, expected)
 
 
 def test_terminal_events_require_one_terminal_for_every_freeze():
