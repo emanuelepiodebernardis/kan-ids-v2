@@ -1,9 +1,3 @@
-# Titolo
-
-adapt-06f: valutare i candidati scartati nel blocco successivo
-
-# Descrizione
-
 ## Perché
 
 ADAPT-06E ha chiuso 38 cicli del gate: 24 `REJECT_HARM`, 11 `WITHHOLD` e
