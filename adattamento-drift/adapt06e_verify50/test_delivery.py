@@ -1,14 +1,19 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 
+import pytest
+
 from adapt06e_verify50 import EXECUTION_COMMIT
 from adapt06e_verify50.engine import file_sha256
+from adapt06e_verify50.publish_delivery import verified_reference_sha256
 
 HERE = Path(__file__).resolve().parent
 DELIVERY = HERE / "delivery"
+REFERENCE_SHA256 = "040424ddc196082c2a0f476e6c59bdfdac5df850be37c90341bfa48774e8c55a"
 
 
 def read_csv(name: str) -> list[dict]:
@@ -21,10 +26,25 @@ def test_delivery_manifest_hashes_every_lightweight_product():
     assert sources["status"] == "PASS"
     assert sources["execution_commit"] == EXECUTION_COMMIT
     assert sources["reports"] == 10
+    assert sources["reference_verification_sha256"] == REFERENCE_SHA256
     for name, record in sources["files"].items():
         path = DELIVERY / name
         assert path.stat().st_size == record["bytes"]
         assert file_sha256(path) == record["sha256"]
+
+
+def test_delivery_rejects_reference_not_recorded_at_launch(tmp_path: Path):
+    reference = tmp_path / "REFERENCE_VERIFICATION.json"
+    reference.write_text('{"status":"PASS"}\n', encoding="utf-8", newline="\n")
+    actual = hashlib.sha256(reference.read_bytes()).hexdigest()
+    assert (
+        verified_reference_sha256({"reference_verification_sha256": actual}, reference)
+        == actual
+    )
+    with pytest.raises(ValueError, match="differs from the file recorded at launch"):
+        verified_reference_sha256(
+            {"reference_verification_sha256": "0" * 64}, reference
+        )
 
 
 def test_delivery_has_complete_preregistered_extent():

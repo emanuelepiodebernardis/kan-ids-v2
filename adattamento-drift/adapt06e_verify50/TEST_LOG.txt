@@ -44,3 +44,23 @@ ruff format --check adattamento-drift/adapt06e_verify50
 git diff --check
 Result: PASS
 
+Multipiattaforma e provenienza del riferimento, 2026-11-24
+
+Audit dai log originali:
+python adattamento-drift/adapt06e_verify50/audit_unsw45.py --report <RunRoot>/reports/unsw_seed45_verify50.json --out adattamento-drift/adapt06e_verify50
+Result: PASS UNSW/45 Windows audit; nessun fit o replay eseguito.
+
+Test di consegna:
+python -m pytest adattamento-drift/adapt06e_verify50/test_verify50.py adattamento-drift/adapt06e_verify50/test_delivery.py adattamento-drift/adapt06e_verify50/test_package.py adattamento-drift/adapt06e_verify50/test_platform_audit.py -q
+Result: 28 passed
+
+Regressione correlata:
+python -m pytest adattamento-drift/adapt06e_verify50/test_verify50.py adattamento-drift/adapt06e_verify50/test_delivery.py adattamento-drift/adapt06e_verify50/test_package.py adattamento-drift/adapt06e_verify50/test_platform_audit.py adattamento-drift/adapt06b_decoupled_threshold/test_contract.py -q
+Result: 32 passed
+
+Controlli statici:
+ruff check adattamento-drift/adapt06e_verify50
+ruff format --check adattamento-drift/adapt06e_verify50
+git diff --check
+Result: PASS
+

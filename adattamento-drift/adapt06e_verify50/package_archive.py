@@ -36,6 +36,21 @@ def _add(entries: dict[str, Path], archive_name: str, source: Path) -> None:
     entries[archive_name] = source
 
 
+def verify_reference_chain(
+    reference_path: Path, run_manifest: dict, delivery_sources: dict
+) -> str:
+    """Require one reference digest across launch, delivery and packaging."""
+    actual = file_sha256(reference_path)
+    recorded = {
+        "run manifest": run_manifest.get("reference_verification_sha256"),
+        "delivery sources": delivery_sources.get("reference_verification_sha256"),
+    }
+    for source, expected in recorded.items():
+        if expected != actual:
+            raise ValueError(f"reference verification differs from {source}")
+    return actual
+
+
 def collect_entries(
     *,
     preflight: Path,
@@ -47,13 +62,12 @@ def collect_entries(
     entries: dict[str, Path] = {}
     _add(entries, "evidence/preflight/PREFLIGHT.json", preflight)
 
-    reference_manifest = json.loads(
-        (reference_dir / "REFERENCE_VERIFICATION.json").read_text("utf-8")
-    )
+    reference_path = reference_dir / "REFERENCE_VERIFICATION.json"
+    reference_manifest = json.loads(reference_path.read_text("utf-8"))
     _add(
         entries,
         "evidence/reference/REFERENCE_VERIFICATION.json",
-        reference_dir / "REFERENCE_VERIFICATION.json",
+        reference_path,
     )
     for comparison in reference_manifest["comparisons"]:
         name = comparison["fresh_file"]
@@ -76,6 +90,7 @@ def collect_entries(
         _add(entries, f"analysis/{name}", analysis / name)
 
     delivery_sources = json.loads((delivery / "SOURCES.json").read_text("utf-8"))
+    verify_reference_chain(reference_path, run_manifest, delivery_sources)
     _add(entries, "delivery/SOURCES.json", delivery / "SOURCES.json")
     for name in delivery_sources["files"]:
         _add(entries, f"delivery/{name}", delivery / name)

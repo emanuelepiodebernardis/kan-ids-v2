@@ -29,6 +29,19 @@ FILES = (
 )
 
 
+def verified_reference_sha256(run_manifest: dict, path: Path) -> str:
+    """Return the reference digest only when it matches the executed run."""
+    expected = run_manifest.get("reference_verification_sha256")
+    if not isinstance(expected, str) or len(expected) != 64:
+        raise ValueError("run manifest has no valid reference verification SHA-256")
+    actual = file_sha256(path)
+    if actual != expected:
+        raise ValueError(
+            "reference verification differs from the file recorded at launch"
+        )
+    return actual
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--analysis", type=Path, required=True)
@@ -51,6 +64,9 @@ def main(argv: list[str] | None = None) -> None:
         args.run_manifest
     ):
         raise ValueError("analysis points to a different run manifest")
+    reference_sha256 = verified_reference_sha256(
+        run_manifest, args.reference_verification
+    )
     args.out.mkdir(parents=True)
     for name in FILES:
         source = args.analysis / name
@@ -62,7 +78,7 @@ def main(argv: list[str] | None = None) -> None:
         "status": "PASS",
         "execution_commit": run_manifest["execution_commit"],
         "preflight_sha256": file_sha256(args.preflight),
-        "reference_verification_sha256": file_sha256(args.reference_verification),
+        "reference_verification_sha256": reference_sha256,
         "run_manifest_sha256": file_sha256(args.run_manifest),
         "analysis_manifest_sha256": file_sha256(
             args.analysis / "ANALYSIS_MANIFEST.json"

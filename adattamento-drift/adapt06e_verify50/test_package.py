@@ -8,7 +8,11 @@ from pathlib import Path
 import pytest
 
 from adapt06e_verify50 import EXECUTION_COMMIT
-from adapt06e_verify50.package_archive import build_archive, verify_archive
+from adapt06e_verify50.package_archive import (
+    build_archive,
+    verify_archive,
+    verify_reference_chain,
+)
 
 
 def test_archive_is_manifested_deterministically(tmp_path: Path, monkeypatch):
@@ -48,3 +52,23 @@ def test_archive_verifier_rejects_payload_not_matching_manifest(tmp_path: Path):
         archive.writestr("PACKAGE_MANIFEST.json", json.dumps(manifest))
     with pytest.raises(AssertionError, match="SHA-256"):
         verify_archive(archive_path)
+
+
+def test_packaging_rejects_reference_not_used_at_launch(tmp_path: Path):
+    reference = tmp_path / "REFERENCE_VERIFICATION.json"
+    reference.write_text('{"status":"PASS"}\n', encoding="utf-8", newline="\n")
+    digest = hashlib.sha256(reference.read_bytes()).hexdigest()
+    assert (
+        verify_reference_chain(
+            reference,
+            {"reference_verification_sha256": digest},
+            {"reference_verification_sha256": digest},
+        )
+        == digest
+    )
+    with pytest.raises(ValueError, match="differs from run manifest"):
+        verify_reference_chain(
+            reference,
+            {"reference_verification_sha256": "0" * 64},
+            {"reference_verification_sha256": digest},
+        )

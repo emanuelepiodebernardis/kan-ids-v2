@@ -31,6 +31,15 @@ Su TON non avviene alcuna promozione. Su UNSW avvengono tre promozioni, ma
 nessuna determina il beneficio simultaneo richiesto rispetto a entrambi i
 controlli primari. Tutti gli esiti nulli e sfavorevoli sono conservati.
 
+Il riesame multipiattaforma localizza una differenza circoscritta in
+UNSW/seed45. FIT e CAL del candidato congelato al blocco 41 hanno gli stessi
+digest su Windows e Linux; la soglia applicata dal blocco 64 è invece
+`-0.10554843372708511` su Windows e `-0.09784439655829225` su Linux. La
+confusione complessiva passa da 201.179 TP / 18.590 FP a 201.178 TP / 18.631
+FP. Il vettore dei pesi Linux non è riportato nella scheda: i nove pesi
+Windows sono conservati senza attribuire la divergenza al fit o alla
+calibrazione.
+
 ## Materiali
 
 - `PROTOCOL.md` e `config.json`: disegno e parametri congelati;
@@ -42,8 +51,12 @@ controlli primari. Tutti gli esiti nulli e sfavorevoli sono conservati.
 - `delivery/`: CSV, rapporto e manifest leggeri destinati a Git;
 - `publish_delivery.py`: esportazione verificata dei prodotti leggeri;
 - `package_archive.py`: archivio deterministico dei report completi;
-- `test_verify50.py`, `test_delivery.py` e `test_package.py`: controlli
-  sintetici, negativi e di confezionamento;
+- `audit_unsw45.py`: estrazione verificata del candidato UNSW/45;
+- `UNSW45_WINDOWS_AUDIT.json`, `UNSW45_FREEZE41_IDS.csv` e
+  `UNSW45_PLATFORM_NOTE.md`: riscontro multipiattaforma dai log originali;
+- `test_verify50.py`, `test_delivery.py`, `test_package.py` e
+  `test_platform_audit.py`: controlli sintetici, negativi, di confezionamento
+  e del riscontro multipiattaforma;
 - `COMMANDS.md`: comandi PowerShell effettivi.
 
 I dieci JSON completi, i due riferimenti freschi e i prodotti di analisi sono

@@ -70,3 +70,22 @@ preflight, due riferimenti freschi, dieci JSON completi, analisi e manifest con
 SHA-256. Collegamento e SHA-256 vengono aggiunti dopo il caricamento del file
 verificato.
 
+## Allineamenti del riesame multipiattaforma
+
+Il riferimento effettivamente usato al lancio è
+`reference_seed42_rerun/REFERENCE_VERIFICATION.json`, SHA-256
+`040424ddc196082c2a0f476e6c59bdfdac5df850be37c90341bfa48774e8c55a`,
+identico al campo `reference_verification_sha256` di `RUN_MANIFEST.json`.
+`reference_seed42` è il primo tentativo interrotto e non alimenta la matrice.
+Il comando e l'esportatore verificano ora l'identità prima del
+confezionamento.
+
+Per UNSW/seed45, i digest degli ID FIT e CAL del candidato congelato al blocco
+41 coincidono fra Windows e Linux. La soglia operativa dal blocco 64 differisce:
+`-0.10554843372708511` su Windows e `-0.09784439655829225` su Linux. Le
+confusioni complessive sono rispettivamente 201.179 TP / 18.590 FP e 201.178
+TP / 18.631 FP. I nove pesi Windows e tutti i 448 ID sono pubblicati nei
+prodotti di audit; il vettore Linux non è presente nella scheda, quindi non si
+attribuisce la differenza al fit o alla calibrazione senza quel dato. Nessun
+fit o replay è stato ripetuto per questo controllo.
+
