@@ -392,8 +392,22 @@ def render_note(decision: dict, episodes: list[dict], counts: dict) -> str:
                 f"- {label}. Ordinamento inconcludente per assenza di blocchi con entrambe le classi."
             )
         else:
+            if wins == 0:
+                diagnosis = "Il vantaggio di ordinamento non emerge al tetto osservato."
+            elif wins < n and transfer:
+                diagnosis = "Emergono limiti sia di ordinamento sia di trasferimento della soglia."
+            elif transfer:
+                diagnosis = (
+                    "Il limite osservato riguarda il trasferimento della soglia."
+                )
+            elif wins < n:
+                diagnosis = (
+                    "Il vantaggio di ordinamento emerge solo in una parte dei blocchi."
+                )
+            else:
+                diagnosis = "Il vantaggio di ordinamento è osservabile in tutti i blocchi informativi."
             lines.append(
-                f"- {label}. Il candidato guadagna TP al tetto retrospettivo in {wins}/{n} "
+                f"- {label}. {diagnosis} Il candidato guadagna TP al tetto retrospettivo in {wins}/{n} "
                 f"blocchi appaiati. Nei restanti {n - wins} il migliore ordinamento al tetto osservato "
                 "non è dimostrato. "
                 f"In {transfer} dei blocchi con guadagno retrospettivo e CAL disponibile, "
@@ -412,6 +426,10 @@ def render_note(decision: dict, episodes: list[dict], counts: dict) -> str:
             (
                 "I semi condividono la stessa cattura. L’analisi riguarda i blocchi successivi "
                 "alle decisioni storiche del gate e misura un potenziale su quel sottoinsieme."
+            ),
+            (
+                "Il tetto retrospettivo è comune alle due teste. I falsi allarmi effettivi "
+                "possono essere inferiori al tetto quando più punteggi sono uguali."
             ),
             "",
             "**Decisione.** "
