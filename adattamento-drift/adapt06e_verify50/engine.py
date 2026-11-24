@@ -669,6 +669,7 @@ def run_arrays(
     max_blocks: int | None = None,
     decoupled_threshold: bool = False,
     verify_fraction_when_cycle_open: float | None = None,
+    candidate_interpolation: float = 1.0,
 ) -> dict:
     """Replay arrays in temporal order; used by both the CLI and synthetic tests."""
     raw_features = np.asarray(raw_features)
@@ -703,6 +704,19 @@ def run_arrays(
             )
         if float(verify_fraction_when_cycle_open) != 0.5:
             raise ValueError("the preregistered dynamic VERIFY fraction is exactly 0.5")
+    candidate_interpolation = float(candidate_interpolation)
+    if not np.isfinite(candidate_interpolation) or not (
+        0.0 < candidate_interpolation <= 1.0
+    ):
+        raise ValueError("candidate interpolation must be finite and in (0, 1]")
+    if candidate_interpolation != 1.0 and (
+        not decoupled_threshold
+        or getattr(adapter, "family", None) != "spline"
+        or acquisition != "random"
+    ):
+        raise ValueError(
+            "partial candidate interpolation is limited to decoupled GAM/RANDOM"
+        )
 
     fit_memory = ClassFifoMemory(FIT_CAPACITY, FIT_QUOTA)
     cal_memory = ClassFifoMemory(CAL_CAPACITY, CAL_QUOTA, CAL_MAX_AGE)
@@ -1320,7 +1334,24 @@ def run_arrays(
                 freeze_allowed = True
             if freeze_allowed:
                 tick = time.perf_counter()
-                candidate_state = adapter.fit_candidate(fit_X, fit_y)
+                full_fit_state = adapter.fit_candidate(fit_X, fit_y)
+                if candidate_interpolation == 1.0:
+                    candidate_state = full_fit_state
+                else:
+                    full_fit_parameters = np.asarray(full_fit_state, dtype=np.float64)
+                    incumbent_parameters = np.asarray(gated_state, dtype=np.float64)
+                    if full_fit_parameters.shape != incumbent_parameters.shape:
+                        raise ValueError(
+                            "full-fit and incumbent parameter shapes differ"
+                        )
+                    if full_fit_parameters.shape != (9,):
+                        raise ValueError(
+                            "partial GAM candidate must contain nine parameters"
+                        )
+                    candidate_state = (
+                        (1.0 - candidate_interpolation) * incumbent_parameters
+                        + candidate_interpolation * full_fit_parameters
+                    )
                 candidate_scores_cal = adapter.score(candidate_state, cal_X)
                 candidate_threshold, calibration = select_fpr_threshold(
                     candidate_scores_cal, cal_y
@@ -1364,6 +1395,17 @@ def run_arrays(
                     "status": "FREEZE",
                     "block": block,
                     "candidate_digest": cycle.digest,
+                    **(
+                        {
+                            "candidate_interpolation": candidate_interpolation,
+                            "full_fit_candidate_digest": state_digest(full_fit_state),
+                            "full_fit_candidate_parameters": np.asarray(
+                                full_fit_state, dtype=np.float64
+                            ).tolist(),
+                        }
+                        if candidate_interpolation != 1.0
+                        else {}
+                    ),
                     "operational_incumbent_digest": state_digest(gated_state),
                     "operational_incumbent_threshold": float(gated_threshold),
                     "diagnostic_incumbent_threshold": float(diagnostic_threshold),
@@ -1652,6 +1694,14 @@ def run_arrays(
             "minimum_recall_delta": MIN_RECALL_DELTA,
             "prediction_rule": "score > threshold",
             **({"decoupled_threshold": True} if decoupled_threshold else {}),
+            **(
+                {
+                    "candidate_interpolation": candidate_interpolation,
+                    "candidate_interpolation_includes_intercept": True,
+                }
+                if candidate_interpolation != 1.0
+                else {}
+            ),
             **(
                 {
                     "verify_fraction_when_cycle_open": float(
