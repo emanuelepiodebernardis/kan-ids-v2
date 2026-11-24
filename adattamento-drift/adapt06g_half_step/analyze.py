@@ -17,6 +17,7 @@ if str(HERE.parent) not in sys.path:
 from adapt06e_verify50.analyze import verify_historical_matrix, verify_variant_matrix
 from adapt06e_verify50.engine import file_sha256
 
+from adapt06g_half_step import BASE_ADAPT06F, BASE_MAIN_MERGE, PROTOCOL_COMMIT
 from adapt06g_half_step.preflight import DATASETS, SEEDS, load_json
 from adapt06g_half_step.verify_report import verify_report
 
@@ -31,9 +32,12 @@ def csv_text(rows: list[dict], fields: list[str]) -> str:
 
 def metric_fields(prefix: str, metric: dict, promotions: int | None = None) -> dict:
     result = {
+        f"{prefix}_tn": int(metric["tn"]),
         f"{prefix}_tp": int(metric["tp"]),
         f"{prefix}_fp": int(metric["fp"]),
         f"{prefix}_fn": int(metric["fn"]),
+        f"{prefix}_normal": int(metric["normal"]),
+        f"{prefix}_attack": int(metric["attack"]),
         f"{prefix}_recall": float(metric["recall"]),
         f"{prefix}_fpr": float(metric["fpr"]),
     }
@@ -51,6 +55,11 @@ def deltas(prefix: str, primary: dict, reference: dict) -> dict:
         * (primary["recall"] - reference["recall"]),
         f"delta_fpr_pp_vs_{prefix}": 100.0 * (primary["fpr"] - reference["fpr"]),
     }
+
+
+def favorable(primary: dict, reference: dict) -> bool:
+    """Apply the preregistered strict TP and non-increasing FP criterion."""
+    return primary["tp"] > reference["tp"] and primary["fp"] <= reference["fp"]
 
 
 def terminal_counts(report: dict) -> Counter:
@@ -144,14 +153,12 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 "frozen_b": half["summary"]["frozen_b"],
                 "adapt06b": history["summary"]["gated"],
             }
-            half_promotions = int(half["updates"]["gated_promotions"])
-            full_promotions = int(full["updates"]["gated_promotions"])
-            old_promotions = int(history["updates"]["gated_promotions"])
-            primary_favorable = all(
-                primary["tp"] > references[name]["tp"]
-                and primary["fp"] <= references[name]["fp"]
-                for name in ("adapt06e", "matched")
-            )
+            half_promotions = int(half["updates"].get("gated_promotions", 0))
+            full_promotions = int(full["updates"].get("gated_promotions", 0))
+            old_promotions = int(history["updates"].get("gated_promotions", 0))
+            favorable_vs_adapt06e = favorable(primary, references["adapt06e"])
+            favorable_vs_matched = favorable(primary, references["matched"])
+            primary_favorable = favorable_vs_adapt06e and favorable_vs_matched
             no_fp_increase_vs_06b = primary["fp"] <= references["adapt06b"]["fp"]
             id_changed, role_changed = role_change_counts(half, full)
             row = {
@@ -166,10 +173,8 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 **deltas("matched", primary, references["matched"]),
                 **deltas("frozen_b", primary, references["frozen_b"]),
                 **deltas("adapt06b", primary, references["adapt06b"]),
-                "favorable_vs_adapt06e": primary["tp"] > references["adapt06e"]["tp"]
-                and primary["fp"] <= references["adapt06e"]["fp"],
-                "favorable_vs_matched": primary["tp"] > references["matched"]["tp"]
-                and primary["fp"] <= references["matched"]["fp"],
+                "favorable_vs_adapt06e": favorable_vs_adapt06e,
+                "favorable_vs_matched": favorable_vs_matched,
                 "primary_favorable_both": primary_favorable,
                 "no_fp_increase_vs_adapt06b": no_fp_increase_vs_06b,
                 "requested_id_changed_blocks_vs_adapt06e": id_changed,
@@ -195,13 +200,10 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 full_m = full_block["confusion"]["gated"]
                 matched_m = half_block["confusion"]["threshold_matched"]
                 old_m = old_block["confusion"]["gated"]
-                favorable = (
-                    half_m["tp"] > full_m["tp"]
-                    and half_m["fp"] <= full_m["fp"]
-                    and half_m["tp"] > matched_m["tp"]
-                    and half_m["fp"] <= matched_m["fp"]
+                favorable_block = favorable(half_m, full_m) and favorable(
+                    half_m, matched_m
                 )
-                if favorable:
+                if favorable_block:
                     favorable_blocks.append(block_index)
                 temporal_rows.append(
                     {
@@ -217,7 +219,7 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                         "delta_fp_vs_matched": half_m["fp"] - matched_m["fp"],
                         "delta_tp_vs_adapt06b": half_m["tp"] - old_m["tp"],
                         "delta_fp_vs_adapt06b": half_m["fp"] - old_m["fp"],
-                        "favorable_against_both": favorable,
+                        "favorable_against_both": favorable_block,
                     }
                 )
             for start, end in contiguous_intervals(favorable_blocks):
@@ -254,6 +256,12 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
         ]
         distinct_intervals = contiguous_intervals(favorable_union)
         distinct_episodes = len(distinct_intervals)
+        local_union = [
+            int(row["block"])
+            for row in temporal_rows
+            if row["dataset"] == dataset and row["favorable_against_both"]
+        ]
+        local_intervals = contiguous_intervals(local_union)
         adapt07_pass = primary_pass and distinct_episodes >= 2 and successful_no_fp_06b
         overall_go = overall_go or adapt07_pass
         stream_decisions.append(
@@ -262,8 +270,13 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 "primary_favorable_seed_count": support,
                 "primary_favorable_seeds": success,
                 "primary_three_seed_criterion": primary_pass,
-                "distinct_favorable_temporal_episodes": distinct_episodes,
-                "distinct_episode_intervals": [
+                "local_favorable_temporal_episodes_all_seeds": len(local_intervals),
+                "local_episode_intervals_all_seeds": [
+                    {"start_block": start, "end_block": end}
+                    for start, end in local_intervals
+                ],
+                "qualifying_temporal_episodes_primary_seeds": distinct_episodes,
+                "qualifying_episode_intervals_primary_seeds": [
                     {"start_block": start, "end_block": end}
                     for start, end in distinct_intervals
                 ],
@@ -281,9 +294,9 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
             "coefficient": 0.5,
             "streams": stream_decisions,
             "interpretation": (
-                "The preregistered half-step supports ADAPT-07."
+                "Il mezzo passo preregistrato sostiene il passaggio ad ADAPT-07."
                 if overall_go
-                else "The preregistered half-step does not satisfy the ADAPT-07 rule."
+                else "Il mezzo passo preregistrato non soddisfa la regola per ADAPT-07."
             ),
         },
     }
@@ -301,20 +314,56 @@ def render_report(result: dict, execution_commit: str) -> str:
         "",
     ]
     for stream in result["decision"]["streams"]:
+        local_count = stream["local_favorable_temporal_episodes_all_seeds"]
+        local_label = "intervallo locale" if local_count == 1 else "intervalli locali"
         lines.extend(
             [
                 (
                     f"- {stream['dataset'].upper()}: "
                     f"{stream['primary_favorable_seed_count']}/5 seed favorevoli contro "
                     "sia ADAPT-06E sia il controllo matched; "
-                    f"{stream['distinct_favorable_temporal_episodes']} intervalli "
-                    "temporali distinti; criterio ADAPT-07 "
+                    f"{local_count} {local_label} nell'insieme dei seed e "
+                    f"{stream['qualifying_temporal_episodes_primary_seeds']} episodi "
+                    "qualificanti nei seed favorevoli; criterio ADAPT-07 "
                     f"{'PASS' if stream['adapt07_criterion'] else 'FAIL'}."
                 ),
             ]
         )
     lines.extend(
         [
+            "",
+            "## Dieci confronti",
+            "",
+            (
+                "| Stream | Seed | TP | FP | FN | FPR | Prom. | ΔTP/ΔFP vs 06E | "
+                "vs matched | vs Frozen/B | vs 06B | Esito |"
+            ),
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|:---:|",
+        ]
+    )
+    for row in result["rows"]:
+        lines.append(
+            f"| {row['dataset'].upper()} | {row['seed']} | "
+            f"{row['half_step_tp']} | {row['half_step_fp']} | "
+            f"{row['half_step_fn']} | {100.0 * row['half_step_fpr']:.3f}% | "
+            f"{row['half_step_accepted_updates']} | "
+            f"{row['delta_tp_vs_adapt06e']:+d}/{row['delta_fp_vs_adapt06e']:+d} | "
+            f"{row['delta_tp_vs_matched']:+d}/{row['delta_fp_vs_matched']:+d} | "
+            f"{row['delta_tp_vs_frozen_b']:+d}/{row['delta_fp_vs_frozen_b']:+d} | "
+            f"{row['delta_tp_vs_adapt06b']:+d}/{row['delta_fp_vs_adapt06b']:+d} | "
+            f"{'PASS' if row['primary_favorable_both'] else 'FAIL'} |"
+        )
+    lines.extend(
+        [
+            "",
+            (
+                "Su TON non si osservano promozioni: il mezzo passo coincide con "
+                "ADAPT-06E e con il controllo matched in tutti i cinque seed. Su UNSW "
+                "nessun seed soddisfa il criterio contro entrambi i riferimenti. Il "
+                "solo intervallo locale favorevole è il blocco 89 del seed 46; il "
+                "risultato complessivo di quel seed aumenta sia TP sia FP e quindi "
+                "resta sfavorevole."
+            ),
             "",
             (
                 "La tabella `RESULTS.csv` conserva integralmente entrambi gli stream e "
@@ -327,7 +376,8 @@ def render_report(result: dict, execution_commit: str) -> str:
             (
                 "Le traiettorie half-step e ADAPT-06E possono assegnare ruoli diversi "
                 "dopo decisioni differenti. Le colonne dedicate rendono esplicite tali "
-                "differenze; il budget resta invariato e viene verificato nei report."
+                "differenze; gli ID richiesti restano identici in tutti i blocchi, il "
+                "budget resta invariato ed entrambi sono verificati nei report."
             ),
             "",
             (
@@ -381,7 +431,8 @@ def main(argv: list[str] | None = None) -> None:
         encoding="utf-8",
         newline="\n",
     )
-    execution_commit = load_json(half_root / "RUN_MANIFEST.json")["execution_commit"]
+    run_manifest = load_json(half_root / "RUN_MANIFEST.json")
+    execution_commit = run_manifest["execution_commit"]
     report_path = out / "REPORT.md"
     report_path.write_text(
         render_report(result, execution_commit), encoding="utf-8", newline="\n"
@@ -390,11 +441,28 @@ def main(argv: list[str] | None = None) -> None:
     manifest = {
         "schema": "adapt06g-half-step-analysis-manifest-v1",
         "status": "PASS",
+        "protocol_commit": PROTOCOL_COMMIT,
         "execution_commit": execution_commit,
+        "base_main_merge": BASE_MAIN_MERGE,
+        "base_adapt06f": BASE_ADAPT06F,
+        "config_sha256": file_sha256(HERE / "config.json"),
+        "preflight_sha256": run_manifest["preflight_sha256"],
         "half_step_run_manifest_sha256": file_sha256(half_root / "RUN_MANIFEST.json"),
         "adapt06e_run_manifest_sha256": file_sha256(
             args.adapt06e_root.resolve() / "RUN_MANIFEST.json"
         ),
+        "adapt06b_matrix_manifest_sha256": file_sha256(
+            args.adapt06b_root.resolve()
+            / "matrix_seed42_46_ed50e86"
+            / "new_replays"
+            / "MATRIX_RUN_MANIFEST.json"
+        ),
+        "source_code_sha256": {
+            "analyze.py": file_sha256(Path(__file__)),
+            "runner.py": file_sha256(HERE / "runner.py"),
+            "verify_report.py": file_sha256(HERE / "verify_report.py"),
+            "engine.py": file_sha256(HERE.parent / "adapt06e_verify50" / "engine.py"),
+        },
         "rows": 10,
         "files": {
             path.name: {"bytes": path.stat().st_size, "sha256": file_sha256(path)}

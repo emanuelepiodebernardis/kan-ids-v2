@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import copy
+import csv
+import hashlib
 import json
 from pathlib import Path
 
@@ -9,7 +11,7 @@ import pytest
 from adapt06_prospective_gate.core import select_fpr_threshold
 from adapt06e_verify50.engine import run_arrays as run_engine_arrays
 
-from adapt06g_half_step.analyze import contiguous_intervals
+from adapt06g_half_step.analyze import contiguous_intervals, favorable
 from adapt06g_half_step.preflight import verify_config
 from adapt06g_half_step.runner import run_arrays as run_half_arrays
 from adapt06g_half_step.verify_report import verify_report
@@ -141,6 +143,19 @@ def test_verifier_rejects_tampered_parameter_formula():
         verify_report(report)
 
 
+def test_verifier_rejects_tampered_summary_and_budget():
+    report = run_half_arrays(**kwargs())
+    changed_summary = copy.deepcopy(report)
+    changed_summary["summary"]["gated"]["tp"] += 1
+    with pytest.raises(ValueError, match="summary differs"):
+        verify_report(changed_summary)
+    changed_budget = copy.deepcopy(report)
+    changed_budget["per_block"][0]["budget"]["total"] -= 1
+    changed_budget["per_block"][0]["query_audit"].pop()
+    with pytest.raises(ValueError, match="budget|RANDOM_FIT"):
+        verify_report(changed_budget)
+
+
 def test_budget_and_delayed_labels_remain_conserved():
     report = run_half_arrays(**kwargs())
     assert report["configuration"]["label_budget_fraction"] == 0.01
@@ -162,3 +177,37 @@ def test_frozen_configuration_is_complete():
 
 def test_contiguous_intervals_deduplicate_blocks():
     assert contiguous_intervals([4, 5, 5, 8, 9, 10]) == [(4, 5), (8, 10)]
+
+
+def test_primary_count_criterion_is_strict_on_tp_and_closed_on_fp():
+    reference = {"tp": 100, "fp": 20}
+    assert favorable({"tp": 101, "fp": 20}, reference)
+    assert not favorable({"tp": 100, "fp": 19}, reference)
+    assert not favorable({"tp": 101, "fp": 21}, reference)
+
+
+def test_delivered_lightweight_products_are_internally_consistent():
+    delivery = HERE / "delivery"
+    manifest = json.loads((delivery / "MANIFEST.json").read_text(encoding="utf-8"))
+    assert manifest["status"] == "PASS"
+    for name, record in manifest["files"].items():
+        payload = (delivery / name).read_bytes()
+        assert len(payload) == record["bytes"]
+        assert hashlib.sha256(payload).hexdigest() == record["sha256"]
+    with (delivery / "RESULTS.csv").open(encoding="utf-8", newline="") as handle:
+        rows = list(csv.DictReader(handle))
+    assert [(row["dataset"], int(row["seed"])) for row in rows] == [
+        (dataset, seed) for dataset in ("ton", "unsw") for seed in range(42, 47)
+    ]
+    for row in rows:
+        for prefix in ("half_step", "adapt06e", "matched", "frozen_b", "adapt06b"):
+            tp = int(row[f"{prefix}_tp"])
+            fp = int(row[f"{prefix}_fp"])
+            fn = int(row[f"{prefix}_fn"])
+            tn = int(row[f"{prefix}_tn"])
+            attack = int(row[f"{prefix}_attack"])
+            normal = int(row[f"{prefix}_normal"])
+            assert tp + fn == attack
+            assert tn + fp == normal
+            assert float(row[f"{prefix}_recall"]) == pytest.approx(tp / attack)
+            assert float(row[f"{prefix}_fpr"]) == pytest.approx(fp / normal)

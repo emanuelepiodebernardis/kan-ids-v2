@@ -43,3 +43,16 @@ L'analisi ricalcola i confronti dai report verificati:
   --adapt06b-root adattamento-drift/adapt06b_decoupled_threshold `
   --out adattamento-drift/adapt06g_half_step/delivery
 ```
+
+## Esecuzione consegnata
+
+- commit del protocollo: `66228d22cbaa29f84902cd69730294531f24ce0e`;
+- commit eseguito: `cb651dd2bc0bd0ffe70384f0ac9b00a46d7c0f5b`;
+- directory nuova dei report: `archivio_esterno/adapt06g_half_step/cb651dd/reports`;
+- report prodotti: 10;
+- processi concorrenti: 2, con un thread per processo;
+- wall time della matrice: 1.191,062 secondi.
+
+Il comando esatto di ogni replay, incluso il percorso locale dell'input, è
+registrato in `EXECUTION_LOG.json`; ogni JSON conserva inoltre il proprio
+comando, commit, ambiente e hash degli input e del modello.

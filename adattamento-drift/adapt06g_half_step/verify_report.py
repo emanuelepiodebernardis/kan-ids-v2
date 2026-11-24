@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+from collections import Counter
 
 import numpy as np
 from adapt06e_verify50 import SCHEMA as SOURCE_SCHEMA
@@ -28,8 +29,38 @@ def verify_report(report: dict) -> dict:
     inherited["schema"] = SOURCE_SCHEMA
     verify_source_report(inherited)
 
+    tracks = ("frozen_b", "threshold_only", "always", "gated", "threshold_matched")
+    totals = {track: Counter({"tn": 0, "fp": 0, "fn": 0, "tp": 0}) for track in tracks}
+    for block in report.get("per_block", []):
+        expected_budget = int(block["rows"] * config["label_budget_fraction"])
+        if block["budget"]["total"] != expected_budget:
+            raise ValueError(f"block {block['block']}: analyst budget differs")
+        for track, aggregate in totals.items():
+            confusion = block["confusion"][track]
+            aggregate.update({key: int(confusion[key]) for key in aggregate})
+    for track, aggregate in totals.items():
+        summary = report["summary"][track]
+        for key, expected in aggregate.items():
+            if int(summary[key]) != expected:
+                raise ValueError(f"{track} summary differs for {key}")
+        normal = aggregate["tn"] + aggregate["fp"]
+        attack = aggregate["fn"] + aggregate["tp"]
+        expected_recall = aggregate["tp"] / attack if attack else None
+        expected_fpr = aggregate["fp"] / normal if normal else None
+        if expected_recall is not None and not np.isclose(
+            summary["recall"], expected_recall, rtol=0.0, atol=1e-15
+        ):
+            raise ValueError(f"{track} recall differs")
+        if expected_fpr is not None and not np.isclose(
+            summary["fpr"], expected_fpr, rtol=0.0, atol=1e-15
+        ):
+            raise ValueError(f"{track} FPR differs")
+
     freezes = 0
+    accepts = 0
     for event in report.get("decisions", []):
+        if event.get("status") == "ACCEPT":
+            accepts += 1
         if event.get("status") != "FREEZE":
             continue
         freezes += 1
@@ -53,6 +84,10 @@ def verify_report(report: dict) -> dict:
             raise ValueError("full-fit candidate digest differs")
         if not np.isfinite(float(event.get("candidate_threshold"))):
             raise ValueError("candidate threshold is not finite")
+    if int(report["updates"].get("candidate_freezes", 0)) != freezes:
+        raise ValueError("candidate FREEZE count differs")
+    if int(report["updates"].get("gated_promotions", 0)) != accepts:
+        raise ValueError("accepted-update count differs")
     return {
         "status": "PASS",
         "blocks": inherited["blocks_evaluated"],
