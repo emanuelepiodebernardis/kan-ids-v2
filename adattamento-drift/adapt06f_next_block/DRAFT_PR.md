@@ -19,6 +19,9 @@ commit `28a81d5de70642d6f76d31a79d865103e4eb5bd2`. Lo ZIP sorgente ha SHA-256
 `91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef`.
 UNSW/45 usa esplicitamente il report Windows identificato nella PR #20,
 SHA-256 `1259d7a476ffa61a9d04d2355ba80bd366c019d23d109adbfca8a0ab29166f27`.
+I dieci JSON locali, `RUN_MANIFEST.json` e `CYCLES.csv` sono inoltre
+confrontati direttamente con le copie contenute nello ZIP e devono coincidere
+byte per byte.
 
 Per ciascun ciclo lo script recupera dal `FREEZE`:
 
