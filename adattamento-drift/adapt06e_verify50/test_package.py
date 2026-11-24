@@ -14,6 +14,13 @@ from adapt06e_verify50.package_archive import (
     verify_reference_chain,
 )
 
+HERE = Path(__file__).resolve().parent
+ARCHIVE_SHA256 = "91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef"
+ARCHIVE_URL = (
+    "https://drive.google.com/file/d/1OCTJSaD9blogZM2zcQ4aXeGaZPWJgjCt/"
+    "view?usp=drive_link"
+)
+
 
 def test_archive_is_manifested_deterministically(tmp_path: Path, monkeypatch):
     source_a = tmp_path / "a.txt"
@@ -72,3 +79,13 @@ def test_packaging_rejects_reference_not_used_at_launch(tmp_path: Path):
             {"reference_verification_sha256": "0" * 64},
             {"reference_verification_sha256": digest},
         )
+
+
+def test_archive_metadata_identifies_the_uploaded_package():
+    metadata = (HERE / "ARCHIVE.md").read_text(encoding="utf-8")
+    assert "adapt06e_verify50_full_6ee5eb3.zip" in metadata
+    assert "16.484.536" in metadata
+    assert ARCHIVE_SHA256 in metadata
+    assert ARCHIVE_URL in metadata
+    assert "28a81d5de70642d6f76d31a79d865103e4eb5bd2" in metadata
+    assert "6ee5eb350c02db6dca840e22958fdbf2b15f10a2" in metadata

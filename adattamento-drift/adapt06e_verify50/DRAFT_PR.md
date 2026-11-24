@@ -66,9 +66,13 @@ TON/seed42 e UNSW/seed42 hanno richiesto 538,459 s complessivi (circa 9,0
 minuti). Il picco RSS per processo varia da 236,7 a 505,3 MiB.
 
 In Git entrano rapporto, CSV e manifest leggeri. L'archivio esterno conserva
-preflight, due riferimenti freschi, dieci JSON completi, analisi e manifest con
-SHA-256. Collegamento e SHA-256 vengono aggiunti dopo il caricamento del file
-verificato.
+preflight, due riferimenti freschi, dieci JSON completi, analisi e manifest.
+Il pacchetto `adapt06e_verify50_full_6ee5eb3.zip` è disponibile su
+[Google Drive](https://drive.google.com/file/d/1OCTJSaD9blogZM2zcQ4aXeGaZPWJgjCt/view?usp=drive_link):
+16.484.536 byte, SHA-256
+`91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef`.
+Il manifest interno identifica il commit di esecuzione `28a81d5` e il commit
+di confezionamento `6ee5eb3`.
 
 ## Allineamenti del riesame multipiattaforma
 

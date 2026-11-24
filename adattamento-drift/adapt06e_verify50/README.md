@@ -54,6 +54,8 @@ calibrazione.
 - `audit_unsw45.py`: estrazione verificata del candidato UNSW/45;
 - `UNSW45_WINDOWS_AUDIT.json`, `UNSW45_FREEZE41_IDS.csv` e
   `UNSW45_PLATFORM_NOTE.md`: riscontro multipiattaforma dai log originali;
+- `ARCHIVE.md`: collegamento, dimensione, SHA-256 e commit del pacchetto
+  completo;
 - `test_verify50.py`, `test_delivery.py`, `test_package.py` e
   `test_platform_audit.py`: controlli sintetici, negativi, di confezionamento
   e del riscontro multipiattaforma;
