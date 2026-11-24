@@ -172,6 +172,15 @@ def test_delivery_replays_all_three_accepts_and_preserves_source_identity():
     manifest = json.loads((DELIVERY / "MANIFEST.json").read_text(encoding="utf-8"))
     assert manifest["status"] == "PASS"
     assert manifest["source_archive"]["sha256"] == SOURCE_ARCHIVE_SHA256
+    assert manifest["source_archive"]["embedded_report_sha256"][
+        "unsw_seed45_verify50.json"
+    ] == UNSW45_REPORT_SHA256
+    assert manifest["source_archive"]["embedded_cycles_sha256"] == manifest[
+        "source_cycles"
+    ]["sha256"]
+    assert manifest["source_archive"]["embedded_run_manifest_sha256"] == manifest[
+        "source_run_manifest"
+    ]["sha256"]
     assert manifest["unsw45_source_report_sha256"] == UNSW45_REPORT_SHA256
     assert manifest["source_execution_commit"] == (
         "28a81d5de70642d6f76d31a79d865103e4eb5bd2"

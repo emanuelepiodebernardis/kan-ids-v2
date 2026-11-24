@@ -104,11 +104,7 @@ def git_head() -> str:
     ).strip()
 
 
-def sha256_bytes(payload: bytes) -> str:
-    return hashlib.sha256(payload).hexdigest()
-
-
-def verify_source_archive(path: Path) -> dict[str, Any]:
+def verify_source_archive(path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     actual = file_sha256(path)
     if actual != SOURCE_ARCHIVE_SHA256:
         raise ValueError(
@@ -116,11 +112,40 @@ def verify_source_archive(path: Path) -> dict[str, Any]:
         )
     with zipfile.ZipFile(path) as archive:
         names = set(archive.namelist())
-        expected = {f"evidence/reports/{name}" for name in EXPECTED_REPORTS}
+        report_members = {
+            name: f"evidence/reports/{name}" for name in EXPECTED_REPORTS
+        }
+        expected = set(report_members.values()) | {
+            "evidence/reports/RUN_MANIFEST.json",
+            "analysis/CYCLES.csv",
+        }
         if not expected <= names:
             missing = sorted(expected - names)
-            raise ValueError(f"source archive lacks reports: {missing}")
-    return {"path": path.name, "bytes": path.stat().st_size, "sha256": actual}
+            raise ValueError(f"source archive lacks required files: {missing}")
+        embedded_report_hashes = {
+            name: hashlib.sha256(archive.read(member)).hexdigest()
+            for name, member in report_members.items()
+        }
+        embedded_run_manifest_sha256 = hashlib.sha256(
+            archive.read("evidence/reports/RUN_MANIFEST.json")
+        ).hexdigest()
+        embedded_cycles_sha256 = hashlib.sha256(
+            archive.read("analysis/CYCLES.csv")
+        ).hexdigest()
+    record = {
+        "path": path.name,
+        "bytes": path.stat().st_size,
+        "sha256": actual,
+        "embedded_run_manifest_sha256": embedded_run_manifest_sha256,
+        "embedded_cycles_sha256": embedded_cycles_sha256,
+        "embedded_report_sha256": embedded_report_hashes,
+    }
+    identities = {
+        "reports": embedded_report_hashes,
+        "run_manifest": embedded_run_manifest_sha256,
+        "cycles": embedded_cycles_sha256,
+    }
+    return record, identities
 
 
 def verify_report_manifest(reports: Path) -> tuple[dict[str, Any], dict[str, str]]:
@@ -615,9 +640,17 @@ def main(argv: list[str] | None = None) -> int:
     if args.out.exists() and any(args.out.iterdir()):
         raise FileExistsError(f"refusing to overwrite non-empty output: {args.out}")
     args.out.mkdir(parents=True, exist_ok=True)
-    archive_record = verify_source_archive(args.archive)
+    archive_record, archive_identities = verify_source_archive(args.archive)
     reports_manifest, report_hashes = verify_report_manifest(args.reports)
     cycles = read_cycles(args.cycles)
+    if archive_identities["reports"] != report_hashes:
+        raise ValueError("local reports differ from the reports embedded in the archive")
+    if archive_identities["run_manifest"] != file_sha256(
+        args.reports / "RUN_MANIFEST.json"
+    ):
+        raise ValueError("local RUN_MANIFEST.json differs from the archived copy")
+    if archive_identities["cycles"] != file_sha256(args.cycles):
+        raise ValueError("local CYCLES.csv differs from the archived copy")
     rows: list[dict[str, Any]] = []
     for name in EXPECTED_REPORTS:
         rows.extend(

@@ -23,6 +23,8 @@ sono parametri espliciti del comando. Lo ZIP ADAPT-06E deve avere SHA-256
 `91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef`.
 L'archivio sorgente è disponibile nel
 [collegamento già verificato di ADAPT-06E](https://drive.google.com/file/d/1OCTJSaD9blogZM2zcQ4aXeGaZPWJgjCt/view?usp=drive_link).
+Lo script richiede che i dieci report, `RUN_MANIFEST.json` e `CYCLES.csv`
+coincidano byte per byte con le copie contenute in questo ZIP.
 
 I cinque semi di uno stesso dataset condividono la medesima cattura. Le righe
 per seme misurano la sensibilità alla selezione casuale delle etichette e non

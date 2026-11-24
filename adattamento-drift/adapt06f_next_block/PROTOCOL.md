@@ -36,7 +36,10 @@ attacchi e normali. Un caso è favorevole quando `delta_tp > 0` e
 Prima dello scoring sono verificati SHA-256 e dimensioni dei dieci JSON tramite
 `RUN_MANIFEST.json`, lo SHA-256 dello ZIP completo, la provenienza degli input
 e dei modelli A/B e l'identità specifica del rendiconto Windows UNSW/45. Lo
-script rifiuta cicli mancanti, duplicati o non riconciliati.
+script confronta inoltre direttamente con lo ZIP i dieci JSON,
+`RUN_MANIFEST.json` e `CYCLES.csv`: le copie locali devono essere identiche
+byte per byte a quelle dell'archivio. Sono rifiutati cicli mancanti, duplicati
+o non riconciliati.
 
 Per ognuno dei tre `ACCEPT`, il candidato deve coincidere nel blocco `d+1` con
 lo stato, la soglia e i parametri `gated` registrati. Anche TP e FP ricalcolati
