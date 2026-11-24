@@ -1,0 +1,43 @@
+ADAPT-06G — controlli locali della consegna
+Data: 2026-11-24
+
+Commit del protocollo:
+66228d22cbaa29f84902cd69730294531f24ce0e
+
+Commit eseguito:
+cb651dd2bc0bd0ffe70384f0ac9b00a46d7c0f5b
+
+Preflight:
+PASS cb651dd2bc0bd0ffe70384f0ac9b00a46d7c0f5b
+- A/B/D e identità degli array verificati
+- dieci modelli iniziali e metadata verificati
+- dieci report ADAPT-06E originali verificati
+
+Matrice:
+PASS 10 reports 1191.062 wall seconds
+- directory nuova
+- un processo nuovo per replay
+- due processi concorrenti, un thread per processo
+- tutti i report verificati prima del manifest finale
+
+Analisi:
+PASS NO-GO 10 rows
+- 10 righe in RESULTS.csv
+- 2285 righe in TEMPORAL_BLOCKS.csv
+- 1 intervallo locale in EPISODES.csv
+- confronti ADAPT-06E, matched, Frozen/B e ADAPT-06B riprodotti
+
+Test mirati e regressione ADAPT-06E:
+python -m pytest adattamento-drift/adapt06e_verify50 adattamento-drift/adapt06g_half_step -q
+44 passed in 43.09s
+
+Controllo statico:
+ruff check adattamento-drift/adapt06e_verify50/engine.py adattamento-drift/adapt06g_half_step
+All checks passed!
+
+Verifica prima della pubblicazione:
+python -m pytest adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06e_verify50 adattamento-drift/adapt06f_next_block adattamento-drift/adapt06g_half_step -q
+105 passed in 58.69s
+- sei file della consegna rigenerati in una directory separata, identici byte per byte
+- 13 file dello ZIP ADAPT-06G verificati contro i file originali
+- dieci JSON, manifest e log di ADAPT-06E verificati contro lo ZIP di riferimento
