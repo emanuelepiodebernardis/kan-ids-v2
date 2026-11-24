@@ -1,6 +1,6 @@
 {
-  "analysis_code_sha256": "1cf0fe89668b4927c802c8da7ba0250b56dc9361ad21744ea19c2db0986dd3dd",
-  "analysis_commit": "545609ebeeb58bdf51595dc918e3a420f7daae56",
+  "analysis_code_sha256": "a7b523527af6da6df80c8022a0e750aef7a1661edce436e44704d73b75c6965a",
+  "analysis_commit": "048fae7a695f2f143c58c4090879881c0930e697",
   "command_template": [
     "python",
     "adattamento-drift/adapt06f_next_block/analyze_next_block.py",
