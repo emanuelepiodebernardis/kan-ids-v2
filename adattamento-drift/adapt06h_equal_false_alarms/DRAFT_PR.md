@@ -39,3 +39,7 @@ le catture e la conclusione riguarda i blocchi selezionati dal gate storico.
 `delivery/NOTE.md`. `delivery/MANIFEST.json` identifica sorgenti, ambiente
 e SHA-256. L’analisi usa inferenza sui pesi archiviati e le etichette già
 disponibili. ADAPT-07 rimane in backlog.
+
+I test sui prodotti versionati verificano hash, allineamento con ADAPT-06F,
+confusioni, totali appaiati ed episodi direttamente dal checkout. Passano i
+15 test mirati ADAPT-06H e i 120 test della suite combinata ADAPT-06B/06E–06H.

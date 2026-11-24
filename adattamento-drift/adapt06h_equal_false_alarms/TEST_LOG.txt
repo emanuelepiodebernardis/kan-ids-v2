@@ -21,3 +21,13 @@ dell'allineamento editoriale. Verifiche indipendenti dai CSV: 38 cicli,
 ritardo CAL, tetti sui supporti usati per calibrare, confusioni e totali
 appaiati per seme. Controllati anche dimensioni, SHA-256 e provenienza
 riportati nel manifest. Ruff PASS.
+
+Riesame della consegna:
+- 38 snapshot CAL e 9.728 presenze in CAL riconciliati con gli eventi
+  di arrivo effettivi nei dieci JSON originali. Tutte le label CAL erano
+  disponibili al rispettivo FREEZE e provenivano da CONTROL.
+- Tre test sui prodotti versionati, eseguibili senza gli archivi esterni.
+- Suite ADAPT-06H: 15 passed in 4.25s.
+- Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
+  120 passed in 48.02s.
+- Protocollo, codice di analisi e prodotti scientifici invariati.

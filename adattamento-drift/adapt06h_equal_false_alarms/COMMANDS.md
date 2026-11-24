@@ -19,6 +19,10 @@ nella [PR #20](https://github.com/emanuelepiodebernardis/kan-ids-v2/pull/20).
 `unsw/D.npz` e `unsw/D.json` già usati in ADAPT-06F. Il CSV e il manifest
 ADAPT-06F sono versionati. Il codice controlla gli hash prima dello scoring.
 
+La rigenerazione della consegna è stata verificata su Windows con Python
+3.12.7, NumPy 2.3.5 e scikit-learn 1.7.2. L’ambiente completo della corsa
+è identificato nel `delivery/MANIFEST.json`.
+
 ```powershell
 $adaptPython = 'C:\percorso\ambiente\Scripts\python.exe'
 $adaptData = 'C:\percorso\dati-verificati'
@@ -62,3 +66,12 @@ buffer storico. Le colonne `*_fp` misurano il blocco di valutazione. Una
 soglia `-inf` ammette tutti i punteggi finiti. I quattro cicli senza blocco
 hanno campi scientifici vuoti. `EPISODES.csv` distingue gli episodi descrittivi
 dall’unione sui soli semi qualificanti.
+
+Per un controllo a partire dal solo checkout, eseguire il test seguente.
+Verifica gli SHA-256, l’allineamento con ADAPT-06F, le confusioni, i totali
+appaiati e la regola per gli episodi. I report originali, i flussi e i
+modelli sono richiesti per la rigenerazione precedente.
+
+```powershell
+& $adaptPython -m pytest adattamento-drift/adapt06h_equal_false_alarms/test_delivery.py -q
+```
