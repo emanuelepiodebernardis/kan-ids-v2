@@ -8,6 +8,8 @@ rinominare i file sorgente.
 $run = '<percorso>/adapt06e_verify50/28a81d5'
 $data = '<percorso>/adapt05/data'
 $python = '<percorso>/python.exe'
+$out = Join-Path ([System.IO.Path]::GetTempPath()) ('adapt06f-next-block-' + [guid]::NewGuid().ToString('N'))
+New-Item -ItemType Directory -Path $out -ErrorAction Stop | Out-Null
 
 & $python adattamento-drift/adapt06f_next_block/analyze_next_block.py `
   --reports "$run/reports" `
@@ -15,12 +17,30 @@ $python = '<percorso>/python.exe'
   --archive "$run/adapt06e_verify50_full_6ee5eb3.zip" `
   --data-root $data `
   --model-root adattamento-drift/review_extension/models `
-  --out adattamento-drift/adapt06f_next_block/delivery
+  --out $out
+if ($LASTEXITCODE -ne 0) { throw 'Rigenerazione ADAPT-06F fallita.' }
 ```
 
-Lo script rifiuta una directory di output non vuota. Per una rigenerazione,
-usare una nuova directory e confrontare i quattro file con gli SHA-256 del
-manifest consegnato; non sovrascrivere la consegna verificata.
+Lo script accetta una directory di output vuota. La consegna verificata
+rimane in `adattamento-drift/adapt06f_next_block/delivery/`.
+
+Confrontare i tre file scientifici `NEXT_BLOCK_CYCLES.csv`, `SUMMARY.json` e
+`NOTE.md` con gli SHA-256 in `files` del `MANIFEST.json` consegnato. Il comando
+genera anche un nuovo `MANIFEST.json` per documentare la provenienza della
+rigenerazione. I suoi metadati di commit e ambiente possono variare tra
+esecuzioni, quindi il manifest resta fuori dal confronto byte per byte.
+
+```powershell
+$reference = 'adattamento-drift/adapt06f_next_block/delivery/MANIFEST.json'
+$manifest = Get-Content -LiteralPath $reference -Raw | ConvertFrom-Json
+foreach ($name in @('NEXT_BLOCK_CYCLES.csv', 'SUMMARY.json', 'NOTE.md')) {
+    $actual = Get-FileHash -LiteralPath (Join-Path $out $name) -Algorithm SHA256 -ErrorAction Stop
+    if ($actual.Hash -ne $manifest.files.$name.sha256) {
+        throw "SHA-256 diverso per $name"
+    }
+    Write-Output "PASS $name"
+}
+```
 
 Test mirati:
 
