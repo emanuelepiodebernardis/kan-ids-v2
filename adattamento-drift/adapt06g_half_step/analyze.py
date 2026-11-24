@@ -74,7 +74,12 @@ def verify_half_matrix(root: Path) -> dict[tuple[str, int], dict]:
     manifest = load_json(root / "RUN_MANIFEST.json")
     if manifest.get("status") != "PASS" or manifest.get("reports") != 10:
         raise ValueError("ADAPT-06G run manifest extent differs")
-    for relative, record in manifest.get("files", {}).items():
+    expected = {"EXECUTION_LOG.json"} | {
+        f"{dataset}_seed{seed}_halfstep.json" for dataset in DATASETS for seed in SEEDS
+    }
+    if set(manifest["files"]) != expected:
+        raise ValueError("ADAPT-06G run manifest inventory differs")
+    for relative, record in manifest["files"].items():
         path = root / relative
         if path.stat().st_size != int(record["bytes"]):
             raise ValueError(f"ADAPT-06G byte count differs: {relative}")
@@ -94,24 +99,23 @@ def verify_half_matrix(root: Path) -> dict[tuple[str, int], dict]:
     return cases
 
 
-def role_change_counts(half: dict, full: dict) -> tuple[int, int]:
-    id_changed = role_changed = 0
-    for half_block, full_block in zip(
-        half["per_block"], full["per_block"], strict=True
-    ):
-        half_audit = {
-            int(item["observation_id"]): item["role"]
-            for item in half_block["query_audit"]
-        }
-        full_audit = {
-            int(item["observation_id"]): item["role"]
-            for item in full_block["query_audit"]
-        }
-        if set(half_audit) != set(full_audit):
-            id_changed += 1
-        if half_audit != full_audit:
-            role_changed += 1
-    return id_changed, role_changed
+def query_changes(half: dict, full: dict) -> tuple[bool, int]:
+    half_audit = {item["observation_id"]: item["role"] for item in half["query_audit"]}
+    full_audit = {item["observation_id"]: item["role"] for item in full["query_audit"]}
+    return list(half_audit) != list(full_audit), sum(
+        half_audit[key] != full_audit[key]
+        for key in half_audit.keys() & full_audit.keys()
+    )
+
+
+def block_support(block: dict, track: str) -> tuple[int, int, int, int]:
+    confusion = block["confusion"][track]
+    return (
+        block["block"],
+        block["rows"],
+        confusion["tp"] + confusion["fn"],
+        confusion["fp"] + confusion["tn"],
+    )
 
 
 def contiguous_intervals(blocks: list[int]) -> list[tuple[int, int]]:
@@ -160,14 +164,13 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
             favorable_vs_matched = favorable(primary, references["matched"])
             primary_favorable = favorable_vs_adapt06e and favorable_vs_matched
             no_fp_increase_vs_06b = primary["fp"] <= references["adapt06b"]["fp"]
-            id_changed, role_changed = role_change_counts(half, full)
             row = {
                 "dataset": dataset,
                 "seed": seed,
                 **metric_fields("half_step", primary, half_promotions),
                 **metric_fields("adapt06e", references["adapt06e"], full_promotions),
-                **metric_fields("matched", references["matched"]),
-                **metric_fields("frozen_b", references["frozen_b"]),
+                **metric_fields("matched", references["matched"], 0),
+                **metric_fields("frozen_b", references["frozen_b"], 0),
                 **metric_fields("adapt06b", references["adapt06b"], old_promotions),
                 **deltas("adapt06e", primary, references["adapt06e"]),
                 **deltas("matched", primary, references["matched"]),
@@ -177,8 +180,6 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 "favorable_vs_matched": favorable_vs_matched,
                 "primary_favorable_both": primary_favorable,
                 "no_fp_increase_vs_adapt06b": no_fp_increase_vs_06b,
-                "requested_id_changed_blocks_vs_adapt06e": id_changed,
-                "role_assignment_changed_blocks_vs_adapt06e": role_changed,
                 "terminal_decisions": json.dumps(
                     dict(sorted(terminal_counts(half).items())), sort_keys=True
                 ),
@@ -188,6 +189,7 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 successful_seeds[dataset].append(seed)
 
             favorable_blocks = []
+            id_changed = role_changed = role_changed_ids = requested = 0
             for block_index, (half_block, full_block, old_block) in enumerate(
                 zip(
                     half["per_block"],
@@ -200,6 +202,32 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                 full_m = full_block["confusion"]["gated"]
                 matched_m = half_block["confusion"]["threshold_matched"]
                 old_m = old_block["confusion"]["gated"]
+                frozen_m = half_block["confusion"]["frozen_b"]
+                if (
+                    len(
+                        {
+                            block_support(half_block, "gated"),
+                            block_support(half_block, "threshold_matched"),
+                            block_support(half_block, "frozen_b"),
+                            block_support(full_block, "gated"),
+                            block_support(old_block, "gated"),
+                        }
+                    )
+                    != 1
+                    or half_block["block"] != block_index
+                ):
+                    raise ValueError(
+                        f"{dataset}/seed{seed}/block{block_index}: unpaired support"
+                    )
+                if half_block["budget"]["total"] != full_block["budget"]["total"]:
+                    raise ValueError(
+                        f"{dataset}/seed{seed}/block{block_index}: unpaired budget"
+                    )
+                changes_ids, changes_roles = query_changes(half_block, full_block)
+                id_changed += changes_ids
+                role_changed += bool(changes_roles)
+                role_changed_ids += changes_roles
+                requested += half_block["budget"]["total"]
                 favorable_block = favorable(half_m, full_m) and favorable(
                     half_m, matched_m
                 )
@@ -217,11 +245,21 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                         "delta_fp_vs_adapt06e": half_m["fp"] - full_m["fp"],
                         "delta_tp_vs_matched": half_m["tp"] - matched_m["tp"],
                         "delta_fp_vs_matched": half_m["fp"] - matched_m["fp"],
+                        "delta_tp_vs_frozen_b": half_m["tp"] - frozen_m["tp"],
+                        "delta_fp_vs_frozen_b": half_m["fp"] - frozen_m["fp"],
                         "delta_tp_vs_adapt06b": half_m["tp"] - old_m["tp"],
                         "delta_fp_vs_adapt06b": half_m["fp"] - old_m["fp"],
                         "favorable_against_both": favorable_block,
+                        "requested_id_sequence_changed_vs_adapt06e": changes_ids,
+                        "requested_ids_changing_role_vs_adapt06e": changes_roles,
                     }
                 )
+            row.update(
+                labels_requested=requested,
+                requested_id_changed_blocks_vs_adapt06e=id_changed,
+                role_assignment_changed_blocks_vs_adapt06e=role_changed,
+                requested_ids_changing_role_vs_adapt06e=role_changed_ids,
+            )
             for start, end in contiguous_intervals(favorable_blocks):
                 episode_rows.append(
                     {
@@ -239,13 +277,17 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
         success = successful_seeds[dataset]
         support = len(success)
         primary_pass = support >= 3
-        successful_no_fp_06b = bool(success) and all(
-            next(
-                row["no_fp_increase_vs_adapt06b"]
-                for row in rows
-                if row["dataset"] == dataset and row["seed"] == seed
+        successful_no_fp_06b = (
+            all(
+                next(
+                    row["no_fp_increase_vs_adapt06b"]
+                    for row in rows
+                    if row["dataset"] == dataset and row["seed"] == seed
+                )
+                for seed in success
             )
-            for seed in success
+            if success
+            else None
         )
         favorable_union = [
             int(row["block"])
@@ -281,7 +323,7 @@ def analyze(half_cases: dict, full_cases: dict, historical_cases: dict) -> dict:
                     for start, end in distinct_intervals
                 ],
                 "successful_seeds_no_fp_increase_vs_adapt06b": successful_no_fp_06b,
-                "adapt07_criterion": adapt07_pass,
+                "adapt07_criterion": bool(adapt07_pass),
             }
         )
     return {
@@ -353,17 +395,36 @@ def render_report(result: dict, execution_commit: str) -> str:
             f"{row['delta_tp_vs_adapt06b']:+d}/{row['delta_fp_vs_adapt06b']:+d} | "
             f"{'PASS' if row['primary_favorable_both'] else 'FAIL'} |"
         )
+    local = [row for row in result["temporal_rows"] if row["favorable_against_both"]]
+    lines.extend(["", "## Localizzazione temporale", ""])
+    for row in local:
+        lines.append(
+            f"- {row['dataset'].upper()}/seed {row['seed']}, blocco {row['block']} "
+            f"(indice da zero). ΔTP/ΔFP "
+            f"{row['delta_tp_vs_adapt06e']:+d}/{row['delta_fp_vs_adapt06e']:+d} contro 06E, "
+            f"{row['delta_tp_vs_matched']:+d}/{row['delta_fp_vs_matched']:+d} contro matched "
+            f"e {row['delta_tp_vs_adapt06b']:+d}/{row['delta_fp_vs_adapt06b']:+d} contro 06B."
+        )
+    for dataset in DATASETS:
+        blocks = [row for row in result["temporal_rows"] if row["dataset"] == dataset]
+        for comparator in ("adapt06e", "matched"):
+            losses = [row for row in blocks if row[f"delta_tp_vs_{comparator}"] < 0]
+            if losses:
+                worst = min(losses, key=lambda row: row[f"delta_tp_vs_{comparator}"])
+                lines.append(
+                    f"- {dataset.upper()} contro {comparator}: maggiore perdita di TP in un "
+                    f"blocco al seed {worst['seed']}, blocco {worst['block']} "
+                    f"(ΔTP/ΔFP {worst[f'delta_tp_vs_{comparator}']:+d}/"
+                    f"{worst[f'delta_fp_vs_{comparator}']:+d})."
+                )
+    role_counts = sum(
+        row["role_assignment_changed_blocks_vs_adapt06e"] for row in result["rows"]
+    )
+    id_counts = sum(
+        row["requested_id_changed_blocks_vs_adapt06e"] for row in result["rows"]
+    )
     lines.extend(
         [
-            "",
-            (
-                "Su TON non si osservano promozioni: il mezzo passo coincide con "
-                "ADAPT-06E e con il controllo matched in tutti i cinque seed. Su UNSW "
-                "nessun seed soddisfa il criterio contro entrambi i riferimenti. Il "
-                "solo intervallo locale favorevole è il blocco 89 del seed 46; il "
-                "risultato complessivo di quel seed aumenta sia TP sia FP e quindi "
-                "resta sfavorevole."
-            ),
             "",
             (
                 "La tabella `RESULTS.csv` conserva integralmente entrambi gli stream e "
@@ -374,10 +435,10 @@ def render_report(result: dict, execution_commit: str) -> str:
             ),
             "",
             (
-                "Le traiettorie half-step e ADAPT-06E possono assegnare ruoli diversi "
-                "dopo decisioni differenti. Le colonne dedicate rendono esplicite tali "
-                "differenze; gli ID richiesti restano identici in tutti i blocchi, il "
-                "budget resta invariato ed entrambi sono verificati nei report."
+                f"Su {len(result['temporal_rows'])} coppie seme/blocco, il confronto con "
+                f"ADAPT-06E trova {id_counts} variazioni nella sequenza degli ID richiesti "
+                f"e {role_counts} blocchi con almeno un ID assegnato a un ruolo diverso. "
+                "Il budget per blocco coincide."
             ),
             "",
             (

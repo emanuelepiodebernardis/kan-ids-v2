@@ -34,3 +34,10 @@ python -m pytest adattamento-drift/adapt06e_verify50 adattamento-drift/adapt06g_
 Controllo statico:
 ruff check adattamento-drift/adapt06e_verify50/engine.py adattamento-drift/adapt06g_half_step
 All checks passed!
+
+Verifica prima della pubblicazione:
+python -m pytest adattamento-drift/adapt06b_decoupled_threshold adattamento-drift/adapt06e_verify50 adattamento-drift/adapt06f_next_block adattamento-drift/adapt06g_half_step -q
+105 passed in 58.69s
+- sei file della consegna rigenerati in una directory separata, identici byte per byte
+- 13 file dello ZIP ADAPT-06G verificati contro i file originali
+- dieci JSON, manifest e log di ADAPT-06E verificati contro lo ZIP di riferimento

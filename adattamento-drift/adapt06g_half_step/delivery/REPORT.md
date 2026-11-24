@@ -24,10 +24,14 @@ Commit eseguito: `cb651dd2bc0bd0ffe70384f0ac9b00a46d7c0f5b`. Coefficiente prereg
 | UNSW | 45 | 196644 | 18245 | 15638 | 2.270% | 2 | -4535/-345 | -4214/-17 | -4214/+2433 | -4214/+732 | FAIL |
 | UNSW | 46 | 200930 | 18065 | 11352 | 2.248% | 1 | +498/+400 | +528/+426 | +529/+2457 | +528/+1864 | FAIL |
 
-Su TON non si osservano promozioni: il mezzo passo coincide con ADAPT-06E e con il controllo matched in tutti i cinque seed. Su UNSW nessun seed soddisfa il criterio contro entrambi i riferimenti. Il solo intervallo locale favorevole è il blocco 89 del seed 46; il risultato complessivo di quel seed aumenta sia TP sia FP e quindi resta sfavorevole.
+## Localizzazione temporale
+
+- UNSW/seed 46, blocco 89 (indice da zero). ΔTP/ΔFP +29/-1 contro 06E, +29/-1 contro matched e +29/+17 contro 06B.
+- UNSW contro adapt06e: maggiore perdita di TP in un blocco al seed 45, blocco 87 (ΔTP/ΔFP -4125/-90).
+- UNSW contro matched: maggiore perdita di TP in un blocco al seed 45, blocco 87 (ΔTP/ΔFP -4136/-30).
 
 La tabella `RESULTS.csv` conserva integralmente entrambi gli stream e tutti i seed, inclusi esiti nulli o sfavorevoli. `TEMPORAL_BLOCKS.csv` localizza le differenze per blocco; `EPISODES.csv` elenca gli intervalli contigui, senza trattare lo stesso intervallo ripetuto su più seed come più episodi indipendenti.
 
-Le traiettorie half-step e ADAPT-06E possono assegnare ruoli diversi dopo decisioni differenti. Le colonne dedicate rendono esplicite tali differenze; gli ID richiesti restano identici in tutti i blocchi, il budget resta invariato ed entrambi sono verificati nei report.
+Su 2285 coppie seme/blocco, il confronto con ADAPT-06E trova 0 variazioni nella sequenza degli ID richiesti e 45 blocchi con almeno un ID assegnato a un ruolo diverso. Il budget per blocco coincide.
 
 Non sono stati eseguiti nuovi fit iniziali, tuning, ACTIVE, altri modelli o nuovi dataset. La conclusione riguarda soltanto il coefficiente 0,5 preregistrato sui due stream di sviluppo.

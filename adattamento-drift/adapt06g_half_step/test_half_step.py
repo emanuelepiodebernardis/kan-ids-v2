@@ -199,6 +199,10 @@ def test_delivered_lightweight_products_are_internally_consistent():
     assert [(row["dataset"], int(row["seed"])) for row in rows] == [
         (dataset, seed) for dataset in ("ton", "unsw") for seed in range(42, 47)
     ]
+    with (delivery / "TEMPORAL_BLOCKS.csv").open(
+        encoding="utf-8", newline=""
+    ) as handle:
+        temporal = list(csv.DictReader(handle))
     for row in rows:
         for prefix in ("half_step", "adapt06e", "matched", "frozen_b", "adapt06b"):
             tp = int(row[f"{prefix}_tp"])
@@ -211,3 +215,23 @@ def test_delivered_lightweight_products_are_internally_consistent():
             assert tn + fp == normal
             assert float(row[f"{prefix}_recall"]) == pytest.approx(tp / attack)
             assert float(row[f"{prefix}_fpr"]) == pytest.approx(fp / normal)
+        blocks = [
+            block
+            for block in temporal
+            if (block["dataset"], block["seed"]) == (row["dataset"], row["seed"])
+        ]
+        assert [int(block["block"]) for block in blocks] == list(range(len(blocks)))
+        for comparator in ("adapt06e", "matched", "frozen_b", "adapt06b"):
+            for metric in ("tp", "fp"):
+                delta = f"delta_{metric}_vs_{comparator}"
+                assert sum(int(block[delta]) for block in blocks) == int(row[delta])
+                assert int(row[delta]) == int(row[f"half_step_{metric}"]) - int(
+                    row[f"{comparator}_{metric}"]
+                )
+        changed_roles = [
+            int(block["requested_ids_changing_role_vs_adapt06e"]) for block in blocks
+        ]
+        assert sum(changed_roles) == int(row["requested_ids_changing_role_vs_adapt06e"])
+        assert sum(count > 0 for count in changed_roles) == int(
+            row["role_assignment_changed_blocks_vs_adapt06e"]
+        )

@@ -12,7 +12,7 @@
       "local_episode_intervals_all_seeds": [],
       "qualifying_temporal_episodes_primary_seeds": 0,
       "qualifying_episode_intervals_primary_seeds": [],
-      "successful_seeds_no_fp_increase_vs_adapt06b": false,
+      "successful_seeds_no_fp_increase_vs_adapt06b": null,
       "adapt07_criterion": false
     },
     {
@@ -29,7 +29,7 @@
       ],
       "qualifying_temporal_episodes_primary_seeds": 0,
       "qualifying_episode_intervals_primary_seeds": [],
-      "successful_seeds_no_fp_increase_vs_adapt06b": false,
+      "successful_seeds_no_fp_increase_vs_adapt06b": null,
       "adapt07_criterion": false
     }
   ],
