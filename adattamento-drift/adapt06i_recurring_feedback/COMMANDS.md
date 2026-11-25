@@ -13,7 +13,9 @@ Eseguire da PowerShell nella radice del clone, che contiene
 - `$pilotData` contiene `ton/D.npz`, `ton/D.json`, `unsw/D.npz` e
   `unsw/D.json`, con gli array e l’ordine delle osservazioni verificati
   contro la provenienza ADAPT-06E. Si accetta la ricompressione del
-  contenitore NPZ quando gli array coincidono.
+  contenitore NPZ quando gli array coincidono. Per ricostruire gli input
+  dalle catture originali, seguire la sezione
+  [Dati di ADAPT-05](../adapt05_occurrence/REPRODUCTION.md#dati).
 - I modelli GAM e i metadati A/B registrati sono in
   `adattamento-drift/review_extension/models`.
 - L’esecuzione di riferimento usa Windows 11 e Python 3.12.7 con
@@ -55,9 +57,9 @@ if ($LASTEXITCODE -ne 0) { throw 'Pilot ADAPT-06I fallito.' }
 Il manifest in `delivery/` registra i sei prodotti scientifici con
 dimensione e SHA-256. Il manifest rigenerato documenta anche l’ambiente
 locale, quindi si confrontano i prodotti elencati in `files`.
-Il controllo Frozen/B richiede la stessa confusione degli archivi in
-ogni blocco. Se l’ambiente cambia una predizione al margine, il runner
-interrompe la rigenerazione e indica lo stream e il blocco.
+Il controllo Frozen/B richiede gli stessi conteggi TP, FP, FN e TN
+degli archivi in ogni blocco. Se uno dei quattro conteggi differisce,
+il runner interrompe la rigenerazione e indica lo stream e il blocco.
 
 ```powershell
 $pilotManifest = Get-Content -LiteralPath 'adattamento-drift/adapt06i_recurring_feedback/delivery/MANIFEST.json' -Raw | ConvertFrom-Json
