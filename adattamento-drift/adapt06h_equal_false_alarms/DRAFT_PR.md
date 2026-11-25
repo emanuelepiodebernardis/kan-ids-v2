@@ -46,7 +46,10 @@ confusioni, totali appaiati ed episodi direttamente dal checkout. Passano i
 
 ## Riscontro sui confini CAL
 
-`PLATFORM_NOTE.md` e `PLATFORM_AUDIT_WINDOWS.json` documentano TON/44/FREEZE 302
-e UNSW/43/FREEZE 37. Le due verifiche coprono l’uguaglianza esatta con la
-soglia operativa e l’effetto dell’incremento di un’unità del tetto. La consegna
-scientifica e la regola preregistrata rimangono nel loro formato originale.
+`PLATFORM_NOTE.md` confronta Windows e Linux per TON/44/FREEZE 302 e
+UNSW/43/FREEZE 37. I due score di confine coincidono con la soglia operativa
+su Windows e la superano nel riesame Linux, dove il tetto sale da 0 a 1 e da
+4 a 5. Usando sui punteggi Windows i tetti del riesame, si riproducono
+rispettivamente 28 TP/2.423 FP e 1.806 TP/699 FP. I due test verificano
+uguaglianza, tetti e conteggi. Il manifest supplementare registra le fonti e
+i limiti di precisione, preservando il manifest originale in `delivery/`.

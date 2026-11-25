@@ -1,0 +1,28 @@
+{
+  "schema": "adapt06h-platform-audit-v1",
+  "original_delivery_commit": "1fd6ff7e191ea8fc0843e3ef95d871fa8505e89b",
+  "protocol_commit": "9c9acd64ad5a0cca2bc98a90de1aae873bac8e3d",
+  "prediction_rule": "score > threshold; ties are not split",
+  "original_manifest": "delivery/MANIFEST.json",
+  "linux_review_source": "https://trello.com/c/t5J7WleC",
+  "platform_limits": {
+    "linux_review_byte_identical": [
+      "DECISION.json",
+      "EPISODES.csv",
+      "NOTE.md"
+    ],
+    "linux_review_byte_different": [
+      "CYCLES.csv",
+      "SEEDS.csv"
+    ],
+    "linux_margin_precision": "approximate reported score-minus-archived-threshold margins; exact Linux binary64 scores and recalibrated thresholds were not supplied",
+    "counterfactual_scope": "both alternative caps were applied to Windows scores; candidate next-block TP and FP match the counts reported in the independent Linux review",
+    "decision": "the seed criteria, qualifying episodes and no-replay decision agree"
+  },
+  "sha256": {
+    "delivery/MANIFEST.json": "d5208483638c37e1a5dbeb2c6d217771ef885d344eddafa79aba7b3c8d27b4a8",
+    "PLATFORM_AUDIT_WINDOWS.json": "afe18032ccfbe8af9861c2f911821366ee481bb55854d49da1cbd803fe8bdc16",
+    "PLATFORM_REVIEW_LINUX.json": "3f9fc352c27a09ba01c7bf9ae29fddebc36e4975f6f5b98001778aeefbfebebb",
+    "PLATFORM_NOTE.md": "8ab30c59e0f5be4777b492480c88ff15f598f07defbbf17e7dc334135493f458"
+  }
+}

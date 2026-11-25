@@ -1,0 +1,69 @@
+{
+  "source": "Riesame indipendente del 25 novembre 2026, scheda Trello ADAPT-06H",
+  "source_url": "https://trello.com/c/t5J7WleC",
+  "reviewed_head": "1fd6ff7e191ea8fc0843e3ef95d871fa8505e89b",
+  "environment": {
+    "platform": "Linux x86-64",
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.7.2",
+    "blas": "OpenBLAS 0.3.30",
+    "blas_threads": 1
+  },
+  "score_margin_precision": "approximate",
+  "cases": [
+    {
+      "dataset": "ton",
+      "seed": 44,
+      "freeze_block": 302,
+      "next_block": 353,
+      "normal_cal_support": 128,
+      "boundary_row_id": 21770852,
+      "archived_operating_threshold": 8.465551138302391,
+      "reported_linux_score_minus_archived_threshold_approx": 1.86e-8,
+      "windows": {
+        "cal_fp_cap": 0,
+        "candidate_tp": 10,
+        "candidate_fp": 1112
+      },
+      "linux": {
+        "cal_fp_cap": 1,
+        "candidate_tp": 28,
+        "candidate_fp": 2423
+      }
+    },
+    {
+      "dataset": "unsw",
+      "seed": 43,
+      "freeze_block": 37,
+      "next_block": 47,
+      "normal_cal_support": 128,
+      "boundary_row_id": 1842453,
+      "archived_operating_threshold": 1.980076144867696,
+      "reported_linux_score_minus_archived_threshold_approx": 8.96e-7,
+      "windows": {
+        "cal_fp_cap": 4,
+        "candidate_tp": 1776,
+        "candidate_fp": 631
+      },
+      "linux": {
+        "cal_fp_cap": 5,
+        "candidate_tp": 1806,
+        "candidate_fp": 699
+      }
+    }
+  ],
+  "independent_full_regeneration": {
+    "tests_passed": 120,
+    "byte_identical": [
+      "DECISION.json",
+      "EPISODES.csv",
+      "NOTE.md"
+    ],
+    "byte_different": [
+      "CYCLES.csv",
+      "SEEDS.csv"
+    ],
+    "independently_confirmed_tp_fp_pairs": 170
+  }
+}

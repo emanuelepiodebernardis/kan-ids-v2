@@ -40,3 +40,13 @@ Riscontro numerico sui due confini CAL:
 - Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
   122 passed in 191.72s.
 - Ruff PASS. PROTOCOL.md, run.py, analysis.py e delivery/ identici a 1fd6ff7.
+
+Riconciliazione con il riesame Linux del 25 novembre 2026:
+- Per entrambi gli ID, verificato il passaggio da score uguale alla soglia
+  a score sopra soglia usando i margini approssimati riportati dal revisore.
+- I tetti Linux applicati agli score Windows riproducono le coppie TP/FP
+  Linux riferite: TON 28/2423, UNSW 1806/699.
+- Suite ADAPT-06H aggiornata: 18 passed in 26.28s. Ruff PASS.
+- Riscontro Windows, codice di scoring e consegna originale invariati.
+- Il manifest supplementare verifica gli hash e registra la precisione
+  disponibile e i limiti di confronto tra piattaforme.

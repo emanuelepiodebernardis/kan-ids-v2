@@ -45,8 +45,13 @@ $env:NUMEXPR_NUM_THREADS = '1'
 if ($LASTEXITCODE -ne 0) { throw 'Rigenerazione ADAPT-06H fallita.' }
 ```
 
-Confrontare i cinque prodotti scientifici con gli hash della consegna. Il
+Per il confronto byte per byte nell’ambiente Windows della consegna,
+confrontare i cinque prodotti scientifici con gli hash archiviati. Il
 manifest prodotto durante la rigenerazione registra anche l’ambiente locale.
+Nel riesame Linux coincidono `DECISION.json`, `EPISODES.csv` e `NOTE.md`,
+mentre `CYCLES.csv` e `SEEDS.csv` differiscono. I criteri per seme e la
+decisione coincidono. Usare il riscontro più sotto per interpretare i due
+confini numerici e consultare `PLATFORM_AUDIT_MANIFEST.json`.
 
 ```powershell
 $adaptDelivery = 'adattamento-drift/adapt06h_equal_false_alarms/delivery'
@@ -96,5 +101,12 @@ Get-Content -LiteralPath $adaptAudit -Raw
 ```
 
 In ambiente Windows il risultato di riferimento è `PLATFORM_AUDIT_WINDOWS.json`.
-La prova a tetto alternativo va letta nello stesso ambiente che l’ha prodotta.
-Vedere `PLATFORM_NOTE.md` per l’interpretazione e la provenienza dei confronti.
+La prova a tetto alternativo usa gli score dell’ambiente che l’ha prodotta.
+`PLATFORM_REVIEW_LINUX.json` trascrive i margini approssimati e i conteggi
+riportati nella scheda. I test confrontano questi riferimenti con gli score,
+le soglie e le confusioni dell’audit Windows. `PLATFORM_NOTE.md` spiega
+quali valori Linux sono disponibili e la loro precisione.
+
+```powershell
+& $adaptPython -m pytest adattamento-drift/adapt06h_equal_false_alarms/test_platform_audit.py -q
+```
