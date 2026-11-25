@@ -43,3 +43,10 @@ disponibili. ADAPT-07 rimane in backlog.
 I test sui prodotti versionati verificano hash, allineamento con ADAPT-06F,
 confusioni, totali appaiati ed episodi direttamente dal checkout. Passano i
 15 test mirati ADAPT-06H e i 120 test della suite combinata ADAPT-06B/06E–06H.
+
+## Riscontro sui confini CAL
+
+`PLATFORM_NOTE.md` e `PLATFORM_AUDIT_WINDOWS.json` documentano TON/44/FREEZE 302
+e UNSW/43/FREEZE 37. Le due verifiche coprono l’uguaglianza esatta con la
+soglia operativa e l’effetto dell’incremento di un’unità del tetto. La consegna
+scientifica e la regola preregistrata rimangono nel loro formato originale.

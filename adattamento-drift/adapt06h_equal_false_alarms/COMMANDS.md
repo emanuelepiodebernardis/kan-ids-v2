@@ -75,3 +75,26 @@ modelli sono richiesti per la rigenerazione precedente.
 ```powershell
 & $adaptPython -m pytest adattamento-drift/adapt06h_equal_false_alarms/test_delivery.py -q
 ```
+
+## Riscontro sui due confini CAL
+
+Eseguire con le stesse variabili e i limiti di thread dell’esempio precedente.
+Lo script produce un JSON separato per TON/44/FREEZE 302 e UNSW/43/FREEZE 37.
+Per ogni caso esporta gli ID e gli score normali vicini ai confini, in decimale
+e binary64 esadecimale, oltre alle soglie e ai conteggi dei due bracci.
+
+```powershell
+$adaptAudit = Join-Path ([System.IO.Path]::GetTempPath()) ('adapt06h-audit-' + [guid]::NewGuid().ToString('N') + '.json')
+& $adaptPython adattamento-drift/adapt06h_equal_false_alarms/audit_platform.py `
+  --reports "$adaptSource/reports" `
+  --archive "$adaptSource/adapt06e_verify50_full_6ee5eb3.zip" `
+  --data-root $adaptData `
+  --model-root adattamento-drift/review_extension/models `
+  --out $adaptAudit
+if ($LASTEXITCODE -ne 0) { throw 'Riscontro sui confini CAL fallito.' }
+Get-Content -LiteralPath $adaptAudit -Raw
+```
+
+In ambiente Windows il risultato di riferimento è `PLATFORM_AUDIT_WINDOWS.json`.
+La prova a tetto alternativo va letta nello stesso ambiente che l’ha prodotta.
+Vedere `PLATFORM_NOTE.md` per l’interpretazione e la provenienza dei confronti.

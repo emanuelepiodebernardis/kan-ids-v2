@@ -31,3 +31,12 @@ Riesame della consegna:
 - Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
   120 passed in 48.02s.
 - Protocollo, codice di analisi e prodotti scientifici invariati.
+
+Riscontro numerico sui due confini CAL:
+- TON/44/FREEZE 302 e UNSW/43/FREEZE 37 riprodotti dai dati archiviati.
+- JSON di audit Windows rigenerato byte per byte con COMMANDS.md.
+  SHA-256: afe18032ccfbe8af9861c2f911821366ee481bb55854d49da1cbd803fe8bdc16.
+- Test dei due confini: 2 passed in 0.52s.
+- Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
+  122 passed in 191.72s.
+- Ruff PASS. PROTOCOL.md, run.py, analysis.py e delivery/ identici a 1fd6ff7.
