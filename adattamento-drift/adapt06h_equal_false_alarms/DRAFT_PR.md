@@ -41,8 +41,9 @@ e SHA-256. L’analisi usa inferenza sui pesi archiviati e le etichette già
 disponibili. ADAPT-07 rimane in backlog.
 
 I test sui prodotti versionati verificano hash, allineamento con ADAPT-06F,
-confusioni, totali appaiati ed episodi direttamente dal checkout. Passano i
-15 test mirati ADAPT-06H e i 120 test della suite combinata ADAPT-06B/06E–06H.
+confusioni, totali appaiati ed episodi direttamente dal checkout. La consegna
+scientifica originale (`1fd6ff7`) è stata verificata con 120 test della suite
+combinata ADAPT-06B/06E–06H, di cui 15 mirati su ADAPT-06H.
 
 ## Riscontro sui confini CAL
 
@@ -53,3 +54,6 @@ su Windows e la superano nel riesame Linux, dove il tetto sale da 0 a 1 e da
 rispettivamente 28 TP/2.423 FP e 1.806 TP/699 FP. I due test verificano
 uguaglianza, tetti e conteggi. Il manifest supplementare registra le fonti e
 i limiti di precisione, preservando il manifest originale in `delivery/`.
+I 18 test mirati della revisione includono i controlli sui due casi e sugli
+hash del manifest supplementare. La suite combinata aggiornata passa con
+123 test.

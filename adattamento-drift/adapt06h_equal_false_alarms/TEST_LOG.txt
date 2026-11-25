@@ -50,3 +50,5 @@ Riconciliazione con il riesame Linux del 25 novembre 2026:
 - Riscontro Windows, codice di scoring e consegna originale invariati.
 - Il manifest supplementare verifica gli hash e registra la precisione
   disponibile e i limiti di confronto tra piattaforme.
+- Verifica pre-push della suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G
+  e ADAPT-06H: 123 passed in 96.52s.
