@@ -110,6 +110,9 @@ def case_inputs(dataset: str, args: argparse.Namespace, source: dict, manifest: 
         or report["seed"] != 42
         or report["family"] != "spline"
         or report["acquisition"] != "random"
+        or report["scope"] != "full"
+        or report["rows_evaluated"] != report["rows_available"]
+        or report["blocks_evaluated"] != report["blocks_available"]
         or report["commit"] != SOURCE_EXECUTION_COMMIT
         or not configured["decoupled_threshold"]
         or any(configured[name] != value for name, value in expected.items())
@@ -188,17 +191,29 @@ def difference_rows(summaries: list[dict]) -> list[dict]:
 
 
 def render_report(summaries: list[dict], episodes: list[dict]) -> str:
+    def count(value: int) -> str:
+        return f"{value:,}".replace(",", ".")
+
+    def percentage(value: float) -> str:
+        return f"{value:.2%}".replace(".", ",")
+
     lines = [
         "# ADAPT-06I — pilot con feedback passato",
         "",
-        "| Stream | ID valutati | Righe ammissibili aggiornate | Cambi rispetto a Frozen/B | ΔTP/ΔFP contro base | ΔTP/ΔFP contro memoria fissata | Episodi favorevoli | Chiavi qualificanti | Estensione |",
+        (
+            "Seed 42, su tutti i blocchi a partire dal 20. I tre confronti usano gli stessi ID. "
+            "La memoria fissata conserva il dizionario di inizio blocco 20, mentre quella aggiornata "
+            "incorpora le sole etichette FIT disponibili prima della predizione."
+        ),
+        "",
+        "| Stream | ID valutati | Righe ammissibili con memoria aggiornata | Cambi rispetto a Frozen/B | ΔTP/ΔFP contro Frozen/B | ΔTP/ΔFP contro memoria fissata | Episodi favorevoli | Chiavi qualificanti | Estensione proponibile |",
         "|---|---:|---:|---:|---:|---:|---:|---:|:---:|",
     ]
     for row in summaries:
         m = row["totals"]
         lines.append(
-            f"| {row['dataset'].upper()} | {row['distinct_evaluation_ids']:,} | "
-            f"{m['live_eligible_rows']} ({row['live_coverage']:.2%}) | {m['live_vs_base_changed']} | "
+            f"| {row['dataset'].upper()} | {count(row['distinct_evaluation_ids'])} | "
+            f"{count(m['live_eligible_rows'])} ({percentage(row['live_coverage'])}) | {count(m['live_vs_base_changed'])} | "
             f"{m['live_vs_base_delta_tp']:+d}/{m['live_vs_base_delta_fp']:+d} | "
             f"{m['live_vs_fixed_delta_tp']:+d}/{m['live_vs_fixed_delta_fp']:+d} | "
             f"{row['favorable_episodes']} | {row['qualifying_keys']} | "
@@ -220,7 +235,7 @@ def render_report(summaries: list[dict], episodes: list[dict]) -> str:
             m = row["totals"]
             lines.append(
                 f"| {row['dataset'].upper()} | {name} | "
-                f"{m[f'{arm}_tp']} | {m[f'{arm}_fp']} | {m[f'{arm}_fn']} | {m[f'{arm}_tn']} |"
+                f"{count(m[f'{arm}_tp'])} | {count(m[f'{arm}_fp'])} | {count(m[f'{arm}_fn'])} | {count(m[f'{arm}_tn'])} |"
             )
     for row in summaries:
         m = row["totals"]
@@ -230,17 +245,18 @@ def render_report(summaries: list[dict], episodes: list[dict]) -> str:
                 "",
                 (
                     f"Dal blocco {row['first_block']} al {row['last_block']} la memoria aggiornata "
-                    f"ammette {row['live_distinct_eligible_keys']} chiavi distinte e cambia la decisione "
-                    f"rispetto a Frozen/B su {row['live_distinct_changed_keys']} chiavi. Il controllo fisso "
-                    f"copre {m['fixed_eligible_rows']} righe ({row['fixed_coverage']:.2%})."
+                    f"ammette {row['live_distinct_eligible_keys']} chiavi distinte. Le decisioni diverse "
+                    f"da Frozen/B riguardano {row['live_distinct_changed_keys']} chiavi. Il controllo fisso "
+                    f"copre {count(m['fixed_eligible_rows'])} righe ({percentage(row['fixed_coverage'])})."
                 ),
                 "",
                 (
-                    f"Contro Frozen/B si recuperano {m['live_vs_base_attacks_recovered']} attacchi, "
-                    f"se ne perdono {m['live_vs_base_attacks_lost']}, si correggono "
-                    f"{m['live_vs_base_false_alarms_corrected']} falsi allarmi e se ne aggiungono "
-                    f"{m['live_vs_base_false_alarms_added']}."
+                    f"Contro Frozen/B si recuperano {count(m['live_vs_base_attacks_recovered'])} attacchi, "
+                    f"se ne perdono {count(m['live_vs_base_attacks_lost'])}, si correggono "
+                    f"{count(m['live_vs_base_false_alarms_corrected'])} falsi allarmi e se ne aggiungono "
+                    f"{count(m['live_vs_base_false_alarms_added'])}."
                 ),
+                "",
             ]
         )
         for label, top in (
@@ -250,7 +266,8 @@ def render_report(summaries: list[dict], episodes: list[dict]) -> str:
         ):
             if top["key"] is not None:
                 lines.append(
-                    f"- {label}. {top['rows']}/{top['denominator']} righe ({top['share']:.2%}) per \u0060{top['key']}\u0060."
+                    f"- {label}. La chiave \u0060{top['key']}\u0060 rappresenta {count(top['rows'])} righe "
+                    f"su {count(top['denominator'])} ({percentage(top['share'])})."
                 )
         stream_episodes = [
             episode for episode in episodes if episode["dataset"] == row["dataset"]
@@ -264,7 +281,7 @@ def render_report(summaries: list[dict], episodes: list[dict]) -> str:
                 for e in stream_episodes
             )
             lines.append(
-                f"Episodi favorevoli contro entrambi i controlli, con indici 0-based: {locations}."
+                f"Gli episodi favorevoli contro entrambi i controlli sono nei blocchi {locations}, con indici da zero."
             )
         else:
             lines.append(
@@ -282,7 +299,7 @@ def render_report(summaries: list[dict], episodes: list[dict]) -> str:
             conditions.append("almeno due chiavi qualificanti")
         if conditions:
             lines.append(
-                f"Estensione esclusa. Criteri non soddisfatti: {'; '.join(conditions)}."
+                f"L’estensione resta esclusa. Condizioni mancanti ({', '.join(conditions)})."
             )
         else:
             lines.append(
@@ -292,8 +309,9 @@ def render_report(summaries: list[dict], episodes: list[dict]) -> str:
         [
             "",
             (
-                "Il pilot riguarda una cattura per stream e il solo seme 42. Il criterio di "
-                "estensione richiede anche due episodi distinti e due chiavi qualificanti."
+                "Il pilot riguarda una cattura per stream e il solo seme 42. Usa il calendario storico "
+                "delle richieste. I confronti misurano il contributo della memoria a calendario fissato "
+                "sugli stream di sviluppo. ADAPT-07 rimane in backlog."
             ),
             "",
         ]
