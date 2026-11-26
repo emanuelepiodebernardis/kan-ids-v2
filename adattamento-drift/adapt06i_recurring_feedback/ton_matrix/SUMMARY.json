@@ -1,0 +1,480 @@
+{
+  "streams": [
+    {
+      "dataset": "ton",
+      "seed": 42,
+      "first_block": 20,
+      "last_block": 354,
+      "evaluated_blocks": 335,
+      "distinct_evaluation_ids": 3349973,
+      "distinct_vectors": 1877574,
+      "fixed_dictionary_keys_at_20": 2,
+      "fixed_distinct_eligible_keys": 2,
+      "live_distinct_eligible_keys": 94,
+      "live_distinct_changed_keys": 12,
+      "live_coverage": 0.022210029752478603,
+      "fixed_coverage": 0.008718577731820526,
+      "requests_full_stream": {
+        "CONTROL": 8874,
+        "VERIFY_EXTRA": 1750,
+        "RANDOM_FIT": 24875
+      },
+      "top_vector_all_rows": {
+        "key": "ff4880edb8fb994dbef59c54249dd751250b9bb7dc2b66352f4582e10022e898",
+        "rows": 49389,
+        "denominator": 3349973,
+        "share": 0.01474310389964337
+      },
+      "top_vector_live_coverage": {
+        "key": "f0b15f79c9b6a8dcf9a9113dbdc6a94424db5cff323b1d133ea7c9ca3df20dba",
+        "rows": 18694,
+        "denominator": 74403,
+        "share": 0.25125330967837317
+      },
+      "top_vector_live_changes": {
+        "key": "edc7f6a1fe7755376f5aeb16e91c4ff59fe3dfdbe45ca9a6b27ff23eded29df4",
+        "rows": 8522,
+        "denominator": 25809,
+        "share": 0.33019489325429113
+      },
+      "totals": {
+        "base_tn": 264759,
+        "base_fp": 38848,
+        "base_fn": 2383650,
+        "base_tp": 662716,
+        "fixed_tn": 262642,
+        "fixed_fp": 40965,
+        "fixed_fn": 2369874,
+        "fixed_tp": 676492,
+        "live_tn": 271689,
+        "live_fp": 31918,
+        "live_fn": 2367955,
+        "live_tp": 678411,
+        "fixed_eligible_rows": 29207,
+        "live_eligible_rows": 74403,
+        "fixed_vs_base_attacks_recovered": 13776,
+        "fixed_vs_base_attacks_lost": 0,
+        "fixed_vs_base_false_alarms_corrected": 0,
+        "fixed_vs_base_false_alarms_added": 2117,
+        "live_vs_base_attacks_recovered": 16230,
+        "live_vs_base_attacks_lost": 535,
+        "live_vs_base_false_alarms_corrected": 7987,
+        "live_vs_base_false_alarms_added": 1057,
+        "live_vs_fixed_attacks_recovered": 10711,
+        "live_vs_fixed_attacks_lost": 8792,
+        "live_vs_fixed_false_alarms_corrected": 9855,
+        "live_vs_fixed_false_alarms_added": 808,
+        "fixed_vs_base_changed": 15893,
+        "fixed_vs_base_delta_tp": 13776,
+        "fixed_vs_base_delta_fp": 2117,
+        "live_vs_base_changed": 25809,
+        "live_vs_base_delta_tp": 15695,
+        "live_vs_base_delta_fp": -6930,
+        "live_vs_fixed_changed": 30166,
+        "live_vs_fixed_delta_tp": 1919,
+        "live_vs_fixed_delta_fp": -9047
+      },
+      "favorable_episodes": 3,
+      "qualifying_keys": 5,
+      "propose_extension": true,
+      "fit_snapshots_verified": 355,
+      "frozen_b_confusions_verified": 355,
+      "historical_requested_id_sequence_sha256": "2f02280eace0102411f797d08168185d5456f2a78d2e53ae4afde5b3cd3f1d45"
+    },
+    {
+      "dataset": "ton",
+      "seed": 43,
+      "first_block": 20,
+      "last_block": 354,
+      "evaluated_blocks": 335,
+      "distinct_evaluation_ids": 3349973,
+      "distinct_vectors": 1877574,
+      "fixed_dictionary_keys_at_20": 2,
+      "fixed_distinct_eligible_keys": 2,
+      "live_distinct_eligible_keys": 98,
+      "live_distinct_changed_keys": 13,
+      "live_coverage": 0.02304526036478503,
+      "fixed_coverage": 0.004405408640606954,
+      "requests_full_stream": {
+        "CONTROL": 8874,
+        "VERIFY_EXTRA": 1750,
+        "RANDOM_FIT": 24875
+      },
+      "top_vector_all_rows": {
+        "key": "ff4880edb8fb994dbef59c54249dd751250b9bb7dc2b66352f4582e10022e898",
+        "rows": 49389,
+        "denominator": 3349973,
+        "share": 0.01474310389964337
+      },
+      "top_vector_live_coverage": {
+        "key": "f0b15f79c9b6a8dcf9a9113dbdc6a94424db5cff323b1d133ea7c9ca3df20dba",
+        "rows": 18686,
+        "denominator": 77201,
+        "share": 0.24204349684589577
+      },
+      "top_vector_live_changes": {
+        "key": "edc7f6a1fe7755376f5aeb16e91c4ff59fe3dfdbe45ca9a6b27ff23eded29df4",
+        "rows": 7352,
+        "denominator": 26347,
+        "share": 0.27904505256765477
+      },
+      "totals": {
+        "base_tn": 263976,
+        "base_fp": 39631,
+        "base_fn": 2402737,
+        "base_tp": 643629,
+        "fixed_tn": 263976,
+        "fixed_fp": 39631,
+        "fixed_fn": 2402737,
+        "fixed_tp": 643629,
+        "live_tn": 269917,
+        "live_fp": 33690,
+        "live_fn": 2385153,
+        "live_tp": 661213,
+        "fixed_eligible_rows": 14758,
+        "live_eligible_rows": 77201,
+        "fixed_vs_base_attacks_recovered": 0,
+        "fixed_vs_base_attacks_lost": 0,
+        "fixed_vs_base_false_alarms_corrected": 0,
+        "fixed_vs_base_false_alarms_added": 0,
+        "live_vs_base_attacks_recovered": 17754,
+        "live_vs_base_attacks_lost": 170,
+        "live_vs_base_false_alarms_corrected": 7182,
+        "live_vs_base_false_alarms_added": 1241,
+        "live_vs_fixed_attacks_recovered": 17754,
+        "live_vs_fixed_attacks_lost": 170,
+        "live_vs_fixed_false_alarms_corrected": 7182,
+        "live_vs_fixed_false_alarms_added": 1241,
+        "fixed_vs_base_changed": 0,
+        "fixed_vs_base_delta_tp": 0,
+        "fixed_vs_base_delta_fp": 0,
+        "live_vs_base_changed": 26347,
+        "live_vs_base_delta_tp": 17584,
+        "live_vs_base_delta_fp": -5941,
+        "live_vs_fixed_changed": 26347,
+        "live_vs_fixed_delta_tp": 17584,
+        "live_vs_fixed_delta_fp": -5941
+      },
+      "favorable_episodes": 8,
+      "qualifying_keys": 4,
+      "propose_extension": true,
+      "fit_snapshots_verified": 355,
+      "frozen_b_confusions_verified": 355,
+      "historical_requested_id_sequence_sha256": "08479f4089cab9a2be902639df89d0f3407605e6c8361b5b79e10b72c6af2121"
+    },
+    {
+      "dataset": "ton",
+      "seed": 44,
+      "first_block": 20,
+      "last_block": 354,
+      "evaluated_blocks": 335,
+      "distinct_evaluation_ids": 3349973,
+      "distinct_vectors": 1877574,
+      "fixed_dictionary_keys_at_20": 2,
+      "fixed_distinct_eligible_keys": 2,
+      "live_distinct_eligible_keys": 95,
+      "live_distinct_changed_keys": 12,
+      "live_coverage": 0.02262704803889464,
+      "fixed_coverage": 0.008718577731820526,
+      "requests_full_stream": {
+        "CONTROL": 8874,
+        "VERIFY_EXTRA": 1750,
+        "RANDOM_FIT": 24875
+      },
+      "top_vector_all_rows": {
+        "key": "ff4880edb8fb994dbef59c54249dd751250b9bb7dc2b66352f4582e10022e898",
+        "rows": 49389,
+        "denominator": 3349973,
+        "share": 0.01474310389964337
+      },
+      "top_vector_live_coverage": {
+        "key": "f0b15f79c9b6a8dcf9a9113dbdc6a94424db5cff323b1d133ea7c9ca3df20dba",
+        "rows": 18721,
+        "denominator": 75800,
+        "share": 0.24697889182058047
+      },
+      "top_vector_live_changes": {
+        "key": "edc7f6a1fe7755376f5aeb16e91c4ff59fe3dfdbe45ca9a6b27ff23eded29df4",
+        "rows": 11593,
+        "denominator": 27523,
+        "share": 0.4212113505068488
+      },
+      "totals": {
+        "base_tn": 264427,
+        "base_fp": 39180,
+        "base_fn": 2403985,
+        "base_tp": 642381,
+        "fixed_tn": 262310,
+        "fixed_fp": 41297,
+        "fixed_fn": 2390209,
+        "fixed_tp": 656157,
+        "live_tn": 274531,
+        "live_fp": 29076,
+        "live_fn": 2389544,
+        "live_tp": 656822,
+        "fixed_eligible_rows": 29207,
+        "live_eligible_rows": 75800,
+        "fixed_vs_base_attacks_recovered": 13776,
+        "fixed_vs_base_attacks_lost": 0,
+        "fixed_vs_base_false_alarms_corrected": 0,
+        "fixed_vs_base_false_alarms_added": 2117,
+        "live_vs_base_attacks_recovered": 15089,
+        "live_vs_base_attacks_lost": 648,
+        "live_vs_base_false_alarms_corrected": 10945,
+        "live_vs_base_false_alarms_added": 841,
+        "live_vs_fixed_attacks_recovered": 11070,
+        "live_vs_fixed_attacks_lost": 10405,
+        "live_vs_fixed_false_alarms_corrected": 12745,
+        "live_vs_fixed_false_alarms_added": 524,
+        "fixed_vs_base_changed": 15893,
+        "fixed_vs_base_delta_tp": 13776,
+        "fixed_vs_base_delta_fp": 2117,
+        "live_vs_base_changed": 27523,
+        "live_vs_base_delta_tp": 14441,
+        "live_vs_base_delta_fp": -10104,
+        "live_vs_fixed_changed": 34744,
+        "live_vs_fixed_delta_tp": 665,
+        "live_vs_fixed_delta_fp": -12221
+      },
+      "favorable_episodes": 1,
+      "qualifying_keys": 1,
+      "propose_extension": false,
+      "fit_snapshots_verified": 355,
+      "frozen_b_confusions_verified": 355,
+      "historical_requested_id_sequence_sha256": "f9bb8426ffecad3b753993b2473650d62d6d52cc8ed4881d4bbc86d41b6fbb41"
+    },
+    {
+      "dataset": "ton",
+      "seed": 45,
+      "first_block": 20,
+      "last_block": 354,
+      "evaluated_blocks": 335,
+      "distinct_evaluation_ids": 3349973,
+      "distinct_vectors": 1877574,
+      "fixed_dictionary_keys_at_20": 2,
+      "fixed_distinct_eligible_keys": 2,
+      "live_distinct_eligible_keys": 89,
+      "live_distinct_changed_keys": 8,
+      "live_coverage": 0.020287029179041145,
+      "fixed_coverage": 0.008718577731820526,
+      "requests_full_stream": {
+        "CONTROL": 8874,
+        "VERIFY_EXTRA": 1875,
+        "RANDOM_FIT": 24750
+      },
+      "top_vector_all_rows": {
+        "key": "ff4880edb8fb994dbef59c54249dd751250b9bb7dc2b66352f4582e10022e898",
+        "rows": 49389,
+        "denominator": 3349973,
+        "share": 0.01474310389964337
+      },
+      "top_vector_live_coverage": {
+        "key": "f0b15f79c9b6a8dcf9a9113dbdc6a94424db5cff323b1d133ea7c9ca3df20dba",
+        "rows": 18686,
+        "denominator": 67961,
+        "share": 0.2749518105972543
+      },
+      "top_vector_live_changes": {
+        "key": "5b26a0b6a6510b0e4659f874b3451805e752edf5498e658ddcbb70913718d6df",
+        "rows": 7074,
+        "denominator": 16787,
+        "share": 0.42139750997795916
+      },
+      "totals": {
+        "base_tn": 264927,
+        "base_fp": 38680,
+        "base_fn": 2411801,
+        "base_tp": 634565,
+        "fixed_tn": 262810,
+        "fixed_fp": 40797,
+        "fixed_fn": 2398025,
+        "fixed_tp": 648341,
+        "live_tn": 267781,
+        "live_fp": 35826,
+        "live_fn": 2399718,
+        "live_tp": 646648,
+        "fixed_eligible_rows": 29207,
+        "live_eligible_rows": 67961,
+        "fixed_vs_base_attacks_recovered": 13776,
+        "fixed_vs_base_attacks_lost": 0,
+        "fixed_vs_base_false_alarms_corrected": 0,
+        "fixed_vs_base_false_alarms_added": 2117,
+        "live_vs_base_attacks_recovered": 12173,
+        "live_vs_base_attacks_lost": 90,
+        "live_vs_base_false_alarms_corrected": 3689,
+        "live_vs_base_false_alarms_added": 835,
+        "live_vs_fixed_attacks_recovered": 5379,
+        "live_vs_fixed_attacks_lost": 7072,
+        "live_vs_fixed_false_alarms_corrected": 5526,
+        "live_vs_fixed_false_alarms_added": 555,
+        "fixed_vs_base_changed": 15893,
+        "fixed_vs_base_delta_tp": 13776,
+        "fixed_vs_base_delta_fp": 2117,
+        "live_vs_base_changed": 16787,
+        "live_vs_base_delta_tp": 12083,
+        "live_vs_base_delta_fp": -2854,
+        "live_vs_fixed_changed": 18532,
+        "live_vs_fixed_delta_tp": -1693,
+        "live_vs_fixed_delta_fp": -4971
+      },
+      "favorable_episodes": 1,
+      "qualifying_keys": 1,
+      "propose_extension": false,
+      "fit_snapshots_verified": 355,
+      "frozen_b_confusions_verified": 355,
+      "historical_requested_id_sequence_sha256": "55ece712d35c11cc4f92e625cdbb9dfcdddb7b85a10d545770eb393f4f3c2605"
+    },
+    {
+      "dataset": "ton",
+      "seed": 46,
+      "first_block": 20,
+      "last_block": 354,
+      "evaluated_blocks": 335,
+      "distinct_evaluation_ids": 3349973,
+      "distinct_vectors": 1877574,
+      "fixed_dictionary_keys_at_20": 2,
+      "fixed_distinct_eligible_keys": 2,
+      "live_distinct_eligible_keys": 89,
+      "live_distinct_changed_keys": 13,
+      "live_coverage": 0.019917772471599024,
+      "fixed_coverage": 0.008718577731820526,
+      "requests_full_stream": {
+        "CONTROL": 8874,
+        "VERIFY_EXTRA": 1875,
+        "RANDOM_FIT": 24750
+      },
+      "top_vector_all_rows": {
+        "key": "ff4880edb8fb994dbef59c54249dd751250b9bb7dc2b66352f4582e10022e898",
+        "rows": 49389,
+        "denominator": 3349973,
+        "share": 0.01474310389964337
+      },
+      "top_vector_live_coverage": {
+        "key": "edc7f6a1fe7755376f5aeb16e91c4ff59fe3dfdbe45ca9a6b27ff23eded29df4",
+        "rows": 11593,
+        "denominator": 66724,
+        "share": 0.17374557880223007
+      },
+      "top_vector_live_changes": {
+        "key": "edc7f6a1fe7755376f5aeb16e91c4ff59fe3dfdbe45ca9a6b27ff23eded29df4",
+        "rows": 11593,
+        "denominator": 28510,
+        "share": 0.4066292528937215
+      },
+      "totals": {
+        "base_tn": 265081,
+        "base_fp": 38526,
+        "base_fn": 2413745,
+        "base_tp": 632621,
+        "fixed_tn": 262964,
+        "fixed_fp": 40643,
+        "fixed_fn": 2399969,
+        "fixed_tp": 646397,
+        "live_tn": 274939,
+        "live_fp": 28668,
+        "live_fn": 2398563,
+        "live_tp": 647803,
+        "fixed_eligible_rows": 29207,
+        "live_eligible_rows": 66724,
+        "fixed_vs_base_attacks_recovered": 13776,
+        "fixed_vs_base_attacks_lost": 0,
+        "fixed_vs_base_false_alarms_corrected": 0,
+        "fixed_vs_base_false_alarms_added": 2117,
+        "live_vs_base_attacks_recovered": 15830,
+        "live_vs_base_attacks_lost": 648,
+        "live_vs_base_false_alarms_corrected": 10945,
+        "live_vs_base_false_alarms_added": 1087,
+        "live_vs_fixed_attacks_recovered": 10414,
+        "live_vs_fixed_attacks_lost": 9008,
+        "live_vs_fixed_false_alarms_corrected": 12941,
+        "live_vs_fixed_false_alarms_added": 966,
+        "fixed_vs_base_changed": 15893,
+        "fixed_vs_base_delta_tp": 13776,
+        "fixed_vs_base_delta_fp": 2117,
+        "live_vs_base_changed": 28510,
+        "live_vs_base_delta_tp": 15182,
+        "live_vs_base_delta_fp": -9858,
+        "live_vs_fixed_changed": 33329,
+        "live_vs_fixed_delta_tp": 1406,
+        "live_vs_fixed_delta_fp": -11975
+      },
+      "favorable_episodes": 2,
+      "qualifying_keys": 2,
+      "propose_extension": true,
+      "fit_snapshots_verified": 355,
+      "frozen_b_confusions_verified": 355,
+      "historical_requested_id_sequence_sha256": "1392d2ed66b89be20a3b1add4b59af2823843a72c79a2c118dcf297b8abfc0a8"
+    }
+  ],
+  "capture_episodes": [
+    {
+      "first_block": 21,
+      "last_block": 25,
+      "seeds": [
+        43
+      ]
+    },
+    {
+      "first_block": 28,
+      "last_block": 30,
+      "seeds": [
+        43
+      ]
+    },
+    {
+      "first_block": 33,
+      "last_block": 33,
+      "seeds": [
+        43
+      ]
+    },
+    {
+      "first_block": 41,
+      "last_block": 47,
+      "seeds": [
+        43
+      ]
+    },
+    {
+      "first_block": 53,
+      "last_block": 53,
+      "seeds": [
+        43
+      ]
+    },
+    {
+      "first_block": 56,
+      "last_block": 57,
+      "seeds": [
+        43
+      ]
+    },
+    {
+      "first_block": 59,
+      "last_block": 60,
+      "seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ]
+    },
+    {
+      "first_block": 281,
+      "last_block": 283,
+      "seeds": [
+        42,
+        43,
+        46
+      ]
+    },
+    {
+      "first_block": 295,
+      "last_block": 295,
+      "seeds": [
+        42
+      ]
+    }
+  ]
+}

@@ -90,3 +90,37 @@ Il controllo di regressione comprende anche i moduli usati come riferimenti.
   adattamento-drift/adapt06g_half_step `
   adattamento-drift/adapt06i_recurring_feedback
 ```
+
+## Estensione TON ai cinque seed
+
+L’estensione usa lo stesso archivio, gli stessi array e la directory dei
+modelli indicati sopra. Il comando esegue i quattro nuovi replay TON e
+verifica i prodotti originali del seed 42 conservati in `delivery/`.
+Il [protocollo dell’estensione](TON_EXTENSION.md) è nel commit
+`852c12e4adda860728ead6d4072978487ad7f092`.
+Il commit eseguito è `0b1d9944113b71d1d87d9adebbe2a22944c7982d`.
+
+Usare le variabili `$pilotPython`, `$pilotData`, `$pilotZip`,
+`$pilotExtract` e i limiti ai thread della procedura sopra. È sufficiente
+estrarre l’archivio. I prodotti del primo pilot sono già nel checkout.
+
+```powershell
+$tonOut = Join-Path ([System.IO.Path]::GetTempPath()) ('adapt06i-ton-' + [guid]::NewGuid().ToString('N'))
+& $pilotPython adattamento-drift/adapt06i_recurring_feedback/run_ton_extension.py `
+  --reports (Join-Path $pilotExtract 'evidence/reports') `
+  --archive $pilotZip `
+  --data-root $pilotData `
+  --model-root adattamento-drift/review_extension/models `
+  --out $tonOut
+if ($LASTEXITCODE -ne 0) { throw 'Estensione TON fallita.' }
+
+$tonManifest = Get-Content -LiteralPath 'adattamento-drift/adapt06i_recurring_feedback/ton_matrix/MANIFEST.json' -Raw | ConvertFrom-Json
+foreach ($file in $tonManifest.files.PSObject.Properties) {
+    $actual = Get-FileHash -LiteralPath (Join-Path $tonOut $file.Name) -Algorithm SHA256 -ErrorAction Stop
+    if ($actual.Hash -ne $file.Value.sha256) { throw "SHA-256 diverso per $($file.Name)" }
+    Write-Output "PASS $($file.Name)"
+}
+```
+
+Il controllo confronta i sei prodotti elencati nel manifest. Il manifest
+rigenerato registra il checkout, l’ambiente e i tempi dell’esecuzione locale.

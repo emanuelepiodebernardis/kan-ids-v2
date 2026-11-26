@@ -41,3 +41,33 @@ La riproduzione dall’archivio estratto ha confermato byte per byte i
 quattro CSV e il riepilogo JSON. La suite mirata con i moduli di
 riferimento ha superato 120 test, di cui 15 per ADAPT-06I. Ruff e
 `git diff --check` hanno dato esito positivo.
+
+## Estensione TON
+
+I risultati del seed 42 sono stati verificati e riutilizzati dalla PR #24.
+I quattro nuovi replay TON, seed 43–46, seguono il
+[protocollo dell’estensione](TON_EXTENSION.md). La
+[tabella dei cinque seed](ton_matrix/SEEDS.csv) e la [nota](ton_matrix/NOTE.md)
+riportano i conteggi appaiati, gli episodi favorevoli e la concentrazione per
+chiave. I [comandi](COMMANDS.md#estensione-ton-ai-cinque-seed) e il
+[manifest](ton_matrix/MANIFEST.json) identificano fonti e prodotti.
+Per UNSW vale il pilot sopra.
+
+Su TON tutti e cinque i seed migliorano sia TP sia FP rispetto a
+Frozen/B. Nei totali contro entrambi i controlli risultano favorevoli
+quattro seed su cinque. Il criterio del pilot è soddisfatto nei seed
+42, 43 e 46. Il seed 44 migliora entrambi i totali, con un solo episodio
+e una sola chiave qualificante. Nel seed 45 la memoria aggiornata
+riduce i falsi allarmi di 4.971 e i veri positivi di 1.693 rispetto
+alla memoria fissata.
+
+Il tratto 59–60 comprende blocchi favorevoli in tutti e cinque i seed.
+Il riepilogo conta nove intervalli sulla cattura, unendo i blocchi
+sovrapposti o consecutivi tra seed. La chiave che modifica più
+decisioni pesa dal 27,90% al 42,14% dei cambi rispetto a Frozen/B,
+a seconda del seed.
+
+Il controllo sullo ZIP originale ha riconciliato tutti i 1.675 blocchi
+valutati nei cinque seed con i report ADAPT-06E per budget, ruoli, FIT192
+e conteggi Frozen/B. La suite mirata ha superato 128 test, inclusi gli
+otto controlli aggiunti per la matrice.
