@@ -1,7 +1,7 @@
 {
   "status": "PASS",
   "protocol_commit": "852c12e4adda860728ead6d4072978487ad7f092",
-  "execution_commit": "0b1d9944113b71d1d87d9adebbe2a22944c7982d",
+  "execution_commit": "47e539df5e116774e3fffb0ee683f2b8432ccfe2",
   "archive_06e_sha256": "91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef",
   "run_manifest_06e_sha256": "ef9cdaa55565e9ea62d8e8748ec649649a2cadb78a63ffb5e9e10973396596da",
   "execution_commit_06e": "28a81d5de70642d6f76d31a79d865103e4eb5bd2",
@@ -10,7 +10,7 @@
     "adattamento-drift/adapt06i_recurring_feedback/PROTOCOL.md": "d91597ca9c7b7c6857862b5c84b5ddfd9ba241a5922bbb71992021ff303c9346",
     "adattamento-drift/adapt06i_recurring_feedback/pilot.py": "05b3a42e50e5baa575c1a3fbe2ff5d644666a1dad543344cc9c3390cfa8f17e5",
     "adattamento-drift/adapt06i_recurring_feedback/run.py": "f2c74fa4c6fcc60a45d187544f61430fe6459aa9ef1322523d3cee1b2c4a5d16",
-    "adattamento-drift/adapt06i_recurring_feedback/run_ton_extension.py": "2b4d18781d2f4a94000f2e269715da98ce6c8b46152962247fb92698bdd919ce"
+    "adattamento-drift/adapt06i_recurring_feedback/run_ton_extension.py": "83d3d4d67b08d312de256ecf9ab512486dfe041bd598e44255133695d0d14551"
   },
   "sources": {
     "42": {
@@ -39,7 +39,7 @@
         "y": "4285aeac4896392065e19d9a623ac748dc4a91d17c72471da1c6243c4768e5c2",
         "row_id": "a5a3ad920c60c5fe9d3babe71301d25baa3a825f0b6a6b0026346cbb71097af5"
       },
-      "elapsed_seconds_with_input_verification": 259.562
+      "elapsed_seconds_with_input_verification": 281.48
     },
     "44": {
       "report_sha256": "e0f9c79c34fb5385f3fe9c7785fa1b139732c11a95dce5801ac8683b8c06b103",
@@ -52,7 +52,7 @@
         "y": "4285aeac4896392065e19d9a623ac748dc4a91d17c72471da1c6243c4768e5c2",
         "row_id": "a5a3ad920c60c5fe9d3babe71301d25baa3a825f0b6a6b0026346cbb71097af5"
       },
-      "elapsed_seconds_with_input_verification": 108.327
+      "elapsed_seconds_with_input_verification": 310.11
     },
     "45": {
       "report_sha256": "5581b71529107fb4c9114eb8d8e30f15b3fa38da0b878bd9429c500edf2a4981",
@@ -65,7 +65,7 @@
         "y": "4285aeac4896392065e19d9a623ac748dc4a91d17c72471da1c6243c4768e5c2",
         "row_id": "a5a3ad920c60c5fe9d3babe71301d25baa3a825f0b6a6b0026346cbb71097af5"
       },
-      "elapsed_seconds_with_input_verification": 68.919
+      "elapsed_seconds_with_input_verification": 298.581
     },
     "46": {
       "report_sha256": "fc31e7c5e86daf66823ee56a2914f803836e33ac5253ae1ec2879d5e6b845509",
@@ -78,7 +78,7 @@
         "y": "4285aeac4896392065e19d9a623ac748dc4a91d17c72471da1c6243c4768e5c2",
         "row_id": "a5a3ad920c60c5fe9d3babe71301d25baa3a825f0b6a6b0026346cbb71097af5"
       },
-      "elapsed_seconds_with_input_verification": 68.344
+      "elapsed_seconds_with_input_verification": 51.292
     }
   },
   "command": [
@@ -129,8 +129,8 @@
       "bytes": 15488
     },
     "NOTE.md": {
-      "sha256": "5bad143691f6d2a9147c29b3c13a77fd414193f6577d993111b6b764ca7e7581",
-      "bytes": 2351
+      "sha256": "fed2944eadda49a9069a140997af0ca0e629f492b36e1399f6655aad11691ac2",
+      "bytes": 2509
     }
   }
 }

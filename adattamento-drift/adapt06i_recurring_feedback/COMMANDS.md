@@ -1,4 +1,4 @@
-# ADAPT-06I — riproduzione del pilot
+# ADAPT-06I — riproduzione del pilot e dell’estensione TON
 
 Eseguire da PowerShell nella radice del clone, che contiene
 `adattamento-drift/`. Il commit del protocollo è
@@ -93,12 +93,16 @@ Il controllo di regressione comprende anche i moduli usati come riferimenti.
 
 ## Estensione TON ai cinque seed
 
-L’estensione usa lo stesso archivio, gli stessi array e la directory dei
-modelli indicati sopra. Il comando esegue i quattro nuovi replay TON e
-verifica i prodotti originali del seed 42 conservati in `delivery/`.
+L’estensione usa lo stesso archivio e la directory dei modelli indicati
+sopra. Per gli input grezzi bastano `ton/D.npz` e `ton/D.json`. Il
+comando riproduce i quattro replay TON e verifica i prodotti originali
+del seed 42 conservati in `delivery/` nel checkout.
 Il [protocollo dell’estensione](TON_EXTENSION.md) è nel commit
 `852c12e4adda860728ead6d4072978487ad7f092`.
-Il commit eseguito è `0b1d9944113b71d1d87d9adebbe2a22944c7982d`.
+La prima esecuzione è al commit
+`0b1d9944113b71d1d87d9adebbe2a22944c7982d`. Il manifest di consegna
+registra la riproduzione con la nota aggiornata al commit
+`47e539df5e116774e3fffb0ee683f2b8432ccfe2`.
 
 Usare le variabili `$pilotPython`, `$pilotData`, `$pilotZip`,
 `$pilotExtract` e i limiti ai thread della procedura sopra. È sufficiente
@@ -124,3 +128,44 @@ foreach ($file in $tonManifest.files.PSObject.Properties) {
 
 Il controllo confronta i sei prodotti elencati nel manifest. Il manifest
 rigenerato registra il checkout, l’ambiente e i tempi dell’esecuzione locale.
+
+### Riproduzione con Bash
+
+Dalla radice del clone, impostare l’interprete, lo ZIP della campagna
+originale e la directory che contiene `ton/`. La sezione
+[Dati di ADAPT-05](../adapt05_occurrence/REPRODUCTION.md#dati) indica
+come ricostruire gli input.
+
+```bash
+set -eu
+ton_python='/percorso/ambiente/bin/python'
+ton_zip='/percorso/adapt06e_verify50_full_6ee5eb3.zip'
+ton_data='/percorso/adapt05/data'
+ton_work=$(mktemp -d)
+ton_out="$ton_work/results"
+
+"$ton_python" -m zipfile -e "$ton_zip" "$ton_work/source"
+export OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
+"$ton_python" adattamento-drift/adapt06i_recurring_feedback/run_ton_extension.py \
+  --reports "$ton_work/source/evidence/reports" \
+  --archive "$ton_zip" \
+  --data-root "$ton_data" \
+  --model-root adattamento-drift/review_extension/models \
+  --out "$ton_out"
+
+"$ton_python" - "$ton_out" <<'PY'
+import hashlib
+import json
+import sys
+from pathlib import Path
+
+output = Path(sys.argv[1])
+reference = Path("adattamento-drift/adapt06i_recurring_feedback/ton_matrix/MANIFEST.json")
+manifest = json.loads(reference.read_text(encoding="utf-8"))
+for name, expected in manifest["files"].items():
+    payload = (output / name).read_bytes()
+    if len(payload) != expected["bytes"] or hashlib.sha256(payload).hexdigest() != expected["sha256"]:
+        raise SystemExit(f"Dimensione o SHA-256 diverso per {name}")
+    print(f"PASS {name}")
+PY
+```

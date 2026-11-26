@@ -76,3 +76,5 @@ Il controllo sullo ZIP originale ha riconciliato tutti i 1.675 blocchi
 valutati nei cinque seed con i report ADAPT-06E per budget, ruoli, FIT192
 e conteggi Frozen/B. La suite mirata ha superato 128 test, inclusi gli
 otto controlli aggiunti per la matrice.
+La riproduzione da un’estrazione pulita dello ZIP ha confermato
+byte per byte i quattro CSV e il riepilogo JSON della prima consegna.
