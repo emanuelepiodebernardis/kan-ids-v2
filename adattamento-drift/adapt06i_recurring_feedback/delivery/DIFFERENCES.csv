@@ -1,0 +1,7 @@
+dataset,seed,policy,control,attacks_recovered,attacks_lost,false_alarms_corrected,false_alarms_added,changed,delta_tp,delta_fp
+ton,42,fixed,base,13776,0,0,2117,15893,13776,2117
+ton,42,live,base,16230,535,7987,1057,25809,15695,-6930
+ton,42,live,fixed,10711,8792,9855,808,30166,1919,-9047
+unsw,42,fixed,base,0,0,0,0,0,0,0
+unsw,42,live,base,0,0,0,0,0,0,0
+unsw,42,live,fixed,0,0,0,0,0,0,0

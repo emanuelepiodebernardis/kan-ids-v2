@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "protocol_commit": "4f97a0b73b50ebe85e00a3ace0ac1987640f2d58",
+  "execution_commit": "d7f33c6e9392667d88d54b55ab02c1106ebf1db7",
+  "source_hashes": {
+    "adattamento-drift/adapt06i_recurring_feedback/PROTOCOL.md": "d91597ca9c7b7c6857862b5c84b5ddfd9ba241a5922bbb71992021ff303c9346",
+    "adattamento-drift/adapt06i_recurring_feedback/pilot.py": "8395934e91441882aa9ad20b747d6c0e8fc58591c67d153eb2baf8c1a44552a7",
+    "adattamento-drift/adapt06i_recurring_feedback/run.py": "36174fe01c00673e6736a5b296e8dcf1001d83e45bdf032dd1d4b929a616da84"
+  },
+  "source_06e_execution_commit": "28a81d5de70642d6f76d31a79d865103e4eb5bd2",
+  "source_06e_archive_sha256": "91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef",
+  "source_06e_run_manifest_sha256": "ef9cdaa55565e9ea62d8e8748ec649649a2cadb78a63ffb5e9e10973396596da",
+  "streams": {
+    "ton": {
+      "report_sha256": "9dc5bdf9aaf985bc041b565458f6d32ec23caa372648bde414e7a1d52b2a2322",
+      "model_sha256": "5790508f28104bf9e49ad4262a07268f44eda1584f0f896a207c4f9a7b5d542d",
+      "model_metadata_sha256": "ec4394292359bb29f8a3c50ceb2f9fbfad902d1f5dfc0d457e062fa359906488",
+      "frozen_weights_sha256": "2cbebef0e8266b471a4142fbc3e8d9ead3a6eea98f738ad62799cd6af642af5d",
+      "threshold_b": 7.1635667083378625,
+      "ordered_arrays_sha256": {
+        "X": "fcec9482a3b74da8b868c1bbd3dd25af87c732886a6b672d085be8606a471704",
+        "y": "4285aeac4896392065e19d9a623ac748dc4a91d17c72471da1c6243c4768e5c2",
+        "row_id": "a5a3ad920c60c5fe9d3babe71301d25baa3a825f0b6a6b0026346cbb71097af5"
+      }
+    },
+    "unsw": {
+      "report_sha256": "194893578f289ba550bad3fb4b56dc02d96c00c729dbc94e9b5330f898aac6a9",
+      "model_sha256": "fbd7699d34efd0f95707067f4eb7925db0023c2cd4e9a7e9d4783052e853dac7",
+      "model_metadata_sha256": "b336960d15fe0a4bdac27c4afccd595b6dbe470f455a89150ba08fcdae20252f",
+      "frozen_weights_sha256": "7ec680d9766e591185bf0ebaf6af892a2a7961c075186a9b5f2bfcde1595b353",
+      "threshold_b": -0.3206700088480745,
+      "ordered_arrays_sha256": {
+        "X": "78050c166d7baba68c7c6835003fb44c3280fa0ef764d8b6b9b9d80a3215e806",
+        "y": "a1064b91a4dbaf628a586b919fa64da6938e96c87f7ae8afa542282e737d6c20",
+        "row_id": "a425f524f7dcbb2bd0edb4a60e3b4b3f4eec06051f36d4020155cc6dd3966d8b"
+      }
+    }
+  },
+  "command": [
+    "python",
+    "adattamento-drift/adapt06i_recurring_feedback/run.py",
+    "--reports",
+    "<reports>",
+    "--archive",
+    "<zip>",
+    "--data-root",
+    "<data-root>",
+    "--model-root",
+    "<model-root>",
+    "--out",
+    "<new-out>"
+  ],
+  "environment": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.12.7",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.7.2",
+    "thread_limits": {
+      "OPENBLAS_NUM_THREADS": "1",
+      "OMP_NUM_THREADS": "1",
+      "MKL_NUM_THREADS": "1",
+      "NUMEXPR_NUM_THREADS": "1"
+    }
+  },
+  "files": {
+    "BLOCKS.csv": {
+      "sha256": "4d7dfdbfe267b6652b480234f61b6fa261876f344a4dafbbfd8ff1cc4a8c3c9d",
+      "bytes": 97372
+    },
+    "KEYS.csv": {
+      "sha256": "f37169a5ad70502c68b2adfb3405a6f3f5addb9b6f83f2275c5020bb366eb7ba",
+      "bytes": 15793
+    },
+    "EPISODES.csv": {
+      "sha256": "bb7ff49895e2e197a8826e3a797cfc5a58307dcef4a24c02e50108f2b4071d26",
+      "bytes": 558
+    },
+    "DIFFERENCES.csv": {
+      "sha256": "bb778b297491f2c750711953e3859d59b875458ce83159399bbb9bb62e97f8aa",
+      "bytes": 385
+    },
+    "SUMMARY.json": {
+      "sha256": "b539a9a5533a27265d9eb89c3fd7a99078d8ed97f4c5299cae28e482bfe84279",
+      "bytes": 5661
+    },
+    "NOTE.md": {
+      "sha256": "5eae6458ab3d25bcf208f10da58230846d3ff47ac3d5b3a5b171ba536351c1b4",
+      "bytes": 3250
+    }
+  }
+}
