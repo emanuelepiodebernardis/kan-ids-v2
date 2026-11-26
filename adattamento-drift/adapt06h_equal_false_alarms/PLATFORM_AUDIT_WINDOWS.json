@@ -1,0 +1,578 @@
+{
+  "environment": {
+    "platform": "Windows-11-10.0.26300-SP0",
+    "python": "3.12.7",
+    "numpy": "2.3.5",
+    "scikit_learn": "1.7.2"
+  },
+  "source_archive_sha256": "91c2cf5c3fae62b1b6009714ed4a33560e5077e8cad647d87ad1c1cb9fb30eef",
+  "historical_cycles_sha256": "c5b59cd49881cb434f131d67dd40586fc626676c56431039a200ffea8033c38b",
+  "cases": [
+    {
+      "dataset": "ton",
+      "seed": 44,
+      "freeze_block": 302,
+      "next_block": 353,
+      "report_sha256": "e0f9c79c34fb5385f3fe9c7785fa1b139732c11a95dce5801ac8683b8c06b103",
+      "cal_ids_sha256": "2134ea1653c55b41a073773ef38575c5295ebff91db4ed3725f4b82e25eb9778",
+      "cal_normal": 128,
+      "archived_cap": 0,
+      "original_threshold": {
+        "decimal": 8.465551138302391,
+        "hex": "0x1.0ee5cb8033faap+3"
+      },
+      "original_on_next_block": {
+        "tn": 7199,
+        "fp": 2306,
+        "fn": 476,
+        "tp": 19
+      },
+      "reproduces_delivery": true,
+      "observed": {
+        "cap": 0,
+        "candidate_threshold": {
+          "decimal": 3.8115358144911164,
+          "hex": "0x1.e7e067d362d32p+1"
+        },
+        "incumbent_threshold": {
+          "decimal": 8.465551138302391,
+          "hex": "0x1.0ee5cb8033faap+3"
+        },
+        "candidate_fp_on_cal": 0,
+        "incumbent_fp_on_cal": 0,
+        "candidate_on_next_block": {
+          "tn": 8393,
+          "fp": 1112,
+          "fn": 485,
+          "tp": 10
+        },
+        "incumbent_on_next_block": {
+          "tn": 7199,
+          "fp": 2306,
+          "fn": 476,
+          "tp": 19
+        }
+      },
+      "stress_at_reported_linux_cap": {
+        "cap": 1,
+        "candidate_threshold": {
+          "decimal": -2.5717475891180497,
+          "hex": "-0x1.492f06666a186p+1"
+        },
+        "incumbent_threshold": {
+          "decimal": 7.279004777499558,
+          "hex": "0x1.d1db36dab2747p+2"
+        },
+        "candidate_fp_on_cal": 1,
+        "incumbent_fp_on_cal": 1,
+        "candidate_on_next_block": {
+          "tn": 7082,
+          "fp": 2423,
+          "fn": 467,
+          "tp": 28
+        },
+        "incumbent_on_next_block": {
+          "tn": 7127,
+          "fp": 2378,
+          "fn": 476,
+          "tp": 19
+        }
+      },
+      "incumbent_cal_top": [
+        {
+          "rank": 1,
+          "observation_id": 21770852,
+          "score": {
+            "decimal": 8.465551138302391,
+            "hex": "0x1.0ee5cb8033faap+3"
+          },
+          "delta_from_reference": {
+            "decimal": 0.0,
+            "hex": "0x0.0p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 2,
+          "observation_id": 21717506,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 3,
+          "observation_id": 21717772,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 4,
+          "observation_id": 21723610,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 5,
+          "observation_id": 21725977,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 6,
+          "observation_id": 21746326,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 7,
+          "observation_id": 21752461,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 8,
+          "observation_id": 21753922,
+          "score": {
+            "decimal": 7.279004777499558,
+            "hex": "0x1.d1db36dab2747p+2"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1865463608028337,
+            "hex": "-0x1.2fc18096d6034p+0"
+          },
+          "above_reference": false
+        }
+      ],
+      "candidate_cal_top": [
+        {
+          "rank": 1,
+          "observation_id": 21770852,
+          "score": {
+            "decimal": 3.8115358144911164,
+            "hex": "0x1.e7e067d362d32p+1"
+          },
+          "delta_from_reference": {
+            "decimal": 0.0,
+            "hex": "0x0.0p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 2,
+          "observation_id": 21717506,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 3,
+          "observation_id": 21717772,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 4,
+          "observation_id": 21723610,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 5,
+          "observation_id": 21725977,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 6,
+          "observation_id": 21746326,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 7,
+          "observation_id": 21752461,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 8,
+          "observation_id": 21753922,
+          "score": {
+            "decimal": -2.5717475891180497,
+            "hex": "-0x1.492f06666a186p+1"
+          },
+          "delta_from_reference": {
+            "decimal": -6.383283403609166,
+            "hex": "-0x1.9887b71ce675cp+2"
+          },
+          "above_reference": false
+        }
+      ]
+    },
+    {
+      "dataset": "unsw",
+      "seed": 43,
+      "freeze_block": 37,
+      "next_block": 47,
+      "report_sha256": "26f06cffed1f2d578afb053f7cd66015d4d8c23837f7cc60609e7dcc7f56af59",
+      "cal_ids_sha256": "28e7f940a485ec83d9a25239364181323495af85dff48256edd1df78737d9d1b",
+      "cal_normal": 128,
+      "archived_cap": 4,
+      "original_threshold": {
+        "decimal": 1.980076144867696,
+        "hex": "0x1.fae6452dcbe84p+0"
+      },
+      "original_on_next_block": {
+        "tn": 7882,
+        "fp": 261,
+        "fn": 190,
+        "tp": 1667
+      },
+      "reproduces_delivery": true,
+      "observed": {
+        "cap": 4,
+        "candidate_threshold": {
+          "decimal": 1.1651327896580863,
+          "hex": "0x1.2a46247b14278p+0"
+        },
+        "incumbent_threshold": {
+          "decimal": 1.980076144867696,
+          "hex": "0x1.fae6452dcbe84p+0"
+        },
+        "candidate_fp_on_cal": 4,
+        "incumbent_fp_on_cal": 4,
+        "candidate_on_next_block": {
+          "tn": 7512,
+          "fp": 631,
+          "fn": 81,
+          "tp": 1776
+        },
+        "incumbent_on_next_block": {
+          "tn": 7882,
+          "fp": 261,
+          "fn": 190,
+          "tp": 1667
+        }
+      },
+      "stress_at_reported_linux_cap": {
+        "cap": 5,
+        "candidate_threshold": {
+          "decimal": -0.023585666475995026,
+          "hex": "-0x1.826d748acd000p-6"
+        },
+        "incumbent_threshold": {
+          "decimal": -1.4734129346824436,
+          "hex": "-0x1.7931970ff6e82p+0"
+        },
+        "candidate_fp_on_cal": 5,
+        "incumbent_fp_on_cal": 5,
+        "candidate_on_next_block": {
+          "tn": 7444,
+          "fp": 699,
+          "fn": 51,
+          "tp": 1806
+        },
+        "incumbent_on_next_block": {
+          "tn": 7129,
+          "fp": 1014,
+          "fn": 33,
+          "tp": 1824
+        }
+      },
+      "incumbent_cal_top": [
+        {
+          "rank": 1,
+          "observation_id": 1826107,
+          "score": {
+            "decimal": 4.183710538054369,
+            "hex": "0x1.0bc1e9d837f0ep+2"
+          },
+          "delta_from_reference": {
+            "decimal": 2.2036343931866726,
+            "hex": "0x1.1a10b11989edap+1"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 2,
+          "observation_id": 1864583,
+          "score": {
+            "decimal": 3.5877497196546124,
+            "hex": "0x1.cb3b6200132a5p+1"
+          },
+          "delta_from_reference": {
+            "decimal": 1.6076735747869164,
+            "hex": "0x1.9b907ed25a6c6p+0"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 3,
+          "observation_id": 1875045,
+          "score": {
+            "decimal": 3.211599850448789,
+            "hex": "0x1.9b15b432c20d9p+1"
+          },
+          "delta_from_reference": {
+            "decimal": 1.2315237055810928,
+            "hex": "0x1.3b452337b832ep+0"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 4,
+          "observation_id": 1861324,
+          "score": {
+            "decimal": 2.8901799456459663,
+            "hex": "0x1.71f16a9d0d5fbp+1"
+          },
+          "delta_from_reference": {
+            "decimal": 0.9101038007782702,
+            "hex": "0x1.d1f920189dae4p-1"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 5,
+          "observation_id": 1842453,
+          "score": {
+            "decimal": 1.980076144867696,
+            "hex": "0x1.fae6452dcbe84p+0"
+          },
+          "delta_from_reference": {
+            "decimal": 0.0,
+            "hex": "0x0.0p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 6,
+          "observation_id": 1884472,
+          "score": {
+            "decimal": -1.4734129346824436,
+            "hex": "-0x1.7931970ff6e82p+0"
+          },
+          "delta_from_reference": {
+            "decimal": -3.4534890795501396,
+            "hex": "-0x1.ba0bee1ee1683p+1"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 7,
+          "observation_id": 1884948,
+          "score": {
+            "decimal": -1.4734129766703368,
+            "hex": "-0x1.793197c44d156p+0"
+          },
+          "delta_from_reference": {
+            "decimal": -3.453489121538033,
+            "hex": "-0x1.ba0bee790c7edp+1"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 8,
+          "observation_id": 1887938,
+          "score": {
+            "decimal": -1.4734129766703368,
+            "hex": "-0x1.793197c44d156p+0"
+          },
+          "delta_from_reference": {
+            "decimal": -3.453489121538033,
+            "hex": "-0x1.ba0bee790c7edp+1"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 9,
+          "observation_id": 1889372,
+          "score": {
+            "decimal": -1.4734129766703368,
+            "hex": "-0x1.793197c44d156p+0"
+          },
+          "delta_from_reference": {
+            "decimal": -3.453489121538033,
+            "hex": "-0x1.ba0bee790c7edp+1"
+          },
+          "above_reference": false
+        }
+      ],
+      "candidate_cal_top": [
+        {
+          "rank": 1,
+          "observation_id": 1826107,
+          "score": {
+            "decimal": 4.738052954007085,
+            "hex": "0x1.2f3c42750b4dcp+2"
+          },
+          "delta_from_reference": {
+            "decimal": 3.5729201643489983,
+            "hex": "0x1.c95572ac8c87cp+1"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 2,
+          "observation_id": 1864583,
+          "score": {
+            "decimal": 3.4652643028316765,
+            "hex": "0x1.bb8dc7da5442ep+1"
+          },
+          "delta_from_reference": {
+            "decimal": 2.30013151317359,
+            "hex": "0x1.266ab59cca2f2p+1"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 3,
+          "observation_id": 1861324,
+          "score": {
+            "decimal": 2.9571188504678165,
+            "hex": "0x1.7a82ded8927b4p+1"
+          },
+          "delta_from_reference": {
+            "decimal": 1.7919860608097302,
+            "hex": "0x1.cabf993610cf0p+0"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 4,
+          "observation_id": 1875045,
+          "score": {
+            "decimal": 2.9072227657487093,
+            "hex": "0x1.741fe02689e77p+1"
+          },
+          "delta_from_reference": {
+            "decimal": 1.742089976090623,
+            "hex": "0x1.bdf99bd1ffa76p+0"
+          },
+          "above_reference": true
+        },
+        {
+          "rank": 5,
+          "observation_id": 1842453,
+          "score": {
+            "decimal": 1.1651327896580863,
+            "hex": "0x1.2a46247b14278p+0"
+          },
+          "delta_from_reference": {
+            "decimal": 0.0,
+            "hex": "0x0.0p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 6,
+          "observation_id": 1852227,
+          "score": {
+            "decimal": -0.023585666475995026,
+            "hex": "-0x1.826d748acd000p-6"
+          },
+          "delta_from_reference": {
+            "decimal": -1.1887184561340813,
+            "hex": "-0x1.304fda4d3f5b8p+0"
+          },
+          "above_reference": false
+        },
+        {
+          "rank": 7,
+          "observation_id": 1864863,
+          "score": {
+            "decimal": -0.07519801422443173,
+            "hex": "-0x1.3402d53d16d80p-4"
+          },
+          "delta_from_reference": {
+            "decimal": -1.240330803882518,
+            "hex": "-0x1.3d8651cee5950p+0"
+          },
+          "above_reference": false
+        }
+      ]
+    }
+  ]
+}

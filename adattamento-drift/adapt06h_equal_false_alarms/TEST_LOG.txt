@@ -1,0 +1,54 @@
+ADAPT-06H — verifiche locali
+
+Protocollo: 9c9acd64ad5a0cca2bc98a90de1aae873bac8e3d
+Codice di produzione: cdc7deff2ff8f4f271569eac77dc95b9e7ae1fb0
+
+Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
+117 passed in 45.41s
+Questa esecuzione precede l'allineamento editoriale della nota.
+
+Rigenerazione con i due blocchi PowerShell di COMMANDS.md:
+PASS CYCLES.csv
+PASS SEEDS.csv
+PASS EPISODES.csv
+PASS DECISION.json
+PASS NOTE.md
+12 passed in 4.56s
+
+I quattro prodotti numerici sono identici a quelli calcolati prima
+dell'allineamento editoriale. Verifiche indipendenti dai CSV: 38 cicli,
+34 blocchi osservabili, quattro righe senza metriche, tre ACCEPT riprodotti,
+ritardo CAL, tetti sui supporti usati per calibrare, confusioni e totali
+appaiati per seme. Controllati anche dimensioni, SHA-256 e provenienza
+riportati nel manifest. Ruff PASS.
+
+Riesame della consegna:
+- 38 snapshot CAL e 9.728 presenze in CAL riconciliati con gli eventi
+  di arrivo effettivi nei dieci JSON originali. Tutte le label CAL erano
+  disponibili al rispettivo FREEZE e provenivano da CONTROL.
+- Tre test sui prodotti versionati, eseguibili senza gli archivi esterni.
+- Suite ADAPT-06H: 15 passed in 4.25s.
+- Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
+  120 passed in 48.02s.
+- Protocollo, codice di analisi e prodotti scientifici invariati.
+
+Riscontro numerico sui due confini CAL:
+- TON/44/FREEZE 302 e UNSW/43/FREEZE 37 riprodotti dai dati archiviati.
+- JSON di audit Windows rigenerato byte per byte con COMMANDS.md.
+  SHA-256: afe18032ccfbe8af9861c2f911821366ee481bb55854d49da1cbd803fe8bdc16.
+- Test dei due confini: 2 passed in 0.52s.
+- Suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G e ADAPT-06H:
+  122 passed in 191.72s.
+- Ruff PASS. PROTOCOL.md, run.py, analysis.py e delivery/ identici a 1fd6ff7.
+
+Riconciliazione con il riesame Linux del 25 novembre 2026:
+- Per entrambi gli ID, verificato il passaggio da score uguale alla soglia
+  a score sopra soglia usando i margini approssimati riportati dal revisore.
+- I tetti Linux applicati agli score Windows riproducono le coppie TP/FP
+  Linux riferite: TON 28/2423, UNSW 1806/699.
+- Suite ADAPT-06H aggiornata: 18 passed in 26.28s. Ruff PASS.
+- Riscontro Windows, codice di scoring e consegna originale invariati.
+- Il manifest supplementare verifica gli hash e registra la precisione
+  disponibile e i limiti di confronto tra piattaforme.
+- Verifica pre-push della suite ADAPT-06B, ADAPT-06E, ADAPT-06F, ADAPT-06G
+  e ADAPT-06H: 123 passed in 96.52s.

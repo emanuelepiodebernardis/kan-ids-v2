@@ -1,0 +1,51 @@
+{
+  "propose_replay": false,
+  "streams": [
+    {
+      "dataset": "ton",
+      "supported_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "favorable_seeds": [],
+      "descriptive_episodes": 1,
+      "qualifying_episodes": 0,
+      "propose_replay": false,
+      "informative_blocks": 16,
+      "retro_gain_blocks": 5,
+      "retained_gain_blocks": 4,
+      "unretained_with_cal_blocks": 1
+    },
+    {
+      "dataset": "unsw",
+      "supported_seeds": [
+        42,
+        43,
+        44,
+        45,
+        46
+      ],
+      "favorable_seeds": [
+        46
+      ],
+      "descriptive_episodes": 3,
+      "qualifying_episodes": 1,
+      "propose_replay": false,
+      "informative_blocks": 18,
+      "retro_gain_blocks": 6,
+      "retained_gain_blocks": 4,
+      "unretained_with_cal_blocks": 2
+    }
+  ],
+  "coverage": {
+    "cycles": 38,
+    "observed": 34,
+    "no_next_block": 4,
+    "verified_accepts": 3,
+    "paired_blocks": 34,
+    "fallback_blocks": 0
+  }
+}
