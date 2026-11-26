@@ -67,6 +67,11 @@ sovrapposti o consecutivi tra seed. La chiave che modifica più
 decisioni pesa dal 27,90% al 42,14% dei cambi rispetto a Frozen/B,
 a seconda del seed.
 
+Tra seed variano i pesi A, la soglia B e le richieste ADAPT-06E.
+Entro ogni seed i tre bracci condividono questi elementi. Le differenze
+appaiate misurano quindi il contributo della memoria per ciascuna
+configurazione sulla stessa cattura.
+
 Il controllo sullo ZIP originale ha riconciliato tutti i 1.675 blocchi
 valutati nei cinque seed con i report ADAPT-06E per budget, ruoli, FIT192
 e conteggi Frozen/B. La suite mirata ha superato 128 test, inclusi gli

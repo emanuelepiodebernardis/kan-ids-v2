@@ -212,7 +212,12 @@ def render_note(rows: list[dict], distinct_episodes: list[dict]) -> str:
                 f"Gli episodi favorevoli corrispondono a {len(distinct_episodes)} intervalli distinti nella cattura. "
                 "Gli indici dei blocchi partono da zero. Gli intervalli sovrapposti o consecutivi tra seed sono contati una volta."
             ),
-            "I cinque seed misurano la sensibilità al calendario delle richieste sulla stessa cattura di sviluppo.",
+            (
+                "I cinque seed condividono la stessa cattura di sviluppo. Tra seed cambiano "
+                "i pesi A, la soglia B e le richieste archiviati. Entro ciascun seed questi "
+                "elementi sono identici nei tre bracci, quindi i delta appaiati isolano "
+                "l’effetto della memoria in quel seed."
+            ),
             "",
             "SEEDS.csv riporta anche FN, TN, i recuperi e le perdite lorde, i digest e i denominatori delle chiavi.",
             "EPISODES.csv conserva i contributi appaiati per intervallo e seed. UNSW resta al pilot seed 42.",
