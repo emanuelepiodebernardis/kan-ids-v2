@@ -222,6 +222,7 @@ def summarize(
     favorable_keys: dict[int, set[str]],
     query_totals: Counter,
     frozen: dict[str, int],
+    seed: int,
 ) -> tuple[dict, list[dict], list[dict]]:
     fields = list(blocks[0]["metrics"])
     totals = {
@@ -278,7 +279,7 @@ def summarize(
             raise AssertionError(f"key totals disagree for {field}")
     summary = {
         "dataset": dataset,
-        "seed": 42,
+        "seed": seed,
         "first_block": WARMUP,
         "last_block": blocks[-1]["block"],
         "evaluated_blocks": len(blocks),
@@ -321,6 +322,8 @@ def replay(
     row_ids: np.ndarray,
     report: dict,
     predict_base: Callable[[np.ndarray], np.ndarray],
+    *,
+    seed: int = 42,
 ) -> tuple[list[dict], dict, list[dict], list[dict]]:
     history = report["per_block"]
     if (
@@ -394,7 +397,7 @@ def replay(
             blocks.append(
                 {
                     "dataset": dataset,
-                    "seed": 42,
+                    "seed": seed,
                     "block": block,
                     "rows": stop - start,
                     "distinct_ids": stop - start,
@@ -420,7 +423,14 @@ def replay(
     if digest.hexdigest() != report["requested_id_sequence_sha256"]:
         raise ValueError(f"historical requested-ID sequence differs for {dataset}")
     summary, keys, episodes = summarize(
-        dataset, blocks, frequencies, key_totals, favorable_keys, request_totals, frozen
+        dataset,
+        blocks,
+        frequencies,
+        key_totals,
+        favorable_keys,
+        request_totals,
+        frozen,
+        seed,
     )
     summary["fit_snapshots_verified"] = len(history)
     summary["frozen_b_confusions_verified"] = len(history)
