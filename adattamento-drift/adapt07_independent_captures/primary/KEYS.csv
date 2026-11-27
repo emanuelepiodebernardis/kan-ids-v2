@@ -1,0 +1,8 @@
+dataset,key,observations,fixed_eligible_rows,live_eligible_rows,fixed_vs_base_attacks_recovered,fixed_vs_base_attacks_lost,fixed_vs_base_false_alarms_corrected,fixed_vs_base_false_alarms_added,fixed_vs_base_changed,fixed_vs_base_delta_tp,fixed_vs_base_delta_fp,live_vs_base_attacks_recovered,live_vs_base_attacks_lost,live_vs_base_false_alarms_corrected,live_vs_base_false_alarms_added,live_vs_base_changed,live_vs_base_delta_tp,live_vs_base_delta_fp,live_vs_fixed_attacks_recovered,live_vs_fixed_attacks_lost,live_vs_fixed_false_alarms_corrected,live_vs_fixed_false_alarms_added,live_vs_fixed_changed,live_vs_fixed_delta_tp,live_vs_fixed_delta_fp,qualifying_key
+iot23-35-1,2976ff31498d53a73fababd9795d1958d30b2ee0b2081a13641308683f495ac8,41,41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False
+iot23-48-1,043489786227146a5ee89e6e2806c15e43272da51ee5d0d3eed27917d6f6574d,407336,407336,407336,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False
+iot23-48-1,486bcafee7324dc9ed69029a39058855d480997a9f93f1cded545b450b271666,15378,0,6814,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False
+iot23-48-1,56fe836e49c6b8609105ac1fd4ba228f02bc5a2003a511e25a7b5b5d1da1ef87,92290,92290,92290,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False
+iot23-48-1,61ddab46b085062b1c425f1be191d8c0db98a90878a1b45857e7c7c4e83ac362,6612,0,234,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False
+iot23-48-1,83e7562b1c6570b5ae364f882c93f8c056646ea0e0831c8468ff6dcca76332f6,1115,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False
+iot23-48-1,8e236f8865b2e0d78c8b9f10b22e5dba0c4eb4abb63752d803236a1b5f099c59,33710,33710,31124,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,False

@@ -1,6 +1,8 @@
-# ADAPT-07 — esito del preflight
+# ADAPT-07 — conferma su catture indipendenti
 
-**Il confronto primario resta sospeso.** Le due sessioni IoT-23 hanno
+## Prima coppia e sostituzione
+
+**Esito della prima coppia.** Le due sessioni IoT-23 avevano
 periodi non sovrapposti e i relativi log contengono le otto colonne Zeek
 richieste. La sessione 48-1 è idonea secondo il preflight. Nella 1-1 la
 mancanza di durata e byte di payload lascia troppo pochi record completi
@@ -63,13 +65,58 @@ per entrambe le sessioni. Verificati anche gli SHA-256 dei log e delle
 fonti del preflight. Passano 29 test mirati, inclusi i 6 del preflight
 e i 23 del modulo ADAPT-06I.
 
-## Punto da concordare
-
-Mantenere la 48-1 come candidata idonea e concordare una seconda
-acquisizione con caratteristiche e supporto verificabili. Applicare
-lo stesso controllo di idoneità prima di qualsiasi misura di
-prestazione. L’esito attuale riguarda la disponibilità dei dati.
-L’efficacia della memoria su catture indipendenti resta da valutare.
+## Esito del riesame iniziale
 
 Il [riesame](RIESAME.md) confronta la consegna con la scheda, verifica la
 revisione v2 della 1-1 e documenta la 35-1 come candidata da concordare.
+
+Il professore ha poi autorizzato la sostituzione. L’[emendamento](AMENDMENT_35_1.md)
+è stato committato prima di acquisire il log completo della 35-1. Il
+[preflight della nuova coppia](PREFLIGHT_35_1.json) passa per entrambe
+le sessioni con lo stesso warm-up. L’esito originale della 1-1 resta
+nel rendiconto sopra.
+
+## Confronto primario sulla coppia emendata
+
+I tre bracci producono le stesse decisioni osservazione per osservazione
+in entrambe le sessioni. I denominatori sono quelli di D dopo il warm-up.
+
+| Cattura | Attacchi rilevati / attacchi | Falsi allarmi / benigni | Recall | FPR |
+|---|---:|---:|---:|---:|
+| 35-1 | 1.163.815 / 1.163.903 | 0 / 1.042.166 | 99,9924% | 0,0000% |
+| 48-1 | 1.155.740 / 1.156.604 | 2 / 1.131 | 99,9253% | 0,1768% |
+
+Nella 35-1 la memoria aggiornata non incontra chiavi ammissibili tra
+i record valutati. La memoria fissata ne copre 41 e concorda con
+Frozen/B. Nella 48-1, la memoria aggiornata copre 537.812 record
+su 1.157.735, pari al 46,45%, e restituisce sempre la stessa classe
+di Frozen/B. Il criterio preregistrato è insoddisfatto in entrambe
+le catture. Il risultato riguarda i record con feature complete:
+nella 35-1 sono esclusi 4.432.615 flussi, mentre nella 48-1 il
+denominatore benigno è 1.131. Le due sessioni provengono dallo
+stesso laboratorio.
+
+[Tabella per cattura e politica](primary/RESULTS.csv) ·
+[Rapporto generato](primary/NOTE.md) · [Manifest](primary/MANIFEST.json) ·
+[Comandi](PRIMARY_COMMANDS.md)
+
+![Copertura per blocco delle due memorie e numero di decisioni cambiate](primary/TEMPORAL.png)
+
+Le ordinate dei due pannelli hanno scale diverse. La figura è stata
+rigenerata da `BLOCKS.csv` e verificata byte per byte nell’ambiente
+registrato nei comandi.
+
+Il riesame della nuova coppia ha confermato i supporti A/B/D della 35-1
+con una seconda lettura e l’identità della 48-1 con il preflight
+originale. I conteggi per cattura si riconciliano con blocchi, tipi e
+chiavi. Sono passati 165 test mirati, di cui 19 relativi ad ADAPT-07.
+
+## Archivio locale
+
+`adapt07_primary_c49ed03.zip` misura 217.797 byte e ha SHA-256
+`6b77ff75a9eb318eb14d94407c6af1c0ca63e88f8105c5083cc6374960ec6954`.
+È conservato in `adattamento-drift/archivio_esterno/adapt07_independent_captures/`
+e contiene i prodotti, le inizializzazioni A/B, i manifest, i preflight,
+il protocollo, l’emendamento e i comandi. I log di origine sono
+disponibili separatamente dal publisher. È stata verificata la
+corrispondenza di ogni file interno alla consegna.
