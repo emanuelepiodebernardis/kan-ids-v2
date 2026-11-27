@@ -86,6 +86,11 @@ in entrambe le sessioni. I denominatori sono quelli di D dopo il warm-up.
 | 35-1 | 1.163.815 / 1.163.903 | 0 / 1.042.166 | 99,9924% | 0,0000% |
 | 48-1 | 1.155.740 / 1.156.604 | 2 / 1.131 | 99,9253% | 0,1768% |
 
+Frozen/B lascia 88 attacchi mancati nella 35-1 e 864 nella 48-1.
+Nella 48-1 un solo falso allarme vale circa 0,088 punti percentuali di
+FPR. I conteggi per cattura conservano quindi l’unità di misura e il
+supporto, anche quando i tassi arrotondati sono molto piccoli.
+
 Nella 35-1 la memoria aggiornata non incontra chiavi ammissibili tra
 i record valutati. La memoria fissata ne copre 41 e concorda con
 Frozen/B. Nella 48-1, la memoria aggiornata copre 537.812 record
@@ -120,3 +125,8 @@ e contiene i prodotti, le inizializzazioni A/B, i manifest, i preflight,
 il protocollo, l’emendamento e i comandi. I log di origine sono
 disponibili separatamente dal publisher. È stata verificata la
 corrispondenza di ogni file interno alla consegna.
+
+I prodotti e le inizializzazioni A/B sono accessibili nel checkout della
+PR. I [comandi](PRIMARY_COMMANDS.md) indicano dove ottenere i due log
+del publisher e come verificarne l’identità. Lo ZIP locale raccoglie
+materiale già disponibile nel checkout.
