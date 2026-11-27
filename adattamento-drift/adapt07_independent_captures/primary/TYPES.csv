@@ -1,0 +1,9 @@
+dataset,type,seen_in_A_or_B,base_tn,base_fp,base_fn,base_tp,fixed_tn,fixed_fp,fixed_fn,fixed_tp,live_tn,live_fp,live_fn,live_tp
+iot23-35-1,Benign:-,True,1042166,0,0,0,1042166,0,0,0,1042166,0,0,0
+iot23-35-1,Malicious:C&C-FileDownload,True,0,0,1,0,0,0,1,0,0,0,1,0
+iot23-35-1,Malicious:DDoS,True,0,0,87,1163815,0,0,87,1163815,0,0,87,1163815
+iot23-48-1,Malicious:PartOfAHorizontalPortScan,True,0,0,0,1154140,0,0,0,1154140,0,0,0,1154140
+iot23-48-1,Malicious:Attack,True,0,0,443,398,0,0,443,398,0,0,443,398
+iot23-48-1,Benign:-,True,1129,2,0,0,1129,2,0,0,1129,2,0,0
+iot23-48-1,Malicious:C&C-HeartBeat-Attack,False,0,0,421,367,0,0,421,367,0,0,421,367
+iot23-48-1,Malicious:C&C-PartOfAHorizontalPortScan,False,0,0,0,835,0,0,0,835,0,0,0,835

@@ -1,0 +1,248 @@
+{
+  "execution_commit": "74439a50cac0f9ce2248ef9ed46e0f797cc1a914",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "python": "3.12.7",
+  "numpy": "2.3.5",
+  "sources": {
+    "PROTOCOL.md": "9e98d9b947d3568895737c75f72a7a82ee50f5984cafe9707a755acede709b6c",
+    "INVENTORY.md": "89219cb179568d474b08e020aa4efff83d9a49213676526a70743b8eaac74afd",
+    "preflight.py": "90c702d53d23d3f150c55f6c531ff6476f499107058f0a345c3212fc9afb28b3"
+  },
+  "status": "BLOCKED",
+  "periods_disjoint": true,
+  "captures": {
+    "1-1": {
+      "file": "iot23-1-1.log",
+      "bytes": 148305428,
+      "sha256": "953e8c27a9b2fcfc2776aa136baf9249e6dde4cf752b9192ac7ca0e63b86e232",
+      "schema": [
+        "ts",
+        "uid",
+        "id.orig_h",
+        "id.orig_p",
+        "id.resp_h",
+        "id.resp_p",
+        "proto",
+        "service",
+        "duration",
+        "orig_bytes",
+        "resp_bytes",
+        "conn_state",
+        "local_orig",
+        "local_resp",
+        "missed_bytes",
+        "history",
+        "orig_pkts",
+        "orig_ip_bytes",
+        "resp_pkts",
+        "resp_ip_bytes",
+        "tunnel_parents",
+        "label",
+        "detailed-label"
+      ],
+      "first_flow_start_utc": "2018-05-09T15:30:31.015073+00:00",
+      "last_flow_start_utc": "2018-05-14T07:24:43.030512+00:00",
+      "last_complete_feature_ready_proxy_utc": "2018-05-14T07:24:42.030335+00:00",
+      "unique_uids": 1008748,
+      "rows_raw": {
+        "benign": 469275,
+        "malicious": 539473
+      },
+      "rows_excluded": {
+        "benign": 446118,
+        "malicious": 350182
+      },
+      "invalid_by_feature": {
+        "duration": {
+          "benign": 446118,
+          "malicious": 350182
+        },
+        "orig_bytes": {
+          "benign": 446118,
+          "malicious": 350182
+        },
+        "resp_bytes": {
+          "benign": 446118,
+          "malicious": 350182
+        },
+        "missed_bytes": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "orig_pkts": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "orig_ip_bytes": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "resp_pkts": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "resp_ip_bytes": {
+          "benign": 0,
+          "malicious": 0
+        }
+      },
+      "detailed_labels_complete": {
+        "-": 23157,
+        "PartOfAHorizontalPortScan": 189291
+      },
+      "support": {
+        "A": {
+          "rows": 84979,
+          "benign": 10513,
+          "malicious": 74466,
+          "first_ready_proxy_utc": "2018-05-09T15:30:34.014862+00:00",
+          "last_ready_proxy_utc": "2018-05-11T07:47:26.008986+00:00"
+        },
+        "B": {
+          "rows": 42489,
+          "benign": 4883,
+          "malicious": 37606,
+          "first_ready_proxy_utc": "2018-05-11T07:47:29.009021+00:00",
+          "last_ready_proxy_utc": "2018-05-12T04:02:55.859574+00:00"
+        },
+        "D": {
+          "rows": 84980,
+          "benign": 7761,
+          "malicious": 77219,
+          "first_ready_proxy_utc": "2018-05-12T04:02:57.012620+00:00",
+          "last_ready_proxy_utc": "2018-05-14T07:24:42.030335+00:00"
+        },
+        "D_evaluated": {
+          "rows": 0,
+          "benign": 0,
+          "malicious": 0,
+          "first_ready_proxy_utc": null,
+          "last_ready_proxy_utc": null
+        }
+      },
+      "status": "BLOCKED",
+      "reasons": [
+        "D_evaluated lacks at least one class with complete features",
+        "D has 84980 complete rows; needs more than 200000"
+      ],
+      "seconds": 21.632
+    },
+    "48-1": {
+      "file": "iot23-48-1.log",
+      "bytes": 531738215,
+      "sha256": "9f69946243df93c199876c0783cb4b5fb188e6d2325c593858f2db8fb5fa847f",
+      "schema": [
+        "ts",
+        "uid",
+        "id.orig_h",
+        "id.orig_p",
+        "id.resp_h",
+        "id.resp_p",
+        "proto",
+        "service",
+        "duration",
+        "orig_bytes",
+        "resp_bytes",
+        "conn_state",
+        "local_orig",
+        "local_resp",
+        "missed_bytes",
+        "history",
+        "orig_pkts",
+        "orig_ip_bytes",
+        "resp_pkts",
+        "resp_ip_bytes",
+        "tunnel_parents",
+        "label",
+        "detailed-label"
+      ],
+      "first_flow_start_utc": "2019-02-28T18:15:33.981530+00:00",
+      "last_flow_start_utc": "2019-03-01T04:01:54.022136+00:00",
+      "last_complete_feature_ready_proxy_utc": "2019-03-01T04:01:54.022135+00:00",
+      "unique_uids": 3394338,
+      "rows_raw": {
+        "benign": 3734,
+        "malicious": 3390604
+      },
+      "rows_excluded": {
+        "benign": 0,
+        "malicious": 1
+      },
+      "invalid_by_feature": {
+        "duration": {
+          "benign": 0,
+          "malicious": 1
+        },
+        "orig_bytes": {
+          "benign": 0,
+          "malicious": 1
+        },
+        "resp_bytes": {
+          "benign": 0,
+          "malicious": 1
+        },
+        "missed_bytes": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "orig_pkts": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "orig_ip_bytes": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "resp_pkts": {
+          "benign": 0,
+          "malicious": 0
+        },
+        "resp_ip_bytes": {
+          "benign": 0,
+          "malicious": 0
+        }
+      },
+      "detailed_labels_complete": {
+        "-": 3734,
+        "Attack": 2752,
+        "C&C-HeartBeat-Attack": 834,
+        "C&C-HeartBeat-FileDownload": 11,
+        "C&C-PartOfAHorizontalPortScan": 888,
+        "PartOfAHorizontalPortScan": 3386118
+      },
+      "support": {
+        "A": {
+          "rows": 1357734,
+          "benign": 1685,
+          "malicious": 1356049,
+          "first_ready_proxy_utc": "2019-02-28T18:15:36.166775+00:00",
+          "last_ready_proxy_utc": "2019-02-28T22:10:13.541033+00:00"
+        },
+        "B": {
+          "rows": 678868,
+          "benign": 715,
+          "malicious": 678153,
+          "first_ready_proxy_utc": "2019-02-28T22:10:13.541036+00:00",
+          "last_ready_proxy_utc": "2019-03-01T00:07:29.540157+00:00"
+        },
+        "D": {
+          "rows": 1357735,
+          "benign": 1334,
+          "malicious": 1356401,
+          "first_ready_proxy_utc": "2019-03-01T00:07:29.540161+00:00",
+          "last_ready_proxy_utc": "2019-03-01T04:01:54.022135+00:00"
+        },
+        "D_evaluated": {
+          "rows": 1157735,
+          "benign": 1131,
+          "malicious": 1156604,
+          "first_ready_proxy_utc": "2019-03-01T00:41:58.668395+00:00",
+          "last_ready_proxy_utc": "2019-03-01T04:01:54.022135+00:00"
+        }
+      },
+      "status": "PASS",
+      "reasons": [],
+      "seconds": 76.146
+    }
+  }
+}
