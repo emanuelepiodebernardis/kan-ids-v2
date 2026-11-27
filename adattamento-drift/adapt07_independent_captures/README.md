@@ -70,3 +70,6 @@ acquisizione con caratteristiche e supporto verificabili. Applicare
 lo stesso controllo di idoneità prima di qualsiasi misura di
 prestazione. L’esito attuale riguarda la disponibilità dei dati.
 L’efficacia della memoria su catture indipendenti resta da valutare.
+
+Il [riesame](RIESAME.md) confronta la consegna con la scheda, verifica la
+revisione v2 della 1-1 e documenta la 35-1 come candidata da concordare.
