@@ -85,8 +85,15 @@ def json_write(path: Path, value) -> None:
     )
 
 
-def case_inputs(dataset: str, args: argparse.Namespace, source: dict, manifest: dict):
-    name = f"{dataset}_seed42_verify50.json"
+def case_inputs(
+    dataset: str,
+    args: argparse.Namespace,
+    source: dict,
+    manifest: dict,
+    *,
+    seed: int = 42,
+):
+    name = f"{dataset}_seed{seed}_verify50.json"
     path = args.reports / name
     record = manifest["files"][name]
     report_sha = file_sha256(path)
@@ -107,7 +114,7 @@ def case_inputs(dataset: str, args: argparse.Namespace, source: dict, manifest: 
     }
     if (
         report["dataset"] != dataset
-        or report["seed"] != 42
+        or report["seed"] != seed
         or report["family"] != "spline"
         or report["acquisition"] != "random"
         or report["scope"] != "full"
@@ -117,9 +124,9 @@ def case_inputs(dataset: str, args: argparse.Namespace, source: dict, manifest: 
         or not configured["decoupled_threshold"]
         or any(configured[name] != value for name, value in expected.items())
     ):
-        raise ValueError(f"unrecognized historical configuration for {dataset}")
+        raise ValueError(f"unrecognized historical configuration for {dataset}/{seed}")
     adapter, model, metadata = load_archived_adapter(
-        args.model_root, dataset, "spline", 42
+        args.model_root, dataset, "spline", seed
     )
     provenance = report["provenance"]
     model_sha = file_sha256(model)
