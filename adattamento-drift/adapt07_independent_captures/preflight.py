@@ -16,6 +16,7 @@ from time import perf_counter
 import numpy as np
 
 SCENARIOS = ("1-1", "48-1")
+REPLACEMENT_SCENARIOS = ("35-1", "48-1")
 FEATURES = (
     b"duration",
     b"orig_bytes",
@@ -204,9 +205,9 @@ def inspect_log(path):
     }
 
 
-def audit(root):
+def audit(root, scenarios=SCENARIOS):
     captures = {}
-    for scenario in SCENARIOS:
+    for scenario in scenarios:
         started = perf_counter()
         path = root / f"iot23-{scenario}.log"
         record = {"file": path.name}
@@ -244,10 +245,18 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--replacement",
+        action="store_true",
+        help="audit the amended 35-1 and 48-1 pair",
+    )
     args = parser.parse_args()
     if args.out.exists():
         raise FileExistsError(args.out)
     here = Path(__file__).resolve().parent
+    sources = ["PROTOCOL.md", "INVENTORY.md", "preflight.py"]
+    if args.replacement:
+        sources.append("AMENDMENT_35_1.md")
     report = {
         "execution_commit": subprocess.check_output(
             ["git", "rev-parse", "HEAD"], cwd=here, text=True
@@ -255,11 +264,8 @@ def main():
         "platform": platform.platform(),
         "python": platform.python_version(),
         "numpy": np.__version__,
-        "sources": {
-            name: sha256(here / name)
-            for name in ("PROTOCOL.md", "INVENTORY.md", "preflight.py")
-        },
-        **audit(args.root),
+        "sources": {name: sha256(here / name) for name in sources},
+        **audit(args.root, REPLACEMENT_SCENARIOS if args.replacement else SCENARIOS),
     }
     with args.out.open("x", encoding="utf-8", newline="\n") as stream:
         json.dump(report, stream, indent=2, allow_nan=False)
