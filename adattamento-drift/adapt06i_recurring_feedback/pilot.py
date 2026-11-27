@@ -145,6 +145,8 @@ def block_measurements(
     base: np.ndarray,
     fixed: dict[str, int],
     live: dict[str, int],
+    *,
+    observe_predictions: Callable[[dict[str, np.ndarray]], None] | None = None,
 ) -> tuple[dict, Counter, dict[str, Counter]]:
     keys = tuple(vector_digest(vector) for vector in features)
     frequencies = Counter(keys)
@@ -152,6 +154,8 @@ def block_measurements(
     eligible = {}
     for name, mapping in (("fixed", fixed), ("live", live)):
         predicted[name], eligible[name] = apply_dictionary(base, keys, mapping)
+    if observe_predictions is not None:
+        observe_predictions(predicted)
     metrics = {
         f"{arm}_{field}": value
         for arm, predictions in predicted.items()

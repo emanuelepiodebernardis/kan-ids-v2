@@ -70,3 +70,44 @@ def test_warmup_and_classes_are_joint_requirements(monkeypatch):
     assert support["D"]["rows"] == 4
     assert support["D_evaluated"]["rows"] == 0
     assert len(reasons) == 2
+
+
+@pytest.mark.parametrize(("second_start", "expected"), [(99, "PASS"), (5, "BLOCKED")])
+def test_replacement_pair_requires_separate_periods(
+    tmp_path, monkeypatch, second_start, expected
+):
+    monkeypatch.setattr(preflight, "WARMUP_ROWS", 0)
+    for scenario, offset in (("35-1", 0), ("48-1", second_start)):
+        write_log(
+            tmp_path / f"iot23-{scenario}.log",
+            [
+                row(offset + i, f"C{i}", ("Benign", "Malicious")[i % 2])
+                for i in range(1, 11)
+            ],
+        )
+    result = preflight.audit(tmp_path, preflight.REPLACEMENT_SCENARIOS)
+    assert tuple(result["captures"]) == ("35-1", "48-1")
+    assert all(capture["status"] == "PASS" for capture in result["captures"].values())
+    assert result["status"] == expected
+
+
+def test_replacement_returns_blocked_when_only_one_capture_is_eligible(
+    tmp_path, monkeypatch
+):
+    monkeypatch.setattr(preflight, "WARMUP_ROWS", 0)
+    for scenario, offset, labels in (
+        ("35-1", 0, ["Benign"] * 10),
+        ("48-1", 99, ["Benign", "Malicious"] * 5),
+    ):
+        write_log(
+            tmp_path / f"iot23-{scenario}.log",
+            [
+                row(offset + i, f"C{i}", label)
+                for i, label in enumerate(labels, start=1)
+            ],
+        )
+    result = preflight.audit(tmp_path, preflight.REPLACEMENT_SCENARIOS)
+    assert result["periods_disjoint"]
+    assert result["captures"]["48-1"]["status"] == "PASS"
+    assert result["captures"]["35-1"]["status"] == "BLOCKED"
+    assert result["status"] == "BLOCKED"
